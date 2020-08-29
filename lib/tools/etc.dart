@@ -1,0 +1,405 @@
+import 'package:eliud_core/platform/platform.dart';
+import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/font_model.dart';
+import 'package:eliud_core/model/icon_model.dart';
+import 'package:eliud_core/model/image_model.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
+import 'package:eliud_core/model/rgb_model.dart';
+import 'package:eliud_core/tools/screen_size.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class RgbHelper {
+  static Color color({rgbo: RgbModel}) {
+    if (rgbo != null)
+      return Color.fromRGBO(rgbo.r, rgbo.g, rgbo.b, rgbo.opacity);
+    else
+      return Color.fromRGBO(0, 0, 0, 1);
+  }
+}
+
+class BoxDecorationHelper {
+  static Alignment startAlignment(StartGradientPosition start) {
+    switch (start) {
+      case StartGradientPosition.TopLeft:
+        return Alignment.topLeft;
+      case StartGradientPosition.TopCenter:
+        return Alignment.topCenter;
+      case StartGradientPosition.TopRight:
+        return Alignment.topRight;
+      case StartGradientPosition.CenterLeft:
+        return Alignment.centerLeft;
+      case StartGradientPosition.Center:
+        return Alignment.center;
+      case StartGradientPosition.CenterRight:
+        return Alignment.centerRight;
+      case StartGradientPosition.BottomLeft:
+        return Alignment.bottomLeft;
+      case StartGradientPosition.BottomCenter:
+        return Alignment.bottomCenter;
+      case StartGradientPosition.BottomRight:
+        return Alignment.bottomRight;
+      case StartGradientPosition.Unknown:
+        return Alignment.topCenter;
+    }
+    return Alignment.topCenter;
+  }
+
+  static Alignment endAlignment(EndGradientPosition endPos) {
+    switch (endPos) {
+      case EndGradientPosition.TopLeft:
+        return Alignment.topLeft;
+      case EndGradientPosition.TopCenter:
+        return Alignment.topCenter;
+      case EndGradientPosition.TopRight:
+        return Alignment.topRight;
+      case EndGradientPosition.CenterLeft:
+        return Alignment.centerLeft;
+      case EndGradientPosition.Center:
+        return Alignment.center;
+      case EndGradientPosition.CenterRight:
+        return Alignment.centerRight;
+      case EndGradientPosition.BottomLeft:
+        return Alignment.bottomLeft;
+      case EndGradientPosition.BottomCenter:
+        return Alignment.bottomCenter;
+      case EndGradientPosition.BottomRight:
+        return Alignment.bottomRight;
+      case EndGradientPosition.Unknown:
+        return Alignment.bottomCenter;
+    }
+    return Alignment.bottomCenter;
+  }
+
+  static BoxDecoration boxDecoration(BackgroundModel bdm) {
+    if (bdm == null) return null;
+    Border border = bdm.border != null && bdm.border ?  Border.all() : null;
+    ImageProvider imageProvider = (bdm.backgroundImage != null) ? AbstractPlatform.platform.getImageProvider(bdm.backgroundImage) : null;
+    DecorationImage image = (imageProvider != null) ? DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.scaleDown)
+        : null;
+    if ((bdm.decorationColors == null) || (bdm.decorationColors.length == 0)) {
+      if (image == null)
+        return null;
+      else
+        return BoxDecoration(
+          image: image,
+        );
+    } else if (bdm.decorationColors.length == 1) {
+      return BoxDecoration(
+        color: RgbHelper.color(rgbo: bdm.decorationColors[0].color),
+        image: image,
+      );
+    } else {
+      List<Color> colors = bdm.decorationColors
+          .map((color) => RgbHelper.color(rgbo: color.color))
+          .toList();
+      List<double> stops = bdm.decorationColors
+          .map((stop) => stop.stop)
+          .toList();
+      bool noStops = stops.where((stop) => (stop == null) || (stop < 0)).length > 0;
+      LinearGradient gradient = LinearGradient(
+        begin: startAlignment(bdm.beginGradientPosition),
+        end: endAlignment(bdm.endGradientPosition),
+        colors: colors,
+        stops: noStops ? null : stops);
+
+      List<BoxShadow> boxShadows;
+      if (bdm.shadow != null) {
+        boxShadows = List();
+        boxShadows.add(BoxShadow(
+          color: RgbHelper.color(rgbo: bdm.shadow.color),
+          spreadRadius: bdm.shadow.spreadRadius,
+          blurRadius: bdm.shadow.blurRadius,
+          offset: Offset(bdm.shadow.offsetDX, bdm.shadow.offsetDY),
+        ));
+      }
+      return BoxDecoration(
+        gradient: gradient,
+        image: image,
+        border: border,
+        boxShadow: boxShadows
+      );
+
+/*
+      return BoxDecoration(
+        color: RgbHelper.color(rgbo: EliudColors.gray),
+        image: null,
+      );
+*/
+
+    }
+  }
+}
+
+class ImageHelper {
+  static Widget getImageFromImageModel(
+      {ImageModel imageModel, double height, double width, BoxFit fit, Alignment alignment}) {
+    if (imageModel == null) {
+      return Image(
+          image: AssetImage('assets/images/image_not_available.png'),
+          height: height,
+          width: width,
+      alignment: alignment,);
+    } else {
+      return getImageFromURL(
+          url: imageModel.imageURLOriginal, height: height, width: width);
+    }
+  }
+
+  static Widget getThumbnailFromImageModel(
+      {ImageModel imageModel, double height, double width, BoxFit fit, Alignment alignment}) {
+    if (imageModel == null) {
+      return Image(
+          image: AssetImage('assets/images/image_not_available.png'),
+          height: height,
+          width: width);
+    } else {
+      return getImageFromURL(
+          url: imageModel.imageURLThumbnail, height: height, width: width);
+    }
+  }
+
+  static Widget getImageFromURL(
+      {String url, double height, double width, BoxFit fit, Alignment alignment}) {
+    try {
+      return AbstractPlatform.platform.getImageFromURL(
+        url: url,
+        height: height,
+        width: width,
+        fit: BoxFit.fill,
+        alignment: alignment
+      );
+    } catch (_) {
+      return Image(
+          image: AssetImage('assets/images/image_not_available.png'),
+          height: height,
+          width: width);
+    }
+  }
+}
+
+class ImageTool {
+  FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+  Future<dynamic> getImageDownloadURL(String pathName) {
+    return firebaseStorage.ref().child(pathName).getDownloadURL();
+  }
+
+  Future<ImageModel> provideImageUrl(ImageModel imageModel) async {
+    Future<dynamic> imageURL =
+        getImageDownloadURL(imageModel.documentID + ".png");
+    return await imageURL.then((val) {
+      imageModel = imageModel.copyWith(imageURLOriginal: val);
+      return imageModel;
+    }).catchError((onError) {});
+  }
+}
+
+class IconHelper {
+  static Icon getIconFromModel({IconModel iconModel, RgbModel color}) {
+    if (iconModel == null)
+      return null;
+/*
+      return Icon(Icons.touch_app,
+          color: color != null ? RgbHelper.color(rgbo: color) : null);
+*/
+    if (iconModel.fontFamily == null)
+      return Icon(IconData(iconModel.codePoint, fontFamily: "MaterialIcons"),
+          color: color != null ? RgbHelper.color(rgbo: color) : null);
+    return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
+        color: color != null ? RgbHelper.color(rgbo: color) : null);
+  }
+
+  static Icon getIconFromModelWithFlutterColor(
+      {IconModel iconModel, Color color}) {
+    if (iconModel == null) return Icon(Icons.touch_app, color: color);
+    if (iconModel.fontFamily == null)
+      return Icon(IconData(iconModel.codePoint, fontFamily: "MaterialIcons"),
+          color: color);
+    return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
+        color: color);
+  }
+}
+
+class BoxFitHelper {
+  static BoxFit toBoxFit(PosSizeModel posSizeModel, Orientation orientation) {
+    if (posSizeModel == null) return null;
+    if (orientation == Orientation.landscape) {
+      switch (posSizeModel.fitLandscape) {
+        case LandscapeFitType.LandscapeFitWidth:
+          return BoxFit.fitWidth;
+        case LandscapeFitType.LandscapeFitHeight:
+          return BoxFit.fitHeight;
+        case LandscapeFitType.LandscapeFill:
+          return BoxFit.fill;
+        case LandscapeFitType.LandscapeNone:
+          return BoxFit.none;
+        case LandscapeFitType.LandscapeContain:
+          return BoxFit.contain;
+        case LandscapeFitType.LandscapeCover:
+          return BoxFit.cover;
+        case LandscapeFitType.LandscapeScaleDown:
+          return BoxFit.scaleDown;
+        case LandscapeFitType.Unknown:
+          return null;
+      }
+    } else {
+      switch (posSizeModel.fitPortrait) {
+        case PortraitFitType.PortraitFitWidth:
+          return BoxFit.fitWidth;
+        case PortraitFitType.PortraitFitHeight:
+          return BoxFit.fitHeight;
+        case PortraitFitType.PortraitFill:
+          return BoxFit.fill;
+        case PortraitFitType.PortraitNone:
+          return BoxFit.none;
+        case PortraitFitType.PortraitContain:
+          return BoxFit.contain;
+        case PortraitFitType.PortraitCover:
+          return BoxFit.cover;
+        case PortraitFitType.PortraitScaleDown:
+          return BoxFit.scaleDown;
+        case PortraitFitType.Unknown:
+          return null;
+      }
+    }
+    return null;
+  }
+
+  static double toWidth(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+    if (posSizeModel == null) return null;
+    if (orientation == Orientation.landscape) {
+      if (posSizeModel.widthLandscape == 0) return null;
+      if (posSizeModel.widthLandscape == null) return null;
+      if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.AbsoluteWidth)
+        return posSizeModel.widthLandscape;
+      return fullScreenWidth(context) * posSizeModel.widthLandscape;
+    } else {
+      if (posSizeModel.widthPortrait == 0) return null;
+      if (posSizeModel.widthPortrait == null) return null;
+      if (posSizeModel.widthTypePortrait == WidthTypePortrait.AbsoluteWidth)
+        return posSizeModel.widthPortrait;
+      return fullScreenWidth(context) * posSizeModel.widthPortrait;
+    }
+  }
+
+  static double toHeight(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+    if (posSizeModel == null) return null;
+    if (orientation == Orientation.landscape) {
+      if (posSizeModel.heightLandscape == null) return null;
+      if (posSizeModel.heightLandscape == 0) return null;
+      if (posSizeModel.heightTypeLandscape ==
+          HeightTypeLandscape.AbsoluteHeight)
+        return posSizeModel.heightLandscape;
+      return fullScreenHeight(context) * posSizeModel.heightLandscape;
+    } else {
+      if (posSizeModel.heightPortrait == 0) return null;
+      if (posSizeModel.heightPortrait == null) return null;
+      if (posSizeModel.heightTypePortrait ==
+          HeightTypePortrait.AbsoluteHeight)
+        return posSizeModel.heightPortrait;
+      return fullScreenHeight(context) * posSizeModel.heightPortrait;
+    }
+  }
+
+  static Alignment toAlignment(PosSizeModel posSizeModel, Orientation orientation) {
+    if (orientation == Orientation.landscape) {
+      switch (posSizeModel.alignTypeLandscape) {
+        case LandscapeAlignType.LandscapeAlignTopLeft:
+          return Alignment.topLeft;
+        case LandscapeAlignType.LandscapeAlignTopCenter:
+          return Alignment.topCenter;
+        case LandscapeAlignType.LandscapeAlignTopRight:
+          return Alignment.topRight;
+        case LandscapeAlignType.LandscapeAlignCenterLeft:
+          return Alignment.centerRight;
+        case LandscapeAlignType.LandscapeAlignCenter:
+          return Alignment.center;
+        case LandscapeAlignType.LandscapeAlignCenterRight:
+          return Alignment.centerRight;
+        case LandscapeAlignType.LandscapeAlignBottomLeft:
+          return Alignment.bottomLeft;
+        case LandscapeAlignType.LandscapeAlignBottomCenter:
+          return Alignment.bottomCenter;
+        case LandscapeAlignType.LandscapeAlignBottomRight:
+          return Alignment.bottomRight;
+        case LandscapeAlignType.Unknown:
+          return Alignment.bottomRight;
+      }
+    } else {
+      switch (posSizeModel.alignTypePortrait) {
+        case PortraitAlignType.PortraitAlignTopLeft:
+          return Alignment.topLeft;
+        case PortraitAlignType.PortraitAlignTopCenter:
+          return Alignment.topCenter;
+        case PortraitAlignType.PortraitAlignTopRight:
+          return Alignment.topRight;
+        case PortraitAlignType.PortraitAlignCenterLeft:
+          return Alignment.centerRight;
+        case PortraitAlignType.PortraitAlignCenter:
+          return Alignment.center;
+        case PortraitAlignType.PortraitAlignCenterRight:
+          return Alignment.centerRight;
+        case PortraitAlignType.PortraitAlignBottomLeft:
+          return Alignment.bottomLeft;
+        case PortraitAlignType.PortraitAlignBottomCenter:
+          return Alignment.bottomCenter;
+        case PortraitAlignType.PortraitAlignBottomRight:
+          return Alignment.bottomRight;
+        case PortraitAlignType.Unknown:
+          return Alignment.bottomRight;
+      }
+    }
+      return null;
+  }
+}
+
+class FontTools {
+  static FontWeight toFontWeight(EliudFontWeight eliudFontWeight) {
+    if (eliudFontWeight == null) return FontWeight.w400;
+    switch (eliudFontWeight) {
+      case EliudFontWeight.Thin: return FontWeight.w100;
+      case EliudFontWeight.ExtraLight: return FontWeight.w200;
+      case EliudFontWeight.Light: return FontWeight.w300;
+      case EliudFontWeight.Normal: return FontWeight.w400;
+      case EliudFontWeight.Medium: return FontWeight.w500;
+      case EliudFontWeight.SemiBold: return FontWeight.w600;
+      case EliudFontWeight.Bold: return FontWeight.w700;
+      case EliudFontWeight.ExtraBold: return FontWeight.w800;
+      case EliudFontWeight.MostThick: return FontWeight.w900;
+    }
+    return FontWeight.w400;
+  }
+
+  static TextStyle textStyle(FontModel fontModel) {
+    if (fontModel == null) return null;
+    return GoogleFonts.getFont(fontModel.fontName,
+        fontSize: fontModel.size,
+        fontWeight: FontTools.toFontWeight(fontModel.weight),
+        color: RgbHelper.color(rgbo: fontModel.color),
+      fontStyle: FontStyle.italic
+    );
+  }
+}
+
+
+abstract class ListTool<T> {
+  static List<T> copyAllExcept<T>(List<T> original, bool exclude(T t)) {
+    List<T> newList = new List();
+    original.forEach((element) {
+      if (!exclude(element)) newList.add(element);
+    });
+    return newList;
+  }
+
+  static List<T> addAllExcept<T>(List<T> original, List<T> addHere, bool exclude(T t)) {
+    original.forEach((element) {
+      if (!exclude(element)) addHere.add(element);
+    });
+    return addHere;
+  }
+}

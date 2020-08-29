@@ -1,0 +1,41 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ menu_item_list_state.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'package:equatable/equatable.dart';
+import 'menu_item_model.dart';
+
+abstract class MenuItemListState extends Equatable {
+  const MenuItemListState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class MenuItemListLoading extends MenuItemListState {}
+
+class MenuItemListLoaded extends MenuItemListState {
+  final List<MenuItemModel> values;
+
+  const MenuItemListLoaded({this.values = const []});
+
+  @override
+  List<Object> get props => [ values ];
+
+  @override
+  String toString() => 'MenuItemListLoaded { values: $values }';
+}
+
+class MenuItemNotLoaded extends MenuItemListState {}
+

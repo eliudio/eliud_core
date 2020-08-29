@@ -1,0 +1,64 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ font_component.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'font_component_bloc.dart';
+import 'font_component_event.dart';
+import 'font_model.dart';
+import 'font_repository.dart';
+import 'font_component_state.dart';
+
+abstract class AbstractFontComponent extends StatelessWidget {
+  static String componentName = "fonts";
+  final String fontID;
+
+  AbstractFontComponent({this.fontID});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<FontBloc> (
+          create: (context) => FontBloc(
+            fontRepository: getFontRepository())
+        ..add(FetchFont(id: fontID)),
+      child: _fontBlockBuilder(context),
+    );
+  }
+
+  Widget _fontBlockBuilder(BuildContext context) {
+    return BlocBuilder<FontBloc, FontState>(builder: (context, state) {
+      if (state is FontLoaded) {
+        if (state.value == null) {
+          return alertWidget(title: 'Error', content: 'No font defined');
+        } else {
+          return yourWidget(context, state.value);
+        }
+      } else if (state is FontError) {
+        return alertWidget(title: 'Error', content: state.message);
+      } else {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    });
+  }
+
+  Widget yourWidget(BuildContext context, FontModel value);
+  Widget alertWidget({ title: String, content: String});
+  FontRepository getFontRepository();
+}
+
+

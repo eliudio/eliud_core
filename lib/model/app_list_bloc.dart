@@ -1,0 +1,87 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ app_list_bloc.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'dart:async';
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+import 'app_repository.dart';
+import 'app_list_event.dart';
+import 'app_list_state.dart';
+
+
+class AppListBloc extends Bloc<AppListEvent, AppListState> {
+  final AppRepository _appRepository;
+  StreamSubscription _appsListSubscription;
+
+  AppListBloc({ @required AppRepository appRepository })
+      : assert(appRepository != null),
+      _appRepository = appRepository,
+      super(AppListLoading());
+
+  Stream<AppListState> _mapLoadAppListToState() async* {
+    _appsListSubscription?.cancel();
+    _appsListSubscription = _appRepository.listen((list) => add(AppListUpdated(value: list)));
+  }
+
+  Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
+    _appsListSubscription?.cancel();
+    _appsListSubscription = _appRepository.listenWithDetails((list) => add(AppListUpdated(value: list)));
+  }
+
+  Stream<AppListState> _mapAddAppListToState(AddAppList event) async* {
+    _appRepository.add(event.value);
+  }
+
+  Stream<AppListState> _mapUpdateAppListToState(UpdateAppList event) async* {
+    _appRepository.update(event.value);
+  }
+
+  Stream<AppListState> _mapDeleteAppListToState(DeleteAppList event) async* {
+    _appRepository.delete(event.value);
+  }
+
+  Stream<AppListState> _mapAppListUpdatedToState(AppListUpdated event) async* {
+    yield AppListLoaded(values: event.value);
+  }
+
+
+  @override
+  Stream<AppListState> mapEventToState(AppListEvent event) async* {
+    final currentState = state;
+    if (event is LoadAppList) {
+      yield* _mapLoadAppListToState();
+    } if (event is LoadAppListWithDetails) {
+      yield* _mapLoadAppListWithDetailsToState();
+    } else if (event is AddAppList) {
+      yield* _mapAddAppListToState(event);
+    } else if (event is UpdateAppList) {
+      yield* _mapUpdateAppListToState(event);
+    } else if (event is DeleteAppList) {
+      yield* _mapDeleteAppListToState(event);
+    } else if (event is AppListUpdated) {
+      yield* _mapAppListUpdatedToState(event);
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _appsListSubscription?.cancel();
+    return super.close();
+  }
+
+}
+
+

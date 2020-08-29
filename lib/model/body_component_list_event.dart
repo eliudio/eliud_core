@@ -1,0 +1,75 @@
+/*
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ body_component_list_event.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
+*/
+
+import 'package:equatable/equatable.dart';
+import 'body_component_model.dart';
+
+abstract class BodyComponentListEvent extends Equatable {
+  const BodyComponentListEvent();
+  @override
+  List<Object> get props => [];
+}
+
+class LoadBodyComponentList extends BodyComponentListEvent {}
+class LoadBodyComponentListWithDetails extends BodyComponentListEvent {}
+
+class AddBodyComponentList extends BodyComponentListEvent {
+  final BodyComponentModel value;
+
+  const AddBodyComponentList({ this.value });
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'AddBodyComponentList{ value: $value }';
+}
+
+class UpdateBodyComponentList extends BodyComponentListEvent {
+  final BodyComponentModel value;
+
+  const UpdateBodyComponentList({ this.value });
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'UpdateBodyComponentList{ value: $value }';
+}
+
+class DeleteBodyComponentList extends BodyComponentListEvent {
+  final BodyComponentModel value;
+
+  const DeleteBodyComponentList({ this.value });
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'DeleteBodyComponentList{ value: $value }';
+}
+
+class BodyComponentListUpdated extends BodyComponentListEvent {
+  final List<BodyComponentModel> value;
+
+  const BodyComponentListUpdated({ this.value });
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'BodyComponentListUpdated{ value: $value }';
+}
+
