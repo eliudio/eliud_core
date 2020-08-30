@@ -5,7 +5,7 @@ import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 
 import '../../global_data.dart';
-import '../../navigate/router.dart';
+import '../../navigate/router.dart' as eliudrouter;
 import '../../../model/menu_item_model.dart';
 import '../../../model/home_menu_model.dart';
 import '../../../tools/etc.dart';
@@ -72,7 +72,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                     );
                   } else {
                     if (!PageHelper.isActivePage(widget.currentPage, action))
-                      Router.navigateTo(context, action);
+                      eliudrouter.Router.navigateTo(context, action);
                   }
                 },
                 currentIndex: 0,

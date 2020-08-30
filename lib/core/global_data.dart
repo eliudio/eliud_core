@@ -1,16 +1,31 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'access/bloc/access_details.dart';
 import 'access/bloc/access_state.dart';
+import '../eliud.dart';
 
 /*
  * This class is to no have to create a bloc every time this data is required. It is
  * supposed to be only set by AccessBloc, and read by very other class.
  */
 class GlobalData {
+  static AppModel playStoreApp; // The playstore app. If null, then no playstore app available.
   static AccessState _state = UndeterminedAccessState();
+  static List<Plugin> registeredPlugins = List();
+
+  static void registerPlugin(plugin) {
+    registeredPlugins.add(plugin);
+  }
+
+  // Should I add a playstoreApp-app
+  static String addPlayStoreApp(AppModel currentApp) {
+    if (playStoreApp == null) return null;
+    if (currentApp.documentID == playStoreApp.documentID) return null;
+    return playStoreApp.documentID;
+  }
 
   static AccessState state() {
     return _state;

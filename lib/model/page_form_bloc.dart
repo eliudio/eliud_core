@@ -67,6 +67,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
+                                 pluginCondition: "",
 
         ));
         yield loaded;
@@ -120,6 +121,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -142,6 +144,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -164,6 +167,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -186,6 +190,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -214,6 +219,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -242,6 +248,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  layout: currentState.value.layout,
                                  gridView: null,
                                  conditional: currentState.value.conditional,
+                                 pluginCondition: currentState.value.pluginCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -249,6 +256,12 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageConditional) {
         newValue = currentState.value.copyWith(conditional: event.value);
+        yield SubmittablePageForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedPagePluginCondition) {
+        newValue = currentState.value.copyWith(pluginCondition: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;

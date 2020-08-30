@@ -30,16 +30,17 @@ class PageEntity {
   final int layout;
   final String gridViewId;
   final int conditional;
+  final String pluginCondition;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.conditional, });
+  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.conditional, this.pluginCondition, });
 
-  List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditional, ];
+  List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditional, pluginCondition, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, conditional: $conditional}';
+    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, conditional: $conditional, pluginCondition: $pluginCondition}';
   }
 
   static PageEntity fromMap(Map map) {
@@ -62,6 +63,7 @@ class PageEntity {
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
       conditional: map['conditional'], 
+      pluginCondition: map['pluginCondition'], 
     );
   }
 
@@ -93,6 +95,8 @@ class PageEntity {
       else theDocument["gridViewId"] = null;
     if (conditional != null) theDocument["conditional"] = conditional;
       else theDocument["conditional"] = null;
+    if (pluginCondition != null) theDocument["pluginCondition"] = pluginCondition;
+      else theDocument["pluginCondition"] = null;
     return theDocument;
   }
 

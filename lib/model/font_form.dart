@@ -16,7 +16,7 @@
 import 'package:eliud_core/core/global_data.dart';
 
 import 'package:eliud_core/tools/action_model.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +26,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import 'package:intl/intl.dart';
 
-import 'package:eliud_core/core/eliud.dart';
+import 'package:eliud_core/eliud.dart';
 
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:eliud_core/model/embedded_component.dart';
@@ -550,7 +550,7 @@ class _MyFontFormState extends State<MyFontForm> {
                           )));
                       }
                       if (widget.submitAction != null) {
-                        Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction);
                       } else {
                         Navigator.pop(context);
                       }

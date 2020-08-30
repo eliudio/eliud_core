@@ -3,7 +3,7 @@ import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 
 import '../../global_data.dart';
-import '../../navigate/router.dart';
+import '../../navigate/router.dart' as eliudrouter;
 import '../../../model/menu_item_model.dart';
 import '../../../tools/etc.dart';
 
@@ -37,7 +37,7 @@ class PopupMenuWidget {
     );
     if (result != null) {
       MenuItemModel subItem = menuDef.menuItems[result];
-      Router.navigateTo(context, subItem.action);
+      eliudrouter.Router.navigateTo(context, subItem.action);
     }
   }
 }

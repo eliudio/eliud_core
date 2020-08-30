@@ -1,6 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_details.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -50,7 +50,7 @@ class PopupHelper {
             );
           } else {
             if (!PageHelper.isActivePage(currentPage, action))
-              Router.navigateTo(context, action);
+              eliudrouter.Router.navigateTo(context, action);
           }
         },
         itemBuilder: (BuildContext context) {

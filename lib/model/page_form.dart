@@ -16,7 +16,7 @@
 import 'package:eliud_core/core/global_data.dart';
 
 import 'package:eliud_core/tools/action_model.dart';
-import 'package:eliud_core/core/navigate/router.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +26,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import 'package:intl/intl.dart';
 
-import 'package:eliud_core/core/eliud.dart';
+import 'package:eliud_core/eliud.dart';
 
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:eliud_core/model/embedded_component.dart';
@@ -142,6 +142,7 @@ class _MyPageFormState extends State<MyPageForm> {
   int _layoutSelectedRadioTile;
   String _gridView;
   int _conditionalSelectedRadioTile;
+  final TextEditingController _pluginConditionController = TextEditingController();
 
 
   _MyPageFormState(this.formAction);
@@ -155,6 +156,7 @@ class _MyPageFormState extends State<MyPageForm> {
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
     _conditionalSelectedRadioTile = 0;
+    _pluginConditionController.addListener(_onPluginConditionChanged);
   }
 
   @override
@@ -209,6 +211,10 @@ class _MyPageFormState extends State<MyPageForm> {
           _conditionalSelectedRadioTile = state.value.conditional.index;
         else
           _conditionalSelectedRadioTile = 0;
+        if (state.value.pluginCondition != null)
+          _pluginConditionController.text = state.value.pluginCondition.toString();
+        else
+          _pluginConditionController.text = "";
       }
       if (state is PageFormInitialized) {
         List<Widget> children = List();
@@ -509,8 +515,8 @@ class _MyPageFormState extends State<MyPageForm> {
                     value: 3,
                     activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
                     groupValue: _conditionalSelectedRadioTile,
-                    title: Text("MustHaveStuffInBasket", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("MustHaveStuffInBasket", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+                    title: Text("PluginDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+                    subtitle: Text("PluginDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
                     onChanged: !GlobalData.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
@@ -527,6 +533,37 @@ class _MyPageFormState extends State<MyPageForm> {
                     onChanged: !GlobalData.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
+                ),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+
+
+        if (state.value.conditional == PageCondition.PluginDecides) children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Plugin Condition',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        if ((state.value.conditional == PageCondition.PluginDecides)) children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
+                  readOnly: _readOnly(state),
+                  controller: _pluginConditionController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    labelText: 'Plugin condition',
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is PluginConditionPageFormError ? state.message : null;
+                  },
                 ),
           );
 
@@ -557,6 +594,7 @@ class _MyPageFormState extends State<MyPageForm> {
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
                               conditional: state.value.conditional, 
+                              pluginCondition: state.value.pluginCondition, 
                         )));
                       } else {
                         BlocProvider.of<PageListBloc>(context).add(
@@ -573,10 +611,11 @@ class _MyPageFormState extends State<MyPageForm> {
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
                               conditional: state.value.conditional, 
+                              pluginCondition: state.value.pluginCondition, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction);
                       } else {
                         Navigator.pop(context);
                       }
@@ -691,12 +730,18 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
+  void _onPluginConditionChanged() {
+    _myFormBloc.add(ChangedPagePluginCondition(value: _pluginConditionController.text));
+  }
+
+
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
+    _pluginConditionController.dispose();
     super.dispose();
   }
 

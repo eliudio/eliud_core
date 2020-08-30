@@ -41,6 +41,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         navigatorBloc.add(GoHome());
       } else if (event is SwitchAppEvent) {
         AbstractPlatform.platform.initRepository(event.appId);
+        GlobalData.registeredPlugins.forEach((plugin) {
+          plugin.initRepository(event.appId);
+        });
         var switchToApp = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
         var usr = await AbstractMainRepositorySingleton.singleton
             .userRepository().currentSignedinUser();

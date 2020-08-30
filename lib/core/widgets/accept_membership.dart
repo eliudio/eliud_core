@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
-import '../eliud.dart';
+import '../../eliud.dart';
 import '../global_data.dart';
 
 // From https://gdpr.eu/privacy-notice/

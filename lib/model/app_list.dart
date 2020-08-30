@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/delete_snackbar.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/core/eliud.dart';
+import 'package:eliud_core/eliud.dart';
 
 import 'app_list_event.dart';
 import 'app_list_state.dart';

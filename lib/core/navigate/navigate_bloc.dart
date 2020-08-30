@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'navigation_event.dart';
-import 'router.dart';
+import 'router.dart' as eliudrouter;
 
 class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -14,11 +14,11 @@ class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
     if (event is Pop) {
       navigatorKey.currentState.pop();
     } else if (event is JustASecond) {
-      yield navigatorKey.currentState.pushReplacementNamed(Router.justASecond, arguments: event.message);
+      yield navigatorKey.currentState.pushReplacementNamed(eliudrouter.Router.justASecond, arguments: event.message);
     } if (event is GoHome) {
-      yield navigatorKey.currentState.pushNamed(Router.homeRoute);
+      yield navigatorKey.currentState.pushNamed(eliudrouter.Router.homeRoute);
     } else if (event is GoToPageEvent) {
-      yield navigatorKey.currentState.pushReplacementNamed(Router.pageRoute, arguments: Arguments(event.ID, event.parameters));
+      yield navigatorKey.currentState.pushReplacementNamed(eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(event.ID, event.parameters));
     }
   }
 }

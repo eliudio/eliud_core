@@ -7,7 +7,7 @@ import '../page_helper.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:flutter/cupertino.dart';
-import '../../navigate/router.dart';
+import '../../navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +20,14 @@ class DrawerConstructor {
 
   void _addWidget(BuildContext context, List<Widget> widgets, MenuItemModel item,
       TextStyle style, MemberModel member, AccessDetails accessDetails) {
-    ActionModel action = item.action;
+    var action = item.action;
     if ((action is InternalAction) && (action.internalActionEnum == InternalActionEnum.OtherApps)) {
-      int i = 0;
+      var i = 0;
       if ((member != null) && (member.subscriptions != null)) {
         member.subscriptions.forEach((value) {
           if (value.app != null) {
             i++;
-            MenuItemModel menuItemModel = MenuItemModel(documentID: "${i}",
+            var menuItemModel = MenuItemModel(documentID: '${i}',
                 text: value.app.documentID,
                 description: value.app.title,
                 action: SwitchApp(appID: value.app.documentID));
@@ -57,7 +57,7 @@ class DrawerConstructor {
                 textAlign: TextAlign.center, style: style),
             onTap: () {
               if (!PageHelper.isActivePage(currentPage, action)) {
-                Router.navigateTo(context, action);
+                eliudrouter.Router.navigateTo(context, action);
               }
             }));
       }
@@ -68,7 +68,7 @@ class DrawerConstructor {
 //    return BlocBuilder<PluggableBloc, PluggableState>(builder: (context, state) {
       if (drawer == null) return null;
       if (drawer.menu == null) return null;
-      List<Widget> widgets = List();
+      var widgets = <Widget>[];
       widgets.add(
         Container(
             height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
@@ -80,7 +80,7 @@ class DrawerConstructor {
                 decoration:
                     BoxDecorationHelper.boxDecoration(drawer.headerBackground))),
       );
-      if ((drawer.secondHeaderText != null) && (drawer.secondHeaderText.length > 0)) {
+      if ((drawer.secondHeaderText != null) && (drawer.secondHeaderText.isNotEmpty)) {
         widgets.add(
             Container(
               height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
@@ -93,19 +93,19 @@ class DrawerConstructor {
             ));
       }
 
-      MemberModel member = GlobalData.member();
-      AccessDetails accessDetails = GlobalData.details();
+      var member = GlobalData.member();
+      var accessDetails = GlobalData.details();
 
-      for (int i = 0; i < drawer.menu.menuItems.length; i++) {
-        MenuItemModel item = drawer.menu.menuItems[i];
-        TextStyle style = PageHelper.isActivePage(currentPage, item.action) ? FontTools.textStyle(GlobalData.app().h3) : FontTools.textStyle(GlobalData.app().h4);
+      for (var i = 0; i < drawer.menu.menuItems.length; i++) {
+        var item = drawer.menu.menuItems[i];
+        var style = PageHelper.isActivePage(currentPage, item.action) ? FontTools.textStyle(GlobalData.app().h3) : FontTools.textStyle(GlobalData.app().h4);
         if (accessDetails.hasAccess(item)) {
           _addWidget(context, widgets, item, style, member, accessDetails);
         }
       }
 
       return Drawer(
-          child: new Container(
+          child: Container(
               decoration: BoxDecorationHelper.boxDecoration(drawer.background),
               child: ListView(
                 shrinkWrap: true,

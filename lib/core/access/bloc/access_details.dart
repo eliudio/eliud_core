@@ -11,15 +11,24 @@ class AccessDetails {
   final Map<String, bool> pagesAccess =  Map();
 
   AccessDetails();
+  
+  bool _conditionOkForPlugin(String pluginCondition, AppModel app, MemberModel member, bool isOwner) {
+    GlobalData.registeredPlugins.forEach((plg) async {
+       var plgOk = await plg.isConditionOk(pluginCondition, app, member, isOwner);
+       if (plgOk != null) {
+         return plgOk;
+       }
+    });
+    return false;
+  }
 
-  bool _conditionOk(AppModel app, MemberModel member, PageCondition condition, bool isOwner) {
+  bool _conditionOk(AppModel app, MemberModel member, PageCondition condition, String pluginCondition, bool isOwner) {
     if (condition == null) return true;
     switch (condition) {
       case PageCondition.Always: return true;
       case PageCondition.MustBeLoggedIn: return GlobalData.isLoggedOn();
       case PageCondition.MustNotBeLoggedIn: return !GlobalData.isLoggedOn();
-// !!!AFTER!!! consider what to do here!
-      case PageCondition.MustHaveStuffInBasket: return true; // return await CartTools.hasItems(app, member);
+      case PageCondition.PluginDecides: return true; //
       case PageCondition.AdminOnly: return isOwner;
       case PageCondition.Unknown: return true;
     }
@@ -28,7 +37,7 @@ class AccessDetails {
   Future<AccessDetails> init(MemberModel member, AppModel app) async {
     bool isOwner = member != null && member.documentID == app.ownerID;
     return await AbstractRepositorySingleton.singleton.pageRepository().valuesList().then((theList) => theList.forEach((page) {
-      pagesAccess[page.documentID] = _conditionOk(app, member, page.conditional, isOwner);
+      pagesAccess[page.documentID] = _conditionOk(app, member, page.conditional, page.pluginCondition, isOwner);
     })).then((_) => this);
   }
 

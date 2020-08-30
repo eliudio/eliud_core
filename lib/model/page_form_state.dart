@@ -255,6 +255,22 @@ class ConditionalPageFormError extends PageFormError {
 }
 
 
+class PluginConditionPageFormError extends PageFormError { 
+  const PluginConditionPageFormError({ String message, PageModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PluginConditionPageFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class PageFormLoaded extends PageFormInitialized { 
   const PageFormLoaded({ PageModel value }): super(value: value);
 

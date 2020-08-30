@@ -1,11 +1,12 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 
-import '../../core/navigate/router.dart';
+import '../../core/navigate/router.dart' as eliudrouter;
 import '../../core/widgets/alert_widget.dart';
 
 import '../../model/app_model.dart';
@@ -40,17 +41,23 @@ class ApplicationComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NavigatorBloc navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
-    // CartBloc cartBloc = CartBloc(navigatorBloc);
-    // Allow the application component to have blocs, cartbloc, registered and then to be added here!
-    return MultiBlocProvider(providers: [
-      BlocProvider<AccessBloc>(
-          create: (context) =>
-              //    AppBloc(appRepository: AbstractRepositorySingleton.singleton.appRepository())..add(FetchApp(id: applicationID)))
-              AccessBloc(navigatorBloc)..add(InitApp(applicationID))),
-      BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc),
-//      BlocProvider<CartBloc>(create: (context) => cartBloc),
-    ], child: _app());
+    var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
+    var blocProviders = <BlocProvider>[];
+    blocProviders.add(BlocProvider<AccessBloc>(
+        create: (context) => AccessBloc(navigatorBloc)..add(InitApp(applicationID)))
+    );
+    blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
+    GlobalData.registeredPlugins.forEach((element) {
+      var provider = element.createMainBloc(navigatorBloc);
+      if (provider != null) {
+        blocProviders.add(provider);
+      }
+    });
+
+    return MultiBlocProvider(
+        providers: blocProviders,
+        child: _app()
+    );
   }
 
   Widget _app() {
@@ -62,30 +69,31 @@ class ApplicationComponent extends StatelessWidget {
         );
       } else if (accessState is AccessStateWithDetails) {
         if (accessState.app == null) {
-          return AlertWidget(title: "Error", content: "No access defined");
+          return AlertWidget(title: 'Error', content: 'No access defined');
         } else {
-          AppModel app = accessState.app;
-          Router router = Router();
+          var app = accessState.app;
+          var router = eliudrouter.Router();
           ThemeData darkTheme;
           if ((app.darkOrLight != null) &&
-              (app.darkOrLight == DarkOrLight.Dark))
+              (app.darkOrLight == DarkOrLight.Dark)) {
             darkTheme = ThemeData.dark();
+          }
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorKey,
-            initialRoute: Router.homeRoute,
+            initialRoute: eliudrouter.Router.homeRoute,
             onGenerateRoute: router.generateRoute,
             darkTheme: darkTheme,
             onUnknownRoute: (RouteSettings setting) {
               return pageRouteBuilder(
-                  page: AlertWidget(title: "Error", content: "Page not found"));
+                  page: AlertWidget(title: 'Error', content: 'Page not found'));
             },
-            title: app.title != null ? app.title : "No title",
+            title: app.title ?? 'No title',
           );
         }
       } else {
-        return AlertWidget(title: "Error", content: "Unexpected state");
+        return AlertWidget(title: 'Error', content: 'Unexpected state');
       }
     });
   }

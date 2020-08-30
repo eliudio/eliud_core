@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/eliud.dart';
+import 'file:///C:/src/eliud/eliud_core/lib/eliud.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';

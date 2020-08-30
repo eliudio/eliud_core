@@ -209,3 +209,15 @@ class ChangedPageConditional extends PageFormEvent {
   String toString() => 'ChangedPageConditional{ value: $value }';
 }
 
+class ChangedPagePluginCondition extends PageFormEvent {
+  final String value;
+
+  ChangedPagePluginCondition({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPagePluginCondition{ value: $value }';
+}
+

@@ -15,8 +15,8 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../eliud.dart';
-import '../../navigate/router.dart';
+import '../../../eliud.dart';
+import '../../navigate/router.dart' as eliudrouter;
 
 class AppBarConstructor {
   final String currentPage;
@@ -90,7 +90,7 @@ class AppBarConstructor {
 
   void _addPlayStoreButton(
       BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
-    String playStoreApp = Eliud.addPlayStoreApp(app);
+    String playStoreApp = GlobalData.addPlayStoreApp(app);
     if (playStoreApp != null) {
       ActionModel action = SwitchApp(appID: playStoreApp);
 
@@ -105,7 +105,7 @@ class AppBarConstructor {
                       .getImageFromURL(url: snapshot.data.logoURL),
                   color: RgbHelper.color(rgbo: value.iconColor),
                   onPressed: () {
-                    Router.navigateTo(context, action);
+                    eliudrouter.Router.navigateTo(context, action);
                   });
             } else {
               return Center(child: CircularProgressIndicator());
@@ -176,7 +176,7 @@ class AppBarConstructor {
           color: _color,
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action))
-              Router.navigateTo(context, item.action);
+              eliudrouter.Router.navigateTo(context, item.action);
           },
         ));
       } else {
@@ -188,7 +188,7 @@ class AppBarConstructor {
               style: FontTools.textStyle(GlobalData.app().h5)),
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action))
-              Router.navigateTo(context, item.action);
+              eliudrouter.Router.navigateTo(context, item.action);
           },
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0)),

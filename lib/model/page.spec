@@ -106,8 +106,16 @@
       "remark": "Page only accessible conditionally",
       "fieldType": "enum",
       "enumName": "PageCondition",
-      "enumValues" : [ "Always", "MustBeLoggedIn", "MustNotBeLoggedIn", "MustHaveStuffInBasket", "AdminOnly" ],
+      "enumValues" : [ "Always", "MustBeLoggedIn", "MustNotBeLoggedIn", "PluginDecides", "AdminOnly" ],
       "group": "conditional"
+    },
+    {
+      "fieldName": "pluginCondition",
+      "displayName": "Plugin condition",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "conditional": "(state.value.conditional == PageCondition.PluginDecides)",
+      "group": "conditional2"
     }
   ],
   "groups": [
@@ -151,6 +159,11 @@
     {
         "group": "conditional",
         "description": "Conditional"
+    },
+    {
+        "group": "conditional2",
+        "description": "Plugin Condition",
+        "conditional": "(state.value.conditional == PageCondition.PluginDecides)"
     }
   ],
   "listFields": {

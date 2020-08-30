@@ -5,8 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'file:///C:/src/eliud/eliud_model/lib/model/image_formfield.dart';
-
+import 'package:eliud_core/model/image_formfield.dart';
 import 'package:eliud_core/model/image_model.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';

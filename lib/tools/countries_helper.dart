@@ -252,7 +252,6 @@ ZW|Zimbabwe
 
 class CountriesHelper {
   static Future<void> uploadCountries(String appId) async {
-    AbstractPlatform.platform.initRepository(appId);
     //AppModel appModel = await AbstractRepositorySingleton.singleton.appRepository().get(appId);
     await AbstractMainRepositorySingleton.singleton
         .userRepository()
