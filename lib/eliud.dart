@@ -10,28 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/navigate/navigate_bloc.dart';
 import 'model/member_model.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'model/abstract_repository_singleton.dart';
-import 'model/js_repository_singleton.dart';
-import 'model/repository_singleton.dart';
 import 'model/component_registry.dart';
-import 'platform/mobile_platform.dart';
-import 'platform/web.dart';
-
-bool isWeb() {
-  return kIsWeb;
-}
-
-bool isMobile() {
-  return ((Platform.isAndroid) || (Platform.isIOS));
-}
 
 abstract class Plugin {
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
-   * Return this. It simplifiest the initialising app to use it.
    */
   void init();
 
@@ -59,20 +43,16 @@ abstract class Plugin {
   Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner);
 }
 
-class Eliud {
+abstract class Eliud {
+  bool isPlayStore;
+  AppModel app;
 
-  static void register(Plugin plugin) {
+  void register(Plugin plugin) {
     GlobalData.registerPlugin(plugin);
   }
 
-  static Future<AppModel> _init(String appID) async {
-    if (isWeb()) {
-      AbstractPlatform.platform = Web();
-    } else if (isMobile()) {
-      AbstractPlatform.platform = MobilePlatform();
-    } else {
-      throw 'Platform not yet supported';
-    }
+  Future<AppModel> _init(String appID) async {
+    AbstractPlatform.platform = getPlatform();
     ComponentRegistry().init();
 
     AbstractPlatform.platform.initRepository(appID);
@@ -92,21 +72,18 @@ class Eliud {
     return app;
   }
 
-  static bool isPlayStore;
-  static AppModel app;
-
- // asPlayStore flag allows to run the playstore app where people can use it to switch to other apps, create apps, ....
+  // asPlayStore flag allows to run the playstore app where people can use it to switch to other apps, create apps, ....
   // Ones in the other app, then can switch back to thePlayStoreApp
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
-  static void init(String appId, bool asPlaystore) async {
+  void init(String appId, bool asPlaystore) async {
     isPlayStore = asPlaystore;
     app = await _init(appId);
   }
 
   // Run the application wihtout playstore
   // appId is the application you want to start and therefore not be null.
-  static void run() {
+  void run() {
     if (isPlayStore) {
       GlobalData.playStoreApp = app;
       if (GlobalData.playStoreApp != null) {
@@ -118,4 +95,6 @@ class Eliud {
       }
     }
   }
+
+  AbstractPlatform getPlatform();
 }

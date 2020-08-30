@@ -1,7 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'access/bloc/access_details.dart';
 import 'access/bloc/access_state.dart';
