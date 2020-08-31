@@ -536,7 +536,7 @@ class AdminApp {
     return _setupMenuDef(appID);
   }
 
-  Future<void> run() async {
+  Future<void> runX() async {
     return _setupAdminPages();
   }
 
