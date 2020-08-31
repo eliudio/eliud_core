@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'navigation_event.dart';
-import 'router.dart' as eliudrouter;
+import 'package:eliud_core/core/navigate/navigation_event.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;

@@ -1,5 +1,6 @@
 {
   "id": "Image",
+  "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

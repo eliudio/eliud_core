@@ -4,11 +4,11 @@ import 'package:eliud_core/core/components/page_helper.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 
-import '../../global_data.dart';
-import '../../navigate/router.dart' as eliudrouter;
-import '../../../model/menu_item_model.dart';
-import '../../../model/home_menu_model.dart';
-import '../../../tools/etc.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/model/home_menu_model.dart';
+import 'package:eliud_core/tools/etc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

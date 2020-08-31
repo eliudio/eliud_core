@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'country_repository.dart';
-import 'country_list_event.dart';
-import 'country_list_state.dart';
+import 'package:eliud_core/model/country_repository.dart';
+import 'package:eliud_core/model/country_list_event.dart';
+import 'package:eliud_core/model/country_list_state.dart';
 
 
 class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {

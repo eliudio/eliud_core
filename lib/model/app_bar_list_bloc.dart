@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'app_bar_repository.dart';
-import 'app_bar_list_event.dart';
-import 'app_bar_list_state.dart';
+import 'package:eliud_core/model/app_bar_repository.dart';
+import 'package:eliud_core/model/app_bar_list_event.dart';
+import 'package:eliud_core/model/app_bar_list_state.dart';
 
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {

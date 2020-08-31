@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'image_model.dart';
+import 'package:eliud_core/model/image_model.dart';
 
 abstract class ImageListState extends Equatable {
   const ImageListState();

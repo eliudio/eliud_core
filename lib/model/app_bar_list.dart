@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'app_bar_list_event.dart';
-import 'app_bar_list_state.dart';
-import 'app_bar_list_bloc.dart';
-import 'app_bar_model.dart';
+import 'package:eliud_core/model/app_bar_list_event.dart';
+import 'package:eliud_core/model/app_bar_list_state.dart';
+import 'package:eliud_core/model/app_bar_list_bloc.dart';
+import 'package:eliud_core/model/app_bar_model.dart';
 
 import 'app_bar_form.dart';
 class AppBarListWidget extends StatefulWidget with HasFab {

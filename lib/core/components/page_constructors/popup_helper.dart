@@ -9,9 +9,9 @@ import 'package:eliud_core/model/rgb_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../tools/etc.dart';
-import '../../global_data.dart';
-import '../page_helper.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/components/page_helper.dart';
 
 class PopupHelper {
   final String currentPage;

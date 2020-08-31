@@ -1,5 +1,6 @@
 {
   "id": "Icon",
+  "packageName": "eliud_core",
   "generate": {
     "generateComponent": false,
     "generateRepository": false,

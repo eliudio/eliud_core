@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'page_list_event.dart';
-import 'page_list_state.dart';
-import 'page_list_bloc.dart';
-import 'page_model.dart';
+import 'package:eliud_core/model/page_list_event.dart';
+import 'package:eliud_core/model/page_list_state.dart';
+import 'package:eliud_core/model/page_list_bloc.dart';
+import 'package:eliud_core/model/page_model.dart';
 
 import 'page_form.dart';
 class PageListWidget extends StatefulWidget with HasFab {

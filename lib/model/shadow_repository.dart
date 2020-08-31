@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'shadow_model.dart';
+import 'package:eliud_core/model/shadow_model.dart';
 
 typedef ShadowModelTrigger(List<ShadowModel> list);
 

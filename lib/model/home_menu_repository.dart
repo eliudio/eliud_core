@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'home_menu_model.dart';
+import 'package:eliud_core/model/home_menu_model.dart';
 
 typedef HomeMenuModelTrigger(List<HomeMenuModel> list);
 

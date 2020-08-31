@@ -16,15 +16,16 @@
 import 'package:eliud_core/core/global_data.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import '../model/abstract_repository_singleton.dart';
-import 'repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import '../model/model_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 
 
-import 'shadow_entity.dart';
+import 'package:eliud_core/model/shadow_entity.dart';
+
 import 'package:eliud_core/tools/random.dart';
 
 

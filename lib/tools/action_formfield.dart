@@ -4,8 +4,8 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'action_model.dart';
-import '../model/internal_component.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/model/internal_component.dart';
 
 typedef SetActionValue(ActionModel value);
 

@@ -1,6 +1,8 @@
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/js_repository_singleton.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/main_js_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,5 +32,6 @@ class Web extends AbstractPlatform {
 
   void initRepository(String appID) {
     AbstractRepositorySingleton.singleton = JsRepositorySingleton(appID);
+    AbstractMainRepositorySingleton.singleton = JsMainRepositorySingleton(appID);
   }
 }

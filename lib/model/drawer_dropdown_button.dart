@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'drawer_list_bloc.dart';
-import 'drawer_list_state.dart';
-import 'drawer_model.dart';
+import 'package:eliud_core/model/drawer_list_bloc.dart';
+import 'package:eliud_core/model/drawer_list_state.dart';
+import 'package:eliud_core/model/drawer_model.dart';
 
 
 typedef DrawerChanged(String value);

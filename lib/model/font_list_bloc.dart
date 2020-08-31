@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'font_repository.dart';
-import 'font_list_event.dart';
-import 'font_list_state.dart';
+import 'package:eliud_core/model/font_repository.dart';
+import 'package:eliud_core/model/font_list_event.dart';
+import 'package:eliud_core/model/font_list_state.dart';
 
 
 class FontListBloc extends Bloc<FontListEvent, FontListState> {

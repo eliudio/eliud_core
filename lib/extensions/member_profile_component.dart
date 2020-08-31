@@ -11,7 +11,7 @@ import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../core/widgets/alert_widget.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:flutter/material.dart';
 
 class MemberProfileConstructorDefault implements ComponentConstructor {

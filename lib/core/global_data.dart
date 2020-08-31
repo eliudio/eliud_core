@@ -2,9 +2,9 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'access/bloc/access_details.dart';
-import 'access/bloc/access_state.dart';
-import '../eliud.dart';
+import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/eliud.dart';
 
 /*
  * This class is to no have to create a bloc every time this data is required. It is

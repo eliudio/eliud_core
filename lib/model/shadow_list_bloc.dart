@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'shadow_repository.dart';
-import 'shadow_list_event.dart';
-import 'shadow_list_state.dart';
+import 'package:eliud_core/model/shadow_repository.dart';
+import 'package:eliud_core/model/shadow_list_event.dart';
+import 'package:eliud_core/model/shadow_list_state.dart';
 
 
 class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {

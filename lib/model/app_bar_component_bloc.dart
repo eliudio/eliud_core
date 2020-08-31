@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'app_bar_model.dart';
-import 'app_bar_component_event.dart';
-import 'app_bar_component_state.dart';
-import 'app_bar_repository.dart';
+import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_bar_component_event.dart';
+import 'package:eliud_core/model/app_bar_component_state.dart';
+import 'package:eliud_core/model/app_bar_repository.dart';
 
 class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
   final AppBarRepository appBarRepository;

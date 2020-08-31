@@ -1,5 +1,6 @@
 {
   "id": "Member",
+  "packageName": "eliud_core",
   "isAppModel": false,
   "generate": {
     "generateComponent": true,

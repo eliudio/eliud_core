@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
-import 'icon_model.dart';
+import '../model/icon_model.dart';
 
 typedef ChangeIconField(IconModel value);
 

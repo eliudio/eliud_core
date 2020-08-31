@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'body_component_model.dart';
+import 'package:eliud_core/model/body_component_model.dart';
 
 abstract class BodyComponentListEvent extends Equatable {
   const BodyComponentListEvent();

@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'menu_def_model.dart';
+import 'package:eliud_core/model/menu_def_model.dart';
 
 typedef MenuDefModelTrigger(List<MenuDefModel> list);
 

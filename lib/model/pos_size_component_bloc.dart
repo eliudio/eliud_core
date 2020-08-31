@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'pos_size_model.dart';
-import 'pos_size_component_event.dart';
-import 'pos_size_component_state.dart';
-import 'pos_size_repository.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
+import 'package:eliud_core/model/pos_size_component_event.dart';
+import 'package:eliud_core/model/pos_size_component_state.dart';
+import 'package:eliud_core/model/pos_size_repository.dart';
 class PosSizeBloc extends Bloc<PosSizeEvent, PosSizeState> {
   final PosSizeRepository posSizeRepository;
 

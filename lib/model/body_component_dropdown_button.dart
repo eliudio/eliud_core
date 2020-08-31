@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'body_component_list_bloc.dart';
-import 'body_component_list_state.dart';
-import 'body_component_model.dart';
+import 'package:eliud_core/model/body_component_list_bloc.dart';
+import 'package:eliud_core/model/body_component_list_state.dart';
+import 'package:eliud_core/model/body_component_model.dart';
 
 
 typedef BodyComponentChanged(String value);

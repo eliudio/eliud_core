@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'background_model.dart';
+import 'package:eliud_core/model/background_model.dart';
 
 typedef BackgroundModelTrigger(List<BackgroundModel> list);
 

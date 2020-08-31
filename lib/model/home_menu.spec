@@ -1,5 +1,6 @@
 {
   "id": "HomeMenu",
+  "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,

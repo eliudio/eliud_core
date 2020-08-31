@@ -1,10 +1,10 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 
-import '../core/components/application_component.dart';
-import '../core/components/page_component.dart';
+import 'package:eliud_core/core/components/application_component.dart';
+import 'package:eliud_core/core/components/page_component.dart';
 
-import 'component_constructor.dart';
+import 'package:eliud_core/tools/component_constructor.dart';
 
 
 /*

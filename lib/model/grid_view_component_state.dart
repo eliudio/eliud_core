@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'grid_view_model.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
 
 abstract class GridViewState extends Equatable {
   const GridViewState();

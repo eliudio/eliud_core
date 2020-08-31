@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'image_component_bloc.dart';
-import 'image_component_event.dart';
-import 'image_model.dart';
-import 'image_repository.dart';
-import 'image_component_state.dart';
+import 'package:eliud_core/model/image_component_bloc.dart';
+import 'package:eliud_core/model/image_component_event.dart';
+import 'package:eliud_core/model/image_model.dart';
+import 'package:eliud_core/model/image_repository.dart';
+import 'package:eliud_core/model/image_component_state.dart';
 
 abstract class AbstractImageComponent extends StatelessWidget {
   static String componentName = "images";

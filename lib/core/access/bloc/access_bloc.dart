@@ -14,9 +14,9 @@ import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'access_details.dart';
-import 'access_event.dart';
-import 'access_state.dart';
+import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final NavigatorBloc navigatorBloc;

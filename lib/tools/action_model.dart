@@ -1,7 +1,7 @@
 import 'package:eliud_core/model/menu_def_model.dart';
 
-import '../model/abstract_repository_singleton.dart';
-import '../tools/action_entity.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/action_entity.dart';
 
 abstract class ActionModel {
   final String actionType;

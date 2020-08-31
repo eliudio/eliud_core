@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'grid_view_component_bloc.dart';
-import 'grid_view_component_event.dart';
-import 'grid_view_model.dart';
-import 'grid_view_repository.dart';
-import 'grid_view_component_state.dart';
+import 'package:eliud_core/model/grid_view_component_bloc.dart';
+import 'package:eliud_core/model/grid_view_component_event.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
+import 'package:eliud_core/model/grid_view_repository.dart';
+import 'package:eliud_core/model/grid_view_component_state.dart';
 
 abstract class AbstractGridViewComponent extends StatelessWidget {
   static String componentName = "gridViews";

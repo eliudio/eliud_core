@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'member_subscription_model.dart';
+import 'package:eliud_core/model/member_subscription_model.dart';
 
 typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel> list);
 

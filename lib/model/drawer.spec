@@ -1,5 +1,6 @@
 {
   "id": "Drawer",
+  "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,

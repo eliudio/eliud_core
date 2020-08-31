@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'member_list_bloc.dart';
-import 'member_list_state.dart';
-import 'member_model.dart';
+import 'package:eliud_core/model/member_list_bloc.dart';
+import 'package:eliud_core/model/member_list_state.dart';
+import 'package:eliud_core/model/member_model.dart';
 
 
 typedef MemberChanged(String value);

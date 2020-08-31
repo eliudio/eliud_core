@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'menu_def_model.dart';
+import 'package:eliud_core/model/menu_def_model.dart';
 
 abstract class MenuDefListState extends Equatable {
   const MenuDefListState();

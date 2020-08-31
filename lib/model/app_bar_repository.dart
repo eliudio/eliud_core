@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'app_bar_model.dart';
+import 'package:eliud_core/model/app_bar_model.dart';
 
 typedef AppBarModelTrigger(List<AppBarModel> list);
 

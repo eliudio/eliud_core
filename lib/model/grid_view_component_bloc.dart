@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'grid_view_model.dart';
-import 'grid_view_component_event.dart';
-import 'grid_view_component_state.dart';
-import 'grid_view_repository.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
+import 'package:eliud_core/model/grid_view_component_event.dart';
+import 'package:eliud_core/model/grid_view_component_state.dart';
+import 'package:eliud_core/model/grid_view_repository.dart';
 class GridViewBloc extends Bloc<GridViewEvent, GridViewState> {
   final GridViewRepository gridViewRepository;
 

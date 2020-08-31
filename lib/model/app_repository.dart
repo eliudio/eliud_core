@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'app_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 typedef AppModelTrigger(List<AppModel> list);
 

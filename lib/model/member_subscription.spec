@@ -1,5 +1,6 @@
 {
   "id": "MemberSubscription",
+  "packageName": "eliud_core",
   "generate": {
     "generateComponent": false,
     "generateRepository": true,

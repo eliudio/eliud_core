@@ -8,7 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../model/image_model.dart';
+import 'package:eliud_core/model/image_model.dart';
 
 typedef ChangeImageField(String url);
 

@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'member_subscription_list_event.dart';
-import 'member_subscription_list_state.dart';
-import 'member_subscription_list_bloc.dart';
-import 'member_subscription_model.dart';
+import 'package:eliud_core/model/member_subscription_list_event.dart';
+import 'package:eliud_core/model/member_subscription_list_state.dart';
+import 'package:eliud_core/model/member_subscription_list_bloc.dart';
+import 'package:eliud_core/model/member_subscription_model.dart';
 
 import 'member_subscription_form.dart';
 class MemberSubscriptionListWidget extends StatefulWidget with HasFab {

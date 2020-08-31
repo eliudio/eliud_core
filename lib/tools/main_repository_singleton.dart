@@ -6,10 +6,10 @@ import 'package:eliud_core/model/member_cache.dart';
 import 'package:eliud_core/model/member_firestore.dart';
 import 'package:eliud_core/model/member_repository.dart';
 
-import '../model/image_repository.dart';
-import '../model/image_cache.dart';
+import 'package:eliud_core/model/image_repository.dart';
+import 'package:eliud_core/model/image_cache.dart';
 
-import '../model/image_firestore_bespoke.dart';
+import 'package:eliud_core/model/image_firestore_bespoke.dart';
 import 'main_abstract_repository_singleton.dart';
 
 class MainRepositorySingleton extends AbstractMainRepositorySingleton {

@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'font_model.dart';
-import 'font_component_event.dart';
-import 'font_component_state.dart';
-import 'font_repository.dart';
+import 'package:eliud_core/model/font_model.dart';
+import 'package:eliud_core/model/font_component_event.dart';
+import 'package:eliud_core/model/font_component_state.dart';
+import 'package:eliud_core/model/font_repository.dart';
 class FontBloc extends Bloc<FontEvent, FontState> {
   final FontRepository fontRepository;
 

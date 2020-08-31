@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'background_model.dart';
+import 'package:eliud_core/model/background_model.dart';
 
 abstract class BackgroundListState extends Equatable {
   const BackgroundListState();

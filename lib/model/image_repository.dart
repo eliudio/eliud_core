@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'image_model.dart';
+import 'package:eliud_core/model/image_model.dart';
 
 typedef ImageModelTrigger(List<ImageModel> list);
 

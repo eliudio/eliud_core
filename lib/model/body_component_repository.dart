@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'body_component_model.dart';
+import 'package:eliud_core/model/body_component_model.dart';
 
 typedef BodyComponentModelTrigger(List<BodyComponentModel> list);
 

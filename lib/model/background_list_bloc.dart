@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'background_repository.dart';
-import 'background_list_event.dart';
-import 'background_list_state.dart';
+import 'package:eliud_core/model/background_repository.dart';
+import 'package:eliud_core/model/background_list_event.dart';
+import 'package:eliud_core/model/background_list_state.dart';
 
 
 class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> {

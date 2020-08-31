@@ -15,11 +15,10 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'member_subscription_entity.dart';
-import 'country_entity.dart';
-import 'country_entity.dart';
+import 'package:eliud_core/model/member_subscription_entity.dart';
+import 'package:eliud_core/model/country_entity.dart';
+import 'package:eliud_core/model/country_entity.dart';
 
-// !!!AFTER!!! added pluginData as map of json strings. Is this a specific type? Perhaps?
 class MemberEntity {
   final String name;
   final List<MemberSubscriptionEntity> subscriptions;

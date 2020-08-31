@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'drawer_model.dart';
+import 'package:eliud_core/model/drawer_model.dart';
 
 abstract class DrawerListState extends Equatable {
   const DrawerListState();

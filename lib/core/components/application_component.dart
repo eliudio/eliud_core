@@ -6,10 +6,10 @@ import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 
-import '../../core/navigate/router.dart' as eliudrouter;
-import '../../core/widgets/alert_widget.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/alert_widget.dart';
 
-import '../../model/app_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

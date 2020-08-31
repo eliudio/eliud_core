@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:eliud_core/model/image_formfield.dart';
+import 'package:eliud_core/tools/image_formfield.dart';
 import 'package:eliud_core/model/image_model.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,7 +14,7 @@ import 'package:path/path.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
-import 'file_tools.dart';
+import 'package:eliud_core/tools/file_tools.dart';
 
 class ImageTools {
   static String FIREBASE_STORAGE_DIRECTORY = 'mydirectory';

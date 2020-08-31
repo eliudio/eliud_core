@@ -16,13 +16,13 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/core/global_data.dart';
 
-import 'abstract_repository_singleton.dart';
-import 'member_entity.dart';
-import 'member_subscription_model.dart';
-import 'country_model.dart';
-import 'country_model.dart';
-import 'country_repository.dart';
-import '../tools/random.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/member_entity.dart';
+import 'package:eliud_core/model/member_subscription_model.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_repository.dart';
+import 'package:eliud_core/tools/random.dart';
 
 
 class MemberModel {

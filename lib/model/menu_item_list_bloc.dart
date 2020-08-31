@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'menu_item_repository.dart';
-import 'menu_item_list_event.dart';
-import 'menu_item_list_state.dart';
+import 'package:eliud_core/model/menu_item_repository.dart';
+import 'package:eliud_core/model/menu_item_list_event.dart';
+import 'package:eliud_core/model/menu_item_list_state.dart';
 
 
 class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {

@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'country_component_bloc.dart';
-import 'country_component_event.dart';
-import 'country_model.dart';
-import 'country_repository.dart';
-import 'country_component_state.dart';
+import 'package:eliud_core/model/country_component_bloc.dart';
+import 'package:eliud_core/model/country_component_event.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_repository.dart';
+import 'package:eliud_core/model/country_component_state.dart';
 
 abstract class AbstractCountryComponent extends StatelessWidget {
   static String componentName = "countrys";

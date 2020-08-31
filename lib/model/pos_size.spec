@@ -1,5 +1,6 @@
 {
   "id": "PosSize",
+  "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

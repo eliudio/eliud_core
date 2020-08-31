@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'decoration_color_model.dart';
+import 'package:eliud_core/model/decoration_color_model.dart';
 
 typedef DecorationColorModelTrigger(List<DecorationColorModel> list);
 

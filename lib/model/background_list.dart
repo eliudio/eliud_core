@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'background_list_event.dart';
-import 'background_list_state.dart';
-import 'background_list_bloc.dart';
-import 'background_model.dart';
+import 'package:eliud_core/model/background_list_event.dart';
+import 'package:eliud_core/model/background_list_state.dart';
+import 'package:eliud_core/model/background_list_bloc.dart';
+import 'package:eliud_core/model/background_model.dart';
 
 import 'background_form.dart';
 class BackgroundListWidget extends StatefulWidget with HasFab {

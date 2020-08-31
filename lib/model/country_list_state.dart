@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'country_model.dart';
+import 'package:eliud_core/model/country_model.dart';
 
 abstract class CountryListState extends Equatable {
   const CountryListState();

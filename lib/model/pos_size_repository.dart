@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'pos_size_model.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
 
 typedef PosSizeModelTrigger(List<PosSizeModel> list);
 

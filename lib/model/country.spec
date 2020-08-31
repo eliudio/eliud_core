@@ -1,5 +1,6 @@
 {
   "id": "Country",
+  "packageName": "eliud_core",
   "isAppModel": false,
   "generate": {
     "generateComponent": true,

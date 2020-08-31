@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'pos_size_repository.dart';
-import 'pos_size_list_event.dart';
-import 'pos_size_list_state.dart';
+import 'package:eliud_core/model/pos_size_repository.dart';
+import 'package:eliud_core/model/pos_size_list_event.dart';
+import 'package:eliud_core/model/pos_size_list_state.dart';
 
 
 class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {

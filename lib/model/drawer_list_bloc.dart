@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'drawer_repository.dart';
-import 'drawer_list_event.dart';
-import 'drawer_list_state.dart';
+import 'package:eliud_core/model/drawer_repository.dart';
+import 'package:eliud_core/model/drawer_list_event.dart';
+import 'package:eliud_core/model/drawer_list_state.dart';
 
 
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {

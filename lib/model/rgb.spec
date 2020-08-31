@@ -1,5 +1,6 @@
 {
   "id": "Rgb",
+  "packageName": "eliud_core",
   "generate": {
     "generateComponent": false,
     "generateRepository": false,

@@ -1,4 +1,4 @@
-import 'file:///C:/src/eliud/eliud_core/lib/eliud.dart';
+
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/etc.dart';

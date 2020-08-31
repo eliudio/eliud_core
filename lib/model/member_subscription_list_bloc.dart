@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'member_subscription_repository.dart';
-import 'member_subscription_list_event.dart';
-import 'member_subscription_list_state.dart';
+import 'package:eliud_core/model/member_subscription_repository.dart';
+import 'package:eliud_core/model/member_subscription_list_event.dart';
+import 'package:eliud_core/model/member_subscription_list_state.dart';
 
 
 class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, MemberSubscriptionListState> {

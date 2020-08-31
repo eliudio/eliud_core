@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'menu_def_list_event.dart';
-import 'menu_def_list_state.dart';
-import 'menu_def_list_bloc.dart';
-import 'menu_def_model.dart';
+import 'package:eliud_core/model/menu_def_list_event.dart';
+import 'package:eliud_core/model/menu_def_list_state.dart';
+import 'package:eliud_core/model/menu_def_list_bloc.dart';
+import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'menu_def_form.dart';
 class MenuDefListWidget extends StatefulWidget with HasFab {

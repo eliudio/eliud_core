@@ -6,7 +6,7 @@ import 'package:eliud_core/model/image_cache.dart';
 import 'package:eliud_core/model/image_js_firestore_bespoke.dart';
 import 'package:eliud_core/model/image_repository.dart';
 
-import 'main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
 class JsMainRepositorySingleton extends AbstractMainRepositorySingleton {
   JsMainRepositorySingleton(String appID) {

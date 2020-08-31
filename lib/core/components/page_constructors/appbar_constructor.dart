@@ -2,8 +2,8 @@ import 'package:eliud_core/core/access/bloc/access_details.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
-import '../../global_data.dart';
-import '../page_helper.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/components/page_helper.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -15,8 +15,8 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../eliud.dart';
-import '../../navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/eliud.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 class AppBarConstructor {
   final String currentPage;

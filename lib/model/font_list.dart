@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'font_list_event.dart';
-import 'font_list_state.dart';
-import 'font_list_bloc.dart';
-import 'font_model.dart';
+import 'package:eliud_core/model/font_list_event.dart';
+import 'package:eliud_core/model/font_list_state.dart';
+import 'package:eliud_core/model/font_list_bloc.dart';
+import 'package:eliud_core/model/font_model.dart';
 
 import 'font_form.dart';
 class FontListWidget extends StatefulWidget with HasFab {

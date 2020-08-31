@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'image_repository.dart';
-import 'image_list_event.dart';
-import 'image_list_state.dart';
+import 'package:eliud_core/model/image_repository.dart';
+import 'package:eliud_core/model/image_list_event.dart';
+import 'package:eliud_core/model/image_list_state.dart';
 
 
 class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {

@@ -5,7 +5,7 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/action_model.dart';
 
-import '../../global_data.dart';
+import 'package:eliud_core/core/global_data.dart';
 
 class AccessDetails {
   final Map<String, bool> pagesAccess =  Map();

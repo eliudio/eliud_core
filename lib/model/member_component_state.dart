@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'member_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 
 abstract class MemberState extends Equatable {
   const MemberState();

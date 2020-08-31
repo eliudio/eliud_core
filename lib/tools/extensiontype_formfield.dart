@@ -2,7 +2,7 @@ import 'package:eliud_core/core/global_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'registry.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 typedef ExtensionTypeFieldTrigger = Function(String value);
 

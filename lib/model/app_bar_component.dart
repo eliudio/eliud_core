@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'app_bar_component_bloc.dart';
-import 'app_bar_component_event.dart';
-import 'app_bar_model.dart';
-import 'app_bar_repository.dart';
-import 'app_bar_component_state.dart';
+import 'package:eliud_core/model/app_bar_component_bloc.dart';
+import 'package:eliud_core/model/app_bar_component_event.dart';
+import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_bar_repository.dart';
+import 'package:eliud_core/model/app_bar_component_state.dart';
 
 abstract class AbstractAppBarComponent extends StatelessWidget {
   static String componentName = "appBars";

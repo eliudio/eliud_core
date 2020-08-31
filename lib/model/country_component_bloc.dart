@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'country_model.dart';
-import 'country_component_event.dart';
-import 'country_component_state.dart';
-import 'country_repository.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_component_event.dart';
+import 'package:eliud_core/model/country_component_state.dart';
+import 'package:eliud_core/model/country_repository.dart';
 class CountryBloc extends Bloc<CountryEvent, CountryState> {
   final CountryRepository countryRepository;
 

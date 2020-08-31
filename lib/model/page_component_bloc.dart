@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'page_model.dart';
-import 'page_component_event.dart';
-import 'page_component_state.dart';
-import 'page_repository.dart';
+import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/model/page_component_state.dart';
+import 'package:eliud_core/model/page_repository.dart';
 
 class PageBloc extends Bloc<PageEvent, PageState> {
   final PageRepository pageRepository;

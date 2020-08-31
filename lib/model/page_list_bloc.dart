@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'page_repository.dart';
-import 'page_list_event.dart';
-import 'page_list_state.dart';
+import 'package:eliud_core/model/page_repository.dart';
+import 'package:eliud_core/model/page_list_event.dart';
+import 'package:eliud_core/model/page_list_state.dart';
 
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {

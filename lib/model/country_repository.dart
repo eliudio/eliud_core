@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'country_model.dart';
+import 'package:eliud_core/model/country_model.dart';
 
 typedef CountryModelTrigger(List<CountryModel> list);
 

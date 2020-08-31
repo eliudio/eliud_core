@@ -14,7 +14,7 @@
 */
 
 import 'dart:async';
-import 'drawer_model.dart';
+import 'package:eliud_core/model/drawer_model.dart';
 
 typedef DrawerModelTrigger(List<DrawerModel> list);
 

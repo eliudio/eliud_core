@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'page_component_bloc.dart';
-import 'page_component_event.dart';
-import 'page_model.dart';
-import 'page_repository.dart';
-import 'page_component_state.dart';
+import 'package:eliud_core/model/page_component_bloc.dart';
+import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/model/page_repository.dart';
+import 'package:eliud_core/model/page_component_state.dart';
 
 abstract class AbstractPageComponent extends StatelessWidget {
   static String componentName = "pages";

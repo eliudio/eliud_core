@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'body_component_repository.dart';
-import 'body_component_list_event.dart';
-import 'body_component_list_state.dart';
+import 'package:eliud_core/model/body_component_repository.dart';
+import 'package:eliud_core/model/body_component_list_event.dart';
+import 'package:eliud_core/model/body_component_list_state.dart';
 
 
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {

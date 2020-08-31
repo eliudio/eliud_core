@@ -16,10 +16,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'image_model.dart';
-import 'image_component_event.dart';
-import 'image_component_state.dart';
-import 'image_repository.dart';
+import 'package:eliud_core/model/image_model.dart';
+import 'package:eliud_core/model/image_component_event.dart';
+import 'package:eliud_core/model/image_component_state.dart';
+import 'package:eliud_core/model/image_repository.dart';
 class ImageBloc extends Bloc<ImageEvent, ImageState> {
   final ImageRepository imageRepository;
 

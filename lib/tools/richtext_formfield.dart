@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'action_model.dart';
-import '../model/cross_component.dart';
-import '../model/internal_component.dart';
+import 'package:eliud_core/model/cross_component.dart';
+import 'package:eliud_core/model/internal_component.dart';
 
 typedef RichTextFieldTrigger(String value);
 

@@ -3,8 +3,8 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'access_details.dart';
-import 'access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
 
 abstract class AccessState extends Equatable {
   const AccessState();

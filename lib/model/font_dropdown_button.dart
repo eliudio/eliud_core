@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'font_list_bloc.dart';
-import 'font_list_state.dart';
-import 'font_model.dart';
+import 'package:eliud_core/model/font_list_bloc.dart';
+import 'package:eliud_core/model/font_list_state.dart';
+import 'package:eliud_core/model/font_model.dart';
 
 
 typedef FontChanged(String value);

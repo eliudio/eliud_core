@@ -1,5 +1,6 @@
 {
   "id": "App",
+  "packageName": "eliud_core",
   "generate": {
     "generateComponent": true,
     "generateRepository": true,

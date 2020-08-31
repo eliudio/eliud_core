@@ -29,28 +29,28 @@ import 'package:intl/intl.dart';
 import 'package:eliud_core/eliud.dart';
 
 import 'package:eliud_core/model/internal_component.dart';
-import '../model/embedded_component.dart';
-import '../tools/bespoke_formfields.dart';
+import 'package:eliud_core/model/embedded_component.dart';
+import 'package:eliud_core/tools/bespoke_formfields.dart';
 import 'package:eliud_core/tools/bespoke_formfields.dart';
 
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import '../model/abstract_repository_singleton.dart';
-import 'repository_export.dart';
-import '../model/embedded_component.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/embedded_component.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import '../model/model_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
-import '../model/entity_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 
-import 'app_list_bloc.dart';
-import 'app_list_event.dart';
-import 'app_model.dart';
-import 'app_form_bloc.dart';
-import 'app_form_event.dart';
-import 'app_form_state.dart';
+import 'package:eliud_core/model/app_list_bloc.dart';
+import 'package:eliud_core/model/app_list_event.dart';
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/app_form_bloc.dart';
+import 'package:eliud_core/model/app_form_event.dart';
+import 'package:eliud_core/model/app_form_state.dart';
 
 
 class AppForm extends StatelessWidget {

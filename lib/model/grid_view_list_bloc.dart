@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'grid_view_repository.dart';
-import 'grid_view_list_event.dart';
-import 'grid_view_list_state.dart';
+import 'package:eliud_core/model/grid_view_repository.dart';
+import 'package:eliud_core/model/grid_view_list_event.dart';
+import 'package:eliud_core/model/grid_view_list_state.dart';
 
 
 class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {

@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'home_menu_repository.dart';
-import 'home_menu_list_event.dart';
-import 'home_menu_list_state.dart';
+import 'package:eliud_core/model/home_menu_repository.dart';
+import 'package:eliud_core/model/home_menu_list_event.dart';
+import 'package:eliud_core/model/home_menu_list_state.dart';
 
 
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {

@@ -17,9 +17,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'member_repository.dart';
-import 'member_list_event.dart';
-import 'member_list_state.dart';
+import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_list_event.dart';
+import 'package:eliud_core/model/member_list_state.dart';
 
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/global_data.dart';

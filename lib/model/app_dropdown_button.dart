@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'app_list_bloc.dart';
-import 'app_list_state.dart';
-import 'app_model.dart';
+import 'package:eliud_core/model/app_list_bloc.dart';
+import 'package:eliud_core/model/app_list_state.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 
 typedef AppChanged(String value);

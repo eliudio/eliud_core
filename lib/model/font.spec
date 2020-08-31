@@ -1,5 +1,6 @@
 {
   "id": "Font",
+  "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

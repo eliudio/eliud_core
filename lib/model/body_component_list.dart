@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'body_component_list_event.dart';
-import 'body_component_list_state.dart';
-import 'body_component_list_bloc.dart';
-import 'body_component_model.dart';
+import 'package:eliud_core/model/body_component_list_event.dart';
+import 'package:eliud_core/model/body_component_list_state.dart';
+import 'package:eliud_core/model/body_component_list_bloc.dart';
+import 'package:eliud_core/model/body_component_model.dart';
 
 import 'body_component_form.dart';
 class BodyComponentListWidget extends StatefulWidget with HasFab {

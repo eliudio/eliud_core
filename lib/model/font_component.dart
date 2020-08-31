@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'font_component_bloc.dart';
-import 'font_component_event.dart';
-import 'font_model.dart';
-import 'font_repository.dart';
-import 'font_component_state.dart';
+import 'package:eliud_core/model/font_component_bloc.dart';
+import 'package:eliud_core/model/font_component_event.dart';
+import 'package:eliud_core/model/font_model.dart';
+import 'package:eliud_core/model/font_repository.dart';
+import 'package:eliud_core/model/font_component_state.dart';
 
 abstract class AbstractFontComponent extends StatelessWidget {
   static String componentName = "fonts";

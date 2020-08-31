@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'image_list_event.dart';
-import 'image_list_state.dart';
-import 'image_list_bloc.dart';
-import 'image_model.dart';
+import 'package:eliud_core/model/image_list_event.dart';
+import 'package:eliud_core/model/image_list_state.dart';
+import 'package:eliud_core/model/image_list_bloc.dart';
+import 'package:eliud_core/model/image_model.dart';
 
 import 'image_form.dart';
 class ImageListWidget extends StatefulWidget with HasFab {

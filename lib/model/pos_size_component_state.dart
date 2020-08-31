@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'pos_size_model.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
 
 abstract class PosSizeState extends Equatable {
   const PosSizeState();

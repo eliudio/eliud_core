@@ -24,9 +24,9 @@ import 'package:eliud_core/platform/platform.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
-import 'pos_size_list_bloc.dart';
-import 'pos_size_list_state.dart';
-import 'pos_size_model.dart';
+import 'package:eliud_core/model/pos_size_list_bloc.dart';
+import 'package:eliud_core/model/pos_size_list_state.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
 
 
 typedef PosSizeChanged(String value);

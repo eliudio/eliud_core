@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'drawer_list_event.dart';
-import 'drawer_list_state.dart';
-import 'drawer_list_bloc.dart';
-import 'drawer_model.dart';
+import 'package:eliud_core/model/drawer_list_event.dart';
+import 'package:eliud_core/model/drawer_list_state.dart';
+import 'package:eliud_core/model/drawer_list_bloc.dart';
+import 'package:eliud_core/model/drawer_model.dart';
 
 import 'drawer_form.dart';
 class DrawerListWidget extends StatefulWidget with HasFab {

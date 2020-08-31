@@ -4,16 +4,16 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../tools/router_builders.dart';
-import '../../tools/action_model.dart';
-import '../../tools/registry.dart';
+import 'package:eliud_core/tools/router_builders.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../global_data.dart';
-import 'navigate_bloc.dart';
-import 'navigation_event.dart';
+import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class Arguments {
   final String mainArgument;

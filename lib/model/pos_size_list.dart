@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'pos_size_list_event.dart';
-import 'pos_size_list_state.dart';
-import 'pos_size_list_bloc.dart';
-import 'pos_size_model.dart';
+import 'package:eliud_core/model/pos_size_list_event.dart';
+import 'package:eliud_core/model/pos_size_list_state.dart';
+import 'package:eliud_core/model/pos_size_list_bloc.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
 
 import 'pos_size_form.dart';
 class PosSizeListWidget extends StatefulWidget with HasFab {

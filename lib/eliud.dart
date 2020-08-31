@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/extensions/member_profile_component.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -8,10 +9,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/navigate/navigate_bloc.dart';
-import 'model/member_model.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/model/member_model.dart';
 
-import 'model/component_registry.dart';
+import 'package:eliud_core/model/component_registry.dart';
 
 abstract class Plugin {
   /*

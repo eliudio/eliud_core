@@ -5,19 +5,19 @@ import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:eliud_core/tools/grid_view_helper.dart';
 
-import '../../core/components/page_constructors/appbar_constructor.dart';
-import '../../core/components/page_constructors/bottom_navigation_bar_constructor.dart';
-import '../../core/components/page_constructors/drawer_constructor.dart';
-import '../../core/widgets/alert_widget.dart';
+import 'package:eliud_core/core/components/page_constructors/appbar_constructor.dart';
+import 'package:eliud_core/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
+import 'package:eliud_core/core/components/page_constructors/drawer_constructor.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
 
-import '../../tools/registry.dart';
-import '../../tools/component_constructor.dart';
+import 'package:eliud_core/tools/registry.dart';
+import 'package:eliud_core/tools/component_constructor.dart';
 
-import '../../model/body_component_model.dart';
-import '../../model/page_component_bloc.dart';
-import '../../model/page_component_state.dart';
-import '../../model/page_component_event.dart';
-import '../../model/page_model.dart';
+import 'package:eliud_core/model/body_component_model.dart';
+import 'package:eliud_core/model/page_component_bloc.dart';
+import 'package:eliud_core/model/page_component_state.dart';
+import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/model/page_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

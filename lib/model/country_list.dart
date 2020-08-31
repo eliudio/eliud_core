@@ -29,10 +29,10 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/eliud.dart';
 
-import 'country_list_event.dart';
-import 'country_list_state.dart';
-import 'country_list_bloc.dart';
-import 'country_model.dart';
+import 'package:eliud_core/model/country_list_event.dart';
+import 'package:eliud_core/model/country_list_state.dart';
+import 'package:eliud_core/model/country_list_bloc.dart';
+import 'package:eliud_core/model/country_model.dart';
 
 import 'country_form.dart';
 class CountryListWidget extends StatefulWidget with HasFab {

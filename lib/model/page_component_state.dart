@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'page_model.dart';
+import 'package:eliud_core/model/page_model.dart';
 
 abstract class PageState extends Equatable {
   const PageState();

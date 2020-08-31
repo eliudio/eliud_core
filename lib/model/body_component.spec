@@ -1,5 +1,6 @@
 {
   "id": "BodyComponent",
+  "packageName": "eliud_core",
   "generate": {
     "generateComponent": false,
     "generateRepository": true,

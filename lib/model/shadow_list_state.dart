@@ -14,7 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
-import 'shadow_model.dart';
+import 'package:eliud_core/model/shadow_model.dart';
 
 abstract class ShadowListState extends Equatable {
   const ShadowListState();
