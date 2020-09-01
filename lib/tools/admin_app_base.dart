@@ -1,0 +1,12 @@
+/* Interface for AdminApp */
+
+import 'package:eliud_core/model/menu_def_model.dart';
+
+abstract class AdminAppInstallerBase {
+  Future<void> run();
+  Future<MenuDefModel> menu(String appID);
+}
+
+abstract class AdminAppWhiperBase {
+  Future<void> deleteAll(String appID);
+}

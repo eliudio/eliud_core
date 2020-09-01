@@ -14,6 +14,7 @@
 */
 
 
+import 'package:eliud_core/tools/admin_app_base.dart';
 import 'package:eliud_core/tools/action_model.dart';
 
 import 'package:eliud_core/model/menu_def_model.dart';
@@ -32,7 +33,7 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-class AdminApp {
+class AdminApp extends AdminAppInstallerBase {
   final String appID;
   final DrawerModel _drawer;
   final DrawerModel _endDrawer;
@@ -516,28 +517,34 @@ class AdminApp {
     ;
   }
 
-  static Future<void> deleteAll(String appID) async {
-    return await imageRepository().deleteAll()
-        .then((_) => appBarRepository().deleteAll())
-        .then((_) => backgroundRepository().deleteAll())
-        .then((_) => countryRepository().deleteAll())
-        .then((_) => drawerRepository().deleteAll())
-        .then((_) => fontRepository().deleteAll())
-        .then((_) => gridViewRepository().deleteAll())
-        .then((_) => homeMenuRepository().deleteAll())
-        .then((_) => menuDefRepository().deleteAll())
-        .then((_) => pageRepository().deleteAll())
-        .then((_) => posSizeRepository().deleteAll())
-        .then((_) => shadowRepository().deleteAll())
-    ;
-  }
-
-  static Future<MenuDefModel> menu(String appID) async {
+  Future<MenuDefModel> menu(String appID) async {
     return _setupMenuDef(appID);
   }
 
-  Future<void> runX() async {
+  @override
+  Future<void> run() async {
     return _setupAdminPages();
+  }
+
+
+}
+
+class AdminAppWhiper extends AdminAppWhiperBase {
+
+  @override
+  Future<void> deleteAll(String appID) async {
+    await appBarRepository().deleteAll();
+    await backgroundRepository().deleteAll();
+    await countryRepository().deleteAll();
+    await drawerRepository().deleteAll();
+    await fontRepository().deleteAll();
+    await gridViewRepository().deleteAll();
+    await homeMenuRepository().deleteAll();
+    await menuDefRepository().deleteAll();
+    await pageRepository().deleteAll();
+    await posSizeRepository().deleteAll();
+    await shadowRepository().deleteAll();
+    ;
   }
 
 
