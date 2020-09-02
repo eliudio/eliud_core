@@ -7,6 +7,6 @@ abstract class AdminAppInstallerBase {
   Future<MenuDefModel> menu(String appID);
 }
 
-abstract class AdminAppWhiperBase {
+abstract class AdminAppWiperBase {
   Future<void> deleteAll(String appID);
 }
