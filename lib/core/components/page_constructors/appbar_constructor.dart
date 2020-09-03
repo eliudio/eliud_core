@@ -130,6 +130,7 @@ class AppBarConstructor {
               _addButton(context, value, buttons, item, member, accessDetails);
           });
         }
+        
         _addPlayStoreButton(context, buttons, value, app);
         return _appBarWithButtons(context, theTitle, value, buttons, member);
       } else {

@@ -55,7 +55,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Apps",
         description: "Apps",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "appspage"))
+        action: GotoPage(pageID: "eliud_core_apps_page"))
     );
 
 
@@ -65,7 +65,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "AppBars",
         description: "AppBars",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "appbarspage"))
+        action: GotoPage(pageID: "eliud_core_appbars_page"))
     );
 
 
@@ -75,7 +75,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Backgrounds",
         description: "Backgrounds",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "backgroundspage"))
+        action: GotoPage(pageID: "eliud_core_backgrounds_page"))
     );
 
 
@@ -85,7 +85,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Countrys",
         description: "Countrys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "countryspage"))
+        action: GotoPage(pageID: "eliud_core_countrys_page"))
     );
 
 
@@ -95,7 +95,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Drawers",
         description: "Drawers",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "drawerspage"))
+        action: GotoPage(pageID: "eliud_core_drawers_page"))
     );
 
 
@@ -105,7 +105,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Fonts",
         description: "Fonts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "fontspage"))
+        action: GotoPage(pageID: "eliud_core_fonts_page"))
     );
 
 
@@ -115,7 +115,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "GridViews",
         description: "GridViews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "gridviewspage"))
+        action: GotoPage(pageID: "eliud_core_gridviews_page"))
     );
 
 
@@ -125,7 +125,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "HomeMenus",
         description: "HomeMenus",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "homemenuspage"))
+        action: GotoPage(pageID: "eliud_core_homemenus_page"))
     );
 
 
@@ -135,7 +135,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Images",
         description: "Images",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "imagespage"))
+        action: GotoPage(pageID: "eliud_core_images_page"))
     );
 
 
@@ -145,7 +145,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Members",
         description: "Members",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "memberspage"))
+        action: GotoPage(pageID: "eliud_core_members_page"))
     );
 
 
@@ -155,7 +155,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "MenuDefs",
         description: "MenuDefs",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "menudefspage"))
+        action: GotoPage(pageID: "eliud_core_menudefs_page"))
     );
 
 
@@ -165,7 +165,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Pages",
         description: "Pages",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "pagespage"))
+        action: GotoPage(pageID: "eliud_core_pages_page"))
     );
 
 
@@ -175,7 +175,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "PosSizes",
         description: "PosSizes",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "possizespage"))
+        action: GotoPage(pageID: "eliud_core_possizes_page"))
     );
 
 
@@ -185,7 +185,7 @@ class AdminApp extends AdminAppInstallerBase {
         text: "Shadows",
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "shadowspage"))
+        action: GotoPage(pageID: "eliud_core_shadows_page"))
     );
 
 
@@ -193,7 +193,7 @@ class AdminApp extends AdminAppInstallerBase {
       admin: true,
       documentID: "eliud_core_admin_menu",
       appId: appID,
-      name: "Menu Definition 1",
+      name: "eliud_core admin menu",
       menuItems: menuItems
     );
     await menuDefRepository().add(menu);
@@ -208,7 +208,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "appspage",
+        documentID: "eliud_core_apps_page",
         title: "Apps",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -228,7 +228,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "appbarspage",
+        documentID: "eliud_core_appbars_page",
         title: "AppBars",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -248,7 +248,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "backgroundspage",
+        documentID: "eliud_core_backgrounds_page",
         title: "Backgrounds",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -268,7 +268,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "countryspage",
+        documentID: "eliud_core_countrys_page",
         title: "Countrys",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -288,7 +288,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "drawerspage",
+        documentID: "eliud_core_drawers_page",
         title: "Drawers",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -308,7 +308,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "fontspage",
+        documentID: "eliud_core_fonts_page",
         title: "Fonts",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -328,7 +328,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "gridviewspage",
+        documentID: "eliud_core_gridviews_page",
         title: "GridViews",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -348,7 +348,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "homemenuspage",
+        documentID: "eliud_core_homemenus_page",
         title: "HomeMenus",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -368,7 +368,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "imagespage",
+        documentID: "eliud_core_images_page",
         title: "Images",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -388,7 +388,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "memberspage",
+        documentID: "eliud_core_members_page",
         title: "Members",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -408,7 +408,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "menudefspage",
+        documentID: "eliud_core_menudefs_page",
         title: "MenuDefs",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -428,7 +428,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "pagespage",
+        documentID: "eliud_core_pages_page",
         title: "Pages",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -448,7 +448,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "possizespage",
+        documentID: "eliud_core_possizes_page",
         title: "PosSizes",
         drawer: _drawer,
         endDrawer: _endDrawer,
@@ -468,7 +468,7 @@ class AdminApp extends AdminAppInstallerBase {
     PageModel page = PageModel(
         conditional: PageCondition.AdminOnly,
         appId: appID,
-        documentID: "shadowspage",
+        documentID: "eliud_core_shadows_page",
         title: "Shadows",
         drawer: _drawer,
         endDrawer: _endDrawer,
