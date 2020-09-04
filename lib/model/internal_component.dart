@@ -297,7 +297,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pages') return _pageBuild();
     if (componentId == 'posSizes') return _posSizeBuild();
     if (componentId == 'shadows') return _shadowBuild();
-    return Image(image: AssetImage('assets/images/component_not_available.png'));
+    return Text('Component with componentId == $componentId not found');
   }
 
   Widget initWidget() {
@@ -529,7 +529,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'pages') return _pageBuild();
     if (componentId == 'posSizes') return _posSizeBuild();
     if (componentId == 'shadows') return _shadowBuild();
-    return Image(image: AssetImage('assets/images/component_not_available.png'));
+    return Text('Component with componentId == $componentId not found');
   }
 
 

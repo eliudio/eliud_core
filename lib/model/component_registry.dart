@@ -25,7 +25,7 @@ class ComponentRegistry {
   void init() {
     Registry.registry().addInternalComponents(["apps", "appBars", "backgrounds", "countrys", "drawers", "fonts", "gridViews", "homeMenus", "images", "members", "menuDefs", "pages", "posSizes", "shadows", ]);
 
-    Registry.registry().register(componentName: "internalWidgets", componentConstructor: ListComponentFactory());
+    Registry.registry().register(componentName: "eliud_core_internalWidgets", componentConstructor: ListComponentFactory());
 
   }
 }

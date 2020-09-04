@@ -53,24 +53,33 @@ abstract class Eliud {
   }
 
   Future<AppModel> _init(String appID) async {
-    AbstractPlatform.platform = getPlatform();
-    ComponentRegistry().init();
+    try {
+      AbstractPlatform.platform = getPlatform();
+      ComponentRegistry().init();
 
-    AbstractPlatform.platform.initRepository(appID);
-    var app = await AbstractMainRepositorySingleton.singleton.appRepository().get(appID);
-    if (app == null) {
-      print('App with appID $appID does not exist');
+      AbstractPlatform.platform.initRepository(appID);
+      var app = await AbstractMainRepositorySingleton.singleton.appRepository()
+          .get(appID);
+      if (app == null) {
+        print('App with appID $appID does not exist');
+        return null;
+      }
+      // Initialise custom extensions:
+      Registry.registry().register(
+          componentName: MemberProfileConstructorDefault
+              .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
+          componentConstructor: MemberProfileConstructorDefault());
+
+      GlobalData.registeredPlugins.forEach((plugin) {
+        plugin.init();
+        plugin.initRepository(appID);
+      });
+
+      return app;
+    } catch (error) {
+      print (error);
       return null;
     }
-    // Initialise custom extensions:
-    Registry.registry().register(componentName: MemberProfileConstructorDefault.MEMBER_PROFILE_COMPONENT_IDENTIFIER, componentConstructor: MemberProfileConstructorDefault());
-
-    GlobalData.registeredPlugins.forEach((plugin) {
-      plugin.init();
-      plugin.initRepository(appID);
-    });
-
-    return app;
   }
 
   // asPlayStore flag allows to run the playstore app where people can use it to switch to other apps, create apps, ....

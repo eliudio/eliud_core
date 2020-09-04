@@ -60,13 +60,12 @@ class Registry {
       }
     } catch (_) {}
     if (returnThis != null) return returnThis;
-    return _missingComponent();
+    return _missingComponent(componentName);
   }
 
-  Widget _missingComponent() {
+  Widget _missingComponent(String componentName) {
     try {
-      return Image(
-          image: AssetImage('assets/images/component_not_available.png'));
+      return Text("Missing component with name $componentName");
     } catch (_) {
       return null;
     }
@@ -74,7 +73,7 @@ class Registry {
 
   Widget _missingPage() {
     try {
-      return Image(image: AssetImage('assets/images/page_not_available.png'));
+      return Text("Page not available");
     } catch (_) {
       return null;
     }
