@@ -46,161 +46,6 @@ class AdminApp extends AdminAppInstallerBase {
   AdminApp(this.appID, this._drawer, this._endDrawer, this._appBar, this._homeMenu, this.menuItemColor, this.selectedMenuItemColor, this.backgroundColor);
 
 
-  Future<MenuDefModel> menu(String appID) async {
-    List<MenuItemModel> menuItems = List<MenuItemModel>();
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Apps",
-        text: "Apps",
-        description: "Apps",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_apps_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "AppBars",
-        text: "AppBars",
-        description: "AppBars",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_appbars_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Backgrounds",
-        text: "Backgrounds",
-        description: "Backgrounds",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_backgrounds_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Countrys",
-        text: "Countrys",
-        description: "Countrys",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_countrys_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Drawers",
-        text: "Drawers",
-        description: "Drawers",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_drawers_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Fonts",
-        text: "Fonts",
-        description: "Fonts",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_fonts_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "GridViews",
-        text: "GridViews",
-        description: "GridViews",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_gridviews_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "HomeMenus",
-        text: "HomeMenus",
-        description: "HomeMenus",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_homemenus_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Images",
-        text: "Images",
-        description: "Images",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_images_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Members",
-        text: "Members",
-        description: "Members",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_members_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "MenuDefs",
-        text: "MenuDefs",
-        description: "MenuDefs",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_menudefs_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Pages",
-        text: "Pages",
-        description: "Pages",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_pages_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "PosSizes",
-        text: "PosSizes",
-        description: "PosSizes",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_possizes_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Shadows",
-        text: "Shadows",
-        description: "Shadows",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_shadows_page"))
-    );
-
-
-    MenuDefModel menu = MenuDefModel(
-      admin: true,
-      documentID: "eliud_core_admin_menu",
-      appId: appID,
-      name: "eliud_core admin menu",
-      menuItems: menuItems
-    );
-    await menuDefRepository().add(menu);
-    return menu;
-  }
-
-
   PageModel _appsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -520,6 +365,163 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+}
+
+class AdminMenu extends AdminAppMenuInstallerBase {
+
+  Future<MenuDefModel> menu(String appID) async {
+    List<MenuItemModel> menuItems = List<MenuItemModel>();
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Apps",
+        text: "Apps",
+        description: "Apps",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_apps_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "AppBars",
+        text: "AppBars",
+        description: "AppBars",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_appbars_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Backgrounds",
+        text: "Backgrounds",
+        description: "Backgrounds",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_backgrounds_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Countrys",
+        text: "Countrys",
+        description: "Countrys",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_countrys_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Drawers",
+        text: "Drawers",
+        description: "Drawers",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_drawers_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Fonts",
+        text: "Fonts",
+        description: "Fonts",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_fonts_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "GridViews",
+        text: "GridViews",
+        description: "GridViews",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_gridviews_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "HomeMenus",
+        text: "HomeMenus",
+        description: "HomeMenus",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_homemenus_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Images",
+        text: "Images",
+        description: "Images",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_images_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Members",
+        text: "Members",
+        description: "Members",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_members_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "MenuDefs",
+        text: "MenuDefs",
+        description: "MenuDefs",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_menudefs_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Pages",
+        text: "Pages",
+        description: "Pages",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_pages_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "PosSizes",
+        text: "PosSizes",
+        description: "PosSizes",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_possizes_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Shadows",
+        text: "Shadows",
+        description: "Shadows",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(pageID: "eliud_core_shadows_page"))
+    );
+
+
+    MenuDefModel menu = MenuDefModel(
+      admin: true,
+      documentID: "eliud_core_admin_menu",
+      appId: appID,
+      name: "eliud_core admin menu",
+      menuItems: menuItems
+    );
+    await menuDefRepository().add(menu);
+    return menu;
+  }
 }
 
 class AdminAppWiper extends AdminAppWiperBase {
