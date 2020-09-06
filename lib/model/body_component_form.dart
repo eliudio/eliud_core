@@ -172,7 +172,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
         children.add(
 
-                CrossComponent(extension: state.value.componentName, value: state.value.componentId, trigger: _onComponentIdChanged)
+                ComponentIdField(componentName: state.value.componentName, value: state.value.componentId, trigger: _onComponentIdChanged)
           );
 
 

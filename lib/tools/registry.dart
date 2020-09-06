@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:eliud_core/model/internal_component.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eliud_core/core/components/application_component.dart';
@@ -12,12 +13,14 @@ import 'package:eliud_core/tools/component_constructor.dart';
  */
 
 class Registry {
-  List<String> _allInternalComponents = [];
+  Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
 
-  List<String> allInternalComponents() => _allInternalComponents;
+  Map<String, List<String>> _allInternalComponents = HashMap();
 
-  void addInternalComponents(List<String> list) {
-    _allInternalComponents.addAll(list);
+  List<String> allInternalComponents(String pluginName) => _allInternalComponents[pluginName];
+
+  void addInternalComponents(String pluginName, List<String> list) {
+    _allInternalComponents[pluginName] = list;
   }
 
   final Map<String, ComponentConstructor> _registryMap = HashMap();
@@ -82,6 +85,14 @@ class Registry {
   void register(
       {String componentName, ComponentConstructor componentConstructor}) {
     _registryMap[componentName] = componentConstructor;
+  }
+
+  void addDropDownSupporter(String componentId, ComponentDropDown support) {
+    componentDropDownSupporters[componentId] = support;
+  }
+
+  ComponentDropDown getSupportingDropDown(String componentId) {
+    return componentDropDownSupporters[componentId];
   }
 
   void initialize(

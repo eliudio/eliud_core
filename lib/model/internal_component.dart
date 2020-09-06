@@ -213,9 +213,29 @@ class ListComponentFactory implements ComponentConstructor {
 
 typedef DropdownButtonChanged(String value);
 
-class DropdownButtonComponentFactory implements ComponentConstructor {
+class DropdownButtonComponentFactory implements ComponentDropDown {
+
+  bool supports(String id) {
+
+    if (id == "apps") return true;
+    if (id == "appBars") return true;
+    if (id == "backgrounds") return true;
+    if (id == "countrys") return true;
+    if (id == "drawers") return true;
+    if (id == "fonts") return true;
+    if (id == "gridViews") return true;
+    if (id == "homeMenus") return true;
+    if (id == "images") return true;
+    if (id == "members") return true;
+    if (id == "menuDefs") return true;
+    if (id == "pages") return true;
+    if (id == "posSizes") return true;
+    if (id == "shadows") return true;
+    return false;
+  }
+
   Widget createNew({String id, Map<String, String> parameters, String value, DropdownButtonChanged trigger, bool optional}) {
-  
+
     if (id == "apps")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 

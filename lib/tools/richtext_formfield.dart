@@ -1,11 +1,9 @@
-import 'file:///C:/src/eliud/eliud_core/lib/eliud.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'action_model.dart';
-import 'package:eliud_core/model/cross_component.dart';
 import 'package:eliud_core/model/internal_component.dart';
 
 typedef RichTextFieldTrigger(String value);
