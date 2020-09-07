@@ -39,8 +39,9 @@ class CountryListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
   CountryListWidgetState state;
+  bool isEmbedded;
 
-  CountryListWidget({ Key key, this.readOnly, this.form }): super(key: key);
+  CountryListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
 
   @override
   CountryListWidgetState createState() {
@@ -101,30 +102,65 @@ class CountryListWidgetState extends State<CountryListWidget> {
         );
       } else if (state is CountryListLoaded) {
         final values = state.values;
-        return Container(
-                 decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().listBackground),
-                 child: ListView.separated(
-                   separatorBuilder: (context, index) => Divider(
-                     color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)
-                   ),
-                   shrinkWrap: true,
-                   physics: ScrollPhysics(),
-                   itemCount: values.length,
-                   itemBuilder: (context, index) {
-                     final value = values[index];
-                     return CountryListItem(
-                       value: value,
-                       onDismissed: (direction) {
-                         BlocProvider.of<CountryListBloc>(context)
-                             .add(DeleteCountryList(value: value));
-                         Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                           message: "Country " + value.documentID,
-                           onUndo: () => BlocProvider.of<CountryListBloc>(context)
-                               .add(AddCountryList(value: value)),
-                         ));
-                       },
-                       onTap: () async {
-                                             final removedItem = await Navigator.of(context).push(
+        if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          List<Widget> children = List();
+          children.add(theList(context, values));
+          children.add(RaisedButton(
+                  color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                              pageRouteBuilder(page: BlocProvider.value(
+                                  value: bloc,
+                                  child: CountryForm(
+                                      value: null,
+                                      formAction: FormAction.AddAction)
+                              )),
+                            );
+                  },
+                  child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
+                ));
+          return ListView(
+            padding: const EdgeInsets.all(8),
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            children: children
+          );
+        } else {
+          return theList(context, values);
+        }
+      } else {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    });
+  }
+  
+  Widget theList(BuildContext context, values) {
+    return Container(
+      decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().listBackground),
+      child: ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)
+        ),
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        itemCount: values.length,
+        itemBuilder: (context, index) {
+          final value = values[index];
+          return CountryListItem(
+            value: value,
+            onDismissed: (direction) {
+              BlocProvider.of<CountryListBloc>(context)
+                  .add(DeleteCountryList(value: value));
+              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+                message: "Country " + value.documentID,
+                onUndo: () => BlocProvider.of<CountryListBloc>(context)
+                    .add(AddCountryList(value: value)),
+              ));
+            },
+            onTap: () async {
+                                   final removedItem = await Navigator.of(context).push(
                         pageRouteBuilder(page: BlocProvider.value(
                               value: BlocProvider.of<CountryListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
@@ -138,17 +174,12 @@ class CountryListWidgetState extends State<CountryListWidget> {
                         );
                       }
 
-                       },
-                     );
-                   }
-               ));
-      } else {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-    });
+            },
+          );
+        }
+      ));
   }
+  
   
   Widget getForm(value, action) {
     if (widget.form == null) {

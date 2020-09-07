@@ -70,7 +70,7 @@ static Widget bodyComponentsList(List<BodyComponentModel> values, BodyComponentL
           )..add(LoadBodyComponentList()),
         )
         ],
-    child: BodyComponentListWidget(),
+    child: BodyComponentListWidget(isEmbedded: true),
   );
 }
 
@@ -87,7 +87,7 @@ static Widget decorationColorsList(List<DecorationColorModel> values, Decoration
           )..add(LoadDecorationColorList()),
         )
         ],
-    child: DecorationColorListWidget(),
+    child: DecorationColorListWidget(isEmbedded: true),
   );
 }
 
@@ -104,7 +104,7 @@ static Widget memberSubscriptionsList(List<MemberSubscriptionModel> values, Memb
           )..add(LoadMemberSubscriptionList()),
         )
         ],
-    child: MemberSubscriptionListWidget(),
+    child: MemberSubscriptionListWidget(isEmbedded: true),
   );
 }
 
@@ -121,7 +121,7 @@ static Widget menuItemsList(List<MenuItemModel> values, MenuItemListChanged trig
           )..add(LoadMenuItemList()),
         )
         ],
-    child: MenuItemListWidget(),
+    child: MenuItemListWidget(isEmbedded: true),
   );
 }
 
