@@ -1,3 +1,4 @@
+import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -12,33 +13,37 @@ class AccessDetails {
 
   AccessDetails();
   
-  bool _conditionOkForPlugin(String pluginCondition, AppModel app, MemberModel member, bool isOwner) {
-    GlobalData.registeredPlugins.forEach((plg) async {
-       var plgOk = await plg.isConditionOk(pluginCondition, app, member, isOwner);
-       if (plgOk != null) {
-         return plgOk;
-       }
-    });
+  Future<bool> _conditionOkForPlugin(String pluginCondition, AppModel app, MemberModel member, bool isOwner) async {
+    for (var i = 0; i < GlobalData.registeredPlugins.length; i++) {
+      var plg = GlobalData.registeredPlugins[i];
+      var plgOk = await plg.isConditionOk(pluginCondition, app, member, isOwner);
+      if (plgOk != null) {
+        return plgOk;
+      }
+    }
     return false;
   }
 
-  bool _conditionOk(AppModel app, MemberModel member, PageCondition condition, String pluginCondition, bool isOwner) {
+  Future<bool> _conditionOk(AppModel app, MemberModel member, PageCondition condition, String pluginCondition, bool isOwner) async {
     if (condition == null) return true;
     switch (condition) {
       case PageCondition.Always: return true;
       case PageCondition.MustBeLoggedIn: return GlobalData.isLoggedOn();
       case PageCondition.MustNotBeLoggedIn: return !GlobalData.isLoggedOn();
-      case PageCondition.PluginDecides: return true; //
+      case PageCondition.PluginDecides: return await _conditionOkForPlugin(pluginCondition, app, member, isOwner);
       case PageCondition.AdminOnly: return isOwner;
       case PageCondition.Unknown: return true;
     }
   }
 
   Future<AccessDetails> init(MemberModel member, AppModel app) async {
-    bool isOwner = member != null && member.documentID == app.ownerID;
-    return await AbstractRepositorySingleton.singleton.pageRepository().valuesList().then((theList) => theList.forEach((page) {
-      pagesAccess[page.documentID] = _conditionOk(app, member, page.conditional, page.pluginCondition, isOwner);
-    })).then((_) => this);
+    var isOwner = member != null && member.documentID == app.ownerID;
+    var theList = await AbstractRepositorySingleton.singleton.pageRepository().valuesList();
+    for (int i = 0; i < theList.length; i++) {
+      var page = theList[i];
+      pagesAccess[page.documentID] = await _conditionOk(app, member, page.conditional, page.pluginCondition, isOwner);
+    }
+    return this;
   }
 
   bool hasAccess(MenuItemModel item) {
