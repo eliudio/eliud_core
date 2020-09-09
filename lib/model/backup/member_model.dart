@@ -16,19 +16,13 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/core/global_data.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/tools/action_model.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/tools/action_entity.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-
 import 'package:eliud_core/model/member_entity.dart';
-
+import 'package:eliud_core/model/member_subscription_model.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_model.dart';
+import 'package:eliud_core/model/country_repository.dart';
 import 'package:eliud_core/tools/random.dart';
-
 
 
 class MemberModel {
@@ -52,20 +46,22 @@ class MemberModel {
   String invoicePostcode;
   CountryModel invoiceCountry;
   List<String> readAccess;
+  //List<CartItemModel> items;
   String email;
   bool isAnonymous;
+// !!!AFTER!!! added pluginData as map of json strings. Is this a specific type? Perhaps?
   Map<String, Object> pluginData;
 
-  MemberModel({this.documentID, this.name, this.subscriptions, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.readAccess, this.email, this.isAnonymous, this.pluginData, })  {
+  MemberModel({this.documentID, this.name, this.subscriptions, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.readAccess, /*this.items,*/ this.email, this.isAnonymous, this.pluginData})  {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String documentID, String name, List<MemberSubscriptionModel> subscriptions, String photoURL, String shipStreet1, String shipStreet2, String shipCity, String shipState, String postcode, CountryModel country, bool invoiceSame, String invoiceStreet1, String invoiceStreet2, String invoiceCity, String invoiceState, String invoicePostcode, CountryModel invoiceCountry, List<String> readAccess, String email, bool isAnonymous, Map<String, Object> pluginData, }) {
-    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, pluginData: pluginData ?? this.pluginData, );
+  MemberModel copyWith({String documentID, String name, List<MemberSubscriptionModel> subscriptions, String photoURL, String shipStreet1, String shipStreet2, String shipCity, String shipState, String postcode, CountryModel country, bool invoiceSame, String invoiceStreet1, String invoiceStreet2, String invoiceCity, String invoiceState, String invoicePostcode, CountryModel invoiceCountry, List<String> readAccess, /*List<CartItemModel> items, */String email, bool isAnonymous, }) {
+    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, /*items: items ?? this.items,*/ email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ readAccess.hashCode ^ email.hashCode ^ isAnonymous.hashCode ^ pluginData.hashCode;
+  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ /*readAccess.hashCode ^ items.hashCode ^*/ email.hashCode ^ isAnonymous.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -90,16 +86,18 @@ class MemberModel {
           invoicePostcode == other.invoicePostcode &&
           invoiceCountry == other.invoiceCountry &&
           ListEquality().equals(readAccess, other.readAccess) &&
+ /*         ListEquality().equals(items, other.items) &&
+ */
           email == other.email &&
-          isAnonymous == other.isAnonymous &&
-          pluginData == other.pluginData;
+          isAnonymous == other.isAnonymous;
 
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
+//    String itemsCsv = (items == null) ? '' : items.join(', ');
 
-    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous, pluginData: $pluginData}';
+    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
   MemberEntity toEntity() {
@@ -124,9 +122,15 @@ class MemberModel {
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
           invoiceCountryId: (invoiceCountry != null) ? invoiceCountry.documentID : null, 
           readAccess: (readAccess != null) ? readAccess : null, 
-          email: (email != null) ? email : null, 
-          isAnonymous: (isAnonymous != null) ? isAnonymous : null, 
-          pluginData: pluginData,     );
+          /*items: (items != null) ? items
+            .map((item) => item.toEntity())
+            .toList() : null, 
+          */
+          email: (email != null) ? email : null,
+      // !!!AFTER!!! added pluginData
+          pluginData: pluginData,
+          isAnonymous: (isAnonymous != null) ? isAnonymous : null,
+    );
   }
 
   static MemberModel fromEntity(String documentID, MemberEntity entity) {
@@ -151,9 +155,15 @@ class MemberModel {
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
           readAccess: entity.readAccess, 
-          email: entity.email, 
-          isAnonymous: entity.isAnonymous, 
-          pluginData: entity.pluginData,     );
+          /*items:
+            entity. items
+            .map((item) => CartItemModel.fromEntity(newRandomKey(), item))
+            .toList(), 
+          */email: entity.email,
+// !!!AFTER!!! added pluginData
+          pluginData: entity.pluginData,
+          isAnonymous: entity.isAnonymous,
+    );
   }
 
   static Future<MemberModel> fromEntityPlus(String documentID, MemberEntity entity) async {
@@ -162,7 +172,7 @@ class MemberModel {
     CountryModel countryHolder;
     if (entity.countryId != null) {
       try {
-        await countryRepository().get(entity.countryId).then((val) {
+        await AbstractRepositorySingleton.singleton.countryRepository().get(entity.countryId).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -171,7 +181,7 @@ class MemberModel {
     CountryModel invoiceCountryHolder;
     if (entity.invoiceCountryId != null) {
       try {
-        await countryRepository().get(entity.invoiceCountryId).then((val) {
+        await AbstractRepositorySingleton.singleton.countryRepository().get(entity.invoiceCountryId).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -199,9 +209,14 @@ class MemberModel {
           invoicePostcode: entity.invoicePostcode, 
           invoiceCountry: invoiceCountryHolder, 
           readAccess: entity.readAccess, 
-          email: entity.email, 
-          isAnonymous: entity.isAnonymous, 
-          pluginData: entity.pluginData, 
+          /*items:
+            new List<CartItemModel>.from(await Future.wait(entity. items
+            .map((item) => CartItemModel.fromEntityPlus(newRandomKey(), item))
+            .toList())), 
+          */email: entity.email,
+// !!!AFTER!!! added pluginData
+          pluginData: entity.pluginData,
+          isAnonymous: entity.isAnonymous,
     );
   }
 

@@ -165,6 +165,13 @@
       "displayName": "Is Anonymous",
       "fieldType": "bool",
       "group": "general"
+    },
+    {
+      "fieldName": "pluginData",
+      "fieldType": "bespoke",
+      "bespokeFieldType": "Map<String, Object>",
+      "bespokeEntityMapping": "(map['pluginData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)))",
+      "bespokeEntityToDocument" : "    if (pluginData != null) {\n      var myMap = Map();\n      pluginData.forEach((key, value) {\n        myMap[key] = jsonDecode(value);\n      });\n      theDocument['pluginData'] = myMap;\n    } else theDocument['pluginData'] = null;\n"
     }
   ],
   "groups": [

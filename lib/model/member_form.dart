@@ -256,6 +256,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 ));
 
 
+
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
 
@@ -680,6 +681,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               readAccess: state.value.readAccess, 
                               email: state.value.email, 
                               isAnonymous: state.value.isAnonymous, 
+                              pluginData: state.value.pluginData, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
@@ -704,6 +706,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               readAccess: state.value.readAccess, 
                               email: state.value.email, 
                               isAnonymous: state.value.isAnonymous, 
+                              pluginData: state.value.pluginData, 
                           )));
                       }
                       if (widget.submitAction != null) {

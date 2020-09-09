@@ -294,3 +294,15 @@ class ChangedMemberIsAnonymous extends MemberFormEvent {
   String toString() => 'ChangedMemberIsAnonymous{ value: $value }';
 }
 
+class ChangedMemberPluginData extends MemberFormEvent {
+  final Map<String, Object> value;
+
+  ChangedMemberPluginData({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberPluginData{ value: $value }';
+}
+

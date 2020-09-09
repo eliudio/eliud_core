@@ -15,8 +15,9 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_core/tools/action_entity.dart';
-import 'package:eliud_core/model/entity_export.dart';
+import 'package:eliud_core/model/member_subscription_entity.dart';
+import 'package:eliud_core/model/country_entity.dart';
+import 'package:eliud_core/model/country_entity.dart';
 
 class MemberEntity {
   final String name;
@@ -38,18 +39,19 @@ class MemberEntity {
   final List<String> readAccess;
   final String email;
   final bool isAnonymous;
-  final Map<String, Object> pluginData;
+  // Added
+  Map<String, Object> pluginData;
 
-  MemberEntity({this.name, this.subscriptions, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, this.pluginData, });
+  MemberEntity({this.name, this.subscriptions, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, this.pluginData});
 
-  List<Object> get props => [name, subscriptions, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, pluginData, ];
+  List<Object> get props => [name, subscriptions, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, pluginData];
 
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous, pluginData: $pluginData}';
+    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
   static MemberEntity fromMap(Map map) {
@@ -59,10 +61,13 @@ class MemberEntity {
         .map((dynamic item) =>
         MemberSubscriptionEntity.fromMap(item as Map))
         .toList();
-    var pluginDataFromMap;
-    pluginDataFromMap = map['pluginData'];
-    if (pluginDataFromMap != null)
-      pluginDataFromMap = (map['pluginData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)));
+    var pluginData;
+    // !!!AFTER!!! added pluginData
+    if (map['pluginData'] != null) {
+      pluginData = (map['pluginData'] as Map<String, dynamic>)
+          .map((key, dynamic item) => MapEntry(key, jsonEncode(item))
+      );
+    }
 
     return MemberEntity(
       name: map['name'], 
@@ -82,9 +87,10 @@ class MemberEntity {
       invoicePostcode: map['invoicePostcode'], 
       invoiceCountryId: map['invoiceCountryId'], 
       readAccess: map['readAccess'] == null ? null : List.from(map['readAccess']), 
-      email: map['email'], 
-      isAnonymous: map['isAnonymous'], 
-      pluginData: pluginDataFromMap, 
+      email: map['email'],
+      isAnonymous: map['isAnonymous'],
+        // !!!AFTER!!! added pluginData
+      pluginData: pluginData
     );
   }
 
@@ -92,7 +98,6 @@ class MemberEntity {
     final List<Map<String, dynamic>> subscriptionsListMap = subscriptions != null 
         ? subscriptions.map((item) => item.toDocument()).toList()
         : null;
-
     Map<String, Object> theDocument = HashMap();
     if (name != null) theDocument["name"] = name;
       else theDocument["name"] = null;
@@ -132,14 +137,14 @@ class MemberEntity {
       else theDocument["email"] = null;
     if (isAnonymous != null) theDocument["isAnonymous"] = isAnonymous;
       else theDocument["isAnonymous"] = null;
+    // !!!AFTER!!! added pluginData
     if (pluginData != null) {
       var myMap = Map();
       pluginData.forEach((key, value) {
         myMap[key] = jsonDecode(value);
       });
-      theDocument['pluginData'] = myMap;
-    } else theDocument['pluginData'] = null;
-
+      theDocument["pluginData"] = myMap;
+    } else theDocument["pluginData"] = null;
     return theDocument;
   }
 
@@ -153,4 +158,3 @@ class MemberEntity {
   }
 
 }
-

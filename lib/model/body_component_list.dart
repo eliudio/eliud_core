@@ -45,12 +45,8 @@ class BodyComponentListWidget extends StatefulWidget with HasFab {
 
   @override
   BodyComponentListWidgetState createState() {
-    if (isEmbedded) {
-      return BodyComponentListWidgetState();
-    } else {
-      state ??= BodyComponentListWidgetState();
-      return state;
-    }
+    state ??= BodyComponentListWidgetState();
+    return state;
   }
 
   Widget fab(BuildContext context) {
