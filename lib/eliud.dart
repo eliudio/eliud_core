@@ -13,7 +13,7 @@ import 'package:eliud_core/model/member_model.dart';
 
 import 'package:eliud_core/model/component_registry.dart';
 
-abstract class Plugin {
+abstract class Package {
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
    */
@@ -47,11 +47,11 @@ abstract class Eliud {
   bool isPlayStore;
   AppModel app;
 
-  void register(Plugin plugin) {
-    GlobalData.registerPlugin(plugin);
+  void register(Package package) {
+    GlobalData.registerPackage(package);
   }
 
-  void initRepositoryRegistryAndPlugins(String appID) {
+  void initRepositoryRegistryAndPackages(String appID) {
     try {
       AbstractPlatform.platform = getPlatform();
       ComponentRegistry().init();
@@ -64,7 +64,7 @@ abstract class Eliud {
               .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
           componentConstructor: MemberProfileConstructorDefault());
 
-      var plugins = GlobalData.registeredPlugins;
+      var plugins = GlobalData.registeredPackages;
       for (var i = 0; i < plugins.length; i++) {
         var plugin = plugins[i];
         plugin.init();

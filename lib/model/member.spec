@@ -167,11 +167,11 @@
       "group": "general"
     },
     {
-      "fieldName": "pluginData",
+      "fieldName": "packageData",
       "fieldType": "bespoke",
       "bespokeFieldType": "Map<String, Object>",
-      "bespokeEntityMapping": "(map['pluginData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)))",
-      "bespokeEntityToDocument" : "    if (pluginData != null) {\n      var myMap = Map();\n      pluginData.forEach((key, value) {\n        myMap[key] = jsonDecode(value);\n      });\n      theDocument['pluginData'] = myMap;\n    } else theDocument['pluginData'] = null;\n"
+      "bespokeEntityMapping": "(map['packageData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)))",
+      "bespokeEntityToDocument" : "    if (packageData != null) {\n      var myMap = Map();\n      packageData.forEach((key, value) {\n        myMap[key] = jsonDecode(value);\n      });\n      theDocument['packageData'] = myMap;\n    } else theDocument['packageData'] = null;\n"
     }
   ],
   "groups": [

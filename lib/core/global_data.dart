@@ -13,10 +13,10 @@ import 'package:eliud_core/eliud.dart';
 class GlobalData {
   static AppModel playStoreApp; // The playstore app. If null, then no playstore app available.
   static AccessState _state = UndeterminedAccessState();
-  static List<Plugin> registeredPlugins = List();
+  static List<Package> registeredPackages = List();
 
-  static void registerPlugin(plugin) {
-    registeredPlugins.add(plugin);
+  static void registerPackage(package) {
+    registeredPackages.add(package);
   }
 
   // Should I add a playstoreApp-app

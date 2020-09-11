@@ -47,7 +47,7 @@ class ApplicationComponent extends StatelessWidget {
         create: (context) => AccessBloc(navigatorBloc)..add(InitApp(applicationID)))
     );
     blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
-    GlobalData.registeredPlugins.forEach((element) {
+    GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc);
       if (provider != null) {
         blocProviders.add(provider);

@@ -131,7 +131,7 @@ class _MyPageFormState extends State<MyPageForm> {
   int _layoutSelectedRadioTile;
   String _gridView;
   int _conditionalSelectedRadioTile;
-  final TextEditingController _pluginConditionController = TextEditingController();
+  final TextEditingController _packageConditionController = TextEditingController();
 
 
   _MyPageFormState(this.formAction);
@@ -145,7 +145,7 @@ class _MyPageFormState extends State<MyPageForm> {
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
     _conditionalSelectedRadioTile = 0;
-    _pluginConditionController.addListener(_onPluginConditionChanged);
+    _packageConditionController.addListener(_onPackageConditionChanged);
   }
 
   @override
@@ -200,10 +200,10 @@ class _MyPageFormState extends State<MyPageForm> {
           _conditionalSelectedRadioTile = state.value.conditional.index;
         else
           _conditionalSelectedRadioTile = 0;
-        if (state.value.pluginCondition != null)
-          _pluginConditionController.text = state.value.pluginCondition.toString();
+        if (state.value.packageCondition != null)
+          _packageConditionController.text = state.value.packageCondition.toString();
         else
-          _pluginConditionController.text = "";
+          _packageConditionController.text = "";
       }
       if (state is PageFormInitialized) {
         List<Widget> children = List();
@@ -504,8 +504,8 @@ class _MyPageFormState extends State<MyPageForm> {
                     value: 3,
                     activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
                     groupValue: _conditionalSelectedRadioTile,
-                    title: Text("PluginDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PluginDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+                    title: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+                    subtitle: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
                     onChanged: !GlobalData.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
@@ -530,7 +530,7 @@ class _MyPageFormState extends State<MyPageForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
 
 
-        if (state.value.conditional == PageCondition.PluginDecides) children.add(Container(
+        if (state.value.conditional == PageCondition.PackageDecides) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Plugin Condition',
@@ -538,20 +538,20 @@ class _MyPageFormState extends State<MyPageForm> {
                           color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.conditional == PageCondition.PluginDecides)) children.add(
+        if ((state.value.conditional == PageCondition.PackageDecides)) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
                   readOnly: _readOnly(state),
-                  controller: _pluginConditionController,
+                  controller: _packageConditionController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
-                    labelText: 'Plugin condition',
+                    labelText: 'Package condition',
                   ),
                   keyboardType: TextInputType.text,
                   autovalidate: true,
                   validator: (_) {
-                    return state is PluginConditionPageFormError ? state.message : null;
+                    return state is PackageConditionPageFormError ? state.message : null;
                   },
                 ),
           );
@@ -583,7 +583,7 @@ class _MyPageFormState extends State<MyPageForm> {
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
                               conditional: state.value.conditional, 
-                              pluginCondition: state.value.pluginCondition, 
+                              packageCondition: state.value.packageCondition, 
                         )));
                       } else {
                         BlocProvider.of<PageListBloc>(context).add(
@@ -600,7 +600,7 @@ class _MyPageFormState extends State<MyPageForm> {
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
                               conditional: state.value.conditional, 
-                              pluginCondition: state.value.pluginCondition, 
+                              packageCondition: state.value.packageCondition, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -719,8 +719,8 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onPluginConditionChanged() {
-    _myFormBloc.add(ChangedPagePluginCondition(value: _pluginConditionController.text));
+  void _onPackageConditionChanged() {
+    _myFormBloc.add(ChangedPagePackageCondition(value: _packageConditionController.text));
   }
 
 
@@ -730,7 +730,7 @@ class _MyPageFormState extends State<MyPageForm> {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
-    _pluginConditionController.dispose();
+    _packageConditionController.dispose();
     super.dispose();
   }
 

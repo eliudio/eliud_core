@@ -34,7 +34,7 @@ enum PageLayout {
 }
 
 enum PageCondition {
-  Always, MustBeLoggedIn, MustNotBeLoggedIn, PluginDecides, AdminOnly, Unknown
+  Always, MustBeLoggedIn, MustNotBeLoggedIn, PackageDecides, AdminOnly, Unknown
 }
 
 
@@ -52,7 +52,7 @@ PageCondition toPageCondition(int index) {
     case 0: return PageCondition.Always;
     case 1: return PageCondition.MustBeLoggedIn;
     case 2: return PageCondition.MustNotBeLoggedIn;
-    case 3: return PageCondition.PluginDecides;
+    case 3: return PageCondition.PackageDecides;
     case 4: return PageCondition.AdminOnly;
   }
   return PageCondition.Unknown;
@@ -76,18 +76,18 @@ class PageModel {
 
   // Page only accessible conditionally
   PageCondition conditional;
-  String pluginCondition;
+  String packageCondition;
 
-  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.background, this.layout, this.gridView, this.conditional, this.pluginCondition, })  {
+  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.background, this.layout, this.gridView, this.conditional, this.packageCondition, })  {
     assert(documentID != null);
   }
 
-  PageModel copyWith({String documentID, String appId, String title, AppBarModel appBar, DrawerModel drawer, DrawerModel endDrawer, HomeMenuModel homeMenu, List<BodyComponentModel> bodyComponents, BackgroundModel background, PageLayout layout, GridViewModel gridView, PageCondition conditional, String pluginCondition, }) {
-    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditional: conditional ?? this.conditional, pluginCondition: pluginCondition ?? this.pluginCondition, );
+  PageModel copyWith({String documentID, String appId, String title, AppBarModel appBar, DrawerModel drawer, DrawerModel endDrawer, HomeMenuModel homeMenu, List<BodyComponentModel> bodyComponents, BackgroundModel background, PageLayout layout, GridViewModel gridView, PageCondition conditional, String packageCondition, }) {
+    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditional: conditional ?? this.conditional, packageCondition: packageCondition ?? this.packageCondition, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditional.hashCode ^ pluginCondition.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditional.hashCode ^ packageCondition.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -106,13 +106,13 @@ class PageModel {
           layout == other.layout &&
           gridView == other.gridView &&
           conditional == other.conditional &&
-          pluginCondition == other.pluginCondition;
+          packageCondition == other.packageCondition;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, pluginCondition: $pluginCondition}';
+    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, packageCondition: $packageCondition}';
   }
 
   PageEntity toEntity() {
@@ -131,7 +131,7 @@ class PageModel {
           layout: (layout != null) ? layout.index : null, 
           gridViewId: (gridView != null) ? gridView.documentID : null, 
           conditional: (conditional != null) ? conditional.index : null, 
-          pluginCondition: (pluginCondition != null) ? pluginCondition : null, 
+          packageCondition: (packageCondition != null) ? packageCondition : null, 
     );
   }
 
@@ -147,7 +147,7 @@ class PageModel {
             .toList(), 
           layout: toPageLayout(entity.layout), 
           conditional: toPageCondition(entity.conditional), 
-          pluginCondition: entity.pluginCondition, 
+          packageCondition: entity.packageCondition, 
     );
   }
 
@@ -224,7 +224,7 @@ class PageModel {
           layout: toPageLayout(entity.layout), 
           gridView: gridViewHolder, 
           conditional: toPageCondition(entity.conditional), 
-          pluginCondition: entity.pluginCondition, 
+          packageCondition: entity.packageCondition, 
     );
   }
 

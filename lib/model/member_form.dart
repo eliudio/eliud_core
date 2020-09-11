@@ -681,7 +681,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               readAccess: state.value.readAccess, 
                               email: state.value.email, 
                               isAnonymous: state.value.isAnonymous, 
-                              pluginData: state.value.pluginData, 
+                              packageData: state.value.packageData, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
@@ -706,7 +706,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               readAccess: state.value.readAccess, 
                               email: state.value.email, 
                               isAnonymous: state.value.isAnonymous, 
-                              pluginData: state.value.pluginData, 
+                              packageData: state.value.packageData, 
                           )));
                       }
                       if (widget.submitAction != null) {

@@ -255,15 +255,15 @@ class ConditionalPageFormError extends PageFormError {
 }
 
 
-class PluginConditionPageFormError extends PageFormError { 
-  const PluginConditionPageFormError({ String message, PageModel value }): super(message: message, value: value);
+class PackageConditionPageFormError extends PageFormError { 
+  const PackageConditionPageFormError({ String message, PageModel value }): super(message: message, value: value);
 
   @override
   List<Object> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''PluginConditionPageFormError {
+    return '''PackageConditionPageFormError {
       value: $value,
       message: $message,
     }''';

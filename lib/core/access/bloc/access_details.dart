@@ -13,10 +13,10 @@ class AccessDetails {
 
   AccessDetails();
   
-  Future<bool> _conditionOkForPlugin(String pluginCondition, AppModel app, MemberModel member, bool isOwner) async {
-    for (var i = 0; i < GlobalData.registeredPlugins.length; i++) {
-      var plg = GlobalData.registeredPlugins[i];
-      var plgOk = await plg.isConditionOk(pluginCondition, app, member, isOwner);
+  Future<bool> _conditionOkForPackage(String packageCondition, AppModel app, MemberModel member, bool isOwner) async {
+    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
+      var plg = GlobalData.registeredPackages[i];
+      var plgOk = await plg.isConditionOk(packageCondition, app, member, isOwner);
       if (plgOk != null) {
         return plgOk;
       }
@@ -24,13 +24,13 @@ class AccessDetails {
     return false;
   }
 
-  Future<bool> _conditionOk(AppModel app, MemberModel member, PageCondition condition, String pluginCondition, bool isOwner) async {
+  Future<bool> _conditionOk(AppModel app, MemberModel member, PageCondition condition, String packageCondition, bool isOwner) async {
     if (condition == null) return true;
     switch (condition) {
       case PageCondition.Always: return true;
       case PageCondition.MustBeLoggedIn: return GlobalData.isLoggedOn();
       case PageCondition.MustNotBeLoggedIn: return !GlobalData.isLoggedOn();
-      case PageCondition.PluginDecides: return await _conditionOkForPlugin(pluginCondition, app, member, isOwner);
+      case PageCondition.PackageDecides: return await _conditionOkForPackage(packageCondition, app, member, isOwner);
       case PageCondition.AdminOnly: return isOwner;
       case PageCondition.Unknown: return true;
     }
@@ -41,7 +41,7 @@ class AccessDetails {
     var theList = await AbstractRepositorySingleton.singleton.pageRepository().valuesList();
     for (int i = 0; i < theList.length; i++) {
       var page = theList[i];
-      pagesAccess[page.documentID] = await _conditionOk(app, member, page.conditional, page.pluginCondition, isOwner);
+      pagesAccess[page.documentID] = await _conditionOk(app, member, page.conditional, page.packageCondition, isOwner);
     }
     return this;
   }
