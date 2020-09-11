@@ -44,7 +44,7 @@ class Router {
       case homeRoute:
         return pageRouteBuilder(page: Registry.registry().page(id: GlobalData.homePage()));
       case justASecond:
-        return pageRouteBuilder(page: justASecondWidget(arguments == null ? null : arguments.mainArgument));
+        return pageRouteBuilder(page: justASecondWidget(arguments == null ? '?' : arguments.mainArgument));
       case pageRoute:
         return pageRouteBuilder(page: Registry.registry().page(id: arguments == null ? null : arguments.mainArgument, parameters: arguments == null ? null : arguments.parameters));
       default:

@@ -52,6 +52,28 @@ abstract class Eliud {
     GlobalData.registerPlugin(plugin);
   }
 
+  void initRepositoryRegistryAndPlugins(String appID) {
+    try {
+      AbstractPlatform.platform = getPlatform();
+      ComponentRegistry().init();
+
+      AbstractPlatform.platform.initRepository(appID);
+
+      // Initialise custom extensions:
+      Registry.registry().register(
+          componentName: MemberProfileConstructorDefault
+              .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
+          componentConstructor: MemberProfileConstructorDefault());
+
+      GlobalData.registeredPlugins.forEach((plugin) {
+        plugin.init();
+        plugin.initRepository(appID);
+      });
+    } catch (error) {
+      print (error);
+    }
+  }
+
   Future<AppModel> _init(String appID) async {
     try {
       AbstractPlatform.platform = getPlatform();
@@ -82,18 +104,15 @@ abstract class Eliud {
     }
   }
 
+  // Run the application wihtout playstore
+  // appId is the application you want to start and therefore not be null.
   // asPlayStore flag allows to run the playstore app where people can use it to switch to other apps, create apps, ....
   // Ones in the other app, then can switch back to thePlayStoreApp
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
-  void init(String appId, bool asPlaystore) async {
+  void run(String appId, bool asPlaystore) async {
     isPlayStore = asPlaystore;
     app = await _init(appId);
-  }
-
-  // Run the application wihtout playstore
-  // appId is the application you want to start and therefore not be null.
-  void run() {
     if (isPlayStore) {
       GlobalData.playStoreApp = app;
       if (GlobalData.playStoreApp != null) {
