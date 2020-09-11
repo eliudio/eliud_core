@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/extensions/member_profile_component.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -65,42 +64,15 @@ abstract class Eliud {
               .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
           componentConstructor: MemberProfileConstructorDefault());
 
-      GlobalData.registeredPlugins.forEach((plugin) {
+      var plugins = GlobalData.registeredPlugins;
+      for (var i = 0; i < plugins.length; i++) {
+        var plugin = plugins[i];
         plugin.init();
         plugin.initRepository(appID);
-      });
-    } catch (error) {
-      print (error);
-    }
-  }
-
-  Future<AppModel> _init(String appID) async {
-    try {
-      AbstractPlatform.platform = getPlatform();
-      ComponentRegistry().init();
-
-      AbstractPlatform.platform.initRepository(appID);
-      var app = await AbstractMainRepositorySingleton.singleton.appRepository()
-          .get(appID);
-      if (app == null) {
-        print('App with appID $appID does not exist');
-        return null;
       }
-      // Initialise custom extensions:
-      Registry.registry().register(
-          componentName: MemberProfileConstructorDefault
-              .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
-          componentConstructor: MemberProfileConstructorDefault());
 
-      GlobalData.registeredPlugins.forEach((plugin) {
-        plugin.init();
-        plugin.initRepository(appID);
-      });
-
-      return app;
     } catch (error) {
       print (error);
-      return null;
     }
   }
 
@@ -112,14 +84,14 @@ abstract class Eliud {
   // An icon will be available in the appBar to go to theMinkeyApp
   void run(String appId, bool asPlaystore) async {
     isPlayStore = asPlaystore;
-    app = await _init(appId);
-    if (isPlayStore) {
-      GlobalData.playStoreApp = app;
-      if (GlobalData.playStoreApp != null) {
-        runApp(Registry.registry().application(id: app.documentID));
-      }
+    app = await AbstractMainRepositorySingleton.singleton.appRepository().get(appId);
+    if (app == null) {
+      print('App with appID $appId does not exist');
     } else {
-      if (app != null) {
+      if (isPlayStore) {
+        GlobalData.playStoreApp = app;
+        runApp(Registry.registry().application(id: app.documentID));
+      } else {
         runApp(Registry.registry().application(id: app.documentID));
       }
     }
