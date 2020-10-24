@@ -44,8 +44,8 @@ abstract class Package {
 }
 
 abstract class Eliud {
-  bool isPlayStore;
-  AppModel app;
+  bool _isPlayStore;
+  AppModel _app;
 
   void register(Package package) {
     GlobalData.registerPackage(package);
@@ -83,16 +83,16 @@ abstract class Eliud {
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
   void run(String appId, bool asPlaystore) async {
-    isPlayStore = asPlaystore;
-    app = await AbstractMainRepositorySingleton.singleton.appRepository().get(appId);
-    if (app == null) {
+    _isPlayStore = asPlaystore;
+    _app = await AbstractMainRepositorySingleton.singleton.appRepository().get(appId);
+    if (_app == null) {
       print('App with appID $appId does not exist');
     } else {
-      if (isPlayStore) {
-        GlobalData.playStoreApp = app;
-        runApp(Registry.registry().application(id: app.documentID));
+      if (_isPlayStore) {
+        GlobalData.playStoreApp = _app;
+        runApp(Registry.registry().application(id: _app.documentID));
       } else {
-        runApp(Registry.registry().application(id: app.documentID));
+        runApp(Registry.registry().application(id: _app.documentID));
       }
     }
   }
