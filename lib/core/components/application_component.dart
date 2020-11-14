@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
@@ -47,8 +48,10 @@ class ApplicationComponent extends StatelessWidget {
         create: (context) => AccessBloc(navigatorBloc)..add(InitApp(applicationID)))
     );
     blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
+
+
     GlobalData.registeredPackages.forEach((element) {
-      var provider = element.createMainBloc(navigatorBloc);
+      var provider = element.createMainBloc(context, navigatorBloc);
       if (provider != null) {
         blocProviders.add(provider);
       }
@@ -56,11 +59,11 @@ class ApplicationComponent extends StatelessWidget {
 
     return MultiBlocProvider(
         providers: blocProviders,
-        child: _app()
+        child: _app(context)
     );
   }
 
-  Widget _app() {
+  Widget _app(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (accessContext, accessState) {
       if (accessState is UndeterminedAccessState) {
@@ -72,7 +75,7 @@ class ApplicationComponent extends StatelessWidget {
           return AlertWidget(title: 'Error', content: 'No access defined');
         } else {
           var app = accessState.app;
-          var router = eliudrouter.Router();
+          var router = eliudrouter.Router(AppBloc.getBloc(context));
           ThemeData darkTheme;
           if ((app.darkOrLight != null) &&
               (app.darkOrLight == DarkOrLight.Dark)) {
@@ -86,7 +89,7 @@ class ApplicationComponent extends StatelessWidget {
             onGenerateRoute: router.generateRoute,
             darkTheme: darkTheme,
             onUnknownRoute: (RouteSettings setting) {
-              return pageRouteBuilder(
+              return pageRouteBuilder(accessState.app,
                   page: AlertWidget(title: 'Error', content: 'Page not found'));
             },
             title: app.title ?? 'No title',

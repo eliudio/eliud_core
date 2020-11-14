@@ -1,22 +1,20 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
-import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:eliud_core/core/access/bloc/access_details.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final NavigatorBloc navigatorBloc;
@@ -26,46 +24,45 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   @override
   Stream<AccessState> mapEventToState(AccessEvent event) async* {
-    // For some reason I can not rely on the state. The state seems correct when : start Minkey > logout > switch to Eliud > Login
-    var theState = GlobalData.state();
+    var theState = state;
     if (event is InitApp) {
       var usr = await AbstractMainRepositorySingleton.singleton.userRepository().currentSignedinUser();
       var app = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
-      yield GlobalData.init(await _mapUsrAndApp(usr, app, null));
+      yield await _mapUsrAndApp(usr, app, null);
     } else if (theState is AccessStateWithDetails) {
       var app = theState.app;
       if (event is MemberUpdated) {
+        /*
         var usr = await AbstractMainRepositorySingleton.singleton
             .userRepository().currentSignedinUser();
-        yield GlobalData.init(await _mapMemberAndApp(usr, event.member, app, null));
+        yield await _mapMemberAndApp(usr, event.member, app, null);
         navigatorBloc.add(GoHome());
+         */
+
+        if (theState is LoggedIn) {
+          yield theState.copyWith(member: event.member);
+        } else {
+          // impossible
+        }
       } else if (event is SwitchAppEvent) {
-        AbstractPlatform.platform.initRepository(event.appId);
-        GlobalData.registeredPackages.forEach((package) {
-          package.initRepository(event.appId);
-        });
         var switchToApp = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
         var usr = await AbstractMainRepositorySingleton.singleton
             .userRepository().currentSignedinUser();
-
         var newState = await _mapUsrAndApp(usr, switchToApp, null);
-        GlobalData.init(newState);
         navigatorBloc.add(GoHome());
-
         yield newState;
       } else if (event is LogoutEvent) {
           await AbstractMainRepositorySingleton.singleton
               .userRepository().signOut();
-          yield GlobalData.init(await _mapUsrAndApp(null, app, null));
+          yield await _mapUsrAndApp(null, app, null);
           navigatorBloc.add(GoHome());
         } else if (event is LoginEvent) {
           try {
             var usr = await AbstractMainRepositorySingleton.singleton
                 .userRepository().signInWithGoogle();
-            AccessState accessState = null;
+            AccessState accessState;
             if (usr != null) {
-              accessState = GlobalData.init(
-                  await _mapUsrAndApp(usr, app, event.actions));
+              accessState = await _mapUsrAndApp(usr, app, event.actions);
             }
             yield accessState;
             if (accessState is LoggedInWithoutMembership) {
@@ -82,10 +79,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
         } else if (event is AcceptedMembership) {
           var member = await _acceptMembership(event.member, app);
-          yield GlobalData.init(await _mapMemberAndApp(event.usr, member, app, null));
+          yield await _mapMemberAndApp(event.usr, member, app, null);
           if (theState is LoggedInWithoutMembership) {
-            if (theState.postLoginAction != null)
+            if (theState.postLoginAction != null) {
               theState.postLoginAction.runTheAction();
+            }
           } else {
             navigatorBloc.add(GoHome());
           }
@@ -96,20 +94,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessState> _mapMemberAndApp(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) async {
-    var details = await AccessDetails().init(member, app);
     if (!isSubscibred(member, app)) {
-      AccessState state = LoggedInWithoutMembership(usr: usr, member: member, app: app, details: details, postLoginAction: postLoginAction);
-      return state;
+      return LoggedInWithoutMembership(usr: usr, member: member, app: app, postLoginAction: postLoginAction);
     } else {
-      return LoggedInWithMembership(usr: usr, member: member, app: app, details: details);
+      return LoggedInWithMembership(usr: usr, member: member, app: app);
     }
 
   }
 
   Future<AccessState> _mapUsrAndApp(FirebaseUser usr, AppModel app, PostLoginAction postLoginAction) async {
     if (usr == null) {
-      var details = await AccessDetails().init(null, app);
-      return LoggedOut(app, details);
+      return LoggedOut(app);
     } else {
       var member = await _firebaseToMemberModel(usr);
       if (member == null) {
@@ -158,6 +153,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return super.close();
   }
 
+  /* Helper functions to get details from the AppState */
+  static AccessBloc getBloc(BuildContext context) {
+    return BlocProvider.of<AccessBloc>(context);
+  }
+
   static bool isSubscibred(MemberModel member, AppModel app) {
     if (member == null) return false;
     if (member.subscriptions == null) return false;
@@ -172,6 +172,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       return state.member;
     }
     return null;
+  }
+
+  static AccessState getState(BuildContext context) {
+    return BlocProvider.of<AccessBloc>(context).state;
   }
 
 }

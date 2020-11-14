@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 abstract class ActionEntity extends Equatable {
+  final String appID;
   final String actionType;
 
-  const ActionEntity({ this.actionType });
+  const ActionEntity(this.appID, { this.actionType });
   Map<String, Object> toJson();
   @override
   List<Object> get props;
@@ -29,7 +30,7 @@ class GotoPageEntity extends ActionEntity {
   static const String label = "GotoPage";
   final String pageID;
 
-  const GotoPageEntity({ this.pageID }) : super(actionType : label);
+  const GotoPageEntity(String appID, { this.pageID }) : super(appID, actionType : label);
 
   Map<String, Object> toJson() {
     return <String, dynamic>{
@@ -53,7 +54,7 @@ class GotoPageEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return GotoPageEntity(
+    return GotoPageEntity(snap["appID"],
         pageID: snap["pageID"]
     );
   }
@@ -61,34 +62,37 @@ class GotoPageEntity extends ActionEntity {
 
 class SwitchAppEntity extends ActionEntity {
   static const String label = "SwitchApp";
-  final String appID;
+  final String toAppID;
 
-  const SwitchAppEntity({ this.appID }) : super(actionType : label);
+  const SwitchAppEntity(String appID, { this.toAppID }) : super(appID, actionType : label);
 
   Map<String, Object> toJson() {
     return <String, dynamic>{
-      "appID": appID
+      "appID": appID,
+      "toAppID": toAppID
     };
   }
 
   @override
-  List<Object> get props => [ appID ];
+  List<Object> get props => [ appID, toAppID ];
 
   @override
   String toString() {
-    return 'SwitchAppEntity { appID: $appID }';
+    return 'SwitchAppEntity { appID: $appID, toAppID: $toAppID }';
   }
 
   Map<String, Object> toDocument() {
     return {
       "actionType": actionType,
+      "toAppID": toAppID,
       "appID": appID
     };
   }
 
   static ActionEntity fromMap(Map snap) {
     return SwitchAppEntity(
-        appID: snap["appID"]
+        snap["appID"],
+        toAppID: snap["toAppID"]
     );
   }
 }
@@ -97,32 +101,35 @@ class PopupMenuEntity extends ActionEntity {
   static const String label = "PopupMenu";
   final String menuDefID;
 
-  const PopupMenuEntity({ this.menuDefID }) : super(actionType : label);
+  const PopupMenuEntity(String appID, { this.menuDefID }) : super(appID, actionType : label);
 
   Map<String, Object> toJson() {
     return <String, dynamic>{
+      "appID": appID,
       "menuDefID": menuDefID
     };
   }
 
   @override
-  List<Object> get props => [ menuDefID ];
+  List<Object> get props => [ appID, menuDefID ];
 
   @override
   String toString() {
-    return 'PopupMenuEntity { menuDefID: $menuDefID }';
+    return 'PopupMenuEntity { appID: $appID, menuDefID: $menuDefID }';
   }
 
   Map<String, Object> toDocument() {
     return {
       "actionType": actionType,
+      "appID": appID,
       "menuDefID": menuDefID
     };
   }
 
   static ActionEntity fromMap(Map snap) {
     return PopupMenuEntity(
-        menuDefID: snap["menuDefID"]
+      snap["appID"],
+      menuDefID: snap["menuDefID"]
     );
   }
 }
@@ -131,10 +138,11 @@ class InternalActionEntity extends ActionEntity {
   static const String label = "InternalAction";
   final String action;
 
-  const InternalActionEntity({ this.action }) : super(actionType: label);
+  const InternalActionEntity(String appID, { this.action }) : super(appID, actionType: label);
 
   Map<String, Object> toJson() {
     return <String, dynamic>{
+      "appID": appID,
       "action": action
     };
   }
@@ -144,25 +152,28 @@ class InternalActionEntity extends ActionEntity {
 
   @override
   String toString() {
-    return 'InternalActionEntity { action: $action }';
+    return 'InternalActionEntity { appID: $appID, action: $action }';
   }
 
   Map<String, Object> toDocument() {
     return {
       "actionType": actionType,
+      "appID": appID,
       "action": action
     };
   }
 
   static ActionEntity fromJson(Map<String, Object> json) {
     return InternalActionEntity(
+      json["appID"] as String,
       action: json["action"] as String,
     );
   }
 
   static ActionEntity fromMap(Map snap) {
     return InternalActionEntity(
-        action: snap["action"]
+      snap["appID"],
+      action: snap["action"]
     );
   }
 }

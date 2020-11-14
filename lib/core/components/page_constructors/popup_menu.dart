@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -14,15 +15,16 @@ import '../page_helper.dart';
 
 class PopupMenuWidget {
   final String currentPage;
+  final AppModel app;
 
-  PopupMenuWidget(this.currentPage);
+  PopupMenuWidget(this.app, this.currentPage);
 
   void openMenu(BuildContext context, PopupMenu popupMenu, RgbModel popupMenuBackgroundColor, RelativeRect position) async {
     MenuDefModel menuDef = popupMenu.menuDef;
     List<PopupMenuItem<int>> popupMenuItems = List();
     int i = 0;
     menuDef.menuItems.forEach((element) {
-      TextStyle style = PageHelper.isActivePage(currentPage, element.action) ? FontTools.textStyle(GlobalData.app().h3) : FontTools.textStyle(GlobalData.app().h4);
+      TextStyle style = PageHelper.isActivePage(currentPage, element.action) ? FontTools.textStyle(app.h3) : FontTools.textStyle(app.h4);
       PopupMenuItem<int> p = PopupMenuItem<int>(value: i, child: Text(element.description, style: style));
       popupMenuItems.add(p);
       i++;

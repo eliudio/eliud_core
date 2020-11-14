@@ -119,8 +119,7 @@ class BackgroundModel {
     return 'BackgroundModel{documentID: $documentID, appId: $appId, comments: $comments, backgroundImage: $backgroundImage, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
   }
 
-  BackgroundEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  BackgroundEntity toEntity(String appId) {
     return BackgroundEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
@@ -129,7 +128,7 @@ class BackgroundModel {
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition.index : null, 
           shadowId: (shadow != null) ? shadow.documentID : null, 
           decorationColors: (decorationColors != null) ? decorationColors
-            .map((item) => item.toEntity())
+            .map((item) => item.toEntity(appId))
             .toList() : null, 
           border: (border != null) ? border : null, 
           admin: (admin != null) ? admin : null, 
@@ -159,7 +158,7 @@ class BackgroundModel {
     ImageModel backgroundImageHolder;
     if (entity.backgroundImageId != null) {
       try {
-        await imageRepository().get(entity.backgroundImageId).then((val) {
+        await imageRepository(appID: entity.appId).get(entity.backgroundImageId).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -168,7 +167,7 @@ class BackgroundModel {
     ShadowModel shadowHolder;
     if (entity.shadowId != null) {
       try {
-        await shadowRepository().get(entity.shadowId).then((val) {
+        await shadowRepository(appID: entity.appId).get(entity.shadowId).then((val) {
           shadowHolder = val;
         }).catchError((error) {});
       } catch (_) {}

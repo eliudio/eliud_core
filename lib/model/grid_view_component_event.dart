@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class GridViewEvent extends Equatable {
+abstract class GridViewComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchGridView extends GridViewEvent {
+class FetchGridViewComponent extends GridViewComponentEvent {
   final String id;
 
-  FetchGridView({ this.id });
+  FetchGridViewComponent({ this.id });
 }
 

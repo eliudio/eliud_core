@@ -14,7 +14,10 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -62,9 +65,12 @@ class PosSizeForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var app = AppBloc.app(context);
+    var accessState = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(
+            create: (context) => PosSizeFormBloc(AppBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePosSizeFormEvent(value: value)),
@@ -73,7 +79,7 @@ class PosSizeForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(
+            create: (context) => PosSizeFormBloc(AppBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePosSizeFormNoLoadEvent(value: value)),
@@ -84,17 +90,17 @@ class PosSizeForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update PosSize", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formAppBarTextColor))),
+                    title: Text("Update PosSize", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add PosSize", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formAppBarTextColor))),
+                    title: Text("Add PosSize", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(
+            create: (context) => PosSizeFormBloc(AppBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePosSizeFormEvent(value: value) : InitialiseNewPosSizeFormEvent())),
@@ -164,6 +170,9 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
   @override
   Widget build(BuildContext context) {
+    var app = AppBloc.app(context);
+    var appState = AppBloc.getState(context);
+    var accessState = AccessBloc.getState(context);
     return BlocBuilder<PosSizeFormBloc, PosSizeFormState>(builder: (context, state) {
       if (state is PosSizeFormUninitialized) return Center(
         child: CircularProgressIndicator(),
@@ -242,17 +251,17 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -266,11 +275,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-                  readOnly: _readOnly(state),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, appState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Name',
                   ),
                   keyboardType: TextInputType.text,
@@ -283,7 +292,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -291,18 +300,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Clip',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -311,11 +320,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -324,11 +333,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -337,11 +346,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -350,11 +359,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -363,11 +372,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -376,11 +385,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -389,11 +398,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 7,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionClip(val);
                     },
                 ),
@@ -401,7 +410,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -409,12 +418,12 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Width and Height',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -422,17 +431,17 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Width when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-                  readOnly: _readOnly(state),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, appState, state),
                   controller: _widthLandscapeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'widthLandscape',
                   ),
                   keyboardType: TextInputType.number,
@@ -445,7 +454,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -453,17 +462,17 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Width when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-                  readOnly: _readOnly(state),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, appState, state),
                   controller: _widthPortraitController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'widthPortrait',
                   ),
                   keyboardType: TextInputType.number,
@@ -476,7 +485,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -484,18 +493,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Width type when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _widthTypeLandscapeSelectedRadioTile,
-                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionWidthTypeLandscape(val);
                     },
                 ),
@@ -504,11 +513,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _widthTypeLandscapeSelectedRadioTile,
-                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionWidthTypeLandscape(val);
                     },
                 ),
@@ -516,7 +525,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -524,18 +533,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Width type when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _widthTypePortraitSelectedRadioTile,
-                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionWidthTypePortrait(val);
                     },
                 ),
@@ -544,11 +553,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _widthTypePortraitSelectedRadioTile,
-                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionWidthTypePortrait(val);
                     },
                 ),
@@ -556,7 +565,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -564,17 +573,17 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Height when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-                  readOnly: _readOnly(state),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, appState, state),
                   controller: _heightLandscapeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'heightLandscape',
                   ),
                   keyboardType: TextInputType.number,
@@ -587,7 +596,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -595,17 +604,17 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Height when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-                  readOnly: _readOnly(state),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, appState, state),
                   controller: _heightPortraitController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'heightPortrait',
                   ),
                   keyboardType: TextInputType.number,
@@ -618,7 +627,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -626,18 +635,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Height type when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _heightTypeLandscapeSelectedRadioTile,
-                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionHeightTypeLandscape(val);
                     },
                 ),
@@ -646,11 +655,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _heightTypeLandscapeSelectedRadioTile,
-                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionHeightTypeLandscape(val);
                     },
                 ),
@@ -658,7 +667,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -666,18 +675,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Height type when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _heightTypePortraitSelectedRadioTile,
-                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionHeightTypePortrait(val);
                     },
                 ),
@@ -686,11 +695,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _heightTypePortraitSelectedRadioTile,
-                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionHeightTypePortrait(val);
                     },
                 ),
@@ -698,7 +707,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -706,18 +715,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Box Fit when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -726,11 +735,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -739,11 +748,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -752,11 +761,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -765,11 +774,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -778,11 +787,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -791,11 +800,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitLandscape(val);
                     },
                 ),
@@ -803,7 +812,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -811,18 +820,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Box Fit when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -831,11 +840,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -844,11 +853,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -857,11 +866,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -870,11 +879,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -883,11 +892,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -896,11 +905,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionFitPortrait(val);
                     },
                 ),
@@ -908,7 +917,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -916,18 +925,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Align when Landscape',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -936,11 +945,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -949,11 +958,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -962,11 +971,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -975,11 +984,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -988,11 +997,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -1001,11 +1010,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -1014,11 +1023,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 7,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -1027,11 +1036,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 8,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypeLandscape(val);
                     },
                 ),
@@ -1039,7 +1048,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -1047,18 +1056,18 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Align when Portrait',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: GlobalData.app().formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1067,11 +1076,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1080,11 +1089,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1093,11 +1102,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1106,11 +1115,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1119,11 +1128,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1132,11 +1141,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1145,11 +1154,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 7,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1158,11 +1167,11 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
                 RadioListTile(
                     value: 8,
-                    activeColor: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
                     groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
-                    onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+                    title: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
                       setSelectionAlignTypePortrait(val);
                     },
                 ),
@@ -1170,13 +1179,13 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
-                  onPressed: _readOnly(state) ? null : () {
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  onPressed: _readOnly(accessState, appState, state) ? null : () {
                     if (state is PosSizeFormError) {
                       return null;
                     } else {
@@ -1229,12 +1238,12 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                       return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(GlobalData.app().formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -1372,8 +1381,8 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
     super.dispose();
   }
 
-  bool _readOnly(PosSizeFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!GlobalData.memberIsOwner());
+  bool _readOnly(AccessState accessState, AppState appState, PosSizeFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
   }
   
 

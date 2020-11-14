@@ -1,28 +1,28 @@
-import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/components/page_helper.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 class AppBarConstructor {
   final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final AppModel app;
+  final AccessState state;
 
-  AppBarConstructor(this.currentPage, this.scaffoldKey);
+  AppBarConstructor(this.app, this.state, this.currentPage, this.scaffoldKey);
 
   Widget _appBarWithButtons(BuildContext context, String theTitle,
       AppBarModel value, List<Widget> buttons, MemberModel member)  {
@@ -30,12 +30,12 @@ class AppBarConstructor {
     Widget part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
       part1 = Text(value.title,
-          style: FontTools.textStyle(GlobalData.app().h1));
+          style: FontTools.textStyle(app.h1));
     } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
       part1 = IconHelper.getIconFromModel(iconModel: value.icon);
     } else if ((value.header == HeaderSelection.Image) &&
         (value.image != null)) {
-      part1 = AbstractPlatform.platform.getImage(
+      part1 = AbstractPlatform.platform.getImage(state,
         height: kToolbarHeight,
         image: value.image,
       );
@@ -46,22 +46,22 @@ class AppBarConstructor {
     } else if (theTitle != null) {
       title = Text(
         theTitle,
-        style:  FontTools.textStyle(GlobalData.app().h1),
+        style:  FontTools.textStyle(app.h1),
       );
-    } else
-      title = Text("No title provided",
-          style:  FontTools.textStyle(GlobalData.app().h1));
+    } else {
+      title = Text('No title provided',
+          style:  FontTools.textStyle(app.h1));
+    }
 
     if (member != null) {
-      String userPhotoUrl = member.photoURL;
+      var userPhotoUrl = member.photoURL;
       Widget profilePhoto;
-      if (userPhotoUrl != null)
+      if (userPhotoUrl != null) {
         profilePhoto = AbstractPlatform.platform
           .getImageFromURL(url: userPhotoUrl);
-      if (profilePhoto == null) {
-        profilePhoto = Icon(Icons.person_outline,
-            color: value.iconColor != null ? RgbHelper.color(rgbo: value.iconColor) : null);
       }
+      profilePhoto ??= Icon(Icons.person_outline,
+            color: value.iconColor != null ? RgbHelper.color(rgbo: value.iconColor) : null);
       buttons.add(
         IconButton(
           icon: CircleAvatar(
@@ -77,22 +77,22 @@ class AppBarConstructor {
       );
     }
 
-    IconThemeData iconThemeData =
-        new IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
+    var iconThemeData =
+        IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
 
     return AppBar(
         iconTheme: iconThemeData,
         title: title,
         actions: buttons,
         flexibleSpace: Container(
-            decoration: BoxDecorationHelper.boxDecoration(value.background)));
+            decoration: BoxDecorationHelper.boxDecoration(state, value.background)));
   }
 
   void _addPlayStoreButton(
       BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
-    String playStoreApp = GlobalData.addPlayStoreApp(app);
+    var playStoreApp = AppBloc.addPlayStoreApp(context);
     if (playStoreApp != null) {
-      ActionModel action = SwitchApp(appID: playStoreApp);
+      ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
 
       buttons.add(FutureBuilder<AppModel>(
           future: AbstractMainRepositorySingleton.singleton
@@ -116,46 +116,49 @@ class AppBarConstructor {
 
   Widget appBar(
       BuildContext context, String theTitle, AppBarModel value) {
-    /*return BlocBuilder<PluggableBloc, PluggableState>(builder: (context, state) {*/
-      AppModel app = GlobalData.app();
-      MemberModel member = GlobalData.member();
-      AccessDetails accessDetails = GlobalData.details();
-      if ((value.iconMenu != null) &&
-          (value.iconMenu.menuItems != null) &&
-          value.iconMenu.menuItems.length > 0) {
-        List<Widget> buttons = new List();
-        if (value.iconMenu != null) {
-          value.iconMenu.menuItems.forEach((item) {
-            if (accessDetails.hasAccess(item))
-              _addButton(context, value, buttons, item, member, accessDetails);
-          });
+      var theState = state;
+      if (theState is AccessStateWithDetails) {
+        var member = (theState is LoggedIn) ? theState.member : null;
+        if ((value.iconMenu != null) &&
+            (value.iconMenu.menuItems != null) &&
+            value.iconMenu.menuItems.isNotEmpty) {
+          var buttons = <Widget>[];
+          if (value.iconMenu != null) {
+            value.iconMenu.menuItems.forEach((item) {
+              if (theState.hasAccess(item)) {
+                _addButton(
+                    context, value, buttons, item, member);
+              }
+            });
+          }
+
+          _addPlayStoreButton(context, buttons, value, app);
+          return _appBarWithButtons(context, theTitle, value, buttons, member);
+        } else {
+          var buttons = <Widget>[];
+          _addPlayStoreButton(context, buttons, value, app);
+          return _appBarWithButtons(context, theTitle, value, buttons, member);
         }
-        
-        _addPlayStoreButton(context, buttons, value, app);
-        return _appBarWithButtons(context, theTitle, value, buttons, member);
       } else {
-        List<Widget> buttons = new List();
-        _addPlayStoreButton(context, buttons, value, app);
-        return _appBarWithButtons(context, theTitle, value, buttons, member);
+        return null;
       }
-//    });
   }
 
   void _addButton(BuildContext context, AppBarModel value, List<Widget> buttons,
-      MenuItemModel item, MemberModel member, AccessDetails accessDetails) {
-    bool isActive = PageHelper.isActivePage(currentPage, item.action);
-    Color _color = isActive
+      MenuItemModel item, MemberModel member) {
+    var isActive = PageHelper.isActivePage(currentPage, item.action);
+    var _color = isActive
         ? RgbHelper.color(rgbo: value.selectedIconColor)
         : RgbHelper.color(rgbo: value.iconColor);
 
 
-    RgbModel _rgbcolor = isActive
+    var _rgbcolor = isActive
             ? value.selectedIconColor
             : value.iconColor;
 
-    ActionModel action = item.action;
+    var action = item.action;
     if (action is PopupMenu) {
-      Widget popupMenu = PopupHelper(currentPage, member, accessDetails).popupMenuButton(
+      var popupMenu = PopupHelper(app, state, currentPage, member).popupMenuButton(
           context,
           action.menuDef,
           Text(item.text),
@@ -164,20 +167,22 @@ class AppBarConstructor {
               : IconHelper.getIconFromModel(
                   iconModel: item.icon, color: _rgbcolor),
           value.menuBackgroundColor);
-      if (popupMenu != null)
+      if (popupMenu != null) {
         buttons.add(Theme(
             data: Theme.of(context).copyWith(
               cardColor: RgbHelper.color(rgbo: value.menuBackgroundColor),
             ),
             child: popupMenu));
+      }
     } else {
       if (item.icon != null) {
         buttons.add(IconButton(
           icon: IconHelper.getIconFromModel(iconModel: item.icon),
           color: _color,
           onPressed: () {
-            if (!PageHelper.isActivePage(currentPage, item.action))
+            if (!PageHelper.isActivePage(currentPage, item.action)) {
               eliudrouter.Router.navigateTo(context, item.action);
+            }
           },
         ));
       } else {
@@ -185,16 +190,17 @@ class AppBarConstructor {
         buttons.add(Center(
             child: OutlineButton(
           padding: EdgeInsets.all(10.0),
-          child: Text("${item.text}",
-              style: FontTools.textStyle(GlobalData.app().h5)),
+          child: Text('${item.text}',
+              style: FontTools.textStyle(app.h5)),
           onPressed: () {
-            if (!PageHelper.isActivePage(currentPage, item.action))
+            if (!PageHelper.isActivePage(currentPage, item.action)) {
               eliudrouter.Router.navigateTo(context, item.action);
+            }
           },
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0)),
           borderSide:
-              BorderSide(color: FontTools.textStyle(GlobalData.app().h4).color),
+              BorderSide(color: FontTools.textStyle(app.h4).color),
         )));
       }
     }

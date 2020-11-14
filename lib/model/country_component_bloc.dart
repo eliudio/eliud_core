@@ -20,28 +20,28 @@ import 'package:eliud_core/model/country_model.dart';
 import 'package:eliud_core/model/country_component_event.dart';
 import 'package:eliud_core/model/country_component_state.dart';
 import 'package:eliud_core/model/country_repository.dart';
-class CountryBloc extends Bloc<CountryEvent, CountryState> {
+class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentState> {
   final CountryRepository countryRepository;
 
-  CountryBloc({ this.countryRepository }): super(CountryUninitialized());
+  CountryComponentBloc({ this.countryRepository }): super(CountryComponentUninitialized());
   @override
-  Stream<CountryState> mapEventToState(CountryEvent event) async* {
+  Stream<CountryComponentState> mapEventToState(CountryComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchCountry) {
+    if (event is FetchCountryComponent) {
       try {
-        if (currentState is CountryUninitialized) {
+        if (currentState is CountryComponentUninitialized) {
           final CountryModel model = await _fetchCountry(event.id);
 
           if (model != null) {
-            yield CountryLoaded(value: model);
+            yield CountryComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield CountryError(message: "Country with id = '$id' not found");
+            yield CountryComponentError(message: "Country with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield CountryError(message: "Unknown error whilst retrieving Country");
+        yield CountryComponentError(message: "Unknown error whilst retrieving Country");
       }
     }
   }

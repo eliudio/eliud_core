@@ -38,10 +38,10 @@ import 'package:eliud_core/model/font_form_state.dart';
 import 'package:eliud_core/model/font_repository.dart';
 
 class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
-  final FontRepository _fontRepository = fontRepository();
   final FormAction formAction;
+  final String appId;
 
-  FontFormBloc({ this.formAction }): super(FontFormUninitialized());
+  FontFormBloc(this.appId, { this.formAction }): super(FontFormUninitialized());
   @override
   Stream<FontFormState> mapEventToState(FontFormEvent event) async* {
     final currentState = state;
@@ -63,7 +63,7 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
 
       if (event is InitialiseFontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        FontFormLoaded loaded = FontFormLoaded(value: await _fontRepository.get(event.value.documentID));
+        FontFormLoaded loaded = FontFormLoaded(value: await fontRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseFontFormNoLoadEvent) {
@@ -133,7 +133,7 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
   Future<FontFormState> _isDocumentIDValid(String value, FontModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<FontModel> findDocument = _fontRepository.get(value);
+    Future<FontModel> findDocument = fontRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableFontForm(value: newValue);

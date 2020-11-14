@@ -20,28 +20,28 @@ import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/font_component_event.dart';
 import 'package:eliud_core/model/font_component_state.dart';
 import 'package:eliud_core/model/font_repository.dart';
-class FontBloc extends Bloc<FontEvent, FontState> {
+class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
   final FontRepository fontRepository;
 
-  FontBloc({ this.fontRepository }): super(FontUninitialized());
+  FontComponentBloc({ this.fontRepository }): super(FontComponentUninitialized());
   @override
-  Stream<FontState> mapEventToState(FontEvent event) async* {
+  Stream<FontComponentState> mapEventToState(FontComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchFont) {
+    if (event is FetchFontComponent) {
       try {
-        if (currentState is FontUninitialized) {
+        if (currentState is FontComponentUninitialized) {
           final FontModel model = await _fetchFont(event.id);
 
           if (model != null) {
-            yield FontLoaded(value: model);
+            yield FontComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield FontError(message: "Font with id = '$id' not found");
+            yield FontComponentError(message: "Font with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield FontError(message: "Unknown error whilst retrieving Font");
+        yield FontComponentError(message: "Unknown error whilst retrieving Font");
       }
     }
   }

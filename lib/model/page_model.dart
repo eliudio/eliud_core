@@ -115,8 +115,7 @@ class PageModel {
     return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, packageCondition: $packageCondition}';
   }
 
-  PageEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  PageEntity toEntity(String appId) {
     return PageEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -125,7 +124,7 @@ class PageModel {
           endDrawerId: (endDrawer != null) ? endDrawer.documentID : null, 
           homeMenuId: (homeMenu != null) ? homeMenu.documentID : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
-            .map((item) => item.toEntity())
+            .map((item) => item.toEntity(appId))
             .toList() : null, 
           backgroundId: (background != null) ? background.documentID : null, 
           layout: (layout != null) ? layout.index : null, 
@@ -157,7 +156,7 @@ class PageModel {
     AppBarModel appBarHolder;
     if (entity.appBarId != null) {
       try {
-        await appBarRepository().get(entity.appBarId).then((val) {
+        await appBarRepository(appID: entity.appId).get(entity.appBarId).then((val) {
           appBarHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -166,7 +165,7 @@ class PageModel {
     DrawerModel drawerHolder;
     if (entity.drawerId != null) {
       try {
-        await drawerRepository().get(entity.drawerId).then((val) {
+        await drawerRepository(appID: entity.appId).get(entity.drawerId).then((val) {
           drawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -175,7 +174,7 @@ class PageModel {
     DrawerModel endDrawerHolder;
     if (entity.endDrawerId != null) {
       try {
-        await drawerRepository().get(entity.endDrawerId).then((val) {
+        await drawerRepository(appID: entity.appId).get(entity.endDrawerId).then((val) {
           endDrawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -184,7 +183,7 @@ class PageModel {
     HomeMenuModel homeMenuHolder;
     if (entity.homeMenuId != null) {
       try {
-        await homeMenuRepository().get(entity.homeMenuId).then((val) {
+        await homeMenuRepository(appID: entity.appId).get(entity.homeMenuId).then((val) {
           homeMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -193,7 +192,7 @@ class PageModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository().get(entity.backgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -202,7 +201,7 @@ class PageModel {
     GridViewModel gridViewHolder;
     if (entity.gridViewId != null) {
       try {
-        await gridViewRepository().get(entity.gridViewId).then((val) {
+        await gridViewRepository(appID: entity.appId).get(entity.gridViewId).then((val) {
           gridViewHolder = val;
         }).catchError((error) {});
       } catch (_) {}

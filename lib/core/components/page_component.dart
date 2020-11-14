@@ -1,4 +1,6 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -10,7 +12,6 @@ import 'package:eliud_core/core/components/page_constructors/bottom_navigation_b
 import 'package:eliud_core/core/components/page_constructors/drawer_constructor.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 
-import 'package:eliud_core/tools/registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 
 import 'package:eliud_core/model/body_component_model.dart';
@@ -18,6 +19,7 @@ import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,36 +53,38 @@ class PageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var accessState = BlocProvider.of<AccessBloc>(context).state;
+    var app = AppBloc.app(context);
     return MultiBlocProvider(
         providers: [
-          BlocProvider<PageBloc>(
-            create: (context) => PageBloc(
+          BlocProvider<PageComponentBloc>(
+            create: (context) => PageComponentBloc(
                 pageRepository:
-                    AbstractRepositorySingleton.singleton.pageRepository())
-              ..add(FetchPage(id: pageID)),
+                    AbstractRepositorySingleton.singleton.pageRepository(app.documentID))
+              ..add(FetchPageComponent(id: pageID)),
           ),
         ],
-        child: BlocBuilder<PageBloc, PageState>(builder: (context, state) {
-          if (state is PageLoaded) {
+        child: BlocBuilder<PageComponentBloc, PageComponentState>(builder: (context, state) {
+          if (state is PageComponentLoaded) {
             if (state.value == null) {
               return AlertWidget(title: 'Error', content: 'No page defined');
             } else {
               Widget theBody;
-              if (GlobalData.forceAcceptMembership()) {
+              if ((accessState is LoggedIn) && (accessState.forceAcceptMembership())) {
                 theBody = AcceptMembershipWidget(
-                    GlobalData.app(), GlobalData.member(), GlobalData.usr());
+                    app, accessState.member, accessState.usr);
               } else {
-                theBody = _body(context,
+                theBody = _body(context, accessState,
                     backgroundDecoration: state.value.background,
                     componentModels: state.value.bodyComponents,
                     pageModel: state.value);
               }
 
-              var drawer = DrawerConstructor(pageID)
+              var drawer = DrawerConstructor(app, accessState, pageID)
                   .drawer(context, state.value.drawer);
-              var endDrawer = DrawerConstructor(pageID)
+              var endDrawer = DrawerConstructor(app, accessState, pageID)
                   .drawer(context, state.value.endDrawer);
-              var appBar = AppBarConstructor(pageID, _scaffoldKey)
+              var appBar = AppBarConstructor(app, accessState, pageID, _scaffoldKey)
                   .appBar(context, state.value.title, state.value.appBar);
               return Scaffold(
                 key: _scaffoldKey,
@@ -93,11 +97,11 @@ class PageComponent extends StatelessWidget {
                 floatingActionButton: hasFab != null ? hasFab.fab(context) : null,
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 bottomNavigationBar: BottomNavigationBarConstructor(pageID)
-                    .bottomNavigationBar(
+                    .bottomNavigationBar(app,
                         context, state.value.homeMenu, state.value.background),
               );
             }
-          } else if (state is PageError) {
+          } else if (state is PageComponentError) {
             return AlertWidget(title: 'Error', content: state.message);
           } else {
             return Center(
@@ -108,6 +112,7 @@ class PageComponent extends StatelessWidget {
   }
 
   Widget _body(BuildContext context,
+      AccessState accessState,
       {BackgroundModel backgroundDecoration,
       List<BodyComponentModel> componentModels,
       PageModel pageModel}) {
@@ -128,7 +133,7 @@ class PageComponent extends StatelessWidget {
           return Stack(
             children: <Widget>[
               Container(
-                decoration: BoxDecorationHelper.boxDecoration(backgroundDecoration),
+                decoration: BoxDecorationHelper.boxDecoration(accessState, backgroundDecoration),
               ),
               _container(context, components, pageModel)
             ],

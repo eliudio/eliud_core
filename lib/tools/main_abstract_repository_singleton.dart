@@ -4,18 +4,19 @@ import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/image_repository.dart';
 
-ImageRepository imageRepository() => AbstractMainRepositorySingleton.singleton.imageRepository();
-UserRepository userRepository() => AbstractMainRepositorySingleton.singleton.userRepository();
-AppRepository appRepository() => AbstractMainRepositorySingleton.singleton.appRepository();
+// to keep the generated code simple, these repository methods allow to specify the appID, although they're ignored
+ImageRepository imageRepository({String appID}) => AbstractMainRepositorySingleton.singleton.imageRepository(appID);
+UserRepository userRepository({String appID}) => AbstractMainRepositorySingleton.singleton.userRepository();
+AppRepository appRepository({String appID}) => AbstractMainRepositorySingleton.singleton.appRepository();
 
 abstract class AbstractMainRepositorySingleton {
   static AbstractMainRepositorySingleton singleton;
 
-  ImageRepository imageRepository();
+  ImageRepository imageRepository(String appId);
   UserRepository userRepository();
   AppRepository appRepository();
 
-  void flush() {
-    imageRepository().flush();
+  void flush(String appId) {
+    imageRepository(appId).flush();
   }
 }

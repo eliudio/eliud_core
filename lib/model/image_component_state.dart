@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/image_model.dart';
 
-abstract class ImageState extends Equatable {
-  const ImageState();
+abstract class ImageComponentState extends Equatable {
+  const ImageComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class ImageUninitialized extends ImageState {}
+class ImageComponentUninitialized extends ImageComponentState {}
 
-class ImageError extends ImageState {
+class ImageComponentError extends ImageComponentState {
   final String message;
-  ImageError({ this.message });
+  ImageComponentError({ this.message });
 }
 
-class ImageLoaded extends ImageState {
+class ImageComponentLoaded extends ImageComponentState {
   final ImageModel value;
 
-  const ImageLoaded({ this.value });
+  const ImageComponentLoaded({ this.value });
 
-  ImageLoaded copyWith({ ImageModel copyThis }) {
-    return ImageLoaded(value: copyThis ?? this.value);
+  ImageComponentLoaded copyWith({ ImageModel copyThis }) {
+    return ImageComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'ImageModelLoaded { value: $value }';
+  String toString() => 'ImageComponentLoaded { value: $value }';
 }
 
 

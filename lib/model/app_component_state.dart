@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_model.dart';
 
-abstract class AppState extends Equatable {
-  const AppState();
+abstract class AppComponentState extends Equatable {
+  const AppComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class AppUninitialized extends AppState {}
+class AppComponentUninitialized extends AppComponentState {}
 
-class AppError extends AppState {
+class AppComponentError extends AppComponentState {
   final String message;
-  AppError({ this.message });
+  AppComponentError({ this.message });
 }
 
-class AppLoaded extends AppState {
+class AppComponentLoaded extends AppComponentState {
   final AppModel value;
 
-  const AppLoaded({ this.value });
+  const AppComponentLoaded({ this.value });
 
-  AppLoaded copyWith({ AppModel copyThis }) {
-    return AppLoaded(value: copyThis ?? this.value);
+  AppComponentLoaded copyWith({ AppModel copyThis }) {
+    return AppComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'AppModelLoaded { value: $value }';
+  String toString() => 'AppComponentLoaded { value: $value }';
 }
 
 

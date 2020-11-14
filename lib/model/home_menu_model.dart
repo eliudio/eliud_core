@@ -68,15 +68,14 @@ class HomeMenuModel {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColor: $iconColor, background: $background, popupMenuBackgroundColor: $popupMenuBackgroundColor}';
   }
 
-  HomeMenuEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  HomeMenuEntity toEntity(String appId) {
     return HomeMenuEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           menuId: (menu != null) ? menu.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity() : null, 
+          iconColor: (iconColor != null) ? iconColor.toEntity(appId) : null, 
           backgroundId: (background != null) ? background.documentID : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity() : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId) : null, 
     );
   }
 
@@ -99,7 +98,7 @@ class HomeMenuModel {
     MenuDefModel menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository().get(entity.menuId).then((val) {
+        await menuDefRepository(appID: entity.appId).get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -108,7 +107,7 @@ class HomeMenuModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository().get(entity.backgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

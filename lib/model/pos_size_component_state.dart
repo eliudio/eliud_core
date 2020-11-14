@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 
-abstract class PosSizeState extends Equatable {
-  const PosSizeState();
+abstract class PosSizeComponentState extends Equatable {
+  const PosSizeComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class PosSizeUninitialized extends PosSizeState {}
+class PosSizeComponentUninitialized extends PosSizeComponentState {}
 
-class PosSizeError extends PosSizeState {
+class PosSizeComponentError extends PosSizeComponentState {
   final String message;
-  PosSizeError({ this.message });
+  PosSizeComponentError({ this.message });
 }
 
-class PosSizeLoaded extends PosSizeState {
+class PosSizeComponentLoaded extends PosSizeComponentState {
   final PosSizeModel value;
 
-  const PosSizeLoaded({ this.value });
+  const PosSizeComponentLoaded({ this.value });
 
-  PosSizeLoaded copyWith({ PosSizeModel copyThis }) {
-    return PosSizeLoaded(value: copyThis ?? this.value);
+  PosSizeComponentLoaded copyWith({ PosSizeModel copyThis }) {
+    return PosSizeComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'PosSizeModelLoaded { value: $value }';
+  String toString() => 'PosSizeComponentLoaded { value: $value }';
 }
 
 

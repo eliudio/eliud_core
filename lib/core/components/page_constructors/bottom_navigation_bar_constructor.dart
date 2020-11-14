@@ -1,10 +1,10 @@
-import 'package:eliud_core/core/access/bloc/access_details.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
 import 'package:eliud_core/core/components/page_helper.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
@@ -18,9 +18,10 @@ class BottomNavigationBarConstructor {
 
   BottomNavigationBarConstructor(this.currentPage);
 
-  Widget bottomNavigationBar(
-          BuildContext context, HomeMenuModel homeMenu, BackgroundModel bg) =>
+  Widget bottomNavigationBar(AppModel app, BuildContext context,
+          HomeMenuModel homeMenu, BackgroundModel bg) =>
       BottomNavigationBarWidget(
+        app: app,
         homeMenu: homeMenu,
         bg: bg,
         currentPage: currentPage,
@@ -31,9 +32,11 @@ class BottomNavigationBarWidget extends StatefulWidget {
   final String currentPage;
   final HomeMenuModel homeMenu;
   final BackgroundModel bg;
+  final AppModel app;
+  final AccessState state;
 
   const BottomNavigationBarWidget(
-      {Key key, this.homeMenu, this.bg, this.currentPage})
+      {Key key, this.app, this.state, this.homeMenu, this.bg, this.currentPage})
       : super(key: key);
 
   @override
@@ -42,21 +45,22 @@ class BottomNavigationBarWidget extends StatefulWidget {
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  @override
   Widget build(BuildContext context) {
-    //return BlocBuilder<PluggableBloc, PluggableState>(builder: (context, state) {
-      AccessDetails details = GlobalData.details();
-      if (widget.homeMenu == null) return null;
+    if (widget.homeMenu == null) return null;
+    var theState = widget.state;
+    if (theState is AccessStateWithDetails) {
       List<MenuItemModel> menuItems = List();
       for (int i = 0; i < widget.homeMenu.menu.menuItems.length; i++) {
         MenuItemModel item = widget.homeMenu.menu.menuItems[i];
-        if (details.hasAccess(item)) menuItems.add(item);
+        if (theState.hasAccess(item)) menuItems.add(item);
       }
       if (menuItems.length < 2)
         return Container(height: 1.0);
-      else
+      else {
         return Container(
-            decoration:
-                BoxDecorationHelper.boxDecoration(widget.homeMenu.background),
+            decoration: BoxDecorationHelper.boxDecoration(
+                widget.state, widget.homeMenu.background),
             child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.transparent,
@@ -64,7 +68,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                   MenuItemModel item = menuItems[index];
                   ActionModel action = item.action;
                   if (action is PopupMenu) {
-                    await PopupMenuWidget(widget.currentPage).openMenu(
+                    await PopupMenuWidget(widget.app, widget.currentPage)
+                        .openMenu(
                       context,
                       action,
                       widget.homeMenu.popupMenuBackgroundColor,
@@ -80,8 +85,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 items: menuItems.map((item) {
                   TextStyle style =
                       PageHelper.isActivePage(widget.currentPage, item.action)
-                          ? FontTools.textStyle(GlobalData.app().h3)
-                          : FontTools.textStyle(GlobalData.app().h4);
+                          ? FontTools.textStyle(widget.app.h3)
+                          : FontTools.textStyle(widget.app.h4);
                   return BottomNavigationBarItem(
                     title: Text(
                       item.text,
@@ -91,6 +96,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                         iconModel: item.icon, color: style.color),
                   );
                 }).toList()));
-//    });
+      }
+    } else {
+      return Text("Error constructing buttom navigation widget");
+    }
   }
 }

@@ -38,13 +38,10 @@ import 'package:eliud_core/model/app_bar_form_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 
 class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
-  final AppBarRepository _appBarRepository = appBarRepository();
   final FormAction formAction;
-  final ImageRepository _imageRepository = imageRepository();
-  final MenuDefRepository _menuDefRepository = menuDefRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
+  final String appId;
 
-  AppBarFormBloc({ this.formAction }): super(AppBarFormUninitialized());
+  AppBarFormBloc(this.appId, { this.formAction }): super(AppBarFormUninitialized());
   @override
   Stream<AppBarFormState> mapEventToState(AppBarFormEvent event) async* {
     final currentState = state;
@@ -67,7 +64,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
 
       if (event is InitialiseAppBarFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppBarFormLoaded loaded = AppBarFormLoaded(value: await _appBarRepository.get(event.value.documentID));
+        AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppBarFormNoLoadEvent) {
@@ -107,7 +104,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(image: await _imageRepository.get(event.value));
+          newValue = currentState.value.copyWith(image: await imageRepository(appID: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -128,7 +125,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarIconMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(iconMenu: await _menuDefRepository.get(event.value));
+          newValue = currentState.value.copyWith(iconMenu: await menuDefRepository(appID: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -149,7 +146,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -195,7 +192,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
   Future<AppBarFormState> _isDocumentIDValid(String value, AppBarModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<AppBarModel> findDocument = _appBarRepository.get(value);
+    Future<AppBarModel> findDocument = appBarRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableAppBarForm(value: newValue);

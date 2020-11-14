@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class MenuDefJsFirestore implements MenuDefRepository {
   Future<MenuDefModel> add(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
 
   Future<MenuDefModel> update(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

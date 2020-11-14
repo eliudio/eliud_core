@@ -15,6 +15,7 @@
 
 
 import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -303,20 +304,20 @@ class ListComponent extends StatelessWidget with HasFab {
   @override
   Widget build(BuildContext context) {
 
-    if (componentId == 'apps') return _appBuild();
-    if (componentId == 'appBars') return _appBarBuild();
-    if (componentId == 'backgrounds') return _backgroundBuild();
-    if (componentId == 'countrys') return _countryBuild();
-    if (componentId == 'drawers') return _drawerBuild();
-    if (componentId == 'fonts') return _fontBuild();
-    if (componentId == 'gridViews') return _gridViewBuild();
-    if (componentId == 'homeMenus') return _homeMenuBuild();
-    if (componentId == 'images') return _imageBuild();
-    if (componentId == 'members') return _memberBuild();
-    if (componentId == 'menuDefs') return _menuDefBuild();
-    if (componentId == 'pages') return _pageBuild();
-    if (componentId == 'posSizes') return _posSizeBuild();
-    if (componentId == 'shadows') return _shadowBuild();
+    if (componentId == 'apps') return _appBuild(context);
+    if (componentId == 'appBars') return _appBarBuild(context);
+    if (componentId == 'backgrounds') return _backgroundBuild(context);
+    if (componentId == 'countrys') return _countryBuild(context);
+    if (componentId == 'drawers') return _drawerBuild(context);
+    if (componentId == 'fonts') return _fontBuild(context);
+    if (componentId == 'gridViews') return _gridViewBuild(context);
+    if (componentId == 'homeMenus') return _homeMenuBuild(context);
+    if (componentId == 'images') return _imageBuild(context);
+    if (componentId == 'members') return _memberBuild(context);
+    if (componentId == 'menuDefs') return _menuDefBuild(context);
+    if (componentId == 'pages') return _pageBuild(context);
+    if (componentId == 'posSizes') return _posSizeBuild(context);
+    if (componentId == 'shadows') return _shadowBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -337,7 +338,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'shadows') widget = ShadowListWidget();
   }
 
-  Widget _appBuild() {
+  Widget _appBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListBloc>(
@@ -350,12 +351,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _appBarBuild() {
+  Widget _appBarBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(),
+            appBarRepository: appBarRepository(appID: AppBloc.appId(context)),
           )..add(LoadAppBarList()),
         )
       ],
@@ -363,12 +364,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _backgroundBuild() {
+  Widget _backgroundBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(),
+            backgroundRepository: backgroundRepository(appID: AppBloc.appId(context)),
           )..add(LoadBackgroundList()),
         )
       ],
@@ -376,7 +377,7 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _countryBuild() {
+  Widget _countryBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CountryListBloc>(
@@ -389,12 +390,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _drawerBuild() {
+  Widget _drawerBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(),
+            drawerRepository: drawerRepository(appID: AppBloc.appId(context)),
           )..add(LoadDrawerList()),
         )
       ],
@@ -402,12 +403,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _fontBuild() {
+  Widget _fontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository(),
+            fontRepository: fontRepository(appID: AppBloc.appId(context)),
           )..add(LoadFontList()),
         )
       ],
@@ -415,12 +416,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _gridViewBuild() {
+  Widget _gridViewBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(),
+            gridViewRepository: gridViewRepository(appID: AppBloc.appId(context)),
           )..add(LoadGridViewList()),
         )
       ],
@@ -428,12 +429,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _homeMenuBuild() {
+  Widget _homeMenuBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(),
+            homeMenuRepository: homeMenuRepository(appID: AppBloc.appId(context)),
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -441,12 +442,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _imageBuild() {
+  Widget _imageBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ImageListBloc>(
           create: (context) => ImageListBloc(
-            imageRepository: imageRepository(),
+            imageRepository: imageRepository(appID: AppBloc.appId(context)),
           )..add(LoadImageList()),
         )
       ],
@@ -454,7 +455,7 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _memberBuild() {
+  Widget _memberBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MemberListBloc>(
@@ -467,12 +468,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _menuDefBuild() {
+  Widget _menuDefBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(),
+            menuDefRepository: menuDefRepository(appID: AppBloc.appId(context)),
           )..add(LoadMenuDefList()),
         )
       ],
@@ -480,12 +481,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _pageBuild() {
+  Widget _pageBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(),
+            pageRepository: pageRepository(appID: AppBloc.appId(context)),
           )..add(LoadPageList()),
         )
       ],
@@ -493,12 +494,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _posSizeBuild() {
+  Widget _posSizeBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(),
+            posSizeRepository: posSizeRepository(appID: AppBloc.appId(context)),
           )..add(LoadPosSizeList()),
         )
       ],
@@ -506,12 +507,12 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _shadowBuild() {
+  Widget _shadowBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(),
+            shadowRepository: shadowRepository(appID: AppBloc.appId(context)),
           )..add(LoadShadowList()),
         )
       ],
@@ -535,25 +536,25 @@ class DropdownButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (componentId == 'apps') return _appBuild();
-    if (componentId == 'appBars') return _appBarBuild();
-    if (componentId == 'backgrounds') return _backgroundBuild();
-    if (componentId == 'countrys') return _countryBuild();
-    if (componentId == 'drawers') return _drawerBuild();
-    if (componentId == 'fonts') return _fontBuild();
-    if (componentId == 'gridViews') return _gridViewBuild();
-    if (componentId == 'homeMenus') return _homeMenuBuild();
-    if (componentId == 'images') return _imageBuild();
-    if (componentId == 'members') return _memberBuild();
-    if (componentId == 'menuDefs') return _menuDefBuild();
-    if (componentId == 'pages') return _pageBuild();
-    if (componentId == 'posSizes') return _posSizeBuild();
-    if (componentId == 'shadows') return _shadowBuild();
+    if (componentId == 'apps') return _appBuild(context);
+    if (componentId == 'appBars') return _appBarBuild(context);
+    if (componentId == 'backgrounds') return _backgroundBuild(context);
+    if (componentId == 'countrys') return _countryBuild(context);
+    if (componentId == 'drawers') return _drawerBuild(context);
+    if (componentId == 'fonts') return _fontBuild(context);
+    if (componentId == 'gridViews') return _gridViewBuild(context);
+    if (componentId == 'homeMenus') return _homeMenuBuild(context);
+    if (componentId == 'images') return _imageBuild(context);
+    if (componentId == 'members') return _memberBuild(context);
+    if (componentId == 'menuDefs') return _menuDefBuild(context);
+    if (componentId == 'pages') return _pageBuild(context);
+    if (componentId == 'posSizes') return _posSizeBuild(context);
+    if (componentId == 'shadows') return _shadowBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
 
-  Widget _appBuild() {
+  Widget _appBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListBloc>(
@@ -566,12 +567,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _appBarBuild() {
+  Widget _appBarBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(),
+            appBarRepository: appBarRepository(appID: AppBloc.appId(context)),
           )..add(LoadAppBarList()),
         )
       ],
@@ -579,12 +580,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _backgroundBuild() {
+  Widget _backgroundBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(),
+            backgroundRepository: backgroundRepository(appID: AppBloc.appId(context)),
           )..add(LoadBackgroundList()),
         )
       ],
@@ -592,7 +593,7 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _countryBuild() {
+  Widget _countryBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CountryListBloc>(
@@ -605,12 +606,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _drawerBuild() {
+  Widget _drawerBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(),
+            drawerRepository: drawerRepository(appID: AppBloc.appId(context)),
           )..add(LoadDrawerList()),
         )
       ],
@@ -618,12 +619,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _fontBuild() {
+  Widget _fontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository(),
+            fontRepository: fontRepository(appID: AppBloc.appId(context)),
           )..add(LoadFontList()),
         )
       ],
@@ -631,12 +632,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _gridViewBuild() {
+  Widget _gridViewBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(),
+            gridViewRepository: gridViewRepository(appID: AppBloc.appId(context)),
           )..add(LoadGridViewList()),
         )
       ],
@@ -644,12 +645,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _homeMenuBuild() {
+  Widget _homeMenuBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(),
+            homeMenuRepository: homeMenuRepository(appID: AppBloc.appId(context)),
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -657,12 +658,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _imageBuild() {
+  Widget _imageBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ImageListBloc>(
           create: (context) => ImageListBloc(
-            imageRepository: imageRepository(),
+            imageRepository: imageRepository(appID: AppBloc.appId(context)),
           )..add(LoadImageList()),
         )
       ],
@@ -670,7 +671,7 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _memberBuild() {
+  Widget _memberBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MemberListBloc>(
@@ -683,12 +684,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _menuDefBuild() {
+  Widget _menuDefBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(),
+            menuDefRepository: menuDefRepository(appID: AppBloc.appId(context)),
           )..add(LoadMenuDefList()),
         )
       ],
@@ -696,12 +697,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _pageBuild() {
+  Widget _pageBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(),
+            pageRepository: pageRepository(appID: AppBloc.appId(context)),
           )..add(LoadPageList()),
         )
       ],
@@ -709,12 +710,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _posSizeBuild() {
+  Widget _posSizeBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(),
+            posSizeRepository: posSizeRepository(appID: AppBloc.appId(context)),
           )..add(LoadPosSizeList()),
         )
       ],
@@ -722,12 +723,12 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
-  Widget _shadowBuild() {
+  Widget _shadowBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(),
+            shadowRepository: shadowRepository(appID: AppBloc.appId(context)),
           )..add(LoadShadowList()),
         )
       ],

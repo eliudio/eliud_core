@@ -21,28 +21,28 @@ import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_repository.dart';
 
-class PageBloc extends Bloc<PageEvent, PageState> {
+class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   final PageRepository pageRepository;
 
-  PageBloc({ this.pageRepository }): super(PageUninitialized());
+  PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized());
   @override
-  Stream<PageState> mapEventToState(PageEvent event) async* {
+  Stream<PageComponentState> mapEventToState(PageComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchPage) {
+    if (event is FetchPageComponent) {
       try {
-        if (currentState is PageUninitialized) {
+        if (currentState is PageComponentUninitialized) {
           final PageModel model = await _fetchPage(event.id);
 
           if (model != null) {
-            yield PageLoaded(value: model);
+            yield PageComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield PageError(message: "Page with id = '$id' not found");
+            yield PageComponentError(message: "Page with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield PageError(message: "Unknown error whilst retrieving Page");
+        yield PageComponentError(message: "Unknown error whilst retrieving Page");
       }
     }
   }

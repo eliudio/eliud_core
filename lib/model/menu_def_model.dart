@@ -67,13 +67,12 @@ class MenuDefModel {
     return 'MenuDefModel{documentID: $documentID, appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  MenuDefEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  MenuDefEntity toEntity(String appId) {
     return MenuDefEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           menuItems: (menuItems != null) ? menuItems
-            .map((item) => item.toEntity())
+            .map((item) => item.toEntity(appId))
             .toList() : null, 
           admin: (admin != null) ? admin : null, 
     );

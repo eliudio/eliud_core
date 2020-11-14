@@ -76,8 +76,7 @@ class DrawerModel {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, background: $background, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackground: $headerBackground, menu: $menu}';
   }
 
-  DrawerEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  DrawerEntity toEntity(String appId) {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
@@ -85,7 +84,7 @@ class DrawerModel {
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity() : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId) : null, 
           headerBackgroundId: (headerBackground != null) ? headerBackground.documentID : null, 
           menuId: (menu != null) ? menu.documentID : null, 
     );
@@ -111,7 +110,7 @@ class DrawerModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository().get(entity.backgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -120,7 +119,7 @@ class DrawerModel {
     BackgroundModel headerBackgroundHolder;
     if (entity.headerBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.headerBackgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.headerBackgroundId).then((val) {
           headerBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -129,7 +128,7 @@ class DrawerModel {
     MenuDefModel menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository().get(entity.menuId).then((val) {
+        await menuDefRepository(appID: entity.appId).get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}

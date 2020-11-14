@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_model.dart';
 
-abstract class MemberState extends Equatable {
-  const MemberState();
+abstract class MemberComponentState extends Equatable {
+  const MemberComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class MemberUninitialized extends MemberState {}
+class MemberComponentUninitialized extends MemberComponentState {}
 
-class MemberError extends MemberState {
+class MemberComponentError extends MemberComponentState {
   final String message;
-  MemberError({ this.message });
+  MemberComponentError({ this.message });
 }
 
-class MemberLoaded extends MemberState {
+class MemberComponentLoaded extends MemberComponentState {
   final MemberModel value;
 
-  const MemberLoaded({ this.value });
+  const MemberComponentLoaded({ this.value });
 
-  MemberLoaded copyWith({ MemberModel copyThis }) {
-    return MemberLoaded(value: copyThis ?? this.value);
+  MemberComponentLoaded copyWith({ MemberModel copyThis }) {
+    return MemberComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'MemberModelLoaded { value: $value }';
+  String toString() => 'MemberComponentLoaded { value: $value }';
 }
 
 

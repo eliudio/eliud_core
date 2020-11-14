@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/member_component_bloc.dart';
 import 'package:eliud_core/model/member_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractMemberComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MemberBloc> (
-          create: (context) => MemberBloc(
-            memberRepository: getMemberRepository())
-        ..add(FetchMember(id: memberID)),
+    return BlocProvider<MemberComponentBloc> (
+          create: (context) => MemberComponentBloc(
+            memberRepository: getMemberRepository(context))
+        ..add(FetchMemberComponent(id: memberID)),
       child: _memberBlockBuilder(context),
     );
   }
 
   Widget _memberBlockBuilder(BuildContext context) {
-    return BlocBuilder<MemberBloc, MemberState>(builder: (context, state) {
-      if (state is MemberLoaded) {
+    return BlocBuilder<MemberComponentBloc, MemberComponentState>(builder: (context, state) {
+      if (state is MemberComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No member defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is MemberError) {
+      } else if (state is MemberComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractMemberComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, MemberModel value);
   Widget alertWidget({ title: String, content: String});
-  MemberRepository getMemberRepository();
+  MemberRepository getMemberRepository(BuildContext context);
 }
 
 

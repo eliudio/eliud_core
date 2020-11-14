@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/country_model.dart';
 
-abstract class CountryState extends Equatable {
-  const CountryState();
+abstract class CountryComponentState extends Equatable {
+  const CountryComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class CountryUninitialized extends CountryState {}
+class CountryComponentUninitialized extends CountryComponentState {}
 
-class CountryError extends CountryState {
+class CountryComponentError extends CountryComponentState {
   final String message;
-  CountryError({ this.message });
+  CountryComponentError({ this.message });
 }
 
-class CountryLoaded extends CountryState {
+class CountryComponentLoaded extends CountryComponentState {
   final CountryModel value;
 
-  const CountryLoaded({ this.value });
+  const CountryComponentLoaded({ this.value });
 
-  CountryLoaded copyWith({ CountryModel copyThis }) {
-    return CountryLoaded(value: copyThis ?? this.value);
+  CountryComponentLoaded copyWith({ CountryModel copyThis }) {
+    return CountryComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'CountryModelLoaded { value: $value }';
+  String toString() => 'CountryComponentLoaded { value: $value }';
 }
 
 

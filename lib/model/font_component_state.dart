@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/font_model.dart';
 
-abstract class FontState extends Equatable {
-  const FontState();
+abstract class FontComponentState extends Equatable {
+  const FontComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class FontUninitialized extends FontState {}
+class FontComponentUninitialized extends FontComponentState {}
 
-class FontError extends FontState {
+class FontComponentError extends FontComponentState {
   final String message;
-  FontError({ this.message });
+  FontComponentError({ this.message });
 }
 
-class FontLoaded extends FontState {
+class FontComponentLoaded extends FontComponentState {
   final FontModel value;
 
-  const FontLoaded({ this.value });
+  const FontComponentLoaded({ this.value });
 
-  FontLoaded copyWith({ FontModel copyThis }) {
-    return FontLoaded(value: copyThis ?? this.value);
+  FontComponentLoaded copyWith({ FontModel copyThis }) {
+    return FontComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'FontModelLoaded { value: $value }';
+  String toString() => 'FontComponentLoaded { value: $value }';
 }
 
 

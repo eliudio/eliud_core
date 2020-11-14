@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class PageFirestore implements PageRepository {
   Future<PageModel> add(PageModel value) {
-    return PageCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PageModel value) {
@@ -36,7 +36,7 @@ class PageFirestore implements PageRepository {
   }
 
   Future<PageModel> update(PageModel value) {
-    return PageCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   PageModel _populateDoc(DocumentSnapshot doc) {

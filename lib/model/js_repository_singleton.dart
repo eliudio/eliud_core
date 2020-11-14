@@ -14,6 +14,7 @@
 */
 
 import 'abstract_repository_singleton.dart';
+import 'dart:collection';
 import '../model/app_js_firestore.dart';
 import '../model/app_repository.dart';
 import '../model/app_cache.dart';
@@ -74,43 +75,64 @@ import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
 
 class JsRepositorySingleton extends AbstractRepositorySingleton {
-  JsRepositorySingleton(String appID) {
-    _appBarRepository = AppBarCache(AppBarJsFirestore(appID));
-    _backgroundRepository = BackgroundCache(BackgroundJsFirestore(appID));
-    _countryRepository = CountryCache(CountryJsFirestore());
-    _drawerRepository = DrawerCache(DrawerJsFirestore(appID));
-    _fontRepository = FontCache(FontJsFirestore(appID));
-    _gridViewRepository = GridViewCache(GridViewJsFirestore(appID));
-    _homeMenuRepository = HomeMenuCache(HomeMenuJsFirestore(appID));
-    _memberRepository = MemberCache(MemberJsFirestore());
-    _menuDefRepository = MenuDefCache(MenuDefJsFirestore(appID));
-    _pageRepository = PageCache(PageJsFirestore(appID));
-    _posSizeRepository = PosSizeCache(PosSizeJsFirestore(appID));
-    _shadowRepository = ShadowCache(ShadowJsFirestore(appID));
-  }
-  AppBarRepository appBarRepository() => _appBarRepository;
-  AppBarRepository _appBarRepository;
-  BackgroundRepository backgroundRepository() => _backgroundRepository;
-  BackgroundRepository _backgroundRepository;
-  CountryRepository countryRepository() => _countryRepository;
-  CountryRepository _countryRepository;
-  DrawerRepository drawerRepository() => _drawerRepository;
-  DrawerRepository _drawerRepository;
-  FontRepository fontRepository() => _fontRepository;
-  FontRepository _fontRepository;
-  GridViewRepository gridViewRepository() => _gridViewRepository;
-  GridViewRepository _gridViewRepository;
-  HomeMenuRepository homeMenuRepository() => _homeMenuRepository;
-  HomeMenuRepository _homeMenuRepository;
-  MemberRepository memberRepository() => _memberRepository;
-  MemberRepository _memberRepository;
-  MenuDefRepository menuDefRepository() => _menuDefRepository;
-  MenuDefRepository _menuDefRepository;
-  PageRepository pageRepository() => _pageRepository;
-  PageRepository _pageRepository;
-  PosSizeRepository posSizeRepository() => _posSizeRepository;
-  PosSizeRepository _posSizeRepository;
-  ShadowRepository shadowRepository() => _shadowRepository;
-  ShadowRepository _shadowRepository;
+    var _appBarRepository = HashMap<String, AppBarRepository>();
+    var _backgroundRepository = HashMap<String, BackgroundRepository>();
+    var _countryRepository = CountryCache(CountryJsFirestore());
+    var _drawerRepository = HashMap<String, DrawerRepository>();
+    var _fontRepository = HashMap<String, FontRepository>();
+    var _gridViewRepository = HashMap<String, GridViewRepository>();
+    var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
+    var _memberRepository = MemberCache(MemberJsFirestore());
+    var _menuDefRepository = HashMap<String, MenuDefRepository>();
+    var _pageRepository = HashMap<String, PageRepository>();
+    var _posSizeRepository = HashMap<String, PosSizeRepository>();
+    var _shadowRepository = HashMap<String, ShadowRepository>();
+
+    AppBarRepository appBarRepository(String appID) {
+      if (_appBarRepository[appID] == null) _appBarRepository[appID] = AppBarCache(AppBarJsFirestore(appID));
+      return _appBarRepository[appID];
+    }
+    BackgroundRepository backgroundRepository(String appID) {
+      if (_backgroundRepository[appID] == null) _backgroundRepository[appID] = BackgroundCache(BackgroundJsFirestore(appID));
+      return _backgroundRepository[appID];
+    }
+    CountryRepository countryRepository() {
+      return _countryRepository;
+    }
+    DrawerRepository drawerRepository(String appID) {
+      if (_drawerRepository[appID] == null) _drawerRepository[appID] = DrawerCache(DrawerJsFirestore(appID));
+      return _drawerRepository[appID];
+    }
+    FontRepository fontRepository(String appID) {
+      if (_fontRepository[appID] == null) _fontRepository[appID] = FontCache(FontJsFirestore(appID));
+      return _fontRepository[appID];
+    }
+    GridViewRepository gridViewRepository(String appID) {
+      if (_gridViewRepository[appID] == null) _gridViewRepository[appID] = GridViewCache(GridViewJsFirestore(appID));
+      return _gridViewRepository[appID];
+    }
+    HomeMenuRepository homeMenuRepository(String appID) {
+      if (_homeMenuRepository[appID] == null) _homeMenuRepository[appID] = HomeMenuCache(HomeMenuJsFirestore(appID));
+      return _homeMenuRepository[appID];
+    }
+    MemberRepository memberRepository() {
+      return _memberRepository;
+    }
+    MenuDefRepository menuDefRepository(String appID) {
+      if (_menuDefRepository[appID] == null) _menuDefRepository[appID] = MenuDefCache(MenuDefJsFirestore(appID));
+      return _menuDefRepository[appID];
+    }
+    PageRepository pageRepository(String appID) {
+      if (_pageRepository[appID] == null) _pageRepository[appID] = PageCache(PageJsFirestore(appID));
+      return _pageRepository[appID];
+    }
+    PosSizeRepository posSizeRepository(String appID) {
+      if (_posSizeRepository[appID] == null) _posSizeRepository[appID] = PosSizeCache(PosSizeJsFirestore(appID));
+      return _posSizeRepository[appID];
+    }
+    ShadowRepository shadowRepository(String appID) {
+      if (_shadowRepository[appID] == null) _shadowRepository[appID] = ShadowCache(ShadowJsFirestore(appID));
+      return _shadowRepository[appID];
+    }
 
 }

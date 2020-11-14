@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
@@ -12,11 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RgbHelper {
-  static Color color({rgbo: RgbModel}) {
-    if (rgbo != null)
+  static Color color({RgbModel rgbo}) {
+    if (rgbo != null) {
       return Color.fromRGBO(rgbo.r, rgbo.g, rgbo.b, rgbo.opacity);
-    else
+    } else {
       return Color.fromRGBO(0, 0, 0, 1);
+    }
   }
 }
 
@@ -73,35 +75,36 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration boxDecoration(BackgroundModel bdm) {
+  static BoxDecoration boxDecoration(AccessState state, BackgroundModel bdm) {
     if (bdm == null) return null;
-    Border border = bdm.border != null && bdm.border ?  Border.all() : null;
-    ImageProvider imageProvider = (bdm.backgroundImage != null) ? AbstractPlatform.platform.getImageProvider(bdm.backgroundImage) : null;
-    DecorationImage image = (imageProvider != null) ? DecorationImage(
+    var border = bdm.border != null && bdm.border ?  Border.all() : null;
+    var imageProvider = (bdm.backgroundImage != null) ? AbstractPlatform.platform.getImageProvider(state, bdm.backgroundImage) : null;
+    var image = (imageProvider != null) ? DecorationImage(
             image: imageProvider,
             fit: BoxFit.scaleDown)
         : null;
-    if ((bdm.decorationColors == null) || (bdm.decorationColors.length == 0)) {
-      if (image == null)
+    if ((bdm.decorationColors == null) || (bdm.decorationColors.isEmpty)) {
+      if (image == null) {
         return null;
-      else
+      } else {
         return BoxDecoration(
           image: image,
         );
+      }
     } else if (bdm.decorationColors.length == 1) {
       return BoxDecoration(
         color: RgbHelper.color(rgbo: bdm.decorationColors[0].color),
         image: image,
       );
     } else {
-      List<Color> colors = bdm.decorationColors
+      var colors = bdm.decorationColors
           .map((color) => RgbHelper.color(rgbo: color.color))
           .toList();
-      List<double> stops = bdm.decorationColors
+      var stops = bdm.decorationColors
           .map((stop) => stop.stop)
           .toList();
-      bool noStops = stops.where((stop) => (stop == null) || (stop < 0)).length > 0;
-      LinearGradient gradient = LinearGradient(
+      var noStops = stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
+      var gradient = LinearGradient(
         begin: startAlignment(bdm.beginGradientPosition),
         end: endAlignment(bdm.endGradientPosition),
         colors: colors,
@@ -109,7 +112,7 @@ class BoxDecorationHelper {
 
       List<BoxShadow> boxShadows;
       if (bdm.shadow != null) {
-        boxShadows = List();
+        boxShadows = [];
         boxShadows.add(BoxShadow(
           color: RgbHelper.color(rgbo: bdm.shadow.color),
           spreadRadius: bdm.shadow.spreadRadius,
@@ -123,14 +126,6 @@ class BoxDecorationHelper {
         border: border,
         boxShadow: boxShadows
       );
-
-/*
-      return BoxDecoration(
-        color: RgbHelper.color(rgbo: EliudColors.gray),
-        image: null,
-      );
-*/
-
     }
   }
 }
@@ -190,8 +185,8 @@ class ImageTool {
   }
 
   Future<ImageModel> provideImageUrl(ImageModel imageModel) async {
-    Future<dynamic> imageURL =
-        getImageDownloadURL(imageModel.documentID + ".png");
+    var imageURL =
+        getImageDownloadURL(imageModel.documentID + '.png');
     return await imageURL.then((val) {
       imageModel = imageModel.copyWith(imageURLOriginal: val);
       return imageModel;
@@ -201,15 +196,13 @@ class ImageTool {
 
 class IconHelper {
   static Icon getIconFromModel({IconModel iconModel, RgbModel color}) {
-    if (iconModel == null)
+    if (iconModel == null) {
       return null;
-/*
-      return Icon(Icons.touch_app,
+    }
+    if (iconModel.fontFamily == null) {
+      return Icon(IconData(iconModel.codePoint, fontFamily: 'MaterialIcons'),
           color: color != null ? RgbHelper.color(rgbo: color) : null);
-*/
-    if (iconModel.fontFamily == null)
-      return Icon(IconData(iconModel.codePoint, fontFamily: "MaterialIcons"),
-          color: color != null ? RgbHelper.color(rgbo: color) : null);
+    }
     return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
         color: color != null ? RgbHelper.color(rgbo: color) : null);
   }
@@ -217,9 +210,10 @@ class IconHelper {
   static Icon getIconFromModelWithFlutterColor(
       {IconModel iconModel, Color color}) {
     if (iconModel == null) return Icon(Icons.touch_app, color: color);
-    if (iconModel.fontFamily == null)
-      return Icon(IconData(iconModel.codePoint, fontFamily: "MaterialIcons"),
+    if (iconModel.fontFamily == null) {
+      return Icon(IconData(iconModel.codePoint, fontFamily: 'MaterialIcons'),
           color: color);
+    }
     return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
         color: color);
   }
@@ -275,14 +269,16 @@ class BoxFitHelper {
     if (orientation == Orientation.landscape) {
       if (posSizeModel.widthLandscape == 0) return null;
       if (posSizeModel.widthLandscape == null) return null;
-      if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.AbsoluteWidth)
+      if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.AbsoluteWidth) {
         return posSizeModel.widthLandscape;
+      }
       return fullScreenWidth(context) * posSizeModel.widthLandscape;
     } else {
       if (posSizeModel.widthPortrait == 0) return null;
       if (posSizeModel.widthPortrait == null) return null;
-      if (posSizeModel.widthTypePortrait == WidthTypePortrait.AbsoluteWidth)
+      if (posSizeModel.widthTypePortrait == WidthTypePortrait.AbsoluteWidth) {
         return posSizeModel.widthPortrait;
+      }
       return fullScreenWidth(context) * posSizeModel.widthPortrait;
     }
   }
@@ -293,15 +289,17 @@ class BoxFitHelper {
       if (posSizeModel.heightLandscape == null) return null;
       if (posSizeModel.heightLandscape == 0) return null;
       if (posSizeModel.heightTypeLandscape ==
-          HeightTypeLandscape.AbsoluteHeight)
+          HeightTypeLandscape.AbsoluteHeight) {
         return posSizeModel.heightLandscape;
+      }
       return fullScreenHeight(context) * posSizeModel.heightLandscape;
     } else {
       if (posSizeModel.heightPortrait == 0) return null;
       if (posSizeModel.heightPortrait == null) return null;
       if (posSizeModel.heightTypePortrait ==
-          HeightTypePortrait.AbsoluteHeight)
+          HeightTypePortrait.AbsoluteHeight) {
         return posSizeModel.heightPortrait;
+      }
       return fullScreenHeight(context) * posSizeModel.heightPortrait;
     }
   }
@@ -371,6 +369,7 @@ class FontTools {
       case EliudFontWeight.Bold: return FontWeight.w700;
       case EliudFontWeight.ExtraBold: return FontWeight.w800;
       case EliudFontWeight.MostThick: return FontWeight.w900;
+      case EliudFontWeight.Unknown:return FontWeight.w900;
     }
     return FontWeight.w400;
   }
@@ -388,15 +387,15 @@ class FontTools {
 
 
 abstract class ListTool<T> {
-  static List<T> copyAllExcept<T>(List<T> original, bool exclude(T t)) {
-    List<T> newList = new List();
+  static List<T> copyAllExcept<T>(List<T> original, bool Function(T t) exclude) {
+    var newList = <T>[];
     original.forEach((element) {
       if (!exclude(element)) newList.add(element);
     });
     return newList;
   }
 
-  static List<T> addAllExcept<T>(List<T> original, List<T> addHere, bool exclude(T t)) {
+  static List<T> addAllExcept<T>(List<T> original, List<T> addHere, bool Function(T t) exclude) {
     original.forEach((element) {
       if (!exclude(element)) addHere.add(element);
     });

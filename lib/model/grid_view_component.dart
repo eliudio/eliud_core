@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/grid_view_component_bloc.dart';
 import 'package:eliud_core/model/grid_view_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GridViewBloc> (
-          create: (context) => GridViewBloc(
-            gridViewRepository: getGridViewRepository())
-        ..add(FetchGridView(id: gridViewID)),
+    return BlocProvider<GridViewComponentBloc> (
+          create: (context) => GridViewComponentBloc(
+            gridViewRepository: getGridViewRepository(context))
+        ..add(FetchGridViewComponent(id: gridViewID)),
       child: _gridViewBlockBuilder(context),
     );
   }
 
   Widget _gridViewBlockBuilder(BuildContext context) {
-    return BlocBuilder<GridViewBloc, GridViewState>(builder: (context, state) {
-      if (state is GridViewLoaded) {
+    return BlocBuilder<GridViewComponentBloc, GridViewComponentState>(builder: (context, state) {
+      if (state is GridViewComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No gridView defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is GridViewError) {
+      } else if (state is GridViewComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, GridViewModel value);
   Widget alertWidget({ title: String, content: String});
-  GridViewRepository getGridViewRepository();
+  GridViewRepository getGridViewRepository(BuildContext context);
 }
 
 

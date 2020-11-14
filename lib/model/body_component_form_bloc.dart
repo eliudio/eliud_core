@@ -38,8 +38,9 @@ import 'package:eliud_core/model/body_component_form_state.dart';
 import 'package:eliud_core/model/body_component_repository.dart';
 
 class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFormState> {
+  final String appId;
 
-  BodyComponentFormBloc(): super(BodyComponentFormUninitialized());
+  BodyComponentFormBloc(this.appId, ): super(BodyComponentFormUninitialized());
   @override
   Stream<BodyComponentFormState> mapEventToState(BodyComponentFormEvent event) async* {
     final currentState = state;

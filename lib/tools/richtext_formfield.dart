@@ -1,10 +1,10 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'action_model.dart';
-import 'package:eliud_core/model/internal_component.dart';
 
 typedef RichTextFieldTrigger(String value);
 
@@ -34,25 +34,27 @@ class RichTextFieldState extends State<RichTextField> {
 
   @override
   Widget build(BuildContext context) {
+    var accessState = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
     return TextFormField(
-      readOnly: !GlobalData.memberIsOwner(),
+      readOnly: !accessState.memberIsOwner(appState),
       initialValue: value,
-      style: TextStyle(
-          color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-      decoration: InputDecoration(
+      style: appState is AppLoaded ? TextStyle(
+          color: RgbHelper.color(rgbo: appState.app.formFieldTextColor)) : null,
+      decoration: appState is AppLoaded ? InputDecoration(
         enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
                 color:
-                    RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+                    RgbHelper.color(rgbo: appState.app.formFieldTextColor))),
         focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
                 color:
-                    RgbHelper.color(rgbo: GlobalData.app().formFieldFocusColor))),
+                    RgbHelper.color(rgbo: appState.app.formFieldFocusColor)) ),
         icon: Icon(Icons.folder,
-            color: RgbHelper.color(rgbo: GlobalData.app().formFieldHeaderColor)),
+            color: RgbHelper.color(rgbo: appState.app.formFieldHeaderColor)),
         labelText: widget.label,
         hintText: widget.hint,
-      ),
+      ) : null,
       onChanged: _onChanged,
       keyboardType: TextInputType.multiline,
       maxLines: widget.rows,

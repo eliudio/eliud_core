@@ -20,28 +20,28 @@ import 'package:eliud_core/model/image_model.dart';
 import 'package:eliud_core/model/image_component_event.dart';
 import 'package:eliud_core/model/image_component_state.dart';
 import 'package:eliud_core/model/image_repository.dart';
-class ImageBloc extends Bloc<ImageEvent, ImageState> {
+class ImageComponentBloc extends Bloc<ImageComponentEvent, ImageComponentState> {
   final ImageRepository imageRepository;
 
-  ImageBloc({ this.imageRepository }): super(ImageUninitialized());
+  ImageComponentBloc({ this.imageRepository }): super(ImageComponentUninitialized());
   @override
-  Stream<ImageState> mapEventToState(ImageEvent event) async* {
+  Stream<ImageComponentState> mapEventToState(ImageComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchImage) {
+    if (event is FetchImageComponent) {
       try {
-        if (currentState is ImageUninitialized) {
+        if (currentState is ImageComponentUninitialized) {
           final ImageModel model = await _fetchImage(event.id);
 
           if (model != null) {
-            yield ImageLoaded(value: model);
+            yield ImageComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield ImageError(message: "Image with id = '$id' not found");
+            yield ImageComponentError(message: "Image with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield ImageError(message: "Unknown error whilst retrieving Image");
+        yield ImageComponentError(message: "Unknown error whilst retrieving Image");
       }
     }
   }

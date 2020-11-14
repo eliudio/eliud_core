@@ -7,7 +7,7 @@
   \___|_|_|\__,_|\__,_|
                        
  
- pos_size_component_event.dart
+ cart_component_event.dart
                        
  This code is generated. This is read only. Don't touch!
 
@@ -15,14 +15,15 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class PosSizeComponentEvent extends Equatable {
+abstract class AppEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchPosSizeComponent extends PosSizeComponentEvent {
+class FetchApp extends AppEvent {
   final String id;
+  final bool asPlaystore;
 
-  FetchPosSizeComponent({ this.id });
+  FetchApp({ this.id, this.asPlaystore });
 }
 

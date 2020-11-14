@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/image_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,14 +14,17 @@ abstract class AbstractPlatform {
     return getImageProviderOnPlatform(url);
   }
 
-  ImageProvider getImageProvider(ImageModel image) {
+  ImageProvider getImageProvider(AccessState state, ImageModel image) {
     if (image == null) return null;
-    if (image.source != SourceImage.YourProfilePhoto) {
-      return getImageProviderOnPlatform(image.imageURLOriginal);
-    } else {
-      String photoURL = GlobalData.memberProfilePhoto();
-      if (photoURL != null)
-        return getImageProviderOnPlatform(photoURL);
+    if (state is LoggedIn) {
+      if (image.source != SourceImage.YourProfilePhoto) {
+        return getImageProviderOnPlatform(image.imageURLOriginal);
+      } else {
+        var photoURL = state.memberProfilePhoto();
+        if (photoURL != null) {
+          return getImageProviderOnPlatform(photoURL);
+        }
+      }
     }
     return null;
   }
@@ -34,21 +37,31 @@ abstract class AbstractPlatform {
         alignment: alignment);
   }
 
-  Widget getImage({ImageModel image, double height, double width, BoxFit fit}) {
-    String url = (image.source != SourceImage.YourProfilePhoto) ? image.imageURLOriginal : GlobalData.memberProfilePhoto();
-    return getImageOnPlatform(imageUrl: url,
-        height: height,
-        width: width,
-        fit: fit);
+  Widget getImage(AccessState state, {ImageModel image, double height, double width, BoxFit fit}) {
+    if (state is LoggedIn) {
+      var url = (image.source != SourceImage.YourProfilePhoto) ? image
+          .imageURLOriginal : state.memberProfilePhoto();
+      return getImageOnPlatform(imageUrl: url,
+          height: height,
+          width: width,
+          fit: fit);
+    } else {
+      return Text('Not logged on');
+    }
   }
 
-  Widget getThumbnail({ImageModel image, double height, double width, BoxFit fit}) {
-    String url = (image.source != SourceImage.YourProfilePhoto) ? image.imageURLOriginal : GlobalData.memberProfilePhoto();
-    return getImageOnPlatform(imageUrl: url,
-        height: height,
-        width: width,
-        fit: fit);
+  Widget getThumbnail(AccessState state, {ImageModel image, double height, double width, BoxFit fit}) {
+    if (state is LoggedIn) {
+      var url = (image.source != SourceImage.YourProfilePhoto) ? image
+          .imageURLOriginal : state.memberProfilePhoto();
+      return getImageOnPlatform(imageUrl: url,
+          height: height,
+          width: width,
+          fit: fit);
+    } else {
+      return Text('Not logged on');
+    }
   }
 
-  void initRepository(String appID);
+  void init();
 }

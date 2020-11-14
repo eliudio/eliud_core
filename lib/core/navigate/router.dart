@@ -1,17 +1,17 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/action_model.dart';
-import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
 
@@ -27,31 +27,40 @@ class Router {
   static const String pageRoute = '/page';
   static const String justASecond = '/justASecond';
 
-  AppModel app;
+  final AppBloc appBloc;
 
-  Router();
+  Router(this.appBloc);
 
   Route<dynamic> generateRoute(RouteSettings settings) {
-    debugPrint('Router::generateRoute($settings.name)');
-    Arguments arguments;
-    if (settings.arguments is Arguments) {
-      arguments = settings.arguments;
-    }
-    switch (settings.name) {
-      case '':
+    var theState = appBloc.state;
+    if (theState is AppLoaded) {
+      Arguments arguments;
+      if (settings.arguments is Arguments) {
+        arguments = settings.arguments;
+      }
+      switch (settings.name) {
+        case '':
         // in flutterweb, the initialRoute is "", not "/"
-        return pageRouteBuilder(page: Registry.registry().page(id: GlobalData.homePage()));
-      case homeRoute:
-        return pageRouteBuilder(page: Registry.registry().page(id: GlobalData.homePage()));
-      case justASecond:
-        return pageRouteBuilder(page: justASecondWidget(arguments == null ? '?' : arguments.mainArgument));
-      case pageRoute:
-        return pageRouteBuilder(page: Registry.registry().page(id: arguments == null ? null : arguments.mainArgument, parameters: arguments == null ? null : arguments.parameters));
-      default:
-            return pageRouteBuilder(page: Scaffold(
-                  body: Center(
-                      child: Text('No route defined for ${settings.name}')),
-                ));
+          return pageRouteBuilder(theState.app,
+              page: Registry.registry().page(id: theState.app.entryPage.documentID));
+        case homeRoute:
+          return pageRouteBuilder(theState.app,
+              page: Registry.registry().page(id: theState.app.entryPage.documentID));
+        case justASecond:
+          return pageRouteBuilder(theState.app, page: justASecondWidget(
+              arguments == null ? '?' : arguments.mainArgument));
+        case pageRoute:
+          return pageRouteBuilder(theState.app, page: Registry.registry().page(
+              id: arguments == null ? null : arguments.mainArgument,
+              parameters: arguments == null ? null : arguments.parameters));
+        default:
+          return pageRouteBuilder(theState.app, page: Scaffold(
+            body: Center(
+                child: Text('No route defined for ${settings.name}')),
+          ));
+      }
+    } else {
+      return null;
     }
   }
 
@@ -119,7 +128,7 @@ class Router {
           BlocProvider.of<NavigatorBloc>(context).add(GoHome());
           break;
         case InternalActionEnum.Flush:
-          AbstractRepositorySingleton.singleton.flush();
+          AbstractRepositorySingleton.singleton.flush(AppBloc.appId(context));
           BlocProvider.of<NavigatorBloc>(context).add(GoHome());
           break;
         default:

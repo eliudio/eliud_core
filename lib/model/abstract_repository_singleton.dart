@@ -34,47 +34,47 @@ import '../model/shadow_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/types.dart';
 
-AppBarRepository appBarRepository() => AbstractRepositorySingleton.singleton.appBarRepository();
-BackgroundRepository backgroundRepository() => AbstractRepositorySingleton.singleton.backgroundRepository();
-CountryRepository countryRepository() => AbstractRepositorySingleton.singleton.countryRepository();
-DrawerRepository drawerRepository() => AbstractRepositorySingleton.singleton.drawerRepository();
-FontRepository fontRepository() => AbstractRepositorySingleton.singleton.fontRepository();
-GridViewRepository gridViewRepository() => AbstractRepositorySingleton.singleton.gridViewRepository();
-HomeMenuRepository homeMenuRepository() => AbstractRepositorySingleton.singleton.homeMenuRepository();
-MemberRepository memberRepository() => AbstractRepositorySingleton.singleton.memberRepository();
-MenuDefRepository menuDefRepository() => AbstractRepositorySingleton.singleton.menuDefRepository();
-PageRepository pageRepository() => AbstractRepositorySingleton.singleton.pageRepository();
-PosSizeRepository posSizeRepository() => AbstractRepositorySingleton.singleton.posSizeRepository();
-ShadowRepository shadowRepository() => AbstractRepositorySingleton.singleton.shadowRepository();
+AppBarRepository appBarRepository({ String appID }) => AbstractRepositorySingleton.singleton.appBarRepository(appID);
+BackgroundRepository backgroundRepository({ String appID }) => AbstractRepositorySingleton.singleton.backgroundRepository(appID);
+CountryRepository countryRepository({ String appID }) => AbstractRepositorySingleton.singleton.countryRepository();
+DrawerRepository drawerRepository({ String appID }) => AbstractRepositorySingleton.singleton.drawerRepository(appID);
+FontRepository fontRepository({ String appID }) => AbstractRepositorySingleton.singleton.fontRepository(appID);
+GridViewRepository gridViewRepository({ String appID }) => AbstractRepositorySingleton.singleton.gridViewRepository(appID);
+HomeMenuRepository homeMenuRepository({ String appID }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appID);
+MemberRepository memberRepository({ String appID }) => AbstractRepositorySingleton.singleton.memberRepository();
+MenuDefRepository menuDefRepository({ String appID }) => AbstractRepositorySingleton.singleton.menuDefRepository(appID);
+PageRepository pageRepository({ String appID }) => AbstractRepositorySingleton.singleton.pageRepository(appID);
+PosSizeRepository posSizeRepository({ String appID }) => AbstractRepositorySingleton.singleton.posSizeRepository(appID);
+ShadowRepository shadowRepository({ String appID }) => AbstractRepositorySingleton.singleton.shadowRepository(appID);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
 
-  AppBarRepository appBarRepository();
-  BackgroundRepository backgroundRepository();
+  AppBarRepository appBarRepository(String appID);
+  BackgroundRepository backgroundRepository(String appID);
   CountryRepository countryRepository();
-  DrawerRepository drawerRepository();
-  FontRepository fontRepository();
-  GridViewRepository gridViewRepository();
-  HomeMenuRepository homeMenuRepository();
+  DrawerRepository drawerRepository(String appID);
+  FontRepository fontRepository(String appID);
+  GridViewRepository gridViewRepository(String appID);
+  HomeMenuRepository homeMenuRepository(String appID);
   MemberRepository memberRepository();
-  MenuDefRepository menuDefRepository();
-  PageRepository pageRepository();
-  PosSizeRepository posSizeRepository();
-  ShadowRepository shadowRepository();
+  MenuDefRepository menuDefRepository(String appID);
+  PageRepository pageRepository(String appID);
+  PosSizeRepository posSizeRepository(String appID);
+  ShadowRepository shadowRepository(String appID);
 
-  void flush() {
-    appBarRepository().flush();
-    backgroundRepository().flush();
+  void flush(String appID) {
+    appBarRepository(appID).flush();
+    backgroundRepository(appID).flush();
     countryRepository().flush();
-    drawerRepository().flush();
-    fontRepository().flush();
-    gridViewRepository().flush();
-    homeMenuRepository().flush();
+    drawerRepository(appID).flush();
+    fontRepository(appID).flush();
+    gridViewRepository(appID).flush();
+    homeMenuRepository(appID).flush();
     memberRepository().flush();
-    menuDefRepository().flush();
-    pageRepository().flush();
-    posSizeRepository().flush();
-    shadowRepository().flush();
+    menuDefRepository(appID).flush();
+    pageRepository(appID).flush();
+    posSizeRepository(appID).flush();
+    shadowRepository(appID).flush();
   }
 }

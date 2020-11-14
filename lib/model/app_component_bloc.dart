@@ -21,28 +21,28 @@ import 'package:eliud_core/model/app_component_event.dart';
 import 'package:eliud_core/model/app_component_state.dart';
 import 'package:eliud_core/model/app_repository.dart';
 
-class AppBloc extends Bloc<AppEvent, AppState> {
+class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   final AppRepository appRepository;
 
-  AppBloc({ this.appRepository }): super(AppUninitialized());
+  AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized());
   @override
-  Stream<AppState> mapEventToState(AppEvent event) async* {
+  Stream<AppComponentState> mapEventToState(AppComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchApp) {
+    if (event is FetchAppComponent) {
       try {
-        if (currentState is AppUninitialized) {
+        if (currentState is AppComponentUninitialized) {
           final AppModel model = await _fetchApp(event.id);
 
           if (model != null) {
-            yield AppLoaded(value: model);
+            yield AppComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield AppError(message: "App with id = '$id' not found");
+            yield AppComponentError(message: "App with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield AppError(message: "Unknown error whilst retrieving App");
+        yield AppComponentError(message: "Unknown error whilst retrieving App");
       }
     }
   }

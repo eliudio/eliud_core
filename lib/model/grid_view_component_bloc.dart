@@ -20,28 +20,28 @@ import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/model/grid_view_component_event.dart';
 import 'package:eliud_core/model/grid_view_component_state.dart';
 import 'package:eliud_core/model/grid_view_repository.dart';
-class GridViewBloc extends Bloc<GridViewEvent, GridViewState> {
+class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewComponentState> {
   final GridViewRepository gridViewRepository;
 
-  GridViewBloc({ this.gridViewRepository }): super(GridViewUninitialized());
+  GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized());
   @override
-  Stream<GridViewState> mapEventToState(GridViewEvent event) async* {
+  Stream<GridViewComponentState> mapEventToState(GridViewComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchGridView) {
+    if (event is FetchGridViewComponent) {
       try {
-        if (currentState is GridViewUninitialized) {
+        if (currentState is GridViewComponentUninitialized) {
           final GridViewModel model = await _fetchGridView(event.id);
 
           if (model != null) {
-            yield GridViewLoaded(value: model);
+            yield GridViewComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield GridViewError(message: "GridView with id = '$id' not found");
+            yield GridViewComponentError(message: "GridView with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield GridViewError(message: "Unknown error whilst retrieving GridView");
+        yield GridViewComponentError(message: "Unknown error whilst retrieving GridView");
       }
     }
   }

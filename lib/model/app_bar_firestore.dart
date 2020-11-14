@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class AppBarFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
-    return AppBarCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return AppBarCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(AppBarModel value) {
@@ -36,7 +36,7 @@ class AppBarFirestore implements AppBarRepository {
   }
 
   Future<AppBarModel> update(AppBarModel value) {
-    return AppBarCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return AppBarCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   AppBarModel _populateDoc(DocumentSnapshot doc) {

@@ -38,8 +38,9 @@ import 'package:eliud_core/model/menu_item_form_state.dart';
 import 'package:eliud_core/model/menu_item_repository.dart';
 
 class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
+  final String appId;
 
-  MenuItemFormBloc(): super(MenuItemFormUninitialized());
+  MenuItemFormBloc(this.appId, ): super(MenuItemFormUninitialized());
   @override
   Stream<MenuItemFormState> mapEventToState(MenuItemFormEvent event) async* {
     final currentState = state;

@@ -92,19 +92,18 @@ class AppBarModel {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, background: $background, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
-  AppBarEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  AppBarEntity toEntity(String appId) {
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           header: (header != null) ? header.index : null, 
-          icon: (icon != null) ? icon.toEntity() : null, 
+          icon: (icon != null) ? icon.toEntity(appId) : null, 
           imageId: (image != null) ? image.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu.documentID : null, 
           backgroundId: (background != null) ? background.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity() : null, 
-          selectedIconColor: (selectedIconColor != null) ? selectedIconColor.toEntity() : null, 
-          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor.toEntity() : null, 
+          iconColor: (iconColor != null) ? iconColor.toEntity(appId) : null, 
+          selectedIconColor: (selectedIconColor != null) ? selectedIconColor.toEntity(appId) : null, 
+          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor.toEntity(appId) : null, 
     );
   }
 
@@ -132,7 +131,7 @@ class AppBarModel {
     ImageModel imageHolder;
     if (entity.imageId != null) {
       try {
-        await imageRepository().get(entity.imageId).then((val) {
+        await imageRepository(appID: entity.appId).get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -141,7 +140,7 @@ class AppBarModel {
     MenuDefModel iconMenuHolder;
     if (entity.iconMenuId != null) {
       try {
-        await menuDefRepository().get(entity.iconMenuId).then((val) {
+        await menuDefRepository(appID: entity.appId).get(entity.iconMenuId).then((val) {
           iconMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -150,7 +149,7 @@ class AppBarModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository().get(entity.backgroundId).then((val) {
+        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

@@ -1,4 +1,5 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,23 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/internal_component.dart';
 
-typedef SetActionValue(ActionModel value);
+typedef SetActionValue = Function(ActionModel value);
 
 class ActionField extends StatefulWidget {
   final ActionModel action;
   final SetActionValue setActionValue;
+  final String appID;
 
-  ActionField(this.action, this.setActionValue);
+  ActionField(this.appID, this.action, this.setActionValue);
 
   @override
-  createState() {
-    return new ActionFieldState();
+  State<StatefulWidget> createState() {
+    return ActionFieldState();
   }
 }
 
 class ActionFieldState extends State<ActionField> {
   int _actionSelection;
-  List<String> _internalActions = ["Login", "Logout", "Login/Logout", "Flush", "OtherApps" ];
+  final List<String> _internalActions = ['Login', 'Logout', 'Login/Logout', 'Flush', 'OtherApps' ];
   String _internalAction;
   String _pageID;
   String _menuDefID;
@@ -31,7 +33,7 @@ class ActionFieldState extends State<ActionField> {
   @override
   void initState() {
     super.initState();
-    final ActionModel action = widget.action;
+    final action = widget.action;
     if (action is GotoPage) {
       _actionSelection = 0;
       _pageID = action.pageID;
@@ -54,32 +56,34 @@ class ActionFieldState extends State<ActionField> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = <Widget>[
+    var state = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
+    var widgets = <Widget>[
       RadioListTile(
         value: 0,
         groupValue: _actionSelection,
-        title: Text("Goto Page"),
-        subtitle: Text("This action results in moving to another page"),
-        onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+        title: Text('Goto Page'),
+        subtitle: Text('This action results in moving to another page'),
+        onChanged: !state.memberIsOwner(appState) ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),
       RadioListTile(
         value: 1,
         groupValue: _actionSelection,
-        title: Text("Internal"),
+        title: Text('Internal'),
         subtitle: Text(
-            "This action results in one of the predefined internal actions"),
-        onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+            'This action results in one of the predefined internal actions'),
+        onChanged: !state.memberIsOwner(appState) ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),
       RadioListTile(
         value: 2,
         groupValue: _actionSelection,
-        title: Text("Popup Menu"),
-        subtitle: Text("This menu item will open another popup menu"),
-        onChanged: !GlobalData.memberIsOwner() ? null : (val) {
+        title: Text('Popup Menu'),
+        subtitle: Text('This menu item will open another popup menu'),
+        onChanged: !state.memberIsOwner(appState) ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -87,33 +91,33 @@ class ActionFieldState extends State<ActionField> {
 
     if (_actionSelection == 0) {
       widgets.add(
-          new Center(
-              child: DropdownButtonComponentFactory().createNew(id: "pages",
+          Center(
+              child: DropdownButtonComponentFactory().createNew(id: 'pages',
                   value: _pageID,
                   trigger: _onDocumentSelected,
                   optional: false)));
     } else if (_actionSelection == 2) {
         widgets.add(
-            new Center(
-                child: DropdownButtonComponentFactory().createNew(id: "menuDefs",
+            Center(
+                child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
                     value: _menuDefID,
                     trigger: _onPopupmenuSelected,
                     optional: false)));
     } else {
-      List<DropdownMenuItem<String>> items = new List();
-      for (String ia in _internalActions) {
-        items.add(new DropdownMenuItem(value: ia, child: new Text(ia)));
+      List<DropdownMenuItem<String>> items = [];
+      for (var ia in _internalActions) {
+        items.add(DropdownMenuItem(value: ia, child: Text(ia)));
       }
-      widgets.add(new Center(
-          child: new DropdownButton(
+      widgets.add(Center(
+          child: DropdownButton(
         value: _internalAction,
         items: items,
-        hint: Text("Select internal action"),
+        hint: Text('Select internal action'),
         onChanged: _changedDropDownItem,
       )));
     }
 
-    return new Container(
+    return Container(
         height: (220),
         child: ListView(
             physics: const NeverScrollableScrollPhysics(),
@@ -125,17 +129,18 @@ class ActionFieldState extends State<ActionField> {
     setState(() {
       _actionSelection = val;
     });
-    if (_actionSelection == 0) widget.setActionValue(new GotoPage());
-    if (_actionSelection == 1) widget.setActionValue(new InternalAction());
-    if (_actionSelection == 2) widget.setActionValue(new PopupMenu());
+    if (_actionSelection == 0) widget.setActionValue(GotoPage(widget.appID));
+    if (_actionSelection == 1) widget.setActionValue(InternalAction(widget.appID));
+    if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.appID));
   }
 
   void _onDocumentSelected(value) {
     setState(() {
       _pageID = value;
     });
-    if (_actionSelection == 0)
-      widget.setActionValue(new GotoPage(pageID: value));
+    if (_actionSelection == 0) {
+      widget.setActionValue(new GotoPage(widget.appID, pageID: value));
+    }
   }
 
   Future<void> _onPopupmenuSelected(value) async {
@@ -143,8 +148,8 @@ class ActionFieldState extends State<ActionField> {
       _menuDefID = value;
     });
     if (_actionSelection == 2) {
-      MenuDefModel menuDef = await AbstractRepositorySingleton.singleton.menuDefRepository().get(value);
-      widget.setActionValue(new PopupMenu(menuDef: menuDef));
+      MenuDefModel menuDef = await AbstractRepositorySingleton.singleton.menuDefRepository(widget.appID).get(value);
+      widget.setActionValue(new PopupMenu(widget.appID, menuDef: menuDef));
     }
   }
 
@@ -162,6 +167,6 @@ class ActionFieldState extends State<ActionField> {
     else if (_internalAction == _internalActions[3])
       actionEnum = InternalActionEnum.OtherApps;
     if (_actionSelection == 1)
-      widget.setActionValue(new InternalAction(internalActionEnum: actionEnum));
+      widget.setActionValue(new InternalAction(widget.appID, internalActionEnum: actionEnum));
   }
 }

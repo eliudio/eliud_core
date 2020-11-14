@@ -117,8 +117,7 @@ class FontModel {
     return 'FontModel{documentID: $documentID, appId: $appId, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
-  FontEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  FontEntity toEntity(String appId) {
     return FontEntity(
           appId: (appId != null) ? appId : null, 
           fontName: (fontName != null) ? fontName : null, 
@@ -126,7 +125,7 @@ class FontModel {
           weight: (weight != null) ? weight.index : null, 
           style: (style != null) ? style.index : null, 
           decoration: (decoration != null) ? decoration.index : null, 
-          color: (color != null) ? color.toEntity() : null, 
+          color: (color != null) ? color.toEntity(appId) : null, 
     );
   }
 

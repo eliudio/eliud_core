@@ -38,10 +38,10 @@ import 'package:eliud_core/model/menu_def_form_state.dart';
 import 'package:eliud_core/model/menu_def_repository.dart';
 
 class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
-  final MenuDefRepository _menuDefRepository = menuDefRepository();
   final FormAction formAction;
+  final String appId;
 
-  MenuDefFormBloc({ this.formAction }): super(MenuDefFormUninitialized());
+  MenuDefFormBloc(this.appId, { this.formAction }): super(MenuDefFormUninitialized());
   @override
   Stream<MenuDefFormState> mapEventToState(MenuDefFormEvent event) async* {
     final currentState = state;
@@ -62,7 +62,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
 
       if (event is InitialiseMenuDefFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await _menuDefRepository.get(event.value.documentID));
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMenuDefFormNoLoadEvent) {
@@ -116,7 +116,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
   Future<MenuDefFormState> _isDocumentIDValid(String value, MenuDefModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<MenuDefModel> findDocument = _menuDefRepository.get(value);
+    Future<MenuDefModel> findDocument = menuDefRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableMenuDefForm(value: newValue);

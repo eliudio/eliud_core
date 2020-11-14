@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class AppBarJsFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class AppBarJsFirestore implements AppBarRepository {
 
   Future<AppBarModel> update(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

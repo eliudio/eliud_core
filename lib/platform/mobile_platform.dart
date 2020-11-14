@@ -38,8 +38,8 @@ class MobilePlatform extends AbstractPlatform {
   }
 
   @override
-  void initRepository(String appID) {
-    AbstractRepositorySingleton.singleton = RepositorySingleton(appID);
-    AbstractMainRepositorySingleton.singleton = MainRepositorySingleton(appID);
+  void init() {
+    AbstractRepositorySingleton.singleton = RepositorySingleton();
+    AbstractMainRepositorySingleton.singleton = MainRepositorySingleton();
   }
 }

@@ -38,14 +38,10 @@ import 'package:eliud_core/model/app_form_state.dart';
 import 'package:eliud_core/model/app_repository.dart';
 
 class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
-  final AppRepository _appRepository = appRepository();
   final FormAction formAction;
-  final PageRepository _pageRepository = pageRepository();
-  final ImageRepository _imageRepository = imageRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
-  final FontRepository _fontRepository = fontRepository();
+  final String appId;
 
-  AppFormBloc({ this.formAction }): super(AppFormUninitialized());
+  AppFormBloc(this.appId, { this.formAction }): super(AppFormUninitialized());
   @override
   Stream<AppFormState> mapEventToState(AppFormEvent event) async* {
     final currentState = state;
@@ -80,7 +76,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
 
       if (event is InitialiseAppFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppFormLoaded loaded = AppFormLoaded(value: await _appRepository.get(event.value.documentID));
+        AppFormLoaded loaded = AppFormLoaded(value: await appRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppFormNoLoadEvent) {
@@ -132,7 +128,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppEntryPage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(entryPage: await _pageRepository.get(event.value));
+          newValue = currentState.value.copyWith(entryPage: await pageRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -177,7 +173,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppLogo) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(logo: await _imageRepository.get(event.value));
+          newValue = currentState.value.copyWith(logo: await imageRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -228,7 +224,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFormBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(formBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(formBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -303,7 +299,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFormAppBarBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(formAppBarBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(formAppBarBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -354,7 +350,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppListBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(listBackground: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(listBackground: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -440,7 +436,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppH1) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(h1: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(h1: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -485,7 +481,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppH2) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(h2: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(h2: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -530,7 +526,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppH3) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(h3: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(h3: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -575,7 +571,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppH4) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(h4: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(h4: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -620,7 +616,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppH5) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(h5: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(h5: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -665,7 +661,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFontText) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(fontText: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(fontText: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -710,7 +706,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFontHighlight1) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(fontHighlight1: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(fontHighlight1: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -755,7 +751,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFontHighlight2) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(fontHighlight2: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(fontHighlight2: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -800,7 +796,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppFontLink) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(fontLink: await _fontRepository.get(event.value));
+          newValue = currentState.value.copyWith(fontLink: await fontRepository(appID: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,
@@ -852,7 +848,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
   Future<AppFormState> _isDocumentIDValid(String value, AppModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<AppModel> findDocument = _appRepository.get(value);
+    Future<AppModel> findDocument = appRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableAppForm(value: newValue);

@@ -124,8 +124,7 @@ class GridViewModel {
     return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing}';
   }
 
-  GridViewEntity toEntity() {
-    appId = GlobalData.app().documentID;
+  GridViewEntity toEntity(String appId) {
     return GridViewEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 

@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class PageJsFirestore implements PageRepository {
   Future<PageModel> add(PageModel value) {
     return pageCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class PageJsFirestore implements PageRepository {
 
   Future<PageModel> update(PageModel value) {
     return pageCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

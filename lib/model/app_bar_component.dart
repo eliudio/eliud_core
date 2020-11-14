@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/app_bar_component_bloc.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppBarBloc> (
-          create: (context) => AppBarBloc(
-            appBarRepository: getAppBarRepository())
-        ..add(FetchAppBar(id: appBarID)),
+    return BlocProvider<AppBarComponentBloc> (
+          create: (context) => AppBarComponentBloc(
+            appBarRepository: getAppBarRepository(context))
+        ..add(FetchAppBarComponent(id: appBarID)),
       child: _appBarBlockBuilder(context),
     );
   }
 
   Widget _appBarBlockBuilder(BuildContext context) {
-    return BlocBuilder<AppBarBloc, AppBarState>(builder: (context, state) {
-      if (state is AppBarLoaded) {
+    return BlocBuilder<AppBarComponentBloc, AppBarComponentState>(builder: (context, state) {
+      if (state is AppBarComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No appBar defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is AppBarError) {
+      } else if (state is AppBarComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, AppBarModel value);
   Widget alertWidget({ title: String, content: String});
-  AppBarRepository getAppBarRepository();
+  AppBarRepository getAppBarRepository(BuildContext context);
 }
 
 

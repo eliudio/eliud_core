@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/image_component_bloc.dart';
 import 'package:eliud_core/model/image_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractImageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ImageBloc> (
-          create: (context) => ImageBloc(
-            imageRepository: getImageRepository())
-        ..add(FetchImage(id: imageID)),
+    return BlocProvider<ImageComponentBloc> (
+          create: (context) => ImageComponentBloc(
+            imageRepository: getImageRepository(context))
+        ..add(FetchImageComponent(id: imageID)),
       child: _imageBlockBuilder(context),
     );
   }
 
   Widget _imageBlockBuilder(BuildContext context) {
-    return BlocBuilder<ImageBloc, ImageState>(builder: (context, state) {
-      if (state is ImageLoaded) {
+    return BlocBuilder<ImageComponentBloc, ImageComponentState>(builder: (context, state) {
+      if (state is ImageComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No image defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is ImageError) {
+      } else if (state is ImageComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractImageComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, ImageModel value);
   Widget alertWidget({ title: String, content: String});
-  ImageRepository getImageRepository();
+  ImageRepository getImageRepository(BuildContext context);
 }
 
 

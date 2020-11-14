@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,10 @@ import 'package:eliud_core/core/components/application_component.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 
 import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../core/app/app_bloc.dart';
+import '../core/app/app_event.dart';
 
 
 /*
@@ -50,8 +56,24 @@ class Registry {
     return _missingPage();
   }
 
-  Widget application({String id}) {
-    return _applicationComponentConstructor.createNew(id: id);
+  Widget application({String id, bool asPlaystore}) {
+    return BlocProvider<AppBloc> (
+      create: (context) => AppBloc()
+        ..add(FetchApp(id: id, asPlaystore: asPlaystore)),
+      child: getApp(id: id),
+    );
+  }
+
+  Widget getApp({ String id }) {
+    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+      if (state is AppLoaded) {
+        return _applicationComponentConstructor.createNew(id: id);
+      } else if (state is AppError) {
+        return  AlertWidget(title: "Error", content: state.message);
+      } else {
+        return CircularProgressIndicator();
+      }
+    });
   }
 
   Widget component({String componentName, String id, Map<String, String> parameters}) {

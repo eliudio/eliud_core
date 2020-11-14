@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/pos_size_component_bloc.dart';
 import 'package:eliud_core/model/pos_size_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PosSizeBloc> (
-          create: (context) => PosSizeBloc(
-            posSizeRepository: getPosSizeRepository())
-        ..add(FetchPosSize(id: posSizeID)),
+    return BlocProvider<PosSizeComponentBloc> (
+          create: (context) => PosSizeComponentBloc(
+            posSizeRepository: getPosSizeRepository(context))
+        ..add(FetchPosSizeComponent(id: posSizeID)),
       child: _posSizeBlockBuilder(context),
     );
   }
 
   Widget _posSizeBlockBuilder(BuildContext context) {
-    return BlocBuilder<PosSizeBloc, PosSizeState>(builder: (context, state) {
-      if (state is PosSizeLoaded) {
+    return BlocBuilder<PosSizeComponentBloc, PosSizeComponentState>(builder: (context, state) {
+      if (state is PosSizeComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No posSize defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is PosSizeError) {
+      } else if (state is PosSizeComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PosSizeModel value);
   Widget alertWidget({ title: String, content: String});
-  PosSizeRepository getPosSizeRepository();
+  PosSizeRepository getPosSizeRepository(BuildContext context);
 }
 
 

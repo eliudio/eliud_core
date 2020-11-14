@@ -4,9 +4,10 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 
 abstract class ActionModel {
+  final String appID;
   final String actionType;
 
-  const ActionModel({this.actionType});
+  const ActionModel(this.appID, {this.actionType});
 
   ActionEntity toEntity();
 
@@ -35,12 +36,13 @@ abstract class ActionModel {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage({String pageID}) : this.pageID = pageID?.toLowerCase(), super(actionType: "GotoPage");
+  GotoPage(String appID, {String pageID}) : this.pageID = pageID?.toLowerCase(), super(appID, actionType: GotoPageEntity.label);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is GotoPage &&
+              appID == other.appID &&
               runtimeType == other.runtimeType &&
               pageID == other.pageID;
 
@@ -52,12 +54,14 @@ class GotoPage extends ActionModel {
   @override
   ActionEntity toEntity() {
     return GotoPageEntity(
+      appID,
         pageID: pageID
     );
   }
 
   static ActionModel fromEntity(GotoPageEntity entity) {
     return GotoPage(
+      entity.appID,
         pageID: entity.pageID);
   }
 
@@ -71,32 +75,35 @@ class GotoPage extends ActionModel {
 }
 
 class SwitchApp extends ActionModel {
-  final String appID;
+  final String toAppID;
 
-  SwitchApp({this.appID}) : super(actionType: "SwitchApp");
+  SwitchApp(String appID, {this.toAppID}) : super(appID, actionType: SwitchAppEntity.label);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is SwitchApp &&
               runtimeType == other.runtimeType &&
-              appID == other.appID;
+              appID == other.appID &&
+              toAppID == other.toAppID;
 
   @override
   String toString() {
-    return 'SwitchApp{appID: $appID }';
+    return 'SwitchApp{toAppID: $toAppID }';
   }
 
   @override
   ActionEntity toEntity() {
     return SwitchAppEntity(
-        appID: appID
+      appID,
+      toAppID: toAppID
     );
   }
 
   static ActionModel fromEntity(SwitchAppEntity entity) {
     return SwitchApp(
-        appID: entity.appID);
+      entity.appID,
+      toAppID: entity.toAppID);
   }
 
   static Future<ActionModel> fromEntityPlus(SwitchAppEntity entity) async {
@@ -113,17 +120,14 @@ class SwitchApp extends ActionModel {
 class PopupMenu extends ActionModel {
   final MenuDefModel menuDef;
 
-    PopupMenu({this.menuDef}) : super(actionType: "PopupMenu") {
-    if (menuDef == null) {
-      print("ooo");
-    }
-  }
+  PopupMenu(String appID, {this.menuDef}) : super(appID, actionType: PopupMenuEntity.label);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is PopupMenu &&
               runtimeType == other.runtimeType &&
+              appID == other.appID &&
               menuDef == other.menuDef;
 
   @override
@@ -134,12 +138,15 @@ class PopupMenu extends ActionModel {
   @override
   ActionEntity toEntity() {
     return PopupMenuEntity(
-        menuDefID: menuDef.documentID
+      appID,
+      menuDefID: menuDef.documentID
     );
   }
 
   static ActionModel fromEntity(PopupMenuEntity entity) {
-    return PopupMenu();
+    return PopupMenu(
+      entity.appID,
+    );
   }
 
   static Future<ActionModel> fromEntityPlus(PopupMenuEntity entity) async {
@@ -148,14 +155,15 @@ class PopupMenu extends ActionModel {
     MenuDefModel menuDefModel;
     if (entity.menuDefID != null) {
       try {
-        await AbstractRepositorySingleton.singleton.menuDefRepository().get(entity.menuDefID).then((val) {
+        await menuDefRepository(appID: entity.appID).get(entity.menuDefID).then((val) {
           menuDefModel = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
     return PopupMenu(
-        menuDef: menuDefModel
+      entity.appID,
+      menuDef: menuDefModel
     );
   }
 
@@ -175,7 +183,7 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum internalActionEnum ;
 
-  InternalAction({ this.internalActionEnum });
+  InternalAction(String appID, { this.internalActionEnum }): super(appID, actionType: InternalActionEntity.label);
 
   @override
   bool operator ==(Object other) =>
@@ -191,17 +199,18 @@ class InternalAction extends ActionModel {
   @override
   ActionEntity toEntity() {
     return InternalActionEntity(
+      appID,
         action: internalActionEnum.toString()
     );
   }
 
   static ActionModel fromEntity(InternalActionEntity entity) {
     String internalAction = entity.action;
-    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(internalActionEnum: InternalActionEnum.Login);
-    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(internalActionEnum: InternalActionEnum.Flush);
-    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(internalActionEnum: InternalActionEnum.OtherApps);
-    return InternalAction(internalActionEnum: InternalActionEnum.Unknown);
+    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Login);
+    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Logout);
+    if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Flush);
+    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.OtherApps);
+    return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Unknown);
   }
 
   static Future<ActionModel> fromEntityPlus(InternalActionEntity entity) async {

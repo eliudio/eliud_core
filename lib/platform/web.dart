@@ -30,8 +30,9 @@ class Web extends AbstractPlatform {
     );
   }
 
-  void initRepository(String appID) {
-    AbstractRepositorySingleton.singleton = JsRepositorySingleton(appID);
-    AbstractMainRepositorySingleton.singleton = JsMainRepositorySingleton(appID);
+  @override
+  void init() {
+    AbstractRepositorySingleton.singleton = JsRepositorySingleton();
+    AbstractMainRepositorySingleton.singleton = JsMainRepositorySingleton();
   }
 }

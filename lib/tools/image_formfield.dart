@@ -1,4 +1,6 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,14 +12,14 @@ import 'dart:io';
 
 import 'package:eliud_core/model/image_model.dart';
 
-typedef ChangeImageField(String url);
+typedef ChangeImageField = Function(String url);
 
 const String DEFAULT_IMAGE =
-    "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60";
+    'https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60';
 
 class ImageFieldHelper {
   static String localFileName(String imageURL) {
-    if (imageURL.startsWith("local:")) return imageURL.substring(6);
+    if (imageURL.startsWith('local:')) return imageURL.substring(6);
     return null;
   }
 }
@@ -30,8 +32,8 @@ class ImageField extends StatefulWidget {
   ImageField(this.source, this.imageURL, this.trigger);
 
   @override
-  createState() {
-    return new ImageFieldState(imageURL: imageURL);
+  State<ImageField> createState() {
+    return ImageFieldState(imageURL: imageURL);
   }
 }
 
@@ -59,19 +61,21 @@ class ImageFieldState extends State<ImageField> {
 
   @override
   Widget build(BuildContext context) {
+    var accessState = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
     Future getImage() async {
-      File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
       if (image != null) {
         setState(() {
-          imageURL = "local:" + image.path;
+          imageURL = 'local:' + image.path;
           widget.trigger(imageURL);
         });
       }
     }
 
     Future<void> crop() async {
-      File image = await ImageCropper.cropImage(
+      var image = await ImageCropper.cropImage(
           sourcePath: ImageFieldHelper.localFileName(widget.imageURL),
           aspectRatioPresets: [
             CropAspectRatioPreset.square,
@@ -92,25 +96,25 @@ class ImageFieldState extends State<ImageField> {
 
       if (image != null) {
         setState(() {
-          imageURL = "local:" + image.path;
+          imageURL = 'local:' + image.path;
           widget.trigger(imageURL);
         });
       }
     }
 
-    double width = fullScreenWidth(context);
-    double height = fullScreenHeight(context);
+    var width = fullScreenWidth(context);
+    var height = fullScreenHeight(context);
 
-    double fullWidth = (width < height ? width : height) - 56;
+    var fullWidth = (width < height ? width : height) - 56;
 
-    List<Widget> widgets = List();
+    var widgets = <Widget>[];
     if (widget.source == SourceImage.Upload) {
-      String localFileName = ImageFieldHelper.localFileName(widget.imageURL);
-      List<Widget> buttons = List();
-      if (GlobalData.memberIsOwner()) {
+      var localFileName = ImageFieldHelper.localFileName(widget.imageURL);
+      var buttons = <Widget>[];
+      if (accessState.memberIsOwner(appState)) {
         buttons.add(IconButton(
             icon: Icon(Icons.add_a_photo),
-            tooltip: "Select a photo",
+            tooltip: 'Select a photo',
             onPressed: () {
               getImage();
             }));
@@ -119,7 +123,7 @@ class ImageFieldState extends State<ImageField> {
         // Allow a new image to be cropped. This hasn't been uploaded yet
         buttons.add(IconButton(
             icon: Icon(Icons.crop),
-            tooltip: "Crop",
+            tooltip: 'Crop',
             onPressed: () {
               crop();
             }));
@@ -131,12 +135,12 @@ class ImageFieldState extends State<ImageField> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              child: new SizedBox(
+              child: SizedBox(
                 width: fullWidth,
                 //height: fullWidth,
                 child: (localFileName != null)
                     ? Image.file(
-                        new File(localFileName),
+                        File(localFileName),
                         fit: BoxFit.fill,
                       )
                     : (imageURL != null)
@@ -160,19 +164,19 @@ class ImageFieldState extends State<ImageField> {
     } else if (widget.source == SourceImage.SpecifyURL) {
       widgets.add(TextFormField(
         initialValue: imageURL,
-        style: TextStyle(
-            color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor)),
-        readOnly: !GlobalData.memberIsOwner(),
+        style: appState is AppLoaded ? TextStyle(
+            color: RgbHelper.color(rgbo: appState.app.formFieldTextColor)) : null,
+        readOnly: !accessState.memberIsOwner(appState),
         onChanged: _onChanged,
 //        controller: _urlController,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(borderSide: BorderSide(
-              color: RgbHelper.color(rgbo: GlobalData.app().formFieldTextColor))),
+              color: appState is AppLoaded ? RgbHelper.color(rgbo: appState.app.formFieldTextColor) : null)),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(
-              color: RgbHelper.color(
-                  rgbo: GlobalData.app().formFieldFocusColor))),
-          icon: Icon(Icons.link, color: RgbHelper.color(
-              rgbo: GlobalData.app().formFieldHeaderColor)),
+              color: appState is AppLoaded ? RgbHelper.color(
+                  rgbo: appState.app.formFieldFocusColor): null)),
+          icon: Icon(Icons.link, color: appState is AppLoaded ? RgbHelper.color(
+              rgbo: appState.app.formFieldHeaderColor): null),
           labelText: 'URL',
         ),
         keyboardType: TextInputType.text,

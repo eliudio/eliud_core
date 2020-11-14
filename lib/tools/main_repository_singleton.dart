@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/model/app_cache.dart';
 import 'package:eliud_core/model/app_firestore.dart';
@@ -13,15 +15,18 @@ import 'package:eliud_core/model/image_firestore_bespoke.dart';
 import 'main_abstract_repository_singleton.dart';
 
 class MainRepositorySingleton extends AbstractMainRepositorySingleton {
-  MainRepositorySingleton(String appID) {
-    _imageRepository = ImageCache(ImageFirestore(appID));
+  final _imageRepository = HashMap<String, ImageRepository>();
+
+  MainRepositorySingleton() {
     _appRepository = AppCache(AppFirestore());
     _userRepository = UserRepository();
   }
 
   @override
-  ImageRepository imageRepository() => _imageRepository;
-  ImageRepository _imageRepository;
+  ImageRepository imageRepository(String appID) {
+    if (_imageRepository[appID] == null) _imageRepository[appID] = ImageCache(ImageFirestore(appID));
+    return _imageRepository[appID];
+  }
 
   @override
   AppRepository appRepository() => _appRepository;

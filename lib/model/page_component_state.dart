@@ -16,34 +16,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/page_model.dart';
 
-abstract class PageState extends Equatable {
-  const PageState();
+abstract class PageComponentState extends Equatable {
+  const PageComponentState();
 
   @override
   List<Object> get props => [];
 }
 
-class PageUninitialized extends PageState {}
+class PageComponentUninitialized extends PageComponentState {}
 
-class PageError extends PageState {
+class PageComponentError extends PageComponentState {
   final String message;
-  PageError({ this.message });
+  PageComponentError({ this.message });
 }
 
-class PageLoaded extends PageState {
+class PageComponentLoaded extends PageComponentState {
   final PageModel value;
 
-  const PageLoaded({ this.value });
+  const PageComponentLoaded({ this.value });
 
-  PageLoaded copyWith({ PageModel copyThis }) {
-    return PageLoaded(value: copyThis ?? this.value);
+  PageComponentLoaded copyWith({ PageModel copyThis }) {
+    return PageComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
   List<Object> get props => [value];
 
   @override
-  String toString() => 'PageModelLoaded { value: $value }';
+  String toString() => 'PageComponentLoaded { value: $value }';
 }
 
 

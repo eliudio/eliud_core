@@ -328,33 +328,33 @@ class AdminApp extends AdminAppInstallerBase {
 
   Future<void> _setupAdminPages() {
 
-    return pageRepository().add(_appsPages())
+    return pageRepository(appID: appID).add(_appsPages())
 
-        .then((_) => pageRepository().add(_appBarsPages()))
+        .then((_) => pageRepository(appID: appID).add(_appBarsPages()))
 
-        .then((_) => pageRepository().add(_backgroundsPages()))
+        .then((_) => pageRepository(appID: appID).add(_backgroundsPages()))
 
-        .then((_) => pageRepository().add(_countrysPages()))
+        .then((_) => pageRepository(appID: appID).add(_countrysPages()))
 
-        .then((_) => pageRepository().add(_drawersPages()))
+        .then((_) => pageRepository(appID: appID).add(_drawersPages()))
 
-        .then((_) => pageRepository().add(_fontsPages()))
+        .then((_) => pageRepository(appID: appID).add(_fontsPages()))
 
-        .then((_) => pageRepository().add(_gridViewsPages()))
+        .then((_) => pageRepository(appID: appID).add(_gridViewsPages()))
 
-        .then((_) => pageRepository().add(_homeMenusPages()))
+        .then((_) => pageRepository(appID: appID).add(_homeMenusPages()))
 
-        .then((_) => pageRepository().add(_imagesPages()))
+        .then((_) => pageRepository(appID: appID).add(_imagesPages()))
 
-        .then((_) => pageRepository().add(_membersPages()))
+        .then((_) => pageRepository(appID: appID).add(_membersPages()))
 
-        .then((_) => pageRepository().add(_menuDefsPages()))
+        .then((_) => pageRepository(appID: appID).add(_menuDefsPages()))
 
-        .then((_) => pageRepository().add(_pagesPages()))
+        .then((_) => pageRepository(appID: appID).add(_pagesPages()))
 
-        .then((_) => pageRepository().add(_posSizesPages()))
+        .then((_) => pageRepository(appID: appID).add(_posSizesPages()))
 
-        .then((_) => pageRepository().add(_shadowsPages()))
+        .then((_) => pageRepository(appID: appID).add(_shadowsPages()))
 
     ;
   }
@@ -378,7 +378,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Apps",
         description: "Apps",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_apps_page"))
+        action: GotoPage(appID, pageID: "eliud_core_apps_page"))
     );
 
 
@@ -388,7 +388,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "AppBars",
         description: "AppBars",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_appbars_page"))
+        action: GotoPage(appID, pageID: "eliud_core_appbars_page"))
     );
 
 
@@ -398,7 +398,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Backgrounds",
         description: "Backgrounds",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_backgrounds_page"))
+        action: GotoPage(appID, pageID: "eliud_core_backgrounds_page"))
     );
 
 
@@ -408,7 +408,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Countrys",
         description: "Countrys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_countrys_page"))
+        action: GotoPage(appID, pageID: "eliud_core_countrys_page"))
     );
 
 
@@ -418,7 +418,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Drawers",
         description: "Drawers",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_drawers_page"))
+        action: GotoPage(appID, pageID: "eliud_core_drawers_page"))
     );
 
 
@@ -428,7 +428,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Fonts",
         description: "Fonts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_fonts_page"))
+        action: GotoPage(appID, pageID: "eliud_core_fonts_page"))
     );
 
 
@@ -438,7 +438,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "GridViews",
         description: "GridViews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_gridviews_page"))
+        action: GotoPage(appID, pageID: "eliud_core_gridviews_page"))
     );
 
 
@@ -448,7 +448,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "HomeMenus",
         description: "HomeMenus",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_homemenus_page"))
+        action: GotoPage(appID, pageID: "eliud_core_homemenus_page"))
     );
 
 
@@ -458,7 +458,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Images",
         description: "Images",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_images_page"))
+        action: GotoPage(appID, pageID: "eliud_core_images_page"))
     );
 
 
@@ -468,7 +468,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Members",
         description: "Members",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_members_page"))
+        action: GotoPage(appID, pageID: "eliud_core_members_page"))
     );
 
 
@@ -478,7 +478,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "MenuDefs",
         description: "MenuDefs",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_menudefs_page"))
+        action: GotoPage(appID, pageID: "eliud_core_menudefs_page"))
     );
 
 
@@ -488,7 +488,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Pages",
         description: "Pages",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_pages_page"))
+        action: GotoPage(appID, pageID: "eliud_core_pages_page"))
     );
 
 
@@ -498,7 +498,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PosSizes",
         description: "PosSizes",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_possizes_page"))
+        action: GotoPage(appID, pageID: "eliud_core_possizes_page"))
     );
 
 
@@ -508,7 +508,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Shadows",
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(pageID: "eliud_core_shadows_page"))
+        action: GotoPage(appID, pageID: "eliud_core_shadows_page"))
     );
 
 
@@ -519,7 +519,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
       name: "eliud_core",
       menuItems: menuItems
     );
-    await menuDefRepository().add(menu);
+    await menuDefRepository(appID: appID).add(menu);
     return menu;
   }
 }
@@ -528,18 +528,18 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appID) async {
-    await appBarRepository().deleteAll();
-    await backgroundRepository().deleteAll();
+    await appBarRepository(appID: appID).deleteAll();
+    await backgroundRepository(appID: appID).deleteAll();
     await countryRepository().deleteAll();
-    await drawerRepository().deleteAll();
-    await fontRepository().deleteAll();
-    await gridViewRepository().deleteAll();
-    await homeMenuRepository().deleteAll();
-    await imageRepository().deleteAll();
-    await menuDefRepository().deleteAll();
-    await pageRepository().deleteAll();
-    await posSizeRepository().deleteAll();
-    await shadowRepository().deleteAll();
+    await drawerRepository(appID: appID).deleteAll();
+    await fontRepository(appID: appID).deleteAll();
+    await gridViewRepository(appID: appID).deleteAll();
+    await homeMenuRepository(appID: appID).deleteAll();
+    await imageRepository(appID: appID).deleteAll();
+    await menuDefRepository(appID: appID).deleteAll();
+    await pageRepository(appID: appID).deleteAll();
+    await posSizeRepository(appID: appID).deleteAll();
+    await shadowRepository(appID: appID).deleteAll();
     ;
   }
 

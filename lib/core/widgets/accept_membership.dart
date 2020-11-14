@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -10,11 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
-import 'package:eliud_core/eliud.dart';
-import 'package:eliud_core/core/global_data.dart';
 
 // From https://gdpr.eu/privacy-notice/
-const String _gdpr = """
+const String _gdpr = '''
 <html>
 <h1>\${appName} Privacy Policy</h1>
 <p>This privacy policy will explain how our organization uses the personal data we collect from you when you use our website.</p>
@@ -102,7 +101,7 @@ const String _gdpr = """
 <p>\${email}</p>
 
 </html>
-""";
+''';
 
 class AcceptMembershipWidget extends StatefulWidget {
   final AppModel app;
@@ -156,20 +155,22 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = List();
+    var app = AppBloc.app(context);
+    var accessState = AccessBloc.getState(context);
+    var widgets = <Widget>[];
     widgets.add(HtmlWidget(
         process(_gdpr, parameters: <String, String>{
-          '\${appName}': GlobalData.app().title,
-          '\${email}': GlobalData.app().email,
+          '\${appName}': app.title,
+          '\${email}': app.email,
         }),
         webView: false));
 
-    widgets.add(Text(""));
+    widgets.add(Text(''));
     _addButtons(widgets);
 
     return Container(
-        decoration: BoxDecorationHelper.boxDecoration(
-            GlobalData.app().formAppBarBackground),
+        decoration: BoxDecorationHelper.boxDecoration(accessState,
+            app.formAppBarBackground),
         child: Container(
             padding: const EdgeInsets.all(20),
             child: ListView.builder(

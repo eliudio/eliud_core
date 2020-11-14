@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class GridViewFirestore implements GridViewRepository {
   Future<GridViewModel> add(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(GridViewModel value) {
@@ -36,7 +36,7 @@ class GridViewFirestore implements GridViewRepository {
   }
 
   Future<GridViewModel> update(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   GridViewModel _populateDoc(DocumentSnapshot doc) {

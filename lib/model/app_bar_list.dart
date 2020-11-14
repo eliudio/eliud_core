@@ -13,6 +13,12 @@
 
 */
 
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +40,8 @@ import 'package:eliud_core/model/app_bar_list_state.dart';
 import 'package:eliud_core/model/app_bar_list_bloc.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 
+import 'package:eliud_core/model/app_model.dart';
+
 import 'app_bar_form.dart';
 class AppBarListWidget extends StatefulWidget with HasFab {
   bool readOnly;
@@ -49,10 +57,13 @@ class AppBarListWidget extends StatefulWidget with HasFab {
     return state;
   }
 
+  @override
   Widget fab(BuildContext context) {
     if ((readOnly != null) && readOnly) return null;
     state ??= AppBarListWidgetState();
-    return state.fab(context);
+    var accessState = AccessBloc.getState(context);
+    var appState = AppBloc.getState(context);
+    return state.fab(context, accessState, appState);
   }
 }
 
@@ -72,76 +83,86 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
   }
 
   @override
-  Widget fab(BuildContext aContext) {
-    return !GlobalData.memberIsOwner()  
+  Widget fab(BuildContext aContext, AccessState accessState, AppLoaded appState) {
+    if (appState is AppLoaded) {
+      return !accessState.memberIsOwner(appState) 
         ? null
         :FloatingActionButton(
-      heroTag: "AppBarFloatBtnTag",
-      foregroundColor: RgbHelper.color(rgbo: GlobalData.app().floatingButtonForegroundColor),
-      backgroundColor: RgbHelper.color(rgbo: GlobalData.app().floatingButtonBackgroundColor),
-      child: Icon(Icons.add),
-      onPressed: () {
-        Navigator.of(context).push(
-          pageRouteBuilder(page: BlocProvider.value(
-              value: bloc,
-              child: AppBarForm(
-                  value: null,
-                  formAction: FormAction.AddAction)
-          )),
-        );
-      },
-    );
+        heroTag: "AppBarFloatBtnTag",
+        foregroundColor: RgbHelper.color(rgbo: appState.app.floatingButtonForegroundColor),
+        backgroundColor: RgbHelper.color(rgbo: appState.app.floatingButtonBackgroundColor),
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            pageRouteBuilder(appState.app, page: BlocProvider.value(
+                value: bloc,
+                child: AppBarForm(
+                    value: null,
+                    formAction: FormAction.AddAction)
+            )),
+          );
+        },
+      );
+    } else {
+      return Text('App not loaded');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBarListBloc, AppBarListState>(builder: (context, state) {
-      if (state is AppBarListLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is AppBarListLoaded) {
-        final values = state.values;
-        if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
-          List<Widget> children = List();
-          children.add(theList(context, values));
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                              pageRouteBuilder(page: BlocProvider.value(
-                                  value: bloc,
-                                  child: AppBarForm(
-                                      value: null,
-                                      formAction: FormAction.AddAction)
-                              )),
-                            );
-                  },
-                  child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
-                ));
-          return ListView(
-            padding: const EdgeInsets.all(8),
-            physics: ScrollPhysics(),
-            shrinkWrap: true,
-            children: children
+    var appState = AppBloc.getState(context);
+    var accessState = AccessBloc.getState(context);
+    if (appState is AppLoaded) {
+      return BlocBuilder<AppBarListBloc, AppBarListState>(builder: (context, state) {
+        if (state is AppBarListLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
+        } else if (state is AppBarListLoaded) {
+          final values = state.values;
+          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+            List<Widget> children = List();
+            children.add(theList(context, values, appState, accessState));
+            children.add(RaisedButton(
+                    color: RgbHelper.color(rgbo: appState.app.formSubmitButtonColor),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                                pageRouteBuilder(appState.app, page: BlocProvider.value(
+                                    value: bloc,
+                                    child: AppBarForm(
+                                        value: null,
+                                        formAction: FormAction.AddAction)
+                                )),
+                              );
+                    },
+                    child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: appState.app.formSubmitButtonTextColor))),
+                  ));
+            return ListView(
+              padding: const EdgeInsets.all(8),
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              children: children
+            );
+          } else {
+            return theList(context, values, appState, accessState);
+          }
         } else {
-          return theList(context, values);
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
-      } else {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-    });
+      });
+    } else {
+      return Text("App not loaded");
+    } 
   }
   
-  Widget theList(BuildContext context, values) {
+  Widget theList(BuildContext context, values, AppLoaded appState, AccessState accessState) {
     return Container(
-      decoration: BoxDecorationHelper.boxDecoration(GlobalData.app().listBackground),
+      decoration: BoxDecorationHelper.boxDecoration(accessState, appState.app.listBackground),
       child: ListView.separated(
         separatorBuilder: (context, index) => Divider(
-          color: RgbHelper.color(rgbo: GlobalData.app().dividerColor)
+          color: RgbHelper.color(rgbo: appState.app.dividerColor)
         ),
         shrinkWrap: true,
         physics: ScrollPhysics(),
@@ -150,6 +171,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
           final value = values[index];
           return AppBarListItem(
             value: value,
+            app: appState.app,
             onDismissed: (direction) {
               BlocProvider.of<AppBarListBloc>(context)
                   .add(DeleteAppBarList(value: value));
@@ -161,7 +183,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(page: BlocProvider.value(
+                        pageRouteBuilder(appState.app, page: BlocProvider.value(
                               value: BlocProvider.of<AppBarListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -195,6 +217,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
 class AppBarListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
+  final AppModel app;
   final AppBarModel value;
 
   AppBarListItem({
@@ -202,6 +225,7 @@ class AppBarListItem extends StatelessWidget {
     @required this.onDismissed,
     @required this.onTap,
     @required this.value,
+    @required this.app,
   }) : super(key: key);
 
   @override
@@ -217,7 +241,7 @@ class AppBarListItem extends StatelessWidget {
             width: fullScreenWidth(context),
             child: Center(child: Text(
               value.documentID,
-              style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().listTextItemColor)),
+              style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
@@ -226,7 +250,7 @@ class AppBarListItem extends StatelessWidget {
           value.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().listTextItemColor)),
+          style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
         ))
             : null,
       ),

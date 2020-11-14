@@ -1,4 +1,7 @@
-import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/widgets.dart';
 
@@ -69,8 +72,10 @@ const String SCREEN_HEIGHT_BY_FACTOR = 'screenHeightByFactor';
 
 class DocumentParameterProcessor {
   final BuildContext context;
+  final AccessState state;
+  final AppState appState;
 
-  DocumentParameterProcessor(this.context);
+  DocumentParameterProcessor(this.context, this.state, this.appState);
 
   Param param(String parseMe) {
     var pos = parseMe.indexOf('\${');
@@ -93,15 +98,19 @@ class DocumentParameterProcessor {
 
   String userName()  {
     try {
-      return GlobalData.member().name;
+      var theState = state;
+      if (theState is LoggedIn) {
+        return theState.member.name;
+      }
     } catch (_) {
-      return 'Error retrieving username';
     }
+    return 'Error retrieving username';
   }
 
   String userGroup() {
-    if (GlobalData.memberIsOwner()) return 'Owner';
-    if (GlobalData.isLoggedOn()) return 'Member';
+    var theState = state;
+    if ((theState is LoggedIn) && (theState.memberIsOwner(appState))) return 'Owner';
+    if (state.isLoggedIn()) return 'Member';
     return 'Guest';
   }
 
@@ -144,5 +153,5 @@ class DocumentParameterProcessor {
 }
 
 String processDoc(BuildContext context, String original) {
-  return DocumentParameterProcessor(context).process(original);
+  return DocumentParameterProcessor(context, AccessBloc.getState(context), AppBloc.getState(context)).process(original);
 }

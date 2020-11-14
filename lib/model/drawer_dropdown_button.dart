@@ -23,6 +23,12 @@ import 'package:eliud_core/platform/platform.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+
+import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
+
 
 import 'package:eliud_core/model/drawer_list_bloc.dart';
 import 'package:eliud_core/model/drawer_list_state.dart';
@@ -71,7 +77,8 @@ return widgets;
 
   @override
   Widget build(BuildContext context) {
-
+    var appState = AppBloc.getState(context);
+    var accessState = AccessBloc.getState(context);
     return BlocBuilder<DrawerListBloc, DrawerListState>(builder: (context, state) {
       if (state is DrawerListLoading) {
         return Center(
@@ -119,7 +126,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a drawer'),
-                      onChanged: !GlobalData.memberIsOwner() ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner(appState) ? null : _onChange,
                     );
         if (false) {
           return Container(height:48, child: Center(child: button));

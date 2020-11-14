@@ -21,28 +21,28 @@ import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 
-class AppBarBloc extends Bloc<AppBarEvent, AppBarState> {
+class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentState> {
   final AppBarRepository appBarRepository;
 
-  AppBarBloc({ this.appBarRepository }): super(AppBarUninitialized());
+  AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized());
   @override
-  Stream<AppBarState> mapEventToState(AppBarEvent event) async* {
+  Stream<AppBarComponentState> mapEventToState(AppBarComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchAppBar) {
+    if (event is FetchAppBarComponent) {
       try {
-        if (currentState is AppBarUninitialized) {
+        if (currentState is AppBarComponentUninitialized) {
           final AppBarModel model = await _fetchAppBar(event.id);
 
           if (model != null) {
-            yield AppBarLoaded(value: model);
+            yield AppBarComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield AppBarError(message: "AppBar with id = '$id' not found");
+            yield AppBarComponentError(message: "AppBar with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield AppBarError(message: "Unknown error whilst retrieving AppBar");
+        yield AppBarComponentError(message: "Unknown error whilst retrieving AppBar");
       }
     }
   }

@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/country_component_bloc.dart';
 import 'package:eliud_core/model/country_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractCountryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CountryBloc> (
-          create: (context) => CountryBloc(
-            countryRepository: getCountryRepository())
-        ..add(FetchCountry(id: countryID)),
+    return BlocProvider<CountryComponentBloc> (
+          create: (context) => CountryComponentBloc(
+            countryRepository: getCountryRepository(context))
+        ..add(FetchCountryComponent(id: countryID)),
       child: _countryBlockBuilder(context),
     );
   }
 
   Widget _countryBlockBuilder(BuildContext context) {
-    return BlocBuilder<CountryBloc, CountryState>(builder: (context, state) {
-      if (state is CountryLoaded) {
+    return BlocBuilder<CountryComponentBloc, CountryComponentState>(builder: (context, state) {
+      if (state is CountryComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No country defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is CountryError) {
+      } else if (state is CountryComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractCountryComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, CountryModel value);
   Widget alertWidget({ title: String, content: String});
-  CountryRepository getCountryRepository();
+  CountryRepository getCountryRepository(BuildContext context);
 }
 
 

@@ -38,8 +38,9 @@ import 'package:eliud_core/model/image_form_state.dart';
 import 'package:eliud_core/model/image_repository.dart';
 
 class ImageFormBloc extends Bloc<ImageFormEvent, ImageFormState> {
+  final String appId;
 
-  ImageFormBloc(): super(ImageFormUninitialized());
+  ImageFormBloc(this.appId, ): super(ImageFormUninitialized());
   @override
   Stream<ImageFormState> mapEventToState(ImageFormEvent event) async* {
     final currentState = state;

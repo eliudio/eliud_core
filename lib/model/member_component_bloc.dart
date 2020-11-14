@@ -21,28 +21,28 @@ import 'package:eliud_core/model/member_component_event.dart';
 import 'package:eliud_core/model/member_component_state.dart';
 import 'package:eliud_core/model/member_repository.dart';
 
-class MemberBloc extends Bloc<MemberEvent, MemberState> {
+class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentState> {
   final MemberRepository memberRepository;
 
-  MemberBloc({ this.memberRepository }): super(MemberUninitialized());
+  MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized());
   @override
-  Stream<MemberState> mapEventToState(MemberEvent event) async* {
+  Stream<MemberComponentState> mapEventToState(MemberComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchMember) {
+    if (event is FetchMemberComponent) {
       try {
-        if (currentState is MemberUninitialized) {
+        if (currentState is MemberComponentUninitialized) {
           final MemberModel model = await _fetchMember(event.id);
 
           if (model != null) {
-            yield MemberLoaded(value: model);
+            yield MemberComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield MemberError(message: "Member with id = '$id' not found");
+            yield MemberComponentError(message: "Member with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield MemberError(message: "Unknown error whilst retrieving Member");
+        yield MemberComponentError(message: "Unknown error whilst retrieving Member");
       }
     }
   }

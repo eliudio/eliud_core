@@ -38,8 +38,9 @@ import 'package:eliud_core/model/decoration_color_form_state.dart';
 import 'package:eliud_core/model/decoration_color_repository.dart';
 
 class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationColorFormState> {
+  final String appId;
 
-  DecorationColorFormBloc(): super(DecorationColorFormUninitialized());
+  DecorationColorFormBloc(this.appId, ): super(DecorationColorFormUninitialized());
   @override
   Stream<DecorationColorFormState> mapEventToState(DecorationColorFormEvent event) async* {
     final currentState = state;

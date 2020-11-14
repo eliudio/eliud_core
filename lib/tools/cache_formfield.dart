@@ -1,5 +1,7 @@
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/eliud.dart';
 import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +38,14 @@ class CacheFieldState extends State<CacheField> {
 
   @override
   Widget build(BuildContext context) {
+    AppModel app = AppBloc.app(context);
     return  RaisedButton(
-      color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonColor),
+      color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
       onPressed: () {
         value = uuid.v4();
         widget.trigger(value);
       },
-      child: Text('Flush', style: TextStyle(color: RgbHelper.color(rgbo: GlobalData.app().formSubmitButtonTextColor))),
+      child: Text('Flush', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
     );
   }
 }

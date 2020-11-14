@@ -20,28 +20,28 @@ import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/model/pos_size_component_event.dart';
 import 'package:eliud_core/model/pos_size_component_state.dart';
 import 'package:eliud_core/model/pos_size_repository.dart';
-class PosSizeBloc extends Bloc<PosSizeEvent, PosSizeState> {
+class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentState> {
   final PosSizeRepository posSizeRepository;
 
-  PosSizeBloc({ this.posSizeRepository }): super(PosSizeUninitialized());
+  PosSizeComponentBloc({ this.posSizeRepository }): super(PosSizeComponentUninitialized());
   @override
-  Stream<PosSizeState> mapEventToState(PosSizeEvent event) async* {
+  Stream<PosSizeComponentState> mapEventToState(PosSizeComponentEvent event) async* {
     final currentState = state;
-    if (event is FetchPosSize) {
+    if (event is FetchPosSizeComponent) {
       try {
-        if (currentState is PosSizeUninitialized) {
+        if (currentState is PosSizeComponentUninitialized) {
           final PosSizeModel model = await _fetchPosSize(event.id);
 
           if (model != null) {
-            yield PosSizeLoaded(value: model);
+            yield PosSizeComponentLoaded(value: model);
           } else {
             String id = event.id;
-            yield PosSizeError(message: "PosSize with id = '$id' not found");
+            yield PosSizeComponentError(message: "PosSize with id = '$id' not found");
           }
           return;
         }
       } catch (_) {
-        yield PosSizeError(message: "Unknown error whilst retrieving PosSize");
+        yield PosSizeComponentError(message: "Unknown error whilst retrieving PosSize");
       }
     }
   }

@@ -1,9 +1,7 @@
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/model/app_model.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 // fadeTransition
 abstract class SlideRoute extends PageRouteBuilder {
@@ -14,34 +12,42 @@ abstract class SlideRoute extends PageRouteBuilder {
 
   SlideRoute({this.page, this.milliseconds, this.begin, this.end})
       : super(
-    pageBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation) {
-      return page;
-    },
-    transitionDuration: Duration(milliseconds: milliseconds),
-    transitionsBuilder: (BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child) {
-      return new SlideTransition(
-        position: new Tween<Offset>(
-          begin: begin,
-          end: end,
-        ).animate(animation),
-        child: child,
-      );
-    },
-  );
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return page;
+          },
+          transitionDuration: Duration(milliseconds: milliseconds),
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            return new SlideTransition(
+              position: new Tween<Offset>(
+                begin: begin,
+                end: end,
+              ).animate(animation),
+              child: child,
+            );
+          },
+        );
 }
 
 class RightToLeftRoute extends SlideRoute {
   RightToLeftRoute({Widget page, int milliseconds})
-      : super(page: page, milliseconds: milliseconds, begin: Offset(1.0, 0.0), end: Offset.zero);
+      : super(
+            page: page,
+            milliseconds: milliseconds,
+            begin: Offset(1.0, 0.0),
+            end: Offset.zero);
 }
 
 class BottomToTopRoute extends SlideRoute {
   BottomToTopRoute({Widget page, int milliseconds})
-      : super(page: page, milliseconds: milliseconds, begin: Offset(0.0, 1.0), end: Offset.zero);
+      : super(
+            page: page,
+            milliseconds: milliseconds,
+            begin: Offset(0.0, 1.0),
+            end: Offset.zero);
 }
 
 class ScaleRoute extends PageRouteBuilder {
@@ -50,32 +56,32 @@ class ScaleRoute extends PageRouteBuilder {
 
   ScaleRoute({this.page, this.milliseconds})
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionDuration: Duration(milliseconds: milliseconds),
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        ScaleTransition(
-          scale: Tween<double>(
-            begin: 0.0,
-            end: 1.0,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastOutSlowIn,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: Duration(milliseconds: milliseconds),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              ScaleTransition(
+            scale: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.fastOutSlowIn,
+              ),
             ),
+            child: child,
           ),
-          child: child,
-        ),
-  );
+        );
 }
 
 class RotationRoute extends PageRouteBuilder {
@@ -84,32 +90,32 @@ class RotationRoute extends PageRouteBuilder {
 
   RotationRoute({this.page, this.milliseconds})
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionDuration: Duration(milliseconds: milliseconds),
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        RotationTransition(
-          turns: Tween<double>(
-            begin: 0.0,
-            end: 1.0,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.linear,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: Duration(milliseconds: milliseconds),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              RotationTransition(
+            turns: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.linear,
+              ),
             ),
+            child: child,
           ),
-          child: child,
-        ),
-  );
+        );
 }
 
 class FadeRoute extends PageRouteBuilder {
@@ -118,31 +124,31 @@ class FadeRoute extends PageRouteBuilder {
 
   FadeRoute({this.page, this.milliseconds})
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionDuration: Duration(milliseconds: milliseconds),
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
-  );
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: Duration(milliseconds: milliseconds),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
 }
 
-PageRouteBuilder pageRouteBuilder( { Widget page}) {
+PageRouteBuilder pageRouteBuilder(AppModel app, {Widget page}) {
   debugPrint('pageRouteBuilder()');
-  int milliseconds = GlobalData.app != null ? GlobalData.app().routeAnimationDuration : 1000;
-  if (GlobalData.app != null) {
-    switch (GlobalData.app().routeBuilder) {
+  int milliseconds = app != null ? app.routeAnimationDuration : 1000;
+  if (app != null) {
+    switch (app.routeBuilder) {
       case PageTransitionAnimation.SlideRightToLeft:
         return RightToLeftRoute(page: page, milliseconds: milliseconds);
       case PageTransitionAnimation.SlideBottomToTop:
@@ -159,4 +165,3 @@ PageRouteBuilder pageRouteBuilder( { Widget page}) {
   }
   return FadeRoute(page: page, milliseconds: 1000);
 }
-

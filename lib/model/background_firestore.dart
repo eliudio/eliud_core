@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class BackgroundFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
-    return BackgroundCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return BackgroundCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(BackgroundModel value) {
@@ -36,7 +36,7 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
   Future<BackgroundModel> update(BackgroundModel value) {
-    return BackgroundCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return BackgroundCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
   }
 
   BackgroundModel _populateDoc(DocumentSnapshot doc) {

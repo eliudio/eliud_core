@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class BackgroundJsFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   Future<BackgroundModel> update(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

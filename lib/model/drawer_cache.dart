@@ -106,7 +106,7 @@ class DrawerCache implements DrawerRepository {
     BackgroundModel backgroundHolder;
     if (model.background != null) {
       try {
-        await backgroundRepository().get(model.background.documentID).then((val) {
+        await backgroundRepository(appID: model.appId).get(model.background.documentID).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -115,7 +115,7 @@ class DrawerCache implements DrawerRepository {
     BackgroundModel headerBackgroundHolder;
     if (model.headerBackground != null) {
       try {
-        await backgroundRepository().get(model.headerBackground.documentID).then((val) {
+        await backgroundRepository(appID: model.appId).get(model.headerBackground.documentID).then((val) {
           headerBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -124,7 +124,7 @@ class DrawerCache implements DrawerRepository {
     MenuDefModel menuHolder;
     if (model.menu != null) {
       try {
-        await menuDefRepository().get(model.menu.documentID).then((val) {
+        await menuDefRepository(appID: model.appId).get(model.menu.documentID).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}

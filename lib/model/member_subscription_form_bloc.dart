@@ -38,9 +38,9 @@ import 'package:eliud_core/model/member_subscription_form_state.dart';
 import 'package:eliud_core/model/member_subscription_repository.dart';
 
 class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, MemberSubscriptionFormState> {
-  final AppRepository _appRepository = appRepository();
+  final String appId;
 
-  MemberSubscriptionFormBloc(): super(MemberSubscriptionFormUninitialized());
+  MemberSubscriptionFormBloc(this.appId, ): super(MemberSubscriptionFormUninitialized());
   @override
   Stream<MemberSubscriptionFormState> mapEventToState(MemberSubscriptionFormEvent event) async* {
     final currentState = state;
@@ -69,7 +69,7 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
       MemberSubscriptionModel newValue = null;
       if (event is ChangedMemberSubscriptionApp) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(app: await _appRepository.get(event.value));
+          newValue = currentState.value.copyWith(app: await appRepository(appID: appId).get(event.value));
         else
           newValue = new MemberSubscriptionModel(
                                  documentID: currentState.value.documentID,

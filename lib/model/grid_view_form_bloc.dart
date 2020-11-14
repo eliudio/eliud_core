@@ -38,10 +38,10 @@ import 'package:eliud_core/model/grid_view_form_state.dart';
 import 'package:eliud_core/model/grid_view_repository.dart';
 
 class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
-  final GridViewRepository _gridViewRepository = gridViewRepository();
   final FormAction formAction;
+  final String appId;
 
-  GridViewFormBloc({ this.formAction }): super(GridViewFormUninitialized());
+  GridViewFormBloc(this.appId, { this.formAction }): super(GridViewFormUninitialized());
   @override
   Stream<GridViewFormState> mapEventToState(GridViewFormEvent event) async* {
     final currentState = state;
@@ -68,7 +68,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
 
       if (event is InitialiseGridViewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        GridViewFormLoaded loaded = GridViewFormLoaded(value: await _gridViewRepository.get(event.value.documentID));
+        GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseGridViewFormNoLoadEvent) {
@@ -198,7 +198,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
   Future<GridViewFormState> _isDocumentIDValid(String value, GridViewModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<GridViewModel> findDocument = _gridViewRepository.get(value);
+    Future<GridViewModel> findDocument = gridViewRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableGridViewForm(value: newValue);

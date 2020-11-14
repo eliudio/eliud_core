@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class CountryEvent extends Equatable {
+abstract class CountryComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchCountry extends CountryEvent {
+class FetchCountryComponent extends CountryComponentEvent {
   final String id;
 
-  FetchCountry({ this.id });
+  FetchCountryComponent({ this.id });
 }
 

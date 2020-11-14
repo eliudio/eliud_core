@@ -38,11 +38,10 @@ import 'package:eliud_core/model/member_form_state.dart';
 import 'package:eliud_core/model/member_repository.dart';
 
 class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
-  final MemberRepository _memberRepository = memberRepository();
   final FormAction formAction;
-  final CountryRepository _countryRepository = countryRepository();
+  final String appId;
 
-  MemberFormBloc({ this.formAction }): super(MemberFormUninitialized());
+  MemberFormBloc(this.appId, { this.formAction }): super(MemberFormUninitialized());
   @override
   Stream<MemberFormState> mapEventToState(MemberFormEvent event) async* {
     final currentState = state;
@@ -76,7 +75,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
 
       if (event is InitialiseMemberFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MemberFormLoaded loaded = MemberFormLoaded(value: await _memberRepository.get(event.value.documentID));
+        MemberFormLoaded loaded = MemberFormLoaded(value: await memberRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMemberFormNoLoadEvent) {
@@ -140,7 +139,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
       }
       if (event is ChangedMemberCountry) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(country: await _countryRepository.get(event.value));
+          newValue = currentState.value.copyWith(country: await countryRepository(appID: appId).get(event.value));
         else
           newValue = new MemberModel(
                                  documentID: currentState.value.documentID,
@@ -207,7 +206,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
       }
       if (event is ChangedMemberInvoiceCountry) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(invoiceCountry: await _countryRepository.get(event.value));
+          newValue = currentState.value.copyWith(invoiceCountry: await countryRepository(appID: appId).get(event.value));
         else
           newValue = new MemberModel(
                                  documentID: currentState.value.documentID,
@@ -263,7 +262,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
   Future<MemberFormState> _isDocumentIDValid(String value, MemberModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<MemberModel> findDocument = _memberRepository.get(value);
+    Future<MemberModel> findDocument = memberRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableMemberForm(value: newValue);

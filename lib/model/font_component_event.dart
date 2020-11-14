@@ -15,14 +15,14 @@
 
 import 'package:equatable/equatable.dart';
 
-abstract class FontEvent extends Equatable {
+abstract class FontComponentEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class FetchFont extends FontEvent {
+class FetchFontComponent extends FontComponentEvent {
   final String id;
 
-  FetchFont({ this.id });
+  FetchFontComponent({ this.id });
 }
 

@@ -16,18 +16,14 @@ import 'package:eliud_core/model/component_registry.dart';
 abstract class Package {
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
+   * Initialise your repositories and any other platform specifics
    */
   void init();
 
   /*
-   * Initialise your repositories with the provided appID. This method is called at startup as well when switching app
-   */
-  void initRepository(String appID);
-
-  /*
    * Plugins can depend on the highest level of the app to provide a bloc. A plugin can do this by implementing this method.
    */
-  BlocProvider createMainBloc(NavigatorBloc navigatorBloc);
+  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc);
 
   /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.
@@ -44,19 +40,15 @@ abstract class Package {
 }
 
 abstract class Eliud {
-  bool _isPlayStore;
-  AppModel _app;
-
   void register(Package package) {
     GlobalData.registerPackage(package);
   }
 
-  void initRepositoryRegistryAndPackages(String appID) {
+  void initRegistryAndPackages() {
     try {
       AbstractPlatform.platform = getPlatform();
+      AbstractPlatform.platform.init();
       ComponentRegistry().init();
-
-      AbstractPlatform.platform.initRepository(appID);
 
       // Initialise custom extensions:
       Registry.registry().register(
@@ -68,7 +60,6 @@ abstract class Eliud {
       for (var i = 0; i < plugins.length; i++) {
         var plugin = plugins[i];
         plugin.init();
-        plugin.initRepository(appID);
       }
 
     } catch (error) {
@@ -83,18 +74,7 @@ abstract class Eliud {
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
   void run(String appId, bool asPlaystore) async {
-    _isPlayStore = asPlaystore;
-    _app = await AbstractMainRepositorySingleton.singleton.appRepository().get(appId);
-    if (_app == null) {
-      print('App with appID $appId does not exist');
-    } else {
-      if (_isPlayStore) {
-        GlobalData.playStoreApp = _app;
-        runApp(Registry.registry().application(id: _app.documentID));
-      } else {
-        runApp(Registry.registry().application(id: _app.documentID));
-      }
-    }
+    runApp(Registry.registry().application(id: appId, asPlaystore: asPlaystore));
   }
 
   AbstractPlatform getPlatform();

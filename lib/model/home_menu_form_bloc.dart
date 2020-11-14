@@ -38,12 +38,10 @@ import 'package:eliud_core/model/home_menu_form_state.dart';
 import 'package:eliud_core/model/home_menu_repository.dart';
 
 class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
-  final HomeMenuRepository _homeMenuRepository = homeMenuRepository();
   final FormAction formAction;
-  final MenuDefRepository _menuDefRepository = menuDefRepository();
-  final BackgroundRepository _backgroundRepository = backgroundRepository();
+  final String appId;
 
-  HomeMenuFormBloc({ this.formAction }): super(HomeMenuFormUninitialized());
+  HomeMenuFormBloc(this.appId, { this.formAction }): super(HomeMenuFormUninitialized());
   @override
   Stream<HomeMenuFormState> mapEventToState(HomeMenuFormEvent event) async* {
     final currentState = state;
@@ -65,7 +63,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
 
       if (event is InitialiseHomeMenuFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await _homeMenuRepository.get(event.value.documentID));
+        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appID: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseHomeMenuFormNoLoadEvent) {
@@ -97,7 +95,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
       }
       if (event is ChangedHomeMenuMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(menu: await _menuDefRepository.get(event.value));
+          newValue = currentState.value.copyWith(menu: await menuDefRepository(appID: appId).get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value.documentID,
@@ -120,7 +118,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
       }
       if (event is ChangedHomeMenuBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await _backgroundRepository.get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value.documentID,
@@ -159,7 +157,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
   Future<HomeMenuFormState> _isDocumentIDValid(String value, HomeMenuModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<HomeMenuModel> findDocument = _homeMenuRepository.get(value);
+    Future<HomeMenuModel> findDocument = homeMenuRepository(appID: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableHomeMenuForm(value: newValue);

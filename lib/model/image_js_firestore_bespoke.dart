@@ -26,7 +26,7 @@ class ImageJsFirestore implements ImageRepository {
 //    return ImageTools.uploadPic(value).then((onValue) {
 //    also: don't upload when we're dealing with internal photos, like profile photo
       return imageCollection.doc(value.documentID)
-          .set(value.toEntity().toDocument())
+          .set(value.toEntity(appID).toDocument())
           .then((_) => value);
 //    });
   }
@@ -37,7 +37,7 @@ class ImageJsFirestore implements ImageRepository {
 
   Future<ImageModel> update(ImageModel value) {
     return imageCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appID).toDocument())
         .then((_) => value);
   }
 

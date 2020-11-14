@@ -15,6 +15,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/app_component_bloc.dart';
 import 'package:eliud_core/model/app_component_event.dart';
@@ -30,23 +31,23 @@ abstract class AbstractAppComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppBloc> (
-          create: (context) => AppBloc(
-            appRepository: getAppRepository())
-        ..add(FetchApp(id: appID)),
+    return BlocProvider<AppComponentBloc> (
+          create: (context) => AppComponentBloc(
+            appRepository: getAppRepository(context))
+        ..add(FetchAppComponent(id: appID)),
       child: _appBlockBuilder(context),
     );
   }
 
   Widget _appBlockBuilder(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-      if (state is AppLoaded) {
+    return BlocBuilder<AppComponentBloc, AppComponentState>(builder: (context, state) {
+      if (state is AppComponentLoaded) {
         if (state.value == null) {
           return alertWidget(title: 'Error', content: 'No app defined');
         } else {
           return yourWidget(context, state.value);
         }
-      } else if (state is AppError) {
+      } else if (state is AppComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
@@ -58,7 +59,7 @@ abstract class AbstractAppComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, AppModel value);
   Widget alertWidget({ title: String, content: String});
-  AppRepository getAppRepository();
+  AppRepository getAppRepository(BuildContext context);
 }
 
 
