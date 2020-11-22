@@ -142,7 +142,7 @@ class ImageFieldState extends State<ImageField> {
                     ? Image.file(
                         File(localFileName),
                         fit: BoxFit.fill,
-                      )
+                      )]
                     : (imageURL != null)
                         ? ImageHelper.getImageFromURL(
                             url: imageURL,
