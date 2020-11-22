@@ -166,7 +166,7 @@ class AppModel {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, entryPage: $entryPage, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
   }
 
-  AppEntity toEntity() {
+  AppEntity toEntity({String appId}) {
     logoURL = logo != null ? logo.imageURLOriginal : null;
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
@@ -177,20 +177,20 @@ class AppModel {
           darkOrLight: (darkOrLight != null) ? darkOrLight.index : null, 
           entryPageId: (entryPage != null) ? entryPage.documentID : null, 
           logoId: (logo != null) ? logo.documentID : null, 
-          formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor.toEntity() : null, 
+          formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor.toEntity(appId: appId) : null, 
           formBackgroundId: (formBackground != null) ? formBackground.documentID : null, 
-          formSubmitButtonTextColor: (formSubmitButtonTextColor != null) ? formSubmitButtonTextColor.toEntity() : null, 
-          formGroupTitleColor: (formGroupTitleColor != null) ? formGroupTitleColor.toEntity() : null, 
-          formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor.toEntity() : null, 
-          formFieldHeaderColor: (formFieldHeaderColor != null) ? formFieldHeaderColor.toEntity() : null, 
-          formFieldFocusColor: (formFieldFocusColor != null) ? formFieldFocusColor.toEntity() : null, 
+          formSubmitButtonTextColor: (formSubmitButtonTextColor != null) ? formSubmitButtonTextColor.toEntity(appId: appId) : null, 
+          formGroupTitleColor: (formGroupTitleColor != null) ? formGroupTitleColor.toEntity(appId: appId) : null, 
+          formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor.toEntity(appId: appId) : null, 
+          formFieldHeaderColor: (formFieldHeaderColor != null) ? formFieldHeaderColor.toEntity(appId: appId) : null, 
+          formFieldFocusColor: (formFieldFocusColor != null) ? formFieldFocusColor.toEntity(appId: appId) : null, 
           formAppBarBackgroundId: (formAppBarBackground != null) ? formAppBarBackground.documentID : null, 
-          formAppBarTextColor: (formAppBarTextColor != null) ? formAppBarTextColor.toEntity() : null, 
+          formAppBarTextColor: (formAppBarTextColor != null) ? formAppBarTextColor.toEntity(appId: appId) : null, 
           listBackgroundId: (listBackground != null) ? listBackground.documentID : null, 
-          listTextItemColor: (listTextItemColor != null) ? listTextItemColor.toEntity() : null, 
-          floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor.toEntity() : null, 
-          floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor.toEntity() : null, 
-          dividerColor: (dividerColor != null) ? dividerColor.toEntity() : null, 
+          listTextItemColor: (listTextItemColor != null) ? listTextItemColor.toEntity(appId: appId) : null, 
+          floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor.toEntity(appId: appId) : null, 
+          floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor.toEntity(appId: appId) : null, 
+          dividerColor: (dividerColor != null) ? dividerColor.toEntity(appId: appId) : null, 
           routeBuilder: (routeBuilder != null) ? routeBuilder.index : null, 
           routeAnimationDuration: (routeAnimationDuration != null) ? routeAnimationDuration : null, 
           logoURL: (logoURL != null) ? logoURL : null, 

@@ -23,10 +23,10 @@ abstract class MemberRepository {
   Future<void> delete(MemberModel value);
   Future<MemberModel> get(String id);
   Future<MemberModel> update(MemberModel value);
-  Stream<List<MemberModel>> values();
-  Stream<List<MemberModel>> valuesWithDetails();
-  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger);
-StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger);
+  Stream<List<MemberModel>> valuesTest();
+  Stream<List<MemberModel>> valuesWithDetailsTest();
+  StreamSubscription<List<MemberModel>> listenTest(MemberModelTrigger trigger);
+StreamSubscription<List<MemberModel>> listenWithDetailsTest(MemberModelTrigger trigger);
   void flush();
   Future<List<MemberModel>> valuesList();
   Future<List<MemberModel>> valuesListWithDetails();

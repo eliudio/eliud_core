@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class PosSizeFirestore implements PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value) {
-    return PosSizeCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return PosSizeCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PosSizeModel value) {
@@ -36,7 +36,7 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
   Future<PosSizeModel> update(PosSizeModel value) {
-    return PosSizeCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return PosSizeCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   PosSizeModel _populateDoc(DocumentSnapshot doc) {

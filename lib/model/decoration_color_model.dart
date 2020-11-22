@@ -60,9 +60,9 @@ class DecorationColorModel {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
-  DecorationColorEntity toEntity() {
+  DecorationColorEntity toEntity({String appId}) {
     return DecorationColorEntity(
-          color: (color != null) ? color.toEntity() : null, 
+          color: (color != null) ? color.toEntity(appId: appId) : null, 
           stop: (stop != null) ? stop : null, 
     );
   }

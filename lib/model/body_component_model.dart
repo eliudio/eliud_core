@@ -64,7 +64,7 @@ class BodyComponentModel {
     return 'BodyComponentModel{documentID: $documentID, componentName: $componentName, componentId: $componentId}';
   }
 
-  BodyComponentEntity toEntity() {
+  BodyComponentEntity toEntity({String appId}) {
     return BodyComponentEntity(
           componentName: (componentName != null) ? componentName : null, 
           componentId: (componentId != null) ? componentId : null, 

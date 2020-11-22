@@ -115,7 +115,7 @@ class PageModel {
     return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, packageCondition: $packageCondition}';
   }
 
-  PageEntity toEntity(String appId) {
+  PageEntity toEntity({String appId}) {
     return PageEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
@@ -124,7 +124,7 @@ class PageModel {
           endDrawerId: (endDrawer != null) ? endDrawer.documentID : null, 
           homeMenuId: (homeMenu != null) ? homeMenu.documentID : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
-            .map((item) => item.toEntity(appId))
+            .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           backgroundId: (background != null) ? background.documentID : null, 
           layout: (layout != null) ? layout.index : null, 

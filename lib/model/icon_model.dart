@@ -61,7 +61,7 @@ class IconModel {
     return 'IconModel{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  IconEntity toEntity() {
+  IconEntity toEntity({String appId}) {
     return IconEntity(
           codePoint: (codePoint != null) ? codePoint : null, 
           fontFamily: (fontFamily != null) ? fontFamily : null, 

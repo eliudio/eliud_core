@@ -69,7 +69,7 @@ class RgbModel {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  RgbEntity toEntity() {
+  RgbEntity toEntity({String appId}) {
     return RgbEntity(
           r: (r != null) ? r : null, 
           g: (g != null) ? g : null, 

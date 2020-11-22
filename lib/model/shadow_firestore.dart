@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class ShadowFirestore implements ShadowRepository {
   Future<ShadowModel> add(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return ShadowCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShadowModel value) {
@@ -36,7 +36,7 @@ class ShadowFirestore implements ShadowRepository {
   }
 
   Future<ShadowModel> update(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return ShadowCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   ShadowModel _populateDoc(DocumentSnapshot doc) {

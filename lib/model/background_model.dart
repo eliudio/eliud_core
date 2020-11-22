@@ -119,7 +119,7 @@ class BackgroundModel {
     return 'BackgroundModel{documentID: $documentID, appId: $appId, comments: $comments, backgroundImage: $backgroundImage, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
   }
 
-  BackgroundEntity toEntity(String appId) {
+  BackgroundEntity toEntity({String appId}) {
     return BackgroundEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
@@ -128,7 +128,7 @@ class BackgroundModel {
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition.index : null, 
           shadowId: (shadow != null) ? shadow.documentID : null, 
           decorationColors: (decorationColors != null) ? decorationColors
-            .map((item) => item.toEntity(appId))
+            .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           border: (border != null) ? border : null, 
           admin: (admin != null) ? admin : null, 

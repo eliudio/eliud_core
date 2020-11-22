@@ -242,7 +242,7 @@ class PosSizeModel {
     return 'PosSizeModel{documentID: $documentID, appId: $appId, name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  PosSizeEntity toEntity(String appId) {
+  PosSizeEntity toEntity({String appId}) {
     return PosSizeEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 

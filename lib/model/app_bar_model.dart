@@ -92,18 +92,18 @@ class AppBarModel {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, background: $background, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
-  AppBarEntity toEntity(String appId) {
+  AppBarEntity toEntity({String appId}) {
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           header: (header != null) ? header.index : null, 
-          icon: (icon != null) ? icon.toEntity(appId) : null, 
+          icon: (icon != null) ? icon.toEntity(appId: appId) : null, 
           imageId: (image != null) ? image.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu.documentID : null, 
           backgroundId: (background != null) ? background.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity(appId) : null, 
-          selectedIconColor: (selectedIconColor != null) ? selectedIconColor.toEntity(appId) : null, 
-          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor.toEntity(appId) : null, 
+          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
+          selectedIconColor: (selectedIconColor != null) ? selectedIconColor.toEntity(appId: appId) : null, 
+          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor.toEntity(appId: appId) : null, 
     );
   }
 

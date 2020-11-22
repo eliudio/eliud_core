@@ -64,12 +64,12 @@ class MenuItemModel {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  MenuItemEntity toEntity() {
+  MenuItemEntity toEntity({String appId}) {
     return MenuItemEntity(
           text: (text != null) ? text : null, 
           description: (description != null) ? description : null, 
-          icon: (icon != null) ? icon.toEntity() : null, 
-          action: (action != null) ? action.toEntity() : null, 
+          icon: (icon != null) ? icon.toEntity(appId: appId) : null, 
+          action: (action != null) ? action.toEntity(appId: appId) : null, 
     );
   }
 

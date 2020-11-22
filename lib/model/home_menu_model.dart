@@ -68,14 +68,14 @@ class HomeMenuModel {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColor: $iconColor, background: $background, popupMenuBackgroundColor: $popupMenuBackgroundColor}';
   }
 
-  HomeMenuEntity toEntity(String appId) {
+  HomeMenuEntity toEntity({String appId}) {
     return HomeMenuEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           menuId: (menu != null) ? menu.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity(appId) : null, 
+          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
           backgroundId: (background != null) ? background.documentID : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId) : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId: appId) : null, 
     );
   }
 

@@ -58,7 +58,7 @@ class MemberSubscriptionModel {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
-  MemberSubscriptionEntity toEntity() {
+  MemberSubscriptionEntity toEntity({String appId}) {
     return MemberSubscriptionEntity(
           appId: (app != null) ? app.documentID : null, 
     );

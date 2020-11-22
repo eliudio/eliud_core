@@ -76,7 +76,7 @@ class DrawerModel {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, background: $background, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackground: $headerBackground, menu: $menu}';
   }
 
-  DrawerEntity toEntity(String appId) {
+  DrawerEntity toEntity({String appId}) {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
@@ -84,7 +84,7 @@ class DrawerModel {
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId) : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId: appId) : null, 
           headerBackgroundId: (headerBackground != null) ? headerBackground.documentID : null, 
           menuId: (menu != null) ? menu.documentID : null, 
     );

@@ -60,7 +60,7 @@ class CountryModel {
     return 'CountryModel{documentID: $documentID, countryCode: $countryCode, countryName: $countryName}';
   }
 
-  CountryEntity toEntity() {
+  CountryEntity toEntity({String appId}) {
     return CountryEntity(
           countryCode: (countryCode != null) ? countryCode : null, 
           countryName: (countryName != null) ? countryName : null, 

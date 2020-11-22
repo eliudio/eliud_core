@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class FontJsFirestore implements FontRepository {
   Future<FontModel> add(FontModel value) {
     return fontCollection.doc(value.documentID)
-        .set(value.toEntity(appID).toDocument())
+        .set(value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class FontJsFirestore implements FontRepository {
 
   Future<FontModel> update(FontModel value) {
     return fontCollection.doc(value.documentID)
-        .update(data: value.toEntity(appID).toDocument())
+        .update(data: value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 

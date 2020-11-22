@@ -102,12 +102,12 @@ class MemberModel {
     return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous, packageData: $packageData}';
   }
 
-  MemberEntity toEntity() {
+  MemberEntity toEntity({String appId}) {
     readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();
     return MemberEntity(
           name: (name != null) ? name : null, 
           subscriptions: (subscriptions != null) ? subscriptions
-            .map((item) => item.toEntity())
+            .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           photoURL: (photoURL != null) ? photoURL : null, 
           shipStreet1: (shipStreet1 != null) ? shipStreet1 : null, 

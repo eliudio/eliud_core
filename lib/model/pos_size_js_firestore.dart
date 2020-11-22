@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class PosSizeJsFirestore implements PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .set(value.toEntity(appID).toDocument())
+        .set(value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
 
   Future<PosSizeModel> update(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .update(data: value.toEntity(appID).toDocument())
+        .update(data: value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 

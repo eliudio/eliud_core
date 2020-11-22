@@ -81,7 +81,7 @@ class ImageModel {
     return 'ImageModel{documentID: $documentID, appId: $appId, name: $name, source: $source, imageURLOriginal: $imageURLOriginal, imageURLThumbnail: $imageURLThumbnail}';
   }
 
-  ImageEntity toEntity(String appId) {
+  ImageEntity toEntity({String appId}) {
     return ImageEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 

@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
   Future<HomeMenuModel> add(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(HomeMenuModel value) {
@@ -36,7 +36,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   Future<HomeMenuModel> update(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   HomeMenuModel _populateDoc(DocumentSnapshot doc) {

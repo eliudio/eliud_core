@@ -78,11 +78,11 @@ class ShadowModel {
     return 'ShadowModel{documentID: $documentID, appId: $appId, comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity(String appId) {
+  ShadowEntity toEntity({String appId}) {
     return ShadowEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
-          color: (color != null) ? color.toEntity(appId) : null, 
+          color: (color != null) ? color.toEntity(appId: appId) : null, 
           offsetDX: (offsetDX != null) ? offsetDX : null, 
           offsetDY: (offsetDY != null) ? offsetDY : null, 
           spreadRadius: (spreadRadius != null) ? spreadRadius : null, 

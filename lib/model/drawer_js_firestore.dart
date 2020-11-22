@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class DrawerJsFirestore implements DrawerRepository {
   Future<DrawerModel> add(DrawerModel value) {
     return drawerCollection.doc(value.documentID)
-        .set(value.toEntity(appID).toDocument())
+        .set(value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 
@@ -41,7 +41,7 @@ class DrawerJsFirestore implements DrawerRepository {
 
   Future<DrawerModel> update(DrawerModel value) {
     return drawerCollection.doc(value.documentID)
-        .update(data: value.toEntity(appID).toDocument())
+        .update(data: value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 

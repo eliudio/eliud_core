@@ -9,7 +9,7 @@ abstract class ActionModel {
 
   const ActionModel(this.appID, {this.actionType});
 
-  ActionEntity toEntity();
+  ActionEntity toEntity({String appId});
 
   static ActionModel fromEntity(ActionEntity entity) {
     if (entity == null) return null;
@@ -52,7 +52,7 @@ class GotoPage extends ActionModel {
   }
 
   @override
-  ActionEntity toEntity() {
+  ActionEntity toEntity({String appId}) {
     return GotoPageEntity(
       appID,
         pageID: pageID
@@ -93,7 +93,7 @@ class SwitchApp extends ActionModel {
   }
 
   @override
-  ActionEntity toEntity() {
+  ActionEntity toEntity({String appId}) {
     return SwitchAppEntity(
       appID,
       toAppID: toAppID
@@ -136,7 +136,7 @@ class PopupMenu extends ActionModel {
   }
 
   @override
-  ActionEntity toEntity() {
+  ActionEntity toEntity({String appId}) {
     return PopupMenuEntity(
       appID,
       menuDefID: menuDef.documentID
@@ -197,7 +197,7 @@ class InternalAction extends ActionModel {
   }
 
   @override
-  ActionEntity toEntity() {
+  ActionEntity toEntity({String appId}) {
     return InternalActionEntity(
       appID,
         action: internalActionEnum.toString()

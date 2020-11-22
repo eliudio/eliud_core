@@ -22,7 +22,7 @@ class ImageFirestore implements ImageRepository {
       return ImageTools.uploadPic(value).then((onValue) {
         return imageCollection
             .document(value.documentID)
-            .setData(onValue.toEntity(appID).toDocument()).then((_) =>
+            .setData(onValue.toEntity(appId: appID).toDocument()).then((_) =>
         onValue);
       }).catchError((onError) =>
           print(onError)
@@ -30,7 +30,7 @@ class ImageFirestore implements ImageRepository {
     } else {
       return imageCollection
           .document(value.documentID)
-          .setData(value.toEntity(appID).toDocument()).then((_) => value);
+          .setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
     }
   }
 
@@ -44,13 +44,13 @@ class ImageFirestore implements ImageRepository {
       return ImageTools.uploadPic(value).then((uploaded) =>
           imageCollection
               .document(uploaded.documentID)
-              .updateData(uploaded.toEntity(appID).toDocument()).then((value) =>
+              .updateData(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
           uploaded)
       );
     } else {
       return imageCollection
           .document(value.documentID)
-          .setData(value.toEntity(appID).toDocument()).then((_) => value);
+          .setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
     }
   }
 

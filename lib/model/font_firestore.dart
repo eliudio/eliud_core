@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class FontFirestore implements FontRepository {
   Future<FontModel> add(FontModel value) {
-    return FontCollection.document(value.documentID).setData(value.toEntity(appID).toDocument()).then((_) => value);
+    return FontCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(FontModel value) {
@@ -36,7 +36,7 @@ class FontFirestore implements FontRepository {
   }
 
   Future<FontModel> update(FontModel value) {
-    return FontCollection.document(value.documentID).updateData(value.toEntity(appID).toDocument()).then((_) => value);
+    return FontCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
   }
 
   FontModel _populateDoc(DocumentSnapshot doc) {
