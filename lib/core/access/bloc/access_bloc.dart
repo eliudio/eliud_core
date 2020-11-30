@@ -50,9 +50,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (app == null) {
           yield AppError('App with ' + event.appId + ' does not exist');
         } else {
-          navigatorBloc.add(GoHome());
           yield await _mapOldStateToNewApp(
               state, app, theState.playStoreApp, null);
+          navigatorBloc.add(GoHome());
         }
       } else if (event is LogoutEvent) {
           await AbstractMainRepositorySingleton.singleton
