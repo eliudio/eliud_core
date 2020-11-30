@@ -56,8 +56,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield toYield.item1;
     } else if (event is SwitchAppEvent) {
       var toYield = await yieldThis(event.id);
-      navigatorBloc.add(GoHome());
       accessBloc.add(SwitchedApp(toYield.item2));
+      navigatorBloc.add(GoHome());
+      // problem: accessBloc isn't finlshed yet but we return to the gui the state. The gui updates, whilst the accessbloc is catching up. end result: access rights not correct
       yield toYield.item1;
     }
   }

@@ -1,4 +1,6 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -15,10 +17,8 @@ import 'package:flutter/widgets.dart';
 
 class DrawerConstructor {
   final String currentPage;
-  final AppModel app;
-  final AccessState state;
 
-  const DrawerConstructor(this.app, this.state, this.currentPage);
+  const DrawerConstructor(this.currentPage);
 
   void _addWidget(BuildContext context, List<Widget> widgets, MenuItemModel item,
       TextStyle style, MemberModel member) {
@@ -67,7 +67,8 @@ class DrawerConstructor {
   }
 
   Widget drawer(BuildContext context, DrawerModel drawer) {
-    var theState = state;
+    var app = AppBloc.app(context);
+    var theState = AccessBloc.getState(context);
     if (theState is AccessStateWithDetails) {
       if (drawer == null) return null;
       if (drawer.menu == null) return null;

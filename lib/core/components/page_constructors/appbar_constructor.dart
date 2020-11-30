@@ -1,5 +1,7 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
@@ -19,13 +21,13 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 class AppBarConstructor {
   final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  final AppModel app;
-  final AccessState state;
 
-  AppBarConstructor(this.app, this.state, this.currentPage, this.scaffoldKey);
+  AppBarConstructor(this.currentPage, this.scaffoldKey);
 
   Widget _appBarWithButtons(BuildContext context, String theTitle,
       AppBarModel value, List<Widget> buttons, MemberModel member)  {
+    var app = AppBloc.app(context);
+    var state = AccessBloc.getState(context);
     Widget title;
     Widget part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
@@ -116,7 +118,8 @@ class AppBarConstructor {
 
   Widget appBar(
       BuildContext context, String theTitle, AppBarModel value) {
-      var theState = state;
+      var theState = AccessBloc.getState(context);
+      var app = AppBloc.app(context);
       if (theState is AccessStateWithDetails) {
         var member = (theState is LoggedIn) ? theState.member : null;
         if ((value.iconMenu != null) &&
@@ -126,8 +129,7 @@ class AppBarConstructor {
           if (value.iconMenu != null) {
             value.iconMenu.menuItems.forEach((item) {
               if (theState.hasAccess(item)) {
-                _addButton(
-                    context, value, buttons, item, member);
+                _addButton(context, theState, app, value, buttons, item, member);
               }
             });
           }
@@ -144,7 +146,7 @@ class AppBarConstructor {
       }
   }
 
-  void _addButton(BuildContext context, AppBarModel value, List<Widget> buttons,
+  void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel value, List<Widget> buttons,
       MenuItemModel item, MemberModel member) {
     var isActive = PageHelper.isActivePage(currentPage, item.action);
     var _color = isActive

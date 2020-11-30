@@ -28,6 +28,9 @@ class UndeterminedAccessState extends AccessState {
   UndeterminedAccessState();
 
   @override
+  List<Object> get props => [];
+
+  @override
   bool isLoggedIn() => false;
 
   @override
@@ -40,16 +43,16 @@ class UndeterminedAccessState extends AccessState {
   bool memberIsOwner(AppState appState) => false;
 }
 
-abstract class AccessStateWithDetails extends AccessState {
-  final AppModel app;
+
+class AccessHelper {
   final Map<String, bool> pagesAccess = {};
 
-  AccessStateWithDetails(this.app);
-
-  Future<bool> _conditionOkForPackage(String packageCondition, AppModel app, MemberModel member, bool isOwner) async {
+  static Future<bool> _conditionOkForPackage(String packageCondition,
+      AppModel app, MemberModel member, bool isOwner) async {
     for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
       var plg = GlobalData.registeredPackages[i];
-      var plgOk = await plg.isConditionOk(packageCondition, app, member, isOwner);
+      var plgOk = await plg.isConditionOk(
+          packageCondition, app, member, isOwner);
       if (plgOk != null) {
         return plgOk;
       }
@@ -57,27 +60,53 @@ abstract class AccessStateWithDetails extends AccessState {
     return false;
   }
 
-  Future<bool> _conditionOk(AppModel app, MemberModel member, PageCondition condition, String packageCondition, bool isOwner) async {
+  static Future<bool> _conditionOk(AppModel app, MemberModel member,
+      PageCondition condition, String packageCondition, bool isOwner,
+      bool isLoggedIn) async {
     if (condition == null) return true;
     switch (condition) {
-      case PageCondition.Always: return true;
-      case PageCondition.MustBeLoggedIn: return isLoggedIn();
-      case PageCondition.MustNotBeLoggedIn: return !isLoggedIn();
-      case PageCondition.PackageDecides: return await _conditionOkForPackage(packageCondition, app, member, isOwner);
-      case PageCondition.AdminOnly: return isOwner;
-      case PageCondition.Unknown: return true;
+      case PageCondition.Always:
+        return true;
+      case PageCondition.MustBeLoggedIn:
+        return isLoggedIn;
+      case PageCondition.MustNotBeLoggedIn:
+        return !isLoggedIn;
+      case PageCondition.PackageDecides:
+        return await _conditionOkForPackage(
+            packageCondition, app, member, isOwner);
+      case PageCondition.AdminOnly:
+        return isOwner;
+      case PageCondition.Unknown:
+        return true;
     }
     return true;
   }
 
-  Future<void> init(MemberModel member, AppModel app) async {
+  static Future<Map<String, bool>> _init(MemberModel member, AppModel app,
+      bool isLoggedIn) async {
+    final Map<String, bool> pagesAccess = {};
     var isOwner = member != null && member.documentID == app.ownerID;
-    var theList = await AbstractRepositorySingleton.singleton.pageRepository(app.documentID).valuesList();
+    var repo = AbstractRepositorySingleton.singleton.pageRepository(
+        app.documentID);
+    var theList = await repo.valuesList();
     for (var i = 0; i < theList.length; i++) {
       var page = theList[i];
-      pagesAccess[page.documentID] = await _conditionOk(app, member, page.conditional, page.packageCondition, isOwner);
+      pagesAccess[page.documentID] = await _conditionOk(
+          app, member, page.conditional, page.packageCondition, isOwner,
+          isLoggedIn);
     }
+    return pagesAccess;
   }
+}
+
+abstract class AccessStateWithDetails extends AccessState {
+  final AppModel app;
+  final Map<String, bool> pagesAccess;
+
+  @override
+  List<Object> get props => [ app, pagesAccess ];
+
+  AccessStateWithDetails(this.app, this.pagesAccess);
 
   bool hasAccess(MenuItemModel item) {
     try {
@@ -117,10 +146,13 @@ abstract class AccessStateWithDetails extends AccessState {
   }}
 
 class LoggedOut extends AccessStateWithDetails {
-
-  LoggedOut(AppModel app): super(app) {
-    init(null, app);
+  static Future<LoggedOut> getLoggedOut(AppModel app) async {
+    var values = await AccessHelper._init(null, app, false);
+    var loggedOut = LoggedOut._(app, values);
+    return loggedOut;
   }
+
+  LoggedOut._(AppModel app, Map<String, bool> pagesAccess): super(app, pagesAccess);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -139,9 +171,10 @@ abstract class LoggedIn extends AccessStateWithDetails {
   final FirebaseUser usr;
   final MemberModel member;
 
-  LoggedIn({this.usr, this.member, AppModel app}) : super(app) {
-    init(member, app);
-  }
+  @override
+  List<Object> get props => [ app, pagesAccess, usr, member ];
+
+  LoggedIn._(this.usr, this.member, AppModel app, Map<String, bool> pagesAccess) : super(app, pagesAccess);
 
   @override
   bool hasAccessToOtherApps() {
@@ -164,17 +197,26 @@ abstract class LoggedIn extends AccessStateWithDetails {
     }
   }
 
-  LoggedIn copyWith({ MemberModel member});
+  Future<LoggedIn> copyWith(MemberModel member);
 }
 
 class LoggedInWithoutMembership extends LoggedIn {
-  // What is the event that should be triggered after the membership will be accepted...
-  final PostLoginAction postLoginAction;
-  LoggedInWithoutMembership({FirebaseUser usr, MemberModel member, AppModel app, this.postLoginAction}): super(usr: usr, member: member, app: app);
+  static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) async {
+    var pagesAccess = await AccessHelper._init(member, app, true);
+    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, postLoginAction, pagesAccess);
+    return loggedInWithoutMembership;
+  }
 
   @override
-  LoggedInWithoutMembership copyWith({ MemberModel member}) {
-    return LoggedInWithoutMembership(usr: usr, member: member ?? this.member, app: app, postLoginAction: postLoginAction);
+  List<Object> get props => [ usr, member, app, pagesAccess ];
+
+  // What is the event that should be triggered after the membership will be accepted...
+  final PostLoginAction postLoginAction;
+  LoggedInWithoutMembership._(FirebaseUser usr, MemberModel member, AppModel app, this.postLoginAction, Map<String, bool> pagesAccess): super._(usr, member, app, pagesAccess);
+
+  @override
+  Future<LoggedInWithoutMembership> copyWith(MemberModel member) async {
+    return getLoggedInWithoutMembership(usr, member ?? this.member, app, postLoginAction);
   }
 
   @override
@@ -182,11 +224,20 @@ class LoggedInWithoutMembership extends LoggedIn {
 }
 
 class LoggedInWithMembership extends LoggedIn {
-  LoggedInWithMembership({FirebaseUser usr, MemberModel member, AppModel app}): super(usr: usr, member: member, app: app);
+  static Future<LoggedInWithMembership> getLoggedInWithMembership(FirebaseUser usr, MemberModel member, AppModel app) async {
+    var pagesAccess = await AccessHelper._init(member, app, true);
+    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, pagesAccess);
+    return loggedInWithMembership;
+  }
 
   @override
-  LoggedInWithMembership copyWith({ MemberModel member}) {
-    return LoggedInWithMembership(usr: usr, member: member ?? this.member, app: app);
+  List<Object> get props => [ usr, member, app, pagesAccess ];
+
+  LoggedInWithMembership._(FirebaseUser usr, MemberModel member, AppModel app, Map<String, bool> pagesAccess): super._(usr, member, app, pagesAccess);
+
+  @override
+  Future<LoggedInWithMembership> copyWith(MemberModel member) {
+    return getLoggedInWithMembership(usr, member ?? this.member, app);
   }
 
   @override

@@ -73,9 +73,12 @@ class PageCache implements PageRepository {
 
   @override
   Future<List<PageModel>> valuesList() async {
-    return await reference.valuesList();
+    print("pageCahe 1");
+    var valuesList = await reference.valuesList();
+    print("pageCahe 2");
+    return valuesList;
   }
-  
+
   @override
   Future<List<PageModel>> valuesListWithDetails() async {
     return await reference.valuesListWithDetails();

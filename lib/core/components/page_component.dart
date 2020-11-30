@@ -80,11 +80,11 @@ class PageComponent extends StatelessWidget {
                     pageModel: state.value);
               }
 
-              var drawer = DrawerConstructor(app, accessState, pageID)
+              var drawer = DrawerConstructor(pageID)
                   .drawer(context, state.value.drawer);
-              var endDrawer = DrawerConstructor(app, accessState, pageID)
+              var endDrawer = DrawerConstructor(pageID)
                   .drawer(context, state.value.endDrawer);
-              var appBar = AppBarConstructor(app, accessState, pageID, _scaffoldKey)
+              var appBar = AppBarConstructor(pageID, _scaffoldKey)
                   .appBar(context, state.value.title, state.value.appBar);
               return Scaffold(
                 key: _scaffoldKey,
@@ -96,9 +96,7 @@ class PageComponent extends StatelessWidget {
                 drawer: drawer,
                 floatingActionButton: hasFab != null ? hasFab.fab(context) : null,
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                bottomNavigationBar: BottomNavigationBarConstructor(pageID)
-                    .bottomNavigationBar(app, accessState,
-                        context, state.value.homeMenu, state.value.background),
+                bottomNavigationBar: BottomNavigationBarConstructor(pageID).bottomNavigationBar(app, state.value.homeMenu, state.value.background),
               );
             }
           } else if (state is PageComponentError) {

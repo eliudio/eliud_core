@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
 import 'package:eliud_core/core/components/page_helper.dart';
@@ -18,15 +19,7 @@ class BottomNavigationBarConstructor {
 
   BottomNavigationBarConstructor(this.currentPage);
 
-  Widget bottomNavigationBar(AppModel app, AccessState state, BuildContext context,
-          HomeMenuModel homeMenu, BackgroundModel bg) =>
-      BottomNavigationBarWidget(
-        app: app,
-        state: state,
-        homeMenu: homeMenu,
-        bg: bg,
-        currentPage: currentPage,
-      );
+  Widget bottomNavigationBar(AppModel app, HomeMenuModel homeMenu, BackgroundModel bg) => BottomNavigationBarWidget(app: app,  homeMenu: homeMenu, bg: bg, currentPage: currentPage);
 }
 
 class BottomNavigationBarWidget extends StatefulWidget {
@@ -34,10 +27,9 @@ class BottomNavigationBarWidget extends StatefulWidget {
   final HomeMenuModel homeMenu;
   final BackgroundModel bg;
   final AppModel app;
-  final AccessState state;
-
+  
   const BottomNavigationBarWidget(
-      {Key key, this.app, this.state, this.homeMenu, this.bg, this.currentPage})
+      {Key key, this.app, this.homeMenu, this.bg, this.currentPage})
       : super(key: key);
 
   @override
@@ -48,12 +40,12 @@ class BottomNavigationBarWidget extends StatefulWidget {
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
+    var theState = AccessBloc.getState(context);
     if (widget.homeMenu == null) return null;
-    var theState = widget.state;
     if (theState is AccessStateWithDetails) {
-      List<MenuItemModel> menuItems = List();
-      for (int i = 0; i < widget.homeMenu.menu.menuItems.length; i++) {
-        MenuItemModel item = widget.homeMenu.menu.menuItems[i];
+      var menuItems = List();
+      for (var i = 0; i < widget.homeMenu.menu.menuItems.length; i++) {
+        var item = widget.homeMenu.menu.menuItems[i];
         if (theState.hasAccess(item)) menuItems.add(item);
       }
       if (menuItems.length < 2)
@@ -61,7 +53,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       else {
         return Container(
             decoration: BoxDecorationHelper.boxDecoration(
-                widget.state, widget.homeMenu.background),
+                theState, widget.homeMenu.background),
             child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.transparent,

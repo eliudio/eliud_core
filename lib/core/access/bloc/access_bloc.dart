@@ -31,12 +31,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var app = theState.app;
       if (event is MemberUpdated) {
         if (theState is LoggedIn) {
-          yield theState.copyWith(member: event.member);
+          yield await theState.copyWith(event.member);
         } else {
           // impossible
         }
       } else if (event is SwitchedApp) {
-        yield _mapOldStateToNewApp(state, event.app, null);
+        yield await _mapOldStateToNewApp(state, event.app, null);
       } else if (event is LogoutEvent) {
           await AbstractMainRepositorySingleton.singleton
               .userRepository().signOut();
@@ -79,31 +79,30 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  AccessState _mapMemberAndApp(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) {
+  Future<AccessState> _mapMemberAndApp(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) async {
     if (!isSubscibred(member, app)) {
-      return LoggedInWithoutMembership(usr: usr, member: member, app: app, postLoginAction: postLoginAction);
+      return await LoggedInWithoutMembership.getLoggedInWithoutMembership(usr, member, app, postLoginAction);
     } else {
-      return LoggedInWithMembership(usr: usr, member: member, app: app);
+      return await LoggedInWithMembership.getLoggedInWithMembership(usr, member, app);
     }
-
   }
 
-  AccessState _mapOldStateToNewApp(AccessState state, AppModel app, PostLoginAction postLoginAction) {
+  Future<AccessState> _mapOldStateToNewApp(AccessState state, AppModel app, PostLoginAction postLoginAction) async {
     if (state is LoggedIn) {
       if (!isSubscibred(state.member, app)) {
-        return LoggedInWithoutMembership(usr: state.usr, member: state.member, app: app, postLoginAction: postLoginAction);
+        return await LoggedInWithoutMembership.getLoggedInWithoutMembership(state.usr, state.member, app, postLoginAction);
       } else {
-        return LoggedInWithMembership(usr: state.usr, member: state.member, app: app);
+        return await LoggedInWithMembership.getLoggedInWithMembership(state.usr, state.member, app);
       }
     } else {
-      return LoggedOut(app);
+      return await LoggedOut.getLoggedOut(app);
     }
 
   }
 
   Future<AccessState> _mapUsrAndApp(FirebaseUser usr, AppModel app, PostLoginAction postLoginAction) async {
     if (usr == null) {
-      return LoggedOut(app);
+      return await LoggedOut.getLoggedOut(app);
     } else {
       var member = await _firebaseToMemberModel(usr);
       if (member == null) {
@@ -173,7 +172,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static AccessState getState(BuildContext context) {
-    return BlocProvider.of<AccessBloc>(context).state;
+    var state = BlocProvider.of<AccessBloc>(context).state;
+    return state;
   }
 
 }
