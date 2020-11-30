@@ -88,7 +88,7 @@ class RgbModel {
     );
   }
 
-  static Future<RgbModel> fromEntityPlus(RgbEntity entity) async {
+  static Future<RgbModel> fromEntityPlus(RgbEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return RgbModel(

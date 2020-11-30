@@ -68,7 +68,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
 
       if (event is InitialiseGridViewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appID: appId).get(event.value.documentID));
+        GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseGridViewFormNoLoadEvent) {
@@ -198,7 +198,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
   Future<GridViewFormState> _isDocumentIDValid(String value, GridViewModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<GridViewModel> findDocument = gridViewRepository(appID: appId).get(value);
+    Future<GridViewModel> findDocument = gridViewRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableGridViewForm(value: newValue);

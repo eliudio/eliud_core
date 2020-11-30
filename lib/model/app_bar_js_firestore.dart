@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class AppBarJsFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class AppBarJsFirestore implements AppBarRepository {
 
   Future<AppBarModel> update(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  AppBarModel _populateDoc(DocumentSnapshot doc) {
-    return AppBarModel.fromEntity(doc.id, AppBarEntity.fromMap(doc.data()));
+  AppBarModel _populateDoc(DocumentSnapshot value) {
+    return AppBarModel.fromEntity(value.id, AppBarEntity.fromMap(value.data()));
   }
 
-  Future<AppBarModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return AppBarModel.fromEntityPlus(doc.id, AppBarEntity.fromMap(doc.data()));
+  Future<AppBarModel> _populateDocPlus(DocumentSnapshot value) async {
+    return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<AppBarModel> get(String id) {
@@ -124,11 +124,11 @@ class AppBarJsFirestore implements AppBarRepository {
     return appBarCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => appBarCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('AppBar-$appID');
+  CollectionReference getCollection() => firestore().collection('AppBar-$appId');
 
-  final String appID;
+  final String appId;
   
-  AppBarJsFirestore(this.appID) : appBarCollection = firestore().collection('AppBar-$appID');
+  AppBarJsFirestore(this.appId) : appBarCollection = firestore().collection('AppBar-$appId');
 
   final CollectionReference appBarCollection;
 }

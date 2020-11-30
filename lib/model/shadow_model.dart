@@ -105,7 +105,7 @@ class ShadowModel {
     );
   }
 
-  static Future<ShadowModel> fromEntityPlus(String documentID, ShadowEntity entity) async {
+  static Future<ShadowModel> fromEntityPlus(String documentID, ShadowEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return ShadowModel(
@@ -113,7 +113,7 @@ class ShadowModel {
           appId: entity.appId, 
           comments: entity.comments, 
           color: 
-            await RgbModel.fromEntityPlus(entity.color), 
+            await RgbModel.fromEntityPlus(entity.color, appId: appId), 
           offsetDX: entity.offsetDX, 
           offsetDY: entity.offsetDY, 
           spreadRadius: entity.spreadRadius, 

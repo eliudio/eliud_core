@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class PageFirestore implements PageRepository {
   Future<PageModel> add(PageModel value) {
-    return PageCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PageModel value) {
@@ -36,15 +36,15 @@ class PageFirestore implements PageRepository {
   }
 
   Future<PageModel> update(PageModel value) {
-    return PageCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  PageModel _populateDoc(DocumentSnapshot doc) {
-    return PageModel.fromEntity(doc.documentID, PageEntity.fromMap(doc.data));
+  PageModel _populateDoc(DocumentSnapshot value) {
+    return PageModel.fromEntity(value.documentID, PageEntity.fromMap(value.data));
   }
 
-  Future<PageModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return PageModel.fromEntityPlus(doc.documentID, PageEntity.fromMap(doc.data));  }
+  Future<PageModel> _populateDocPlus(DocumentSnapshot value) async {
+    return PageModel.fromEntityPlus(value.documentID, PageEntity.fromMap(value.data), appId: appId);  }
 
   Future<PageModel> get(String id) {
     return PageCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class PageFirestore implements PageRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference PageCollection;
 
-  PageFirestore(this.appID) : PageCollection = Firestore.instance.collection('Page-${appID}');
+  PageFirestore(this.appId) : PageCollection = Firestore.instance.collection('Page-${appId}');
 }
 

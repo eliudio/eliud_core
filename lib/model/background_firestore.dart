@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class BackgroundFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
-    return BackgroundCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return BackgroundCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(BackgroundModel value) {
@@ -36,15 +36,15 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
   Future<BackgroundModel> update(BackgroundModel value) {
-    return BackgroundCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return BackgroundCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  BackgroundModel _populateDoc(DocumentSnapshot doc) {
-    return BackgroundModel.fromEntity(doc.documentID, BackgroundEntity.fromMap(doc.data));
+  BackgroundModel _populateDoc(DocumentSnapshot value) {
+    return BackgroundModel.fromEntity(value.documentID, BackgroundEntity.fromMap(value.data));
   }
 
-  Future<BackgroundModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return BackgroundModel.fromEntityPlus(doc.documentID, BackgroundEntity.fromMap(doc.data));  }
+  Future<BackgroundModel> _populateDocPlus(DocumentSnapshot value) async {
+    return BackgroundModel.fromEntityPlus(value.documentID, BackgroundEntity.fromMap(value.data), appId: appId);  }
 
   Future<BackgroundModel> get(String id) {
     return BackgroundCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference BackgroundCollection;
 
-  BackgroundFirestore(this.appID) : BackgroundCollection = Firestore.instance.collection('Background-${appID}');
+  BackgroundFirestore(this.appId) : BackgroundCollection = Firestore.instance.collection('Background-${appId}');
 }
 

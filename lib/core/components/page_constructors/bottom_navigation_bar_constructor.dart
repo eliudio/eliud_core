@@ -18,10 +18,11 @@ class BottomNavigationBarConstructor {
 
   BottomNavigationBarConstructor(this.currentPage);
 
-  Widget bottomNavigationBar(AppModel app, BuildContext context,
+  Widget bottomNavigationBar(AppModel app, AccessState state, BuildContext context,
           HomeMenuModel homeMenu, BackgroundModel bg) =>
       BottomNavigationBarWidget(
         app: app,
+        state: state,
         homeMenu: homeMenu,
         bg: bg,
         currentPage: currentPage,

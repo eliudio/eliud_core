@@ -45,12 +45,12 @@ class CountryJsFirestore implements CountryRepository {
         .then((_) => value);
   }
 
-  CountryModel _populateDoc(DocumentSnapshot doc) {
-    return CountryModel.fromEntity(doc.id, CountryEntity.fromMap(doc.data()));
+  CountryModel _populateDoc(DocumentSnapshot value) {
+    return CountryModel.fromEntity(value.id, CountryEntity.fromMap(value.data()));
   }
 
-  Future<CountryModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return CountryModel.fromEntityPlus(doc.id, CountryEntity.fromMap(doc.data()));
+  Future<CountryModel> _populateDocPlus(DocumentSnapshot value) async {
+    return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );
   }
 
   Future<CountryModel> get(String id) {

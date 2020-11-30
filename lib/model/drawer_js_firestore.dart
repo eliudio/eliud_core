@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class DrawerJsFirestore implements DrawerRepository {
   Future<DrawerModel> add(DrawerModel value) {
     return drawerCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class DrawerJsFirestore implements DrawerRepository {
 
   Future<DrawerModel> update(DrawerModel value) {
     return drawerCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  DrawerModel _populateDoc(DocumentSnapshot doc) {
-    return DrawerModel.fromEntity(doc.id, DrawerEntity.fromMap(doc.data()));
+  DrawerModel _populateDoc(DocumentSnapshot value) {
+    return DrawerModel.fromEntity(value.id, DrawerEntity.fromMap(value.data()));
   }
 
-  Future<DrawerModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return DrawerModel.fromEntityPlus(doc.id, DrawerEntity.fromMap(doc.data()));
+  Future<DrawerModel> _populateDocPlus(DocumentSnapshot value) async {
+    return DrawerModel.fromEntityPlus(value.id, DrawerEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<DrawerModel> get(String id) {
@@ -124,11 +124,11 @@ class DrawerJsFirestore implements DrawerRepository {
     return drawerCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => drawerCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Drawer-$appID');
+  CollectionReference getCollection() => firestore().collection('Drawer-$appId');
 
-  final String appID;
+  final String appId;
   
-  DrawerJsFirestore(this.appID) : drawerCollection = firestore().collection('Drawer-$appID');
+  DrawerJsFirestore(this.appId) : drawerCollection = firestore().collection('Drawer-$appId');
 
   final CollectionReference drawerCollection;
 }

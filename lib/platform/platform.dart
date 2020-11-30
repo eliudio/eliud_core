@@ -16,14 +16,11 @@ abstract class AbstractPlatform {
 
   ImageProvider getImageProvider(AccessState state, ImageModel image) {
     if (image == null) return null;
+    if (image.source != SourceImage.YourProfilePhoto) return getImageProviderOnPlatform(image.imageURLOriginal);
     if (state is LoggedIn) {
-      if (image.source != SourceImage.YourProfilePhoto) {
-        return getImageProviderOnPlatform(image.imageURLOriginal);
-      } else {
-        var photoURL = state.memberProfilePhoto();
-        if (photoURL != null) {
-          return getImageProviderOnPlatform(photoURL);
-        }
+      var photoURL = state.memberProfilePhoto();
+      if (photoURL != null) {
+        return getImageProviderOnPlatform(photoURL);
       }
     }
     return null;
@@ -38,15 +35,21 @@ abstract class AbstractPlatform {
   }
 
   Widget getImage(AccessState state, {ImageModel image, double height, double width, BoxFit fit}) {
-    if (state is LoggedIn) {
-      var url = (image.source != SourceImage.YourProfilePhoto) ? image
-          .imageURLOriginal : state.memberProfilePhoto();
-      return getImageOnPlatform(imageUrl: url,
+    if (image == null) return null;
+    if (image.source == SourceImage.YourProfilePhoto) {
+      if (state is LoggedIn) {
+        return getImageOnPlatform(imageUrl: state.memberProfilePhoto(),
+            height: height,
+            width: width,
+            fit: fit);
+      } else {
+        return Text('Not logged on');
+      }
+    } else {
+      return getImageOnPlatform(imageUrl: image.imageURLOriginal,
           height: height,
           width: width,
           fit: fit);
-    } else {
-      return Text('Not logged on');
     }
   }
 

@@ -115,8 +115,7 @@ class Router {
     if (action is GotoPage) {
       BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
     } else if (action is SwitchApp) {
-      var appId = action.appID;
-      BlocProvider.of<NavigatorBloc>(context).add(JustASecond('Switching to $appId'));
+      var appId = action.toAppID;
       BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
     } else if (action is InternalAction) {
       switch (action.internalActionEnum) {

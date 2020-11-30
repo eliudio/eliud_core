@@ -43,15 +43,13 @@ class ApplicationComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
+
+    var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(applicationID));
     var blocProviders = <BlocProvider>[];
-    blocProviders.add(BlocProvider<AccessBloc>(
-        create: (context) => AccessBloc(navigatorBloc)..add(InitApp(applicationID)))
-    );
+    blocProviders.add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
     blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
-
-
     GlobalData.registeredPackages.forEach((element) {
-      var provider = element.createMainBloc(context, navigatorBloc);
+      var provider = element.createMainBloc(context, navigatorBloc, accessBloc);
       if (provider != null) {
         blocProviders.add(provider);
       }

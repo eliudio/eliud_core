@@ -106,7 +106,7 @@ class AppBarCache implements AppBarRepository {
     ImageModel imageHolder;
     if (model.image != null) {
       try {
-        await imageRepository(appID: model.appId).get(model.image.documentID).then((val) {
+        await imageRepository(appId: model.appId).get(model.image.documentID).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -115,7 +115,7 @@ class AppBarCache implements AppBarRepository {
     MenuDefModel iconMenuHolder;
     if (model.iconMenu != null) {
       try {
-        await menuDefRepository(appID: model.appId).get(model.iconMenu.documentID).then((val) {
+        await menuDefRepository(appId: model.appId).get(model.iconMenu.documentID).then((val) {
           iconMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -124,7 +124,7 @@ class AppBarCache implements AppBarRepository {
     BackgroundModel backgroundHolder;
     if (model.background != null) {
       try {
-        await backgroundRepository(appID: model.appId).get(model.background.documentID).then((val) {
+        await backgroundRepository(appId: model.appId).get(model.background.documentID).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

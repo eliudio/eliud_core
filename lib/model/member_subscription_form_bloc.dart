@@ -69,7 +69,7 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
       MemberSubscriptionModel newValue = null;
       if (event is ChangedMemberSubscriptionApp) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(app: await appRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(app: await appRepository(appId: appId).get(event.value));
         else
           newValue = new MemberSubscriptionModel(
                                  documentID: currentState.value.documentID,

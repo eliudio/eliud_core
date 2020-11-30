@@ -64,7 +64,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
 
       if (event is InitialiseAppBarFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appID: appId).get(event.value.documentID));
+        AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppBarFormNoLoadEvent) {
@@ -104,7 +104,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(image: await imageRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(image: await imageRepository(appId: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -125,7 +125,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarIconMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(iconMenu: await menuDefRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(iconMenu: await menuDefRepository(appId: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -146,7 +146,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value.documentID,
@@ -192,7 +192,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
   Future<AppBarFormState> _isDocumentIDValid(String value, AppBarModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<AppBarModel> findDocument = appBarRepository(appID: appId).get(value);
+    Future<AppBarModel> findDocument = appBarRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableAppBarForm(value: newValue);

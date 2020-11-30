@@ -63,7 +63,7 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
 
       if (event is InitialiseFontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        FontFormLoaded loaded = FontFormLoaded(value: await fontRepository(appID: appId).get(event.value.documentID));
+        FontFormLoaded loaded = FontFormLoaded(value: await fontRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseFontFormNoLoadEvent) {
@@ -133,7 +133,7 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
   Future<FontFormState> _isDocumentIDValid(String value, FontModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<FontModel> findDocument = fontRepository(appID: appId).get(value);
+    Future<FontModel> findDocument = fontRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableFontForm(value: newValue);

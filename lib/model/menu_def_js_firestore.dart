@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class MenuDefJsFirestore implements MenuDefRepository {
   Future<MenuDefModel> add(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class MenuDefJsFirestore implements MenuDefRepository {
 
   Future<MenuDefModel> update(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  MenuDefModel _populateDoc(DocumentSnapshot doc) {
-    return MenuDefModel.fromEntity(doc.id, MenuDefEntity.fromMap(doc.data()));
+  MenuDefModel _populateDoc(DocumentSnapshot value) {
+    return MenuDefModel.fromEntity(value.id, MenuDefEntity.fromMap(value.data()));
   }
 
-  Future<MenuDefModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return MenuDefModel.fromEntityPlus(doc.id, MenuDefEntity.fromMap(doc.data()));
+  Future<MenuDefModel> _populateDocPlus(DocumentSnapshot value) async {
+    return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<MenuDefModel> get(String id) {
@@ -124,11 +124,11 @@ class MenuDefJsFirestore implements MenuDefRepository {
     return menuDefCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => menuDefCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('MenuDef-$appID');
+  CollectionReference getCollection() => firestore().collection('MenuDef-$appId');
 
-  final String appID;
+  final String appId;
   
-  MenuDefJsFirestore(this.appID) : menuDefCollection = firestore().collection('MenuDef-$appID');
+  MenuDefJsFirestore(this.appId) : menuDefCollection = firestore().collection('MenuDef-$appId');
 
   final CollectionReference menuDefCollection;
 }

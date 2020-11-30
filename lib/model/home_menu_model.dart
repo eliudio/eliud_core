@@ -92,13 +92,13 @@ class HomeMenuModel {
     );
   }
 
-  static Future<HomeMenuModel> fromEntityPlus(String documentID, HomeMenuEntity entity) async {
+  static Future<HomeMenuModel> fromEntityPlus(String documentID, HomeMenuEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     MenuDefModel menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository(appID: entity.appId).get(entity.menuId).then((val) {
+        await menuDefRepository(appId: appId).get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -107,7 +107,7 @@ class HomeMenuModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -119,10 +119,10 @@ class HomeMenuModel {
           name: entity.name, 
           menu: menuHolder, 
           iconColor: 
-            await RgbModel.fromEntityPlus(entity.iconColor), 
+            await RgbModel.fromEntityPlus(entity.iconColor, appId: appId), 
           background: backgroundHolder, 
           popupMenuBackgroundColor: 
-            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor), 
+            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor, appId: appId), 
     );
   }
 

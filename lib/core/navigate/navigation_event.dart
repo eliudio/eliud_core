@@ -9,10 +9,10 @@ abstract class NavigatorEvent extends Equatable {
 
 class Pop extends NavigatorEvent {}
 
-class JustASecond extends NavigatorEvent {
+class JustASecondWait extends NavigatorEvent {
   final String message;
 
-  JustASecond(this.message);
+  JustASecondWait(this.message);
 }
 
 class GoToPageEvent extends NavigatorEvent {

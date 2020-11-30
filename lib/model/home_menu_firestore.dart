@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
   Future<HomeMenuModel> add(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(HomeMenuModel value) {
@@ -36,15 +36,15 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   Future<HomeMenuModel> update(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  HomeMenuModel _populateDoc(DocumentSnapshot doc) {
-    return HomeMenuModel.fromEntity(doc.documentID, HomeMenuEntity.fromMap(doc.data));
+  HomeMenuModel _populateDoc(DocumentSnapshot value) {
+    return HomeMenuModel.fromEntity(value.documentID, HomeMenuEntity.fromMap(value.data));
   }
 
-  Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return HomeMenuModel.fromEntityPlus(doc.documentID, HomeMenuEntity.fromMap(doc.data));  }
+  Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot value) async {
+    return HomeMenuModel.fromEntityPlus(value.documentID, HomeMenuEntity.fromMap(value.data), appId: appId);  }
 
   Future<HomeMenuModel> get(String id) {
     return HomeMenuCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference HomeMenuCollection;
 
-  HomeMenuFirestore(this.appID) : HomeMenuCollection = Firestore.instance.collection('HomeMenu-${appID}');
+  HomeMenuFirestore(this.appId) : HomeMenuCollection = Firestore.instance.collection('HomeMenu-${appId}');
 }
 

@@ -244,13 +244,13 @@ class AppModel {
     );
   }
 
-  static Future<AppModel> fromEntityPlus(String documentID, AppEntity entity) async {
+  static Future<AppModel> fromEntityPlus(String documentID, AppEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     PageModel entryPageHolder;
     if (entity.entryPageId != null) {
       try {
-        await pageRepository().get(entity.entryPageId).then((val) {
+        await pageRepository(appId: appId).get(entity.entryPageId).then((val) {
           entryPageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -259,7 +259,7 @@ class AppModel {
     ImageModel logoHolder;
     if (entity.logoId != null) {
       try {
-        await imageRepository().get(entity.logoId).then((val) {
+        await imageRepository(appId: appId).get(entity.logoId).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -268,7 +268,7 @@ class AppModel {
     BackgroundModel formBackgroundHolder;
     if (entity.formBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.formBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.formBackgroundId).then((val) {
           formBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -277,7 +277,7 @@ class AppModel {
     BackgroundModel formAppBarBackgroundHolder;
     if (entity.formAppBarBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.formAppBarBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.formAppBarBackgroundId).then((val) {
           formAppBarBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -286,7 +286,7 @@ class AppModel {
     BackgroundModel listBackgroundHolder;
     if (entity.listBackgroundId != null) {
       try {
-        await backgroundRepository().get(entity.listBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.listBackgroundId).then((val) {
           listBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -295,7 +295,7 @@ class AppModel {
     FontModel h1Holder;
     if (entity.h1Id != null) {
       try {
-        await fontRepository().get(entity.h1Id).then((val) {
+        await fontRepository(appId: appId).get(entity.h1Id).then((val) {
           h1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -304,7 +304,7 @@ class AppModel {
     FontModel h2Holder;
     if (entity.h2Id != null) {
       try {
-        await fontRepository().get(entity.h2Id).then((val) {
+        await fontRepository(appId: appId).get(entity.h2Id).then((val) {
           h2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -313,7 +313,7 @@ class AppModel {
     FontModel h3Holder;
     if (entity.h3Id != null) {
       try {
-        await fontRepository().get(entity.h3Id).then((val) {
+        await fontRepository(appId: appId).get(entity.h3Id).then((val) {
           h3Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -322,7 +322,7 @@ class AppModel {
     FontModel h4Holder;
     if (entity.h4Id != null) {
       try {
-        await fontRepository().get(entity.h4Id).then((val) {
+        await fontRepository(appId: appId).get(entity.h4Id).then((val) {
           h4Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -331,7 +331,7 @@ class AppModel {
     FontModel h5Holder;
     if (entity.h5Id != null) {
       try {
-        await fontRepository().get(entity.h5Id).then((val) {
+        await fontRepository(appId: appId).get(entity.h5Id).then((val) {
           h5Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -340,7 +340,7 @@ class AppModel {
     FontModel fontTextHolder;
     if (entity.fontTextId != null) {
       try {
-        await fontRepository().get(entity.fontTextId).then((val) {
+        await fontRepository(appId: appId).get(entity.fontTextId).then((val) {
           fontTextHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -349,7 +349,7 @@ class AppModel {
     FontModel fontHighlight1Holder;
     if (entity.fontHighlight1Id != null) {
       try {
-        await fontRepository().get(entity.fontHighlight1Id).then((val) {
+        await fontRepository(appId: appId).get(entity.fontHighlight1Id).then((val) {
           fontHighlight1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -358,7 +358,7 @@ class AppModel {
     FontModel fontHighlight2Holder;
     if (entity.fontHighlight2Id != null) {
       try {
-        await fontRepository().get(entity.fontHighlight2Id).then((val) {
+        await fontRepository(appId: appId).get(entity.fontHighlight2Id).then((val) {
           fontHighlight2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -367,7 +367,7 @@ class AppModel {
     FontModel fontLinkHolder;
     if (entity.fontLinkId != null) {
       try {
-        await fontRepository().get(entity.fontLinkId).then((val) {
+        await fontRepository(appId: appId).get(entity.fontLinkId).then((val) {
           fontLinkHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -384,30 +384,30 @@ class AppModel {
           entryPage: entryPageHolder, 
           logo: logoHolder, 
           formSubmitButtonColor: 
-            await RgbModel.fromEntityPlus(entity.formSubmitButtonColor), 
+            await RgbModel.fromEntityPlus(entity.formSubmitButtonColor, appId: appId), 
           formBackground: formBackgroundHolder, 
           formSubmitButtonTextColor: 
-            await RgbModel.fromEntityPlus(entity.formSubmitButtonTextColor), 
+            await RgbModel.fromEntityPlus(entity.formSubmitButtonTextColor, appId: appId), 
           formGroupTitleColor: 
-            await RgbModel.fromEntityPlus(entity.formGroupTitleColor), 
+            await RgbModel.fromEntityPlus(entity.formGroupTitleColor, appId: appId), 
           formFieldTextColor: 
-            await RgbModel.fromEntityPlus(entity.formFieldTextColor), 
+            await RgbModel.fromEntityPlus(entity.formFieldTextColor, appId: appId), 
           formFieldHeaderColor: 
-            await RgbModel.fromEntityPlus(entity.formFieldHeaderColor), 
+            await RgbModel.fromEntityPlus(entity.formFieldHeaderColor, appId: appId), 
           formFieldFocusColor: 
-            await RgbModel.fromEntityPlus(entity.formFieldFocusColor), 
+            await RgbModel.fromEntityPlus(entity.formFieldFocusColor, appId: appId), 
           formAppBarBackground: formAppBarBackgroundHolder, 
           formAppBarTextColor: 
-            await RgbModel.fromEntityPlus(entity.formAppBarTextColor), 
+            await RgbModel.fromEntityPlus(entity.formAppBarTextColor, appId: appId), 
           listBackground: listBackgroundHolder, 
           listTextItemColor: 
-            await RgbModel.fromEntityPlus(entity.listTextItemColor), 
+            await RgbModel.fromEntityPlus(entity.listTextItemColor, appId: appId), 
           floatingButtonForegroundColor: 
-            await RgbModel.fromEntityPlus(entity.floatingButtonForegroundColor), 
+            await RgbModel.fromEntityPlus(entity.floatingButtonForegroundColor, appId: appId), 
           floatingButtonBackgroundColor: 
-            await RgbModel.fromEntityPlus(entity.floatingButtonBackgroundColor), 
+            await RgbModel.fromEntityPlus(entity.floatingButtonBackgroundColor, appId: appId), 
           dividerColor: 
-            await RgbModel.fromEntityPlus(entity.dividerColor), 
+            await RgbModel.fromEntityPlus(entity.dividerColor, appId: appId), 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
           logoURL: entity.logoURL, 

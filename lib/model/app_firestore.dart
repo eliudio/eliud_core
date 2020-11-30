@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class AppFirestore implements AppRepository {
   Future<AppModel> add(AppModel value) {
-    return AppCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return AppCollection.document(value.documentID).setData(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
   }
 
   Future<void> delete(AppModel value) {
@@ -36,15 +36,15 @@ class AppFirestore implements AppRepository {
   }
 
   Future<AppModel> update(AppModel value) {
-    return AppCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return AppCollection.document(value.documentID).updateData(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
   }
 
-  AppModel _populateDoc(DocumentSnapshot doc) {
-    return AppModel.fromEntity(doc.documentID, AppEntity.fromMap(doc.data));
+  AppModel _populateDoc(DocumentSnapshot value) {
+    return AppModel.fromEntity(value.documentID, AppEntity.fromMap(value.data));
   }
 
-  Future<AppModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return AppModel.fromEntityPlus(doc.documentID, AppEntity.fromMap(doc.data));  }
+  Future<AppModel> _populateDocPlus(DocumentSnapshot value) async {
+    return AppModel.fromEntityPlus(value.documentID, AppEntity.fromMap(value.data), appId: value.documentID);  }
 
   Future<AppModel> get(String id) {
     return AppCollection.document(id).get().then((doc) {

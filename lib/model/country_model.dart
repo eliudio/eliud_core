@@ -76,7 +76,7 @@ class CountryModel {
     );
   }
 
-  static Future<CountryModel> fromEntityPlus(String documentID, CountryEntity entity) async {
+  static Future<CountryModel> fromEntityPlus(String documentID, CountryEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return CountryModel(

@@ -97,7 +97,7 @@ class PageComponent extends StatelessWidget {
                 floatingActionButton: hasFab != null ? hasFab.fab(context) : null,
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 bottomNavigationBar: BottomNavigationBarConstructor(pageID)
-                    .bottomNavigationBar(app,
+                    .bottomNavigationBar(app, accessState,
                         context, state.value.homeMenu, state.value.background),
               );
             }

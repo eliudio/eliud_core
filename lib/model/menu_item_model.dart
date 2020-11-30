@@ -86,7 +86,7 @@ class MenuItemModel {
     );
   }
 
-  static Future<MenuItemModel> fromEntityPlus(String documentID, MenuItemEntity entity) async {
+  static Future<MenuItemModel> fromEntityPlus(String documentID, MenuItemEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return MenuItemModel(
@@ -94,9 +94,9 @@ class MenuItemModel {
           text: entity.text, 
           description: entity.description, 
           icon: 
-            await IconModel.fromEntityPlus(entity.icon), 
+            await IconModel.fromEntityPlus(entity.icon, appId: appId), 
           action: 
-            await ActionModel.fromEntityPlus(entity.action), 
+            await ActionModel.fromEntityPlus(entity.action, appId: appId), 
     );
   }
 

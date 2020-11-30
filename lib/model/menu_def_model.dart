@@ -92,7 +92,7 @@ class MenuDefModel {
     );
   }
 
-  static Future<MenuDefModel> fromEntityPlus(String documentID, MenuDefEntity entity) async {
+  static Future<MenuDefModel> fromEntityPlus(String documentID, MenuDefEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return MenuDefModel(
@@ -101,7 +101,7 @@ class MenuDefModel {
           name: entity.name, 
           menuItems: 
             new List<MenuItemModel>.from(await Future.wait(entity. menuItems
-            .map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           admin: entity.admin, 
     );

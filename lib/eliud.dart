@@ -2,7 +2,6 @@ import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/extensions/member_profile_component.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/platform/platform.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,8 @@ import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 
 import 'package:eliud_core/model/component_registry.dart';
+
+import 'core/access/bloc/access_bloc.dart';
 
 abstract class Package {
   /*
@@ -23,7 +24,7 @@ abstract class Package {
   /*
    * Plugins can depend on the highest level of the app to provide a bloc. A plugin can do this by implementing this method.
    */
-  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc);
+  BlocProvider createMainBloc(BuildContext context, NavigatorBloc navigatorBloc, AccessBloc accessBloc);
 
   /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.

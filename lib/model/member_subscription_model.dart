@@ -71,13 +71,13 @@ class MemberSubscriptionModel {
     );
   }
 
-  static Future<MemberSubscriptionModel> fromEntityPlus(String documentID, MemberSubscriptionEntity entity) async {
+  static Future<MemberSubscriptionModel> fromEntityPlus(String documentID, MemberSubscriptionEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     AppModel appHolder;
     if (entity.appId != null) {
       try {
-        await appRepository().get(entity.appId).then((val) {
+        await appRepository(appId: appId).get(entity.appId).then((val) {
           appHolder = val;
         }).catchError((error) {});
       } catch (_) {}

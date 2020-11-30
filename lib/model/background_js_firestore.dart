@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class BackgroundJsFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   Future<BackgroundModel> update(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  BackgroundModel _populateDoc(DocumentSnapshot doc) {
-    return BackgroundModel.fromEntity(doc.id, BackgroundEntity.fromMap(doc.data()));
+  BackgroundModel _populateDoc(DocumentSnapshot value) {
+    return BackgroundModel.fromEntity(value.id, BackgroundEntity.fromMap(value.data()));
   }
 
-  Future<BackgroundModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return BackgroundModel.fromEntityPlus(doc.id, BackgroundEntity.fromMap(doc.data()));
+  Future<BackgroundModel> _populateDocPlus(DocumentSnapshot value) async {
+    return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<BackgroundModel> get(String id) {
@@ -124,11 +124,11 @@ class BackgroundJsFirestore implements BackgroundRepository {
     return backgroundCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => backgroundCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Background-$appID');
+  CollectionReference getCollection() => firestore().collection('Background-$appId');
 
-  final String appID;
+  final String appId;
   
-  BackgroundJsFirestore(this.appID) : backgroundCollection = firestore().collection('Background-$appID');
+  BackgroundJsFirestore(this.appId) : backgroundCollection = firestore().collection('Background-$appId');
 
   final CollectionReference backgroundCollection;
 }

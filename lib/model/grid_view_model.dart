@@ -160,7 +160,7 @@ class GridViewModel {
     );
   }
 
-  static Future<GridViewModel> fromEntityPlus(String documentID, GridViewEntity entity) async {
+  static Future<GridViewModel> fromEntityPlus(String documentID, GridViewEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return GridViewModel(

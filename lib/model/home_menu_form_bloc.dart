@@ -63,7 +63,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
 
       if (event is InitialiseHomeMenuFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appID: appId).get(event.value.documentID));
+        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseHomeMenuFormNoLoadEvent) {
@@ -95,7 +95,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
       }
       if (event is ChangedHomeMenuMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(menu: await menuDefRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(menu: await menuDefRepository(appId: appId).get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value.documentID,
@@ -118,7 +118,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
       }
       if (event is ChangedHomeMenuBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value.documentID,
@@ -157,7 +157,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
   Future<HomeMenuFormState> _isDocumentIDValid(String value, HomeMenuModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<HomeMenuModel> findDocument = homeMenuRepository(appID: appId).get(value);
+    Future<HomeMenuModel> findDocument = homeMenuRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableHomeMenuForm(value: newValue);

@@ -103,7 +103,7 @@ class ImageModel {
     );
   }
 
-  static Future<ImageModel> fromEntityPlus(String documentID, ImageEntity entity) async {
+  static Future<ImageModel> fromEntityPlus(String documentID, ImageEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return ImageModel(

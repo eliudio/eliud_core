@@ -66,7 +66,7 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
 
       if (event is InitialiseShadowFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appID: appId).get(event.value.documentID));
+        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShadowFormNoLoadEvent) {
@@ -151,7 +151,7 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
   Future<ShadowFormState> _isDocumentIDValid(String value, ShadowModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShadowModel> findDocument = shadowRepository(appID: appId).get(value);
+    Future<ShadowModel> findDocument = shadowRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShadowForm(value: newValue);

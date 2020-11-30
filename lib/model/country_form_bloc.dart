@@ -61,7 +61,7 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
 
       if (event is InitialiseCountryFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        CountryFormLoaded loaded = CountryFormLoaded(value: await countryRepository(appID: appId).get(event.value.documentID));
+        CountryFormLoaded loaded = CountryFormLoaded(value: await countryRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseCountryFormNoLoadEvent) {
@@ -102,7 +102,7 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
   Future<CountryFormState> _isDocumentIDValid(String value, CountryModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<CountryModel> findDocument = countryRepository(appID: appId).get(value);
+    Future<CountryModel> findDocument = countryRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableCountryForm(value: newValue);

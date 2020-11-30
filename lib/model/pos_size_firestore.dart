@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class PosSizeFirestore implements PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value) {
-    return PosSizeCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PosSizeCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PosSizeModel value) {
@@ -36,15 +36,15 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
   Future<PosSizeModel> update(PosSizeModel value) {
-    return PosSizeCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return PosSizeCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  PosSizeModel _populateDoc(DocumentSnapshot doc) {
-    return PosSizeModel.fromEntity(doc.documentID, PosSizeEntity.fromMap(doc.data));
+  PosSizeModel _populateDoc(DocumentSnapshot value) {
+    return PosSizeModel.fromEntity(value.documentID, PosSizeEntity.fromMap(value.data));
   }
 
-  Future<PosSizeModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return PosSizeModel.fromEntityPlus(doc.documentID, PosSizeEntity.fromMap(doc.data));  }
+  Future<PosSizeModel> _populateDocPlus(DocumentSnapshot value) async {
+    return PosSizeModel.fromEntityPlus(value.documentID, PosSizeEntity.fromMap(value.data), appId: appId);  }
 
   Future<PosSizeModel> get(String id) {
     return PosSizeCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference PosSizeCollection;
 
-  PosSizeFirestore(this.appID) : PosSizeCollection = Firestore.instance.collection('PosSize-${appID}');
+  PosSizeFirestore(this.appId) : PosSizeCollection = Firestore.instance.collection('PosSize-${appId}');
 }
 

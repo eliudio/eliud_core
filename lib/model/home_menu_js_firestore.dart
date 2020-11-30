@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class HomeMenuJsFirestore implements HomeMenuRepository {
   Future<HomeMenuModel> add(HomeMenuModel value) {
     return homeMenuCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
 
   Future<HomeMenuModel> update(HomeMenuModel value) {
     return homeMenuCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  HomeMenuModel _populateDoc(DocumentSnapshot doc) {
-    return HomeMenuModel.fromEntity(doc.id, HomeMenuEntity.fromMap(doc.data()));
+  HomeMenuModel _populateDoc(DocumentSnapshot value) {
+    return HomeMenuModel.fromEntity(value.id, HomeMenuEntity.fromMap(value.data()));
   }
 
-  Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return HomeMenuModel.fromEntityPlus(doc.id, HomeMenuEntity.fromMap(doc.data()));
+  Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot value) async {
+    return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<HomeMenuModel> get(String id) {
@@ -124,11 +124,11 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
     return homeMenuCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => homeMenuCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('HomeMenu-$appID');
+  CollectionReference getCollection() => firestore().collection('HomeMenu-$appId');
 
-  final String appID;
+  final String appId;
   
-  HomeMenuJsFirestore(this.appID) : homeMenuCollection = firestore().collection('HomeMenu-$appID');
+  HomeMenuJsFirestore(this.appId) : homeMenuCollection = firestore().collection('HomeMenu-$appId');
 
   final CollectionReference homeMenuCollection;
 }

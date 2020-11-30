@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class AppBarFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
-    return AppBarCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return AppBarCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(AppBarModel value) {
@@ -36,15 +36,15 @@ class AppBarFirestore implements AppBarRepository {
   }
 
   Future<AppBarModel> update(AppBarModel value) {
-    return AppBarCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return AppBarCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  AppBarModel _populateDoc(DocumentSnapshot doc) {
-    return AppBarModel.fromEntity(doc.documentID, AppBarEntity.fromMap(doc.data));
+  AppBarModel _populateDoc(DocumentSnapshot value) {
+    return AppBarModel.fromEntity(value.documentID, AppBarEntity.fromMap(value.data));
   }
 
-  Future<AppBarModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return AppBarModel.fromEntityPlus(doc.documentID, AppBarEntity.fromMap(doc.data));  }
+  Future<AppBarModel> _populateDocPlus(DocumentSnapshot value) async {
+    return AppBarModel.fromEntityPlus(value.documentID, AppBarEntity.fromMap(value.data), appId: appId);  }
 
   Future<AppBarModel> get(String id) {
     return AppBarCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class AppBarFirestore implements AppBarRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference AppBarCollection;
 
-  AppBarFirestore(this.appID) : AppBarCollection = Firestore.instance.collection('AppBar-${appID}');
+  AppBarFirestore(this.appId) : AppBarCollection = Firestore.instance.collection('AppBar-${appId}');
 }
 

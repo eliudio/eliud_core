@@ -125,13 +125,13 @@ class AppBarModel {
     );
   }
 
-  static Future<AppBarModel> fromEntityPlus(String documentID, AppBarEntity entity) async {
+  static Future<AppBarModel> fromEntityPlus(String documentID, AppBarEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ImageModel imageHolder;
     if (entity.imageId != null) {
       try {
-        await imageRepository(appID: entity.appId).get(entity.imageId).then((val) {
+        await imageRepository(appId: appId).get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -140,7 +140,7 @@ class AppBarModel {
     MenuDefModel iconMenuHolder;
     if (entity.iconMenuId != null) {
       try {
-        await menuDefRepository(appID: entity.appId).get(entity.iconMenuId).then((val) {
+        await menuDefRepository(appId: appId).get(entity.iconMenuId).then((val) {
           iconMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -149,7 +149,7 @@ class AppBarModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -161,16 +161,16 @@ class AppBarModel {
           title: entity.title, 
           header: toHeaderSelection(entity.header), 
           icon: 
-            await IconModel.fromEntityPlus(entity.icon), 
+            await IconModel.fromEntityPlus(entity.icon, appId: appId), 
           image: imageHolder, 
           iconMenu: iconMenuHolder, 
           background: backgroundHolder, 
           iconColor: 
-            await RgbModel.fromEntityPlus(entity.iconColor), 
+            await RgbModel.fromEntityPlus(entity.iconColor, appId: appId), 
           selectedIconColor: 
-            await RgbModel.fromEntityPlus(entity.selectedIconColor), 
+            await RgbModel.fromEntityPlus(entity.selectedIconColor, appId: appId), 
           menuBackgroundColor: 
-            await RgbModel.fromEntityPlus(entity.menuBackgroundColor), 
+            await RgbModel.fromEntityPlus(entity.menuBackgroundColor, appId: appId), 
     );
   }
 

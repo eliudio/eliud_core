@@ -104,13 +104,13 @@ class DrawerModel {
     );
   }
 
-  static Future<DrawerModel> fromEntityPlus(String documentID, DrawerEntity entity) async {
+  static Future<DrawerModel> fromEntityPlus(String documentID, DrawerEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -119,7 +119,7 @@ class DrawerModel {
     BackgroundModel headerBackgroundHolder;
     if (entity.headerBackgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.headerBackgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.headerBackgroundId).then((val) {
           headerBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -128,7 +128,7 @@ class DrawerModel {
     MenuDefModel menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository(appID: entity.appId).get(entity.menuId).then((val) {
+        await menuDefRepository(appId: appId).get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -143,7 +143,7 @@ class DrawerModel {
           secondHeaderText: entity.secondHeaderText, 
           headerHeight: entity.headerHeight, 
           popupMenuBackgroundColor: 
-            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor), 
+            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor, appId: appId), 
           headerBackground: headerBackgroundHolder, 
           menu: menuHolder, 
     );

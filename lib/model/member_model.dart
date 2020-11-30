@@ -156,13 +156,13 @@ class MemberModel {
           packageData: entity.packageData,     );
   }
 
-  static Future<MemberModel> fromEntityPlus(String documentID, MemberEntity entity) async {
+  static Future<MemberModel> fromEntityPlus(String documentID, MemberEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     CountryModel countryHolder;
     if (entity.countryId != null) {
       try {
-        await countryRepository().get(entity.countryId).then((val) {
+        await countryRepository(appId: appId).get(entity.countryId).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -171,7 +171,7 @@ class MemberModel {
     CountryModel invoiceCountryHolder;
     if (entity.invoiceCountryId != null) {
       try {
-        await countryRepository().get(entity.invoiceCountryId).then((val) {
+        await countryRepository(appId: appId).get(entity.invoiceCountryId).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -182,7 +182,7 @@ class MemberModel {
           name: entity.name, 
           subscriptions: 
             new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
-            .map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           photoURL: entity.photoURL, 
           shipStreet1: entity.shipStreet1, 

@@ -150,13 +150,13 @@ class PageModel {
     );
   }
 
-  static Future<PageModel> fromEntityPlus(String documentID, PageEntity entity) async {
+  static Future<PageModel> fromEntityPlus(String documentID, PageEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     AppBarModel appBarHolder;
     if (entity.appBarId != null) {
       try {
-        await appBarRepository(appID: entity.appId).get(entity.appBarId).then((val) {
+        await appBarRepository(appId: appId).get(entity.appBarId).then((val) {
           appBarHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -165,7 +165,7 @@ class PageModel {
     DrawerModel drawerHolder;
     if (entity.drawerId != null) {
       try {
-        await drawerRepository(appID: entity.appId).get(entity.drawerId).then((val) {
+        await drawerRepository(appId: appId).get(entity.drawerId).then((val) {
           drawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -174,7 +174,7 @@ class PageModel {
     DrawerModel endDrawerHolder;
     if (entity.endDrawerId != null) {
       try {
-        await drawerRepository(appID: entity.appId).get(entity.endDrawerId).then((val) {
+        await drawerRepository(appId: appId).get(entity.endDrawerId).then((val) {
           endDrawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -183,7 +183,7 @@ class PageModel {
     HomeMenuModel homeMenuHolder;
     if (entity.homeMenuId != null) {
       try {
-        await homeMenuRepository(appID: entity.appId).get(entity.homeMenuId).then((val) {
+        await homeMenuRepository(appId: appId).get(entity.homeMenuId).then((val) {
           homeMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -192,7 +192,7 @@ class PageModel {
     BackgroundModel backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appID: entity.appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -201,7 +201,7 @@ class PageModel {
     GridViewModel gridViewHolder;
     if (entity.gridViewId != null) {
       try {
-        await gridViewRepository(appID: entity.appId).get(entity.gridViewId).then((val) {
+        await gridViewRepository(appId: appId).get(entity.gridViewId).then((val) {
           gridViewHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -217,7 +217,7 @@ class PageModel {
           homeMenu: homeMenuHolder, 
           bodyComponents: 
             new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
-            .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           background: backgroundHolder, 
           layout: toPageLayout(entity.layout), 

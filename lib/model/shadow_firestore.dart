@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class ShadowFirestore implements ShadowRepository {
   Future<ShadowModel> add(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShadowCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShadowModel value) {
@@ -36,15 +36,15 @@ class ShadowFirestore implements ShadowRepository {
   }
 
   Future<ShadowModel> update(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return ShadowCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  ShadowModel _populateDoc(DocumentSnapshot doc) {
-    return ShadowModel.fromEntity(doc.documentID, ShadowEntity.fromMap(doc.data));
+  ShadowModel _populateDoc(DocumentSnapshot value) {
+    return ShadowModel.fromEntity(value.documentID, ShadowEntity.fromMap(value.data));
   }
 
-  Future<ShadowModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ShadowModel.fromEntityPlus(doc.documentID, ShadowEntity.fromMap(doc.data));  }
+  Future<ShadowModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ShadowModel.fromEntityPlus(value.documentID, ShadowEntity.fromMap(value.data), appId: appId);  }
 
   Future<ShadowModel> get(String id) {
     return ShadowCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class ShadowFirestore implements ShadowRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference ShadowCollection;
 
-  ShadowFirestore(this.appID) : ShadowCollection = Firestore.instance.collection('Shadow-${appID}');
+  ShadowFirestore(this.appId) : ShadowCollection = Firestore.instance.collection('Shadow-${appId}');
 }
 

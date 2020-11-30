@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class GridViewJsFirestore implements GridViewRepository {
   Future<GridViewModel> add(GridViewModel value) {
     return gridViewCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class GridViewJsFirestore implements GridViewRepository {
 
   Future<GridViewModel> update(GridViewModel value) {
     return gridViewCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  GridViewModel _populateDoc(DocumentSnapshot doc) {
-    return GridViewModel.fromEntity(doc.id, GridViewEntity.fromMap(doc.data()));
+  GridViewModel _populateDoc(DocumentSnapshot value) {
+    return GridViewModel.fromEntity(value.id, GridViewEntity.fromMap(value.data()));
   }
 
-  Future<GridViewModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return GridViewModel.fromEntityPlus(doc.id, GridViewEntity.fromMap(doc.data()));
+  Future<GridViewModel> _populateDocPlus(DocumentSnapshot value) async {
+    return GridViewModel.fromEntityPlus(value.id, GridViewEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<GridViewModel> get(String id) {
@@ -124,11 +124,11 @@ class GridViewJsFirestore implements GridViewRepository {
     return gridViewCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => gridViewCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('GridView-$appID');
+  CollectionReference getCollection() => firestore().collection('GridView-$appId');
 
-  final String appID;
+  final String appId;
   
-  GridViewJsFirestore(this.appID) : gridViewCollection = firestore().collection('GridView-$appID');
+  GridViewJsFirestore(this.appId) : gridViewCollection = firestore().collection('GridView-$appId');
 
   final CollectionReference gridViewCollection;
 }

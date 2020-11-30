@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class PosSizeJsFirestore implements PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class PosSizeJsFirestore implements PosSizeRepository {
 
   Future<PosSizeModel> update(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  PosSizeModel _populateDoc(DocumentSnapshot doc) {
-    return PosSizeModel.fromEntity(doc.id, PosSizeEntity.fromMap(doc.data()));
+  PosSizeModel _populateDoc(DocumentSnapshot value) {
+    return PosSizeModel.fromEntity(value.id, PosSizeEntity.fromMap(value.data()));
   }
 
-  Future<PosSizeModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return PosSizeModel.fromEntityPlus(doc.id, PosSizeEntity.fromMap(doc.data()));
+  Future<PosSizeModel> _populateDocPlus(DocumentSnapshot value) async {
+    return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<PosSizeModel> get(String id) {
@@ -124,11 +124,11 @@ class PosSizeJsFirestore implements PosSizeRepository {
     return posSizeCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => posSizeCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('PosSize-$appID');
+  CollectionReference getCollection() => firestore().collection('PosSize-$appId');
 
-  final String appID;
+  final String appId;
   
-  PosSizeJsFirestore(this.appID) : posSizeCollection = firestore().collection('PosSize-$appID');
+  PosSizeJsFirestore(this.appId) : posSizeCollection = firestore().collection('PosSize-$appId');
 
   final CollectionReference posSizeCollection;
 }

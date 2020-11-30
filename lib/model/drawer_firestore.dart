@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class DrawerFirestore implements DrawerRepository {
   Future<DrawerModel> add(DrawerModel value) {
-    return DrawerCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return DrawerCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(DrawerModel value) {
@@ -36,15 +36,15 @@ class DrawerFirestore implements DrawerRepository {
   }
 
   Future<DrawerModel> update(DrawerModel value) {
-    return DrawerCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return DrawerCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  DrawerModel _populateDoc(DocumentSnapshot doc) {
-    return DrawerModel.fromEntity(doc.documentID, DrawerEntity.fromMap(doc.data));
+  DrawerModel _populateDoc(DocumentSnapshot value) {
+    return DrawerModel.fromEntity(value.documentID, DrawerEntity.fromMap(value.data));
   }
 
-  Future<DrawerModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return DrawerModel.fromEntityPlus(doc.documentID, DrawerEntity.fromMap(doc.data));  }
+  Future<DrawerModel> _populateDocPlus(DocumentSnapshot value) async {
+    return DrawerModel.fromEntityPlus(value.documentID, DrawerEntity.fromMap(value.data), appId: appId);  }
 
   Future<DrawerModel> get(String id) {
     return DrawerCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class DrawerFirestore implements DrawerRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference DrawerCollection;
 
-  DrawerFirestore(this.appID) : DrawerCollection = Firestore.instance.collection('Drawer-${appID}');
+  DrawerFirestore(this.appId) : DrawerCollection = Firestore.instance.collection('Drawer-${appId}');
 }
 

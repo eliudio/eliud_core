@@ -284,7 +284,7 @@ class PosSizeModel {
     );
   }
 
-  static Future<PosSizeModel> fromEntityPlus(String documentID, PosSizeEntity entity) async {
+  static Future<PosSizeModel> fromEntityPlus(String documentID, PosSizeEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return PosSizeModel(

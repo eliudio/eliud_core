@@ -46,9 +46,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppEvent) {
         var switchToApp = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
-        var usr = await AbstractMainRepositorySingleton.singleton
-            .userRepository().currentSignedinUser();
-        var newState = await _mapUsrAndApp(usr, switchToApp, null);
+        var newState = _mapOldStateToNewApp(state, switchToApp, null);
         navigatorBloc.add(GoHome());
         yield newState;
       } else if (event is LogoutEvent) {
@@ -93,11 +91,24 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessState> _mapMemberAndApp(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) async {
+  AccessState _mapMemberAndApp(FirebaseUser usr, MemberModel member, AppModel app, PostLoginAction postLoginAction) {
     if (!isSubscibred(member, app)) {
       return LoggedInWithoutMembership(usr: usr, member: member, app: app, postLoginAction: postLoginAction);
     } else {
       return LoggedInWithMembership(usr: usr, member: member, app: app);
+    }
+
+  }
+
+  AccessState _mapOldStateToNewApp(AccessState state, AppModel app, PostLoginAction postLoginAction) {
+    if (state is LoggedIn) {
+      if (!isSubscibred(state.member, app)) {
+        return LoggedInWithoutMembership(usr: state.usr, member: state.member, app: app, postLoginAction: postLoginAction);
+      } else {
+        return LoggedInWithMembership(usr: state.usr, member: state.member, app: app);
+      }
+    } else {
+      return LoggedOut(app);
     }
 
   }

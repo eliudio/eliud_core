@@ -65,7 +65,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
 
       if (event is InitialiseDrawerFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appID: appId).get(event.value.documentID));
+        DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseDrawerFormNoLoadEvent) {
@@ -93,7 +93,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
       }
       if (event is ChangedDrawerBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value.documentID,
@@ -142,7 +142,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
       }
       if (event is ChangedDrawerHeaderBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(headerBackground: await backgroundRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(headerBackground: await backgroundRepository(appId: appId).get(event.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value.documentID,
@@ -162,7 +162,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
       }
       if (event is ChangedDrawerMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(menu: await menuDefRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(menu: await menuDefRepository(appId: appId).get(event.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value.documentID,
@@ -189,7 +189,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
   Future<DrawerFormState> _isDocumentIDValid(String value, DrawerModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<DrawerModel> findDocument = drawerRepository(appID: appId).get(value);
+    Future<DrawerModel> findDocument = drawerRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableDrawerForm(value: newValue);

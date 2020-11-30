@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class GridViewFirestore implements GridViewRepository {
   Future<GridViewModel> add(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(GridViewModel value) {
@@ -36,15 +36,15 @@ class GridViewFirestore implements GridViewRepository {
   }
 
   Future<GridViewModel> update(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  GridViewModel _populateDoc(DocumentSnapshot doc) {
-    return GridViewModel.fromEntity(doc.documentID, GridViewEntity.fromMap(doc.data));
+  GridViewModel _populateDoc(DocumentSnapshot value) {
+    return GridViewModel.fromEntity(value.documentID, GridViewEntity.fromMap(value.data));
   }
 
-  Future<GridViewModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return GridViewModel.fromEntityPlus(doc.documentID, GridViewEntity.fromMap(doc.data));  }
+  Future<GridViewModel> _populateDocPlus(DocumentSnapshot value) async {
+    return GridViewModel.fromEntityPlus(value.documentID, GridViewEntity.fromMap(value.data), appId: appId);  }
 
   Future<GridViewModel> get(String id) {
     return GridViewCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class GridViewFirestore implements GridViewRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference GridViewCollection;
 
-  GridViewFirestore(this.appID) : GridViewCollection = Firestore.instance.collection('GridView-${appID}');
+  GridViewFirestore(this.appId) : GridViewCollection = Firestore.instance.collection('GridView-${appId}');
 }
 

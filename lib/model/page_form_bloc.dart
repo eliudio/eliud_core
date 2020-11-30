@@ -63,7 +63,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
 
       if (event is InitialisePageFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appID: appId).get(event.value.documentID));
+        PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appId: appId).get(event.value.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePageFormNoLoadEvent) {
@@ -91,7 +91,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageAppBar) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(appBar: await appBarRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(appBar: await appBarRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -114,7 +114,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageDrawer) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(drawer: await drawerRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(drawer: await drawerRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -137,7 +137,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageEndDrawer) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(endDrawer: await drawerRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(endDrawer: await drawerRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -160,7 +160,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageHomeMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(homeMenu: await homeMenuRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(homeMenu: await homeMenuRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -189,7 +189,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -218,7 +218,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageGridView) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(gridView: await gridViewRepository(appID: appId).get(event.value));
+          newValue = currentState.value.copyWith(gridView: await gridViewRepository(appId: appId).get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value.documentID,
@@ -260,7 +260,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
   Future<PageFormState> _isDocumentIDValid(String value, PageModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PageModel> findDocument = pageRepository(appID: appId).get(value);
+    Future<PageModel> findDocument = pageRepository(appId: appId).get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePageForm(value: newValue);

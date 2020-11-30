@@ -77,13 +77,13 @@ class DecorationColorModel {
     );
   }
 
-  static Future<DecorationColorModel> fromEntityPlus(String documentID, DecorationColorEntity entity) async {
+  static Future<DecorationColorModel> fromEntityPlus(String documentID, DecorationColorEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return DecorationColorModel(
           documentID: documentID, 
           color: 
-            await RgbModel.fromEntityPlus(entity.color), 
+            await RgbModel.fromEntityPlus(entity.color, appId: appId), 
           stop: entity.stop, 
     );
   }

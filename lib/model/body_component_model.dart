@@ -80,7 +80,7 @@ class BodyComponentModel {
     );
   }
 
-  static Future<BodyComponentModel> fromEntityPlus(String documentID, BodyComponentEntity entity) async {
+  static Future<BodyComponentModel> fromEntityPlus(String documentID, BodyComponentEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return BodyComponentModel(

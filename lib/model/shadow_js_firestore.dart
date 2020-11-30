@@ -31,7 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class ShadowJsFirestore implements ShadowRepository {
   Future<ShadowModel> add(ShadowModel value) {
     return shadowCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appID).toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -41,16 +41,16 @@ class ShadowJsFirestore implements ShadowRepository {
 
   Future<ShadowModel> update(ShadowModel value) {
     return shadowCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appID).toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
-  ShadowModel _populateDoc(DocumentSnapshot doc) {
-    return ShadowModel.fromEntity(doc.id, ShadowEntity.fromMap(doc.data()));
+  ShadowModel _populateDoc(DocumentSnapshot value) {
+    return ShadowModel.fromEntity(value.id, ShadowEntity.fromMap(value.data()));
   }
 
-  Future<ShadowModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ShadowModel.fromEntityPlus(doc.id, ShadowEntity.fromMap(doc.data()));
+  Future<ShadowModel> _populateDocPlus(DocumentSnapshot value) async {
+    return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<ShadowModel> get(String id) {
@@ -124,11 +124,11 @@ class ShadowJsFirestore implements ShadowRepository {
     return shadowCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => shadowCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Shadow-$appID');
+  CollectionReference getCollection() => firestore().collection('Shadow-$appId');
 
-  final String appID;
+  final String appId;
   
-  ShadowJsFirestore(this.appID) : shadowCollection = firestore().collection('Shadow-$appID');
+  ShadowJsFirestore(this.appId) : shadowCollection = firestore().collection('Shadow-$appId');
 
   final CollectionReference shadowCollection;
 }

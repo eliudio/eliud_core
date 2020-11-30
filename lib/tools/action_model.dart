@@ -21,7 +21,7 @@ abstract class ActionModel {
     return null;
   }
 
-  static Future<ActionModel> fromEntityPlus(ActionEntity entity) async {
+  static Future<ActionModel> fromEntityPlus(ActionEntity entity, {String appId}) async {
     if (entity is GotoPageEntity) return GotoPage.fromEntityPlus(entity);
     if (entity is InternalActionEntity) return InternalAction.fromEntityPlus(entity);
     if (entity is PopupMenuEntity) return PopupMenu.fromEntityPlus(entity);
@@ -155,7 +155,7 @@ class PopupMenu extends ActionModel {
     MenuDefModel menuDefModel;
     if (entity.menuDefID != null) {
       try {
-        await menuDefRepository(appID: entity.appID).get(entity.menuDefID).then((val) {
+        await menuDefRepository(appId: entity.appID).get(entity.menuDefID).then((val) {
           menuDefModel = val;
         }).catchError((error) {});
       } catch (_) {}

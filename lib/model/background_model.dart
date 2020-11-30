@@ -152,13 +152,13 @@ class BackgroundModel {
     );
   }
 
-  static Future<BackgroundModel> fromEntityPlus(String documentID, BackgroundEntity entity) async {
+  static Future<BackgroundModel> fromEntityPlus(String documentID, BackgroundEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     ImageModel backgroundImageHolder;
     if (entity.backgroundImageId != null) {
       try {
-        await imageRepository(appID: entity.appId).get(entity.backgroundImageId).then((val) {
+        await imageRepository(appId: appId).get(entity.backgroundImageId).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -167,7 +167,7 @@ class BackgroundModel {
     ShadowModel shadowHolder;
     if (entity.shadowId != null) {
       try {
-        await shadowRepository(appID: entity.appId).get(entity.shadowId).then((val) {
+        await shadowRepository(appId: appId).get(entity.shadowId).then((val) {
           shadowHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -183,7 +183,7 @@ class BackgroundModel {
           shadow: shadowHolder, 
           decorationColors: 
             new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
-            .map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item))
+            .map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           border: entity.border, 
           admin: entity.admin, 

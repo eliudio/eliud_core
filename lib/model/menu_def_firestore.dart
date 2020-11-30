@@ -28,7 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class MenuDefFirestore implements MenuDefRepository {
   Future<MenuDefModel> add(MenuDefModel value) {
-    return MenuDefCollection.document(value.documentID).setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return MenuDefCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(MenuDefModel value) {
@@ -36,15 +36,15 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
   Future<MenuDefModel> update(MenuDefModel value) {
-    return MenuDefCollection.document(value.documentID).updateData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+    return MenuDefCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  MenuDefModel _populateDoc(DocumentSnapshot doc) {
-    return MenuDefModel.fromEntity(doc.documentID, MenuDefEntity.fromMap(doc.data));
+  MenuDefModel _populateDoc(DocumentSnapshot value) {
+    return MenuDefModel.fromEntity(value.documentID, MenuDefEntity.fromMap(value.data));
   }
 
-  Future<MenuDefModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return MenuDefModel.fromEntityPlus(doc.documentID, MenuDefEntity.fromMap(doc.data));  }
+  Future<MenuDefModel> _populateDocPlus(DocumentSnapshot value) async {
+    return MenuDefModel.fromEntityPlus(value.documentID, MenuDefEntity.fromMap(value.data), appId: appId);  }
 
   Future<MenuDefModel> get(String id) {
     return MenuDefCollection.document(id).get().then((doc) {
@@ -120,9 +120,9 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
 
-  final String appID;
+  final String appId;
   final CollectionReference MenuDefCollection;
 
-  MenuDefFirestore(this.appID) : MenuDefCollection = Firestore.instance.collection('MenuDef-${appID}');
+  MenuDefFirestore(this.appId) : MenuDefCollection = Firestore.instance.collection('MenuDef-${appId}');
 }
 

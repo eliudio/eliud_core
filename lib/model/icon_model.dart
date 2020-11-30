@@ -76,7 +76,7 @@ class IconModel {
     );
   }
 
-  static Future<IconModel> fromEntityPlus(IconEntity entity) async {
+  static Future<IconModel> fromEntityPlus(IconEntity entity, { String appId}) async {
     if (entity == null) return null;
 
     return IconModel(
