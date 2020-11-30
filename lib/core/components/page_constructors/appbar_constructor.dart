@@ -1,7 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
@@ -24,10 +22,7 @@ class AppBarConstructor {
 
   AppBarConstructor(this.currentPage, this.scaffoldKey);
 
-  Widget _appBarWithButtons(BuildContext context, String theTitle,
-      AppBarModel value, List<Widget> buttons, MemberModel member)  {
-    var app = AppBloc.app(context);
-    var state = AccessBloc.getState(context);
+  Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String theTitle, AppBarModel value, List<Widget> buttons, MemberModel member)  {
     Widget title;
     Widget part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
@@ -92,7 +87,7 @@ class AppBarConstructor {
 
   void _addPlayStoreButton(
       BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
-    var playStoreApp = AppBloc.addPlayStoreApp(context);
+    var playStoreApp = AccessBloc.addPlayStoreApp(context);
     if (playStoreApp != null) {
       ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
 
@@ -119,8 +114,8 @@ class AppBarConstructor {
   Widget appBar(
       BuildContext context, String theTitle, AppBarModel value) {
       var theState = AccessBloc.getState(context);
-      var app = AppBloc.app(context);
-      if (theState is AccessStateWithDetails) {
+      if (theState is AppLoaded) {
+        var app = theState.app;
         var member = (theState is LoggedIn) ? theState.member : null;
         if ((value.iconMenu != null) &&
             (value.iconMenu.menuItems != null) &&
@@ -135,11 +130,11 @@ class AppBarConstructor {
           }
 
           _addPlayStoreButton(context, buttons, value, app);
-          return _appBarWithButtons(context, theTitle, value, buttons, member);
+          return _appBarWithButtons(context, theState, app, theTitle, value, buttons, member);
         } else {
           var buttons = <Widget>[];
           _addPlayStoreButton(context, buttons, value, app);
-          return _appBarWithButtons(context, theTitle, value, buttons, member);
+          return _appBarWithButtons(context, theState, app, theTitle, value, buttons, member);
         }
       } else {
         return null;

@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class AppBarForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.appId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormEvent(value: value)),
@@ -79,7 +76,7 @@ class AppBarForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.appId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class AppBarForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.appId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppBarFormEvent(value: value) : InitialiseNewAppBarFormEvent())),
@@ -149,8 +146,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppBarFormBloc, AppBarFormState>(builder: (context, state) {
       if (state is AppBarFormUninitialized) return Center(
@@ -219,7 +215,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -254,7 +250,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -267,7 +263,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -280,7 +276,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -293,7 +289,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -433,7 +429,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is AppBarFormError) {
                       return null;
                     } else {
@@ -579,8 +575,8 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, AppBarFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, AppBarFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

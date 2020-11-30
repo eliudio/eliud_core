@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -54,59 +53,74 @@ class PageComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = BlocProvider.of<AccessBloc>(context).state;
-    var app = AppBloc.app(context);
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<PageComponentBloc>(
-            create: (context) => PageComponentBloc(
-                pageRepository:
-                    AbstractRepositorySingleton.singleton.pageRepository(app.documentID))
-              ..add(FetchPageComponent(id: pageID)),
-          ),
-        ],
-        child: BlocBuilder<PageComponentBloc, PageComponentState>(builder: (context, state) {
-          if (state is PageComponentLoaded) {
-            if (state.value == null) {
-              return AlertWidget(title: 'Error', content: 'No page defined');
-            } else {
-              Widget theBody;
-              if ((accessState is LoggedIn) && (accessState.forceAcceptMembership())) {
-                theBody = AcceptMembershipWidget(
-                    app, accessState.member, accessState.usr);
-              } else {
-                theBody = _body(context, accessState,
-                    backgroundDecoration: state.value.background,
-                    componentModels: state.value.bodyComponents,
-                    pageModel: state.value);
-              }
+    if (accessState is AppLoaded) {
+      var app = accessState.app;
+      return MultiBlocProvider(
+          providers: [
+            BlocProvider<PageComponentBloc>(
+              create: (context) =>
+              PageComponentBloc(
+                  pageRepository:
+                  AbstractRepositorySingleton.singleton.pageRepository(
+                      app.documentID))
+                ..add(FetchPageComponent(id: pageID)),
+            ),
+          ],
+          child: BlocBuilder<PageComponentBloc, PageComponentState>(
+              builder: (context, state) {
+                if (state is PageComponentLoaded) {
+                  if (state.value == null) {
+                    return AlertWidget(
+                        title: 'Error', content: 'No page defined');
+                  } else {
+                    Widget theBody;
+                    if ((accessState is LoggedIn) &&
+                        (accessState.forceAcceptMembership())) {
+                      theBody = AcceptMembershipWidget(
+                          app, accessState.member, accessState.usr);
+                    } else {
+                      theBody = _body(context, accessState,
+                          backgroundDecoration: state.value.background,
+                          componentModels: state.value.bodyComponents,
+                          pageModel: state.value);
+                    }
 
-              var drawer = DrawerConstructor(pageID)
-                  .drawer(context, state.value.drawer);
-              var endDrawer = DrawerConstructor(pageID)
-                  .drawer(context, state.value.endDrawer);
-              var appBar = AppBarConstructor(pageID, _scaffoldKey)
-                  .appBar(context, state.value.title, state.value.appBar);
-              return Scaffold(
-                key: _scaffoldKey,
-                endDrawer: endDrawer,
-                appBar: PreferredSize(
-                    preferredSize: const Size(double.infinity, kToolbarHeight),
-                    child: appBar),
-                body: theBody,
-                drawer: drawer,
-                floatingActionButton: hasFab != null ? hasFab.fab(context) : null,
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                bottomNavigationBar: BottomNavigationBarConstructor(pageID).bottomNavigationBar(app, state.value.homeMenu, state.value.background),
-              );
-            }
-          } else if (state is PageComponentError) {
-            return AlertWidget(title: 'Error', content: state.message);
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        }));
+                    var drawer = DrawerConstructor(pageID)
+                        .drawer(context, state.value.drawer);
+                    var endDrawer = DrawerConstructor(pageID)
+                        .drawer(context, state.value.endDrawer);
+                    var appBar = AppBarConstructor(pageID, _scaffoldKey)
+                        .appBar(context, state.value.title, state.value.appBar);
+                    return Scaffold(
+                      key: _scaffoldKey,
+                      endDrawer: endDrawer,
+                      appBar: PreferredSize(
+                          preferredSize: const Size(
+                              double.infinity, kToolbarHeight),
+                          child: appBar),
+                      body: theBody,
+                      drawer: drawer,
+                      floatingActionButton: hasFab != null
+                          ? hasFab.fab(context)
+                          : null,
+                      floatingActionButtonLocation: FloatingActionButtonLocation
+                          .centerFloat,
+                      bottomNavigationBar: BottomNavigationBarConstructor(
+                          pageID).bottomNavigationBar(
+                          app, state.value.homeMenu, state.value.background),
+                    );
+                  }
+                } else if (state is PageComponentError) {
+                  return AlertWidget(title: 'Error', content: state.message);
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }));
+    } else {
+      return CircularProgressIndicator();
+    }
   }
 
   Widget _body(BuildContext context,

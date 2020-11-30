@@ -26,9 +26,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 
-import 'package:eliud_core/core/app/app_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-
 
 import 'package:eliud_core/model/home_menu_list_bloc.dart';
 import 'package:eliud_core/model/home_menu_list_state.dart';
@@ -77,7 +74,6 @@ return widgets;
 
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<HomeMenuListBloc, HomeMenuListState>(builder: (context, state) {
       if (state is HomeMenuListLoading) {
@@ -126,7 +122,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a homeMenu'),
-                      onChanged: !accessState.memberIsOwner(appState) ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner() ? null : _onChange,
                     );
         if (false) {
           return Container(height:48, child: Center(child: button));

@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class MemberSubscriptionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AppBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseMemberSubscriptionFormEvent(value: value)),
   
@@ -78,7 +75,7 @@ class MemberSubscriptionForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AppBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseMemberSubscriptionFormNoLoadEvent(value: value)),
   
@@ -98,7 +95,7 @@ class MemberSubscriptionForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AppBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberSubscriptionFormEvent(value: value) : InitialiseNewMemberSubscriptionFormEvent())),
   
@@ -138,8 +135,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberSubscriptionFormBloc, MemberSubscriptionFormState>(builder: (context, state) {
       if (state is MemberSubscriptionFormUninitialized) return Center(
@@ -192,7 +188,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberSubscriptionFormError) {
                       return null;
                     } else {
@@ -260,8 +256,8 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, MemberSubscriptionFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, MemberSubscriptionFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

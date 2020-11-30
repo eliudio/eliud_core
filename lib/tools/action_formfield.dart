@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,14 +56,13 @@ class ActionFieldState extends State<ActionField> {
   @override
   Widget build(BuildContext context) {
     var state = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
     var widgets = <Widget>[
       RadioListTile(
         value: 0,
         groupValue: _actionSelection,
         title: Text('Goto Page'),
         subtitle: Text('This action results in moving to another page'),
-        onChanged: !state.memberIsOwner(appState) ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -74,7 +72,7 @@ class ActionFieldState extends State<ActionField> {
         title: Text('Internal'),
         subtitle: Text(
             'This action results in one of the predefined internal actions'),
-        onChanged: !state.memberIsOwner(appState) ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -83,7 +81,7 @@ class ActionFieldState extends State<ActionField> {
         groupValue: _actionSelection,
         title: Text('Popup Menu'),
         subtitle: Text('This menu item will open another popup menu'),
-        onChanged: !state.memberIsOwner(appState) ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (val) {
           setSelectionDisplayMode(val);
         },
       ),

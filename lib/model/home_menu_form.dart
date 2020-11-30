@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class HomeMenuForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<HomeMenuFormBloc >(
-            create: (context) => HomeMenuFormBloc(AppBloc.appId(context),
+            create: (context) => HomeMenuFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseHomeMenuFormEvent(value: value)),
@@ -79,7 +76,7 @@ class HomeMenuForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<HomeMenuFormBloc >(
-            create: (context) => HomeMenuFormBloc(AppBloc.appId(context),
+            create: (context) => HomeMenuFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseHomeMenuFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class HomeMenuForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<HomeMenuFormBloc >(
-            create: (context) => HomeMenuFormBloc(AppBloc.appId(context),
+            create: (context) => HomeMenuFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseHomeMenuFormEvent(value: value) : InitialiseNewHomeMenuFormEvent())),
@@ -146,8 +143,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<HomeMenuFormBloc, HomeMenuFormState>(builder: (context, state) {
       if (state is HomeMenuFormUninitialized) return Center(
@@ -208,7 +204,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -302,7 +298,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is HomeMenuFormError) {
                       return null;
                     } else {
@@ -412,8 +408,8 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, HomeMenuFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, HomeMenuFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

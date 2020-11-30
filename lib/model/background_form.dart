@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class BackgroundForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AppBloc.appId(context),
+            create: (context) => BackgroundFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseBackgroundFormEvent(value: value)),
@@ -79,7 +76,7 @@ class BackgroundForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AppBloc.appId(context),
+            create: (context) => BackgroundFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseBackgroundFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class BackgroundForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AppBloc.appId(context),
+            create: (context) => BackgroundFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseBackgroundFormEvent(value: value) : InitialiseNewBackgroundFormEvent())),
@@ -154,8 +151,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BackgroundFormBloc, BackgroundFormState>(builder: (context, state) {
       if (state is BackgroundFormUninitialized) return Center(
@@ -232,7 +228,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _commentsController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -251,7 +247,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                 CheckboxListTile(
                     title: Text('border', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _borderSelection,
-                    onChanged: _readOnly(accessState, appState, state) ? null : (val) {
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
                       setSelectionBorder(val);
                     }),
           );
@@ -316,7 +312,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -329,7 +325,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -342,7 +338,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -355,7 +351,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -368,7 +364,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -381,7 +377,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -394,7 +390,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -407,7 +403,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -420,7 +416,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _beginGradientPositionSelectedRadioTile,
                     title: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionBeginGradientPosition(val);
                     },
                 ),
@@ -447,7 +443,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -460,7 +456,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -473,7 +469,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -486,7 +482,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -499,7 +495,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -512,7 +508,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -525,7 +521,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -538,7 +534,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -551,7 +547,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                     groupValue: _endGradientPositionSelectedRadioTile,
                     title: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionEndGradientPosition(val);
                     },
                 ),
@@ -583,7 +579,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BackgroundFormError) {
                       return null;
                     } else {
@@ -723,8 +719,8 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, BackgroundFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, BackgroundFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

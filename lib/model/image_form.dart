@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class ImageForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ImageFormBloc >(
-            create: (context) => ImageFormBloc(AppBloc.appId(context),
+            create: (context) => ImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseImageFormEvent(value: value)),
   
@@ -78,7 +75,7 @@ class ImageForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ImageFormBloc >(
-            create: (context) => ImageFormBloc(AppBloc.appId(context),
+            create: (context) => ImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseImageFormNoLoadEvent(value: value)),
   
@@ -98,7 +95,7 @@ class ImageForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<ImageFormBloc >(
-            create: (context) => ImageFormBloc(AppBloc.appId(context),
+            create: (context) => ImageFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseImageFormEvent(value: value) : InitialiseNewImageFormEvent())),
   
@@ -145,8 +142,7 @@ class _MyImageFormState extends State<MyImageForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ImageFormBloc, ImageFormState>(builder: (context, state) {
       if (state is ImageFormUninitialized) return Center(
@@ -207,7 +203,7 @@ class _MyImageFormState extends State<MyImageForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -242,7 +238,7 @@ class _MyImageFormState extends State<MyImageForm> {
                     groupValue: _sourceSelectedRadioTile,
                     title: Text("Upload", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Upload", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionSource(val);
                     },
                 ),
@@ -255,7 +251,7 @@ class _MyImageFormState extends State<MyImageForm> {
                     groupValue: _sourceSelectedRadioTile,
                     title: Text("SpecifyURL", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("SpecifyURL", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionSource(val);
                     },
                 ),
@@ -268,7 +264,7 @@ class _MyImageFormState extends State<MyImageForm> {
                     groupValue: _sourceSelectedRadioTile,
                     title: Text("YourProfilePhoto", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("YourProfilePhoto", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionSource(val);
                     },
                 ),
@@ -300,7 +296,7 @@ class _MyImageFormState extends State<MyImageForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ImageFormError) {
                       return null;
                     } else {
@@ -400,8 +396,8 @@ class _MyImageFormState extends State<MyImageForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, ImageFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, ImageFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

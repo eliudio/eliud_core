@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class MenuItemForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MenuItemFormBloc >(
-            create: (context) => MenuItemFormBloc(AppBloc.appId(context),
+            create: (context) => MenuItemFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseMenuItemFormEvent(value: value)),
   
@@ -78,7 +75,7 @@ class MenuItemForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MenuItemFormBloc >(
-            create: (context) => MenuItemFormBloc(AppBloc.appId(context),
+            create: (context) => MenuItemFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseMenuItemFormNoLoadEvent(value: value)),
   
@@ -98,7 +95,7 @@ class MenuItemForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MenuItemFormBloc >(
-            create: (context) => MenuItemFormBloc(AppBloc.appId(context),
+            create: (context) => MenuItemFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMenuItemFormEvent(value: value) : InitialiseNewMenuItemFormEvent())),
   
@@ -141,8 +138,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MenuItemFormBloc, MenuItemFormState>(builder: (context, state) {
       if (state is MenuItemFormUninitialized) return Center(
@@ -177,7 +173,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _textController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -195,7 +191,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _descriptionController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -224,7 +220,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
         children.add(
 
-                ActionField(AppBloc.appId(context), state.value.action, _onActionChanged)
+                ActionField(AccessBloc.appId(context), state.value.action, _onActionChanged)
           );
 
 
@@ -253,7 +249,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MenuItemFormError) {
                       return null;
                     } else {
@@ -343,8 +339,8 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, MenuItemFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, MenuItemFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

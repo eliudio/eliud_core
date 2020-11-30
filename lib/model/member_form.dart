@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,25 +63,24 @@ class MemberForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-  
+
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-  
+
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -100,11 +97,11 @@ class MemberForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-  
+
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -172,8 +169,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
@@ -301,7 +297,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -319,7 +315,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _emailController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -338,7 +334,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 CheckboxListTile(
                     title: Text('Is Anonymous', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _isAnonymousSelection,
-                    onChanged: _readOnly(accessState, appState, state) ? null : (val) {
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
                       setSelectionIsAnonymous(val);
                     }),
           );
@@ -359,7 +355,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 new Container(
-                    height: (fullScreenHeight(context) / 2.5), 
+                    height: (fullScreenHeight(context) / 2.5),
                     child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
@@ -420,7 +416,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStreet1Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -438,7 +434,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStreet2Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -456,7 +452,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipCityController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -474,7 +470,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStateController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -492,7 +488,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _postcodeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -542,7 +538,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 CheckboxListTile(
                     title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _invoiceSameSelection,
-                    onChanged: _readOnly(accessState, appState, state) ? null : (val) {
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
                       setSelectionInvoiceSame(val);
                     }),
           );
@@ -551,7 +547,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet1Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -569,7 +565,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet2Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -587,7 +583,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceCityController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -605,7 +601,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStateController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -623,7 +619,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoicePostcodeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -663,59 +659,59 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
-                              photoURL: state.value.photoURL, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
-                              readAccess: state.value.readAccess, 
-                              email: state.value.email, 
-                              isAnonymous: state.value.isAnonymous, 
-                              packageData: state.value.packageData, 
+                              documentID: state.value.documentID,
+                              name: state.value.name,
+                              subscriptions: state.value.subscriptions,
+                              photoURL: state.value.photoURL,
+                              shipStreet1: state.value.shipStreet1,
+                              shipStreet2: state.value.shipStreet2,
+                              shipCity: state.value.shipCity,
+                              shipState: state.value.shipState,
+                              postcode: state.value.postcode,
+                              country: state.value.country,
+                              invoiceSame: state.value.invoiceSame,
+                              invoiceStreet1: state.value.invoiceStreet1,
+                              invoiceStreet2: state.value.invoiceStreet2,
+                              invoiceCity: state.value.invoiceCity,
+                              invoiceState: state.value.invoiceState,
+                              invoicePostcode: state.value.invoicePostcode,
+                              invoiceCountry: state.value.invoiceCountry,
+                              readAccess: state.value.readAccess,
+                              email: state.value.email,
+                              isAnonymous: state.value.isAnonymous,
+                              packageData: state.value.packageData,
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
-                              photoURL: state.value.photoURL, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
-                              readAccess: state.value.readAccess, 
-                              email: state.value.email, 
-                              isAnonymous: state.value.isAnonymous, 
-                              packageData: state.value.packageData, 
+                              documentID: state.value.documentID,
+                              name: state.value.name,
+                              subscriptions: state.value.subscriptions,
+                              photoURL: state.value.photoURL,
+                              shipStreet1: state.value.shipStreet1,
+                              shipStreet2: state.value.shipStreet2,
+                              shipCity: state.value.shipCity,
+                              shipState: state.value.shipState,
+                              postcode: state.value.postcode,
+                              country: state.value.country,
+                              invoiceSame: state.value.invoiceSame,
+                              invoiceStreet1: state.value.invoiceStreet1,
+                              invoiceStreet2: state.value.invoiceStreet2,
+                              invoiceCity: state.value.invoiceCity,
+                              invoiceState: state.value.invoiceState,
+                              invoicePostcode: state.value.invoicePostcode,
+                              invoiceCountry: state.value.invoiceCountry,
+                              readAccess: state.value.readAccess,
+                              email: state.value.email,
+                              isAnonymous: state.value.isAnonymous,
+                              packageData: state.value.packageData,
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -881,10 +877,10 @@ class _MyMemberFormState extends State<MyMemberForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, MemberFormInitialized state) {
+  bool _readOnly(AccessState accessState, MemberFormInitialized state) {
     return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
   }
-  
+
 
 }
 
@@ -899,25 +895,24 @@ class MemberSmallForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-  
+
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-  
+
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -934,11 +929,11 @@ class MemberSmallForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-  
+
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -974,9 +969,8 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
+    var app = AccessBloc.app(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
         child: CircularProgressIndicator(),
@@ -1002,7 +996,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1032,7 +1026,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
         children.add(
 
                 new Container(
-                    height: (fullScreenHeight(context) / 2.5), 
+                    height: (fullScreenHeight(context) / 2.5),
                     child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
@@ -1045,21 +1039,21 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
+                              name: state.value.name,
+                              subscriptions: state.value.subscriptions,
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
+                              name: state.value.name,
+                              subscriptions: state.value.subscriptions,
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1111,10 +1105,10 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, MemberFormInitialized state) {
+  bool _readOnly(AccessState accessState, MemberFormInitialized state) {
     return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
   }
-  
+
 
 }
 
@@ -1129,25 +1123,24 @@ class MemberAddressForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-  
+
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-  
+
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -1164,11 +1157,11 @@ class MemberAddressForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.appId(context),
+            create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-  
+
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -1230,8 +1223,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
@@ -1314,7 +1306,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1332,7 +1324,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _emailController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1363,7 +1355,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStreet1Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1381,7 +1373,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStreet2Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1399,7 +1391,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipCityController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1417,7 +1409,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _shipStateController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1435,7 +1427,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _postcodeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1485,7 +1477,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                 CheckboxListTile(
                     title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _invoiceSameSelection,
-                    onChanged: _readOnly(accessState, appState, state) ? null : (val) {
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
                       setSelectionInvoiceSame(val);
                     }),
           );
@@ -1494,7 +1486,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet1Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1512,7 +1504,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet2Controller,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1530,7 +1522,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceCityController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1548,7 +1540,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoiceStateController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1566,7 +1558,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _invoicePostcodeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -1606,47 +1598,47 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name, 
-                              email: state.value.email, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
+                              name: state.value.name,
+                              email: state.value.email,
+                              shipStreet1: state.value.shipStreet1,
+                              shipStreet2: state.value.shipStreet2,
+                              shipCity: state.value.shipCity,
+                              shipState: state.value.shipState,
+                              postcode: state.value.postcode,
+                              country: state.value.country,
+                              invoiceSame: state.value.invoiceSame,
+                              invoiceStreet1: state.value.invoiceStreet1,
+                              invoiceStreet2: state.value.invoiceStreet2,
+                              invoiceCity: state.value.invoiceCity,
+                              invoiceState: state.value.invoiceState,
+                              invoicePostcode: state.value.invoicePostcode,
+                              invoiceCountry: state.value.invoiceCountry,
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name, 
-                              email: state.value.email, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
+                              name: state.value.name,
+                              email: state.value.email,
+                              shipStreet1: state.value.shipStreet1,
+                              shipStreet2: state.value.shipStreet2,
+                              shipCity: state.value.shipCity,
+                              shipState: state.value.shipState,
+                              postcode: state.value.postcode,
+                              country: state.value.country,
+                              invoiceSame: state.value.invoiceSame,
+                              invoiceStreet1: state.value.invoiceStreet1,
+                              invoiceStreet2: state.value.invoiceStreet2,
+                              invoiceCity: state.value.invoiceCity,
+                              invoiceState: state.value.invoiceState,
+                              invoicePostcode: state.value.invoicePostcode,
+                              invoiceCountry: state.value.invoiceCountry,
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1781,7 +1773,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, MemberFormInitialized state) {
+  bool _readOnly(AccessState accessState, MemberFormInitialized state) {
     return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
   }
   

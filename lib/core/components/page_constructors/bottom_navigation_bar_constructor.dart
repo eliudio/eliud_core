@@ -42,7 +42,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   Widget build(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (widget.homeMenu == null) return null;
-    if (theState is AccessStateWithDetails) {
+    if (theState is AppLoaded) {
       var menuItems = List();
       for (var i = 0; i < widget.homeMenu.menu.menuItems.length; i++) {
         var item = widget.homeMenu.menu.menuItems[i];

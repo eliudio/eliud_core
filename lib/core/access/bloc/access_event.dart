@@ -8,16 +8,23 @@ abstract class AccessEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SwitchedApp extends AccessEvent {
-  final AppModel app;
+class SwitchAppEvent extends AccessEvent {
+  final String appId;
 
-  SwitchedApp(this.app);
+  SwitchAppEvent(this.appId);
+
+  @override
+  List<Object> get props => [ appId ];
 }
 
 class InitApp extends AccessEvent {
-  final AppModel app;
+  final String appId;
+  final bool isPlaystore;
 
-  InitApp(this.app);
+  InitApp(this.appId, this.isPlaystore);
+
+  @override
+  List<Object> get props => [ appId ];
 }
 
 class LogoutEvent extends AccessEvent {
@@ -35,6 +42,9 @@ class LoginEvent extends AccessEvent {
   PostLoginAction actions;
 
   LoginEvent({this.actions});
+
+  @override
+  List<Object> get props => [ actions ];
 }
 
 class AcceptedMembership extends AccessEvent{
@@ -42,11 +52,17 @@ class AcceptedMembership extends AccessEvent{
   final FirebaseUser usr;
 
   AcceptedMembership(this.member, this.usr);
+
+  @override
+  List<Object> get props => [ member, usr ];
 }
 
 class MemberUpdated extends AccessEvent {
   final MemberModel member;
 
   MemberUpdated(this.member);
+
+  @override
+  List<Object> get props => [ member ];
 }
 

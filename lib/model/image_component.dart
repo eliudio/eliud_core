@@ -15,7 +15,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 
 import 'package:eliud_core/model/image_component_bloc.dart';
 import 'package:eliud_core/model/image_component_event.dart';

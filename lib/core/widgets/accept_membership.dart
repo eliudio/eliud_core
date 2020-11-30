@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -155,7 +154,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     var widgets = <Widget>[];
     widgets.add(HtmlWidget(

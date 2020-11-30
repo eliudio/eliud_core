@@ -1,8 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_event.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +26,12 @@ class Router {
   static const String pageRoute = '/page';
   static const String justASecond = '/justASecond';
 
-  final AppBloc appBloc;
+  final AccessBloc accessBloc;
 
-  Router(this.appBloc);
+  Router(this.accessBloc);
 
   Route<dynamic> generateRoute(RouteSettings settings) {
-    var theState = appBloc.state;
+    var theState = accessBloc.state;
     if (theState is AppLoaded) {
       Arguments arguments;
       if (settings.arguments is Arguments) {
@@ -117,7 +115,7 @@ class Router {
       BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
     } else if (action is SwitchApp) {
       var appId = action.toAppID;
-      BlocProvider.of<AppBloc>(context).add(SwitchAppEvent(appId));
+      BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
     } else if (action is InternalAction) {
       switch (action.internalActionEnum) {
         case InternalActionEnum.Login:
@@ -128,7 +126,7 @@ class Router {
           BlocProvider.of<NavigatorBloc>(context).add(GoHome());
           break;
         case InternalActionEnum.Flush:
-          AbstractRepositorySingleton.singleton.flush(AppBloc.appId(context));
+          AbstractRepositorySingleton.singleton.flush(AccessBloc.appId(context));
           BlocProvider.of<NavigatorBloc>(context).add(GoHome());
           break;
         default:

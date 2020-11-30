@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
@@ -9,15 +9,9 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/material.dart';
-
 import 'package:eliud_core/core/components/page_component.dart';
-
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../core/app/app_bloc.dart';
-import '../core/app/app_event.dart';
-import 'main_abstract_repository_singleton.dart';
 
 /*
  * Global registry with components
@@ -65,21 +59,19 @@ class Registry {
 
   Widget application({ String id, bool asPlaystore }) {
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
-    var accessBloc = AccessBloc(navigatorBloc);
-    var appBloc = AppBloc(navigatorBloc, accessBloc, asPlaystore ? id : null)..add(FetchApp(id: id));
+    var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
     var blocProviders = <BlocProvider>[];
     blocProviders.add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
-    blocProviders.add(BlocProvider<AppBloc>(create: (context) => appBloc));
     blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
     GlobalData.registeredPackages.forEach((element) {
-      var provider = element.createMainBloc(navigatorBloc, appBloc, accessBloc);
+      var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
         blocProviders.add(provider);
       }
     });
     return MultiBlocProvider(
         providers: blocProviders,
-        child: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+        child: BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
           if (state is AppLoaded) {
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (accessContext, accessState) {
@@ -87,12 +79,12 @@ class Registry {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (accessState is AccessStateWithDetails) {
+                  } else if (accessState is AppLoaded) {
                     if (accessState.app == null) {
                       return AlertWidget(title: 'Error', content: 'No access defined');
                     } else {
                       var app = accessState.app;
-                      var router = eliudrouter.Router(AppBloc.getBloc(context));
+                      var router = eliudrouter.Router(AccessBloc.getBloc(context));
                       ThemeData darkTheme;
                       if ((app.darkOrLight != null) &&
                           (app.darkOrLight == DarkOrLight.Dark)) {

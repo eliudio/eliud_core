@@ -3,8 +3,7 @@
 */
 
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +39,10 @@ class IconFieldState extends State<IconField> {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var appState = AccessBloc.getState(context);
     if ((appState is AppLoaded) && (_icon != null)) {
       return RaisedButton.icon(
-          onPressed: !accessState.memberIsOwner(appState) ? null : _pickIcon,
+          onPressed: !appState.memberIsOwner() ? null : _pickIcon,
           icon: _icon,
           label: Text('Select Icon'),
           color: RgbHelper.color(rgbo: appState.app.formSubmitButtonColor));

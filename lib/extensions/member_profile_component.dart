@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
@@ -35,10 +34,10 @@ class MemberProfileComponent extends StatefulWidget {
 class MemberProfileState extends State<MemberProfileComponent> {
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessBloc = AccessBloc.getBloc(context);
     var accessState = AccessBloc.getState(context);
     if (accessState is LoggedIn) {
+      var app = accessState.app;
       var widgets = <Widget>[];
       var style = TextStyle(
           color: RgbHelper.color(rgbo: app.formFieldTextColor), fontSize: 15);

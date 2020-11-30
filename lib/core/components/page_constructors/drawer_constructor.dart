@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -67,9 +66,9 @@ class DrawerConstructor {
   }
 
   Widget drawer(BuildContext context, DrawerModel drawer) {
-    var app = AppBloc.app(context);
     var theState = AccessBloc.getState(context);
-    if (theState is AccessStateWithDetails) {
+    if (theState is AppLoaded) {
+      var app = theState.app;
       if (drawer == null) return null;
       if (drawer.menu == null) return null;
       var widgets = <Widget>[];

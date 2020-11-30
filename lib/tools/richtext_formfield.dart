@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +33,9 @@ class RichTextFieldState extends State<RichTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var appState = AccessBloc.getState(context);
     return TextFormField(
-      readOnly: !accessState.memberIsOwner(appState),
+      readOnly: !appState.memberIsOwner(),
       initialValue: value,
       style: appState is AppLoaded ? TextStyle(
           color: RgbHelper.color(rgbo: appState.app.formFieldTextColor)) : null,

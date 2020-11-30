@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class BodyComponentForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(AppBloc.appId(context),
+            create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseBodyComponentFormEvent(value: value)),
   
@@ -78,7 +75,7 @@ class BodyComponentForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(AppBloc.appId(context),
+            create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add(InitialiseBodyComponentFormNoLoadEvent(value: value)),
   
@@ -98,7 +95,7 @@ class BodyComponentForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(AppBloc.appId(context),
+            create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseBodyComponentFormEvent(value: value) : InitialiseNewBodyComponentFormEvent())),
   
@@ -137,8 +134,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BodyComponentFormBloc, BodyComponentFormState>(builder: (context, state) {
       if (state is BodyComponentFormUninitialized) return Center(
@@ -192,7 +188,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BodyComponentFormError) {
                       return null;
                     } else {
@@ -266,8 +262,8 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, BodyComponentFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, BodyComponentFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

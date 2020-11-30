@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class FontForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.appId(context),
+            create: (context) => FontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormEvent(value: value)),
@@ -79,7 +76,7 @@ class FontForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.appId(context),
+            create: (context) => FontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class FontForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.appId(context),
+            create: (context) => FontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseFontFormEvent(value: value) : InitialiseNewFontFormEvent())),
@@ -152,8 +149,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<FontFormBloc, FontFormState>(builder: (context, state) {
       if (state is FontFormUninitialized) return Center(
@@ -222,7 +218,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _fontNameController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -241,7 +237,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _sizeController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -276,7 +272,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -289,7 +285,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -302,7 +298,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -315,7 +311,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -328,7 +324,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -341,7 +337,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -354,7 +350,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -367,7 +363,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -380,7 +376,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -407,7 +403,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _styleSelectedRadioTile,
                     title: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionStyle(val);
                     },
                 ),
@@ -420,7 +416,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _styleSelectedRadioTile,
                     title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionStyle(val);
                     },
                 ),
@@ -447,7 +443,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -460,7 +456,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -473,7 +469,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -486,7 +482,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -518,7 +514,7 @@ class _MyFontFormState extends State<MyFontForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is FontFormError) {
                       return null;
                     } else {
@@ -638,8 +634,8 @@ class _MyFontFormState extends State<MyFontForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, FontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, FontFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

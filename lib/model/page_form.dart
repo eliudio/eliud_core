@@ -14,10 +14,8 @@
 */
 
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -65,12 +63,11 @@ class PageForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AppBloc.appId(context),
+            create: (context) => PageFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePageFormEvent(value: value)),
@@ -79,7 +76,7 @@ class PageForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AppBloc.appId(context),
+            create: (context) => PageFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePageFormNoLoadEvent(value: value)),
@@ -100,7 +97,7 @@ class PageForm extends StatelessWidget {
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AppBloc.appId(context),
+            create: (context) => PageFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePageFormEvent(value: value) : InitialiseNewPageFormEvent())),
@@ -156,8 +153,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.app(context);
-    var appState = AppBloc.getState(context);
+    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PageFormBloc, PageFormState>(builder: (context, state) {
       if (state is PageFormUninitialized) return Center(
@@ -259,7 +255,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -405,7 +401,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -418,7 +414,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -431,7 +427,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -476,7 +472,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _conditionalSelectedRadioTile,
                     title: Text("Always", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Always", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
                 ),
@@ -489,7 +485,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _conditionalSelectedRadioTile,
                     title: Text("MustBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("MustBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
                 ),
@@ -502,7 +498,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _conditionalSelectedRadioTile,
                     title: Text("MustNotBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("MustNotBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
                 ),
@@ -515,7 +511,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _conditionalSelectedRadioTile,
                     title: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
                 ),
@@ -528,7 +524,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _conditionalSelectedRadioTile,
                     title: Text("AdminOnly", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("AdminOnly", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner(appState) ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionConditional(val);
                     },
                 ),
@@ -551,7 +547,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, appState, state),
+                  readOnly: _readOnly(accessState, state),
                   controller: _packageConditionController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -573,7 +569,7 @@ class _MyPageFormState extends State<MyPageForm> {
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
                   color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
-                  onPressed: _readOnly(accessState, appState, state) ? null : () {
+                  onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PageFormError) {
                       return null;
                     } else {
@@ -743,8 +739,8 @@ class _MyPageFormState extends State<MyPageForm> {
     super.dispose();
   }
 
-  bool _readOnly(AccessState accessState, AppState appState, PageFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(appState));
+  bool _readOnly(AccessState accessState, PageFormInitialized state) {
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
   }
   
 

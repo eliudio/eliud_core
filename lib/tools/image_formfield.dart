@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-import 'package:eliud_core/core/app/app_state.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,7 +61,6 @@ class ImageFieldState extends State<ImageField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appState = AppBloc.getState(context);
     Future getImage() async {
       var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -111,7 +109,7 @@ class ImageFieldState extends State<ImageField> {
     if (widget.source == SourceImage.Upload) {
       var localFileName = ImageFieldHelper.localFileName(widget.imageURL);
       var buttons = <Widget>[];
-      if (accessState.memberIsOwner(appState)) {
+      if (accessState.memberIsOwner()) {
         buttons.add(IconButton(
             icon: Icon(Icons.add_a_photo),
             tooltip: 'Select a photo',
@@ -164,19 +162,19 @@ class ImageFieldState extends State<ImageField> {
     } else if (widget.source == SourceImage.SpecifyURL) {
       widgets.add(TextFormField(
         initialValue: imageURL,
-        style: appState is AppLoaded ? TextStyle(
-            color: RgbHelper.color(rgbo: appState.app.formFieldTextColor)) : null,
-        readOnly: !accessState.memberIsOwner(appState),
+        style: accessState is AppLoaded ? TextStyle(
+            color: RgbHelper.color(rgbo: accessState.app.formFieldTextColor)) : null,
+        readOnly: !accessState.memberIsOwner(),
         onChanged: _onChanged,
 //        controller: _urlController,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(borderSide: BorderSide(
-              color: appState is AppLoaded ? RgbHelper.color(rgbo: appState.app.formFieldTextColor) : null)),
+              color: accessState is AppLoaded ? RgbHelper.color(rgbo: accessState.app.formFieldTextColor) : null)),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(
-              color: appState is AppLoaded ? RgbHelper.color(
-                  rgbo: appState.app.formFieldFocusColor): null)),
-          icon: Icon(Icons.link, color: appState is AppLoaded ? RgbHelper.color(
-              rgbo: appState.app.formFieldHeaderColor): null),
+              color: accessState is AppLoaded ? RgbHelper.color(
+                  rgbo: accessState.app.formFieldFocusColor): null)),
+          icon: Icon(Icons.link, color: accessState is AppLoaded ? RgbHelper.color(
+              rgbo: accessState.app.formFieldHeaderColor): null),
           labelText: 'URL',
         ),
         keyboardType: TextInputType.text,

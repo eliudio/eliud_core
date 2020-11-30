@@ -28,7 +28,7 @@ class PopupHelper {
       Icon icon,
       RgbModel menuBackgroundColor) {
     var theState = state;
-    if (theState is AccessStateWithDetails) {
+    if (theState is AppLoaded) {
       if (menu.menuItems.isEmpty) return null;
       var menuItems = <MenuItemModel>[];
       for (var i = 0; i < menu.menuItems.length; i++) {

@@ -26,9 +26,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 
-import 'package:eliud_core/core/app/app_state.dart';
-import 'package:eliud_core/core/app/app_bloc.dart';
-
 
 import 'package:eliud_core/model/image_list_bloc.dart';
 import 'package:eliud_core/model/image_list_state.dart';
@@ -83,7 +80,6 @@ return widgets;
 
   @override
   Widget build(BuildContext context) {
-    var appState = AppBloc.getState(context);
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ImageListBloc, ImageListState>(builder: (context, state) {
       if (state is ImageListLoading) {
@@ -132,7 +128,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a image'),
-                      onChanged: !accessState.memberIsOwner(appState) ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner() ? null : _onChange,
                     );
         if (true) {
           return Container(height:48, child: Center(child: button));
