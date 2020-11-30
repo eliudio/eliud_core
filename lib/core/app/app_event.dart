@@ -22,8 +22,16 @@ abstract class AppEvent extends Equatable {
 
 class FetchApp extends AppEvent {
   final String id;
-  final bool asPlaystore;
 
-  FetchApp({ this.id, this.asPlaystore });
+  FetchApp({ this.id });
+
+  @override
+  List<Object> get props => [id ];
+}
+
+class SwitchAppEvent extends AppEvent {
+  final String id;
+
+  SwitchAppEvent(this.id);
 }
 

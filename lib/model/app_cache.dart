@@ -106,7 +106,7 @@ class AppCache implements AppRepository {
     PageModel entryPageHolder;
     if (model.entryPage != null) {
       try {
-        await pageRepository().get(model.entryPage.documentID).then((val) {
+        await pageRepository(appId: model.documentID).get(model.entryPage.documentID).then((val) {
           entryPageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -115,7 +115,7 @@ class AppCache implements AppRepository {
     ImageModel logoHolder;
     if (model.logo != null) {
       try {
-        await imageRepository().get(model.logo.documentID).then((val) {
+        await imageRepository(appId: model.documentID).get(model.logo.documentID).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -124,7 +124,7 @@ class AppCache implements AppRepository {
     BackgroundModel formBackgroundHolder;
     if (model.formBackground != null) {
       try {
-        await backgroundRepository().get(model.formBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.documentID).get(model.formBackground.documentID).then((val) {
           formBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -133,7 +133,7 @@ class AppCache implements AppRepository {
     BackgroundModel formAppBarBackgroundHolder;
     if (model.formAppBarBackground != null) {
       try {
-        await backgroundRepository().get(model.formAppBarBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.documentID).get(model.formAppBarBackground.documentID).then((val) {
           formAppBarBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -142,7 +142,7 @@ class AppCache implements AppRepository {
     BackgroundModel listBackgroundHolder;
     if (model.listBackground != null) {
       try {
-        await backgroundRepository().get(model.listBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.documentID).get(model.listBackground.documentID).then((val) {
           listBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -151,7 +151,7 @@ class AppCache implements AppRepository {
     FontModel h1Holder;
     if (model.h1 != null) {
       try {
-        await fontRepository().get(model.h1.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.h1.documentID).then((val) {
           h1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -160,7 +160,7 @@ class AppCache implements AppRepository {
     FontModel h2Holder;
     if (model.h2 != null) {
       try {
-        await fontRepository().get(model.h2.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.h2.documentID).then((val) {
           h2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -169,7 +169,7 @@ class AppCache implements AppRepository {
     FontModel h3Holder;
     if (model.h3 != null) {
       try {
-        await fontRepository().get(model.h3.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.h3.documentID).then((val) {
           h3Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -178,7 +178,7 @@ class AppCache implements AppRepository {
     FontModel h4Holder;
     if (model.h4 != null) {
       try {
-        await fontRepository().get(model.h4.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.h4.documentID).then((val) {
           h4Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -187,7 +187,7 @@ class AppCache implements AppRepository {
     FontModel h5Holder;
     if (model.h5 != null) {
       try {
-        await fontRepository().get(model.h5.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.h5.documentID).then((val) {
           h5Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -196,7 +196,7 @@ class AppCache implements AppRepository {
     FontModel fontTextHolder;
     if (model.fontText != null) {
       try {
-        await fontRepository().get(model.fontText.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.fontText.documentID).then((val) {
           fontTextHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -205,7 +205,7 @@ class AppCache implements AppRepository {
     FontModel fontHighlight1Holder;
     if (model.fontHighlight1 != null) {
       try {
-        await fontRepository().get(model.fontHighlight1.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.fontHighlight1.documentID).then((val) {
           fontHighlight1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -214,7 +214,7 @@ class AppCache implements AppRepository {
     FontModel fontHighlight2Holder;
     if (model.fontHighlight2 != null) {
       try {
-        await fontRepository().get(model.fontHighlight2.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.fontHighlight2.documentID).then((val) {
           fontHighlight2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -223,7 +223,7 @@ class AppCache implements AppRepository {
     FontModel fontLinkHolder;
     if (model.fontLink != null) {
       try {
-        await fontRepository().get(model.fontLink.documentID).then((val) {
+        await fontRepository(appId: model.documentID).get(model.fontLink.documentID).then((val) {
           fontLinkHolder = val;
         }).catchError((error) {});
       } catch (_) {}

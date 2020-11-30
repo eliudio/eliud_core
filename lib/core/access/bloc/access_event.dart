@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,16 +8,16 @@ abstract class AccessEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SwitchAppEvent extends AccessEvent {
-  final String appId;
+class SwitchedApp extends AccessEvent {
+  final AppModel app;
 
-  SwitchAppEvent(this.appId);
+  SwitchedApp(this.app);
 }
 
 class InitApp extends AccessEvent {
-  final String appId;
+  final AppModel app;
 
-  InitApp(this.appId);
+  InitApp(this.app);
 }
 
 class LogoutEvent extends AccessEvent {

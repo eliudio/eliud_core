@@ -18,7 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final NavigatorBloc navigatorBloc;
-  StreamSubscription _memberSubscription;
 
   AccessBloc(this.navigatorBloc): super(UndeterminedAccessState());
 
@@ -27,28 +26,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     var theState = state;
     if (event is InitApp) {
       var usr = await AbstractMainRepositorySingleton.singleton.userRepository().currentSignedinUser();
-      var app = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
-      yield await _mapUsrAndApp(usr, app, null);
+      yield await _mapUsrAndApp(usr, event.app, null);
     } else if (theState is AccessStateWithDetails) {
       var app = theState.app;
       if (event is MemberUpdated) {
-        /*
-        var usr = await AbstractMainRepositorySingleton.singleton
-            .userRepository().currentSignedinUser();
-        yield await _mapMemberAndApp(usr, event.member, app, null);
-        navigatorBloc.add(GoHome());
-         */
-
         if (theState is LoggedIn) {
           yield theState.copyWith(member: event.member);
         } else {
           // impossible
         }
-      } else if (event is SwitchAppEvent) {
-        var switchToApp = await AbstractMainRepositorySingleton.singleton.appRepository().get(event.appId);
-        var newState = _mapOldStateToNewApp(state, switchToApp, null);
-        navigatorBloc.add(GoHome());
-        yield newState;
+      } else if (event is SwitchedApp) {
+        yield _mapOldStateToNewApp(state, event.app, null);
       } else if (event is LogoutEvent) {
           await AbstractMainRepositorySingleton.singleton
               .userRepository().signOut();
@@ -160,7 +148,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   @override
   Future<void> close() {
-    _memberSubscription?.cancel();
     return super.close();
   }
 

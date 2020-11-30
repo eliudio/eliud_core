@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/app/app_bloc.dart';
+import 'package:eliud_core/core/app/app_event.dart';
 import 'package:eliud_core/core/app/app_state.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/registry.dart';
@@ -116,7 +117,7 @@ class Router {
       BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
     } else if (action is SwitchApp) {
       var appId = action.toAppID;
-      BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
+      BlocProvider.of<AppBloc>(context).add(SwitchAppEvent(appId));
     } else if (action is InternalAction) {
       switch (action.internalActionEnum) {
         case InternalActionEnum.Login:
