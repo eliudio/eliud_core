@@ -33,12 +33,12 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListToState() async* {
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listen((list) => add(DecorationColorListUpdated(value: list)));
+    _decorationColorsListSubscription = _decorationColorRepository.listen( (list) => add(DecorationColorListUpdated(value: list)));
   }
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails((list) => add(DecorationColorListUpdated(value: list)));
+    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails( (list) => add(DecorationColorListUpdated(value: list)));
   }
 
   Stream<DecorationColorListState> _mapAddDecorationColorListToState(AddDecorationColorList event) async* {

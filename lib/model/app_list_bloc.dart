@@ -33,12 +33,12 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
 
   Stream<AppListState> _mapLoadAppListToState() async* {
     _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listen((list) => add(AppListUpdated(value: list)));
+    _appsListSubscription = _appRepository.listen( (list) => add(AppListUpdated(value: list)));
   }
 
   Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
     _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listenWithDetails((list) => add(AppListUpdated(value: list)));
+    _appsListSubscription = _appRepository.listenWithDetails( (list) => add(AppListUpdated(value: list)));
   }
 
   Stream<AppListState> _mapAddAppListToState(AddAppList event) async* {

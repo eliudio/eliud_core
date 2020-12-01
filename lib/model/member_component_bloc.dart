@@ -19,7 +19,7 @@ import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_component_event.dart';
 import 'package:eliud_core/model/member_component_state.dart';
-import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 
 class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentState> {
   final MemberRepository memberRepository;

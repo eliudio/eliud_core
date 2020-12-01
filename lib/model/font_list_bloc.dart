@@ -33,12 +33,12 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
 
   Stream<FontListState> _mapLoadFontListToState() async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)));
+    _fontsListSubscription = _fontRepository.listen( (list) => add(FontListUpdated(value: list)));
   }
 
   Stream<FontListState> _mapLoadFontListWithDetailsToState() async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listenWithDetails((list) => add(FontListUpdated(value: list)));
+    _fontsListSubscription = _fontRepository.listenWithDetails( (list) => add(FontListUpdated(value: list)));
   }
 
   Stream<FontListState> _mapAddFontListToState(AddFontList event) async* {

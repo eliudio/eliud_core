@@ -4,7 +4,7 @@ Bespoke
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';

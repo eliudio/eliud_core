@@ -33,12 +33,12 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListToState() async* {
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)));
+    _bodyComponentsListSubscription = _bodyComponentRepository.listen( (list) => add(BodyComponentListUpdated(value: list)));
   }
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState() async* {
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails((list) => add(BodyComponentListUpdated(value: list)));
+    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails( (list) => add(BodyComponentListUpdated(value: list)));
   }
 
   Stream<BodyComponentListState> _mapAddBodyComponentListToState(AddBodyComponentList event) async* {

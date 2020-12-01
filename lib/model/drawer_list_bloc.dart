@@ -33,12 +33,12 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
 
   Stream<DrawerListState> _mapLoadDrawerListToState() async* {
     _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listen((list) => add(DrawerListUpdated(value: list)));
+    _drawersListSubscription = _drawerRepository.listen( (list) => add(DrawerListUpdated(value: list)));
   }
 
   Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {
     _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listenWithDetails((list) => add(DrawerListUpdated(value: list)));
+    _drawersListSubscription = _drawerRepository.listenWithDetails( (list) => add(DrawerListUpdated(value: list)));
   }
 
   Stream<DrawerListState> _mapAddDrawerListToState(AddDrawerList event) async* {

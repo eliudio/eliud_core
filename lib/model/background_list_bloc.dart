@@ -33,12 +33,12 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
 
   Stream<BackgroundListState> _mapLoadBackgroundListToState() async* {
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listen((list) => add(BackgroundListUpdated(value: list)));
+    _backgroundsListSubscription = _backgroundRepository.listen( (list) => add(BackgroundListUpdated(value: list)));
   }
 
   Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState() async* {
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listenWithDetails((list) => add(BackgroundListUpdated(value: list)));
+    _backgroundsListSubscription = _backgroundRepository.listenWithDetails( (list) => add(BackgroundListUpdated(value: list)));
   }
 
   Stream<BackgroundListState> _mapAddBackgroundListToState(AddBackgroundList event) async* {

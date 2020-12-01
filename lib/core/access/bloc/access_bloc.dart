@@ -6,7 +6,6 @@ import 'package:eliud_core/core/navigate/navigation_event.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -131,7 +130,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<MemberModel> _firebaseToMemberModel(FirebaseUser usr) async {
-    var futureMemberModel = await AbstractRepositorySingleton.singleton.memberRepository().get(usr.uid).then((member) async {
+    var futureMemberModel = await memberRepository().get(usr.uid).then((member) async {
       if (member == null) {
         member = MemberModel(
             documentID: usr.uid,
@@ -141,7 +140,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             photoURL: usr.photoUrl,
             subscriptions: [],
             /*items:[]*/);
-        return await AbstractRepositorySingleton.singleton.memberRepository()
+        return await memberRepository()
             .add(member);
       } else {
         return member;
@@ -159,7 +158,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     var subscriptions = member.subscriptions;
     subscriptions.add(MemberSubscriptionModel(documentID: newRandomKey(), app: app));
     member = member.copyWith(subscriptions: subscriptions);
-    return await AbstractRepositorySingleton.singleton.memberRepository().update(member);
+    return await memberRepository().update(member);
   }
 
   @override

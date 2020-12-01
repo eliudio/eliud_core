@@ -33,12 +33,12 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
 
   Stream<ShadowListState> _mapLoadShadowListToState() async* {
     _shadowsListSubscription?.cancel();
-    _shadowsListSubscription = _shadowRepository.listen((list) => add(ShadowListUpdated(value: list)));
+    _shadowsListSubscription = _shadowRepository.listen( (list) => add(ShadowListUpdated(value: list)));
   }
 
   Stream<ShadowListState> _mapLoadShadowListWithDetailsToState() async* {
     _shadowsListSubscription?.cancel();
-    _shadowsListSubscription = _shadowRepository.listenWithDetails((list) => add(ShadowListUpdated(value: list)));
+    _shadowsListSubscription = _shadowRepository.listenWithDetails( (list) => add(ShadowListUpdated(value: list)));
   }
 
   Stream<ShadowListState> _mapAddShadowListToState(AddShadowList event) async* {

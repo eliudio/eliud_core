@@ -33,12 +33,12 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
 
   Stream<MenuItemListState> _mapLoadMenuItemListToState() async* {
     _menuItemsListSubscription?.cancel();
-    _menuItemsListSubscription = _menuItemRepository.listen((list) => add(MenuItemListUpdated(value: list)));
+    _menuItemsListSubscription = _menuItemRepository.listen( (list) => add(MenuItemListUpdated(value: list)));
   }
 
   Stream<MenuItemListState> _mapLoadMenuItemListWithDetailsToState() async* {
     _menuItemsListSubscription?.cancel();
-    _menuItemsListSubscription = _menuItemRepository.listenWithDetails((list) => add(MenuItemListUpdated(value: list)));
+    _menuItemsListSubscription = _menuItemRepository.listenWithDetails( (list) => add(MenuItemListUpdated(value: list)));
   }
 
   Stream<MenuItemListState> _mapAddMenuItemListToState(AddMenuItemList event) async* {

@@ -45,9 +45,6 @@ import '../model/home_menu_repository.dart';
 import '../model/home_menu_cache.dart';
 import '../model/image_repository.dart';
 import '../model/image_cache.dart';
-import '../model/member_firestore.dart';
-import '../model/member_repository.dart';
-import '../model/member_cache.dart';
 import '../model/member_subscription_repository.dart';
 import '../model/member_subscription_cache.dart';
 import '../model/menu_def_firestore.dart';
@@ -82,7 +79,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _fontRepository = HashMap<String, FontRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
     var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
-    var _memberRepository = MemberCache(MemberFirestore());
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
@@ -114,9 +110,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     HomeMenuRepository homeMenuRepository(String appId) {
       if (_homeMenuRepository[appId] == null) _homeMenuRepository[appId] = HomeMenuCache(HomeMenuFirestore(appId));
       return _homeMenuRepository[appId];
-    }
-    MemberRepository memberRepository() {
-      return _memberRepository;
     }
     MenuDefRepository menuDefRepository(String appId) {
       if (_menuDefRepository[appId] == null) _menuDefRepository[appId] = MenuDefCache(MenuDefFirestore(appId));

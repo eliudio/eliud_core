@@ -1,30 +1,37 @@
 /*
-Bespoke
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ member_list_bloc.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
 */
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:meta/meta.dart';
 
-import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_list_state.dart';
-
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final MemberRepository _memberRepository;
   StreamSubscription _membersListSubscription;
   final AccessBloc accessBloc;
 
-  MemberListBloc(this.accessBloc, { @required MemberRepository memberRepository })
+  MemberListBloc(this.accessBloc,{ @required MemberRepository memberRepository })
       : assert(memberRepository != null),
       _memberRepository = memberRepository,
       super(MemberListLoading());
-
   String _currentMember() {
     var _currentMember = '';
     var state = accessBloc.state;
@@ -33,32 +40,32 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   }
 
   Stream<MemberListState> _mapLoadMemberListToState() async* {
-    await _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listen(_currentMember(), (list) => add(MemberListUpdated(value: list)));
+    _membersListSubscription?.cancel();
+    _membersListSubscription = _memberRepository.listen(_currentMember(),  (list) => add(MemberListUpdated(value: list)));
   }
 
   Stream<MemberListState> _mapLoadMemberListWithDetailsToState() async* {
-    await _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listenWithDetails(_currentMember(), (list) => add(MemberListUpdated(value: list)));
+    _membersListSubscription?.cancel();
+    _membersListSubscription = _memberRepository.listenWithDetails(_currentMember(),  (list) => add(MemberListUpdated(value: list)));
   }
 
   Stream<MemberListState> _mapAddMemberListToState(AddMemberList event) async* {
-    await _memberRepository.add(event.value);
+    _memberRepository.add(event.value);
   }
 
   Stream<MemberListState> _mapUpdateMemberListToState(UpdateMemberList event) async* {
     var state = accessBloc.state;
     if (state is LoggedIn) {
-      // normally I can only update myself, but checking regardless
-      if (event.value.documentID == state.member.documentID) {
-        await accessBloc.add(MemberUpdated(event.value));
-      }
+        // normally I can only update myself, but checking regardless
+        if (event.value.documentID == state.member.documentID) {
+            await accessBloc.add(MemberUpdated(event.value));
+        }
     }
-    await _memberRepository.update(event.value);
+    _memberRepository.update(event.value);
   }
 
   Stream<MemberListState> _mapDeleteMemberListToState(DeleteMemberList event) async* {
-    await _memberRepository.delete(event.value);
+    _memberRepository.delete(event.value);
   }
 
   Stream<MemberListState> _mapMemberListUpdatedToState(MemberListUpdated event) async* {
@@ -68,6 +75,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
 
   @override
   Stream<MemberListState> mapEventToState(MemberListEvent event) async* {
+    final currentState = state;
     if (event is LoadMemberList) {
       yield* _mapLoadMemberListToState();
     } if (event is LoadMemberListWithDetails) {

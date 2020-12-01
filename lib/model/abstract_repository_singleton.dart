@@ -24,7 +24,6 @@ import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
 import '../model/home_menu_repository.dart';
 import '../model/image_repository.dart';
-import '../model/member_repository.dart';
 import '../model/member_subscription_repository.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_item_repository.dart';
@@ -41,7 +40,6 @@ DrawerRepository drawerRepository({ String appId }) => AbstractRepositorySinglet
 FontRepository fontRepository({ String appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
 GridViewRepository gridViewRepository({ String appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
 HomeMenuRepository homeMenuRepository({ String appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
-MemberRepository memberRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberRepository();
 MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
@@ -57,7 +55,6 @@ abstract class AbstractRepositorySingleton {
   FontRepository fontRepository(String appId);
   GridViewRepository gridViewRepository(String appId);
   HomeMenuRepository homeMenuRepository(String appId);
-  MemberRepository memberRepository();
   MenuDefRepository menuDefRepository(String appId);
   PageRepository pageRepository(String appId);
   PosSizeRepository posSizeRepository(String appId);
@@ -71,7 +68,6 @@ abstract class AbstractRepositorySingleton {
     fontRepository(appId).flush();
     gridViewRepository(appId).flush();
     homeMenuRepository(appId).flush();
-    memberRepository().flush();
     menuDefRepository(appId).flush();
     pageRepository(appId).flush();
     posSizeRepository(appId).flush();

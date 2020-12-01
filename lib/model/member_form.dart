@@ -63,24 +63,22 @@ class MemberForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-
+  
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-
+  
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -98,10 +96,9 @@ class MemberForm extends StatelessWidget {
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-
+  
         child: MyMemberForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -355,7 +352,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 new Container(
-                    height: (fullScreenHeight(context) / 2.5),
+                    height: (fullScreenHeight(context) / 2.5), 
                     child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
@@ -666,52 +663,52 @@ class _MyMemberFormState extends State<MyMemberForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              documentID: state.value.documentID,
-                              name: state.value.name,
-                              subscriptions: state.value.subscriptions,
-                              photoURL: state.value.photoURL,
-                              shipStreet1: state.value.shipStreet1,
-                              shipStreet2: state.value.shipStreet2,
-                              shipCity: state.value.shipCity,
-                              shipState: state.value.shipState,
-                              postcode: state.value.postcode,
-                              country: state.value.country,
-                              invoiceSame: state.value.invoiceSame,
-                              invoiceStreet1: state.value.invoiceStreet1,
-                              invoiceStreet2: state.value.invoiceStreet2,
-                              invoiceCity: state.value.invoiceCity,
-                              invoiceState: state.value.invoiceState,
-                              invoicePostcode: state.value.invoicePostcode,
-                              invoiceCountry: state.value.invoiceCountry,
-                              readAccess: state.value.readAccess,
-                              email: state.value.email,
-                              isAnonymous: state.value.isAnonymous,
-                              packageData: state.value.packageData,
+                              documentID: state.value.documentID, 
+                              name: state.value.name, 
+                              subscriptions: state.value.subscriptions, 
+                              photoURL: state.value.photoURL, 
+                              shipStreet1: state.value.shipStreet1, 
+                              shipStreet2: state.value.shipStreet2, 
+                              shipCity: state.value.shipCity, 
+                              shipState: state.value.shipState, 
+                              postcode: state.value.postcode, 
+                              country: state.value.country, 
+                              invoiceSame: state.value.invoiceSame, 
+                              invoiceStreet1: state.value.invoiceStreet1, 
+                              invoiceStreet2: state.value.invoiceStreet2, 
+                              invoiceCity: state.value.invoiceCity, 
+                              invoiceState: state.value.invoiceState, 
+                              invoicePostcode: state.value.invoicePostcode, 
+                              invoiceCountry: state.value.invoiceCountry, 
+                              readAccess: state.value.readAccess, 
+                              email: state.value.email, 
+                              isAnonymous: state.value.isAnonymous, 
+                              packageData: state.value.packageData, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              documentID: state.value.documentID,
-                              name: state.value.name,
-                              subscriptions: state.value.subscriptions,
-                              photoURL: state.value.photoURL,
-                              shipStreet1: state.value.shipStreet1,
-                              shipStreet2: state.value.shipStreet2,
-                              shipCity: state.value.shipCity,
-                              shipState: state.value.shipState,
-                              postcode: state.value.postcode,
-                              country: state.value.country,
-                              invoiceSame: state.value.invoiceSame,
-                              invoiceStreet1: state.value.invoiceStreet1,
-                              invoiceStreet2: state.value.invoiceStreet2,
-                              invoiceCity: state.value.invoiceCity,
-                              invoiceState: state.value.invoiceState,
-                              invoicePostcode: state.value.invoicePostcode,
-                              invoiceCountry: state.value.invoiceCountry,
-                              readAccess: state.value.readAccess,
-                              email: state.value.email,
-                              isAnonymous: state.value.isAnonymous,
-                              packageData: state.value.packageData,
+                              documentID: state.value.documentID, 
+                              name: state.value.name, 
+                              subscriptions: state.value.subscriptions, 
+                              photoURL: state.value.photoURL, 
+                              shipStreet1: state.value.shipStreet1, 
+                              shipStreet2: state.value.shipStreet2, 
+                              shipCity: state.value.shipCity, 
+                              shipState: state.value.shipState, 
+                              postcode: state.value.postcode, 
+                              country: state.value.country, 
+                              invoiceSame: state.value.invoiceSame, 
+                              invoiceStreet1: state.value.invoiceStreet1, 
+                              invoiceStreet2: state.value.invoiceStreet2, 
+                              invoiceCity: state.value.invoiceCity, 
+                              invoiceState: state.value.invoiceState, 
+                              invoicePostcode: state.value.invoicePostcode, 
+                              invoiceCountry: state.value.invoiceCountry, 
+                              readAccess: state.value.readAccess, 
+                              email: state.value.email, 
+                              isAnonymous: state.value.isAnonymous, 
+                              packageData: state.value.packageData, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -880,7 +877,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
   bool _readOnly(AccessState accessState, MemberFormInitialized state) {
     return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
   }
-
+  
 
 }
 
@@ -895,24 +892,22 @@ class MemberSmallForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-
+  
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-
+  
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -930,10 +925,9 @@ class MemberSmallForm extends StatelessWidget {
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-
+  
         child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -969,8 +963,8 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
         child: CircularProgressIndicator(),
@@ -1026,7 +1020,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
         children.add(
 
                 new Container(
-                    height: (fullScreenHeight(context) / 2.5),
+                    height: (fullScreenHeight(context) / 2.5), 
                     child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
@@ -1046,14 +1040,14 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name,
-                              subscriptions: state.value.subscriptions,
+                              name: state.value.name, 
+                              subscriptions: state.value.subscriptions, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name,
-                              subscriptions: state.value.subscriptions,
+                              name: state.value.name, 
+                              subscriptions: state.value.subscriptions, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1108,7 +1102,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
   bool _readOnly(AccessState accessState, MemberFormInitialized state) {
     return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
   }
-
+  
 
 }
 
@@ -1123,24 +1117,22 @@ class MemberAddressForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
+    var app = AccessBloc.app(context);
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormEvent(value: value)),
-
+  
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
-
+  
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           );
     } else {
@@ -1158,10 +1150,9 @@ class MemberAddressForm extends StatelessWidget {
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
-                                       formAction: formAction,
-
+                                       
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
-
+  
         child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
           ));
     }
@@ -1605,40 +1596,40 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name,
-                              email: state.value.email,
-                              shipStreet1: state.value.shipStreet1,
-                              shipStreet2: state.value.shipStreet2,
-                              shipCity: state.value.shipCity,
-                              shipState: state.value.shipState,
-                              postcode: state.value.postcode,
-                              country: state.value.country,
-                              invoiceSame: state.value.invoiceSame,
-                              invoiceStreet1: state.value.invoiceStreet1,
-                              invoiceStreet2: state.value.invoiceStreet2,
-                              invoiceCity: state.value.invoiceCity,
-                              invoiceState: state.value.invoiceState,
-                              invoicePostcode: state.value.invoicePostcode,
-                              invoiceCountry: state.value.invoiceCountry,
+                              name: state.value.name, 
+                              email: state.value.email, 
+                              shipStreet1: state.value.shipStreet1, 
+                              shipStreet2: state.value.shipStreet2, 
+                              shipCity: state.value.shipCity, 
+                              shipState: state.value.shipState, 
+                              postcode: state.value.postcode, 
+                              country: state.value.country, 
+                              invoiceSame: state.value.invoiceSame, 
+                              invoiceStreet1: state.value.invoiceStreet1, 
+                              invoiceStreet2: state.value.invoiceStreet2, 
+                              invoiceCity: state.value.invoiceCity, 
+                              invoiceState: state.value.invoiceState, 
+                              invoicePostcode: state.value.invoicePostcode, 
+                              invoiceCountry: state.value.invoiceCountry, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name,
-                              email: state.value.email,
-                              shipStreet1: state.value.shipStreet1,
-                              shipStreet2: state.value.shipStreet2,
-                              shipCity: state.value.shipCity,
-                              shipState: state.value.shipState,
-                              postcode: state.value.postcode,
-                              country: state.value.country,
-                              invoiceSame: state.value.invoiceSame,
-                              invoiceStreet1: state.value.invoiceStreet1,
-                              invoiceStreet2: state.value.invoiceStreet2,
-                              invoiceCity: state.value.invoiceCity,
-                              invoiceState: state.value.invoiceState,
-                              invoicePostcode: state.value.invoicePostcode,
-                              invoiceCountry: state.value.invoiceCountry,
+                              name: state.value.name, 
+                              email: state.value.email, 
+                              shipStreet1: state.value.shipStreet1, 
+                              shipStreet2: state.value.shipStreet2, 
+                              shipCity: state.value.shipCity, 
+                              shipState: state.value.shipState, 
+                              postcode: state.value.postcode, 
+                              country: state.value.country, 
+                              invoiceSame: state.value.invoiceSame, 
+                              invoiceStreet1: state.value.invoiceStreet1, 
+                              invoiceStreet2: state.value.invoiceStreet2, 
+                              invoiceCity: state.value.invoiceCity, 
+                              invoiceState: state.value.invoiceState, 
+                              invoicePostcode: state.value.invoicePostcode, 
+                              invoiceCountry: state.value.invoiceCountry, 
                           )));
                       }
                       if (widget.submitAction != null) {

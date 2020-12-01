@@ -7,6 +7,9 @@ import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/image_cache.dart';
 import 'package:eliud_core/model/image_js_firestore_bespoke.dart';
 import 'package:eliud_core/model/image_repository.dart';
+import 'package:eliud_core/model/member_cache_bespoke.dart';
+import 'package:eliud_core/model/member_js_firestore_bespoke.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
@@ -16,6 +19,7 @@ class JsMainRepositorySingleton extends AbstractMainRepositorySingleton {
   JsMainRepositorySingleton() {
     _appRepository = AppCache(AppJsFirestore());
     _userRepository = UserRepository();
+    _memberRepository = MemberCache(MemberJsFirestore());
   }
 
   @override
@@ -31,4 +35,9 @@ class JsMainRepositorySingleton extends AbstractMainRepositorySingleton {
   @override
   UserRepository userRepository() => _userRepository;
   UserRepository _userRepository;
+
+  @override
+  MemberRepository memberRepository() => _memberRepository;
+  MemberRepository _memberRepository;
+
 }

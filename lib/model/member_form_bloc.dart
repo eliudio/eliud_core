@@ -35,13 +35,12 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/member_form_event.dart';
 import 'package:eliud_core/model/member_form_state.dart';
-import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 
 class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
-  final FormAction formAction;
   final String appId;
 
-  MemberFormBloc(this.appId, { this.formAction }): super(MemberFormUninitialized());
+  MemberFormBloc(this.appId, ): super(MemberFormUninitialized());
   @override
   Stream<MemberFormState> mapEventToState(MemberFormEvent event) async* {
     final currentState = state;
@@ -74,8 +73,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
 
 
       if (event is InitialiseMemberFormEvent) {
-        // Need to re-retrieve the document from the repository so that I get all associated types
-        MemberFormLoaded loaded = MemberFormLoaded(value: await memberRepository(appId: appId).get(event.value.documentID));
+        MemberFormLoaded loaded = MemberFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseMemberFormNoLoadEvent) {
@@ -87,11 +85,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
       MemberModel newValue = null;
       if (event is ChangedMemberDocumentID) {
         newValue = currentState.value.copyWith(documentID: event.value);
-        if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
-        } else {
-          yield SubmittableMemberForm(value: newValue);
-        }
+        yield SubmittableMemberForm(value: newValue);
 
         return;
       }
@@ -254,22 +248,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
         return;
       }
     }
-  }
-
-
-  DocumentIDMemberFormError error(String message, MemberModel newValue) => DocumentIDMemberFormError(message: message, value: newValue);
-
-  Future<MemberFormState> _isDocumentIDValid(String value, MemberModel newValue) async {
-    if (value == null) return Future.value(error("Provide value for documentID", newValue));
-    if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<MemberModel> findDocument = memberRepository(appId: appId).get(value);
-    return await findDocument.then((documentFound) {
-      if (documentFound == null) {
-        return SubmittableMemberForm(value: newValue);
-      } else {
-        return error("Invalid documentID: already exists", newValue);
-      }
-    });
   }
 
 

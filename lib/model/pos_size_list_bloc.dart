@@ -33,12 +33,12 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
 
   Stream<PosSizeListState> _mapLoadPosSizeListToState() async* {
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listen((list) => add(PosSizeListUpdated(value: list)));
+    _posSizesListSubscription = _posSizeRepository.listen( (list) => add(PosSizeListUpdated(value: list)));
   }
 
   Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState() async* {
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listenWithDetails((list) => add(PosSizeListUpdated(value: list)));
+    _posSizesListSubscription = _posSizeRepository.listenWithDetails( (list) => add(PosSizeListUpdated(value: list)));
   }
 
   Stream<PosSizeListState> _mapAddPosSizeListToState(AddPosSizeList event) async* {

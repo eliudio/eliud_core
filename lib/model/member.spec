@@ -4,10 +4,10 @@
   "isAppModel": false,
   "generate": {
     "generateComponent": true,
-    "generateRepository": true,
-    "generateCache": true,
+    "generateRepository": false,
+    "generateCache": false,
 	"hasPersistentRepository": true,
-    "generateFirestoreRepository": true,
+    "generateFirestoreRepository": false,
     "generateModel": true,
     "generateEntity": true,
     "generateForm": true,
@@ -219,12 +219,10 @@
     "subTitle": "name"
   },
   "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();",
-  "preMapUpdateCode": "var state = GlobalData.state();\n    if (state is LoggedIn) {\n        AccessState accessState = state.copyWith(member: event.value);\n        GlobalData.init(accessState);\n    }",
-  "where": "where(\"readAccess\", arrayContains: GlobalData.memberID())",
-  "whereJs": "where(\"readAccess\", \"array-contains\", GlobalData.memberID())",
+  "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",
   "extraImports": {
     "firestore" : "import 'package:eliud_core/core/global_data.dart';",
-    "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';\nimport 'package:eliud_core/core/global_data.dart';\n"
+    "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';"
   },
   "alternativeViews": [
     {

@@ -33,12 +33,12 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
 
   Stream<ImageListState> _mapLoadImageListToState() async* {
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listen((list) => add(ImageListUpdated(value: list)));
+    _imagesListSubscription = _imageRepository.listen( (list) => add(ImageListUpdated(value: list)));
   }
 
   Stream<ImageListState> _mapLoadImageListWithDetailsToState() async* {
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listenWithDetails((list) => add(ImageListUpdated(value: list)));
+    _imagesListSubscription = _imageRepository.listenWithDetails( (list) => add(ImageListUpdated(value: list)));
   }
 
   Stream<ImageListState> _mapAddImageListToState(AddImageList event) async* {

@@ -5,9 +5,9 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
@@ -61,9 +61,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
                       BlocProvider<MemberListBloc>(
                         create: (context) =>
                         MemberListBloc(accessBloc,
-                          memberRepository: AbstractRepositorySingleton
-                              .singleton
-                              .memberRepository(),
+                          memberRepository: memberRepository(),
                         )
                           ..add(LoadMemberList()),
                       )
@@ -116,7 +114,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
             FlatButton(
               child: Text('YES'),
               onPressed: () {
-                AbstractRepositorySingleton.singleton.memberRepository().delete(state.member);
+                memberRepository().delete(state.member);
                 BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
               },
             ),

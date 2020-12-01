@@ -24,7 +24,6 @@ export '../model/font_repository.dart';
 export '../model/grid_view_repository.dart';
 export '../model/home_menu_repository.dart';
 export '../model/image_repository.dart';
-export '../model/member_repository.dart';
 export '../model/member_subscription_repository.dart';
 export '../model/menu_def_repository.dart';
 export '../model/menu_item_repository.dart';

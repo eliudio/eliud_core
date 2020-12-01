@@ -4,7 +4,7 @@ Bespoke MemberCache
 
 import 'dart:async';
 import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/member_repository.dart';
+import 'package:eliud_core/model/member_repository_bespoke.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
