@@ -17,6 +17,16 @@ class SwitchAppEvent extends AccessEvent {
   List<Object> get props => [ appId ];
 }
 
+class SwitchAppAndPageEvent extends SwitchAppEvent {
+  final String pageId;
+  final Map<String, String> parameters;
+
+  SwitchAppAndPageEvent(String appId, this.pageId, this.parameters) : super(appId);
+
+  @override
+  List<Object> get props => [ appId, pageId, parameters ];
+}
+
 class InitApp extends AccessEvent {
   final String appId;
   final bool isPlaystore;

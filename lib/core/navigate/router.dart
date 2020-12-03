@@ -112,6 +112,7 @@ class Router {
 
   static void navigateTo(BuildContext context, ActionModel action, { Map<String, String> parameters }) async {
     if (action is GotoPage) {
+      // todo : if (AccessBloc.appId(context) !=  action.appID) > send a switch event to the AccessBloc
       BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
     } else if (action is SwitchApp) {
       var appId = action.toAppID;

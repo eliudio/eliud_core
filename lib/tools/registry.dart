@@ -111,7 +111,13 @@ class Registry {
           } else if (state is AppError) {
             return AlertWidget(title: 'Error', content: state.message);
           } else {
-            return CircularProgressIndicator();
+            return Center(child:
+              SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator()
+              )
+            );
           }
         }));
   }
