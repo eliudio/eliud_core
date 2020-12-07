@@ -153,7 +153,8 @@ class MemberModel {
           readAccess: entity.readAccess, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
-          packageData: entity.packageData,     );
+          packageData: entity.packageData, 
+    );
   }
 
   static Future<MemberModel> fromEntityPlus(String documentID, MemberEntity entity, { String appId}) async {

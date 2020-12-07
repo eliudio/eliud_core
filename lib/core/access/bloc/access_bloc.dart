@@ -129,7 +129,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     if (usr == null) {
       return await LoggedOut.getLoggedOut(app, playstoreApp);
     } else {
-      var member = await _firebaseToMemberModel(usr);
+      var member = await firebaseToMemberModel(usr);
       if (member == null) {
         throw 'Can not find nor create member';
       } else {
@@ -138,7 +138,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<MemberModel> _firebaseToMemberModel(FirebaseUser usr) async {
+  static Future<MemberModel> firebaseToMemberModel(FirebaseUser usr) async {
     var futureMemberModel = await memberRepository().get(usr.uid).then((member) async {
       if (member == null) {
         member = MemberModel(
