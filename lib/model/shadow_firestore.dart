@@ -56,15 +56,25 @@ class ShadowFirestore implements ShadowRepository {
   }
 
   StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  ShadowCollection : ShadowCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<ShadowModel> shadows  = data.documents.map((doc) {
-        ShadowModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return shadows;
-    });
-
+    Stream<List<ShadowModel>> stream;
+    if (orderBy == null) {
+       stream = ShadowCollection.snapshots().map((data) {
+        Iterable<ShadowModel> shadows  = data.documents.map((doc) {
+          ShadowModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return shadows;
+      });
+    } else {
+      stream = ShadowCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<ShadowModel> shadows  = data.documents.map((doc) {
+          ShadowModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return shadows;
+      });
+  
+    }
     return stream.listen((listOfShadowModels) {
       trigger(listOfShadowModels);
     });

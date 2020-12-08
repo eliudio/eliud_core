@@ -24,12 +24,11 @@ abstract class MenuDefRepository {
   Future<MenuDefModel> get(String id);
   Future<MenuDefModel> update(MenuDefModel value);
   Stream<List<MenuDefModel>> values();
-  Stream<List<MenuDefModel>> valuesWithDetails();
+  Stream<List<MenuDefModel>> valuesWithDetails();  Future<List<MenuDefModel>> valuesList();
+  Future<List<MenuDefModel>> valuesListWithDetails();
   StreamSubscription<List<MenuDefModel>> listen(MenuDefModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<MenuDefModel>> listenWithDetails(MenuDefModelTrigger trigger);
   void flush();
-  Future<List<MenuDefModel>> valuesList();
-  Future<List<MenuDefModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

@@ -56,15 +56,25 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
   StreamSubscription<List<MenuDefModel>> listen(MenuDefModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  MenuDefCollection : MenuDefCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
-        MenuDefModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return menuDefs;
-    });
-
+    Stream<List<MenuDefModel>> stream;
+    if (orderBy == null) {
+       stream = MenuDefCollection.snapshots().map((data) {
+        Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
+          MenuDefModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return menuDefs;
+      });
+    } else {
+      stream = MenuDefCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
+          MenuDefModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return menuDefs;
+      });
+  
+    }
     return stream.listen((listOfMenuDefModels) {
       trigger(listOfMenuDefModels);
     });

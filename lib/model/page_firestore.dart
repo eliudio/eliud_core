@@ -56,15 +56,25 @@ class PageFirestore implements PageRepository {
   }
 
   StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  PageCollection : PageCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<PageModel> pages  = data.documents.map((doc) {
-        PageModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return pages;
-    });
-
+    Stream<List<PageModel>> stream;
+    if (orderBy == null) {
+       stream = PageCollection.snapshots().map((data) {
+        Iterable<PageModel> pages  = data.documents.map((doc) {
+          PageModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pages;
+      });
+    } else {
+      stream = PageCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<PageModel> pages  = data.documents.map((doc) {
+          PageModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return pages;
+      });
+  
+    }
     return stream.listen((listOfPageModels) {
       trigger(listOfPageModels);
     });

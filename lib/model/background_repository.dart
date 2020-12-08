@@ -24,12 +24,11 @@ abstract class BackgroundRepository {
   Future<BackgroundModel> get(String id);
   Future<BackgroundModel> update(BackgroundModel value);
   Stream<List<BackgroundModel>> values();
-  Stream<List<BackgroundModel>> valuesWithDetails();
+  Stream<List<BackgroundModel>> valuesWithDetails();  Future<List<BackgroundModel>> valuesList();
+  Future<List<BackgroundModel>> valuesListWithDetails();
   StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger);
   void flush();
-  Future<List<BackgroundModel>> valuesList();
-  Future<List<BackgroundModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

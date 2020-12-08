@@ -5,7 +5,7 @@ Bespoke
 import 'dart:async';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
-import 'package:eliud_core/model/member_repository_bespoke.dart';
+import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 

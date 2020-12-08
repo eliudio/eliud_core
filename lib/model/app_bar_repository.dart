@@ -24,12 +24,11 @@ abstract class AppBarRepository {
   Future<AppBarModel> get(String id);
   Future<AppBarModel> update(AppBarModel value);
   Stream<List<AppBarModel>> values();
-  Stream<List<AppBarModel>> valuesWithDetails();
+  Stream<List<AppBarModel>> valuesWithDetails();  Future<List<AppBarModel>> valuesList();
+  Future<List<AppBarModel>> valuesListWithDetails();
   StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger);
   void flush();
-  Future<List<AppBarModel>> valuesList();
-  Future<List<AppBarModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

@@ -1,10 +1,21 @@
 /*
-Bespoke MemberCache
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ member_repository.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
 */
 
 import 'dart:async';
 import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/member_repository_bespoke.dart';
+import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -51,23 +62,23 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values(String currentMember) {
-    return reference.values(currentMember);
+  Stream<List<MemberModel>> values(String currentMember, ) {
+    return reference.values(currentMember,);
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember) {
-    return reference.valuesWithDetails(currentMember);
+  Stream<List<MemberModel>> valuesWithDetails(String currentMember, ) {
+    return reference.valuesWithDetails(currentMember,);
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember) async {
-    return await reference.valuesList(currentMember);
+  Future<List<MemberModel>> valuesList(String currentMember, ) async {
+    return await reference.valuesList(currentMember,);
   }
   
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember) async {
-    return await reference.valuesListWithDetails(currentMember);
+  Future<List<MemberModel>> valuesListWithDetails(String currentMember, ) async {
+    return await reference.valuesListWithDetails(currentMember,);
   }
 
   void flush() {
@@ -81,12 +92,12 @@ class MemberCache implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listen(String currentMember, trigger, { String orderBy, bool descending }) {
-    return reference.listen(currentMember, trigger, orderBy: orderBy, descending: descending);
+    return reference.listen(currentMember,trigger, orderBy: orderBy, descending: descending);
   }
 
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, trigger) {
-    return reference.listenWithDetails(currentMember, trigger);
+    return reference.listenWithDetails(currentMember,trigger);
   }
 
 

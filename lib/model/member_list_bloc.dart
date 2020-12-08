@@ -17,10 +17,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:eliud_core/model/member_repository_bespoke.dart';
+import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
+
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {

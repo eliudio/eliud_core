@@ -56,15 +56,25 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
   StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  PosSizeCollection : PosSizeCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
-        PosSizeModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return posSizes;
-    });
-
+    Stream<List<PosSizeModel>> stream;
+    if (orderBy == null) {
+       stream = PosSizeCollection.snapshots().map((data) {
+        Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
+          PosSizeModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return posSizes;
+      });
+    } else {
+      stream = PosSizeCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
+          PosSizeModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return posSizes;
+      });
+  
+    }
     return stream.listen((listOfPosSizeModels) {
       trigger(listOfPosSizeModels);
     });

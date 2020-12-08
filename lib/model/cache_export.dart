@@ -24,6 +24,7 @@ export '../model/font_cache.dart';
 export '../model/grid_view_cache.dart';
 export '../model/home_menu_cache.dart';
 export '../model/image_cache.dart';
+export '../model/member_cache.dart';
 export '../model/member_subscription_cache.dart';
 export '../model/menu_def_cache.dart';
 export '../model/menu_item_cache.dart';

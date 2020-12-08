@@ -24,12 +24,11 @@ abstract class AppRepository {
   Future<AppModel> get(String id);
   Future<AppModel> update(AppModel value);
   Stream<List<AppModel>> values();
-  Stream<List<AppModel>> valuesWithDetails();
+  Stream<List<AppModel>> valuesWithDetails();  Future<List<AppModel>> valuesList();
+  Future<List<AppModel>> valuesListWithDetails();
   StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger);
   void flush();
-  Future<List<AppModel>> valuesList();
-  Future<List<AppModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

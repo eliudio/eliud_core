@@ -24,12 +24,11 @@ abstract class MemberSubscriptionRepository {
   Future<MemberSubscriptionModel> get(String id);
   Future<MemberSubscriptionModel> update(MemberSubscriptionModel value);
   Stream<List<MemberSubscriptionModel>> values();
-  Stream<List<MemberSubscriptionModel>> valuesWithDetails();
+  Stream<List<MemberSubscriptionModel>> valuesWithDetails();  Future<List<MemberSubscriptionModel>> valuesList();
+  Future<List<MemberSubscriptionModel>> valuesListWithDetails();
   StreamSubscription<List<MemberSubscriptionModel>> listen(MemberSubscriptionModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(MemberSubscriptionModelTrigger trigger);
   void flush();
-  Future<List<MemberSubscriptionModel>> valuesList();
-  Future<List<MemberSubscriptionModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

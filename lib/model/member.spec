@@ -4,8 +4,8 @@
   "isAppModel": false,
   "generate": {
     "generateComponent": true,
-    "generateRepository": false,
-    "generateCache": false,
+    "generateRepository": true,
+    "generateCache": true,
 	"hasPersistentRepository": true,
     "generateFirestoreRepository": false,
     "generateModel": true,

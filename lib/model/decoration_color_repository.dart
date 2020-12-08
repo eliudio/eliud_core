@@ -24,12 +24,11 @@ abstract class DecorationColorRepository {
   Future<DecorationColorModel> get(String id);
   Future<DecorationColorModel> update(DecorationColorModel value);
   Stream<List<DecorationColorModel>> values();
-  Stream<List<DecorationColorModel>> valuesWithDetails();
+  Stream<List<DecorationColorModel>> valuesWithDetails();  Future<List<DecorationColorModel>> valuesList();
+  Future<List<DecorationColorModel>> valuesListWithDetails();
   StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger);
   void flush();
-  Future<List<DecorationColorModel>> valuesList();
-  Future<List<DecorationColorModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

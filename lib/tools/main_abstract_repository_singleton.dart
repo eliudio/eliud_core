@@ -1,6 +1,6 @@
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 
-import 'package:eliud_core/model/member_repository_bespoke.dart';
+import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/image_repository.dart';
 

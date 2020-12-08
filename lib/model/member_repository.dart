@@ -1,5 +1,16 @@
 /*
-Bespoke
+       _ _           _ 
+      | (_)         | |
+   ___| |_ _   _  __| |
+  / _ \ | | | | |/ _` |
+ |  __/ | | |_| | (_| |
+  \___|_|_|\__,_|\__,_|
+                       
+ 
+ member_repository.dart
+                       
+ This code is generated. This is read only. Don't touch!
+
 */
 
 import 'dart:async';
@@ -14,11 +25,11 @@ abstract class MemberRepository {
   Future<MemberModel> update(MemberModel value);
   Stream<List<MemberModel>> values(String currentMember);
   Stream<List<MemberModel>> valuesWithDetails(String currentMember);
-  StreamSubscription<List<MemberModel>> listen(String currentMember,MemberModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember,MemberModelTrigger trigger);
-  void flush();
   Future<List<MemberModel>> valuesList(String currentMember);
   Future<List<MemberModel>> valuesListWithDetails(String currentMember);
+  StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, MemberModelTrigger trigger);
+  void flush();
 
   Future<void> deleteAll();
 }

@@ -56,15 +56,25 @@ class AppFirestore implements AppRepository {
   }
 
   StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  AppCollection : AppCollection.orderBy(orderBy, descending: descending)).snapshots()
-        .map((data) {
-      Iterable<AppModel> apps  = data.documents.map((doc) {
-        AppModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return apps;
-    });
-
+    Stream<List<AppModel>> stream;
+    if (orderBy == null) {
+       stream = AppCollection.snapshots().map((data) {
+        Iterable<AppModel> apps  = data.documents.map((doc) {
+          AppModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return apps;
+      });
+    } else {
+      stream = AppCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
+        Iterable<AppModel> apps  = data.documents.map((doc) {
+          AppModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return apps;
+      });
+  
+    }
     return stream.listen((listOfAppModels) {
       trigger(listOfAppModels);
     });

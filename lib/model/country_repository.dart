@@ -24,12 +24,11 @@ abstract class CountryRepository {
   Future<CountryModel> get(String id);
   Future<CountryModel> update(CountryModel value);
   Stream<List<CountryModel>> values();
-  Stream<List<CountryModel>> valuesWithDetails();
+  Stream<List<CountryModel>> valuesWithDetails();  Future<List<CountryModel>> valuesList();
+  Future<List<CountryModel>> valuesListWithDetails();
   StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger);
   void flush();
-  Future<List<CountryModel>> valuesList();
-  Future<List<CountryModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

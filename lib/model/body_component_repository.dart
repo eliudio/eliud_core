@@ -24,12 +24,11 @@ abstract class BodyComponentRepository {
   Future<BodyComponentModel> get(String id);
   Future<BodyComponentModel> update(BodyComponentModel value);
   Stream<List<BodyComponentModel>> values();
-  Stream<List<BodyComponentModel>> valuesWithDetails();
+  Stream<List<BodyComponentModel>> valuesWithDetails();  Future<List<BodyComponentModel>> valuesList();
+  Future<List<BodyComponentModel>> valuesListWithDetails();
   StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger);
   void flush();
-  Future<List<BodyComponentModel>> valuesList();
-  Future<List<BodyComponentModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

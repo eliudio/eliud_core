@@ -24,12 +24,11 @@ abstract class PosSizeRepository {
   Future<PosSizeModel> get(String id);
   Future<PosSizeModel> update(PosSizeModel value);
   Stream<List<PosSizeModel>> values();
-  Stream<List<PosSizeModel>> valuesWithDetails();
+  Stream<List<PosSizeModel>> valuesWithDetails();  Future<List<PosSizeModel>> valuesList();
+  Future<List<PosSizeModel>> valuesListWithDetails();
   StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, { String orderBy, bool descending });
   StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger);
   void flush();
-  Future<List<PosSizeModel>> valuesList();
-  Future<List<PosSizeModel>> valuesListWithDetails();
 
   Future<void> deleteAll();
 }

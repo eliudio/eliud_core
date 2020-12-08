@@ -35,7 +35,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/member_form_event.dart';
 import 'package:eliud_core/model/member_form_state.dart';
-import 'package:eliud_core/model/member_repository_bespoke.dart';
+import 'package:eliud_core/model/member_repository.dart';
 
 class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
   final String appId;
