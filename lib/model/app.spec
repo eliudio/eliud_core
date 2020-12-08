@@ -6,6 +6,7 @@
     "generateRepository": true,
     "generateCache": true,
     "generateFirestoreRepository": true,
+    "generateRepositorySingleton": true,
     "generateModel": true,
     "generateEntity": true,
     "generateForm": true,

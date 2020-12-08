@@ -8,6 +8,7 @@
     "generateCache": true,
 	"hasPersistentRepository": true,
     "generateFirestoreRepository": true,
+    "generateRepositorySingleton": true,
     "generateModel": true,
     "generateEntity": true,
     "generateForm": true,
