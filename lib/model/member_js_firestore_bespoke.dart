@@ -6,17 +6,8 @@ import 'dart:async';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/member_repository_bespoke.dart';
-
-import 'package:eliud_core/core/global_data.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 class MemberJsFirestore implements MemberRepository {
   Future<MemberModel> add(MemberModel value) {
@@ -53,9 +44,10 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger) {
+  @override
+  StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
     // If we use memberCollection here, then the second subscription fails
-    Stream<List<MemberModel>> stream = getCollection().where("readAccess", "array-contains", currentMember).onSnapshot
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).where("readAccess", 'array-contains', currentMember).onSnapshot
         .map((data) {
       Iterable<MemberModel> members  = data.docs.map((doc) {
         MemberModel value = _populateDoc(doc);

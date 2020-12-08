@@ -25,8 +25,8 @@ abstract class PageRepository {
   Future<PageModel> update(PageModel value);
   Stream<List<PageModel>> values();
   Stream<List<PageModel>> valuesWithDetails();
-  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger);
-StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger);
+  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger);
   void flush();
   Future<List<PageModel>> valuesList();
   Future<List<PageModel>> valuesListWithDetails();

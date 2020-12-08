@@ -63,9 +63,9 @@ class ShadowJsFirestore implements ShadowRepository {
     });
   }
 
-  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger) {
-    // If we use shadowCollection here, then the second subscription fails
-    Stream<List<ShadowModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ShadowModel> shadows  = data.docs.map((doc) {
         ShadowModel value = _populateDoc(doc);

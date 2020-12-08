@@ -23,6 +23,7 @@ class MemberSubscriptionEntity {
 
   MemberSubscriptionEntity({this.appId, });
 
+
   List<Object> get props => [appId, ];
 
   @override

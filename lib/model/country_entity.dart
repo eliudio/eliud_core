@@ -24,6 +24,7 @@ class CountryEntity {
 
   CountryEntity({this.countryCode, this.countryName, });
 
+
   List<Object> get props => [countryCode, countryName, ];
 
   @override

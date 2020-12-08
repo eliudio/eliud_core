@@ -25,8 +25,8 @@ abstract class DrawerRepository {
   Future<DrawerModel> update(DrawerModel value);
   Stream<List<DrawerModel>> values();
   Stream<List<DrawerModel>> valuesWithDetails();
-  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger);
-StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger);
+  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger);
   void flush();
   Future<List<DrawerModel>> valuesList();
   Future<List<DrawerModel>> valuesListWithDetails();

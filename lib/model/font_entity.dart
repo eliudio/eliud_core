@@ -29,6 +29,7 @@ class FontEntity {
 
   FontEntity({this.appId, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, });
 
+
   List<Object> get props => [appId, fontName, size, weight, style, decoration, color, ];
 
   @override

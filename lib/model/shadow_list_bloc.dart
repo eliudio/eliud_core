@@ -31,9 +31,9 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
       _shadowRepository = shadowRepository,
       super(ShadowListLoading());
 
-  Stream<ShadowListState> _mapLoadShadowListToState() async* {
+  Stream<ShadowListState> _mapLoadShadowListToState({ String orderBy, bool descending }) async* {
     _shadowsListSubscription?.cancel();
-    _shadowsListSubscription = _shadowRepository.listen( (list) => add(ShadowListUpdated(value: list)));
+    _shadowsListSubscription = _shadowRepository.listen( (list) => add(ShadowListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ShadowListState> _mapLoadShadowListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   Stream<ShadowListState> mapEventToState(ShadowListEvent event) async* {
     final currentState = state;
     if (event is LoadShadowList) {
-      yield* _mapLoadShadowListToState();
+      yield* _mapLoadShadowListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadShadowListWithDetails) {
       yield* _mapLoadShadowListWithDetailsToState();
     } else if (event is AddShadowList) {

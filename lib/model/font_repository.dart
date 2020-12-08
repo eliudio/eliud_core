@@ -25,8 +25,8 @@ abstract class FontRepository {
   Future<FontModel> update(FontModel value);
   Stream<List<FontModel>> values();
   Stream<List<FontModel>> valuesWithDetails();
-  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger);
-StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger);
+  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger);
   void flush();
   Future<List<FontModel>> valuesList();
   Future<List<FontModel>> valuesListWithDetails();

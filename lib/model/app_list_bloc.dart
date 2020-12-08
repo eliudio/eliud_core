@@ -31,9 +31,9 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
       _appRepository = appRepository,
       super(AppListLoading());
 
-  Stream<AppListState> _mapLoadAppListToState() async* {
+  Stream<AppListState> _mapLoadAppListToState({ String orderBy, bool descending }) async* {
     _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listen( (list) => add(AppListUpdated(value: list)));
+    _appsListSubscription = _appRepository.listen( (list) => add(AppListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   Stream<AppListState> mapEventToState(AppListEvent event) async* {
     final currentState = state;
     if (event is LoadAppList) {
-      yield* _mapLoadAppListToState();
+      yield* _mapLoadAppListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadAppListWithDetails) {
       yield* _mapLoadAppListWithDetailsToState();
     } else if (event is AddAppList) {

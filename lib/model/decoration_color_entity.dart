@@ -24,6 +24,7 @@ class DecorationColorEntity {
 
   DecorationColorEntity({this.color, this.stop, });
 
+
   List<Object> get props => [color, stop, ];
 
   @override

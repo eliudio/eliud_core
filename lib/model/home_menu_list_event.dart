@@ -22,7 +22,17 @@ abstract class HomeMenuListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadHomeMenuList extends HomeMenuListEvent {}
+class LoadHomeMenuList extends HomeMenuListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadHomeMenuList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadHomeMenuListWithDetails extends HomeMenuListEvent {}
 
 class AddHomeMenuList extends HomeMenuListEvent {

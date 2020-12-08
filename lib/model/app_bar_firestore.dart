@@ -55,8 +55,8 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger) {
-    Stream<List<AppBarModel>> stream = AppBarCollection.snapshots()
+  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  AppBarCollection : AppBarCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<AppBarModel> appBars  = data.documents.map((doc) {
         AppBarModel value = _populateDoc(doc);

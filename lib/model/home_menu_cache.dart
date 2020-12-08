@@ -91,8 +91,8 @@ class HomeMenuCache implements HomeMenuRepository {
   }
 
   @override
-  StreamSubscription<List<HomeMenuModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<HomeMenuModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

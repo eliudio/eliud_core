@@ -22,7 +22,17 @@ abstract class BackgroundListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadBackgroundList extends BackgroundListEvent {}
+class LoadBackgroundList extends BackgroundListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadBackgroundList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadBackgroundListWithDetails extends BackgroundListEvent {}
 
 class AddBackgroundList extends BackgroundListEvent {

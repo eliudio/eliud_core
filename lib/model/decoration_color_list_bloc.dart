@@ -31,9 +31,9 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
       _decorationColorRepository = decorationColorRepository,
       super(DecorationColorListLoading());
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListToState() async* {
+  Stream<DecorationColorListState> _mapLoadDecorationColorListToState({ String orderBy, bool descending }) async* {
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listen( (list) => add(DecorationColorListUpdated(value: list)));
+    _decorationColorsListSubscription = _decorationColorRepository.listen( (list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   Stream<DecorationColorListState> mapEventToState(DecorationColorListEvent event) async* {
     final currentState = state;
     if (event is LoadDecorationColorList) {
-      yield* _mapLoadDecorationColorListToState();
+      yield* _mapLoadDecorationColorListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadDecorationColorListWithDetails) {
       yield* _mapLoadDecorationColorListWithDetailsToState();
     } else if (event is AddDecorationColorList) {

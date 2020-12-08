@@ -90,8 +90,8 @@ class ImageJsFirestore implements ImageRepository {
 
   void flush() {}
 
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger) {
-    Stream<List<ImageModel>> stream = getCollection().onSnapshot
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  imageCollection : imageCollection.orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<ImageModel> images  = data.docs.map((doc) {
         ImageModel value = _populateDoc(doc);

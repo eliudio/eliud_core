@@ -31,9 +31,9 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
       _gridViewRepository = gridViewRepository,
       super(GridViewListLoading());
 
-  Stream<GridViewListState> _mapLoadGridViewListToState() async* {
+  Stream<GridViewListState> _mapLoadGridViewListToState({ String orderBy, bool descending }) async* {
     _gridViewsListSubscription?.cancel();
-    _gridViewsListSubscription = _gridViewRepository.listen( (list) => add(GridViewListUpdated(value: list)));
+    _gridViewsListSubscription = _gridViewRepository.listen( (list) => add(GridViewListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<GridViewListState> _mapLoadGridViewListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   Stream<GridViewListState> mapEventToState(GridViewListEvent event) async* {
     final currentState = state;
     if (event is LoadGridViewList) {
-      yield* _mapLoadGridViewListToState();
+      yield* _mapLoadGridViewListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadGridViewListWithDetails) {
       yield* _mapLoadGridViewListWithDetailsToState();
     } else if (event is AddGridViewList) {

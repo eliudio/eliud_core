@@ -80,8 +80,8 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(String currentMember, trigger) {
-    return reference.listen(currentMember, trigger);
+  StreamSubscription<List<MemberModel>> listen(String currentMember, trigger, { String orderBy, bool descending }) {
+    return reference.listen(currentMember, trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

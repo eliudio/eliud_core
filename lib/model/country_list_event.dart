@@ -22,7 +22,17 @@ abstract class CountryListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCountryList extends CountryListEvent {}
+class LoadCountryList extends CountryListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadCountryList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadCountryListWithDetails extends CountryListEvent {}
 
 class AddCountryList extends CountryListEvent {

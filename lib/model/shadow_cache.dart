@@ -91,8 +91,8 @@ class ShadowCache implements ShadowRepository {
   }
 
   @override
-  StreamSubscription<List<ShadowModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<ShadowModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

@@ -31,9 +31,9 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
       _posSizeRepository = posSizeRepository,
       super(PosSizeListLoading());
 
-  Stream<PosSizeListState> _mapLoadPosSizeListToState() async* {
+  Stream<PosSizeListState> _mapLoadPosSizeListToState({ String orderBy, bool descending }) async* {
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listen( (list) => add(PosSizeListUpdated(value: list)));
+    _posSizesListSubscription = _posSizeRepository.listen( (list) => add(PosSizeListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   Stream<PosSizeListState> mapEventToState(PosSizeListEvent event) async* {
     final currentState = state;
     if (event is LoadPosSizeList) {
-      yield* _mapLoadPosSizeListToState();
+      yield* _mapLoadPosSizeListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadPosSizeListWithDetails) {
       yield* _mapLoadPosSizeListWithDetailsToState();
     } else if (event is AddPosSizeList) {

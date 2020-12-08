@@ -31,9 +31,9 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
       _imageRepository = imageRepository,
       super(ImageListLoading());
 
-  Stream<ImageListState> _mapLoadImageListToState() async* {
+  Stream<ImageListState> _mapLoadImageListToState({ String orderBy, bool descending }) async* {
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listen( (list) => add(ImageListUpdated(value: list)));
+    _imagesListSubscription = _imageRepository.listen( (list) => add(ImageListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<ImageListState> _mapLoadImageListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
   Stream<ImageListState> mapEventToState(ImageListEvent event) async* {
     final currentState = state;
     if (event is LoadImageList) {
-      yield* _mapLoadImageListToState();
+      yield* _mapLoadImageListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadImageListWithDetails) {
       yield* _mapLoadImageListWithDetailsToState();
     } else if (event is AddImageList) {

@@ -31,9 +31,9 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
       _menuItemRepository = menuItemRepository,
       super(MenuItemListLoading());
 
-  Stream<MenuItemListState> _mapLoadMenuItemListToState() async* {
+  Stream<MenuItemListState> _mapLoadMenuItemListToState({ String orderBy, bool descending }) async* {
     _menuItemsListSubscription?.cancel();
-    _menuItemsListSubscription = _menuItemRepository.listen( (list) => add(MenuItemListUpdated(value: list)));
+    _menuItemsListSubscription = _menuItemRepository.listen( (list) => add(MenuItemListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<MenuItemListState> _mapLoadMenuItemListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   Stream<MenuItemListState> mapEventToState(MenuItemListEvent event) async* {
     final currentState = state;
     if (event is LoadMenuItemList) {
-      yield* _mapLoadMenuItemListToState();
+      yield* _mapLoadMenuItemListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadMenuItemListWithDetails) {
       yield* _mapLoadMenuItemListWithDetailsToState();
     } else if (event is AddMenuItemList) {

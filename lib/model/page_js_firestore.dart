@@ -63,9 +63,9 @@ class PageJsFirestore implements PageRepository {
     });
   }
 
-  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger) {
-    // If we use pageCollection here, then the second subscription fails
-    Stream<List<PageModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<PageModel> pages  = data.docs.map((doc) {
         PageModel value = _populateDoc(doc);

@@ -25,8 +25,8 @@ abstract class BodyComponentRepository {
   Future<BodyComponentModel> update(BodyComponentModel value);
   Stream<List<BodyComponentModel>> values();
   Stream<List<BodyComponentModel>> valuesWithDetails();
-  StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger);
-StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger);
+  StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger);
   void flush();
   Future<List<BodyComponentModel>> valuesList();
   Future<List<BodyComponentModel>> valuesListWithDetails();

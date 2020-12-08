@@ -31,9 +31,9 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
       _countryRepository = countryRepository,
       super(CountryListLoading());
 
-  Stream<CountryListState> _mapLoadCountryListToState() async* {
+  Stream<CountryListState> _mapLoadCountryListToState({ String orderBy, bool descending }) async* {
     _countrysListSubscription?.cancel();
-    _countrysListSubscription = _countryRepository.listen( (list) => add(CountryListUpdated(value: list)));
+    _countrysListSubscription = _countryRepository.listen( (list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<CountryListState> _mapLoadCountryListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   Stream<CountryListState> mapEventToState(CountryListEvent event) async* {
     final currentState = state;
     if (event is LoadCountryList) {
-      yield* _mapLoadCountryListToState();
+      yield* _mapLoadCountryListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadCountryListWithDetails) {
       yield* _mapLoadCountryListWithDetailsToState();
     } else if (event is AddCountryList) {

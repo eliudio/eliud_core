@@ -25,8 +25,8 @@ abstract class ShadowRepository {
   Future<ShadowModel> update(ShadowModel value);
   Stream<List<ShadowModel>> values();
   Stream<List<ShadowModel>> valuesWithDetails();
-  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger);
-StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger);
+  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger);
   void flush();
   Future<List<ShadowModel>> valuesList();
   Future<List<ShadowModel>> valuesListWithDetails();

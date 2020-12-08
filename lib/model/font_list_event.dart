@@ -22,7 +22,17 @@ abstract class FontListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadFontList extends FontListEvent {}
+class LoadFontList extends FontListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadFontList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadFontListWithDetails extends FontListEvent {}
 
 class AddFontList extends FontListEvent {

@@ -91,8 +91,8 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  StreamSubscription<List<DrawerModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<DrawerModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

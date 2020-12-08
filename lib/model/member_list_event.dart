@@ -22,7 +22,17 @@ abstract class MemberListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMemberList extends MemberListEvent {}
+class LoadMemberList extends MemberListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadMemberList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadMemberListWithDetails extends MemberListEvent {}
 
 class AddMemberList extends MemberListEvent {

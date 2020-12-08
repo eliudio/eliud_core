@@ -26,6 +26,7 @@ class RgbEntity {
 
   RgbEntity({this.r, this.g, this.b, this.opacity, });
 
+
   List<Object> get props => [r, g, b, opacity, ];
 
   @override

@@ -22,7 +22,17 @@ abstract class BodyComponentListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadBodyComponentList extends BodyComponentListEvent {}
+class LoadBodyComponentList extends BodyComponentListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadBodyComponentList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadBodyComponentListWithDetails extends BodyComponentListEvent {}
 
 class AddBodyComponentList extends BodyComponentListEvent {

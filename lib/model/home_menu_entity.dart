@@ -28,6 +28,7 @@ class HomeMenuEntity {
 
   HomeMenuEntity({this.appId, this.name, this.menuId, this.iconColor, this.backgroundId, this.popupMenuBackgroundColor, });
 
+
   List<Object> get props => [appId, name, menuId, iconColor, backgroundId, popupMenuBackgroundColor, ];
 
   @override

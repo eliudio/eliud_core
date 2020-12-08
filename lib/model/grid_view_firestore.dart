@@ -55,8 +55,8 @@ class GridViewFirestore implements GridViewRepository {
     });
   }
 
-  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger) {
-    Stream<List<GridViewModel>> stream = GridViewCollection.snapshots()
+  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  GridViewCollection : GridViewCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<GridViewModel> gridViews  = data.documents.map((doc) {
         GridViewModel value = _populateDoc(doc);

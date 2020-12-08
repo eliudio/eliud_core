@@ -22,7 +22,17 @@ abstract class ImageListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadImageList extends ImageListEvent {}
+class LoadImageList extends ImageListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadImageList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadImageListWithDetails extends ImageListEvent {}
 
 class AddImageList extends ImageListEvent {

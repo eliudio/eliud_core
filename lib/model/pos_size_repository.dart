@@ -25,8 +25,8 @@ abstract class PosSizeRepository {
   Future<PosSizeModel> update(PosSizeModel value);
   Stream<List<PosSizeModel>> values();
   Stream<List<PosSizeModel>> valuesWithDetails();
-  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger);
-StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger);
+  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger);
   void flush();
   Future<List<PosSizeModel>> valuesList();
   Future<List<PosSizeModel>> valuesListWithDetails();

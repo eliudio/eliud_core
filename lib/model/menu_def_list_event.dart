@@ -22,7 +22,17 @@ abstract class MenuDefListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMenuDefList extends MenuDefListEvent {}
+class LoadMenuDefList extends MenuDefListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadMenuDefList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadMenuDefListWithDetails extends MenuDefListEvent {}
 
 class AddMenuDefList extends MenuDefListEvent {

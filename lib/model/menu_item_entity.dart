@@ -26,6 +26,7 @@ class MenuItemEntity {
 
   MenuItemEntity({this.text, this.description, this.icon, this.action, });
 
+
   List<Object> get props => [text, description, icon, action, ];
 
   @override

@@ -31,9 +31,9 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
       _fontRepository = fontRepository,
       super(FontListLoading());
 
-  Stream<FontListState> _mapLoadFontListToState() async* {
+  Stream<FontListState> _mapLoadFontListToState({ String orderBy, bool descending }) async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listen( (list) => add(FontListUpdated(value: list)));
+    _fontsListSubscription = _fontRepository.listen( (list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<FontListState> _mapLoadFontListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
   Stream<FontListState> mapEventToState(FontListEvent event) async* {
     final currentState = state;
     if (event is LoadFontList) {
-      yield* _mapLoadFontListToState();
+      yield* _mapLoadFontListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadFontListWithDetails) {
       yield* _mapLoadFontListWithDetailsToState();
     } else if (event is AddFontList) {

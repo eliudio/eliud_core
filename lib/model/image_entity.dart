@@ -27,6 +27,7 @@ class ImageEntity {
 
   ImageEntity({this.appId, this.name, this.source, this.imageURLOriginal, this.imageURLThumbnail, });
 
+
   List<Object> get props => [appId, name, source, imageURLOriginal, imageURLThumbnail, ];
 
   @override

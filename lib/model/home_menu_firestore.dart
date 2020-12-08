@@ -55,8 +55,8 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger) {
-    Stream<List<HomeMenuModel>> stream = HomeMenuCollection.snapshots()
+  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  HomeMenuCollection : HomeMenuCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<HomeMenuModel> homeMenus  = data.documents.map((doc) {
         HomeMenuModel value = _populateDoc(doc);

@@ -25,8 +25,8 @@ abstract class DecorationColorRepository {
   Future<DecorationColorModel> update(DecorationColorModel value);
   Stream<List<DecorationColorModel>> values();
   Stream<List<DecorationColorModel>> valuesWithDetails();
-  StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger);
-StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger);
+  StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger);
   void flush();
   Future<List<DecorationColorModel>> valuesList();
   Future<List<DecorationColorModel>> valuesListWithDetails();

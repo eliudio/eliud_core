@@ -32,6 +32,7 @@ class AppBarEntity {
 
   AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundId, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, });
 
+
   List<Object> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundId, iconColor, selectedIconColor, menuBackgroundColor, ];
 
   @override

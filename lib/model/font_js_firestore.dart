@@ -63,9 +63,9 @@ class FontJsFirestore implements FontRepository {
     });
   }
 
-  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger) {
-    // If we use fontCollection here, then the second subscription fails
-    Stream<List<FontModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<FontModel> fonts  = data.docs.map((doc) {
         FontModel value = _populateDoc(doc);

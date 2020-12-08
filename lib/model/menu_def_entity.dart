@@ -26,6 +26,7 @@ class MenuDefEntity {
 
   MenuDefEntity({this.appId, this.name, this.menuItems, this.admin, });
 
+
   List<Object> get props => [appId, name, menuItems, admin, ];
 
   @override

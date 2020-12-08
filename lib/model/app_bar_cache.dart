@@ -91,8 +91,8 @@ class AppBarCache implements AppBarRepository {
   }
 
   @override
-  StreamSubscription<List<AppBarModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<AppBarModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

@@ -22,7 +22,17 @@ abstract class PosSizeListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPosSizeList extends PosSizeListEvent {}
+class LoadPosSizeList extends PosSizeListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadPosSizeList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadPosSizeListWithDetails extends PosSizeListEvent {}
 
 class AddPosSizeList extends PosSizeListEvent {

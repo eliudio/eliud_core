@@ -14,8 +14,8 @@ abstract class MemberRepository {
   Future<MemberModel> update(MemberModel value);
   Stream<List<MemberModel>> values(String currentMember);
   Stream<List<MemberModel>> valuesWithDetails(String currentMember);
-  StreamSubscription<List<MemberModel>> listen(String currentMember,MemberModelTrigger trigger);
-StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember,MemberModelTrigger trigger);
+  StreamSubscription<List<MemberModel>> listen(String currentMember,MemberModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember,MemberModelTrigger trigger);
   void flush();
   Future<List<MemberModel>> valuesList(String currentMember);
   Future<List<MemberModel>> valuesListWithDetails(String currentMember);

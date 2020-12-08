@@ -91,8 +91,8 @@ class BackgroundCache implements BackgroundRepository {
   }
 
   @override
-  StreamSubscription<List<BackgroundModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<BackgroundModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

@@ -63,9 +63,9 @@ class PosSizeJsFirestore implements PosSizeRepository {
     });
   }
 
-  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger) {
-    // If we use posSizeCollection here, then the second subscription fails
-    Stream<List<PosSizeModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<PosSizeModel> posSizes  = data.docs.map((doc) {
         PosSizeModel value = _populateDoc(doc);

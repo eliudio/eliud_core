@@ -25,8 +25,8 @@ abstract class BackgroundRepository {
   Future<BackgroundModel> update(BackgroundModel value);
   Stream<List<BackgroundModel>> values();
   Stream<List<BackgroundModel>> valuesWithDetails();
-  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger);
-StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger);
+  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger);
   void flush();
   Future<List<BackgroundModel>> valuesList();
   Future<List<BackgroundModel>> valuesListWithDetails();

@@ -29,6 +29,7 @@ class ShadowEntity {
 
   ShadowEntity({this.appId, this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, });
 
+
   List<Object> get props => [appId, comments, color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
 
   @override

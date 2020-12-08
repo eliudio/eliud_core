@@ -34,6 +34,7 @@ class PageEntity {
 
   PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.conditional, this.packageCondition, });
 
+
   List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditional, packageCondition, ];
 
   @override

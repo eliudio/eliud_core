@@ -114,8 +114,9 @@ class ImageFirestore implements ImageRepository {
   void flush() {
   }
 
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger) {
-    Stream<List<ImageModel>> stream = imageCollection.snapshots()
+  @override
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  imageCollection : imageCollection.orderBy(orderBy, descending: descending)).snapshots()
         .map((data) {
       Iterable<ImageModel> fonts  = data.documents.map((doc) {
         ImageModel value = _populateDoc(doc);

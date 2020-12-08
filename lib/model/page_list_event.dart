@@ -22,7 +22,17 @@ abstract class PageListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPageList extends PageListEvent {}
+class LoadPageList extends PageListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadPageList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadPageListWithDetails extends PageListEvent {}
 
 class AddPageList extends PageListEvent {

@@ -25,8 +25,8 @@ abstract class CountryRepository {
   Future<CountryModel> update(CountryModel value);
   Stream<List<CountryModel>> values();
   Stream<List<CountryModel>> valuesWithDetails();
-  StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger);
-StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger);
+  StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger);
   void flush();
   Future<List<CountryModel>> valuesList();
   Future<List<CountryModel>> valuesListWithDetails();

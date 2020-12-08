@@ -25,8 +25,8 @@ abstract class HomeMenuRepository {
   Future<HomeMenuModel> update(HomeMenuModel value);
   Stream<List<HomeMenuModel>> values();
   Stream<List<HomeMenuModel>> valuesWithDetails();
-  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger);
-StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger);
+  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger);
   void flush();
   Future<List<HomeMenuModel>> valuesList();
   Future<List<HomeMenuModel>> valuesListWithDetails();

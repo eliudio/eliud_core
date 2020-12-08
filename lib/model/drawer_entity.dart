@@ -31,6 +31,7 @@ class DrawerEntity {
 
   DrawerEntity({this.appId, this.name, this.backgroundId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundId, this.menuId, });
 
+
   List<Object> get props => [appId, name, backgroundId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
 
   @override

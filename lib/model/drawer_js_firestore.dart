@@ -63,9 +63,9 @@ class DrawerJsFirestore implements DrawerRepository {
     });
   }
 
-  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger) {
-    // If we use drawerCollection here, then the second subscription fails
-    Stream<List<DrawerModel>> stream = getCollection().onSnapshot
+  @override
+  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, {String orderBy, bool descending }) {
+    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
         .map((data) {
       Iterable<DrawerModel> drawers  = data.docs.map((doc) {
         DrawerModel value = _populateDoc(doc);

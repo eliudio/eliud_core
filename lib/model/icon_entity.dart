@@ -24,6 +24,7 @@ class IconEntity {
 
   IconEntity({this.codePoint, this.fontFamily, });
 
+
   List<Object> get props => [codePoint, fontFamily, ];
 
   @override

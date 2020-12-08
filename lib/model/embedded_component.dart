@@ -185,7 +185,7 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     }
     
     @override
-    StreamSubscription<List<BodyComponentModel>> listen(trigger) {
+    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
@@ -264,7 +264,7 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     }
     
     @override
-    StreamSubscription<List<DecorationColorModel>> listen(trigger) {
+    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
@@ -343,7 +343,7 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
     }
     
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger) {
+    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
@@ -422,7 +422,7 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     }
     
     @override
-    StreamSubscription<List<MenuItemModel>> listen(trigger) {
+    StreamSubscription<List<MenuItemModel>> listen(trigger, { String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   

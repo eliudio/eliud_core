@@ -22,7 +22,17 @@ abstract class AppListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAppList extends AppListEvent {}
+class LoadAppList extends AppListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadAppList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadAppListWithDetails extends AppListEvent {}
 
 class AddAppList extends AppListEvent {

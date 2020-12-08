@@ -31,9 +31,9 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
       _backgroundRepository = backgroundRepository,
       super(BackgroundListLoading());
 
-  Stream<BackgroundListState> _mapLoadBackgroundListToState() async* {
+  Stream<BackgroundListState> _mapLoadBackgroundListToState({ String orderBy, bool descending }) async* {
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listen( (list) => add(BackgroundListUpdated(value: list)));
+    _backgroundsListSubscription = _backgroundRepository.listen( (list) => add(BackgroundListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
   Stream<BackgroundListState> mapEventToState(BackgroundListEvent event) async* {
     final currentState = state;
     if (event is LoadBackgroundList) {
-      yield* _mapLoadBackgroundListToState();
+      yield* _mapLoadBackgroundListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadBackgroundListWithDetails) {
       yield* _mapLoadBackgroundListWithDetailsToState();
     } else if (event is AddBackgroundList) {

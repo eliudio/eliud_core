@@ -91,8 +91,8 @@ class PosSizeCache implements PosSizeRepository {
   }
 
   @override
-  StreamSubscription<List<PosSizeModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<PosSizeModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

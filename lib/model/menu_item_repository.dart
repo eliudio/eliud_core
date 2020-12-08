@@ -25,8 +25,8 @@ abstract class MenuItemRepository {
   Future<MenuItemModel> update(MenuItemModel value);
   Stream<List<MenuItemModel>> values();
   Stream<List<MenuItemModel>> valuesWithDetails();
-  StreamSubscription<List<MenuItemModel>> listen(MenuItemModelTrigger trigger);
-StreamSubscription<List<MenuItemModel>> listenWithDetails(MenuItemModelTrigger trigger);
+  StreamSubscription<List<MenuItemModel>> listen(MenuItemModelTrigger trigger, { String orderBy, bool descending });
+  StreamSubscription<List<MenuItemModel>> listenWithDetails(MenuItemModelTrigger trigger);
   void flush();
   Future<List<MenuItemModel>> valuesList();
   Future<List<MenuItemModel>> valuesListWithDetails();

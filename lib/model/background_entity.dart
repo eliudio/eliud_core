@@ -31,6 +31,7 @@ class BackgroundEntity {
 
   BackgroundEntity({this.appId, this.comments, this.backgroundImageId, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, this.admin, });
 
+
   List<Object> get props => [appId, comments, backgroundImageId, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
 
   @override

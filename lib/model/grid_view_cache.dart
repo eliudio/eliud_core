@@ -91,8 +91,8 @@ class GridViewCache implements GridViewRepository {
   }
 
   @override
-  StreamSubscription<List<GridViewModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<GridViewModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

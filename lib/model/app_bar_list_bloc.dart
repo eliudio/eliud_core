@@ -31,9 +31,9 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
       _appBarRepository = appBarRepository,
       super(AppBarListLoading());
 
-  Stream<AppBarListState> _mapLoadAppBarListToState() async* {
+  Stream<AppBarListState> _mapLoadAppBarListToState({ String orderBy, bool descending }) async* {
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listen( (list) => add(AppBarListUpdated(value: list)));
+    _appBarsListSubscription = _appBarRepository.listen( (list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   Stream<AppBarListState> mapEventToState(AppBarListEvent event) async* {
     final currentState = state;
     if (event is LoadAppBarList) {
-      yield* _mapLoadAppBarListToState();
+      yield* _mapLoadAppBarListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadAppBarListWithDetails) {
       yield* _mapLoadAppBarListWithDetailsToState();
     } else if (event is AddAppBarList) {

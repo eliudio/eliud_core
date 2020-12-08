@@ -91,8 +91,8 @@ class ImageCache implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<ImageModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override

@@ -22,7 +22,17 @@ abstract class ShadowListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShadowList extends ShadowListEvent {}
+class LoadShadowList extends ShadowListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadShadowList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadShadowListWithDetails extends ShadowListEvent {}
 
 class AddShadowList extends ShadowListEvent {

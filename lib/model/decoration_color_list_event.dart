@@ -22,7 +22,17 @@ abstract class DecorationColorListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDecorationColorList extends DecorationColorListEvent {}
+class LoadDecorationColorList extends DecorationColorListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadDecorationColorList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadDecorationColorListWithDetails extends DecorationColorListEvent {}
 
 class AddDecorationColorList extends DecorationColorListEvent {

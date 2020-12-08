@@ -22,7 +22,17 @@ abstract class DrawerListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDrawerList extends DrawerListEvent {}
+class LoadDrawerList extends DrawerListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadDrawerList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadDrawerListWithDetails extends DrawerListEvent {}
 
 class AddDrawerList extends DrawerListEvent {

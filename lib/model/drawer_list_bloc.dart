@@ -31,9 +31,9 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
       _drawerRepository = drawerRepository,
       super(DrawerListLoading());
 
-  Stream<DrawerListState> _mapLoadDrawerListToState() async* {
+  Stream<DrawerListState> _mapLoadDrawerListToState({ String orderBy, bool descending }) async* {
     _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listen( (list) => add(DrawerListUpdated(value: list)));
+    _drawersListSubscription = _drawerRepository.listen( (list) => add(DrawerListUpdated(value: list)), orderBy: orderBy, descending: descending);
   }
 
   Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {
@@ -62,7 +62,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   Stream<DrawerListState> mapEventToState(DrawerListEvent event) async* {
     final currentState = state;
     if (event is LoadDrawerList) {
-      yield* _mapLoadDrawerListToState();
+      yield* _mapLoadDrawerListToState(orderBy: event.orderBy, descending: event.descending);
     } if (event is LoadDrawerListWithDetails) {
       yield* _mapLoadDrawerListWithDetailsToState();
     } else if (event is AddDrawerList) {

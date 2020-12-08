@@ -22,7 +22,17 @@ abstract class AppBarListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAppBarList extends AppBarListEvent {}
+class LoadAppBarList extends AppBarListEvent {
+  final String orderBy;
+  final bool descending;
+
+  LoadAppBarList({this.orderBy, this.descending});
+
+  @override
+  List<Object> get props => [orderBy, descending];
+
+}
+
 class LoadAppBarListWithDetails extends AppBarListEvent {}
 
 class AddAppBarList extends AppBarListEvent {

@@ -24,6 +24,7 @@ class BodyComponentEntity {
 
   BodyComponentEntity({this.componentName, this.componentId, });
 
+
   List<Object> get props => [componentName, componentId, ];
 
   @override

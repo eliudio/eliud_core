@@ -91,8 +91,8 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  StreamSubscription<List<DecorationColorModel>> listen(trigger) {
-    return reference.listen(trigger);
+  StreamSubscription<List<DecorationColorModel>> listen(trigger, { String orderBy, bool descending }) {
+    return reference.listen(trigger, orderBy: orderBy, descending: descending);
   }
 
   @override
