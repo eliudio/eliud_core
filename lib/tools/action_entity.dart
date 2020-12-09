@@ -48,6 +48,7 @@ class GotoPageEntity extends ActionEntity {
 
   Map<String, Object> toDocument() {
     return {
+      "appID": appID,
       "actionType": actionType,
       "pageID": pageID
     };
@@ -83,9 +84,9 @@ class SwitchAppEntity extends ActionEntity {
 
   Map<String, Object> toDocument() {
     return {
+      "appID": appID,
       "actionType": actionType,
       "toAppID": toAppID,
-      "appID": appID
     };
   }
 

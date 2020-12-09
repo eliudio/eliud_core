@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/components/page_body_helper.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -34,7 +35,7 @@ class PageComponentConstructorDefault extends PageComponentConstructor {
   PageComponentConstructorDefault({this.navigatorKey});
 
   @override
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
     return PageComponent(navigatorKey: navigatorKey, pageID: id, parameters: parameters,);
   }
 }
@@ -44,11 +45,9 @@ class PageComponent extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final String pageID;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Map<String, String> parameters;
+  final Map<String, Object> parameters;
 
   PageComponent({this.navigatorKey, this.pageID, this.parameters});
-
-  HasFab hasFab;
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +73,18 @@ class PageComponent extends StatelessWidget {
                         title: 'Error', content: 'No page defined');
                   } else {
                     Widget theBody;
+                    var hasFab;
                     if ((accessState is LoggedIn) &&
                         (accessState.forceAcceptMembership())) {
                       theBody = AcceptMembershipWidget(
                           app, accessState.member, accessState.usr);
                     } else {
-                      theBody = _body(context, accessState,
+                      var helper = PageBodyHelper();
+                      var components = helper.getComponents(state.value.bodyComponents, parameters);
+                      hasFab = getFab(components);
+                      theBody = helper.body(context, accessState,
                           backgroundDecoration: state.value.background,
-                          componentModels: state.value.bodyComponents,
+                          components: components,
                           pageModel: state.value);
                     }
 
@@ -123,75 +126,14 @@ class PageComponent extends StatelessWidget {
     }
   }
 
-  Widget _body(BuildContext context,
-      AccessState accessState,
-      {BackgroundModel backgroundDecoration,
-      List<BodyComponentModel> componentModels,
-      PageModel pageModel}) {
-    try {
-      var components = componentModels
-          .map((model) => Registry.registry().component(
-              componentName: model.componentName, id: model.componentId, parameters: parameters))
-          .toList();
-      components.forEach((element) {
-        if (element is HasFab) {
-          hasFab = element as HasFab;
-        }
-      });
-      if (components.isNotEmpty) {
-        if (backgroundDecoration == null) {
-          return _container(context, components, pageModel);
-        } else {
-          return Stack(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecorationHelper.boxDecoration(accessState, backgroundDecoration),
-              ),
-              _container(context, components, pageModel)
-            ],
-          );
-        }
+  HasFab getFab(List<Widget> components) {
+    HasFab hasFab;
+    components.forEach((element) {
+      if (element is HasFab) {
+        hasFab = element as HasFab;
       }
-      return Container(color: Colors.white);
-    } catch (_) {
-      return null;
-    }
+    });
+    return hasFab;
   }
 
-  Widget _container(
-      BuildContext context, List<Widget> components, PageModel model) {
-    switch (model.layout) {
-      case PageLayout.GridView:
-        return _gridView(context, components, model);
-      case PageLayout.ListView:
-        return _listView(context, components, model);
-      case PageLayout.OnlyTheFirstComponent:
-        return _justTheFirst(context, components, model);
-      case PageLayout.Unknown:
-        return _listView(context, components, model);
-    }
-    return _listView(context, components, model);
-  }
-
-  Widget _listView(
-      BuildContext context, List<Widget> components, PageModel model) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: ScrollPhysics(),
-      itemCount: components.length,
-      itemBuilder: (BuildContext context, int index) {
-        return components[index];
-      },
-    );
-  }
-
-  Widget _justTheFirst(
-      BuildContext context, List<Widget> components, PageModel model) {
-    return components[0];
-  }
-
-  Widget _gridView(
-      BuildContext context, List<Widget> components, PageModel model) {
-    return GridViewHelper.container(context, components, model.gridView);
-  }
 }

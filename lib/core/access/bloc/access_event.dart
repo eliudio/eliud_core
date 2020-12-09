@@ -19,7 +19,7 @@ class SwitchAppEvent extends AccessEvent {
 
 class SwitchAppAndPageEvent extends SwitchAppEvent {
   final String pageId;
-  final Map<String, String> parameters;
+  final Map<String, Object> parameters;
 
   SwitchAppAndPageEvent(String appId, this.pageId, this.parameters) : super(appId);
 

@@ -16,7 +16,7 @@ import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class Arguments {
   final String mainArgument;
-  final Map<String, String> parameters;
+  final Map<String, Object> parameters;
 
   Arguments(this.mainArgument, this.parameters);
 }
@@ -110,10 +110,13 @@ class Router {
     )));
   }
 
-  static void navigateTo(BuildContext context, ActionModel action, { Map<String, String> parameters }) async {
+  static void navigateTo(BuildContext context, ActionModel action, { Map<String, Object> parameters }) async {
     if (action is GotoPage) {
-      // todo : if (AccessBloc.appId(context) !=  action.appID) > send a switch event to the AccessBloc
-      BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
+      if (AccessBloc.appId(context) == action.appID) {
+        BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
+      } else {
+        BlocProvider.of<AccessBloc>(context).add(SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
+      }
     } else if (action is SwitchApp) {
       var appId = action.toAppID;
       BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
@@ -136,7 +139,7 @@ class Router {
     }
   }
 
-  static void navigateToPage(NavigatorBloc bloc, ActionModel action, { Map<String, String> parameters }) async {
+  static void navigateToPage(NavigatorBloc bloc, ActionModel action, { Map<String, Object> parameters }) async {
     if (action is GotoPage) {
       bloc.add(GoToPageEvent(action.pageID, parameters: parameters));
     } else {

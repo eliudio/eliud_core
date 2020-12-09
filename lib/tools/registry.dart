@@ -18,7 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
  */
 
 class Registry {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
@@ -47,7 +47,7 @@ class Registry {
     return _instance;
   }
 
-  Widget page({String id, Map<String, String> parameters}) {
+  Widget page({String id, Map<String, Object> parameters}) {
     Widget returnThis;
     try {
       returnThis =
@@ -123,7 +123,7 @@ class Registry {
   }
 
   Widget component(
-      {String componentName, String id, Map<String, String> parameters}) {
+      {String componentName, String id, Map<String, Object> parameters}) {
     Widget returnThis;
     try {
       var componentConstructor = _registryMap[componentName];

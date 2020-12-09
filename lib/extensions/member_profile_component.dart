@@ -17,7 +17,7 @@ class MemberProfileConstructorDefault implements ComponentConstructor {
   static String MEMBER_PROFILE_COMPONENT_IDENTIFIER = 'memberProfile';
 
   @override
-  Widget createNew({String id, Map<String, String> parameters}) {
+  Widget createNew({String id, Map<String, Object> parameters}) {
       return MemberProfileComponent();
   }
 }
