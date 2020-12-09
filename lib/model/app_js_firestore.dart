@@ -65,15 +65,26 @@ class AppJsFirestore implements AppRepository {
 
   @override
   StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<AppModel> apps  = data.docs.map((doc) {
-        AppModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return apps;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<AppModel> apps  = data.docs.map((doc) {
+          AppModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return apps;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<AppModel> apps  = data.docs.map((doc) {
+          AppModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return apps;
+      });
+    }
     return stream.listen((listOfAppModels) {
       trigger(listOfAppModels);
     });

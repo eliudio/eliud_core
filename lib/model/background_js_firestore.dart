@@ -65,15 +65,26 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   @override
   StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<BackgroundModel> backgrounds  = data.docs.map((doc) {
-        BackgroundModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return backgrounds;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<BackgroundModel> backgrounds  = data.docs.map((doc) {
+          BackgroundModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return backgrounds;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<BackgroundModel> backgrounds  = data.docs.map((doc) {
+          BackgroundModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return backgrounds;
+      });
+    }
     return stream.listen((listOfBackgroundModels) {
       trigger(listOfBackgroundModels);
     });

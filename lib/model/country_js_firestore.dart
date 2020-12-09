@@ -65,15 +65,26 @@ class CountryJsFirestore implements CountryRepository {
 
   @override
   StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<CountryModel> countrys  = data.docs.map((doc) {
-        CountryModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return countrys;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<CountryModel> countrys  = data.docs.map((doc) {
+          CountryModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return countrys;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<CountryModel> countrys  = data.docs.map((doc) {
+          CountryModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return countrys;
+      });
+    }
     return stream.listen((listOfCountryModels) {
       trigger(listOfCountryModels);
     });

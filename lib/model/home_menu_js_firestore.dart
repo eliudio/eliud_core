@@ -65,15 +65,26 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
 
   @override
   StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
-        HomeMenuModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return homeMenus;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
+          HomeMenuModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return homeMenus;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
+          HomeMenuModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return homeMenus;
+      });
+    }
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);
     });

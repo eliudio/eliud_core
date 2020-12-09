@@ -65,15 +65,26 @@ class GridViewJsFirestore implements GridViewRepository {
 
   @override
   StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<GridViewModel> gridViews  = data.docs.map((doc) {
-        GridViewModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return gridViews;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<GridViewModel> gridViews  = data.docs.map((doc) {
+          GridViewModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return gridViews;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<GridViewModel> gridViews  = data.docs.map((doc) {
+          GridViewModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return gridViews;
+      });
+    }
     return stream.listen((listOfGridViewModels) {
       trigger(listOfGridViewModels);
     });

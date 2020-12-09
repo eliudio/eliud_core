@@ -65,15 +65,26 @@ class AppBarJsFirestore implements AppBarRepository {
 
   @override
   StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, {String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<AppBarModel> appBars  = data.docs.map((doc) {
-        AppBarModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return appBars;
-    });
-
+    var stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .map((data) {
+        Iterable<AppBarModel> appBars  = data.docs.map((doc) {
+          AppBarModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return appBars;
+      });
+    } else {
+      stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
+          .map((data) {
+        Iterable<AppBarModel> appBars  = data.docs.map((doc) {
+          AppBarModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return appBars;
+      });
+    }
     return stream.listen((listOfAppBarModels) {
       trigger(listOfAppBarModels);
     });
