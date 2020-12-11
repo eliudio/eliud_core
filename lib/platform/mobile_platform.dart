@@ -28,13 +28,15 @@ class MobilePlatform extends AbstractPlatform {
   @override
   @protected
   Widget getImageOnPlatform({String imageUrl, double height, double width, BoxFit fit, Alignment alignment}) {
-    Widget widget = CachedNetworkImage(
+    Widget widget = Image.network(imageUrl,
       fit: fit,
       height: height,
       width: width,
+/*
       placeholder: (context, url) =>
           Center(child: CircularProgressIndicator()),
       imageUrl: imageUrl,
+*/
       alignment: (alignment == null) ?  Alignment.center : alignment,
     );
     return widget;
