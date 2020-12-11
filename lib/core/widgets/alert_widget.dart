@@ -12,6 +12,14 @@ class AlertWidget extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       content: Text(content),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Close"),
+        ),
+      ],
     );
   }
 }

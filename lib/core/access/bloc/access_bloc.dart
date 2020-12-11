@@ -44,15 +44,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         } else {
           // impossible
         }
-      } else if (event is SwitchAppEvent) {
-        var app = await _fetchApp(event.appId);
-        if (app == null) {
-          yield AppError('App with ' + event.appId + ' does not exist');
-        } else {
-          yield await _mapOldStateToNewApp(
-              state, app, theState.playStoreApp, null);
-          navigatorBloc.add(GoHome());
-        }
       } else if (event is SwitchAppAndPageEvent) {
         var app = await _fetchApp(event.appId);
         if (app == null) {
@@ -61,6 +52,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           yield await _mapOldStateToNewApp(
               state, app, theState.playStoreApp, null);
           navigatorBloc.add(GoToPageEvent(event.pageId, parameters: event.parameters));
+        }
+      } else if (event is SwitchAppEvent) {
+        var app = await _fetchApp(event.appId);
+        if (app == null) {
+          yield AppError('App with ' + event.appId + ' does not exist');
+        } else {
+          yield await _mapOldStateToNewApp(
+              state, app, theState.playStoreApp, null);
+          navigatorBloc.add(GoHome());
         }
       } else if (event is LogoutEvent) {
           await AbstractMainRepositorySingleton.singleton

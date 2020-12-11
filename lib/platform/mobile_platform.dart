@@ -14,9 +14,12 @@ class MobilePlatform extends AbstractPlatform {
   @protected
   ImageProvider getImageProviderOnPlatform(String url) {
     if (url != null) {
+      return NetworkImage(url);
+/*
       return CachedNetworkImageProvider(
         url,
       );
+*/
     } else {
       return null;
     }
