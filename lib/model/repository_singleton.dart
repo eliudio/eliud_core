@@ -76,7 +76,7 @@ import '../model/page_model.dart';
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _backgroundRepository = HashMap<String, BackgroundRepository>();
-    var _countryRepository = CountryCache(CountryFirestore());
+    var _countryRepository = CountryFirestore();
     var _drawerRepository = HashMap<String, DrawerRepository>();
     var _fontRepository = HashMap<String, FontRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
@@ -87,46 +87,46 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _shadowRepository = HashMap<String, ShadowRepository>();
 
     AppBarRepository appBarRepository(String appId) {
-      if (_appBarRepository[appId] == null) _appBarRepository[appId] = AppBarCache(AppBarFirestore(appId));
+      if (_appBarRepository[appId] == null) _appBarRepository[appId] = AppBarFirestore(appId);
       return _appBarRepository[appId];
     }
     BackgroundRepository backgroundRepository(String appId) {
-      if (_backgroundRepository[appId] == null) _backgroundRepository[appId] = BackgroundCache(BackgroundFirestore(appId));
+      if (_backgroundRepository[appId] == null) _backgroundRepository[appId] = BackgroundFirestore(appId);
       return _backgroundRepository[appId];
     }
     CountryRepository countryRepository() {
       return _countryRepository;
     }
     DrawerRepository drawerRepository(String appId) {
-      if (_drawerRepository[appId] == null) _drawerRepository[appId] = DrawerCache(DrawerFirestore(appId));
+      if (_drawerRepository[appId] == null) _drawerRepository[appId] = DrawerFirestore(appId);
       return _drawerRepository[appId];
     }
     FontRepository fontRepository(String appId) {
-      if (_fontRepository[appId] == null) _fontRepository[appId] = FontCache(FontFirestore(appId));
+      if (_fontRepository[appId] == null) _fontRepository[appId] = FontFirestore(appId);
       return _fontRepository[appId];
     }
     GridViewRepository gridViewRepository(String appId) {
-      if (_gridViewRepository[appId] == null) _gridViewRepository[appId] = GridViewCache(GridViewFirestore(appId));
+      if (_gridViewRepository[appId] == null) _gridViewRepository[appId] = GridViewFirestore(appId);
       return _gridViewRepository[appId];
     }
     HomeMenuRepository homeMenuRepository(String appId) {
-      if (_homeMenuRepository[appId] == null) _homeMenuRepository[appId] = HomeMenuCache(HomeMenuFirestore(appId));
+      if (_homeMenuRepository[appId] == null) _homeMenuRepository[appId] = HomeMenuFirestore(appId);
       return _homeMenuRepository[appId];
     }
     MenuDefRepository menuDefRepository(String appId) {
-      if (_menuDefRepository[appId] == null) _menuDefRepository[appId] = MenuDefCache(MenuDefFirestore(appId));
+      if (_menuDefRepository[appId] == null) _menuDefRepository[appId] = MenuDefFirestore(appId);
       return _menuDefRepository[appId];
     }
     PageRepository pageRepository(String appId) {
-      if (_pageRepository[appId] == null) _pageRepository[appId] = PageCache(PageFirestore(appId));
+      if (_pageRepository[appId] == null) _pageRepository[appId] = PageFirestore(appId);
       return _pageRepository[appId];
     }
     PosSizeRepository posSizeRepository(String appId) {
-      if (_posSizeRepository[appId] == null) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appId));
+      if (_posSizeRepository[appId] == null) _posSizeRepository[appId] = PosSizeFirestore(appId);
       return _posSizeRepository[appId];
     }
     ShadowRepository shadowRepository(String appId) {
-      if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appId));
+      if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowFirestore(appId);
       return _shadowRepository[appId];
     }
 
