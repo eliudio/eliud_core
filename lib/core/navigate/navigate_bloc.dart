@@ -14,11 +14,11 @@ class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
     if (event is Pop) {
       navigatorKey.currentState.pop();
     } else if (event is JustASecondWait) {
-      yield navigatorKey.currentState.pushReplacementNamed(eliudrouter.Router.justASecond, arguments: eliudrouter.Arguments(event.message, null));
+      yield navigatorKey.currentState.pushNamed(eliudrouter.Router.justASecond, arguments: eliudrouter.Arguments(event.message, null));
     } if (event is GoHome) {
       yield navigatorKey.currentState.pushNamed(eliudrouter.Router.homeRoute);
     } else if (event is GoToPageEvent) {
-      yield navigatorKey.currentState.pushReplacementNamed(eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(event.ID, event.parameters));
+      yield navigatorKey.currentState.pushNamed(eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(event.ID, event.parameters));
     }
   }
 }
