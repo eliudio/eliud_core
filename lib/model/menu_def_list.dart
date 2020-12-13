@@ -16,6 +16,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/has_fab.dart';
@@ -112,7 +113,7 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
       return BlocBuilder<MenuDefListBloc, MenuDefListState>(builder: (context, state) {
         if (state is MenuDefListLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: DelayedCircularProgressIndicator(),
           );
         } else if (state is MenuDefListLoaded) {
           final values = state.values;
@@ -144,7 +145,7 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
           }
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: DelayedCircularProgressIndicator(),
           );
         }
       });

@@ -25,6 +25,7 @@ dependencies:
   image_cropper: 1.2.1
   image_picker: 0.6.3+4
   equatable: ^1.1.1
+  delayed_display: 1.1.0
 
   flutter:
     sdk: flutter

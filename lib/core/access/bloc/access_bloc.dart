@@ -90,14 +90,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
         } else if (event is AcceptedMembership) {
           var member = await _acceptMembership(event.member, app);
-          yield await _mapMemberAndApp(event.usr, member, app, theState.playStoreApp, null);
-          if (theState is LoggedInWithoutMembership) {
-            if (theState.postLoginAction != null) {
-              theState.postLoginAction.runTheAction();
+          var newState = await _mapMemberAndApp(event.usr, member, app, theState.playStoreApp, null);
+          if (newState is LoggedInWithoutMembership) {
+            if (newState.postLoginAction != null) {
+              newState.postLoginAction.runTheAction();
             }
           } else {
             navigatorBloc.add(GoHome());
           }
+          yield newState;
         }
     } else {
       throw 'Unexpected state';

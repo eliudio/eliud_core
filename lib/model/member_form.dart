@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -170,7 +171,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is MemberFormLoaded) {
@@ -737,7 +738,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }
@@ -967,7 +968,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is MemberFormLoaded) {
@@ -1076,7 +1077,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }
@@ -1218,7 +1219,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: CircularProgressIndicator(),
+        child: DelayedCircularProgressIndicator(),
       );
 
       if (state is MemberFormLoaded) {
@@ -1658,7 +1659,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
           )
         );
       } else {
-        return CircularProgressIndicator();
+        return DelayedCircularProgressIndicator();
       }
     });
   }

@@ -16,6 +16,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/tools/has_fab.dart';
@@ -112,7 +113,7 @@ class PageListWidgetState extends State<PageListWidget> {
       return BlocBuilder<PageListBloc, PageListState>(builder: (context, state) {
         if (state is PageListLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: DelayedCircularProgressIndicator(),
           );
         } else if (state is PageListLoaded) {
           final values = state.values;
@@ -144,7 +145,7 @@ class PageListWidgetState extends State<PageListWidget> {
           }
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: DelayedCircularProgressIndicator(),
           );
         }
       });

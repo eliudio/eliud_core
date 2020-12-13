@@ -46,15 +46,27 @@ class MemberJsFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream;
     // If we use memberCollection here, then the second subscription fails
-    var stream = (orderBy == null ?  getCollection() : getCollection().orderBy(orderBy, descending ? 'desc': 'asc')).where("readAccess", 'array-contains', currentMember).onSnapshot
-        .map((data) {
-      Iterable<MemberModel> members  = data.docs.map((doc) {
-        MemberModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return members;
-    });
+    if (orderBy == null) {
+      var stream = getCollection().where("readAccess", 'array-contains', currentMember).onSnapshot
+          .map((data) {
+        Iterable<MemberModel> members  = data.docs.map((doc) {
+          MemberModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return members;
+      });
+    } else {
+      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').where("readAccess", 'array-contains', currentMember).onSnapshot
+          .map((data) {
+        Iterable<MemberModel> members  = data.docs.map((doc) {
+          MemberModel value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return members;
+      });
+    }
 
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);

@@ -20,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:eliud_core/platform/platform.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -84,7 +85,7 @@ return widgets;
     return BlocBuilder<ImageListBloc, ImageListState>(builder: (context, state) {
       if (state is ImageListLoading) {
         return Center(
-          child: CircularProgressIndicator(),
+          child: DelayedCircularProgressIndicator(),
         );
       } else if (state is ImageListLoaded) {
         String valueChosen;
@@ -137,7 +138,7 @@ return widgets;
         }
       } else {
         return Center(
-          child: CircularProgressIndicator(),
+          child: DelayedCircularProgressIndicator(),
         );
       }
     });

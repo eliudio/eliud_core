@@ -6,6 +6,7 @@ import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class Registry {
                 builder: (accessContext, accessState) {
                   if (accessState is UndeterminedAccessState) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: DelayedCircularProgressIndicator(),
                     );
                   } else if (accessState is AppLoaded) {
                     if (accessState.app == null) {
@@ -115,7 +116,7 @@ class Registry {
               SizedBox(
                   width: 30,
                   height: 30,
-                  child: CircularProgressIndicator()
+                  child: DelayedCircularProgressIndicator()
               )
             );
           }
