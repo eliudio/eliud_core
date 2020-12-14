@@ -13,8 +13,6 @@
 
 */
 
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/model/background_repository.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -25,6 +23,11 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 class BackgroundFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
@@ -55,7 +58,7 @@ class BackgroundFirestore implements BackgroundRepository {
     });
   }
 
-  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
     Stream<List<BackgroundModel>> stream;
     if (orderBy == null) {
        stream = BackgroundCollection.snapshots().map((data) {
@@ -80,7 +83,7 @@ class BackgroundFirestore implements BackgroundRepository {
     });
   }
 
-  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
     Stream<List<BackgroundModel>> stream;
     if (orderBy == null) {
       stream = BackgroundCollection.snapshots()
@@ -100,60 +103,53 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
 
-  Stream<List<BackgroundModel>> values({ String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return BackgroundCollection.snapshots().map((snapshot) {
-        return snapshot.documents
-              .map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return BackgroundCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
-        return snapshot.documents
-              .map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Stream<List<BackgroundModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<BackgroundModel>> _values = getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().map((snapshot) {
+      return snapshot.documents.map((doc) {
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();});
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Stream<List<BackgroundModel>> valuesWithDetails({ String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return BackgroundCollection.snapshots().asyncMap((snapshot) {
-        return Future.wait(snapshot.documents
-            .map((doc) => _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return BackgroundCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
-        return Future.wait(snapshot.documents
-            .map((doc) => _populateDocPlus(doc)).toList());
-      });
-    }
+  Stream<List<BackgroundModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<BackgroundModel>> _values = getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.documents.map((doc) {
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Future<List<BackgroundModel>> valuesList({ String orderBy, bool descending }) async {
-    if (orderBy == null) {
-      return await BackgroundCollection.getDocuments().then((value) {
-        var list = value.documents;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return await BackgroundCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
-        var list = value.documents;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Future<List<BackgroundModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<BackgroundModel> _values = await getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+      var list = value.documents;
+      return list.map((doc) { 
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Future<List<BackgroundModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
-    if (orderBy == null) {
-      return await BackgroundCollection.getDocuments().then((value) {
-        var list = value.documents;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return await BackgroundCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
-        var list = value.documents;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+  Future<List<BackgroundModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<BackgroundModel> _values = await getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+      var list = value.documents;
+      return Future.wait(list.map((doc) {
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   void flush() {}
@@ -162,7 +158,8 @@ class BackgroundFirestore implements BackgroundRepository {
     return BackgroundCollection.getDocuments().then((snapshot) {
       for (DocumentSnapshot ds in snapshot.documents){
         ds.reference.delete();
-      }});
+      }
+    });
   }
 
 

@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_core/model/decoration_color_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef DecorationColorModelTrigger(List<DecorationColorModel> list);
 
@@ -23,11 +26,14 @@ abstract class DecorationColorRepository {
   Future<void> delete(DecorationColorModel value);
   Future<DecorationColorModel> get(String id);
   Future<DecorationColorModel> update(DecorationColorModel value);
-  Stream<List<DecorationColorModel>> values({String orderBy, bool descending });
-  Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending });
-  Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<DecorationColorModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<DecorationColorModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<DecorationColorModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<DecorationColorModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

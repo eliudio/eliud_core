@@ -13,8 +13,6 @@
 
 */
 
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -25,6 +23,11 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 class AppBarFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
@@ -55,7 +58,7 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
     Stream<List<AppBarModel>> stream;
     if (orderBy == null) {
        stream = AppBarCollection.snapshots().map((data) {
@@ -80,7 +83,7 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
     Stream<List<AppBarModel>> stream;
     if (orderBy == null) {
       stream = AppBarCollection.snapshots()
@@ -100,60 +103,53 @@ class AppBarFirestore implements AppBarRepository {
   }
 
 
-  Stream<List<AppBarModel>> values({ String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return AppBarCollection.snapshots().map((snapshot) {
-        return snapshot.documents
-              .map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return AppBarCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
-        return snapshot.documents
-              .map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Stream<List<AppBarModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<AppBarModel>> _values = getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().map((snapshot) {
+      return snapshot.documents.map((doc) {
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();});
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Stream<List<AppBarModel>> valuesWithDetails({ String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return AppBarCollection.snapshots().asyncMap((snapshot) {
-        return Future.wait(snapshot.documents
-            .map((doc) => _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return AppBarCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
-        return Future.wait(snapshot.documents
-            .map((doc) => _populateDocPlus(doc)).toList());
-      });
-    }
+  Stream<List<AppBarModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<AppBarModel>> _values = getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.documents.map((doc) {
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Future<List<AppBarModel>> valuesList({ String orderBy, bool descending }) async {
-    if (orderBy == null) {
-      return await AppBarCollection.getDocuments().then((value) {
-        var list = value.documents;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return await AppBarCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
-        var list = value.documents;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Future<List<AppBarModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<AppBarModel> _values = await getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+      var list = value.documents;
+      return list.map((doc) { 
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Future<List<AppBarModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
-    if (orderBy == null) {
-      return await AppBarCollection.getDocuments().then((value) {
-        var list = value.documents;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return await AppBarCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
-        var list = value.documents;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+  Future<List<AppBarModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<AppBarModel> _values = await getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+      var list = value.documents;
+      return Future.wait(list.map((doc) {
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   void flush() {}
@@ -162,7 +158,8 @@ class AppBarFirestore implements AppBarRepository {
     return AppBarCollection.getDocuments().then((snapshot) {
       for (DocumentSnapshot ds in snapshot.documents){
         ds.reference.delete();
-      }});
+      }
+    });
   }
 
 

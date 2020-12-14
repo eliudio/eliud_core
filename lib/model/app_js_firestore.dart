@@ -13,9 +13,6 @@
 
 */
 
-import 'dart:async';
-import 'package:firebase/firebase.dart';
-import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/app_repository.dart';
 
 
@@ -27,6 +24,13 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+
+
+import 'dart:async';
+import 'package:firebase/firebase.dart';
+import 'package:firebase/firestore.dart';
+import 'package:eliud_core/tools/js_firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 class AppJsFirestore implements AppRepository {
   Future<AppModel> add(AppModel value) {
@@ -64,7 +68,7 @@ class AppJsFirestore implements AppRepository {
   }
 
   @override
-  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String orderBy, bool descending }) {
+  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     var stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot
@@ -90,7 +94,7 @@ class AppJsFirestore implements AppRepository {
     });
   }
 
-  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String orderBy, bool descending }) {
+  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     var stream;
     if (orderBy == null) {
       // If we use appCollection here, then the second subscription fails
@@ -110,54 +114,59 @@ class AppJsFirestore implements AppRepository {
     });
   }
 
-  Stream<List<AppModel>> values({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return appCollection.onSnapshot
-          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
-    } else {
-      return appCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
-    }
+  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<AppModel>> _values = getQuery(appCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit)
+      .onSnapshot
+      .map((data) { 
+        return data.docs.map((doc) {
+          lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();});
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Stream<List<AppModel>> valuesWithDetails({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return appCollection.onSnapshot
-          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
-    } else {
-      return appCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
-    }
-  }
-
-  @override
-  Future<List<AppModel>> valuesList({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return appCollection.get().then((value) {
-        var list = value.docs;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return appCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
-        var list = value.docs;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<AppModel>> _values = getQuery(appCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit)
+      .onSnapshot
+      .asyncMap((data) {
+        return Future.wait(data.docs.map((doc) { 
+          lastDoc = doc;
+          return _populateDocPlus(doc);
+        }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   @override
-  Future<List<AppModel>> valuesListWithDetails({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return appCollection.get().then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return appCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<AppModel> _values = await getQuery(appCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).get().then((value) {
+      var list = value.docs;
+      return list.map((doc) { 
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
+  }
+
+  @override
+  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<AppModel> _values = await getQuery(appCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).get().then((value) {
+      var list = value.docs;
+      return Future.wait(list.map((doc) {  
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   void flush() {

@@ -14,6 +14,7 @@
 */
 
 import 'dart:async';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/menu_def_repository.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -62,23 +63,23 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  Stream<List<MenuDefModel>> values({String orderBy, bool descending }) {
-    return reference.values();
+  Stream<List<MenuDefModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    return reference.values(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   @override
-  Stream<List<MenuDefModel>> valuesWithDetails({String orderBy, bool descending }) {
-    return reference.valuesWithDetails();
+  Stream<List<MenuDefModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    return reference.valuesWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   @override
-  Future<List<MenuDefModel>> valuesList({String orderBy, bool descending }) async {
-    return await reference.valuesList();
+  Future<List<MenuDefModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    return await reference.valuesList(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
   
   @override
-  Future<List<MenuDefModel>> valuesListWithDetails({String orderBy, bool descending }) async {
-    return await reference.valuesListWithDetails();
+  Future<List<MenuDefModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc}) async {
+    return await reference.valuesListWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   void flush() {
@@ -91,13 +92,13 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  StreamSubscription<List<MenuDefModel>> listen(trigger, { String orderBy, bool descending }) {
-    return reference.listen(trigger, orderBy: orderBy, descending: descending);
+  StreamSubscription<List<MenuDefModel>> listen(trigger, {String currentMember, String orderBy, bool descending}) {
+    return reference.listen(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
   }
 
   @override
-  StreamSubscription<List<MenuDefModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
-    return reference.listenWithDetails(trigger);
+  StreamSubscription<List<MenuDefModel>> listenWithDetails(trigger, {String currentMember, String orderBy, bool descending}) {
+    return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
   }
 
 

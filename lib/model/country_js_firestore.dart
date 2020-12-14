@@ -13,9 +13,6 @@
 
 */
 
-import 'dart:async';
-import 'package:firebase/firebase.dart';
-import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/country_repository.dart';
 
 
@@ -27,6 +24,13 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+
+
+import 'dart:async';
+import 'package:firebase/firebase.dart';
+import 'package:firebase/firestore.dart';
+import 'package:eliud_core/tools/js_firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 class CountryJsFirestore implements CountryRepository {
   Future<CountryModel> add(CountryModel value) {
@@ -64,7 +68,7 @@ class CountryJsFirestore implements CountryRepository {
   }
 
   @override
-  StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, {String orderBy, bool descending }) {
+  StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     var stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot
@@ -90,7 +94,7 @@ class CountryJsFirestore implements CountryRepository {
     });
   }
 
-  StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger, {String orderBy, bool descending }) {
+  StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     var stream;
     if (orderBy == null) {
       // If we use countryCollection here, then the second subscription fails
@@ -110,54 +114,59 @@ class CountryJsFirestore implements CountryRepository {
     });
   }
 
-  Stream<List<CountryModel>> values({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return countryCollection.onSnapshot
-          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
-    } else {
-      return countryCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
-    }
+  Stream<List<CountryModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<CountryModel>> _values = getQuery(countryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit)
+      .onSnapshot
+      .map((data) { 
+        return data.docs.map((doc) {
+          lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();});
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
-  Stream<List<CountryModel>> valuesWithDetails({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return countryCollection.onSnapshot
-          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
-    } else {
-      return countryCollection.orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
-    }
-  }
-
-  @override
-  Future<List<CountryModel>> valuesList({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return countryCollection.get().then((value) {
-        var list = value.docs;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    } else {
-      return countryCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
-        var list = value.docs;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
+  Stream<List<CountryModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    DocumentSnapshot lastDoc;
+    Stream<List<CountryModel>> _values = getQuery(countryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit)
+      .onSnapshot
+      .asyncMap((data) {
+        return Future.wait(data.docs.map((doc) { 
+          lastDoc = doc;
+          return _populateDocPlus(doc);
+        }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   @override
-  Future<List<CountryModel>> valuesListWithDetails({String orderBy, bool descending }) {
-    if (orderBy == null) {
-      return countryCollection.get().then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      return countryCollection.orderBy(orderBy, descending ? 'desc': 'asc').get().then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+  Future<List<CountryModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<CountryModel> _values = await getQuery(countryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).get().then((value) {
+      var list = value.docs;
+      return list.map((doc) { 
+        lastDoc = doc;
+        return _populateDoc(doc);
+      }).toList();
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
+  }
+
+  @override
+  Future<List<CountryModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    DocumentSnapshot lastDoc;
+    List<CountryModel> _values = await getQuery(countryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).get().then((value) {
+      var list = value.docs;
+      return Future.wait(list.map((doc) {  
+        lastDoc = doc;
+        return _populateDocPlus(doc);
+      }).toList());
+    });
+    if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
+    return _values;
   }
 
   void flush() {

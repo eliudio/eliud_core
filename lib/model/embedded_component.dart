@@ -15,6 +15,7 @@
 
 
 import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'dart:async';
 
@@ -176,31 +177,31 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       return completer.future;
     }
 
-    Stream<List<BodyComponentModel>> values({String orderBy, bool descending }) {
+    Stream<List<BodyComponentModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<BodyComponentModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<BodyComponentModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<BodyComponentModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<BodyComponentModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<BodyComponentModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<BodyComponentModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 
@@ -255,31 +256,31 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       return completer.future;
     }
 
-    Stream<List<DecorationColorModel>> values({String orderBy, bool descending }) {
+    Stream<List<DecorationColorModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<DecorationColorModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<DecorationColorModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<DecorationColorModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 
@@ -334,31 +335,31 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return completer.future;
     }
 
-    Stream<List<MemberSubscriptionModel>> values({String orderBy, bool descending }) {
+    Stream<List<MemberSubscriptionModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MemberSubscriptionModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<MemberSubscriptionModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 
@@ -413,31 +414,31 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
       return completer.future;
     }
 
-    Stream<List<MenuItemModel>> values({String orderBy, bool descending }) {
+    Stream<List<MenuItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
-    Stream<List<MenuItemModel>> valuesWithDetails({String orderBy, bool descending }) {
+    Stream<List<MenuItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MenuItemModel>> listen(trigger, { String orderBy, bool descending }) {
+    StreamSubscription<List<MenuItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
+    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MenuItemModel>> valuesList({String orderBy, bool descending }) {
+    Future<List<MenuItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
     
-    Future<List<MenuItemModel>> valuesListWithDetails({String orderBy, bool descending }) {
+    Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
       return Future.value(items);
     }
 

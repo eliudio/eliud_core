@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_core/model/font_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef FontModelTrigger(List<FontModel> list);
 
@@ -23,11 +26,14 @@ abstract class FontRepository {
   Future<void> delete(FontModel value);
   Future<FontModel> get(String id);
   Future<FontModel> update(FontModel value);
-  Stream<List<FontModel>> values({String orderBy, bool descending });
-  Stream<List<FontModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<FontModel>> valuesList({String orderBy, bool descending });
-  Future<List<FontModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<FontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<FontModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<FontModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<FontModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

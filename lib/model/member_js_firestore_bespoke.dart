@@ -3,6 +3,7 @@ Bespoke
 */
 
 import 'dart:async';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/member_repository.dart';
@@ -45,7 +46,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending }) {
     Stream<List<MemberModel>> stream;
     // If we use memberCollection here, then the second subscription fails
     if (orderBy == null) {
@@ -76,7 +77,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending }) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       // If we use memberCollection here, then the second subscription fails
@@ -103,7 +104,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  Stream<List<MemberModel>> values(String currentMember, { String orderBy, bool descending }) {
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -118,7 +119,7 @@ class MemberJsFirestore implements MemberRepository {
     }
   }
 
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember, { String orderBy, bool descending }) {
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -136,7 +137,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember, { String orderBy, bool descending }) {
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {
@@ -155,7 +156,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember, { String orderBy, bool descending }) {
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {

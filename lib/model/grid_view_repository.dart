@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_core/model/grid_view_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef GridViewModelTrigger(List<GridViewModel> list);
 
@@ -23,11 +26,14 @@ abstract class GridViewRepository {
   Future<void> delete(GridViewModel value);
   Future<GridViewModel> get(String id);
   Future<GridViewModel> update(GridViewModel value);
-  Stream<List<GridViewModel>> values({String orderBy, bool descending });
-  Stream<List<GridViewModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<GridViewModel>> valuesList({String orderBy, bool descending });
-  Future<List<GridViewModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<GridViewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<GridViewModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<GridViewModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<GridViewModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

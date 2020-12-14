@@ -13,8 +13,11 @@
 
 */
 
-import 'dart:async';
 import 'package:eliud_core/model/image_model.dart';
+
+import 'dart:async';
+import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ImageModelTrigger(List<ImageModel> list);
 
@@ -23,11 +26,14 @@ abstract class ImageRepository {
   Future<void> delete(ImageModel value);
   Future<ImageModel> get(String id);
   Future<ImageModel> update(ImageModel value);
-  Stream<List<ImageModel>> values({String orderBy, bool descending });
-  Stream<List<ImageModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ImageModel>> valuesList({String orderBy, bool descending });
-  Future<List<ImageModel>> valuesListWithDetails({String orderBy, bool descending });
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, { String orderBy, bool descending });
+
+  Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+  Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc});
+
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending});
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending});
   void flush();
 
   Future<void> deleteAll();

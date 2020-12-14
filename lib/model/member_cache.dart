@@ -14,6 +14,7 @@
 */
 
 import 'dart:async';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -62,23 +63,23 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values(String currentMember, {String orderBy, bool descending }) {
-    return reference.values(currentMember,);
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    return reference.values(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember, {String orderBy, bool descending }) {
-    return reference.valuesWithDetails(currentMember,);
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+    return reference.valuesWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember, {String orderBy, bool descending }) async {
-    return await reference.valuesList(currentMember,);
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+    return await reference.valuesList(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
   
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember, {String orderBy, bool descending }) async {
-    return await reference.valuesListWithDetails(currentMember,);
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc}) async {
+    return await reference.valuesListWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
   }
 
   void flush() {
@@ -91,13 +92,13 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(String currentMember, trigger, { String orderBy, bool descending }) {
-    return reference.listen(currentMember,trigger, orderBy: orderBy, descending: descending);
+  StreamSubscription<List<MemberModel>> listen(trigger, {String currentMember, String orderBy, bool descending}) {
+    return reference.listen(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, trigger, {String orderBy, bool descending }) {
-    return reference.listenWithDetails(currentMember,trigger);
+  StreamSubscription<List<MemberModel>> listenWithDetails(trigger, {String currentMember, String orderBy, bool descending}) {
+    return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
   }
 
 

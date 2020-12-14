@@ -8,6 +8,7 @@ import 'package:eliud_core/model/member_repository.dart';
 
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberFirestore implements MemberRepository {
   @override
@@ -52,8 +53,8 @@ class MemberFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listen(
-      String currentMember, MemberModelTrigger trigger,
-      {String orderBy, bool descending}) {
+      MemberModelTrigger trigger,
+      {String currentMember, String orderBy, bool descending}) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       stream =
@@ -86,7 +87,7 @@ class MemberFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(
-      String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending }) {
     var stream;
     if (orderBy == null) {
       stream = MemberCollection.where('readAccess', arrayContains: currentMember)
@@ -110,7 +111,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values(String currentMember, { String orderBy, bool descending }) {
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return MemberCollection.where('readAccess', arrayContains: currentMember)
           .snapshots()
@@ -127,7 +128,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember, { String orderBy, bool descending }) {
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
     if (orderBy == null) {
       return MemberCollection.where('readAccess', arrayContains: currentMember)
           .snapshots()
@@ -146,7 +147,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember, { String orderBy, bool descending }) async {
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
     if (orderBy == null) {
       return await MemberCollection.where('readAccess',
           arrayContains: currentMember)
@@ -167,7 +168,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember, { String orderBy, bool descending }) async {
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
     if (orderBy == null) {
       return await MemberCollection.where('readAccess',
           arrayContains: currentMember)

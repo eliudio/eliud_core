@@ -44,12 +44,12 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
 
   Stream<MemberListState> _mapLoadMemberListToState({ String orderBy, bool descending }) async* {
     _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listen(_currentMember(),  (list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending);
+    _membersListSubscription = _memberRepository.listen((list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending, currentMember: _currentMember(), );
   }
 
   Stream<MemberListState> _mapLoadMemberListWithDetailsToState() async* {
     _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listenWithDetails(_currentMember(),  (list) => add(MemberListUpdated(value: list)));
+    _membersListSubscription = _memberRepository.listenWithDetails((list) => add(MemberListUpdated(value: list)), currentMember: _currentMember(), );
   }
 
   Stream<MemberListState> _mapAddMemberListToState(AddMemberList event) async* {
