@@ -62,22 +62,22 @@ class ShadowCache implements ShadowRepository {
   }
 
   @override
-  Stream<List<ShadowModel>> values() {
+  Stream<List<ShadowModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<ShadowModel>> valuesWithDetails() {
+  Stream<List<ShadowModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<ShadowModel>> valuesList() async {
+  Future<List<ShadowModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<ShadowModel>> valuesListWithDetails() async {
+  Future<List<ShadowModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class ShadowCache implements ShadowRepository {
   }
 
   @override
-  StreamSubscription<List<ShadowModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<ShadowModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

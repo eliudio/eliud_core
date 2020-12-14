@@ -21,6 +21,7 @@ class ImageJsFirestore implements ImageRepository {
 
   CollectionReference getCollection() => firestore().collection('Image-${appID}');
 
+  @override
   Future<ImageModel> add(ImageModel value) async {
 //    todo: flutterweb frieldly upload required!!
 //    return ImageTools.uploadPic(value).then((onValue) {
@@ -31,16 +32,19 @@ class ImageJsFirestore implements ImageRepository {
 //    });
   }
 
+  @override
   Future<void> delete(ImageModel value) {
     return imageCollection.doc(value.documentID).delete();
   }
 
+  @override
   Future<ImageModel> update(ImageModel value) {
     return imageCollection.doc(value.documentID)
         .update(data: value.toEntity(appId: appID).toDocument())
         .then((_) => value);
   }
 
+  @override
   Future<void> deleteAll() {
     return imageCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => imageCollection.doc(element.id).delete()));
@@ -54,6 +58,7 @@ class ImageJsFirestore implements ImageRepository {
     return ImageModel.fromEntityPlus(doc.id, ImageEntity.fromMap(doc.data()));
   }
 
+  @override
   Future<ImageModel> get(String id) {
     return imageCollection.doc(id).get().then((data) {
       if (data.data() != null) {
@@ -65,51 +70,109 @@ class ImageJsFirestore implements ImageRepository {
   }
 
 
-  Stream<List<ImageModel>> values() {
-    return imageCollection.onSnapshot
-        .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+  @override
+  Stream<List<ImageModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return imageCollection.onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    } else {
+      return imageCollection.orderBy(
+          orderBy, descending ? 'desc' : 'asc').onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    }
   }
 
-  Future<List<ImageModel>> valuesList() {
-    return imageCollection.get().then((value) {
-      var list = value.docs;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  @override
+  Future<List<ImageModel>> valuesList({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return imageCollection.get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return imageCollection.orderBy(
+          orderBy, descending ? 'desc' : 'asc').get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<ImageModel>> valuesWithDetails() {
-    return imageCollection.onSnapshot.asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+  @override
+  Stream<List<ImageModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return imageCollection.onSnapshot.asyncMap((data) =>
+          Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    } else {
+      return imageCollection.orderBy(
+          orderBy, descending ? 'desc' : 'asc').onSnapshot.asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    }
   }
 
-  Future<List<ImageModel>> valuesListWithDetails() {
-    return imageCollection.get().then((value) {
-      var list = value.docs;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  @override
+  Future<List<ImageModel>> valuesListWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return imageCollection.get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return imageCollection.orderBy(
+          orderBy, descending ? 'desc' : 'asc').get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
+  @override
   void flush() {}
 
+  @override
   StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream = (orderBy == null ?  imageCollection : imageCollection.orderBy(orderBy, descending ? 'desc': 'asc')).onSnapshot
-        .map((data) {
-      Iterable<ImageModel> images  = data.docs.map((doc) {
-        ImageModel value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return images;
-    });
-
+    Stream<List<ImageModel>> stream;
+    if (orderBy == null) {
+      stream = imageCollection.onSnapshot
+          .map((data) {
+        Iterable<ImageModel> images = data.docs.map((doc) {
+          var value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return images;
+      });
+    } else {
+      stream = imageCollection.orderBy(
+          orderBy, descending ? 'desc' : 'asc').onSnapshot
+          .map((data) {
+        Iterable<ImageModel> images = data.docs.map((doc) {
+          var value = _populateDoc(doc);
+          return value;
+        }).toList();
+        return images;
+      });
+    }
     return stream.listen((listOfImageModels) {
       trigger(listOfImageModels);
     });
   }
 
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger) {
-    Stream<List<ImageModel>> stream = getCollection().onSnapshot
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  @override
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<ImageModel>> stream;
+    if (orderBy == null) {
+      stream = getCollection().onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = getCollection().orderBy(
+          orderBy, descending ? 'desc' : 'asc').onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfImageModels) {
       trigger(listOfImageModels);

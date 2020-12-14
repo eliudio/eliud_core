@@ -23,11 +23,11 @@ abstract class BodyComponentRepository {
   Future<void> delete(BodyComponentModel value);
   Future<BodyComponentModel> get(String id);
   Future<BodyComponentModel> update(BodyComponentModel value);
-  Stream<List<BodyComponentModel>> values();
-  Stream<List<BodyComponentModel>> valuesWithDetails();  Future<List<BodyComponentModel>> valuesList();
-  Future<List<BodyComponentModel>> valuesListWithDetails();
+  Stream<List<BodyComponentModel>> values({String orderBy, bool descending });
+  Stream<List<BodyComponentModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<BodyComponentModel>> valuesList({String orderBy, bool descending });
+  Future<List<BodyComponentModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger);
+  StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

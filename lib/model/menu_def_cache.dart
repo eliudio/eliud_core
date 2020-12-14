@@ -62,22 +62,22 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  Stream<List<MenuDefModel>> values() {
+  Stream<List<MenuDefModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<MenuDefModel>> valuesWithDetails() {
+  Stream<List<MenuDefModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<MenuDefModel>> valuesList() async {
+  Future<List<MenuDefModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<MenuDefModel>> valuesListWithDetails() async {
+  Future<List<MenuDefModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  StreamSubscription<List<MenuDefModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<MenuDefModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

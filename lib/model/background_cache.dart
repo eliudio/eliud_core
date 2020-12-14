@@ -62,22 +62,22 @@ class BackgroundCache implements BackgroundRepository {
   }
 
   @override
-  Stream<List<BackgroundModel>> values() {
+  Stream<List<BackgroundModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<BackgroundModel>> valuesWithDetails() {
+  Stream<List<BackgroundModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<BackgroundModel>> valuesList() async {
+  Future<List<BackgroundModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<BackgroundModel>> valuesListWithDetails() async {
+  Future<List<BackgroundModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class BackgroundCache implements BackgroundRepository {
   }
 
   @override
-  StreamSubscription<List<BackgroundModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<BackgroundModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

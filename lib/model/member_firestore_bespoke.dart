@@ -86,14 +86,23 @@ class MemberFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(
-      String currentMember, MemberModelTrigger trigger) {
-    var stream =
-        MemberCollection.where('readAccess', arrayContains: currentMember)
-            .snapshots()
-            .asyncMap((data) async {
-      return await Future.wait(
-          data.documents.map((doc) => _populateDocPlus(doc)).toList());
-    });
+      String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+    var stream;
+    if (orderBy == null) {
+      stream = MemberCollection.where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.documents.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.documents.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);
@@ -101,44 +110,81 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values(String currentMember) {
-    return MemberCollection.where('readAccess', arrayContains: currentMember)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.documents.map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<MemberModel>> values(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return MemberCollection.where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.documents.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .map((snapshot) {
+        return snapshot.documents.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember) {
-    return MemberCollection.where('readAccess', arrayContains: currentMember)
-        .snapshots()
-        .asyncMap((snapshot) {
-      return Future.wait(
-          snapshot.documents.map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<MemberModel>> valuesWithDetails(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return MemberCollection.where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .asyncMap((snapshot) {
+        return Future.wait(
+            snapshot.documents.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
+          .snapshots()
+          .asyncMap((snapshot) {
+        return Future.wait(
+            snapshot.documents.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember) async {
-    return await MemberCollection.where('readAccess',
-            arrayContains: currentMember)
-        .getDocuments()
-        .then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<MemberModel>> valuesList(String currentMember, { String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await MemberCollection.where('readAccess',
+          arrayContains: currentMember)
+          .getDocuments()
+          .then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await MemberCollection.orderBy(orderBy, descending: descending).where('readAccess',
+          arrayContains: currentMember)
+          .getDocuments()
+          .then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember) async {
-    return await MemberCollection.where('readAccess',
-            arrayContains: currentMember)
-        .getDocuments()
-        .then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Future<List<MemberModel>> valuesListWithDetails(String currentMember, { String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await MemberCollection.where('readAccess',
+          arrayContains: currentMember)
+          .getDocuments()
+          .then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await MemberCollection.orderBy(orderBy, descending: descending).where('readAccess',
+          arrayContains: currentMember)
+          .getDocuments()
+          .then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   @override

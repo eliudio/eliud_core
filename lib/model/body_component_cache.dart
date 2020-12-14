@@ -62,22 +62,22 @@ class BodyComponentCache implements BodyComponentRepository {
   }
 
   @override
-  Stream<List<BodyComponentModel>> values() {
+  Stream<List<BodyComponentModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<BodyComponentModel>> valuesWithDetails() {
+  Stream<List<BodyComponentModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<BodyComponentModel>> valuesList() async {
+  Future<List<BodyComponentModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<BodyComponentModel>> valuesListWithDetails() async {
+  Future<List<BodyComponentModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class BodyComponentCache implements BodyComponentRepository {
   }
 
   @override
-  StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

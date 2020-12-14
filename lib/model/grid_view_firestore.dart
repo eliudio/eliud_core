@@ -80,11 +80,19 @@ class GridViewFirestore implements GridViewRepository {
     });
   }
 
-  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger) {
-    Stream<List<GridViewModel>> stream = GridViewCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<GridViewModel>> stream;
+    if (orderBy == null) {
+      stream = GridViewCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = GridViewCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfGridViewModels) {
       trigger(listOfGridViewModels);
@@ -92,32 +100,60 @@ class GridViewFirestore implements GridViewRepository {
   }
 
 
-  Stream<List<GridViewModel>> values() {
-    return GridViewCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<GridViewModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return GridViewCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return GridViewCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<GridViewModel>> valuesWithDetails() {
-    return GridViewCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<GridViewModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return GridViewCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return GridViewCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<GridViewModel>> valuesList() async {
-    return await GridViewCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<GridViewModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await GridViewCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await GridViewCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<GridViewModel>> valuesListWithDetails() async {
-    return await GridViewCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<GridViewModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await GridViewCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await GridViewCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

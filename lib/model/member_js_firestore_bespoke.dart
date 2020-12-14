@@ -46,10 +46,11 @@ class MemberJsFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listen(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
-    var stream;
+    Stream<List<MemberModel>> stream;
     // If we use memberCollection here, then the second subscription fails
     if (orderBy == null) {
-      var stream = getCollection().where("readAccess", 'array-contains', currentMember).onSnapshot
+      stream = getCollection()
+          .where("readAccess", 'array-contains', currentMember).onSnapshot
           .map((data) {
         Iterable<MemberModel> members  = data.docs.map((doc) {
           MemberModel value = _populateDoc(doc);
@@ -58,7 +59,9 @@ class MemberJsFirestore implements MemberRepository {
         return members;
       });
     } else {
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').where("readAccess", 'array-contains', currentMember).onSnapshot
+      stream = getCollection()
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where("readAccess", 'array-contains', currentMember).onSnapshot
           .map((data) {
         Iterable<MemberModel> members  = data.docs.map((doc) {
           MemberModel value = _populateDoc(doc);
@@ -73,42 +76,101 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, MemberModelTrigger trigger) {
-    // If we use memberCollection here, then the second subscription fails
-    Stream<List<MemberModel>> stream = getCollection().where("readAccess", "array-contains", currentMember).onSnapshot
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, MemberModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<MemberModel>> stream;
+    if (orderBy == null) {
+      // If we use memberCollection here, then the second subscription fails
+      stream = getCollection()
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = getCollection()
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .asyncMap((data) async {
+        return await Future.wait(
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);
     });
   }
 
-  Stream<List<MemberModel>> values(String currentMember) {
-    return memberCollection.where("readAccess", "array-contains", currentMember).onSnapshot
-        .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+  Stream<List<MemberModel>> values(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return memberCollection
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    } else {
+      return memberCollection
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
+    }
   }
 
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember) {
-    return memberCollection.where("readAccess", "array-contains", currentMember).onSnapshot
-        .asyncMap((data) => Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+  Stream<List<MemberModel>> valuesWithDetails(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return memberCollection
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .asyncMap((data) =>
+          Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    } else {
+      return memberCollection
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where("readAccess", "array-contains", currentMember)
+          .onSnapshot
+          .asyncMap((data) =>
+          Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
+    }
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember,) {
-    return memberCollection.where("readAccess", "array-contains", currentMember).get().then((value) {
-      var list = value.docs;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<MemberModel>> valuesList(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return memberCollection.where(
+          "readAccess", "array-contains", currentMember).get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return memberCollection
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where(
+          "readAccess", "array-contains", currentMember).get().then((value) {
+        var list = value.docs;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember,) {
-    return memberCollection.where("readAccess", "array-contains", currentMember).get().then((value) {
-      var list = value.docs;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<MemberModel>> valuesListWithDetails(String currentMember, { String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return memberCollection.where(
+          "readAccess", "array-contains", currentMember).get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return memberCollection
+          .orderBy(orderBy, descending ? 'desc': 'asc')
+          .where(
+          "readAccess", "array-contains", currentMember).get().then((value) {
+        var list = value.docs;
+        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {

@@ -23,11 +23,11 @@ abstract class DrawerRepository {
   Future<void> delete(DrawerModel value);
   Future<DrawerModel> get(String id);
   Future<DrawerModel> update(DrawerModel value);
-  Stream<List<DrawerModel>> values();
-  Stream<List<DrawerModel>> valuesWithDetails();  Future<List<DrawerModel>> valuesList();
-  Future<List<DrawerModel>> valuesListWithDetails();
+  Stream<List<DrawerModel>> values({String orderBy, bool descending });
+  Stream<List<DrawerModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<DrawerModel>> valuesList({String orderBy, bool descending });
+  Future<List<DrawerModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger);
+  StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

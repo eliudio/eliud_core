@@ -23,11 +23,11 @@ abstract class PosSizeRepository {
   Future<void> delete(PosSizeModel value);
   Future<PosSizeModel> get(String id);
   Future<PosSizeModel> update(PosSizeModel value);
-  Stream<List<PosSizeModel>> values();
-  Stream<List<PosSizeModel>> valuesWithDetails();  Future<List<PosSizeModel>> valuesList();
-  Future<List<PosSizeModel>> valuesListWithDetails();
+  Stream<List<PosSizeModel>> values({String orderBy, bool descending });
+  Stream<List<PosSizeModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<PosSizeModel>> valuesList({String orderBy, bool descending });
+  Future<List<PosSizeModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger);
+  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

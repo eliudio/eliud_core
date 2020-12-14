@@ -23,11 +23,11 @@ abstract class FontRepository {
   Future<void> delete(FontModel value);
   Future<FontModel> get(String id);
   Future<FontModel> update(FontModel value);
-  Stream<List<FontModel>> values();
-  Stream<List<FontModel>> valuesWithDetails();  Future<List<FontModel>> valuesList();
-  Future<List<FontModel>> valuesListWithDetails();
+  Stream<List<FontModel>> values({String orderBy, bool descending });
+  Stream<List<FontModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<FontModel>> valuesList({String orderBy, bool descending });
+  Future<List<FontModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger);
+  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

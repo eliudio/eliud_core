@@ -62,22 +62,22 @@ class FontCache implements FontRepository {
   }
 
   @override
-  Stream<List<FontModel>> values() {
+  Stream<List<FontModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<FontModel>> valuesWithDetails() {
+  Stream<List<FontModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<FontModel>> valuesList() async {
+  Future<List<FontModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<FontModel>> valuesListWithDetails() async {
+  Future<List<FontModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class FontCache implements FontRepository {
   }
 
   @override
-  StreamSubscription<List<FontModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<FontModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

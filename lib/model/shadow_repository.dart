@@ -23,11 +23,11 @@ abstract class ShadowRepository {
   Future<void> delete(ShadowModel value);
   Future<ShadowModel> get(String id);
   Future<ShadowModel> update(ShadowModel value);
-  Stream<List<ShadowModel>> values();
-  Stream<List<ShadowModel>> valuesWithDetails();  Future<List<ShadowModel>> valuesList();
-  Future<List<ShadowModel>> valuesListWithDetails();
+  Stream<List<ShadowModel>> values({String orderBy, bool descending });
+  Stream<List<ShadowModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ShadowModel>> valuesList({String orderBy, bool descending });
+  Future<List<ShadowModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger);
+  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

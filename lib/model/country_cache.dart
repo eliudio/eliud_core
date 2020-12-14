@@ -62,22 +62,22 @@ class CountryCache implements CountryRepository {
   }
 
   @override
-  Stream<List<CountryModel>> values() {
+  Stream<List<CountryModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<CountryModel>> valuesWithDetails() {
+  Stream<List<CountryModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<CountryModel>> valuesList() async {
+  Future<List<CountryModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<CountryModel>> valuesListWithDetails() async {
+  Future<List<CountryModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class CountryCache implements CountryRepository {
   }
 
   @override
-  StreamSubscription<List<CountryModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<CountryModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

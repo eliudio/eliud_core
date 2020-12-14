@@ -176,11 +176,11 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       return completer.future;
     }
 
-    Stream<List<BodyComponentModel>> values() {
+    Stream<List<BodyComponentModel>> values({String orderBy, bool descending }) {
       return theValues;
     }
     
-    Stream<List<BodyComponentModel>> valuesWithDetails() {
+    Stream<List<BodyComponentModel>> valuesWithDetails({String orderBy, bool descending }) {
       return theValues;
     }
     
@@ -190,17 +190,17 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     }
   
     @override
-    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger) {
+    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<BodyComponentModel>> valuesList() {
+    Future<List<BodyComponentModel>> valuesList({String orderBy, bool descending }) {
       return Future.value(items);
     }
     
-    Future<List<BodyComponentModel>> valuesListWithDetails() {
+    Future<List<BodyComponentModel>> valuesListWithDetails({String orderBy, bool descending }) {
       return Future.value(items);
     }
 
@@ -255,11 +255,11 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       return completer.future;
     }
 
-    Stream<List<DecorationColorModel>> values() {
+    Stream<List<DecorationColorModel>> values({String orderBy, bool descending }) {
       return theValues;
     }
     
-    Stream<List<DecorationColorModel>> valuesWithDetails() {
+    Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending }) {
       return theValues;
     }
     
@@ -269,17 +269,17 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     }
   
     @override
-    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger) {
+    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<DecorationColorModel>> valuesList() {
+    Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending }) {
       return Future.value(items);
     }
     
-    Future<List<DecorationColorModel>> valuesListWithDetails() {
+    Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending }) {
       return Future.value(items);
     }
 
@@ -334,11 +334,11 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return completer.future;
     }
 
-    Stream<List<MemberSubscriptionModel>> values() {
+    Stream<List<MemberSubscriptionModel>> values({String orderBy, bool descending }) {
       return theValues;
     }
     
-    Stream<List<MemberSubscriptionModel>> valuesWithDetails() {
+    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String orderBy, bool descending }) {
       return theValues;
     }
     
@@ -348,17 +348,17 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
     }
   
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger) {
+    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MemberSubscriptionModel>> valuesList() {
+    Future<List<MemberSubscriptionModel>> valuesList({String orderBy, bool descending }) {
       return Future.value(items);
     }
     
-    Future<List<MemberSubscriptionModel>> valuesListWithDetails() {
+    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String orderBy, bool descending }) {
       return Future.value(items);
     }
 
@@ -413,11 +413,11 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
       return completer.future;
     }
 
-    Stream<List<MenuItemModel>> values() {
+    Stream<List<MenuItemModel>> values({String orderBy, bool descending }) {
       return theValues;
     }
     
-    Stream<List<MenuItemModel>> valuesWithDetails() {
+    Stream<List<MenuItemModel>> valuesWithDetails({String orderBy, bool descending }) {
       return theValues;
     }
     
@@ -427,17 +427,17 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     }
   
     @override
-    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger) {
+    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MenuItemModel>> valuesList() {
+    Future<List<MenuItemModel>> valuesList({String orderBy, bool descending }) {
       return Future.value(items);
     }
     
-    Future<List<MenuItemModel>> valuesListWithDetails() {
+    Future<List<MenuItemModel>> valuesListWithDetails({String orderBy, bool descending }) {
       return Future.value(items);
     }
 

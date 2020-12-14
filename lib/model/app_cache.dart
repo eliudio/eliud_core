@@ -62,22 +62,22 @@ class AppCache implements AppRepository {
   }
 
   @override
-  Stream<List<AppModel>> values() {
+  Stream<List<AppModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<AppModel>> valuesWithDetails() {
+  Stream<List<AppModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<AppModel>> valuesList() async {
+  Future<List<AppModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<AppModel>> valuesListWithDetails() async {
+  Future<List<AppModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class AppCache implements AppRepository {
   }
 
   @override
-  StreamSubscription<List<AppModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<AppModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

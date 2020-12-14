@@ -23,11 +23,11 @@ abstract class AppRepository {
   Future<void> delete(AppModel value);
   Future<AppModel> get(String id);
   Future<AppModel> update(AppModel value);
-  Stream<List<AppModel>> values();
-  Stream<List<AppModel>> valuesWithDetails();  Future<List<AppModel>> valuesList();
-  Future<List<AppModel>> valuesListWithDetails();
+  Stream<List<AppModel>> values({String orderBy, bool descending });
+  Stream<List<AppModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<AppModel>> valuesList({String orderBy, bool descending });
+  Future<List<AppModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger);
+  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

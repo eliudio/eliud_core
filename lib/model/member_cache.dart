@@ -62,22 +62,22 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values(String currentMember, ) {
+  Stream<List<MemberModel>> values(String currentMember, {String orderBy, bool descending }) {
     return reference.values(currentMember,);
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails(String currentMember, ) {
+  Stream<List<MemberModel>> valuesWithDetails(String currentMember, {String orderBy, bool descending }) {
     return reference.valuesWithDetails(currentMember,);
   }
 
   @override
-  Future<List<MemberModel>> valuesList(String currentMember, ) async {
+  Future<List<MemberModel>> valuesList(String currentMember, {String orderBy, bool descending }) async {
     return await reference.valuesList(currentMember,);
   }
   
   @override
-  Future<List<MemberModel>> valuesListWithDetails(String currentMember, ) async {
+  Future<List<MemberModel>> valuesListWithDetails(String currentMember, {String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails(currentMember,);
   }
 
@@ -96,7 +96,7 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, trigger) {
+  StreamSubscription<List<MemberModel>> listenWithDetails(String currentMember, trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(currentMember,trigger);
   }
 

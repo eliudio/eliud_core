@@ -23,11 +23,11 @@ abstract class ImageRepository {
   Future<void> delete(ImageModel value);
   Future<ImageModel> get(String id);
   Future<ImageModel> update(ImageModel value);
-  Stream<List<ImageModel>> values();
-  Stream<List<ImageModel>> valuesWithDetails();  Future<List<ImageModel>> valuesList();
-  Future<List<ImageModel>> valuesListWithDetails();
+  Stream<List<ImageModel>> values({String orderBy, bool descending });
+  Stream<List<ImageModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<ImageModel>> valuesList({String orderBy, bool descending });
+  Future<List<ImageModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger);
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

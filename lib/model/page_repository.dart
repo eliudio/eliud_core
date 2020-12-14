@@ -23,11 +23,11 @@ abstract class PageRepository {
   Future<void> delete(PageModel value);
   Future<PageModel> get(String id);
   Future<PageModel> update(PageModel value);
-  Stream<List<PageModel>> values();
-  Stream<List<PageModel>> valuesWithDetails();  Future<List<PageModel>> valuesList();
-  Future<List<PageModel>> valuesListWithDetails();
+  Stream<List<PageModel>> values({String orderBy, bool descending });
+  Stream<List<PageModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<PageModel>> valuesList({String orderBy, bool descending });
+  Future<List<PageModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger);
+  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

@@ -62,22 +62,22 @@ class HomeMenuCache implements HomeMenuRepository {
   }
 
   @override
-  Stream<List<HomeMenuModel>> values() {
+  Stream<List<HomeMenuModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<HomeMenuModel>> valuesWithDetails() {
+  Stream<List<HomeMenuModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<HomeMenuModel>> valuesList() async {
+  Future<List<HomeMenuModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<HomeMenuModel>> valuesListWithDetails() async {
+  Future<List<HomeMenuModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class HomeMenuCache implements HomeMenuRepository {
   }
 
   @override
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<HomeMenuModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

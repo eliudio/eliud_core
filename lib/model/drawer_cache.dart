@@ -62,22 +62,22 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  Stream<List<DrawerModel>> values() {
+  Stream<List<DrawerModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<DrawerModel>> valuesWithDetails() {
+  Stream<List<DrawerModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<DrawerModel>> valuesList() async {
+  Future<List<DrawerModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<DrawerModel>> valuesListWithDetails() async {
+  Future<List<DrawerModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  StreamSubscription<List<DrawerModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<DrawerModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

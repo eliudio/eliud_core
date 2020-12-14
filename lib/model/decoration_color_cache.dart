@@ -62,22 +62,22 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  Stream<List<DecorationColorModel>> values() {
+  Stream<List<DecorationColorModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<DecorationColorModel>> valuesWithDetails() {
+  Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<DecorationColorModel>> valuesList() async {
+  Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<DecorationColorModel>> valuesListWithDetails() async {
+  Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

@@ -62,22 +62,22 @@ class PosSizeCache implements PosSizeRepository {
   }
 
   @override
-  Stream<List<PosSizeModel>> values() {
+  Stream<List<PosSizeModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<PosSizeModel>> valuesWithDetails() {
+  Stream<List<PosSizeModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<PosSizeModel>> valuesList() async {
+  Future<List<PosSizeModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<PosSizeModel>> valuesListWithDetails() async {
+  Future<List<PosSizeModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class PosSizeCache implements PosSizeRepository {
   }
 
   @override
-  StreamSubscription<List<PosSizeModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<PosSizeModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

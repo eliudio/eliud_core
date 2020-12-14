@@ -62,22 +62,22 @@ class AppBarCache implements AppBarRepository {
   }
 
   @override
-  Stream<List<AppBarModel>> values() {
+  Stream<List<AppBarModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<AppBarModel>> valuesWithDetails() {
+  Stream<List<AppBarModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<AppBarModel>> valuesList() async {
+  Future<List<AppBarModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<AppBarModel>> valuesListWithDetails() async {
+  Future<List<AppBarModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class AppBarCache implements AppBarRepository {
   }
 
   @override
-  StreamSubscription<List<AppBarModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<AppBarModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

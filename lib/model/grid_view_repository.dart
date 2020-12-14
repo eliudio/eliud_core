@@ -23,11 +23,11 @@ abstract class GridViewRepository {
   Future<void> delete(GridViewModel value);
   Future<GridViewModel> get(String id);
   Future<GridViewModel> update(GridViewModel value);
-  Stream<List<GridViewModel>> values();
-  Stream<List<GridViewModel>> valuesWithDetails();  Future<List<GridViewModel>> valuesList();
-  Future<List<GridViewModel>> valuesListWithDetails();
+  Stream<List<GridViewModel>> values({String orderBy, bool descending });
+  Stream<List<GridViewModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<GridViewModel>> valuesList({String orderBy, bool descending });
+  Future<List<GridViewModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger);
+  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

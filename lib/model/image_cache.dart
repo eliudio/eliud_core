@@ -62,22 +62,22 @@ class ImageCache implements ImageRepository {
   }
 
   @override
-  Stream<List<ImageModel>> values() {
+  Stream<List<ImageModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<ImageModel>> valuesWithDetails() {
+  Stream<List<ImageModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<ImageModel>> valuesList() async {
+  Future<List<ImageModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<ImageModel>> valuesListWithDetails() async {
+  Future<List<ImageModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class ImageCache implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<ImageModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

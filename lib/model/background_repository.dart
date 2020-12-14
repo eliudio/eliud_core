@@ -23,11 +23,11 @@ abstract class BackgroundRepository {
   Future<void> delete(BackgroundModel value);
   Future<BackgroundModel> get(String id);
   Future<BackgroundModel> update(BackgroundModel value);
-  Stream<List<BackgroundModel>> values();
-  Stream<List<BackgroundModel>> valuesWithDetails();  Future<List<BackgroundModel>> valuesList();
-  Future<List<BackgroundModel>> valuesListWithDetails();
+  Stream<List<BackgroundModel>> values({String orderBy, bool descending });
+  Stream<List<BackgroundModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<BackgroundModel>> valuesList({String orderBy, bool descending });
+  Future<List<BackgroundModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger);
+  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

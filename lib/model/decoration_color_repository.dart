@@ -23,11 +23,11 @@ abstract class DecorationColorRepository {
   Future<void> delete(DecorationColorModel value);
   Future<DecorationColorModel> get(String id);
   Future<DecorationColorModel> update(DecorationColorModel value);
-  Stream<List<DecorationColorModel>> values();
-  Stream<List<DecorationColorModel>> valuesWithDetails();  Future<List<DecorationColorModel>> valuesList();
-  Future<List<DecorationColorModel>> valuesListWithDetails();
+  Stream<List<DecorationColorModel>> values({String orderBy, bool descending });
+  Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending });
+  Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger);
+  StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

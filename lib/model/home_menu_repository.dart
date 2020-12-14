@@ -23,11 +23,11 @@ abstract class HomeMenuRepository {
   Future<void> delete(HomeMenuModel value);
   Future<HomeMenuModel> get(String id);
   Future<HomeMenuModel> update(HomeMenuModel value);
-  Stream<List<HomeMenuModel>> values();
-  Stream<List<HomeMenuModel>> valuesWithDetails();  Future<List<HomeMenuModel>> valuesList();
-  Future<List<HomeMenuModel>> valuesListWithDetails();
+  Stream<List<HomeMenuModel>> values({String orderBy, bool descending });
+  Stream<List<HomeMenuModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<HomeMenuModel>> valuesList({String orderBy, bool descending });
+  Future<List<HomeMenuModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger);
+  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();

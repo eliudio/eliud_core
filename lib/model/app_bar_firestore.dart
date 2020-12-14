@@ -80,11 +80,19 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger) {
-    Stream<List<AppBarModel>> stream = AppBarCollection.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger, { String orderBy, bool descending }) {
+    Stream<List<AppBarModel>> stream;
+    if (orderBy == null) {
+      stream = AppBarCollection.snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      stream = AppBarCollection.orderBy(orderBy, descending: descending).snapshots()
+          .asyncMap((data) async {
+        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
 
     return stream.listen((listOfAppBarModels) {
       trigger(listOfAppBarModels);
@@ -92,32 +100,60 @@ class AppBarFirestore implements AppBarRepository {
   }
 
 
-  Stream<List<AppBarModel>> values() {
-    return AppBarCollection.snapshots().map((snapshot) {
-      return snapshot.documents
-            .map((doc) => _populateDoc(doc)).toList();
-    });
+  Stream<List<AppBarModel>> values({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return AppBarCollection.snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return AppBarCollection.orderBy(orderBy, descending: descending).snapshots().map((snapshot) {
+        return snapshot.documents
+              .map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Stream<List<AppBarModel>> valuesWithDetails() {
-    return AppBarCollection.snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents
-          .map((doc) => _populateDocPlus(doc)).toList());
-    });
+  Stream<List<AppBarModel>> valuesWithDetails({ String orderBy, bool descending }) {
+    if (orderBy == null) {
+      return AppBarCollection.snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return AppBarCollection.orderBy(orderBy, descending: descending).snapshots().asyncMap((snapshot) {
+        return Future.wait(snapshot.documents
+            .map((doc) => _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
-  Future<List<AppBarModel>> valuesList() async {
-    return await AppBarCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return list.map((doc) => _populateDoc(doc)).toList();
-    });
+  Future<List<AppBarModel>> valuesList({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await AppBarCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    } else {
+      return await AppBarCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return list.map((doc) => _populateDoc(doc)).toList();
+      });
+    }
   }
 
-  Future<List<AppBarModel>> valuesListWithDetails() async {
-    return await AppBarCollection.getDocuments().then((value) {
-      var list = value.documents;
-      return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
-    });
+  Future<List<AppBarModel>> valuesListWithDetails({ String orderBy, bool descending }) async {
+    if (orderBy == null) {
+      return await AppBarCollection.getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    } else {
+      return await AppBarCollection.orderBy(orderBy, descending: descending).getDocuments().then((value) {
+        var list = value.documents;
+        return Future.wait(list.map((doc) =>  _populateDocPlus(doc)).toList());
+      });
+    }
   }
 
   void flush() {}

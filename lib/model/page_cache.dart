@@ -62,22 +62,22 @@ class PageCache implements PageRepository {
   }
 
   @override
-  Stream<List<PageModel>> values() {
+  Stream<List<PageModel>> values({String orderBy, bool descending }) {
     return reference.values();
   }
 
   @override
-  Stream<List<PageModel>> valuesWithDetails() {
+  Stream<List<PageModel>> valuesWithDetails({String orderBy, bool descending }) {
     return reference.valuesWithDetails();
   }
 
   @override
-  Future<List<PageModel>> valuesList() async {
+  Future<List<PageModel>> valuesList({String orderBy, bool descending }) async {
     return await reference.valuesList();
   }
   
   @override
-  Future<List<PageModel>> valuesListWithDetails() async {
+  Future<List<PageModel>> valuesListWithDetails({String orderBy, bool descending }) async {
     return await reference.valuesListWithDetails();
   }
 
@@ -96,7 +96,7 @@ class PageCache implements PageRepository {
   }
 
   @override
-  StreamSubscription<List<PageModel>> listenWithDetails(trigger) {
+  StreamSubscription<List<PageModel>> listenWithDetails(trigger, {String orderBy, bool descending }) {
     return reference.listenWithDetails(trigger);
   }
 

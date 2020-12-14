@@ -23,11 +23,11 @@ abstract class MemberSubscriptionRepository {
   Future<void> delete(MemberSubscriptionModel value);
   Future<MemberSubscriptionModel> get(String id);
   Future<MemberSubscriptionModel> update(MemberSubscriptionModel value);
-  Stream<List<MemberSubscriptionModel>> values();
-  Stream<List<MemberSubscriptionModel>> valuesWithDetails();  Future<List<MemberSubscriptionModel>> valuesList();
-  Future<List<MemberSubscriptionModel>> valuesListWithDetails();
+  Stream<List<MemberSubscriptionModel>> values({String orderBy, bool descending });
+  Stream<List<MemberSubscriptionModel>> valuesWithDetails({String orderBy, bool descending });  Future<List<MemberSubscriptionModel>> valuesList({String orderBy, bool descending });
+  Future<List<MemberSubscriptionModel>> valuesListWithDetails({String orderBy, bool descending });
   StreamSubscription<List<MemberSubscriptionModel>> listen(MemberSubscriptionModelTrigger trigger, { String orderBy, bool descending });
-  StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(MemberSubscriptionModelTrigger trigger);
+  StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(MemberSubscriptionModelTrigger trigger, { String orderBy, bool descending });
   void flush();
 
   Future<void> deleteAll();
