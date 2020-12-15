@@ -1,5 +1,6 @@
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
@@ -30,9 +31,16 @@ class AppError extends AccessState {
   @override
   List<Object> get props => [message];
 
+  @override
   bool isLoggedIn() => false;
+
+  @override
   bool hasAccessToOtherApps() => false;
+
+  @override
   bool forceAcceptMembership() => false;
+
+  @override
   bool memberIsOwner() => false;
 }
 
@@ -72,7 +80,7 @@ class AccessHelper {
     return false;
   }
 
-  static Future<bool> _conditionOk(AppModel app, MemberModel member,
+  static Future<bool> _pageConditionOk(AppModel app, MemberModel member,
       PageCondition condition, String packageCondition, bool isOwner,
       bool isLoggedIn) async {
     if (condition == null) return true;
@@ -94,20 +102,58 @@ class AccessHelper {
     return true;
   }
 
-  static Future<Map<String, bool>> _init(MemberModel member, AppModel app,
+  static Future<bool> _dialogConditionOk(AppModel app, MemberModel member,
+      DialogCondition condition, String packageCondition, bool isOwner,
       bool isLoggedIn) async {
-    Map<String, bool> pagesAccess = {};
+    if (condition == null) return true;
+    switch (condition) {
+      case DialogCondition.Always:
+        return true;
+      case DialogCondition.MustBeLoggedIn:
+        return isLoggedIn;
+      case DialogCondition.MustNotBeLoggedIn:
+        return !isLoggedIn;
+      case DialogCondition.PackageDecides:
+        return await _conditionOkForPackage(
+            packageCondition, app, member, isOwner);
+      case DialogCondition.AdminOnly:
+        return isOwner;
+      case DialogCondition.Unknown:
+        return true;
+    }
+    return true;
+  }
+
+  static Future<Map<String, bool>> _getPagesAccess(MemberModel member, AppModel app,
+      bool isLoggedIn) async {
+    var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
     var repo = AbstractRepositorySingleton.singleton.pageRepository(
         app.documentID);
     var theList = await repo.valuesList();
     for (var i = 0; i < theList.length; i++) {
       var page = theList[i];
-      pagesAccess[page.documentID] = await _conditionOk(
+      pagesAccess[page.documentID] = await _pageConditionOk(
           app, member, page.conditional, page.packageCondition, isOwner,
           isLoggedIn);
     }
     return pagesAccess;
+  }
+
+  static Future<Map<String, bool>> _getDialogsAccess(MemberModel member, AppModel app,
+      bool isLoggedIn) async {
+    var dialogsAccess = <String, bool>{};
+    var isOwner = member != null && member.documentID == app.ownerID;
+    var repo = AbstractRepositorySingleton.singleton.dialogRepository(
+        app.documentID);
+    var theList = await repo.valuesList();
+    for (var i = 0; i < theList.length; i++) {
+      var dialog = theList[i];
+      dialogsAccess[dialog.documentID] = await _dialogConditionOk(
+          app, member, dialog.conditional, dialog.packageCondition, isOwner,
+          isLoggedIn);
+    }
+    return dialogsAccess;
   }
 }
 
@@ -115,11 +161,12 @@ abstract class AppLoaded extends AccessState {
   final AppModel app;
   final AppModel playStoreApp; // The playstore app. If null, then no playstore app available.
   final Map<String, bool> pagesAccess;
+  final Map<String, bool> dialogAccess;
 
   @override
   List<Object> get props => [ app, playStoreApp, pagesAccess ];
 
-  AppLoaded(this.app, this.playStoreApp, this.pagesAccess);
+  AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess);
 
   bool hasAccess(MenuItemModel item) {
     try {
@@ -127,6 +174,11 @@ abstract class AppLoaded extends AccessState {
       if (action is GotoPage) {
         var pageID = action.pageID;
         var access = pagesAccess[pageID];
+        if (access == null) return false;
+        return access;
+      } else if (action is OpenDialog) {
+        var dialogID = action.dialogID;
+        var access = dialogAccess[dialogID];
         if (access == null) return false;
         return access;
       } else if (action is PopupMenu) {
@@ -160,12 +212,13 @@ abstract class AppLoaded extends AccessState {
 
 class LoggedOut extends AppLoaded {
   static Future<LoggedOut> getLoggedOut(AppModel app, AppModel playstoreApp) async {
-    var values = await AccessHelper._init(null, app, false);
-    var loggedOut = LoggedOut._(app, playstoreApp, values);
+    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
+    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
+    var loggedOut = LoggedOut._(app, playstoreApp, pagesAccess, dialogAccess);
     return loggedOut;
   }
 
-  LoggedOut._(AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess): super(app, playstoreApp, pagesAccess);
+  LoggedOut._(AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess): super(app, playstoreApp, pagesAccess, dialogAccess);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -185,9 +238,9 @@ abstract class LoggedIn extends AppLoaded {
   final MemberModel member;
 
   @override
-  List<Object> get props => [ app, pagesAccess, usr, member ];
+  List<Object> get props => [ app, pagesAccess, dialogAccess, usr, member ];
 
-  LoggedIn._(this.usr, this.member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess) : super(app, playstoreApp, pagesAccess);
+  LoggedIn._(this.usr, this.member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess) : super(app, playstoreApp, pagesAccess, dialogAccess);
 
   @override
   bool hasAccessToOtherApps() {
@@ -211,8 +264,9 @@ abstract class LoggedIn extends AppLoaded {
 
 class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, PostLoginAction postLoginAction) async {
-    var pagesAccess = await AccessHelper._init(member, app, true);
-    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, pagesAccess);
+    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
+    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
+    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, pagesAccess, dialogAccess);
     return loggedInWithoutMembership;
   }
 
@@ -221,7 +275,7 @@ class LoggedInWithoutMembership extends LoggedIn {
 
   // What is the event that should be triggered after the membership will be accepted...
   final PostLoginAction postLoginAction;
-  LoggedInWithoutMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, this.postLoginAction, Map<String, bool> pagesAccess): super._(usr, member, app, playstoreApp, pagesAccess);
+  LoggedInWithoutMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, this.postLoginAction, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogAccess);
 
   @override
   Future<LoggedInWithoutMembership> copyWith(MemberModel member, AppModel playstoreApp) async {
@@ -234,15 +288,16 @@ class LoggedInWithoutMembership extends LoggedIn {
 
 class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, ) async {
-    var pagesAccess = await AccessHelper._init(member, app, true);
-    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, pagesAccess);
+    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
+    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
+    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, pagesAccess, dialogAccess);
     return loggedInWithMembership;
   }
 
   @override
   List<Object> get props => [ usr, member, app, pagesAccess ];
 
-  LoggedInWithMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess): super._(usr, member, app, playstoreApp, pagesAccess);
+  LoggedInWithMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogsAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess);
 
   @override
   Future<LoggedInWithMembership> copyWith(MemberModel member, AppModel playstoreApp) {

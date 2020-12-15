@@ -28,19 +28,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../tools/etc.dart';
 
-abstract class PageComponentConstructor extends ComponentConstructor {}
-
-class PageComponentConstructorDefault extends PageComponentConstructor {
-  final GlobalKey<NavigatorState> navigatorKey;
-
-  PageComponentConstructorDefault({this.navigatorKey});
-
-  @override
-  Widget createNew({String id, Map<String, Object> parameters}) {
-    return PageComponent(navigatorKey: navigatorKey, pageID: id, parameters: parameters,);
-  }
-}
-
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -83,10 +70,11 @@ class PageComponent extends StatelessWidget {
                       var helper = PageBodyHelper();
                       var components = helper.getComponents(state.value.bodyComponents, parameters);
                       hasFab = getFab(components);
-                      theBody = helper.body(context, accessState,
+                      theBody = helper.theBody(context, accessState,
                           backgroundDecoration: state.value.background,
                           components: components,
-                          pageModel: state.value);
+                          layout: fromPageLayout(state.value.layout),
+                          gridView: state.value.gridView);
                     }
 
                     var drawer = DrawerConstructor(pageID)

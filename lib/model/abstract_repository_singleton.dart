@@ -31,6 +31,7 @@ import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
+import '../model/dialog_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/types.dart';
 
@@ -45,6 +46,7 @@ MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingl
 PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
+DialogRepository dialogRepository({ String appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
@@ -60,6 +62,7 @@ abstract class AbstractRepositorySingleton {
   PageRepository pageRepository(String appId);
   PosSizeRepository posSizeRepository(String appId);
   ShadowRepository shadowRepository(String appId);
+  DialogRepository dialogRepository(String appId);
 
   void flush(String appId) {
     appBarRepository(appId).flush();
@@ -73,5 +76,6 @@ abstract class AbstractRepositorySingleton {
     pageRepository(appId).flush();
     posSizeRepository(appId).flush();
     shadowRepository(appId).flush();
+    dialogRepository(appId).flush();
   }
 }

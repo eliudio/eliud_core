@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'file:///C:/src/eliud/eliud_core/lib/core/components/dialog_component.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
@@ -32,14 +33,12 @@ class Registry {
   }
 
   final Map<String, ComponentConstructor> _registryMap = HashMap();
-  PageComponentConstructor _pageComponentConstructor;
 
   static Registry _instance;
 
   Map<String, ComponentConstructor> registryMap() => _registryMap;
 
   Registry._internal() {
-    _init();
   }
 
   static Registry registry() {
@@ -51,19 +50,33 @@ class Registry {
   Widget page({String id, Map<String, Object> parameters}) {
     Widget returnThis;
     try {
-      returnThis =
-          _pageComponentConstructor.createNew(id: id, parameters: parameters);
+      returnThis = PageComponent(
+        navigatorKey: navigatorKey,
+        pageID: id,
+        parameters: parameters,
+      );
     } catch (_) {}
     if (returnThis != null) return returnThis;
     return _missingPage();
   }
 
-  Widget application({ String id, bool asPlaystore }) {
+  Future<void> openDialog(BuildContext context,
+      {String id, Map<String, Object> parameters}) async {
+    await showDialog(
+        context: context,
+        builder: (context) => Dialog(
+            backgroundColor: Colors.transparent,
+              child: DialogComponent(dialogID: id, parameters: parameters)));
+  }
+
+  Widget application({String id, bool asPlaystore}) {
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
     var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
     var blocProviders = <BlocProvider>[];
-    blocProviders.add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
-    blocProviders.add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
+    blocProviders
+        .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
+    blocProviders
+        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
     GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
@@ -76,49 +89,49 @@ class Registry {
           if (state is AppLoaded) {
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (accessContext, accessState) {
-                  if (accessState is UndeterminedAccessState) {
-                    return Center(
-                      child: DelayedCircularProgressIndicator(),
-                    );
-                  } else if (accessState is AppLoaded) {
-                    if (accessState.app == null) {
-                      return AlertWidget(title: 'Error', content: 'No access defined');
-                    } else {
-                      var app = accessState.app;
-                      var router = eliudrouter.Router(AccessBloc.getBloc(context));
-                      ThemeData darkTheme;
-                      if ((app.darkOrLight != null) &&
-                          (app.darkOrLight == DarkOrLight.Dark)) {
-                        darkTheme = ThemeData.dark();
-                      }
-
-                      return MaterialApp(
-                        debugShowCheckedModeBanner: false,
-                        navigatorKey: navigatorKey,
-                        initialRoute: eliudrouter.Router.homeRoute,
-                        onGenerateRoute: router.generateRoute,
-                        darkTheme: darkTheme,
-                        onUnknownRoute: (RouteSettings setting) {
-                          return pageRouteBuilder(accessState.app,
-                              page: AlertWidget(title: 'Error', content: 'Page not found'));
-                        },
-                        title: app.title ?? 'No title',
-                      );
-                    }
-                  } else {
-                    return AlertWidget(title: 'Error', content: 'Unexpected state');
+              if (accessState is UndeterminedAccessState) {
+                return Center(
+                  child: DelayedCircularProgressIndicator(),
+                );
+              } else if (accessState is AppLoaded) {
+                if (accessState.app == null) {
+                  return AlertWidget(
+                      title: 'Error', content: 'No access defined');
+                } else {
+                  var app = accessState.app;
+                  var router = eliudrouter.Router(AccessBloc.getBloc(context));
+                  ThemeData darkTheme;
+                  if ((app.darkOrLight != null) &&
+                      (app.darkOrLight == DarkOrLight.Dark)) {
+                    darkTheme = ThemeData.dark();
                   }
-                });
+
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    navigatorKey: navigatorKey,
+                    initialRoute: eliudrouter.Router.homeRoute,
+                    onGenerateRoute: router.generateRoute,
+                    darkTheme: darkTheme,
+                    onUnknownRoute: (RouteSettings setting) {
+                      return pageRouteBuilder(accessState.app,
+                          page: AlertWidget(
+                              title: 'Error', content: 'Page not found'));
+                    },
+                    title: app.title ?? 'No title',
+                  );
+                }
+              } else {
+                return AlertWidget(title: 'Error', content: 'Unexpected state');
+              }
+            });
           } else if (state is AppError) {
             return AlertWidget(title: 'Error', content: state.message);
           } else {
-            return Center(child:
-              SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: DelayedCircularProgressIndicator()
-              )
-            );
+            return Center(
+                child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: DelayedCircularProgressIndicator()));
           }
         }));
   }
@@ -164,18 +177,5 @@ class Registry {
 
   ComponentDropDown getSupportingDropDown(String componentId) {
     return componentDropDownSupporters[componentId];
-  }
-
-  void initialize(
-      {ComponentConstructor pageComponentConstructor,
-      ComponentConstructor applicationComponentConstructor}) {
-    _pageComponentConstructor = pageComponentConstructor;
-  }
-
-  void _init() {
-    initialize(
-      pageComponentConstructor:
-          PageComponentConstructorDefault(navigatorKey: navigatorKey),
-    );
   }
 }

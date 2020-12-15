@@ -1,30 +1,43 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/widgets/accept_membership.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/tools/has_fab.dart';
+import 'package:eliud_core/model/dialog_model.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/tools/grid_view_helper.dart';
 
-import 'package:eliud_core/core/components/page_constructors/appbar_constructor.dart';
-import 'package:eliud_core/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
-import 'package:eliud_core/core/components/page_constructors/drawer_constructor.dart';
-import 'package:eliud_core/core/widgets/alert_widget.dart';
 
-import 'package:eliud_core/tools/component_constructor.dart';
 
 import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/page_component_bloc.dart';
-import 'package:eliud_core/model/page_component_state.dart';
-import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../tools/etc.dart';
+
+enum Layout {
+  GridView, ListView, OnlyTheFirstComponent, Unknown
+}
+
+Layout fromPageLayout(PageLayout pageLayout) {
+  switch (pageLayout) {
+    case PageLayout.GridView: return Layout.GridView;
+    case PageLayout.ListView: return Layout.ListView;
+    case PageLayout.OnlyTheFirstComponent: return Layout.OnlyTheFirstComponent;
+    case PageLayout.Unknown: return Layout.Unknown;
+  }
+  return Layout.Unknown;
+}
+
+Layout fromDialogLayout(DialogLayout dialogLayout) {
+  switch (dialogLayout) {
+    case DialogLayout.GridView: return Layout.GridView;
+    case DialogLayout.ListView: return Layout.ListView;
+    case DialogLayout.OnlyTheFirstComponent: return Layout.OnlyTheFirstComponent;
+    case DialogLayout.Unknown: return Layout.Unknown;
+  }
+  return Layout.Unknown;
+}
 
 class PageBodyHelper {
   List<Widget> getComponents(List<BodyComponentModel> componentModels, Map<String, Object> parameters) {
@@ -34,22 +47,24 @@ class PageBodyHelper {
         .toList();
   }
 
-  Widget body(BuildContext context,
+  Widget theBody(BuildContext context,
       AccessState accessState,
       {BackgroundModel backgroundDecoration,
         List<Widget> components,
-        PageModel pageModel}) {
+        Layout layout,
+        GridViewModel gridView
+      }) {
     try {
       if (components.isNotEmpty) {
         if (backgroundDecoration == null) {
-          return _container(context, components, pageModel);
+          return _container(context, components, layout, gridView);
         } else {
           return Stack(
             children: <Widget>[
               Container(
                 decoration: BoxDecorationHelper.boxDecoration(accessState, backgroundDecoration),
               ),
-              _container(context, components, pageModel)
+              _container(context, components, layout, gridView)
             ],
           );
         }
@@ -61,22 +76,22 @@ class PageBodyHelper {
   }
 
   Widget _container(
-      BuildContext context, List<Widget> components, PageModel model) {
-    switch (model.layout) {
-      case PageLayout.GridView:
-        return _gridView(context, components, model);
-      case PageLayout.ListView:
-        return _listView(context, components, model);
-      case PageLayout.OnlyTheFirstComponent:
-        return _justTheFirst(context, components, model);
-      case PageLayout.Unknown:
-        return _listView(context, components, model);
+      BuildContext context, List<Widget> components, Layout layout, GridViewModel gridView) {
+    switch (layout) {
+      case Layout.GridView:
+        return _gridView(context, components, gridView);
+      case Layout.ListView:
+        return _listView(context, components);
+      case Layout.OnlyTheFirstComponent:
+        return _justTheFirst(components);
+      case Layout.Unknown:
+        return _listView(context, components);
     }
-    return _listView(context, components, model);
+    return _listView(context, components);
   }
 
   Widget _listView(
-      BuildContext context, List<Widget> components, PageModel model) {
+      BuildContext context, List<Widget> components) {
     return ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),
@@ -87,13 +102,12 @@ class PageBodyHelper {
     );
   }
 
-  Widget _justTheFirst(
-      BuildContext context, List<Widget> components, PageModel model) {
+  Widget _justTheFirst(List<Widget> components) {
     return components[0];
   }
 
   Widget _gridView(
-      BuildContext context, List<Widget> components, PageModel model) {
-    return GridViewHelper.container(context, components, model.gridView);
+      BuildContext context, List<Widget> components, GridViewModel model) {
+    return GridViewHelper.container(context, components, model);
   }
 }

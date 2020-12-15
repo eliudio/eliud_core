@@ -15,14 +15,17 @@ abstract class ActionModel {
     if (entity == null) return null;
 
     if (entity.actionType == GotoPageEntity.label) return GotoPage.fromEntity(entity);
+    if (entity.actionType == OpenDialogEntity.label) return OpenDialog.fromEntity(entity);
     if (entity.actionType == InternalActionEntity.label) return InternalAction.fromEntity(entity);
     if (entity.actionType == PopupMenuEntity.label) return PopupMenu.fromEntity(entity);
+    if (entity.actionType == SwitchAppEntity.label) return SwitchApp.fromEntity(entity);
 
     return null;
   }
 
   static Future<ActionModel> fromEntityPlus(ActionEntity entity, {String appId}) async {
     if (entity is GotoPageEntity) return GotoPage.fromEntityPlus(entity);
+    if (entity is OpenDialogEntity) return OpenDialog.fromEntityPlus(entity);
     if (entity is InternalActionEntity) return InternalAction.fromEntityPlus(entity);
     if (entity is PopupMenuEntity) return PopupMenu.fromEntityPlus(entity);
     if (entity is SwitchAppEntity) return SwitchApp.fromEntityPlus(entity);
@@ -54,14 +57,14 @@ class GotoPage extends ActionModel {
   @override
   ActionEntity toEntity({String appId}) {
     return GotoPageEntity(
-      appID,
+        appID,
         pageID: pageID
     );
   }
 
   static ActionModel fromEntity(GotoPageEntity entity) {
     return GotoPage(
-      entity.appID,
+        entity.appID,
         pageID: entity.pageID);
   }
 
@@ -71,6 +74,47 @@ class GotoPage extends ActionModel {
 
   String message() {
     return "Switching page";
+  }
+}
+
+class OpenDialog extends ActionModel {
+  final String dialogID;
+
+  OpenDialog(String appID, {String dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, actionType: OpenDialogEntity.label);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is OpenDialog &&
+              appID == other.appID &&
+              runtimeType == other.runtimeType &&
+              dialogID == other.dialogID;
+
+  @override
+  String toString() {
+    return 'OpenDialog{dialogID: $dialogID }';
+  }
+
+  @override
+  ActionEntity toEntity({String appId}) {
+    return OpenDialogEntity(
+        appID,
+        dialogID: dialogID
+    );
+  }
+
+  static ActionModel fromEntity(OpenDialogEntity entity) {
+    return OpenDialog(
+        entity.appID,
+        dialogID: entity.dialogID);
+  }
+
+  static Future<ActionModel> fromEntityPlus(OpenDialogEntity entity) async {
+    return fromEntity(entity);
+  }
+
+  String message() {
+    return "Open Dialog";
   }
 }
 

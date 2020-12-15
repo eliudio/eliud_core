@@ -27,6 +27,7 @@ class ActionFieldState extends State<ActionField> {
   final List<String> _internalActions = ['Login', 'Logout', 'Login/Logout', 'Flush', 'OtherApps' ];
   String _internalAction;
   String _pageID;
+  String _dialogID;
   String _menuDefID;
 
   @override
@@ -36,6 +37,9 @@ class ActionFieldState extends State<ActionField> {
     if (action is GotoPage) {
       _actionSelection = 0;
       _pageID = action.pageID;
+    } else if (action is OpenDialog) {
+      _actionSelection = 3;
+      _dialogID = action.dialogID;
     } else if (action is PopupMenu) {
       _actionSelection = 2;
       _menuDefID = action.menuDef.documentID;
@@ -95,12 +99,19 @@ class ActionFieldState extends State<ActionField> {
                   trigger: _onDocumentSelected,
                   optional: false)));
     } else if (_actionSelection == 2) {
-        widgets.add(
-            Center(
-                child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
-                    value: _menuDefID,
-                    trigger: _onPopupmenuSelected,
-                    optional: false)));
+      widgets.add(
+          Center(
+              child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
+                  value: _menuDefID,
+                  trigger: _onPopupmenuSelected,
+                  optional: false)));
+    } else if (_actionSelection == 3) {
+      widgets.add(
+          Center(
+              child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
+                  value: _dialogID,
+                  trigger: _onDialogSelected,
+                  optional: false)));
     } else {
       List<DropdownMenuItem<String>> items = [];
       for (var ia in _internalActions) {
@@ -148,6 +159,15 @@ class ActionFieldState extends State<ActionField> {
     if (_actionSelection == 2) {
       MenuDefModel menuDef = await AbstractRepositorySingleton.singleton.menuDefRepository(widget.appID).get(value);
       widget.setActionValue(new PopupMenu(widget.appID, menuDef: menuDef));
+    }
+  }
+
+  Future<void> _onDialogSelected(value) async {
+    setState(() {
+      _dialogID = value;
+    });
+    if (_actionSelection == 3) {
+      widget.setActionValue(new OpenDialog(widget.appID, dialogID: value));
     }
   }
 

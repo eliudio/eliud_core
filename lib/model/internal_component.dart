@@ -204,6 +204,19 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+import 'package:eliud_core/model/dialog_list_bloc.dart';
+import 'package:eliud_core/model/dialog_list.dart';
+import 'package:eliud_core/model/dialog_dropdown_button.dart';
+import 'package:eliud_core/model/dialog_list_event.dart';
+
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/tools/action_entity.dart';
+import 'package:eliud_core/model/entity_export.dart';
+
 class ListComponentFactory implements ComponentConstructor {
   Widget createNew({String id, Map<String, Object> parameters}) {
     return ListComponent(componentId: id);
@@ -231,6 +244,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "pages") return true;
     if (id == "posSizes") return true;
     if (id == "shadows") return true;
+    if (id == "dialogs") return true;
     return false;
   }
 
@@ -278,6 +292,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "shadows")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
+    if (id == "dialogs")
+      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+
     return null;
   }
 }
@@ -317,6 +334,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
+    if (componentId == 'dialogs') return _dialogBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -335,6 +353,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pages') widget = PageListWidget();
     if (componentId == 'posSizes') widget = PosSizeListWidget();
     if (componentId == 'shadows') widget = ShadowListWidget();
+    if (componentId == 'dialogs') widget = DialogListWidget();
   }
 
   Widget _appBuild(BuildContext context) {
@@ -533,6 +552,20 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
+  Widget _dialogBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DialogListBloc>(
+          create: (context) => DialogListBloc(
+            
+            dialogRepository: dialogRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadDialogList()),
+        )
+      ],
+      child: widget,
+    );
+  }
+
 }
 
 
@@ -563,6 +596,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
+    if (componentId == 'dialogs') return _dialogBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -760,6 +794,20 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: ShadowDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+    );
+  }
+
+  Widget _dialogBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DialogListBloc>(
+          create: (context) => DialogListBloc(
+            
+            dialogRepository: dialogRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadDialogList()),
+        )
+      ],
+      child: DialogDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 

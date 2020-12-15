@@ -16,6 +16,8 @@ abstract class ActionEntity extends Equatable {
     String actionType = snap["actionType"];
     if (actionType == GotoPageEntity.label) {
       return GotoPageEntity.fromMap(snap);
+    } else if (actionType == OpenDialogEntity.label) {
+      return OpenDialogEntity.fromMap(snap);
     } else if (actionType == InternalActionEntity.label) {
       return InternalActionEntity.fromMap(snap);
     } else if (actionType == PopupMenuEntity.label) {
@@ -39,11 +41,11 @@ class GotoPageEntity extends ActionEntity {
   }
 
   @override
-  List<Object> get props => [ pageID];
+  List<Object> get props => [ appID, pageID];
 
   @override
   String toString() {
-    return 'GotoPageEntity { pageID: $pageID }';
+    return 'GotoPageEntity { appID: $appID, pageID: $pageID }';
   }
 
   Map<String, Object> toDocument() {
@@ -57,6 +59,41 @@ class GotoPageEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return GotoPageEntity(snap["appID"],
         pageID: snap["pageID"]
+    );
+  }
+}
+
+class OpenDialogEntity extends ActionEntity {
+  static const String label = "Dialog";
+  final String dialogID;
+
+  const OpenDialogEntity(String appID, { this.dialogID }) : super(appID, actionType : label);
+
+  Map<String, Object> toJson() {
+    return <String, dynamic>{
+      "dialogID": dialogID
+    };
+  }
+
+  @override
+  List<Object> get props => [ appID, dialogID];
+
+  @override
+  String toString() {
+    return 'OpenDialogEntity { dialogID: $dialogID }';
+  }
+
+  Map<String, Object> toDocument() {
+    return {
+      "appID": appID,
+      "actionType": actionType,
+      "dialogID": dialogID
+    };
+  }
+
+  static ActionEntity fromMap(Map snap) {
+    return OpenDialogEntity(snap["appID"],
+        dialogID: snap["dialogID"]
     );
   }
 }

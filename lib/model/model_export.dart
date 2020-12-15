@@ -33,3 +33,4 @@ export '../model/page_model.dart';
 export '../model/pos_size_model.dart';
 export '../model/rgb_model.dart';
 export '../model/shadow_model.dart';
+export '../model/dialog_model.dart';

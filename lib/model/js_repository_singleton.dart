@@ -63,6 +63,9 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_js_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/dialog_js_firestore.dart';
+import '../model/dialog_repository.dart';
+import '../model/dialog_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -72,6 +75,7 @@ import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
+import '../model/dialog_model.dart';
 
 class JsRepositorySingleton extends AbstractRepositorySingleton {
     var _appBarRepository = HashMap<String, AppBarRepository>();
@@ -85,6 +89,7 @@ class JsRepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
+    var _dialogRepository = HashMap<String, DialogRepository>();
 
     AppBarRepository appBarRepository(String appId) {
       if (_appBarRepository[appId] == null) _appBarRepository[appId] = AppBarCache(AppBarJsFirestore(appId));
@@ -128,6 +133,10 @@ class JsRepositorySingleton extends AbstractRepositorySingleton {
     ShadowRepository shadowRepository(String appId) {
       if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowCache(ShadowJsFirestore(appId));
       return _shadowRepository[appId];
+    }
+    DialogRepository dialogRepository(String appId) {
+      if (_dialogRepository[appId] == null) _dialogRepository[appId] = DialogCache(DialogJsFirestore(appId));
+      return _dialogRepository[appId];
     }
 
 }

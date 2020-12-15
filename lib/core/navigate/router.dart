@@ -118,6 +118,8 @@ class Router {
       } else {
         BlocProvider.of<AccessBloc>(context).add(SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
       }
+    } else if (action is OpenDialog) {
+      await Registry.registry().openDialog(context, id: action.dialogID, parameters: parameters);
     } else if (action is SwitchApp) {
       var appId = action.toAppID;
       BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
