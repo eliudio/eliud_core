@@ -39,70 +39,15 @@ class DialogComponent extends StatelessWidget {
               return AlertWidget(title: 'Error', content: 'No dialog defined');
             } else {
               var helper = PageBodyHelper();
-              var components = helper.getComponents(state.value.bodyComponents, parameters);
-              var theBody = helper.theBody(context, accessState,
-                  backgroundDecoration: state.value.background,
-                  components: components,
-                  layout: fromDialogLayout(state.value.layout),
-                  gridView: state.value.gridView);
               return Container(
                 margin: EdgeInsets.only(left: 0.0,right: 0.0),
                 child: Stack(
                   children: <Widget>[
-                    theBody,
-/*                    Container(
-                      padding: EdgeInsets.only(
-                        top: 18.0,
-                      ),
-                      margin: EdgeInsets.only(top: 13.0,right: 8.0),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(16.0),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 0.0,
-                              offset: Offset(0.0, 0.0),
-                            ),
-                          ]),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: new Text("Sorry please try \n again tomorrow", style:TextStyle(fontSize: 30.0,color: Colors.white)),
-                              )//
-                          ),
-                          SizedBox(height: 24.0),
-                          InkWell(
-                            child: Container(
-                              padding: EdgeInsets.only(top: 15.0,bottom:15.0),
-                              decoration: BoxDecoration(
-                                color:Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(16.0),
-                                    bottomRight: Radius.circular(16.0)),
-                              ),
-                              child:  Text(
-                                "OK",
-                                style: TextStyle(color: Colors.blue,fontSize: 25.0),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            onTap:(){
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      ),
-                    ),*/
-                    //widget,
+                    helper.theBody(context, accessState,
+                        backgroundDecoration: state.value.background,
+                        components: helper.getComponents(state.value.bodyComponents, parameters),
+                        layout: fromDialogLayout(state.value.layout),
+                        gridView: state.value.gridView),
                     Positioned(
                       right: 0.0,
                       child: GestureDetector(
