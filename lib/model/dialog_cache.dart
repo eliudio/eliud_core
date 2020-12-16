@@ -104,15 +104,6 @@ class DialogCache implements DialogRepository {
 
   static Future<DialogModel> refreshRelations(DialogModel model) async {
 
-    BackgroundModel backgroundHolder;
-    if (model.background != null) {
-      try {
-        await backgroundRepository(appId: model.background.appId).get(model.background.documentID).then((val) {
-          backgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     GridViewModel gridViewHolder;
     if (model.gridView != null) {
       try {
@@ -127,8 +118,6 @@ class DialogCache implements DialogRepository {
     }))).toList();
 
     return model.copyWith(
-        background: backgroundHolder,
-
         gridView: gridViewHolder,
 
         bodyComponents: bodyComponentsHolder,

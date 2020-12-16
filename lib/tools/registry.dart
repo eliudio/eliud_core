@@ -63,13 +63,7 @@ class Registry {
 
   Future<void> openDialog(BuildContext context,
       {String id, Map<String, Object> parameters}) async {
-    await showDialog(
-        context: context,
-        builder: (context) =>
-            Dialog(
-                child: DialogComponent(dialogID: id, parameters: parameters)
-            )
-    );
+    await DialogComponent.openDialog(context, id: id, parameters: parameters);
   }
 
   Widget application({String id, bool asPlaystore}) {

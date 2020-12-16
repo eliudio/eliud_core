@@ -19,7 +19,7 @@ abstract class ActionModel {
     if (entity.actionType == InternalActionEntity.label) return InternalAction.fromEntity(entity);
     if (entity.actionType == PopupMenuEntity.label) return PopupMenu.fromEntity(entity);
     if (entity.actionType == SwitchAppEntity.label) return SwitchApp.fromEntity(entity);
-
+    
     return null;
   }
 

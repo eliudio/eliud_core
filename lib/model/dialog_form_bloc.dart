@@ -52,6 +52,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
+                                 background: RgbModel(r: 211, g: 211, b: 211, opacity: 0.50), 
                                  packageCondition: "",
 
         ));
@@ -96,20 +97,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
       if (event is ChangedDialogBackground) {
-        if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
-        else
-          newValue = new DialogModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: null,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
-                                 packageCondition: currentState.value.packageCondition,
-          );
+        newValue = currentState.value.copyWith(background: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;

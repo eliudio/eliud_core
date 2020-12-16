@@ -103,7 +103,7 @@ class ChangedDialogBodyComponents extends DialogFormEvent {
 }
 
 class ChangedDialogBackground extends DialogFormEvent {
-  final String value;
+  final RgbModel value;
 
   ChangedDialogBackground({this.value});
 

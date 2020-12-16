@@ -64,7 +64,7 @@ class DialogModel {
   String appId;
   String title;
   List<BodyComponentModel> bodyComponents;
-  BackgroundModel background;
+  RgbModel background;
   DialogLayout layout;
 
   // Specific gridview
@@ -78,7 +78,7 @@ class DialogModel {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, BackgroundModel background, DialogLayout layout, GridViewModel gridView, DialogCondition conditional, String packageCondition, }) {
+  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, RgbModel background, DialogLayout layout, GridViewModel gridView, DialogCondition conditional, String packageCondition, }) {
     return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditional: conditional ?? this.conditional, packageCondition: packageCondition ?? this.packageCondition, );
   }
 
@@ -114,7 +114,7 @@ class DialogModel {
           bodyComponents: (bodyComponents != null) ? bodyComponents
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundId: (background != null) ? background.documentID : null, 
+          background: (background != null) ? background.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout.index : null, 
           gridViewId: (gridView != null) ? gridView.documentID : null, 
           conditional: (conditional != null) ? conditional.index : null, 
@@ -132,6 +132,8 @@ class DialogModel {
             entity. bodyComponents
             .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
             .toList(), 
+          background: 
+            RgbModel.fromEntity(entity.background), 
           layout: toDialogLayout(entity.layout), 
           conditional: toDialogCondition(entity.conditional), 
           packageCondition: entity.packageCondition, 
@@ -140,15 +142,6 @@ class DialogModel {
 
   static Future<DialogModel> fromEntityPlus(String documentID, DialogEntity entity, { String appId}) async {
     if (entity == null) return null;
-
-    BackgroundModel backgroundHolder;
-    if (entity.backgroundId != null) {
-      try {
-        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
-          backgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
 
     GridViewModel gridViewHolder;
     if (entity.gridViewId != null) {
@@ -167,7 +160,8 @@ class DialogModel {
             new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
             .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
-          background: backgroundHolder, 
+          background: 
+            await RgbModel.fromEntityPlus(entity.background, appId: appId), 
           layout: toDialogLayout(entity.layout), 
           gridView: gridViewHolder, 
           conditional: toDialogCondition(entity.conditional), 

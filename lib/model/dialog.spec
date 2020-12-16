@@ -48,10 +48,11 @@
     },
     {
       "fieldName": "background",
-      "displayName": "background",
-      "fieldType": "Background",
-      "association": true,
-      "optional": true,
+      "displayName": "Background Color",
+      "defaultValue": "RgbModel(r: 211, g: 211, b: 211, opacity: 0.50)",
+      "fieldType": "Rgb",
+      "iconName": "color_lens",
+      "bespokeFormField": "RgbField(\"Background Color\", state.value.background, _onBackgroundChanged)",
       "group": "background"
     },
     {

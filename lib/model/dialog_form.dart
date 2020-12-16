@@ -127,7 +127,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  String _background;
   int _layoutSelectedRadioTile;
   String _gridView;
   int _conditionalSelectedRadioTile;
@@ -170,10 +169,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _titleController.text = state.value.title.toString();
         else
           _titleController.text = "";
-        if (state.value.background != null)
-          _background= state.value.background.documentID;
-        else
-          _background= "";
         if (state.value.layout != null)
           _layoutSelectedRadioTile = state.value.layout.index;
         else
@@ -299,7 +294,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _background, trigger: _onBackgroundSelected, optional: true),
+                RgbField("Background Color", state.value.background, _onBackgroundChanged)
           );
 
 
@@ -574,11 +569,9 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void _onBackgroundSelected(String val) {
-    setState(() {
-      _background = val;
-    });
-    _myFormBloc.add(ChangedDialogBackground(value: val));
+  void _onBackgroundChanged(value) {
+    _myFormBloc.add(ChangedDialogBackground(value: value));
+    
   }
 
 

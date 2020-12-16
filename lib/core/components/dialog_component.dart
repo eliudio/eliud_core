@@ -6,80 +6,86 @@ import 'package:eliud_core/model/dialog_component_bloc.dart';
 import 'package:eliud_core/model/dialog_component_event.dart';
 import 'package:eliud_core/model/dialog_component_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/dialog_model.dart';
+import 'package:eliud_core/tools/etc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogComponent extends StatelessWidget {
-//  final String appID;
-  final String dialogID;
+  static Future<void> openDialog(BuildContext context,
+      {String id, Map<String, Object> parameters}) async {
+    var appID = AccessBloc.appId(context);
+    var dialog = await AbstractRepositorySingleton.singleton.dialogRepository(appID).get(id);
+    if (dialog == null) {
+      await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(title: Text("Error"), content: Text("Dialog with id $id not found")));
+      } else {
+      await showDialog(
+          context: context,
+          builder: (context) =>
+              Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  elevation: 0,
+                  backgroundColor: RgbHelper.color(rgbo: dialog.background),
+                  child: DialogComponent(
+                      dialog: dialog, parameters: parameters)));
+    }
+  }
+
+  //  final String appID;
+  final DialogModel dialog;
   final Map<String, Object> parameters;
 
-  DialogComponent({this.dialogID, this.parameters});
+  DialogComponent({this.dialog, this.parameters});
 
   @override
   Widget build(BuildContext context) {
-    var appID = AccessBloc.appId(context);
+    var helper = PageBodyHelper();
     var accessState = AccessBloc.getState(context);
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<DialogComponentBloc>(
-            create: (context) => DialogComponentBloc(
-                dialogRepository: AbstractRepositorySingleton.singleton
-                    .dialogRepository(appID))
-              ..add(FetchDialogComponent(id: dialogID)),
+    return Container(
+      margin: EdgeInsets.only(left: 0.0, right: 0.0),
+      child: Stack(
+        children: <Widget>[
+          Column(children: <Widget>[
+            Text(dialog.title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Divider(
+              color: Colors.black,
+              height: 20,
+              thickness: 2,
+              indent: 10,
+              endIndent: 10,
+            ),
+            helper.theBody(context, accessState,
+                backgroundDecoration: null,
+                components: helper.getComponents(
+                    dialog.bodyComponents, parameters),
+                layout: fromDialogLayout(dialog.layout),
+                gridView: dialog.gridView),
+          ]),
+          Positioned(
+            right: 0.0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Align(
+                alignment: Alignment.topRight,
+                child: CircleAvatar(
+                  radius: 14.0,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.close, color: Colors.black),
+                ),
+              ),
+            ),
           ),
         ],
-        child: BlocBuilder<DialogComponentBloc, DialogComponentState>(
-            builder: (context, state) {
-          if (state is DialogComponentLoaded) {
-            if (state.value == null) {
-              return AlertWidget(title: 'Error', content: 'No dialog defined');
-            } else {
-              var helper = PageBodyHelper();
-              return Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black)
-                ),
-                margin: EdgeInsets.only(left: 0.0,right: 0.0),
-                child: Stack(
-                  children: <Widget>[
-//                    state.value.title
-                    helper.theBody(context, accessState,
-                        backgroundDecoration: state.value.background,
-                        components: helper.getComponents(state.value.bodyComponents, parameters),
-                        layout: fromDialogLayout(state.value.layout),
-                        gridView: state.value.gridView),
-                    Positioned(
-                      right: 0.0,
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pop();
-                        },
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: CircleAvatar(
-                            radius: 14.0,
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.close, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-          } else if (state is DialogComponentError) {
-            return Text(state.message);
-          } else {
-            return Center(
-              child: DelayedCircularProgressIndicator(),
-            );
-          }
-        }));
+      ),
+    );
   }
 }
