@@ -106,7 +106,7 @@
     {
       "fieldName": "conditional",
       "displayName": "Page accessibility",
-      "remark": "Page only accessible conditionally",
+      "remark": "Page only accessible conditionally. This condition is display purposes only and is not a secured way to restrict access to data!",
       "fieldType": "enum",
       "enumName": "PageCondition",
       "enumValues" : [ "Always", "MustBeLoggedIn", "MustNotBeLoggedIn", "PackageDecides", "AdminOnly" ],

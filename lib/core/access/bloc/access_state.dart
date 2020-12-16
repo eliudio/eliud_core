@@ -264,8 +264,8 @@ abstract class LoggedIn extends AppLoaded {
 
 class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, PostLoginAction postLoginAction) async {
-    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
-    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
+    var pagesAccess = await AccessHelper._getPagesAccess(member, app, false);
+    var dialogAccess = await AccessHelper._getDialogsAccess(member, app, false);
     var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, pagesAccess, dialogAccess);
     return loggedInWithoutMembership;
   }
@@ -288,8 +288,8 @@ class LoggedInWithoutMembership extends LoggedIn {
 
 class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, ) async {
-    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
-    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
+    var pagesAccess = await AccessHelper._getPagesAccess(member, app, false);
+    var dialogAccess = await AccessHelper._getDialogsAccess(member, app, false);
     var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, pagesAccess, dialogAccess);
     return loggedInWithMembership;
   }
