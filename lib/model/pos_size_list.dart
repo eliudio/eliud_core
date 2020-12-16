@@ -41,14 +41,17 @@ import 'package:eliud_core/model/pos_size_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'pos_size_form.dart';
+
 class PosSizeListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   PosSizeListWidgetState state;
   bool isEmbedded;
 
-  PosSizeListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  PosSizeListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   PosSizeListWidgetState createState() {
@@ -166,6 +169,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return PosSizeListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
       return null;
     }
   }
+  
   
 }
 

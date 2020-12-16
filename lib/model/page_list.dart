@@ -41,14 +41,17 @@ import 'package:eliud_core/model/page_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'page_form.dart';
+
 class PageListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   PageListWidgetState state;
   bool isEmbedded;
 
-  PageListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  PageListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   PageListWidgetState createState() {
@@ -166,6 +169,7 @@ class PageListWidgetState extends State<PageListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return PageListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class PageListWidgetState extends State<PageListWidget> {
       return null;
     }
   }
+  
   
 }
 

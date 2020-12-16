@@ -41,14 +41,17 @@ import 'package:eliud_core/model/body_component_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'body_component_form.dart';
+
 class BodyComponentListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   BodyComponentListWidgetState state;
   bool isEmbedded;
 
-  BodyComponentListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  BodyComponentListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   BodyComponentListWidgetState createState() {
@@ -166,6 +169,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return BodyComponentListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
       return null;
     }
   }
+  
   
 }
 

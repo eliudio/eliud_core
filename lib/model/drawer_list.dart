@@ -41,14 +41,17 @@ import 'package:eliud_core/model/drawer_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'drawer_form.dart';
+
 class DrawerListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   DrawerListWidgetState state;
   bool isEmbedded;
 
-  DrawerListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  DrawerListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   DrawerListWidgetState createState() {
@@ -166,6 +169,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return DrawerListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
       return null;
     }
   }
+  
   
 }
 

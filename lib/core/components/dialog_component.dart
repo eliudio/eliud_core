@@ -10,6 +10,7 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogComponent extends StatelessWidget {
@@ -40,9 +41,13 @@ class DialogComponent extends StatelessWidget {
             } else {
               var helper = PageBodyHelper();
               return Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black)
+                ),
                 margin: EdgeInsets.only(left: 0.0,right: 0.0),
                 child: Stack(
                   children: <Widget>[
+//                    state.value.title
                     helper.theBody(context, accessState,
                         backgroundDecoration: state.value.background,
                         components: helper.getComponents(state.value.bodyComponents, parameters),

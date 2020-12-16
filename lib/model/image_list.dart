@@ -41,14 +41,17 @@ import 'package:eliud_core/model/image_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'image_form.dart';
+
 class ImageListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   ImageListWidgetState state;
   bool isEmbedded;
 
-  ImageListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  ImageListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   ImageListWidgetState createState() {
@@ -166,6 +169,7 @@ class ImageListWidgetState extends State<ImageListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return ImageListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class ImageListWidgetState extends State<ImageListWidget> {
       return null;
     }
   }
+  
   
 }
 

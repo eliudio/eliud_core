@@ -10,6 +10,7 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
@@ -64,9 +65,11 @@ class Registry {
       {String id, Map<String, Object> parameters}) async {
     await showDialog(
         context: context,
-        builder: (context) => Dialog(
-            backgroundColor: Colors.transparent,
-              child: DialogComponent(dialogID: id, parameters: parameters)));
+        builder: (context) =>
+            Dialog(
+                child: DialogComponent(dialogID: id, parameters: parameters)
+            )
+    );
   }
 
   Widget application({String id, bool asPlaystore}) {

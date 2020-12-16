@@ -31,6 +31,9 @@ import '../model/country_repository.dart';
 import '../model/country_cache.dart';
 import '../model/decoration_color_repository.dart';
 import '../model/decoration_color_cache.dart';
+import '../model/dialog_firestore.dart';
+import '../model/dialog_repository.dart';
+import '../model/dialog_cache.dart';
 import '../model/drawer_firestore.dart';
 import '../model/drawer_repository.dart';
 import '../model/drawer_cache.dart';
@@ -63,24 +66,22 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
-import '../model/dialog_firestore.dart';
-import '../model/dialog_repository.dart';
-import '../model/dialog_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
 import '../model/background_model.dart';
+import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
-import '../model/dialog_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _backgroundRepository = HashMap<String, BackgroundRepository>();
     var _countryRepository = CountryCache(CountryFirestore());
+    var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
     var _fontRepository = HashMap<String, FontRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
@@ -89,7 +90,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
-    var _dialogRepository = HashMap<String, DialogRepository>();
 
     AppBarRepository appBarRepository(String appId) {
       if (_appBarRepository[appId] == null) _appBarRepository[appId] = AppBarCache(AppBarFirestore(appId));
@@ -101,6 +101,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     CountryRepository countryRepository() {
       return _countryRepository;
+    }
+    DialogRepository dialogRepository(String appId) {
+      if (_dialogRepository[appId] == null) _dialogRepository[appId] = DialogCache(DialogFirestore(appId));
+      return _dialogRepository[appId];
     }
     DrawerRepository drawerRepository(String appId) {
       if (_drawerRepository[appId] == null) _drawerRepository[appId] = DrawerCache(DrawerFirestore(appId));
@@ -133,10 +137,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     ShadowRepository shadowRepository(String appId) {
       if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appId));
       return _shadowRepository[appId];
-    }
-    DialogRepository dialogRepository(String appId) {
-      if (_dialogRepository[appId] == null) _dialogRepository[appId] = DialogCache(DialogFirestore(appId));
-      return _dialogRepository[appId];
     }
 
 }

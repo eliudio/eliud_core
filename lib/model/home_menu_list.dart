@@ -41,14 +41,17 @@ import 'package:eliud_core/model/home_menu_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'home_menu_form.dart';
+
 class HomeMenuListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   HomeMenuListWidgetState state;
   bool isEmbedded;
 
-  HomeMenuListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  HomeMenuListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   HomeMenuListWidgetState createState() {
@@ -166,6 +169,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return HomeMenuListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
       return null;
     }
   }
+  
   
 }
 

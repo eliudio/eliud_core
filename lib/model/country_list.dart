@@ -41,14 +41,17 @@ import 'package:eliud_core/model/country_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'country_form.dart';
+
 class CountryListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   CountryListWidgetState state;
   bool isEmbedded;
 
-  CountryListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  CountryListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   CountryListWidgetState createState() {
@@ -166,6 +169,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return CountryListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
       return null;
     }
   }
+  
   
 }
 

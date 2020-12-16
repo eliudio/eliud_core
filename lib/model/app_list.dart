@@ -41,14 +41,17 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'app_form.dart';
+
 class AppListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   AppListWidgetState state;
   bool isEmbedded;
 
-  AppListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  AppListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   AppListWidgetState createState() {
@@ -166,6 +169,7 @@ class AppListWidgetState extends State<AppListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return AppListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class AppListWidgetState extends State<AppListWidget> {
       return null;
     }
   }
+  
   
 }
 

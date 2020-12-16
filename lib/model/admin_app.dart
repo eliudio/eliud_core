@@ -126,6 +126,26 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _dialogsPages() {
+    List<BodyComponentModel> components = List();
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-dialogs", componentName: "eliud_core_internalWidgets", componentId: "dialogs"));
+    PageModel page = PageModel(
+        conditional: PageCondition.AdminOnly,
+        appId: appId,
+        documentID: "eliud_core_dialogs_page",
+        title: "Dialogs",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _drawersPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -326,26 +346,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _dialogsPages() {
-    List<BodyComponentModel> components = List();
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-dialogs", componentName: "eliud_core_internalWidgets", componentId: "dialogs"));
-    PageModel page = PageModel(
-        conditional: PageCondition.AdminOnly,
-        appId: appId,
-        documentID: "eliud_core_dialogs_page",
-        title: "Dialogs",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId).add(_appsPages())
@@ -355,6 +355,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_backgroundsPages()))
 
         .then((_) => pageRepository(appId: appId).add(_countrysPages()))
+
+        .then((_) => pageRepository(appId: appId).add(_dialogsPages()))
 
         .then((_) => pageRepository(appId: appId).add(_drawersPages()))
 
@@ -375,8 +377,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId).add(_shadowsPages()))
-
-        .then((_) => pageRepository(appId: appId).add(_dialogsPages()))
 
     ;
   }
@@ -431,6 +431,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Countrys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_countrys_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Dialogs",
+        text: "Dialogs",
+        description: "Dialogs",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_dialogs_page"))
     );
 
 
@@ -534,16 +544,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
     );
 
 
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Dialogs",
-        text: "Dialogs",
-        description: "Dialogs",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_dialogs_page"))
-    );
-
-
     MenuDefModel menu = MenuDefModel(
       admin: true,
       documentID: "eliud_core_admin_menu",
@@ -563,6 +563,7 @@ class AdminAppWiper extends AdminAppWiperBase {
     await appBarRepository(appId: appId).deleteAll();
     await backgroundRepository(appId: appId).deleteAll();
     await countryRepository().deleteAll();
+    await dialogRepository(appId: appId).deleteAll();
     await drawerRepository(appId: appId).deleteAll();
     await fontRepository(appId: appId).deleteAll();
     await gridViewRepository(appId: appId).deleteAll();
@@ -572,7 +573,6 @@ class AdminAppWiper extends AdminAppWiperBase {
     await pageRepository(appId: appId).deleteAll();
     await posSizeRepository(appId: appId).deleteAll();
     await shadowRepository(appId: appId).deleteAll();
-    await dialogRepository(appId: appId).deleteAll();
     ;
   }
 

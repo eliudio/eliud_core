@@ -41,14 +41,17 @@ import 'package:eliud_core/model/background_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'background_form.dart';
+
 class BackgroundListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   BackgroundListWidgetState state;
   bool isEmbedded;
 
-  BackgroundListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  BackgroundListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   BackgroundListWidgetState createState() {
@@ -166,6 +169,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return BackgroundListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
       return null;
     }
   }
+  
   
 }
 

@@ -41,14 +41,17 @@ import 'package:eliud_core/model/member_subscription_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 
+
 import 'member_subscription_form.dart';
+
 class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
   bool readOnly;
   String form;
+  String listItemWidget;
   MemberSubscriptionListWidgetState state;
   bool isEmbedded;
 
-  MemberSubscriptionListWidget({ Key key, this.readOnly, this.form, this.isEmbedded }): super(key: key);
+  MemberSubscriptionListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded }): super(key: key);
 
   @override
   MemberSubscriptionListWidgetState createState() {
@@ -166,6 +169,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+
           return MemberSubscriptionListItem(
             value: value,
             app: accessState.app,
@@ -207,6 +211,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
       return null;
     }
   }
+  
   
 }
 

@@ -19,6 +19,7 @@ import '../model/background_repository.dart';
 import '../model/body_component_repository.dart';
 import '../model/country_repository.dart';
 import '../model/decoration_color_repository.dart';
+import '../model/dialog_repository.dart';
 import '../model/drawer_repository.dart';
 import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
@@ -31,13 +32,13 @@ import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
-import '../model/dialog_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/types.dart';
 
 AppBarRepository appBarRepository({ String appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
 BackgroundRepository backgroundRepository({ String appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
 CountryRepository countryRepository({ String appId }) => AbstractRepositorySingleton.singleton.countryRepository();
+DialogRepository dialogRepository({ String appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 DrawerRepository drawerRepository({ String appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
 FontRepository fontRepository({ String appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
 GridViewRepository gridViewRepository({ String appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
@@ -46,7 +47,6 @@ MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingl
 PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
-DialogRepository dialogRepository({ String appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
@@ -54,6 +54,7 @@ abstract class AbstractRepositorySingleton {
   AppBarRepository appBarRepository(String appId);
   BackgroundRepository backgroundRepository(String appId);
   CountryRepository countryRepository();
+  DialogRepository dialogRepository(String appId);
   DrawerRepository drawerRepository(String appId);
   FontRepository fontRepository(String appId);
   GridViewRepository gridViewRepository(String appId);
@@ -62,12 +63,12 @@ abstract class AbstractRepositorySingleton {
   PageRepository pageRepository(String appId);
   PosSizeRepository posSizeRepository(String appId);
   ShadowRepository shadowRepository(String appId);
-  DialogRepository dialogRepository(String appId);
 
   void flush(String appId) {
     appBarRepository(appId).flush();
     backgroundRepository(appId).flush();
     countryRepository().flush();
+    dialogRepository(appId).flush();
     drawerRepository(appId).flush();
     fontRepository(appId).flush();
     gridViewRepository(appId).flush();
@@ -76,6 +77,5 @@ abstract class AbstractRepositorySingleton {
     pageRepository(appId).flush();
     posSizeRepository(appId).flush();
     shadowRepository(appId).flush();
-    dialogRepository(appId).flush();
   }
 }
