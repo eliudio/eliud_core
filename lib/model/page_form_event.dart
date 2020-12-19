@@ -15,6 +15,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -186,16 +187,28 @@ class ChangedPageGridView extends PageFormEvent {
   String toString() => 'ChangedPageGridView{ value: $value }';
 }
 
-class ChangedPageConditional extends PageFormEvent {
-  final PageCondition value;
+class ChangedPageReadCondition extends PageFormEvent {
+  final ReadCondition value;
 
-  ChangedPageConditional({this.value});
+  ChangedPageReadCondition({this.value});
 
   @override
   List<Object> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPageConditional{ value: $value }';
+  String toString() => 'ChangedPageReadCondition{ value: $value }';
+}
+
+class ChangedPagePrivilegeLevelRequired extends PageFormEvent {
+  final String value;
+
+  ChangedPagePrivilegeLevelRequired({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPagePrivilegeLevelRequired{ value: $value }';
 }
 
 class ChangedPagePackageCondition extends PageFormEvent {

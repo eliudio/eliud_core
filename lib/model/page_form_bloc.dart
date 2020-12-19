@@ -19,7 +19,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/types.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/model/rgb_model.dart';
 
@@ -52,6 +52,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
+                                 privilegeLevelRequired: 0,
                                  packageCondition: "",
 
         ));
@@ -105,7 +106,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
@@ -128,7 +130,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
@@ -151,7 +154,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
@@ -174,7 +178,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
@@ -203,7 +208,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: null,
                                  layout: currentState.value.layout,
                                  gridView: currentState.value.gridView,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
@@ -232,17 +238,29 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: null,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
-      if (event is ChangedPageConditional) {
-        newValue = currentState.value.copyWith(conditional: event.value);
+      if (event is ChangedPageReadCondition) {
+        newValue = currentState.value.copyWith(readCondition: event.value);
         yield SubmittablePageForm(value: newValue);
 
+        return;
+      }
+      if (event is ChangedPagePrivilegeLevelRequired) {
+        if (isInt(event.value)) {
+          newValue = currentState.value.copyWith(privilegeLevelRequired: int.parse(event.value));
+          yield SubmittablePageForm(value: newValue);
+
+        } else {
+          newValue = currentState.value.copyWith(privilegeLevelRequired: 0);
+          yield PrivilegeLevelRequiredPageFormError(message: "Value should be a number", value: newValue);
+        }
         return;
       }
       if (event is ChangedPagePackageCondition) {

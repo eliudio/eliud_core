@@ -15,6 +15,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -33,10 +34,6 @@ enum DialogLayout {
   GridView, ListView, OnlyTheFirstComponent, Unknown
 }
 
-enum DialogCondition {
-  Always, MustBeLoggedIn, MustNotBeLoggedIn, PackageDecides, AdminOnly, Unknown
-}
-
 
 DialogLayout toDialogLayout(int index) {
   switch (index) {
@@ -45,17 +42,6 @@ DialogLayout toDialogLayout(int index) {
     case 2: return DialogLayout.OnlyTheFirstComponent;
   }
   return DialogLayout.Unknown;
-}
-
-DialogCondition toDialogCondition(int index) {
-  switch (index) {
-    case 0: return DialogCondition.Always;
-    case 1: return DialogCondition.MustBeLoggedIn;
-    case 2: return DialogCondition.MustNotBeLoggedIn;
-    case 3: return DialogCondition.PackageDecides;
-    case 4: return DialogCondition.AdminOnly;
-  }
-  return DialogCondition.Unknown;
 }
 
 
@@ -70,20 +56,21 @@ class DialogModel {
   // Specific gridview
   GridViewModel gridView;
 
-  // Dialog only accessible conditionally
-  DialogCondition conditional;
+  // Page only accessible conditionally. See type definition for more info
+  ReadCondition readCondition;
+  int privilegeLevelRequired;
   String packageCondition;
 
-  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.conditional, this.packageCondition, })  {
+  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.readCondition, this.privilegeLevelRequired, this.packageCondition, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, RgbModel background, DialogLayout layout, GridViewModel gridView, DialogCondition conditional, String packageCondition, }) {
-    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditional: conditional ?? this.conditional, packageCondition: packageCondition ?? this.packageCondition, );
+  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, RgbModel background, DialogLayout layout, GridViewModel gridView, ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, }) {
+    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, readCondition: readCondition ?? this.readCondition, privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition: packageCondition ?? this.packageCondition, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditional.hashCode ^ packageCondition.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ readCondition.hashCode ^ privilegeLevelRequired.hashCode ^ packageCondition.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -97,14 +84,15 @@ class DialogModel {
           background == other.background &&
           layout == other.layout &&
           gridView == other.gridView &&
-          conditional == other.conditional &&
+          readCondition == other.readCondition &&
+          privilegeLevelRequired == other.privilegeLevelRequired &&
           packageCondition == other.packageCondition;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, packageCondition: $packageCondition}';
+    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
   }
 
   DialogEntity toEntity({String appId}) {
@@ -117,7 +105,7 @@ class DialogModel {
           background: (background != null) ? background.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout.index : null, 
           gridViewId: (gridView != null) ? gridView.documentID : null, 
-          conditional: (conditional != null) ? conditional.index : null, 
+          readCondition: readCondition,           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired : null, 
           packageCondition: (packageCondition != null) ? packageCondition : null, 
     );
   }
@@ -135,7 +123,8 @@ class DialogModel {
           background: 
             RgbModel.fromEntity(entity.background), 
           layout: toDialogLayout(entity.layout), 
-          conditional: toDialogCondition(entity.conditional), 
+          readCondition: entity.readCondition, 
+          privilegeLevelRequired: entity.privilegeLevelRequired, 
           packageCondition: entity.packageCondition, 
     );
   }
@@ -164,7 +153,8 @@ class DialogModel {
             await RgbModel.fromEntityPlus(entity.background, appId: appId), 
           layout: toDialogLayout(entity.layout), 
           gridView: gridViewHolder, 
-          conditional: toDialogCondition(entity.conditional), 
+          readCondition: entity.readCondition, 
+          privilegeLevelRequired: entity.privilegeLevelRequired, 
           packageCondition: entity.packageCondition, 
     );
   }

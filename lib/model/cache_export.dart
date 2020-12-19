@@ -13,8 +13,10 @@
 
 */
 
+export '../model/access_cache.dart';
 export '../model/app_cache.dart';
 export '../model/app_bar_cache.dart';
+export '../model/app_entry_pages_cache.dart';
 export '../model/background_cache.dart';
 export '../model/body_component_cache.dart';
 export '../model/country_cache.dart';

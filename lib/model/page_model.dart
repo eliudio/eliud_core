@@ -15,6 +15,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -33,10 +34,6 @@ enum PageLayout {
   GridView, ListView, OnlyTheFirstComponent, Unknown
 }
 
-enum PageCondition {
-  Always, MustBeLoggedIn, MustNotBeLoggedIn, PackageDecides, AdminOnly, Unknown
-}
-
 
 PageLayout toPageLayout(int index) {
   switch (index) {
@@ -45,17 +42,6 @@ PageLayout toPageLayout(int index) {
     case 2: return PageLayout.OnlyTheFirstComponent;
   }
   return PageLayout.Unknown;
-}
-
-PageCondition toPageCondition(int index) {
-  switch (index) {
-    case 0: return PageCondition.Always;
-    case 1: return PageCondition.MustBeLoggedIn;
-    case 2: return PageCondition.MustNotBeLoggedIn;
-    case 3: return PageCondition.PackageDecides;
-    case 4: return PageCondition.AdminOnly;
-  }
-  return PageCondition.Unknown;
 }
 
 
@@ -74,20 +60,21 @@ class PageModel {
   // Specific gridview
   GridViewModel gridView;
 
-  // Page only accessible conditionally
-  PageCondition conditional;
+  // Page only accessible conditionally. See type definition for more info
+  ReadCondition readCondition;
+  int privilegeLevelRequired;
   String packageCondition;
 
-  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.background, this.layout, this.gridView, this.conditional, this.packageCondition, })  {
+  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.background, this.layout, this.gridView, this.readCondition, this.privilegeLevelRequired, this.packageCondition, })  {
     assert(documentID != null);
   }
 
-  PageModel copyWith({String documentID, String appId, String title, AppBarModel appBar, DrawerModel drawer, DrawerModel endDrawer, HomeMenuModel homeMenu, List<BodyComponentModel> bodyComponents, BackgroundModel background, PageLayout layout, GridViewModel gridView, PageCondition conditional, String packageCondition, }) {
-    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditional: conditional ?? this.conditional, packageCondition: packageCondition ?? this.packageCondition, );
+  PageModel copyWith({String documentID, String appId, String title, AppBarModel appBar, DrawerModel drawer, DrawerModel endDrawer, HomeMenuModel homeMenu, List<BodyComponentModel> bodyComponents, BackgroundModel background, PageLayout layout, GridViewModel gridView, ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, }) {
+    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, readCondition: readCondition ?? this.readCondition, privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition: packageCondition ?? this.packageCondition, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditional.hashCode ^ packageCondition.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ readCondition.hashCode ^ privilegeLevelRequired.hashCode ^ packageCondition.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -105,14 +92,15 @@ class PageModel {
           background == other.background &&
           layout == other.layout &&
           gridView == other.gridView &&
-          conditional == other.conditional &&
+          readCondition == other.readCondition &&
+          privilegeLevelRequired == other.privilegeLevelRequired &&
           packageCondition == other.packageCondition;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditional: $conditional, packageCondition: $packageCondition}';
+    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
   }
 
   PageEntity toEntity({String appId}) {
@@ -129,7 +117,7 @@ class PageModel {
           backgroundId: (background != null) ? background.documentID : null, 
           layout: (layout != null) ? layout.index : null, 
           gridViewId: (gridView != null) ? gridView.documentID : null, 
-          conditional: (conditional != null) ? conditional.index : null, 
+          readCondition: readCondition,           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired : null, 
           packageCondition: (packageCondition != null) ? packageCondition : null, 
     );
   }
@@ -145,7 +133,8 @@ class PageModel {
             .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
             .toList(), 
           layout: toPageLayout(entity.layout), 
-          conditional: toPageCondition(entity.conditional), 
+          readCondition: entity.readCondition, 
+          privilegeLevelRequired: entity.privilegeLevelRequired, 
           packageCondition: entity.packageCondition, 
     );
   }
@@ -222,7 +211,8 @@ class PageModel {
           background: backgroundHolder, 
           layout: toPageLayout(entity.layout), 
           gridView: gridViewHolder, 
-          conditional: toPageCondition(entity.conditional), 
+          readCondition: entity.readCondition, 
+          privilegeLevelRequired: entity.privilegeLevelRequired, 
           packageCondition: entity.packageCondition, 
     );
   }

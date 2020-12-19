@@ -23,6 +23,7 @@ import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -148,6 +149,7 @@ class _MyAppFormState extends State<MyAppForm> {
   String _fontHighlight1;
   String _fontHighlight2;
   String _fontLink;
+  bool _autoMembershipSelection;
 
 
   _MyAppFormState(this.formAction);
@@ -166,6 +168,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _routeBuilderSelectedRadioTile = 0;
     _routeAnimationDurationController.addListener(_onRouteAnimationDurationChanged);
     _logoURLController.addListener(_onLogoURLChanged);
+    _autoMembershipSelection = false;
   }
 
   @override
@@ -274,6 +277,10 @@ class _MyAppFormState extends State<MyAppForm> {
           _fontLink= state.value.fontLink.documentID;
         else
           _fontLink= "";
+        if (state.value.autoMembership != null)
+        _autoMembershipSelection = state.value.autoMembership;
+        else
+        _autoMembershipSelection = false;
       }
       if (state is AppFormInitialized) {
         List<Widget> children = List();
@@ -288,6 +295,16 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "fonts", value: _fontLink, trigger: _onFontLinkSelected, optional: true),
+          );
+
+        children.add(
+
+                CheckboxListTile(
+                    title: Text('If set to auto membership, people can just login. If set to manual membership, a membership request is sent to the owner', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    value: _autoMembershipSelection,
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
+                      setSelectionAutoMembership(val);
+                    }),
           );
 
 
@@ -436,7 +453,7 @@ class _MyAppFormState extends State<MyAppForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Entry Page',
+                  child: Text('Entry Page (for everybody)',
                       style: TextStyle(
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
@@ -444,6 +461,27 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Entry Pages (per privilege)',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        children.add(
+
+                new Container(
+                    height: (fullScreenHeight(context) / 2.5), 
+                    child: appEntryPagessList(state.value.entryPages, _onEntryPagesChanged)
+                )
           );
 
 
@@ -968,6 +1006,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value.appStatus, 
                               darkOrLight: state.value.darkOrLight, 
                               entryPage: state.value.entryPage, 
+                              entryPages: state.value.entryPages, 
                               logo: state.value.logo, 
                               formSubmitButtonColor: state.value.formSubmitButtonColor, 
                               formBackground: state.value.formBackground, 
@@ -995,6 +1034,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
+                              autoMembership: state.value.autoMembership, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -1007,6 +1047,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value.appStatus, 
                               darkOrLight: state.value.darkOrLight, 
                               entryPage: state.value.entryPage, 
+                              entryPages: state.value.entryPages, 
                               logo: state.value.logo, 
                               formSubmitButtonColor: state.value.formSubmitButtonColor, 
                               formBackground: state.value.formBackground, 
@@ -1034,6 +1075,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
+                              autoMembership: state.value.autoMembership, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1113,6 +1155,12 @@ class _MyAppFormState extends State<MyAppForm> {
       _entryPage = val;
     });
     _myFormBloc.add(ChangedAppEntryPage(value: val));
+  }
+
+
+  void _onEntryPagesChanged(value) {
+    _myFormBloc.add(ChangedAppEntryPages(value: value));
+    setState(() {});
   }
 
 
@@ -1303,6 +1351,19 @@ class _MyAppFormState extends State<MyAppForm> {
     _myFormBloc.add(ChangedAppFontLink(value: val));
   }
 
+
+  void _onAccessChanged(value) {
+    _myFormBloc.add(ChangedAppAccess(value: value));
+    setState(() {});
+  }
+
+
+  void setSelectionAutoMembership(bool val) {
+    setState(() {
+      _autoMembershipSelection = val;
+    });
+    _myFormBloc.add(ChangedAppAutoMembership(value: val));
+  }
 
 
   @override

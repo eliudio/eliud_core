@@ -13,7 +13,9 @@
 
 */
 
+import 'package:collection/collection.dart';
 import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -26,6 +28,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/app_entity.dart';
 
+import 'package:eliud_core/model/access_repository.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum AppStatus {
@@ -78,7 +81,10 @@ class AppModel {
   String description;
   AppStatus appStatus;
   DarkOrLight darkOrLight;
+
+  // Entry page for non members or for apps with AppEntryPages specified
   PageModel entryPage;
+  List<AppEntryPagesModel> entryPages;
   ImageModel logo;
   RgbModel formSubmitButtonColor;
   BackgroundModel formBackground;
@@ -108,17 +114,18 @@ class AppModel {
   FontModel fontHighlight1;
   FontModel fontHighlight2;
   FontModel fontLink;
+  bool autoMembership;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.entryPage, this.logo, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.entryPage, this.entryPages, this.logo, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, this.autoMembership, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, PageModel entryPage, ImageModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, entryPage: entryPage ?? this.entryPage, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
+  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, PageModel entryPage, List<AppEntryPagesModel> entryPages, ImageModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, bool autoMembership, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, entryPage: entryPage ?? this.entryPage, entryPages: entryPages ?? this.entryPages, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, autoMembership: autoMembership ?? this.autoMembership, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ darkOrLight.hashCode ^ entryPage.hashCode ^ logo.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ logoURL.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ darkOrLight.hashCode ^ entryPage.hashCode ^ entryPages.hashCode ^ logo.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ logoURL.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode ^ autoMembership.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -133,6 +140,7 @@ class AppModel {
           appStatus == other.appStatus &&
           darkOrLight == other.darkOrLight &&
           entryPage == other.entryPage &&
+          ListEquality().equals(entryPages, other.entryPages) &&
           logo == other.logo &&
           formSubmitButtonColor == other.formSubmitButtonColor &&
           formBackground == other.formBackground &&
@@ -159,11 +167,14 @@ class AppModel {
           fontText == other.fontText &&
           fontHighlight1 == other.fontHighlight1 &&
           fontHighlight2 == other.fontHighlight2 &&
-          fontLink == other.fontLink;
+          fontLink == other.fontLink &&
+          autoMembership == other.autoMembership;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, entryPage: $entryPage, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
+    String entryPagesCsv = (entryPages == null) ? '' : entryPages.join(', ');
+
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, entryPage: $entryPage, entryPages: AppEntryPages[] { $entryPagesCsv }, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink, autoMembership: $autoMembership}';
   }
 
   AppEntity toEntity({String appId}) {
@@ -176,6 +187,9 @@ class AppModel {
           appStatus: (appStatus != null) ? appStatus.index : null, 
           darkOrLight: (darkOrLight != null) ? darkOrLight.index : null, 
           entryPageId: (entryPage != null) ? entryPage.documentID : null, 
+          entryPages: (entryPages != null) ? entryPages
+            .map((item) => item.toEntity(appId: appId))
+            .toList() : null, 
           logoId: (logo != null) ? logo.documentID : null, 
           formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor.toEntity(appId: appId) : null, 
           formBackgroundId: (formBackground != null) ? formBackground.documentID : null, 
@@ -203,6 +217,7 @@ class AppModel {
           fontHighlight1Id: (fontHighlight1 != null) ? fontHighlight1.documentID : null, 
           fontHighlight2Id: (fontHighlight2 != null) ? fontHighlight2.documentID : null, 
           fontLinkId: (fontLink != null) ? fontLink.documentID : null, 
+          autoMembership: (autoMembership != null) ? autoMembership : null, 
     );
   }
 
@@ -216,6 +231,10 @@ class AppModel {
           description: entity.description, 
           appStatus: toAppStatus(entity.appStatus), 
           darkOrLight: toDarkOrLight(entity.darkOrLight), 
+          entryPages: 
+            entity. entryPages
+            .map((item) => AppEntryPagesModel.fromEntity(newRandomKey(), item))
+            .toList(), 
           formSubmitButtonColor: 
             RgbModel.fromEntity(entity.formSubmitButtonColor), 
           formSubmitButtonTextColor: 
@@ -241,6 +260,7 @@ class AppModel {
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
           logoURL: entity.logoURL, 
+          autoMembership: entity.autoMembership, 
     );
   }
 
@@ -382,6 +402,10 @@ class AppModel {
           appStatus: toAppStatus(entity.appStatus), 
           darkOrLight: toDarkOrLight(entity.darkOrLight), 
           entryPage: entryPageHolder, 
+          entryPages: 
+            new List<AppEntryPagesModel>.from(await Future.wait(entity. entryPages
+            .map((item) => AppEntryPagesModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            .toList())), 
           logo: logoHolder, 
           formSubmitButtonColor: 
             await RgbModel.fromEntityPlus(entity.formSubmitButtonColor, appId: appId), 
@@ -420,6 +444,7 @@ class AppModel {
           fontHighlight1: fontHighlight1Holder, 
           fontHighlight2: fontHighlight2Holder, 
           fontLink: fontLinkHolder, 
+          autoMembership: entity.autoMembership, 
     );
   }
 

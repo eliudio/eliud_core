@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/model/app_repository.dart';
 
+import 'package:eliud_core/model/access_firestore.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -58,7 +59,7 @@ class AppFirestore implements AppRepository {
     });
   }
 
-  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
+  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
     Stream<List<AppModel>> stream;
     if (orderBy == null) {
        stream = AppCollection.snapshots().map((data) {
@@ -83,7 +84,7 @@ class AppFirestore implements AppRepository {
     });
   }
 
-  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending}) {
+  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
     Stream<List<AppModel>> stream;
     if (orderBy == null) {
       stream = AppCollection.snapshots()
@@ -103,9 +104,9 @@ class AppFirestore implements AppRepository {
   }
 
 
-  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().map((snapshot) {
+    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -114,9 +115,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).snapshots().asyncMap((snapshot) {
+    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -126,9 +127,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -139,9 +140,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
+  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit).getDocuments().then((value) {
+    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -162,6 +163,12 @@ class AppFirestore implements AppRepository {
     });
   }
 
+
+  AccessRepository accessRepository(String documentID) {
+    CollectionReference reference = AppCollection.document(documentID).collection("Access");
+    return AccessFirestore(reference);
+  }
+  
 
   AppFirestore();
 

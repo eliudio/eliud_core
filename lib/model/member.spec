@@ -222,7 +222,6 @@
   "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();",
   "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",
   "extraImports": {
-    "firestore" : "import 'package:eliud_core/core/global_data.dart';",
     "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';"
   },
   "alternativeViews": [

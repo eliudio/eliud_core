@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
@@ -25,19 +26,20 @@ class DialogEntity {
   final RgbEntity background;
   final int layout;
   final String gridViewId;
-  final int conditional;
+  final ReadCondition readCondition;
+  final int privilegeLevelRequired;
   final String packageCondition;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.conditional, this.packageCondition, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.readCondition, this.privilegeLevelRequired, this.packageCondition, });
 
 
-  List<Object> get props => [appId, title, bodyComponents, background, layout, gridViewId, conditional, packageCondition, ];
+  List<Object> get props => [appId, title, bodyComponents, background, layout, gridViewId, readCondition, privilegeLevelRequired, packageCondition, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, conditional: $conditional, packageCondition: $packageCondition}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
   }
 
   static DialogEntity fromMap(Map map) {
@@ -51,6 +53,10 @@ class DialogEntity {
     backgroundFromMap = map['background'];
     if (backgroundFromMap != null)
       backgroundFromMap = RgbEntity.fromMap(backgroundFromMap);
+    var readConditionFromMap;
+    readConditionFromMap = map['readCondition'];
+    if (readConditionFromMap != null)
+      readConditionFromMap = toReadCondition(map['readCondition']);
 
     return DialogEntity(
       appId: map['appId'], 
@@ -59,7 +65,8 @@ class DialogEntity {
       background: backgroundFromMap, 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
-      conditional: map['conditional'], 
+      readCondition: readConditionFromMap, 
+      privilegeLevelRequired: int.tryParse(map['privilegeLevelRequired'].toString()), 
       packageCondition: map['packageCondition'], 
     );
   }
@@ -85,8 +92,9 @@ class DialogEntity {
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
-    if (conditional != null) theDocument["conditional"] = conditional;
-      else theDocument["conditional"] = null;
+    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;
+    if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
+      else theDocument["privilegeLevelRequired"] = null;
     if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
       else theDocument["packageCondition"] = null;
     return theDocument;

@@ -15,12 +15,17 @@
 
 import 'abstract_repository_singleton.dart';
 import 'dart:collection';
+import '../model/access_js_firestore.dart';
+import '../model/access_repository.dart';
+import '../model/access_cache.dart';
 import '../model/app_js_firestore.dart';
 import '../model/app_repository.dart';
 import '../model/app_cache.dart';
 import '../model/app_bar_js_firestore.dart';
 import '../model/app_bar_repository.dart';
 import '../model/app_bar_cache.dart';
+import '../model/app_entry_pages_repository.dart';
+import '../model/app_entry_pages_cache.dart';
 import '../model/background_js_firestore.dart';
 import '../model/background_repository.dart';
 import '../model/background_cache.dart';
@@ -69,6 +74,7 @@ import '../model/shadow_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
+import '../model/app_entry_pages_model.dart';
 import '../model/background_model.dart';
 import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';

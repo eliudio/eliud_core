@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/action_entity.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
@@ -26,6 +27,7 @@ class AppEntity {
   final int appStatus;
   final int darkOrLight;
   final String entryPageId;
+  final List<AppEntryPagesEntity> entryPages;
   final String logoId;
   final RgbEntity formSubmitButtonColor;
   final String formBackgroundId;
@@ -53,20 +55,27 @@ class AppEntity {
   final String fontHighlight1Id;
   final String fontHighlight2Id;
   final String fontLinkId;
+  final bool autoMembership;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.entryPageId, this.logoId, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.entryPageId, this.entryPages, this.logoId, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, this.autoMembership, });
 
 
-  List<Object> get props => [ownerID, title, email, description, appStatus, darkOrLight, entryPageId, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
+  List<Object> get props => [ownerID, title, email, description, appStatus, darkOrLight, entryPageId, entryPages, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, autoMembership, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, entryPageId: $entryPageId, logoId: $logoId, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
+    String entryPagesCsv = (entryPages == null) ? '' : entryPages.join(', ');
+
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, entryPageId: $entryPageId, entryPages: AppEntryPages[] { $entryPagesCsv }, logoId: $logoId, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId, autoMembership: $autoMembership}';
   }
 
   static AppEntity fromMap(Map map) {
     if (map == null) return null;
 
+    final entryPagesList = (map['entryPages'] as List<dynamic>)
+        .map((dynamic item) =>
+        AppEntryPagesEntity.fromMap(item as Map))
+        .toList();
     var formSubmitButtonColorFromMap;
     formSubmitButtonColorFromMap = map['formSubmitButtonColor'];
     if (formSubmitButtonColorFromMap != null)
@@ -120,6 +129,7 @@ class AppEntity {
       appStatus: map['appStatus'], 
       darkOrLight: map['darkOrLight'], 
       entryPageId: map['entryPageId'], 
+      entryPages: entryPagesList, 
       logoId: map['logoId'], 
       formSubmitButtonColor: formSubmitButtonColorFromMap, 
       formBackgroundId: map['formBackgroundId'], 
@@ -147,10 +157,14 @@ class AppEntity {
       fontHighlight1Id: map['fontHighlight1Id'], 
       fontHighlight2Id: map['fontHighlight2Id'], 
       fontLinkId: map['fontLinkId'], 
+      autoMembership: map['autoMembership'], 
     );
   }
 
   Map<String, Object> toDocument() {
+    final List<Map<String, dynamic>> entryPagesListMap = entryPages != null 
+        ? entryPages.map((item) => item.toDocument()).toList()
+        : null;
     final Map<String, dynamic> formSubmitButtonColorMap = formSubmitButtonColor != null 
         ? formSubmitButtonColor.toDocument()
         : null;
@@ -200,6 +214,8 @@ class AppEntity {
       else theDocument["darkOrLight"] = null;
     if (entryPageId != null) theDocument["entryPageId"] = entryPageId;
       else theDocument["entryPageId"] = null;
+    if (entryPages != null) theDocument["entryPages"] = entryPagesListMap;
+      else theDocument["entryPages"] = null;
     if (logoId != null) theDocument["logoId"] = logoId;
       else theDocument["logoId"] = null;
     if (formSubmitButtonColor != null) theDocument["formSubmitButtonColor"] = formSubmitButtonColorMap;
@@ -254,6 +270,8 @@ class AppEntity {
       else theDocument["fontHighlight2Id"] = null;
     if (fontLinkId != null) theDocument["fontLinkId"] = fontLinkId;
       else theDocument["fontLinkId"] = null;
+    if (autoMembership != null) theDocument["autoMembership"] = autoMembership;
+      else theDocument["autoMembership"] = null;
     return theDocument;
   }
 

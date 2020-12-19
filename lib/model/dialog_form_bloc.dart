@@ -19,7 +19,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/types.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/model/rgb_model.dart';
 
@@ -53,6 +53,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  title: "",
                                  bodyComponents: [],
                                  background: RgbModel(r: 211, g: 211, b: 211, opacity: 0.50), 
+                                 privilegeLevelRequired: 0,
                                  packageCondition: "",
 
         ));
@@ -120,17 +121,29 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  background: currentState.value.background,
                                  layout: currentState.value.layout,
                                  gridView: null,
-                                 conditional: currentState.value.conditional,
+                                 readCondition: currentState.value.readCondition,
+                                 privilegeLevelRequired: currentState.value.privilegeLevelRequired,
                                  packageCondition: currentState.value.packageCondition,
           );
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
-      if (event is ChangedDialogConditional) {
-        newValue = currentState.value.copyWith(conditional: event.value);
+      if (event is ChangedDialogReadCondition) {
+        newValue = currentState.value.copyWith(readCondition: event.value);
         yield SubmittableDialogForm(value: newValue);
 
+        return;
+      }
+      if (event is ChangedDialogPrivilegeLevelRequired) {
+        if (isInt(event.value)) {
+          newValue = currentState.value.copyWith(privilegeLevelRequired: int.parse(event.value));
+          yield SubmittableDialogForm(value: newValue);
+
+        } else {
+          newValue = currentState.value.copyWith(privilegeLevelRequired: 0);
+          yield PrivilegeLevelRequiredDialogFormError(message: "Value should be a number", value: newValue);
+        }
         return;
       }
       if (event is ChangedDialogPackageCondition) {

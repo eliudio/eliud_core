@@ -13,8 +13,10 @@
 
 */
 
+export '../model/access_model.dart';
 export '../model/app_model.dart';
 export '../model/app_bar_model.dart';
+export '../model/app_entry_pages_model.dart';
 export '../model/background_model.dart';
 export '../model/body_component_model.dart';
 export '../model/country_model.dart';

@@ -73,12 +73,20 @@
       "group": "gridView"
     },
     {
-      "fieldName": "conditional",
-      "displayName": "Dialog accessibility",
-      "remark": "Dialog only accessible conditionally",
-      "fieldType": "enum",
-      "enumName": "DialogCondition",
-      "enumValues" : [ "Always", "MustBeLoggedIn", "MustNotBeLoggedIn", "PackageDecides", "AdminOnly" ],
+      "fieldName": "readCondition",
+      "displayName": "Page accessibility",
+      "remark": "Page only accessible conditionally. See type definition for more info",
+      "fieldType": "bespoke",
+      "bespokeFieldType": "ReadCondition",
+      "bespokeEntityMapping": "toReadCondition(map['readCondition'])",
+      "bespokeEntityToDocument" : "    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;",
+      "group": "conditional"
+    },
+    {
+      "fieldName": "privilegeLevelRequired",
+      "displayName": "Privilege Level Required",
+      "fieldType": "int",
+      "conditional": "(state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)",
       "group": "conditional"
     },
     {
@@ -86,7 +94,7 @@
       "displayName": "Package condition",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "(state.value.conditional == PageCondition.PackageDecides)",
+      "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)",
       "group": "conditional2"
     }
   ],
@@ -123,7 +131,16 @@
     {
         "group": "conditional2",
         "description": "Plugin Condition",
-        "conditional": "(state.value.conditional == PageCondition.PackageDecides)"
+        "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
+    },
+    {
+        "group": "conditional",
+        "description": "Conditional"
+    },
+    {
+        "group": "conditional2",
+        "description": "Plugin Condition",
+        "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
     }
   ],
   "listFields": {

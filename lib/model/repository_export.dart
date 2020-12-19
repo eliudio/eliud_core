@@ -13,8 +13,10 @@
 
 */
 
+export '../model/access_repository.dart';
 export '../model/app_repository.dart';
 export '../model/app_bar_repository.dart';
+export '../model/app_entry_pages_repository.dart';
 export '../model/background_repository.dart';
 export '../model/body_component_repository.dart';
 export '../model/country_repository.dart';

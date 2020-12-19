@@ -15,6 +15,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -138,16 +139,28 @@ class ChangedDialogGridView extends DialogFormEvent {
   String toString() => 'ChangedDialogGridView{ value: $value }';
 }
 
-class ChangedDialogConditional extends DialogFormEvent {
-  final DialogCondition value;
+class ChangedDialogReadCondition extends DialogFormEvent {
+  final ReadCondition value;
 
-  ChangedDialogConditional({this.value});
+  ChangedDialogReadCondition({this.value});
 
   @override
   List<Object> get props => [ value ];
 
   @override
-  String toString() => 'ChangedDialogConditional{ value: $value }';
+  String toString() => 'ChangedDialogReadCondition{ value: $value }';
+}
+
+class ChangedDialogPrivilegeLevelRequired extends DialogFormEvent {
+  final String value;
+
+  ChangedDialogPrivilegeLevelRequired({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedDialogPrivilegeLevelRequired{ value: $value }';
 }
 
 class ChangedDialogPackageCondition extends DialogFormEvent {

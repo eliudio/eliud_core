@@ -19,7 +19,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/types.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:eliud_core/model/rgb_model.dart';
 
@@ -53,6 +53,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  title: "",
                                  email: "",
                                  description: "",
+                                 entryPages: [],
                                  formSubmitButtonColor: RgbModel(r: 255, g: 0, b: 255, opacity: 1.00), 
                                  formSubmitButtonTextColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
                                  formGroupTitleColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
@@ -66,6 +67,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  dividerColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
                                  routeAnimationDuration: 1000, 
                                  logoURL: "",
+                                 autoMembership: true, 
 
         ));
         yield loaded;
@@ -139,6 +141,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: null,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -166,7 +169,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedAppEntryPages) {
+        newValue = currentState.value.copyWith(entryPages: event.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
@@ -184,6 +194,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: null,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -211,6 +222,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -235,6 +247,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: null,
@@ -262,6 +275,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -310,6 +324,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -337,6 +352,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -361,6 +377,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -388,6 +405,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -447,6 +465,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -474,6 +493,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -492,6 +512,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -519,6 +540,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -537,6 +559,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -564,6 +587,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -582,6 +606,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -609,6 +634,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -627,6 +653,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -654,6 +681,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -672,6 +700,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -699,6 +728,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -717,6 +747,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -744,6 +775,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: null,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -762,6 +794,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -789,6 +822,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: null,
                                  fontLink: currentState.value.fontLink,
+                                 autoMembership: currentState.value.autoMembership,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -807,6 +841,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value.appStatus,
                                  darkOrLight: currentState.value.darkOrLight,
                                  entryPage: currentState.value.entryPage,
+                                 entryPages: currentState.value.entryPages,
                                  logo: currentState.value.logo,
                                  formSubmitButtonColor: currentState.value.formSubmitButtonColor,
                                  formBackground: currentState.value.formBackground,
@@ -834,7 +869,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: null,
+                                 autoMembership: currentState.value.autoMembership,
           );
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedAppAutoMembership) {
+        newValue = currentState.value.copyWith(autoMembership: event.value);
         yield SubmittableAppForm(value: newValue);
 
         return;

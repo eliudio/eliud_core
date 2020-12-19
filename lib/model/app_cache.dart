@@ -63,23 +63,23 @@ class AppCache implements AppRepository {
   }
 
   @override
-  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
-    return reference.values(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
+  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    return reference.values(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
 
   @override
-  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
-    return reference.valuesWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
+  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    return reference.valuesWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
 
   @override
-  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) async {
-    return await reference.valuesList(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
+  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+    return await reference.valuesList(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
   
   @override
-  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc}) async {
-    return await reference.valuesListWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc);
+  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel}) async {
+    return await reference.valuesListWithDetails(currentMember: currentMember, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
 
   void flush() {
@@ -92,13 +92,13 @@ class AppCache implements AppRepository {
   }
 
   @override
-  StreamSubscription<List<AppModel>> listen(trigger, {String currentMember, String orderBy, bool descending}) {
-    return reference.listen(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
+  StreamSubscription<List<AppModel>> listen(trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+    return reference.listen(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
 
   @override
-  StreamSubscription<List<AppModel>> listenWithDetails(trigger, {String currentMember, String orderBy, bool descending}) {
-    return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending);
+  StreamSubscription<List<AppModel>> listenWithDetails(trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+    return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, readCondition: readCondition, privilegeLevel: privilegeLevel);
   }
 
 
@@ -116,7 +116,7 @@ class AppCache implements AppRepository {
     ImageModel logoHolder;
     if (model.logo != null) {
       try {
-        await imageRepository().get(model.logo.documentID).then((val) {
+        await imageRepository(appId: model.logo.appId).get(model.logo.documentID).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -230,6 +230,10 @@ class AppCache implements AppRepository {
       } catch (_) {}
     }
 
+    List<AppEntryPagesModel> entryPagesHolder = List<AppEntryPagesModel>.from(await Future.wait(await model.entryPages.map((element) async {
+      return await AppEntryPagesCache.refreshRelations(element);
+    }))).toList();
+
     return model.copyWith(
         entryPage: entryPageHolder,
 
@@ -259,9 +263,14 @@ class AppCache implements AppRepository {
 
         fontLink: fontLinkHolder,
 
+        entryPages: entryPagesHolder,
+
 
     );
   }
+
+    AccessRepository accessRepository(String documentID) => reference.accessRepository(documentID);
+  
 
 }
 

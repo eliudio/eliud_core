@@ -15,6 +15,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -148,6 +149,18 @@ class ChangedAppEntryPage extends AppFormEvent {
 
   @override
   String toString() => 'ChangedAppEntryPage{ value: $value }';
+}
+
+class ChangedAppEntryPages extends AppFormEvent {
+  final List<AppEntryPagesModel> value;
+
+  ChangedAppEntryPages({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppEntryPages{ value: $value }';
 }
 
 class ChangedAppLogo extends AppFormEvent {
@@ -472,5 +485,29 @@ class ChangedAppFontLink extends AppFormEvent {
 
   @override
   String toString() => 'ChangedAppFontLink{ value: $value }';
+}
+
+class ChangedAppAccess extends AppFormEvent {
+  final List<AccessModel> value;
+
+  ChangedAppAccess({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppAccess{ value: $value }';
+}
+
+class ChangedAppAutoMembership extends AppFormEvent {
+  final bool value;
+
+  ChangedAppAutoMembership({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppAutoMembership{ value: $value }';
 }
 

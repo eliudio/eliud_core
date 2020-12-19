@@ -1,10 +1,12 @@
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/types.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -80,52 +82,36 @@ class AccessHelper {
     return false;
   }
 
-  static Future<bool> _pageConditionOk(AppModel app, MemberModel member,
-      PageCondition condition, String packageCondition, bool isOwner,
+  static Future<bool> _ConditionOk(AppModel app, MemberModel member,
+      ReadCondition condition, int privilegedLevelRequired, int privilegedLevel, String packageCondition, bool isOwner,
       bool isLoggedIn) async {
     if (condition == null) return true;
     switch (condition) {
-      case PageCondition.Always:
+      case ReadCondition.NoRestriction:
         return true;
-      case PageCondition.MustBeLoggedIn:
-        return isLoggedIn;
-      case PageCondition.MustNotBeLoggedIn:
+      case ReadCondition.MustNotBeLoggedIn:
         return !isLoggedIn;
-      case PageCondition.PackageDecides:
-        return await _conditionOkForPackage(
-            packageCondition, app, member, isOwner);
-      case PageCondition.AdminOnly:
-        return isOwner;
-      case PageCondition.Unknown:
-        return true;
+      case ReadCondition.PackageDecides:
+      return await _conditionOkForPackage(
+          packageCondition, app, member, isOwner);
+      case ReadCondition.AsSpecifiedInPrivilegeLevelRequired:
+        return privilegedLevel >= privilegedLevelRequired;
     }
     return true;
   }
 
-  static Future<bool> _dialogConditionOk(AppModel app, MemberModel member,
-      DialogCondition condition, String packageCondition, bool isOwner,
-      bool isLoggedIn) async {
-    if (condition == null) return true;
-    switch (condition) {
-      case DialogCondition.Always:
-        return true;
-      case DialogCondition.MustBeLoggedIn:
-        return isLoggedIn;
-      case DialogCondition.MustNotBeLoggedIn:
-        return !isLoggedIn;
-      case DialogCondition.PackageDecides:
-        return await _conditionOkForPackage(
-            packageCondition, app, member, isOwner);
-      case DialogCondition.AdminOnly:
-        return isOwner;
-      case DialogCondition.Unknown:
-        return true;
+  static Future<int> getPrivilegeLevel(AppModel app, MemberModel member) async {
+    if (member != null) {
+      var access = await appRepository().accessRepository(app.documentID).get(
+          member.documentID);
+      int privilegeLevel = access == null ? 0 : access.privilegeLevel;
+      return privilegeLevel;
     }
-    return true;
+    return 0;
   }
 
-  static Future<Map<String, bool>> _getPagesAccess(MemberModel member, AppModel app,
-      bool isLoggedIn) async {
+  static Future<Map<String, bool>> _getPagesAccess(MemberModel member, AppModel app, bool isLoggedIn) async {
+    int privilegeLevel = await getPrivilegeLevel(app, member);
     var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
     var repo = AbstractRepositorySingleton.singleton.pageRepository(
@@ -133,15 +119,15 @@ class AccessHelper {
     var theList = await repo.valuesList();
     for (var i = 0; i < theList.length; i++) {
       var page = theList[i];
-      pagesAccess[page.documentID] = await _pageConditionOk(
-          app, member, page.conditional, page.packageCondition, isOwner,
+      pagesAccess[page.documentID] = await _ConditionOk(
+          app, member, page.readCondition, page.privilegeLevelRequired, privilegeLevel, page.packageCondition, isOwner,
           isLoggedIn);
     }
     return pagesAccess;
   }
 
-  static Future<Map<String, bool>> _getDialogsAccess(MemberModel member, AppModel app,
-      bool isLoggedIn) async {
+  static Future<Map<String, bool>> _getDialogsAccess(MemberModel member, AppModel app, bool isLoggedIn) async {
+    int privilegeLevel = await getPrivilegeLevel(app, member);
     var dialogsAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
     var repo = AbstractRepositorySingleton.singleton.dialogRepository(
@@ -149,8 +135,8 @@ class AccessHelper {
     var theList = await repo.valuesList();
     for (var i = 0; i < theList.length; i++) {
       var dialog = theList[i];
-      dialogsAccess[dialog.documentID] = await _dialogConditionOk(
-          app, member, dialog.conditional, dialog.packageCondition, isOwner,
+      dialogsAccess[dialog.documentID] = await _ConditionOk(
+          app, member, dialog.readCondition, dialog.privilegeLevelRequired, privilegeLevel, dialog.packageCondition, isOwner,
           isLoggedIn);
     }
     return dialogsAccess;

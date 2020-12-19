@@ -70,12 +70,20 @@
     },
     {
       "fieldName": "entryPage",
+      "remark": "Entry page for non members or for apps with AppEntryPages specified",
       "displayName": "Entry Page",
       "fieldType": "Page",
       "association": true,
       "optional": false,
       "iconName": "play_arrow",
-      "group": "main"
+      "group": "entryPage"
+    },
+    {
+      "fieldName": "entryPages",
+      "displayName": "Entry pages",
+      "fieldType": "AppEntryPages",
+      "arrayType": "Array",
+      "group": "entryPages"
     },
     {
       "fieldName": "logo",
@@ -300,6 +308,19 @@
       "association": true,
       "optional": true,
       "group": "fontLink"
+    },
+    {
+      "fieldName": "access",
+      "displayName": "Application Access: member privilege definition",
+      "fieldType": "Access",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "autoMembership",
+      "displayName": "If set to auto membership, people can just login. If set to manual membership, a membership request is sent to the owner",
+      "fieldType": "bool",
+      "defaultValue": "true"
     }
   ],
   "groups": [
@@ -316,8 +337,12 @@
         "description": "Dark or Light"
     },
     {
-        "group": "main",
-        "description": "Entry Page"
+        "group": "entryPage",
+        "description": "Entry Page (for everybody)"
+    },
+    {
+        "group": "entryPages",
+        "description": "Entry Pages (per privilege)"
     },
     {
         "group": "logo",
@@ -403,6 +428,12 @@
   "listFields": {
     "title": "documentID",
     "subTitle": "title"
+  },
+  "extraImports": {
+    "model" : "import 'package:eliud_core/model/access_repository.dart';",
+    "firestore" : "import 'package:eliud_core/model/access_firestore.dart';",
+    "js_firestore" : "import 'package:eliud_core/model/access_js_firestore.dart';",
+    "repository" : "import 'package:eliud_core/model/access_repository.dart';"
   },
   "preToEntityCode": "logoURL = logo != null ? logo.imageURLOriginal : null;"
 }

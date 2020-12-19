@@ -13,8 +13,10 @@
 
 */
 
+import '../model/access_repository.dart';
 import '../model/app_repository.dart';
 import '../model/app_bar_repository.dart';
+import '../model/app_entry_pages_repository.dart';
 import '../model/background_repository.dart';
 import '../model/body_component_repository.dart';
 import '../model/country_repository.dart';
@@ -33,7 +35,7 @@ import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
-import 'package:eliud_core/tools/types.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 AppBarRepository appBarRepository({ String appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
 BackgroundRepository backgroundRepository({ String appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);

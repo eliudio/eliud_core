@@ -72,7 +72,7 @@ class ImageJsFirestore implements ImageRepository {
 
 
   @override
-  Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     if (orderBy == null) {
       return imageCollection.onSnapshot
           .map((data) => data.docs.map((doc) => _populateDoc(doc)).toList());
@@ -84,7 +84,7 @@ class ImageJsFirestore implements ImageRepository {
   }
 
   @override
-  Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     if (orderBy == null) {
       return imageCollection.get().then((value) {
         var list = value.docs;
@@ -100,7 +100,7 @@ class ImageJsFirestore implements ImageRepository {
   }
 
   @override
-  Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     if (orderBy == null) {
       return imageCollection.onSnapshot.asyncMap((data) =>
           Future.wait(data.docs.map((doc) => _populateDocPlus(doc)).toList()));
@@ -111,7 +111,7 @@ class ImageJsFirestore implements ImageRepository {
   }
 
   @override
-  Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc }) {
+  Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
     if (orderBy == null) {
       return imageCollection.get().then((value) {
         var list = value.docs;
@@ -130,7 +130,7 @@ class ImageJsFirestore implements ImageRepository {
   void flush() {}
 
   @override
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember,  String orderBy, bool descending }) {
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember,  String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
     Stream<List<ImageModel>> stream;
     if (orderBy == null) {
       stream = imageCollection.onSnapshot
@@ -158,7 +158,7 @@ class ImageJsFirestore implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, { String currentMember, String orderBy, bool descending }) {
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
     Stream<List<ImageModel>> stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot

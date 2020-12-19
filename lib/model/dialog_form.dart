@@ -23,6 +23,7 @@ import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -129,7 +130,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _titleController = TextEditingController();
   int _layoutSelectedRadioTile;
   String _gridView;
-  int _conditionalSelectedRadioTile;
+  final TextEditingController _privilegeLevelRequiredController = TextEditingController();
   final TextEditingController _packageConditionController = TextEditingController();
 
 
@@ -143,7 +144,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
-    _conditionalSelectedRadioTile = 0;
+    _privilegeLevelRequiredController.addListener(_onPrivilegeLevelRequiredChanged);
     _packageConditionController.addListener(_onPackageConditionChanged);
   }
 
@@ -177,10 +178,10 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _gridView= state.value.gridView.documentID;
         else
           _gridView= "";
-        if (state.value.conditional != null)
-          _conditionalSelectedRadioTile = state.value.conditional.index;
+        if (state.value.privilegeLevelRequired != null)
+          _privilegeLevelRequiredController.text = state.value.privilegeLevelRequired.toString();
         else
-          _conditionalSelectedRadioTile = 0;
+          _privilegeLevelRequiredController.text = "";
         if (state.value.packageCondition != null)
           _packageConditionController.text = state.value.packageCondition.toString();
         else
@@ -381,69 +382,22 @@ class _MyDialogFormState extends State<MyDialogForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _conditionalSelectedRadioTile,
-                    title: Text("Always", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Always", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionConditional(val);
-                    },
-                ),
-          );
-        children.add(
+        if ((state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)) children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _conditionalSelectedRadioTile,
-                    title: Text("MustBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("MustBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionConditional(val);
-                    },
-                ),
-          );
-        children.add(
-
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _conditionalSelectedRadioTile,
-                    title: Text("MustNotBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("MustNotBeLoggedIn", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionConditional(val);
-                    },
-                ),
-          );
-        children.add(
-
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _conditionalSelectedRadioTile,
-                    title: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PackageDecides", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionConditional(val);
-                    },
-                ),
-          );
-        children.add(
-
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _conditionalSelectedRadioTile,
-                    title: Text("AdminOnly", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("AdminOnly", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionConditional(val);
-                    },
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _privilegeLevelRequiredController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Privilege Level Required',
+                  ),
+                  keyboardType: TextInputType.number,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is PrivilegeLevelRequiredDialogFormError ? state.message : null;
+                  },
                 ),
           );
 
@@ -452,7 +406,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if (state.value.conditional == PageCondition.PackageDecides) children.add(Container(
+        if (state.value.packageCondition == ReadCondition.PackageDecides) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Plugin Condition',
@@ -460,7 +414,70 @@ class _MyDialogFormState extends State<MyDialogForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.conditional == PageCondition.PackageDecides)) children.add(
+        if ((state.value.packageCondition == ReadCondition.PackageDecides)) children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _packageConditionController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Package condition',
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is PackageConditionDialogFormError ? state.message : null;
+                  },
+                ),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Conditional',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+
+        if ((state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)) children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _privilegeLevelRequiredController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Privilege Level Required',
+                  ),
+                  keyboardType: TextInputType.number,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is PrivilegeLevelRequiredDialogFormError ? state.message : null;
+                  },
+                ),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+        if (state.value.packageCondition == ReadCondition.PackageDecides) children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Plugin Condition',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        if ((state.value.packageCondition == ReadCondition.PackageDecides)) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -500,7 +517,8 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value.background, 
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
-                              conditional: state.value.conditional, 
+                              readCondition: state.value.readCondition, 
+                              privilegeLevelRequired: state.value.privilegeLevelRequired, 
                               packageCondition: state.value.packageCondition, 
                         )));
                       } else {
@@ -513,7 +531,8 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value.background, 
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
-                              conditional: state.value.conditional, 
+                              readCondition: state.value.readCondition, 
+                              privilegeLevelRequired: state.value.privilegeLevelRequired, 
                               packageCondition: state.value.packageCondition, 
                           )));
                       }
@@ -591,11 +610,8 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void setSelectionConditional(int val) {
-    setState(() {
-      _conditionalSelectedRadioTile = val;
-    });
-    _myFormBloc.add(ChangedDialogConditional(value: toDialogCondition(val)));
+  void _onPrivilegeLevelRequiredChanged() {
+    _myFormBloc.add(ChangedDialogPrivilegeLevelRequired(value: _privilegeLevelRequiredController.text));
   }
 
 
@@ -610,6 +626,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
+    _privilegeLevelRequiredController.dispose();
     _packageConditionController.dispose();
     super.dispose();
   }
