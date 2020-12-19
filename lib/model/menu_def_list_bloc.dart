@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/menu_def_repository.dart';
 import 'package:eliud_core/model/menu_def_list_event.dart';
 import 'package:eliud_core/model/menu_def_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final MenuDefRepository _menuDefRepository;
   StreamSubscription _menuDefsListSubscription;
+  final AccessBloc accessBloc;
 
-  MenuDefListBloc({ @required MenuDefRepository menuDefRepository })
+  MenuDefListBloc(this.accessBloc,{ @required MenuDefRepository menuDefRepository })
       : assert(menuDefRepository != null),
       _menuDefRepository = menuDefRepository,
       super(MenuDefListLoading());

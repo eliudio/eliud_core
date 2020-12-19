@@ -68,7 +68,7 @@ class PageJsFirestore implements PageRepository {
   }
 
   @override
-  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot
@@ -94,7 +94,7 @@ class PageJsFirestore implements PageRepository {
     });
   }
 
-  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       // If we use pageCollection here, then the second subscription fails
@@ -114,9 +114,9 @@ class PageJsFirestore implements PageRepository {
     });
   }
 
-  Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -127,9 +127,9 @@ class PageJsFirestore implements PageRepository {
     return _values;
   }
 
-  Stream<List<PageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<PageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -142,9 +142,9 @@ class PageJsFirestore implements PageRepository {
   }
 
   @override
-  Future<List<PageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<PageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -156,9 +156,9 @@ class PageJsFirestore implements PageRepository {
   }
 
   @override
-  Future<List<PageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<PageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;

@@ -1,12 +1,10 @@
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/types.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -65,6 +63,12 @@ class UndeterminedAccessState extends AccessState {
   bool memberIsOwner() => false;
 }
 
+class PagesAndDialogAccesss {
+  final Map<String, bool> pagesAccess;
+  final Map<String, bool> dialogsAccess;
+
+  PagesAndDialogAccesss(this.pagesAccess, this.dialogsAccess);
+}
 
 class AccessHelper {
   final Map<String, bool> pagesAccess = {};
@@ -95,12 +99,13 @@ class AccessHelper {
       return await _conditionOkForPackage(
           packageCondition, app, member, isOwner);
       case ReadCondition.AsSpecifiedInPrivilegeLevelRequired:
-        return privilegedLevel >= privilegedLevelRequired;
+        return privilegedLevel >= privilegedLevelRequired || isOwner;
     }
     return true;
   }
 
-  static Future<int> getPrivilegeLevel(AppModel app, MemberModel member) async {
+  static Future<int> getPrivilegeLevel(AppModel app, MemberModel member, bool isOwner) async {
+    if (isOwner) return 99999999;
     if (member != null) {
       var access = await appRepository().accessRepository(app.documentID).get(
           member.documentID);
@@ -110,36 +115,49 @@ class AccessHelper {
     return 0;
   }
 
-  static Future<Map<String, bool>> _getPagesAccess(MemberModel member, AppModel app, bool isLoggedIn) async {
-    int privilegeLevel = await getPrivilegeLevel(app, member);
+  static Future<PagesAndDialogAccesss> _getAccess(MemberModel member, AppModel app, bool isLoggedIn) async {
     var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
-    var repo = AbstractRepositorySingleton.singleton.pageRepository(
-        app.documentID);
-    var theList = await repo.valuesList();
-    for (var i = 0; i < theList.length; i++) {
-      var page = theList[i];
-      pagesAccess[page.documentID] = await _ConditionOk(
-          app, member, page.readCondition, page.privilegeLevelRequired, privilegeLevel, page.packageCondition, isOwner,
-          isLoggedIn);
+    var privilegeLevel = await getPrivilegeLevel(app, member, isOwner);
+    {
+      var repo = AbstractRepositorySingleton.singleton.pageRepository(
+          app.documentID);
+      var theList = await repo.valuesList(
+          privilegeLevel: privilegeLevel, isLoggedIn: member != null);
+      for (var i = 0; i < theList.length; i++) {
+        var page = theList[i];
+        pagesAccess[page.documentID] = await _ConditionOk(
+            app,
+            member,
+            page.readCondition,
+            page.privilegeLevelRequired,
+            privilegeLevel,
+            page.packageCondition,
+            isOwner,
+            isLoggedIn);
+      }
     }
-    return pagesAccess;
-  }
-
-  static Future<Map<String, bool>> _getDialogsAccess(MemberModel member, AppModel app, bool isLoggedIn) async {
-    int privilegeLevel = await getPrivilegeLevel(app, member);
     var dialogsAccess = <String, bool>{};
-    var isOwner = member != null && member.documentID == app.ownerID;
-    var repo = AbstractRepositorySingleton.singleton.dialogRepository(
-        app.documentID);
-    var theList = await repo.valuesList();
-    for (var i = 0; i < theList.length; i++) {
-      var dialog = theList[i];
-      dialogsAccess[dialog.documentID] = await _ConditionOk(
-          app, member, dialog.readCondition, dialog.privilegeLevelRequired, privilegeLevel, dialog.packageCondition, isOwner,
-          isLoggedIn);
+    {
+      var repo = AbstractRepositorySingleton.singleton.dialogRepository(
+          app.documentID);
+      var theList = await repo.valuesList(
+          privilegeLevel: privilegeLevel, isLoggedIn: member != null);
+      for (var i = 0; i < theList.length; i++) {
+        var dialog = theList[i];
+        dialogsAccess[dialog.documentID] = await _ConditionOk(
+            app,
+            member,
+            dialog.readCondition,
+            dialog.privilegeLevelRequired,
+            privilegeLevel,
+            dialog.packageCondition,
+            isOwner,
+            isLoggedIn);
+      }
     }
-    return dialogsAccess;
+
+    return PagesAndDialogAccesss(pagesAccess, dialogsAccess);
   }
 }
 
@@ -198,9 +216,8 @@ abstract class AppLoaded extends AccessState {
 
 class LoggedOut extends AppLoaded {
   static Future<LoggedOut> getLoggedOut(AppModel app, AppModel playstoreApp) async {
-    var pagesAccess = await AccessHelper._getPagesAccess(null, app, false);
-    var dialogAccess = await AccessHelper._getDialogsAccess(null, app, false);
-    var loggedOut = LoggedOut._(app, playstoreApp, pagesAccess, dialogAccess);
+    var access = await AccessHelper._getAccess(null, app, false);
+    var loggedOut = LoggedOut._(app, playstoreApp, access.pagesAccess, access.dialogsAccess);
     return loggedOut;
   }
 
@@ -250,9 +267,8 @@ abstract class LoggedIn extends AppLoaded {
 
 class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, PostLoginAction postLoginAction) async {
-    var pagesAccess = await AccessHelper._getPagesAccess(member, app, false);
-    var dialogAccess = await AccessHelper._getDialogsAccess(member, app, false);
-    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, pagesAccess, dialogAccess);
+    var access = await AccessHelper._getAccess(member, app, false);
+    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, access.pagesAccess, access.dialogsAccess);
     return loggedInWithoutMembership;
   }
 
@@ -274,9 +290,8 @@ class LoggedInWithoutMembership extends LoggedIn {
 
 class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, ) async {
-    var pagesAccess = await AccessHelper._getPagesAccess(member, app, false);
-    var dialogAccess = await AccessHelper._getDialogsAccess(member, app, false);
-    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, pagesAccess, dialogAccess);
+    var access = await AccessHelper._getAccess(member, app, false);
+    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, access.pagesAccess, access.dialogsAccess);
     return loggedInWithMembership;
   }
 

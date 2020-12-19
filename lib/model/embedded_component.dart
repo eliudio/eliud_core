@@ -21,6 +21,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 
 import '../model/app_entry_pages_list_bloc.dart';
 import '../model/app_entry_pages_list.dart';
@@ -58,15 +59,15 @@ typedef DecorationColorListChanged(List<DecorationColorModel> values);
 typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
 typedef MenuItemListChanged(List<MenuItemModel> values);
 
-appEntryPagessList(value, trigger) => EmbeddedComponentFactory.appEntryPagessList(value, trigger);
-bodyComponentsList(value, trigger) => EmbeddedComponentFactory.bodyComponentsList(value, trigger);
-decorationColorsList(value, trigger) => EmbeddedComponentFactory.decorationColorsList(value, trigger);
-memberSubscriptionsList(value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(value, trigger);
-menuItemsList(value, trigger) => EmbeddedComponentFactory.menuItemsList(value, trigger);
+appEntryPagessList(context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(context, value, trigger);
+bodyComponentsList(context, value, trigger) => EmbeddedComponentFactory.bodyComponentsList(context, value, trigger);
+decorationColorsList(context, value, trigger) => EmbeddedComponentFactory.decorationColorsList(context, value, trigger);
+memberSubscriptionsList(context, value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(context, value, trigger);
+menuItemsList(context, value, trigger) => EmbeddedComponentFactory.menuItemsList(context, value, trigger);
 
 class EmbeddedComponentFactory {
 
-static Widget appEntryPagessList(List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
+static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
   AppEntryPagesInMemoryRepository inMemoryRepository = AppEntryPagesInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -75,6 +76,7 @@ static Widget appEntryPagessList(List<AppEntryPagesModel> values, AppEntryPagesL
     providers: [
       BlocProvider<AppEntryPagesListBloc>(
         create: (context) => AppEntryPagesListBloc(
+          AccessBloc.getBloc(context), 
           appEntryPagesRepository: inMemoryRepository,
           )..add(LoadAppEntryPagesList()),
         )
@@ -83,7 +85,7 @@ static Widget appEntryPagessList(List<AppEntryPagesModel> values, AppEntryPagesL
   );
 }
 
-static Widget bodyComponentsList(List<BodyComponentModel> values, BodyComponentListChanged trigger) {
+static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
   BodyComponentInMemoryRepository inMemoryRepository = BodyComponentInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -92,6 +94,7 @@ static Widget bodyComponentsList(List<BodyComponentModel> values, BodyComponentL
     providers: [
       BlocProvider<BodyComponentListBloc>(
         create: (context) => BodyComponentListBloc(
+          AccessBloc.getBloc(context), 
           bodyComponentRepository: inMemoryRepository,
           )..add(LoadBodyComponentList()),
         )
@@ -100,7 +103,7 @@ static Widget bodyComponentsList(List<BodyComponentModel> values, BodyComponentL
   );
 }
 
-static Widget decorationColorsList(List<DecorationColorModel> values, DecorationColorListChanged trigger) {
+static Widget decorationColorsList(BuildContext context, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
   DecorationColorInMemoryRepository inMemoryRepository = DecorationColorInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -109,6 +112,7 @@ static Widget decorationColorsList(List<DecorationColorModel> values, Decoration
     providers: [
       BlocProvider<DecorationColorListBloc>(
         create: (context) => DecorationColorListBloc(
+          AccessBloc.getBloc(context), 
           decorationColorRepository: inMemoryRepository,
           )..add(LoadDecorationColorList()),
         )
@@ -117,7 +121,7 @@ static Widget decorationColorsList(List<DecorationColorModel> values, Decoration
   );
 }
 
-static Widget memberSubscriptionsList(List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
+static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
   MemberSubscriptionInMemoryRepository inMemoryRepository = MemberSubscriptionInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -126,6 +130,7 @@ static Widget memberSubscriptionsList(List<MemberSubscriptionModel> values, Memb
     providers: [
       BlocProvider<MemberSubscriptionListBloc>(
         create: (context) => MemberSubscriptionListBloc(
+          AccessBloc.getBloc(context), 
           memberSubscriptionRepository: inMemoryRepository,
           )..add(LoadMemberSubscriptionList()),
         )
@@ -134,7 +139,7 @@ static Widget memberSubscriptionsList(List<MemberSubscriptionModel> values, Memb
   );
 }
 
-static Widget menuItemsList(List<MenuItemModel> values, MenuItemListChanged trigger) {
+static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
   MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -143,6 +148,7 @@ static Widget menuItemsList(List<MenuItemModel> values, MenuItemListChanged trig
     providers: [
       BlocProvider<MenuItemListBloc>(
         create: (context) => MenuItemListBloc(
+          AccessBloc.getBloc(context), 
           menuItemRepository: inMemoryRepository,
           )..add(LoadMenuItemList()),
         )
@@ -202,31 +208,31 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       return completer.future;
     }
 
-    Stream<List<AppEntryPagesModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<AppEntryPagesModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
-    Stream<List<AppEntryPagesModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<AppEntryPagesModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<AppEntryPagesModel>> listen(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<AppEntryPagesModel>> listen(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<AppEntryPagesModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<AppEntryPagesModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
     
-    Future<List<AppEntryPagesModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<AppEntryPagesModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
 
@@ -281,31 +287,31 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       return completer.future;
     }
 
-    Stream<List<BodyComponentModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<BodyComponentModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
-    Stream<List<BodyComponentModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<BodyComponentModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<BodyComponentModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<BodyComponentModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
     
-    Future<List<BodyComponentModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<BodyComponentModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
 
@@ -360,31 +366,31 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       return completer.future;
     }
 
-    Stream<List<DecorationColorModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<DecorationColorModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
-    Stream<List<DecorationColorModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<DecorationColorModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<DecorationColorModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<DecorationColorModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
     
-    Future<List<DecorationColorModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<DecorationColorModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
 
@@ -439,31 +445,31 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return completer.future;
     }
 
-    Stream<List<MemberSubscriptionModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<MemberSubscriptionModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
-    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MemberSubscriptionModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<MemberSubscriptionModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
     
-    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
 
@@ -518,31 +524,31 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
       return completer.future;
     }
 
-    Stream<List<MenuItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<MenuItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
-    Stream<List<MenuItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Stream<List<MenuItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MenuItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<MenuItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel }) {
+    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
       return theValues.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MenuItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<MenuItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
     
-    Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+    Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
       return Future.value(items);
     }
 

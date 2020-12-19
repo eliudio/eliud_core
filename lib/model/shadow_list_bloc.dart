@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/shadow_repository.dart';
 import 'package:eliud_core/model/shadow_list_event.dart';
 import 'package:eliud_core/model/shadow_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   final ShadowRepository _shadowRepository;
   StreamSubscription _shadowsListSubscription;
+  final AccessBloc accessBloc;
 
-  ShadowListBloc({ @required ShadowRepository shadowRepository })
+  ShadowListBloc(this.accessBloc,{ @required ShadowRepository shadowRepository })
       : assert(shadowRepository != null),
       _shadowRepository = shadowRepository,
       super(ShadowListLoading());

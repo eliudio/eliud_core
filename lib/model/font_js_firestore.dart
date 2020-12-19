@@ -68,7 +68,7 @@ class FontJsFirestore implements FontRepository {
   }
 
   @override
-  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot
@@ -94,7 +94,7 @@ class FontJsFirestore implements FontRepository {
     });
   }
 
-  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       // If we use fontCollection here, then the second subscription fails
@@ -114,9 +114,9 @@ class FontJsFirestore implements FontRepository {
     });
   }
 
-  Stream<List<FontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<FontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<FontModel>> _values = getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<FontModel>> _values = getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -127,9 +127,9 @@ class FontJsFirestore implements FontRepository {
     return _values;
   }
 
-  Stream<List<FontModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<FontModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<FontModel>> _values = getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<FontModel>> _values = getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -142,9 +142,9 @@ class FontJsFirestore implements FontRepository {
   }
 
   @override
-  Future<List<FontModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<FontModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<FontModel> _values = await getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<FontModel> _values = await getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -156,9 +156,9 @@ class FontJsFirestore implements FontRepository {
   }
 
   @override
-  Future<List<FontModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<FontModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<FontModel> _values = await getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<FontModel> _values = await getQuery(fontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;

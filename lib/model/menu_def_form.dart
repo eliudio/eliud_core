@@ -246,7 +246,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: menuItemsList(state.value.menuItems, _onMenuItemsChanged)
+                    child: menuItemsList(context, state.value.menuItems, _onMenuItemsChanged)
                 )
           );
 

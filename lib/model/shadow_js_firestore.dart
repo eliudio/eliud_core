@@ -68,7 +68,7 @@ class ShadowJsFirestore implements ShadowRepository {
   }
 
   @override
-  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       stream = getCollection().onSnapshot
@@ -94,7 +94,7 @@ class ShadowJsFirestore implements ShadowRepository {
     });
   }
 
-  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     var stream;
     if (orderBy == null) {
       // If we use shadowCollection here, then the second subscription fails
@@ -114,9 +114,9 @@ class ShadowJsFirestore implements ShadowRepository {
     });
   }
 
-  Stream<List<ShadowModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<ShadowModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShadowModel>> _values = getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<ShadowModel>> _values = getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -127,9 +127,9 @@ class ShadowJsFirestore implements ShadowRepository {
     return _values;
   }
 
-  Stream<List<ShadowModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<ShadowModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<ShadowModel>> _values = getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel)
+    Stream<List<ShadowModel>> _values = getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -142,9 +142,9 @@ class ShadowJsFirestore implements ShadowRepository {
   }
 
   @override
-  Future<List<ShadowModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<ShadowModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShadowModel> _values = await getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<ShadowModel> _values = await getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -156,9 +156,9 @@ class ShadowJsFirestore implements ShadowRepository {
   }
 
   @override
-  Future<List<ShadowModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<ShadowModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<ShadowModel> _values = await getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).get().then((value) {
+    List<ShadowModel> _values = await getQuery(shadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;

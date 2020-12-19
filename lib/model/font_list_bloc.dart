@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/font_repository.dart';
 import 'package:eliud_core/model/font_list_event.dart';
 import 'package:eliud_core/model/font_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class FontListBloc extends Bloc<FontListEvent, FontListState> {
   final FontRepository _fontRepository;
   StreamSubscription _fontsListSubscription;
+  final AccessBloc accessBloc;
 
-  FontListBloc({ @required FontRepository fontRepository })
+  FontListBloc(this.accessBloc,{ @required FontRepository fontRepository })
       : assert(fontRepository != null),
       _fontRepository = fontRepository,
       super(FontListLoading());

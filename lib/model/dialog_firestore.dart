@@ -58,7 +58,7 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
-  StreamSubscription<List<DialogModel>> listen(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+  StreamSubscription<List<DialogModel>> listen(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
     Stream<List<DialogModel>> stream;
     if (orderBy == null) {
        stream = DialogCollection.snapshots().map((data) {
@@ -83,7 +83,7 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
-  StreamSubscription<List<DialogModel>> listenWithDetails(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+  StreamSubscription<List<DialogModel>> listenWithDetails(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
     Stream<List<DialogModel>> stream;
     if (orderBy == null) {
       stream = DialogCollection.snapshots()
@@ -103,9 +103,9 @@ class DialogFirestore implements DialogRepository {
   }
 
 
-  Stream<List<DialogModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<DialogModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<DialogModel>> _values = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
+    Stream<List<DialogModel>> _values = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -114,9 +114,9 @@ class DialogFirestore implements DialogRepository {
     return _values;
   }
 
-  Stream<List<DialogModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<DialogModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<DialogModel>> _values = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
+    Stream<List<DialogModel>> _values = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -126,9 +126,9 @@ class DialogFirestore implements DialogRepository {
     return _values;
   }
 
-  Future<List<DialogModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<DialogModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<DialogModel> _values = await getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<DialogModel> _values = await getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -139,9 +139,9 @@ class DialogFirestore implements DialogRepository {
     return _values;
   }
 
-  Future<List<DialogModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<DialogModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<DialogModel> _values = await getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<DialogModel> _values = await getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;

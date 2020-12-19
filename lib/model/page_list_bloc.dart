@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/page_repository.dart';
 import 'package:eliud_core/model/page_list_event.dart';
 import 'package:eliud_core/model/page_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final PageRepository _pageRepository;
   StreamSubscription _pagesListSubscription;
+  final AccessBloc accessBloc;
 
-  PageListBloc({ @required PageRepository pageRepository })
+  PageListBloc(this.accessBloc,{ @required PageRepository pageRepository })
       : assert(pageRepository != null),
       _pageRepository = pageRepository,
       super(PageListLoading());

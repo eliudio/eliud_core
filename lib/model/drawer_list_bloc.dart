@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/drawer_repository.dart';
 import 'package:eliud_core/model/drawer_list_event.dart';
 import 'package:eliud_core/model/drawer_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final DrawerRepository _drawerRepository;
   StreamSubscription _drawersListSubscription;
+  final AccessBloc accessBloc;
 
-  DrawerListBloc({ @required DrawerRepository drawerRepository })
+  DrawerListBloc(this.accessBloc,{ @required DrawerRepository drawerRepository })
       : assert(drawerRepository != null),
       _drawerRepository = drawerRepository,
       super(DrawerListLoading());

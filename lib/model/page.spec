@@ -17,6 +17,7 @@
     "generateInternalComponent": true,
     "generateEmbeddedComponent": false
   },
+  "withReadCondition": true,
   "fields": [
     {
       "fieldName": "documentID",
@@ -117,6 +118,7 @@
       "fieldName": "privilegeLevelRequired",
       "displayName": "Privilege Level Required",
       "fieldType": "int",
+      "defaultValue": "0",
       "conditional": "(state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)",
       "group": "conditional"
     },

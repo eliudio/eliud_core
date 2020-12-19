@@ -271,7 +271,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: decorationColorsList(state.value.decorationColors, _onDecorationColorsChanged)
+                    child: decorationColorsList(context, state.value.decorationColors, _onDecorationColorsChanged)
                 )
           );
 

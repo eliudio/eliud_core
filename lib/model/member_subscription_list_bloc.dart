@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/member_subscription_repository.dart';
 import 'package:eliud_core/model/member_subscription_list_event.dart';
 import 'package:eliud_core/model/member_subscription_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, MemberSubscriptionListState> {
   final MemberSubscriptionRepository _memberSubscriptionRepository;
   StreamSubscription _memberSubscriptionsListSubscription;
+  final AccessBloc accessBloc;
 
-  MemberSubscriptionListBloc({ @required MemberSubscriptionRepository memberSubscriptionRepository })
+  MemberSubscriptionListBloc(this.accessBloc,{ @required MemberSubscriptionRepository memberSubscriptionRepository })
       : assert(memberSubscriptionRepository != null),
       _memberSubscriptionRepository = memberSubscriptionRepository,
       super(MemberSubscriptionListLoading());

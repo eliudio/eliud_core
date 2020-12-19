@@ -17,6 +17,7 @@
     "generateInternalComponent": true,
     "generateEmbeddedComponent": false
   },
+  "withReadCondition": true,
   "fields": [
     {
       "fieldName": "documentID",

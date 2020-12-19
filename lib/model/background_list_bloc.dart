@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/background_repository.dart';
 import 'package:eliud_core/model/background_list_event.dart';
 import 'package:eliud_core/model/background_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> {
   final BackgroundRepository _backgroundRepository;
   StreamSubscription _backgroundsListSubscription;
+  final AccessBloc accessBloc;
 
-  BackgroundListBloc({ @required BackgroundRepository backgroundRepository })
+  BackgroundListBloc(this.accessBloc,{ @required BackgroundRepository backgroundRepository })
       : assert(backgroundRepository != null),
       _backgroundRepository = backgroundRepository,
       super(BackgroundListLoading());

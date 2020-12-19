@@ -480,7 +480,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: appEntryPagessList(state.value.entryPages, _onEntryPagesChanged)
+                    child: appEntryPagessList(context, state.value.entryPages, _onEntryPagesChanged)
                 )
           );
 

@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/body_component_repository.dart';
 import 'package:eliud_core/model/body_component_list_event.dart';
 import 'package:eliud_core/model/body_component_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {
   final BodyComponentRepository _bodyComponentRepository;
   StreamSubscription _bodyComponentsListSubscription;
+  final AccessBloc accessBloc;
 
-  BodyComponentListBloc({ @required BodyComponentRepository bodyComponentRepository })
+  BodyComponentListBloc(this.accessBloc,{ @required BodyComponentRepository bodyComponentRepository })
       : assert(bodyComponentRepository != null),
       _bodyComponentRepository = bodyComponentRepository,
       super(BodyComponentListLoading());

@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
 import 'package:eliud_core/model/dialog_list_event.dart';
 import 'package:eliud_core/model/dialog_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final DialogRepository _dialogRepository;
   StreamSubscription _dialogsListSubscription;
+  final AccessBloc accessBloc;
 
-  DialogListBloc({ @required DialogRepository dialogRepository })
+  DialogListBloc(this.accessBloc,{ @required DialogRepository dialogRepository })
       : assert(dialogRepository != null),
       _dialogRepository = dialogRepository,
       super(DialogListLoading());

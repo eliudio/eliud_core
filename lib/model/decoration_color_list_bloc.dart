@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/decoration_color_repository.dart';
 import 'package:eliud_core/model/decoration_color_list_event.dart';
 import 'package:eliud_core/model/decoration_color_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationColorListState> {
   final DecorationColorRepository _decorationColorRepository;
   StreamSubscription _decorationColorsListSubscription;
+  final AccessBloc accessBloc;
 
-  DecorationColorListBloc({ @required DecorationColorRepository decorationColorRepository })
+  DecorationColorListBloc(this.accessBloc,{ @required DecorationColorRepository decorationColorRepository })
       : assert(decorationColorRepository != null),
       _decorationColorRepository = decorationColorRepository,
       super(DecorationColorListLoading());

@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/pos_size_repository.dart';
 import 'package:eliud_core/model/pos_size_list_event.dart';
 import 'package:eliud_core/model/pos_size_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final PosSizeRepository _posSizeRepository;
   StreamSubscription _posSizesListSubscription;
+  final AccessBloc accessBloc;
 
-  PosSizeListBloc({ @required PosSizeRepository posSizeRepository })
+  PosSizeListBloc(this.accessBloc,{ @required PosSizeRepository posSizeRepository })
       : assert(posSizeRepository != null),
       _posSizeRepository = posSizeRepository,
       super(PosSizeListLoading());

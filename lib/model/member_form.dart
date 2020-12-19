@@ -355,7 +355,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(context, state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
 
@@ -1023,7 +1023,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(state.value.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(context, state.value.subscriptions, _onSubscriptionsChanged)
                 )
           );
 

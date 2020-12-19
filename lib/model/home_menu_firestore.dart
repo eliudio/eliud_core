@@ -58,7 +58,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
     Stream<List<HomeMenuModel>> stream;
     if (orderBy == null) {
        stream = HomeMenuCollection.snapshots().map((data) {
@@ -83,7 +83,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, ReadCondition readCondition, int privilegeLevel}) {
+  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
     Stream<List<HomeMenuModel>> stream;
     if (orderBy == null) {
       stream = HomeMenuCollection.snapshots()
@@ -103,9 +103,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
 
-  Stream<List<HomeMenuModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<HomeMenuModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
+    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -114,9 +114,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Stream<List<HomeMenuModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) {
+  Stream<List<HomeMenuModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
+    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -126,9 +126,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Future<List<HomeMenuModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<HomeMenuModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -139,9 +139,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Future<List<HomeMenuModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, ReadCondition readCondition, int privilegeLevel }) async {
+  Future<List<HomeMenuModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, readCondition: readCondition, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;

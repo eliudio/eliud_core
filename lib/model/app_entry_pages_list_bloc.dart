@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/app_entry_pages_repository.dart';
 import 'package:eliud_core/model/app_entry_pages_list_event.dart';
 import 'package:eliud_core/model/app_entry_pages_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesListState> {
   final AppEntryPagesRepository _appEntryPagesRepository;
   StreamSubscription _appEntryPagessListSubscription;
+  final AccessBloc accessBloc;
 
-  AppEntryPagesListBloc({ @required AppEntryPagesRepository appEntryPagesRepository })
+  AppEntryPagesListBloc(this.accessBloc,{ @required AppEntryPagesRepository appEntryPagesRepository })
       : assert(appEntryPagesRepository != null),
       _appEntryPagesRepository = appEntryPagesRepository,
       super(AppEntryPagesListLoading());

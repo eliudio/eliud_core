@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/app_list_event.dart';
 import 'package:eliud_core/model/app_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final AppRepository _appRepository;
   StreamSubscription _appsListSubscription;
+  final AccessBloc accessBloc;
 
-  AppListBloc({ @required AppRepository appRepository })
+  AppListBloc(this.accessBloc,{ @required AppRepository appRepository })
       : assert(appRepository != null),
       _appRepository = appRepository,
       super(AppListLoading());

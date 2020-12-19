@@ -20,13 +20,17 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/image_repository.dart';
 import 'package:eliud_core/model/image_list_event.dart';
 import 'package:eliud_core/model/image_list_state.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
 class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
   final ImageRepository _imageRepository;
   StreamSubscription _imagesListSubscription;
+  final AccessBloc accessBloc;
 
-  ImageListBloc({ @required ImageRepository imageRepository })
+  ImageListBloc(this.accessBloc,{ @required ImageRepository imageRepository })
       : assert(imageRepository != null),
       _imageRepository = imageRepository,
       super(ImageListLoading());
