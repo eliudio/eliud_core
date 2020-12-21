@@ -12,7 +12,7 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
   // Do we have some limits in terms of privilege?
   if (isLoggedIn != null) {
     if (isLoggedIn) {
-      useThisCollection = useThisCollection.where('privilegeLevelRequired', isLessThanOrEqualTo: privilegeLevel);
+      useThisCollection = useThisCollection.where('readCondition', isEqualTo: 3).where('privilegeLevelRequired', isEqualTo: 1).where("appId",isEqualTo: "MINKEY_APP");
     } else {
       useThisCollection = useThisCollection.where('readCondition', isLessThan: 3);
     }
