@@ -52,7 +52,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
-                                 privilegeLevelRequired: 0,
+                                 privilegeLevelRequired: 0, 
                                  packageCondition: "",
 
         ));

@@ -59,7 +59,7 @@ class AppFirestore implements AppRepository {
     });
   }
 
-  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
+  StreamSubscription<List<AppModel>> listen(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel}) {
     Stream<List<AppModel>> stream;
     if (orderBy == null) {
        stream = AppCollection.snapshots().map((data) {
@@ -84,7 +84,7 @@ class AppFirestore implements AppRepository {
     });
   }
 
-  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, bool isLoggedIn, int privilegeLevel}) {
+  StreamSubscription<List<AppModel>> listenWithDetails(AppModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel}) {
     Stream<List<AppModel>> stream;
     if (orderBy == null) {
       stream = AppCollection.snapshots()
@@ -104,9 +104,9 @@ class AppFirestore implements AppRepository {
   }
 
 
-  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
+    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -115,9 +115,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Stream<List<AppModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
+    Stream<List<AppModel>> _values = getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -127,9 +127,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
+  Future<List<AppModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -140,9 +140,9 @@ class AppFirestore implements AppRepository {
     return _values;
   }
 
-  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) async {
+  Future<List<AppModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, isLoggedIn: isLoggedIn, privilegeLevel: privilegeLevel).getDocuments().then((value) {
+    List<AppModel> _values = await getQuery(AppCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;

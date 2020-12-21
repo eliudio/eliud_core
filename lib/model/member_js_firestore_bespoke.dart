@@ -46,7 +46,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
+  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel }) {
     Stream<List<MemberModel>> stream;
     // If we use memberCollection here, then the second subscription fails
     if (orderBy == null) {
@@ -77,7 +77,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, bool isLoggedIn, int privilegeLevel }) {
+  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel }) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       // If we use memberCollection here, then the second subscription fails
@@ -104,7 +104,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -119,7 +119,7 @@ class MemberJsFirestore implements MemberRepository {
     }
   }
 
-  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -137,7 +137,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {
@@ -156,7 +156,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, bool isLoggedIn, int privilegeLevel }) {
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {

@@ -1,25 +1,26 @@
 import 'package:firebase/firestore.dart';
 
-import 'common_tools.dart';
-
-Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, bool isLoggedIn, int privilegeLevel}) {
+Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId}) {
   Query useThisCollection = collection;
   if (orderBy != null) {
     useThisCollection = useThisCollection.orderBy(orderBy, descending ? 'desc': 'asc');
   }
   // Do we have some limits in terms of privilege?
-  if (isLoggedIn != null) {
-    if (isLoggedIn) {
-      useThisCollection = useThisCollection.where('privilegeLevelRequired', "<=", privilegeLevel);
+  if (privilegeLevel != null) {
+    // Do we have some limits in terms of privilege?
+    if (privilegeLevel == 0) {
+      useThisCollection =
+          useThisCollection.where('readCondition', '<', 3);
     } else {
-      useThisCollection = useThisCollection.where('readCondition', '<', 3);
+      useThisCollection =
+          useThisCollection.where('readCondition', '==', 3).where('privilegeLevelRequired', '==', privilegeLevel).where('appId', '==', appId);
     }
   }
 
   if (currentMember != null) {
     useThisCollection = useThisCollection.where(
         'readAccess', 'array-contains-any',
-        ((currentMember == null) || (currentMember == "")) ? ['PUBLIC'] : [
+        ((currentMember == null) || (currentMember == '')) ? ['PUBLIC'] : [
           currentMember,
           'PUBLIC'
         ]);

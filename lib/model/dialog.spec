@@ -86,7 +86,7 @@
       "fieldName": "privilegeLevelRequired",
       "displayName": "Privilege Level Required",
       "fieldType": "int",
-      "conditional": "(state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)",
+      "conditional": "(state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)",
       "group": "conditional"
     },
     {

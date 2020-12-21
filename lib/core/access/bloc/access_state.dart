@@ -1,10 +1,13 @@
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -98,18 +101,18 @@ class AccessHelper {
       case ReadCondition.PackageDecides:
       return await _conditionOkForPackage(
           packageCondition, app, member, isOwner);
-      case ReadCondition.AsSpecifiedInPrivilegeLevelRequired:
+      case ReadCondition.MemberOrPrivilegedMemberOnly:
         return privilegedLevel >= privilegedLevelRequired || isOwner;
     }
     return true;
   }
 
   static Future<int> getPrivilegeLevel(AppModel app, MemberModel member, bool isOwner) async {
-    if (isOwner) return 99999999;
+    if (isOwner) return 3;
     if (member != null) {
       var access = await appRepository().accessRepository(app.documentID).get(
           member.documentID);
-      int privilegeLevel = access == null ? 0 : access.privilegeLevel;
+      var privilegeLevel = access == null ? 0 : access.privilegeLevel;
       return privilegeLevel;
     }
     return 0;
@@ -122,8 +125,16 @@ class AccessHelper {
     {
       var repo = AbstractRepositorySingleton.singleton.pageRepository(
           app.documentID);
-      var theList = await repo.valuesList(
-          privilegeLevel: privilegeLevel, isLoggedIn: member != null);
+
+      var pages = <PageModel>[];
+      var countDown = privilegeLevel;
+      while (countDown >= 0) {
+        pages.addAll(await repo.valuesList(privilegeLevel: countDown));
+        countDown--;
+      }
+
+      var theList = removeDuplicates(pages, (page1, page2) => page1.documentID == page2.documentID);
+
       for (var i = 0; i < theList.length; i++) {
         var page = theList[i];
         pagesAccess[page.documentID] = await _ConditionOk(
@@ -141,8 +152,15 @@ class AccessHelper {
     {
       var repo = AbstractRepositorySingleton.singleton.dialogRepository(
           app.documentID);
-      var theList = await repo.valuesList(
-          privilegeLevel: privilegeLevel, isLoggedIn: member != null);
+      var dialogs = <DialogModel>[];
+      var countDown = privilegeLevel;
+      while (countDown >= 0) {
+        dialogs.addAll(await repo.valuesList(privilegeLevel: countDown));
+        countDown--;
+      }
+
+      var theList = removeDuplicates(dialogs, (dialog1, dialog2) => dialog1.documentID == dialog2.documentID);
+
       for (var i = 0; i < theList.length; i++) {
         var dialog = theList[i];
         dialogsAccess[dialog.documentID] = await _ConditionOk(

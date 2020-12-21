@@ -383,7 +383,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                 ));
 
 
-        if ((state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)) children.add(
+        if ((state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -446,7 +446,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                 ));
 
 
-        if ((state.value.privilegeLevelRequired == ReadCondition.AsSpecifiedInPrivilegeLevelRequired)) children.add(
+        if ((state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),

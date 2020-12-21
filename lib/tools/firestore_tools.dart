@@ -1,36 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'common_tools.dart';
-
-// pass in parameters isSignedIn, isMember and isPrivilegedMember
-// if isPrivilegedMember, than query for documents which have readCondition = 3 and privilegedMemberAccess = true and merge it with documents with the below
-//       useThisCollection = useThisCollection.where('readCondition', isEqualTo: 3).where('privilegedMemberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
-// if isMember, than query for documents which have memberAccess which have readCondition = 3 and isMember = true
-//      useThisCollection = useThisCollection.where('readCondition', isEqualTo: 3).where('memberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
-// in other cases (i.e. not isMember and not isPrivilegedMember) then we're only interested in documents with readCondition < 3
-//      useThisCollection = useThisCollection.where('readCondition', isLessThan: 3);
-Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, bool isLoggedIn, int privilegeLevel}) {
+// process:
+// If member has privilegeLevel >= 1, then
+//     query the pages and dialogs. Pass in privilegeLevel = 3, 2 and 1 and then merge results from query with privilegeLevel = 3, privilegeLevel = 2 and privilegeLevel = 1
+//     (if privilegeLevel = 2, then do this for 2 and 1, if privilegeLevel = 1, then do this for 1)
+//
+//     query the pages with privilegeLevel = 0
+//
+// If not logged in, or if privilegeLevel <= 0, theh query the pages with privilegeLevel = 0
+Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId}) {
   Query useThisCollection = collection;
   // Are we ordering?
   if (orderBy != null) {
     useThisCollection = useThisCollection.orderBy(orderBy, descending: descending);
   }
 
-  // Do we have some limits in terms of privilege?
-  if (isLoggedIn != null) {
-    if (isLoggedIn) {
-//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('privilegeLevelRequired', isEqualTo: 1).where("appId",isEqualTo: "MINKEY_APP");
-//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('memberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
-//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('privilegedMemberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
+  if (privilegeLevel != null) {
+    // Do we have some limits in terms of privilege?
+    if (privilegeLevel == 0) {
+      useThisCollection =
+          useThisCollection.where('readCondition', isLessThan: 3);
     } else {
-      useThisCollection = useThisCollection.where('readCondition', isLessThan: 2);
+      useThisCollection =
+          useThisCollection.where('readCondition', isEqualTo: 3).where(
+              'privilegeLevelRequired', isEqualTo: privilegeLevel).where(
+              'appId', isEqualTo: appId);
     }
   }
 
-  // Is this a query to limit the data to be retrieved for a specific member?
+  // Is this a query limitting the data to be retrieved for a specific member? e.g. posts are limitted to people the post is addressed to.
   if (currentMember != null) {
     useThisCollection = useThisCollection.where('readAccess',
-        arrayContainsAny: ((currentMember == null) || (currentMember == "")) ? [
+        arrayContainsAny: ((currentMember == null) || (currentMember == '')) ? [
           'PUBLIC'
         ] : [currentMember, 'PUBLIC']);
   }
