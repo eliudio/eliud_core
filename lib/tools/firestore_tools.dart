@@ -19,10 +19,11 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
   // Do we have some limits in terms of privilege?
   if (isLoggedIn != null) {
     if (isLoggedIn) {
-//      useThisCollection = useThisCollection.where('readCondition', isEqualTo: 3).where('memberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
-      useThisCollection = useThisCollection.where('readCondition', isEqualTo: 3).where('privilegedMemberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
+//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('privilegeLevelRequired', isEqualTo: 1).where("appId",isEqualTo: "MINKEY_APP");
+//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('memberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
+//    useThisCollection = useThisCollection.where('readCondition', isEqualTo: 2).where('privilegedMemberAccess', isEqualTo: true).where("appId",isEqualTo: "MINKEY_APP");
     } else {
-      useThisCollection = useThisCollection.where('readCondition', isLessThan: 3);
+      useThisCollection = useThisCollection.where('readCondition', isLessThan: 2);
     }
   }
 
