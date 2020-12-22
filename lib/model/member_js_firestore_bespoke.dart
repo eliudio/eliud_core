@@ -181,9 +181,15 @@ class MemberJsFirestore implements MemberRepository {
     return memberCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => memberCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Member');
+  CollectionReference getCollection() => firestore().collection('member');
 
   MemberJsFirestore();
 
-  final CollectionReference memberCollection = firestore().collection('Member');
+  final CollectionReference memberCollection = firestore().collection('member');
+
+  @override
+  getSubCollection(String documentId, String name) {
+    // TODO: implement getSubCollection
+    throw UnimplementedError();
+  }
 }

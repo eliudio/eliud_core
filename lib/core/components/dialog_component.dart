@@ -1,24 +1,18 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/components/page_body_helper.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/dialog_component_bloc.dart';
-import 'package:eliud_core/model/dialog_component_event.dart';
-import 'package:eliud_core/model/dialog_component_state.dart';
-import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class DialogComponent extends StatelessWidget {
   static Future<void> openDialog(BuildContext context,
       {String id, Map<String, Object> parameters}) async {
-    var appID = AccessBloc.appId(context);
-    var dialog = await AbstractRepositorySingleton.singleton.dialogRepository(appID).get(id);
+    var appId = AccessBloc.appId(context);
+    var dialog = await dialogRepository(appId: appId).get(id);
     if (dialog == null) {
       await showDialog(
           context: context,

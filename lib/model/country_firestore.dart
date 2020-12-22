@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/model/country_repository.dart';
 
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -162,10 +163,14 @@ class CountryFirestore implements CountryRepository {
     });
   }
 
+  dynamic getSubCollection(String documentId, String name) {
+    return CountryCollection.document(documentId).collection(name);
+  }
+
 
   CountryFirestore();
 
-  final CollectionReference CountryCollection = Firestore.instance.collection('Country');
+  final CollectionReference CountryCollection = Firestore.instance.collection('country');
 
 }
 

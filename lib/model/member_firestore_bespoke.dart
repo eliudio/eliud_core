@@ -203,5 +203,11 @@ class MemberFirestore implements MemberRepository {
   MemberFirestore();
 
   final CollectionReference MemberCollection =
-      Firestore.instance.collection('Member');
+      Firestore.instance.collection('member');
+
+  @override
+  getSubCollection(String documentId, String name) {
+    // TODO: implement getSubCollection
+    throw UnimplementedError();
+  }
 }

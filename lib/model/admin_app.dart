@@ -577,19 +577,7 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appId) async {
-    await appBarRepository(appId: appId).deleteAll();
-    await backgroundRepository(appId: appId).deleteAll();
     await countryRepository().deleteAll();
-    // await dialogRepository(appId: appId).deleteAll();
-    await drawerRepository(appId: appId).deleteAll();
-    await fontRepository(appId: appId).deleteAll();
-    await gridViewRepository(appId: appId).deleteAll();
-    await homeMenuRepository(appId: appId).deleteAll();
-    await imageRepository(appId: appId).deleteAll();
-    await menuDefRepository(appId: appId).deleteAll();
-    // await pageRepository(appId: appId).deleteAll();
-    await posSizeRepository(appId: appId).deleteAll();
-    await shadowRepository(appId: appId).deleteAll();
     ;
   }
 

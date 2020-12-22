@@ -15,7 +15,6 @@
 
 import 'package:eliud_core/model/app_repository.dart';
 
-import 'package:eliud_core/model/access_js_firestore.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -177,15 +176,14 @@ class AppJsFirestore implements AppRepository {
     return appCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => appCollection.doc(element.id).delete()));
   }
-  AccessRepository accessRepository(String documentID) {
-    CollectionReference reference = appCollection.doc(documentID).collection("Access");
-    return AccessJsFirestore(reference);
-  }
   
+  dynamic getSubCollection(String documentId, String name) {
+    return appCollection.doc(documentId).collection(name);
+  }
 
-  CollectionReference getCollection() => firestore().collection('App');
+  CollectionReference getCollection() => firestore().collection('app');
 
   AppJsFirestore();
 
-  final CollectionReference appCollection = firestore().collection('App');
+  final CollectionReference appCollection = firestore().collection('app');
 }

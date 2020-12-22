@@ -655,6 +655,198 @@ class AccessAppFormError extends AppFormError {
 }
 
 
+class AppBarsAppFormError extends AppFormError { 
+  const AppBarsAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBarsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class BackgroundAppFormError extends AppFormError { 
+  const BackgroundAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BackgroundAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DialogsAppFormError extends AppFormError { 
+  const DialogsAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DialogsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DrawerAppFormError extends AppFormError { 
+  const DrawerAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DrawerAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class FontAppFormError extends AppFormError { 
+  const FontAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''FontAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class GridviewsAppFormError extends AppFormError { 
+  const GridviewsAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''GridviewsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class HomemenusAppFormError extends AppFormError { 
+  const HomemenusAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''HomemenusAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ImagesAppFormError extends AppFormError { 
+  const ImagesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ImagesAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class MenudefsAppFormError extends AppFormError { 
+  const MenudefsAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''MenudefsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class PagesAppFormError extends AppFormError { 
+  const PagesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PagesAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class PosSizesAppFormError extends AppFormError { 
+  const PosSizesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PosSizesAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ShadowsAppFormError extends AppFormError { 
+  const ShadowsAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ShadowsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AutoMembershipAppFormError extends AppFormError { 
   const AutoMembershipAppFormError({ String message, AppModel value }): super(message: message, value: value);
 

@@ -18,9 +18,9 @@ class ImageJsFirestore implements ImageRepository {
   final String appID;
   final CollectionReference imageCollection;
 
-  ImageJsFirestore(this.appID) : imageCollection = firestore().collection('Image-${appID}');
+  ImageJsFirestore(this.appID, this.imageCollection);
 
-  CollectionReference getCollection() => firestore().collection('Image-${appID}');
+  CollectionReference getCollection() => imageCollection;
 
   @override
   Future<ImageModel> add(ImageModel value) async {
@@ -178,6 +178,11 @@ class ImageJsFirestore implements ImageRepository {
     return stream.listen((listOfImageModels) {
       trigger(listOfImageModels);
     });
+  }
+
+  @override
+  getSubCollection(String documentId, String name) {
+    throw UnimplementedError();
   }
 
 }

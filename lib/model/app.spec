@@ -317,6 +317,90 @@
       "hidden": true
     },
     {
+      "fieldName": "appBars",
+      "displayName": "Application Bars",
+      "fieldType": "AppBar",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "background",
+      "displayName": "Backgrounds",
+      "fieldType": "Background",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "dialogs",
+      "displayName": "Dialogs Pages",
+      "fieldType": "Dialog",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "drawer",
+      "displayName": "Drawers",
+      "fieldType": "Drawer",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "font",
+      "displayName": "Fonts",
+      "fieldType": "Font",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "gridviews",
+      "displayName": "Grid views",
+      "fieldType": "GridView",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "homemenus",
+      "displayName": "Home menus",
+      "fieldType": "HomeMenu",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "images",
+      "displayName": "Images",
+      "fieldType": "Image",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "menudefs",
+      "displayName": "Menu Definitions",
+      "fieldType": "MenuDef",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "pages",
+      "displayName": "Application Pages",
+      "fieldType": "Page",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "posSizes",
+      "displayName": "Pos Sizes",
+      "fieldType": "PosSize",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
+      "fieldName": "shadows",
+      "displayName": "Shadows",
+      "fieldType": "Shadow",
+      "arrayType": "collection",
+      "hidden": true
+    },
+    {
       "fieldName": "autoMembership",
       "displayName": "If set to auto membership, people can just login. If set to manual membership, a membership request is sent to the owner",
       "fieldType": "bool",
@@ -428,12 +512,6 @@
   "listFields": {
     "title": "documentID",
     "subTitle": "title"
-  },
-  "extraImports": {
-    "model" : "import 'package:eliud_core/model/access_repository.dart';",
-    "firestore" : "import 'package:eliud_core/model/access_firestore.dart';",
-    "js_firestore" : "import 'package:eliud_core/model/access_js_firestore.dart';",
-    "repository" : "import 'package:eliud_core/model/access_repository.dart';"
   },
   "preToEntityCode": "logoURL = logo != null ? logo.imageURLOriginal : null;"
 }

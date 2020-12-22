@@ -6,7 +6,6 @@ import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/action_model.dart';
 import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -110,7 +109,7 @@ class AccessHelper {
   static Future<int> getPrivilegeLevel(AppModel app, MemberModel member, bool isOwner) async {
     if (isOwner) return 3;
     if (member != null) {
-      var access = await appRepository().accessRepository(app.documentID).get(
+      var access = await accessRepository(appId: app.documentID).get(
           member.documentID);
       var privilegeLevel = access == null ? 0 : access.privilegeLevel;
       return privilegeLevel;
@@ -123,8 +122,7 @@ class AccessHelper {
     var isOwner = member != null && member.documentID == app.ownerID;
     var privilegeLevel = await getPrivilegeLevel(app, member, isOwner);
     {
-      var repo = AbstractRepositorySingleton.singleton.pageRepository(
-          app.documentID);
+      var repo = pageRepository(appId: app.documentID);
 
       var pages = <PageModel>[];
       var countDown = privilegeLevel;
@@ -150,8 +148,7 @@ class AccessHelper {
     }
     var dialogsAccess = <String, bool>{};
     {
-      var repo = AbstractRepositorySingleton.singleton.dialogRepository(
-          app.documentID);
+      var repo = dialogRepository(appId: app.documentID);
       var dialogs = <DialogModel>[];
       var countDown = privilegeLevel;
       while (countDown >= 0) {

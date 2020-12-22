@@ -86,6 +86,10 @@ class ImageCache implements ImageRepository {
     fullCache.clear();
   }
   
+  dynamic getSubCollection(String documentId, String name) {
+    return reference.getSubCollection(documentId, name);
+  }
+
 
   Future<void> deleteAll() {
     return reference.deleteAll();

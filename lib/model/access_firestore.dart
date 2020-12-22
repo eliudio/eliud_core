@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/model/access_repository.dart';
 
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -160,6 +161,10 @@ class AccessFirestore implements AccessRepository {
         ds.reference.delete();
       }
     });
+  }
+
+  dynamic getSubCollection(String documentId, String name) {
+    return AccessCollection.document(documentId).collection(name);
   }
 
 

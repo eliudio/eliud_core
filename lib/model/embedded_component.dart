@@ -236,6 +236,11 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       return Future.value(items);
     }
 
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
     Future<void> deleteAll() {}
 }
 
@@ -313,6 +318,11 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     
     Future<List<BodyComponentModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
       return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
     }
 
     Future<void> deleteAll() {}
@@ -394,6 +404,11 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       return Future.value(items);
     }
 
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
     Future<void> deleteAll() {}
 }
 
@@ -473,6 +488,11 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return Future.value(items);
     }
 
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
     Future<void> deleteAll() {}
 }
 
@@ -550,6 +570,11 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     
     Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
       return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
     }
 
     Future<void> deleteAll() {}

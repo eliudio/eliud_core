@@ -157,7 +157,7 @@ class ActionFieldState extends State<ActionField> {
       _menuDefID = value;
     });
     if (_actionSelection == 2) {
-      MenuDefModel menuDef = await AbstractRepositorySingleton.singleton.menuDefRepository(widget.appID).get(value);
+      MenuDefModel menuDef = await menuDefRepository(appId: widget.appID).get(value);
       widget.setActionValue(new PopupMenu(widget.appID, menuDef: menuDef));
     }
   }

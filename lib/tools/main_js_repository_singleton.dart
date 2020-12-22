@@ -23,9 +23,9 @@ class JsMainRepositorySingleton extends AbstractMainRepositorySingleton {
   }
 
   @override
-  ImageRepository imageRepository(String appID) {
-    if (_imageRepository[appID] == null) _imageRepository[appID] = ImageCache(ImageJsFirestore(appID));
-    return _imageRepository[appID];
+  ImageRepository imageRepository(String appId) {
+    if (_imageRepository[appId] == null) _imageRepository[appId] = ImageCache(ImageJsFirestore(appId, appRepository().getSubCollection(appId, 'image')));
+    return _imageRepository[appId];
   }
 
   @override

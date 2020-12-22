@@ -36,7 +36,9 @@ import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
+AccessRepository accessRepository({ String appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
 AppBarRepository appBarRepository({ String appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
 BackgroundRepository backgroundRepository({ String appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
 CountryRepository countryRepository({ String appId }) => AbstractRepositorySingleton.singleton.countryRepository();
@@ -53,6 +55,7 @@ ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySinglet
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
 
+  AccessRepository accessRepository(String appId);
   AppBarRepository appBarRepository(String appId);
   BackgroundRepository backgroundRepository(String appId);
   CountryRepository countryRepository();
@@ -67,17 +70,6 @@ abstract class AbstractRepositorySingleton {
   ShadowRepository shadowRepository(String appId);
 
   void flush(String appId) {
-    appBarRepository(appId).flush();
-    backgroundRepository(appId).flush();
     countryRepository().flush();
-    dialogRepository(appId).flush();
-    drawerRepository(appId).flush();
-    fontRepository(appId).flush();
-    gridViewRepository(appId).flush();
-    homeMenuRepository(appId).flush();
-    menuDefRepository(appId).flush();
-    pageRepository(appId).flush();
-    posSizeRepository(appId).flush();
-    shadowRepository(appId).flush();
   }
 }

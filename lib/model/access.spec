@@ -1,6 +1,7 @@
 {
   "id": "Access",
   "packageName": "eliud_core",
+  "isAppModel": true,
   "generate": {
     "generateComponent": false,
     "generateRepository": true,

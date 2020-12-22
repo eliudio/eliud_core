@@ -47,9 +47,7 @@ class PageComponent extends StatelessWidget {
             BlocProvider<PageComponentBloc>(
               create: (context) =>
               PageComponentBloc(
-                  pageRepository:
-                  AbstractRepositorySingleton.singleton.pageRepository(
-                      app.documentID))
+                  pageRepository:pageRepository(appId: app.documentID))
                 ..add(FetchPageComponent(id: pageID)),
             ),
           ],

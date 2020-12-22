@@ -28,7 +28,6 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/app_entity.dart';
 
-import 'package:eliud_core/model/access_repository.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum AppStatus {

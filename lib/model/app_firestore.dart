@@ -15,7 +15,7 @@
 
 import 'package:eliud_core/model/app_repository.dart';
 
-import 'package:eliud_core/model/access_firestore.dart';
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -163,16 +163,14 @@ class AppFirestore implements AppRepository {
     });
   }
 
-
-  AccessRepository accessRepository(String documentID) {
-    CollectionReference reference = AppCollection.document(documentID).collection("Access");
-    return AccessFirestore(reference);
+  dynamic getSubCollection(String documentId, String name) {
+    return AppCollection.document(documentId).collection(name);
   }
-  
+
 
   AppFirestore();
 
-  final CollectionReference AppCollection = Firestore.instance.collection('App');
+  final CollectionReference AppCollection = Firestore.instance.collection('app');
 
 }
 

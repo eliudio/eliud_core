@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/model/home_menu_repository.dart';
 
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -31,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
   Future<HomeMenuModel> add(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
   }
 
   Future<void> delete(HomeMenuModel value) {
@@ -39,7 +40,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   Future<HomeMenuModel> update(HomeMenuModel value) {
-    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return HomeMenuCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
   }
 
   HomeMenuModel _populateDoc(DocumentSnapshot value) {
@@ -47,7 +48,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot value) async {
-    return HomeMenuModel.fromEntityPlus(value.documentID, HomeMenuEntity.fromMap(value.data), appId: appId);  }
+    return HomeMenuModel.fromEntityPlus(value.documentID, HomeMenuEntity.fromMap(value.data), );  }
 
   Future<HomeMenuModel> get(String id) {
     return HomeMenuCollection.document(id).get().then((doc) {
@@ -105,7 +106,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   Stream<List<HomeMenuModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
+    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -116,7 +117,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   Stream<List<HomeMenuModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
+    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -128,7 +129,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   Future<List<HomeMenuModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -141,7 +142,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   Future<List<HomeMenuModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -162,10 +163,13 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
+  dynamic getSubCollection(String documentId, String name) {
+    return HomeMenuCollection.document(documentId).collection(name);
+  }
 
-  final String appId;
+
+  HomeMenuFirestore(this.HomeMenuCollection);
+
   final CollectionReference HomeMenuCollection;
-
-  HomeMenuFirestore(this.appId) : HomeMenuCollection = Firestore.instance.collection('HomeMenu-${appId}');
 }
 

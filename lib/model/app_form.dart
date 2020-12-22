@@ -1358,6 +1358,78 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
+  void _onAppBarsChanged(value) {
+    _myFormBloc.add(ChangedAppAppBars(value: value));
+    setState(() {});
+  }
+
+
+  void _onBackgroundChanged(value) {
+    _myFormBloc.add(ChangedAppBackground(value: value));
+    setState(() {});
+  }
+
+
+  void _onDialogsChanged(value) {
+    _myFormBloc.add(ChangedAppDialogs(value: value));
+    setState(() {});
+  }
+
+
+  void _onDrawerChanged(value) {
+    _myFormBloc.add(ChangedAppDrawer(value: value));
+    setState(() {});
+  }
+
+
+  void _onFontChanged(value) {
+    _myFormBloc.add(ChangedAppFont(value: value));
+    setState(() {});
+  }
+
+
+  void _onGridviewsChanged(value) {
+    _myFormBloc.add(ChangedAppGridviews(value: value));
+    setState(() {});
+  }
+
+
+  void _onHomemenusChanged(value) {
+    _myFormBloc.add(ChangedAppHomemenus(value: value));
+    setState(() {});
+  }
+
+
+  void _onImagesChanged(value) {
+    _myFormBloc.add(ChangedAppImages(value: value));
+    setState(() {});
+  }
+
+
+  void _onMenudefsChanged(value) {
+    _myFormBloc.add(ChangedAppMenudefs(value: value));
+    setState(() {});
+  }
+
+
+  void _onPagesChanged(value) {
+    _myFormBloc.add(ChangedAppPages(value: value));
+    setState(() {});
+  }
+
+
+  void _onPosSizesChanged(value) {
+    _myFormBloc.add(ChangedAppPosSizes(value: value));
+    setState(() {});
+  }
+
+
+  void _onShadowsChanged(value) {
+    _myFormBloc.add(ChangedAppShadows(value: value));
+    setState(() {});
+  }
+
+
   void setSelectionAutoMembership(bool val) {
     setState(() {
       _autoMembershipSelection = val;

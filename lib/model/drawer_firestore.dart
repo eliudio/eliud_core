@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/model/drawer_repository.dart';
 
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -31,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class DrawerFirestore implements DrawerRepository {
   Future<DrawerModel> add(DrawerModel value) {
-    return DrawerCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return DrawerCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
   }
 
   Future<void> delete(DrawerModel value) {
@@ -39,7 +40,7 @@ class DrawerFirestore implements DrawerRepository {
   }
 
   Future<DrawerModel> update(DrawerModel value) {
-    return DrawerCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return DrawerCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
   }
 
   DrawerModel _populateDoc(DocumentSnapshot value) {
@@ -47,7 +48,7 @@ class DrawerFirestore implements DrawerRepository {
   }
 
   Future<DrawerModel> _populateDocPlus(DocumentSnapshot value) async {
-    return DrawerModel.fromEntityPlus(value.documentID, DrawerEntity.fromMap(value.data), appId: appId);  }
+    return DrawerModel.fromEntityPlus(value.documentID, DrawerEntity.fromMap(value.data), );  }
 
   Future<DrawerModel> get(String id) {
     return DrawerCollection.document(id).get().then((doc) {
@@ -105,7 +106,7 @@ class DrawerFirestore implements DrawerRepository {
 
   Stream<List<DrawerModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<DrawerModel>> _values = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
+    Stream<List<DrawerModel>> _values = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -116,7 +117,7 @@ class DrawerFirestore implements DrawerRepository {
 
   Stream<List<DrawerModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<DrawerModel>> _values = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
+    Stream<List<DrawerModel>> _values = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -128,7 +129,7 @@ class DrawerFirestore implements DrawerRepository {
 
   Future<List<DrawerModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<DrawerModel> _values = await getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<DrawerModel> _values = await getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -141,7 +142,7 @@ class DrawerFirestore implements DrawerRepository {
 
   Future<List<DrawerModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<DrawerModel> _values = await getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
+    List<DrawerModel> _values = await getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -162,10 +163,13 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
+  dynamic getSubCollection(String documentId, String name) {
+    return DrawerCollection.document(documentId).collection(name);
+  }
 
-  final String appId;
+
+  DrawerFirestore(this.DrawerCollection);
+
   final CollectionReference DrawerCollection;
-
-  DrawerFirestore(this.appId) : DrawerCollection = Firestore.instance.collection('Drawer-${appId}');
 }
 

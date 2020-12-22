@@ -176,6 +176,11 @@ class AccessJsFirestore implements AccessRepository {
     return accessCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => accessCollection.doc(element.id).delete()));
   }
+  
+  dynamic getSubCollection(String documentId, String name) {
+    return accessCollection.doc(documentId).collection(name);
+  }
+
   CollectionReference getCollection() => accessCollection;
 
   AccessJsFirestore(this.accessCollection);

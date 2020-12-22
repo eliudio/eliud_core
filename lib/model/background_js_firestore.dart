@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class BackgroundJsFirestore implements BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .set(value.toEntity(appId: appId).toDocument())
+        .set(value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   Future<BackgroundModel> update(BackgroundModel value) {
     return backgroundCollection.doc(value.documentID)
-        .update(data: value.toEntity(appId: appId).toDocument())
+        .update(data: value.toEntity().toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
   }
 
   Future<BackgroundModel> _populateDocPlus(DocumentSnapshot value) async {
-    return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), appId: appId);
+    return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), );
   }
 
   Future<BackgroundModel> get(String id) {
@@ -116,7 +116,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   Stream<List<BackgroundModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<BackgroundModel>> _values = getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<BackgroundModel>> _values = getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
 
   Stream<List<BackgroundModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<BackgroundModel>> _values = getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
+    Stream<List<BackgroundModel>> _values = getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
   @override
   Future<List<BackgroundModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<BackgroundModel> _values = await getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<BackgroundModel> _values = await getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class BackgroundJsFirestore implements BackgroundRepository {
   @override
   Future<List<BackgroundModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<BackgroundModel> _values = await getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
+    List<BackgroundModel> _values = await getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -176,11 +176,15 @@ class BackgroundJsFirestore implements BackgroundRepository {
     return backgroundCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => backgroundCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Background-$appId');
-
-  final String appId;
   
-  BackgroundJsFirestore(this.appId) : backgroundCollection = firestore().collection('Background-$appId');
+  dynamic getSubCollection(String documentId, String name) {
+    return backgroundCollection.doc(documentId).collection(name);
+  }
+
+  CollectionReference getCollection() => backgroundCollection;
+
+  BackgroundJsFirestore(this.backgroundCollection);
 
   final CollectionReference backgroundCollection;
 }
+

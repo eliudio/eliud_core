@@ -176,9 +176,14 @@ class CountryJsFirestore implements CountryRepository {
     return countryCollection.get().then((snapshot) => snapshot.docs
         .forEach((element) => countryCollection.doc(element.id).delete()));
   }
-  CollectionReference getCollection() => firestore().collection('Country');
+  
+  dynamic getSubCollection(String documentId, String name) {
+    return countryCollection.doc(documentId).collection(name);
+  }
+
+  CollectionReference getCollection() => firestore().collection('country');
 
   CountryJsFirestore();
 
-  final CollectionReference countryCollection = firestore().collection('Country');
+  final CollectionReference countryCollection = firestore().collection('country');
 }

@@ -86,6 +86,10 @@ class AppCache implements AppRepository {
     fullCache.clear();
   }
   
+  dynamic getSubCollection(String documentId, String name) {
+    return reference.getSubCollection(documentId, name);
+  }
+
 
   Future<void> deleteAll() {
     return reference.deleteAll();
@@ -268,9 +272,6 @@ class AppCache implements AppRepository {
 
     );
   }
-
-    AccessRepository accessRepository(String documentID) => reference.accessRepository(documentID);
-  
 
 }
 
