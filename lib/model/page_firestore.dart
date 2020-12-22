@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PageFirestore implements PageRepository {
   Future<PageModel> add(PageModel value) {
-    return PageCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(PageModel value) {
@@ -40,7 +40,7 @@ class PageFirestore implements PageRepository {
   }
 
   Future<PageModel> update(PageModel value) {
-    return PageCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return PageCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   PageModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class PageFirestore implements PageRepository {
   }
 
   Future<PageModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PageModel.fromEntityPlus(value.documentID, PageEntity.fromMap(value.data), );  }
+    return PageModel.fromEntityPlus(value.documentID, PageEntity.fromMap(value.data), appId: appId);  }
 
   Future<PageModel> get(String id) {
     return PageCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class PageFirestore implements PageRepository {
 
   Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<PageModel>> _values = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class PageFirestore implements PageRepository {
 
   Stream<List<PageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<PageModel>> _values = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class PageFirestore implements PageRepository {
 
   Future<List<PageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PageModel> _values = await getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class PageFirestore implements PageRepository {
 
   Future<List<PageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<PageModel> _values = await getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class PageFirestore implements PageRepository {
   }
 
 
-  PageFirestore(this.PageCollection);
+  final String appId;
+  PageFirestore(this.PageCollection, this.appId);
 
   final CollectionReference PageCollection;
 }

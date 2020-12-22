@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class PageJsFirestore implements PageRepository {
   Future<PageModel> add(PageModel value) {
     return pageCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class PageJsFirestore implements PageRepository {
 
   Future<PageModel> update(PageModel value) {
     return pageCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class PageJsFirestore implements PageRepository {
   }
 
   Future<PageModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data()), );
+    return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<PageModel> get(String id) {
@@ -116,7 +116,7 @@ class PageJsFirestore implements PageRepository {
 
   Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class PageJsFirestore implements PageRepository {
 
   Stream<List<PageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class PageJsFirestore implements PageRepository {
   @override
   Future<List<PageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class PageJsFirestore implements PageRepository {
   @override
   Future<List<PageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PageModel> _values = await getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -181,10 +181,10 @@ class PageJsFirestore implements PageRepository {
     return pageCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  PageJsFirestore(this.pageCollection, this.appId);
+
   CollectionReference getCollection() => pageCollection;
-
-  PageJsFirestore(this.pageCollection);
-
   final CollectionReference pageCollection;
 }
 

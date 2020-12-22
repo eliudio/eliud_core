@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class AccessFirestore implements AccessRepository {
   Future<AccessModel> add(AccessModel value) {
-    return AccessCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return AccessCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(AccessModel value) {
@@ -40,7 +40,7 @@ class AccessFirestore implements AccessRepository {
   }
 
   Future<AccessModel> update(AccessModel value) {
-    return AccessCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return AccessCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   AccessModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class AccessFirestore implements AccessRepository {
   }
 
   Future<AccessModel> _populateDocPlus(DocumentSnapshot value) async {
-    return AccessModel.fromEntityPlus(value.documentID, AccessEntity.fromMap(value.data), );  }
+    return AccessModel.fromEntityPlus(value.documentID, AccessEntity.fromMap(value.data), appId: appId);  }
 
   Future<AccessModel> get(String id) {
     return AccessCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class AccessFirestore implements AccessRepository {
 
   Stream<List<AccessModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AccessModel>> _values = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<AccessModel>> _values = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class AccessFirestore implements AccessRepository {
 
   Stream<List<AccessModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AccessModel>> _values = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<AccessModel>> _values = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class AccessFirestore implements AccessRepository {
 
   Future<List<AccessModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AccessModel> _values = await getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<AccessModel> _values = await getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class AccessFirestore implements AccessRepository {
 
   Future<List<AccessModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AccessModel> _values = await getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<AccessModel> _values = await getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class AccessFirestore implements AccessRepository {
   }
 
 
-  AccessFirestore(this.AccessCollection);
+  final String appId;
+  AccessFirestore(this.AccessCollection, this.appId);
 
   final CollectionReference AccessCollection;
 }

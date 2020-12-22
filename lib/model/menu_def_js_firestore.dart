@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class MenuDefJsFirestore implements MenuDefRepository {
   Future<MenuDefModel> add(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
 
   Future<MenuDefModel> update(MenuDefModel value) {
     return menuDefCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
   }
 
   Future<MenuDefModel> _populateDocPlus(DocumentSnapshot value) async {
-    return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), );
+    return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<MenuDefModel> get(String id) {
@@ -116,7 +116,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
 
   Stream<List<MenuDefModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<MenuDefModel>> _values = getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<MenuDefModel>> _values = getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
 
   Stream<List<MenuDefModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<MenuDefModel>> _values = getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<MenuDefModel>> _values = getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
   @override
   Future<List<MenuDefModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<MenuDefModel> _values = await getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<MenuDefModel> _values = await getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class MenuDefJsFirestore implements MenuDefRepository {
   @override
   Future<List<MenuDefModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<MenuDefModel> _values = await getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<MenuDefModel> _values = await getQuery(menuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -181,10 +181,10 @@ class MenuDefJsFirestore implements MenuDefRepository {
     return menuDefCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  MenuDefJsFirestore(this.menuDefCollection, this.appId);
+
   CollectionReference getCollection() => menuDefCollection;
-
-  MenuDefJsFirestore(this.menuDefCollection);
-
   final CollectionReference menuDefCollection;
 }
 

@@ -32,7 +32,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class GridViewFirestore implements GridViewRepository {
   Future<GridViewModel> add(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(GridViewModel value) {
@@ -40,7 +40,7 @@ class GridViewFirestore implements GridViewRepository {
   }
 
   Future<GridViewModel> update(GridViewModel value) {
-    return GridViewCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return GridViewCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   GridViewModel _populateDoc(DocumentSnapshot value) {
@@ -48,7 +48,7 @@ class GridViewFirestore implements GridViewRepository {
   }
 
   Future<GridViewModel> _populateDocPlus(DocumentSnapshot value) async {
-    return GridViewModel.fromEntityPlus(value.documentID, GridViewEntity.fromMap(value.data), );  }
+    return GridViewModel.fromEntityPlus(value.documentID, GridViewEntity.fromMap(value.data), appId: appId);  }
 
   Future<GridViewModel> get(String id) {
     return GridViewCollection.document(id).get().then((doc) {
@@ -106,7 +106,7 @@ class GridViewFirestore implements GridViewRepository {
 
   Stream<List<GridViewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<GridViewModel>> _values = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().map((snapshot) {
+    Stream<List<GridViewModel>> _values = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -117,7 +117,7 @@ class GridViewFirestore implements GridViewRepository {
 
   Stream<List<GridViewModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<GridViewModel>> _values = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, ).snapshots().asyncMap((snapshot) {
+    Stream<List<GridViewModel>> _values = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, appId: appId).snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.documents.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -129,7 +129,7 @@ class GridViewFirestore implements GridViewRepository {
 
   Future<List<GridViewModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<GridViewModel> _values = await getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<GridViewModel> _values = await getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) { 
         lastDoc = doc;
@@ -142,7 +142,7 @@ class GridViewFirestore implements GridViewRepository {
 
   Future<List<GridViewModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<GridViewModel> _values = await getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).getDocuments().then((value) {
+    List<GridViewModel> _values = await getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -168,7 +168,8 @@ class GridViewFirestore implements GridViewRepository {
   }
 
 
-  GridViewFirestore(this.GridViewCollection);
+  final String appId;
+  GridViewFirestore(this.GridViewCollection, this.appId);
 
   final CollectionReference GridViewCollection;
 }

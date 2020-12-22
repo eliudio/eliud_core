@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class PosSizeJsFirestore implements PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
 
   Future<PosSizeModel> update(PosSizeModel value) {
     return posSizeCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
   }
 
   Future<PosSizeModel> _populateDocPlus(DocumentSnapshot value) async {
-    return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data()), );
+    return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<PosSizeModel> get(String id) {
@@ -116,7 +116,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
 
   Stream<List<PosSizeModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PosSizeModel>> _values = getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PosSizeModel>> _values = getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
 
   Stream<List<PosSizeModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<PosSizeModel>> _values = getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<PosSizeModel>> _values = getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
   @override
   Future<List<PosSizeModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PosSizeModel> _values = await getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PosSizeModel> _values = await getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class PosSizeJsFirestore implements PosSizeRepository {
   @override
   Future<List<PosSizeModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<PosSizeModel> _values = await getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<PosSizeModel> _values = await getQuery(posSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -181,10 +181,10 @@ class PosSizeJsFirestore implements PosSizeRepository {
     return posSizeCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  PosSizeJsFirestore(this.posSizeCollection, this.appId);
+
   CollectionReference getCollection() => posSizeCollection;
-
-  PosSizeJsFirestore(this.posSizeCollection);
-
   final CollectionReference posSizeCollection;
 }
 

@@ -35,7 +35,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class AppBarJsFirestore implements AppBarRepository {
   Future<AppBarModel> add(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .set(value.toEntity().toDocument())
+        .set(value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -45,7 +45,7 @@ class AppBarJsFirestore implements AppBarRepository {
 
   Future<AppBarModel> update(AppBarModel value) {
     return appBarCollection.doc(value.documentID)
-        .update(data: value.toEntity().toDocument())
+        .update(data: value.toEntity(appId: appId).toDocument())
         .then((_) => value);
   }
 
@@ -54,7 +54,7 @@ class AppBarJsFirestore implements AppBarRepository {
   }
 
   Future<AppBarModel> _populateDocPlus(DocumentSnapshot value) async {
-    return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), );
+    return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);
   }
 
   Future<AppBarModel> get(String id) {
@@ -116,7 +116,7 @@ class AppBarJsFirestore implements AppBarRepository {
 
   Stream<List<AppBarModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppBarModel>> _values = getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<AppBarModel>> _values = getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .map((data) { 
         return data.docs.map((doc) {
@@ -129,7 +129,7 @@ class AppBarJsFirestore implements AppBarRepository {
 
   Stream<List<AppBarModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
-    Stream<List<AppBarModel>> _values = getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, )
+    Stream<List<AppBarModel>> _values = getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)
       .onSnapshot
       .asyncMap((data) {
         return Future.wait(data.docs.map((doc) { 
@@ -144,7 +144,7 @@ class AppBarJsFirestore implements AppBarRepository {
   @override
   Future<List<AppBarModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppBarModel> _values = await getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<AppBarModel> _values = await getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -158,7 +158,7 @@ class AppBarJsFirestore implements AppBarRepository {
   @override
   Future<List<AppBarModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
     DocumentSnapshot lastDoc;
-    List<AppBarModel> _values = await getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, ).get().then((value) {
+    List<AppBarModel> _values = await getQuery(appBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId).get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {  
         lastDoc = doc;
@@ -181,10 +181,10 @@ class AppBarJsFirestore implements AppBarRepository {
     return appBarCollection.doc(documentId).collection(name);
   }
 
+  final String appId;
+  AppBarJsFirestore(this.appBarCollection, this.appId);
+
   CollectionReference getCollection() => appBarCollection;
-
-  AppBarJsFirestore(this.appBarCollection);
-
   final CollectionReference appBarCollection;
 }
 
