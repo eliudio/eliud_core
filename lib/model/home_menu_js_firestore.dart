@@ -184,7 +184,9 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
   final String appId;
   HomeMenuJsFirestore(this.homeMenuCollection, this.appId);
 
-  CollectionReference getCollection() => homeMenuCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => homeMenuCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'homemenu');
   final CollectionReference homeMenuCollection;
 }
 

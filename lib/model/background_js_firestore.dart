@@ -184,7 +184,9 @@ class BackgroundJsFirestore implements BackgroundRepository {
   final String appId;
   BackgroundJsFirestore(this.backgroundCollection, this.appId);
 
-  CollectionReference getCollection() => backgroundCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => backgroundCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'background');
   final CollectionReference backgroundCollection;
 }
 

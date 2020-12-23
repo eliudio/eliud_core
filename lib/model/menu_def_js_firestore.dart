@@ -184,7 +184,9 @@ class MenuDefJsFirestore implements MenuDefRepository {
   final String appId;
   MenuDefJsFirestore(this.menuDefCollection, this.appId);
 
-  CollectionReference getCollection() => menuDefCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => menuDefCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'menudef');
   final CollectionReference menuDefCollection;
 }
 

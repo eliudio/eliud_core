@@ -184,7 +184,9 @@ class PageJsFirestore implements PageRepository {
   final String appId;
   PageJsFirestore(this.pageCollection, this.appId);
 
-  CollectionReference getCollection() => pageCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => pageCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'page');
   final CollectionReference pageCollection;
 }
 

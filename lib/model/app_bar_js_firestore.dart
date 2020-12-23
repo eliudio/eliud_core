@@ -184,7 +184,9 @@ class AppBarJsFirestore implements AppBarRepository {
   final String appId;
   AppBarJsFirestore(this.appBarCollection, this.appId);
 
-  CollectionReference getCollection() => appBarCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => appBarCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'appbar');
   final CollectionReference appBarCollection;
 }
 

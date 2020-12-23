@@ -184,7 +184,9 @@ class FontJsFirestore implements FontRepository {
   final String appId;
   FontJsFirestore(this.fontCollection, this.appId);
 
-  CollectionReference getCollection() => fontCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => fontCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'font');
   final CollectionReference fontCollection;
 }
 

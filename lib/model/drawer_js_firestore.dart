@@ -184,7 +184,9 @@ class DrawerJsFirestore implements DrawerRepository {
   final String appId;
   DrawerJsFirestore(this.drawerCollection, this.appId);
 
-  CollectionReference getCollection() => drawerCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => drawerCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'drawer');
   final CollectionReference drawerCollection;
 }
 

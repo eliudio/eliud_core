@@ -184,7 +184,9 @@ class DialogJsFirestore implements DialogRepository {
   final String appId;
   DialogJsFirestore(this.dialogCollection, this.appId);
 
-  CollectionReference getCollection() => dialogCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => dialogCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'dialog');
   final CollectionReference dialogCollection;
 }
 

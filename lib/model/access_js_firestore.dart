@@ -184,7 +184,9 @@ class AccessJsFirestore implements AccessRepository {
   final String appId;
   AccessJsFirestore(this.accessCollection, this.appId);
 
-  CollectionReference getCollection() => accessCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => accessCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'access');
   final CollectionReference accessCollection;
 }
 

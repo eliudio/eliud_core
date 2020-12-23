@@ -184,7 +184,9 @@ class PosSizeJsFirestore implements PosSizeRepository {
   final String appId;
   PosSizeJsFirestore(this.posSizeCollection, this.appId);
 
-  CollectionReference getCollection() => posSizeCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => posSizeCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'possize');
   final CollectionReference posSizeCollection;
 }
 

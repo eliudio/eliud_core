@@ -184,7 +184,9 @@ class ShadowJsFirestore implements ShadowRepository {
   final String appId;
   ShadowJsFirestore(this.shadowCollection, this.appId);
 
-  CollectionReference getCollection() => shadowCollection;
+  // In flutterweb, it seems we require to re-retrieve the collection. If not then subscribing / listening to it a second time fails.
+  // CollectionReference getCollection() => shadowCollection;
+  CollectionReference getCollection() => appRepository().getSubCollection(appId, 'shadow');
   final CollectionReference shadowCollection;
 }
 
