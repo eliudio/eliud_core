@@ -22,7 +22,7 @@ ReadCondition toReadCondition(int index) {
 
 int PENDING_MEMBERSHIP = -1;
 int BLOCKED_MEMBERSHIP = -2;
-int NO_PRIVILEGE = 0;
-int LEVEL1_PRIVILEGE = 1;
-int LEVEL2_PRIVILEGE = 2;
+int NO_PRIVILEGE = 0;     // equals subscription
+int LEVEL1_PRIVILEGE = 1; // equals membership
+int LEVEL2_PRIVILEGE = 2; // equals privileged membership
 int OWNER_PRIVILEGES = 3;
