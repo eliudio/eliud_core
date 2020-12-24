@@ -1,31 +1,15 @@
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class ActionEntity extends Equatable {
+abstract class ActionEntity {
   final String appID;
   final String actionType;
 
   const ActionEntity(this.appID, { this.actionType });
-  Map<String, Object> toJson();
-  @override
-  List<Object> get props;
-  @override
-  String toString();
+
   Map<String, Object> toDocument();
 
-  static ActionEntity fromMap(Map snap) {
-    String actionType = snap["actionType"];
-    if (actionType == GotoPageEntity.label) {
-      return GotoPageEntity.fromMap(snap);
-    } else if (actionType == OpenDialogEntity.label) {
-      return OpenDialogEntity.fromMap(snap);
-    } else if (actionType == InternalActionEntity.label) {
-      return InternalActionEntity.fromMap(snap);
-    } else if (actionType == PopupMenuEntity.label) {
-      return PopupMenuEntity.fromMap(snap);
-    } else {
-      return null;
-    }
-  }
+  static ActionEntity fromMap(Map snap) => ActionModelRegistry.registry().getMapper(snap["actionType"]).fromMap(snap);
 }
 
 class GotoPageEntity extends ActionEntity {
@@ -33,20 +17,6 @@ class GotoPageEntity extends ActionEntity {
   final String pageID;
 
   const GotoPageEntity(String appID, { this.pageID }) : super(appID, actionType : label);
-
-  Map<String, Object> toJson() {
-    return <String, dynamic>{
-      "pageID": pageID
-    };
-  }
-
-  @override
-  List<Object> get props => [ appID, pageID];
-
-  @override
-  String toString() {
-    return 'GotoPageEntity { appID: $appID, pageID: $pageID }';
-  }
 
   Map<String, Object> toDocument() {
     return {
@@ -57,7 +27,8 @@ class GotoPageEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return GotoPageEntity(snap["appID"],
+    return GotoPageEntity(
+        snap["appID"],
         pageID: snap["pageID"]
     );
   }
@@ -68,20 +39,6 @@ class OpenDialogEntity extends ActionEntity {
   final String dialogID;
 
   const OpenDialogEntity(String appID, { this.dialogID }) : super(appID, actionType : label);
-
-  Map<String, Object> toJson() {
-    return <String, dynamic>{
-      "dialogID": dialogID
-    };
-  }
-
-  @override
-  List<Object> get props => [ appID, dialogID];
-
-  @override
-  String toString() {
-    return 'OpenDialogEntity { dialogID: $dialogID }';
-  }
 
   Map<String, Object> toDocument() {
     return {
@@ -103,21 +60,6 @@ class SwitchAppEntity extends ActionEntity {
   final String toAppID;
 
   const SwitchAppEntity(String appID, { this.toAppID }) : super(appID, actionType : label);
-
-  Map<String, Object> toJson() {
-    return <String, dynamic>{
-      "appID": appID,
-      "toAppID": toAppID
-    };
-  }
-
-  @override
-  List<Object> get props => [ appID, toAppID ];
-
-  @override
-  String toString() {
-    return 'SwitchAppEntity { appID: $appID, toAppID: $toAppID }';
-  }
 
   Map<String, Object> toDocument() {
     return {
@@ -141,21 +83,6 @@ class PopupMenuEntity extends ActionEntity {
 
   const PopupMenuEntity(String appID, { this.menuDefID }) : super(appID, actionType : label);
 
-  Map<String, Object> toJson() {
-    return <String, dynamic>{
-      "appID": appID,
-      "menuDefID": menuDefID
-    };
-  }
-
-  @override
-  List<Object> get props => [ appID, menuDefID ];
-
-  @override
-  String toString() {
-    return 'PopupMenuEntity { appID: $appID, menuDefID: $menuDefID }';
-  }
-
   Map<String, Object> toDocument() {
     return {
       "actionType": actionType,
@@ -177,21 +104,6 @@ class InternalActionEntity extends ActionEntity {
   final String action;
 
   const InternalActionEntity(String appID, { this.action }) : super(appID, actionType: label);
-
-  Map<String, Object> toJson() {
-    return <String, dynamic>{
-      "appID": appID,
-      "action": action
-    };
-  }
-
-  @override
-  List<Object> get props => [ action ];
-
-  @override
-  String toString() {
-    return 'InternalActionEntity { appID: $appID, action: $action }';
-  }
 
   Map<String, Object> toDocument() {
     return {
