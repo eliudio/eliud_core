@@ -15,7 +15,7 @@
 
 
 import 'package:eliud_core/tools/admin_app_base.dart';
-import 'package:eliud_core/tools/action_model.dart';
+import '../tools/bespoke_models.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
@@ -30,9 +30,9 @@ import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/tools/action_model.dart';
+import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/tools/action_entity.dart';
+import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AdminApp extends AdminAppInstallerBase {

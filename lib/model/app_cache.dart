@@ -21,9 +21,9 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/cache_export.dart';
-import 'package:eliud_core/tools/action_model.dart';
+import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/tools/action_entity.dart';
+import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppCache implements AppRepository {
