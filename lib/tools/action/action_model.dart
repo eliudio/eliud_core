@@ -1,7 +1,39 @@
+import 'dart:collection';
+
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/action_entity.dart';
+import 'package:eliud_core/tools/bespoke_models.dart';
+
+import 'action_entity.dart';
+
+class ActionModelRegistry {
+  final Map<String, ActionModelMapper> mappers = HashMap();
+  static ActionModelRegistry _instance;
+
+  ActionModelRegistry._internal() {
+    // default mappers
+    addMapper(GotoPageEntity.label, GotoPageModelMapper());
+    addMapper(OpenDialogEntity.label, OpenDialogModelMapper());
+    addMapper(SwitchAppEntity.label, SwitchAppModelMapper());
+    addMapper(PopupMenuEntity.label, PopupMenuModelMapper());
+    addMapper(InternalActionEntity.label, InternalActionModelMapper());
+  }
+
+  static ActionModelRegistry registry() {
+    _instance ??= ActionModelRegistry._internal();
+
+    return _instance;
+  }
+
+  void addMapper(String actionType, ActionModelMapper mapper) {
+    mappers[actionType] = mapper;
+  }
+
+  ActionModelMapper getMapper(String actionType) {
+    return mappers[actionType];
+  }
+}
 
 abstract class ActionModel {
   final String appID;
@@ -14,12 +46,35 @@ abstract class ActionModel {
   static ActionModel fromEntity(ActionEntity entity) {
     if (entity == null) return null;
 
+    var mapper = ActionModelRegistry.registry().getMapper(entity.actionType);
+    if (mapper != null) {
+      return mapper.fromEntity(entity);
+    }
+
+    return null;
+  }
+
+  static Future<ActionModel> fromEntityPlus(ActionEntity entity, {String appId}) async {
+    if (entity == null) return null;
+
+    var mapper = ActionModelRegistry.registry().getMapper(entity.actionType);
+    if (mapper != null) {
+      return mapper.fromEntityPlus(entity);
+    }
+
+    return null;
+  }
+
+/*
+  static ActionModel fromEntity(ActionEntity entity) {
+    if (entity == null) return null;
+
     if (entity.actionType == GotoPageEntity.label) return GotoPage.fromEntity(entity);
     if (entity.actionType == OpenDialogEntity.label) return OpenDialog.fromEntity(entity);
     if (entity.actionType == InternalActionEntity.label) return InternalAction.fromEntity(entity);
     if (entity.actionType == PopupMenuEntity.label) return PopupMenu.fromEntity(entity);
     if (entity.actionType == SwitchAppEntity.label) return SwitchApp.fromEntity(entity);
-    
+
     return null;
   }
 
@@ -32,9 +87,18 @@ abstract class ActionModel {
 
     return fromEntity(entity);
   }
+*/
 
   String message();
 }
+
+abstract class ActionModelMapper {
+  ActionModel fromEntity(ActionEntity entity);
+  Future<ActionModel> fromEntityPlus(ActionEntity entity);
+  ActionEntity fromMap(Map snap);
+}
+
+// ********************************** GotoPage **********************************
 
 class GotoPage extends ActionModel {
   final String pageID;
@@ -77,6 +141,19 @@ class GotoPage extends ActionModel {
   }
 }
 
+class GotoPageModelMapper implements ActionModelMapper {
+  @override
+  ActionModel fromEntity(ActionEntity entity) => GotoPage.fromEntity(entity);
+
+  @override
+  Future<ActionModel> fromEntityPlus(ActionEntity entity) => GotoPage.fromEntityPlus(entity);
+
+  @override
+  ActionEntity fromMap(Map map) => GotoPageEntity.fromMap(map);
+}
+
+// ********************************** OpenDialog **********************************
+
 class OpenDialog extends ActionModel {
   final String dialogID;
 
@@ -117,6 +194,19 @@ class OpenDialog extends ActionModel {
     return "Open Dialog";
   }
 }
+
+class OpenDialogModelMapper implements ActionModelMapper {
+  @override
+  ActionModel fromEntity(ActionEntity entity) => OpenDialog.fromEntity(entity);
+
+  @override
+  Future<ActionModel> fromEntityPlus(ActionEntity entity) => OpenDialog.fromEntityPlus(entity);
+
+  @override
+  ActionEntity fromMap(Map map) => OpenDialogEntity.fromMap(map);
+}
+
+// ********************************** SwitchApp **********************************
 
 class SwitchApp extends ActionModel {
   final String toAppID;
@@ -160,6 +250,19 @@ class SwitchApp extends ActionModel {
     return msg;
   }
 }
+
+class SwitchAppModelMapper implements ActionModelMapper {
+  @override
+  ActionModel fromEntity(ActionEntity entity) => SwitchApp.fromEntity(entity);
+
+  @override
+  Future<ActionModel> fromEntityPlus(ActionEntity entity) => SwitchApp.fromEntityPlus(entity);
+
+  @override
+  ActionEntity fromMap(Map map) => SwitchAppEntity.fromMap(map);
+}
+
+// ********************************** PopupMenu **********************************
 
 class PopupMenu extends ActionModel {
   final MenuDefModel menuDef;
@@ -215,6 +318,19 @@ class PopupMenu extends ActionModel {
     return "Open menu";
   }
 }
+
+class PopupMenuModelMapper implements ActionModelMapper {
+  @override
+  ActionModel fromEntity(ActionEntity entity) => PopupMenu.fromEntity(entity);
+
+  @override
+  Future<ActionModel> fromEntityPlus(ActionEntity entity) => PopupMenu.fromEntityPlus(entity);
+
+  @override
+  ActionEntity fromMap(Map map) => PopupMenuEntity.fromMap(map);
+}
+
+// ********************************** InternalAction **********************************
 
 /*
  * LoginLogout = Login when logged out, Logout when logged in.
@@ -274,3 +390,15 @@ class InternalAction extends ActionModel {
     return unknownMsg;
   }
 }
+
+class InternalActionModelMapper implements ActionModelMapper {
+  @override
+  ActionModel fromEntity(ActionEntity entity) => InternalAction.fromEntity(entity);
+
+  @override
+  Future<ActionModel> fromEntityPlus(ActionEntity entity) => InternalAction.fromEntityPlus(entity);
+
+  @override
+  ActionEntity fromMap(Map map) => InternalActionEntity.fromMap(map);
+}
+

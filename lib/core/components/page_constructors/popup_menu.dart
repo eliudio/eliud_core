@@ -1,6 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
-import 'package:eliud_core/tools/action_model.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 
 import 'package:eliud_core/core/global_data.dart';

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'file:///C:/src/eliud/eliud_core/lib/core/components/dialog_component.dart';
+import 'package:eliud_core/core/components/dialog_component.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';

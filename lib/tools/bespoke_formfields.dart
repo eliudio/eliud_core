@@ -1,5 +1,5 @@
 // This file is imported by generated form classes. Use it to export bespoke form fields and hence make them available to your forms
-export 'package:eliud_core/tools/action_formfield.dart';
+export 'package:eliud_core/tools/action/action_formfield.dart';
 export 'package:eliud_core/tools/extensiontype_formfield.dart';
 export 'package:eliud_core/tools/image_formfield.dart';
 export 'package:eliud_core/tools/richtext_formfield.dart';
