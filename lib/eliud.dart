@@ -37,7 +37,9 @@ abstract class Package {
    * For example: for a shop the cart page is accessible only if items are in the basket. Only the Shop plugin should implement this
    * and return true / false depending on items in the basket.
    */
-  Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner);
+  Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner, int privilegeLevel);
+
+  List<String> retrieveAllPackageConditions();
 }
 
 abstract class Eliud {

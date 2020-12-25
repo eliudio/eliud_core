@@ -33,7 +33,7 @@ class PopupHelper {
       var menuItems = <MenuItemModel>[];
       for (var i = 0; i < menu.menuItems.length; i++) {
         var item = menu.menuItems[i];
-        if (theState.hasAccess(item)) menuItems.add(item);
+        if (theState.menuItemHasAccess(item)) menuItems.add(item);
       }
       return PopupMenuButton<int>(
           icon: icon,

@@ -1,10 +1,13 @@
 import 'dart:collection';
 
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/bespoke_models.dart';
+import 'package:flutter/cupertino.dart';
 
+import '../common_tools.dart';
 import 'action_entity.dart';
 
 class ActionModelRegistry {
@@ -37,9 +40,19 @@ class ActionModelRegistry {
 
 abstract class ActionModel {
   final String appID;
+
+  // Action only accessible conditionally. Be careful: access conditions can also be specified on the level of the page / dialog.
+  // So if an action is "goto page X", then the condition of the page X applies. The lowest condition applies
+
+  // Also important to note that data access is not limited through limiting the access on the level of the action:
+  // if you want to protect your data from being accessed, then you must specify these conditions on the level of the page, dialog, component, ...
+  final ReadCondition readCondition;
+  final int privilegeLevelRequired;
+  final String packageCondition;
+
   final String actionType;
 
-  const ActionModel(this.appID, {this.actionType});
+  const ActionModel(this.appID, {this.readCondition, this.privilegeLevelRequired, this.packageCondition, this.actionType} );
 
   ActionEntity toEntity({String appId});
 
@@ -65,31 +78,15 @@ abstract class ActionModel {
     return null;
   }
 
-/*
-  static ActionModel fromEntity(ActionEntity entity) {
-    if (entity == null) return null;
-
-    if (entity.actionType == GotoPageEntity.label) return GotoPage.fromEntity(entity);
-    if (entity.actionType == OpenDialogEntity.label) return OpenDialog.fromEntity(entity);
-    if (entity.actionType == InternalActionEntity.label) return InternalAction.fromEntity(entity);
-    if (entity.actionType == PopupMenuEntity.label) return PopupMenu.fromEntity(entity);
-    if (entity.actionType == SwitchAppEntity.label) return SwitchApp.fromEntity(entity);
-
-    return null;
-  }
-
-  static Future<ActionModel> fromEntityPlus(ActionEntity entity, {String appId}) async {
-    if (entity is GotoPageEntity) return GotoPage.fromEntityPlus(entity);
-    if (entity is OpenDialogEntity) return OpenDialog.fromEntityPlus(entity);
-    if (entity is InternalActionEntity) return InternalAction.fromEntityPlus(entity);
-    if (entity is PopupMenuEntity) return PopupMenu.fromEntityPlus(entity);
-    if (entity is SwitchAppEntity) return SwitchApp.fromEntityPlus(entity);
-
-    return fromEntity(entity);
-  }
-*/
-
   String message();
+
+  bool hasAccess(BuildContext context) {
+    var accessState = AccessBloc.getState(context);
+    if (accessState is AppLoaded) {
+      accessState.actionHasAccess(this);
+    }
+    return true;
+  }
 }
 
 abstract class ActionModelMapper {
@@ -103,25 +100,16 @@ abstract class ActionModelMapper {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(String appID, {String pageID}) : this.pageID = pageID?.toLowerCase(), super(appID, actionType: GotoPageEntity.label);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is GotoPage &&
-              appID == other.appID &&
-              runtimeType == other.runtimeType &&
-              pageID == other.pageID;
-
-  @override
-  String toString() {
-    return 'GotoPage{pageID: $pageID }';
-  }
+  GotoPage(String appID, {ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, String pageID}) : this.pageID = pageID?.toLowerCase(),
+        super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: GotoPageEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return GotoPageEntity(
         appID,
+        readCondition: readCondition.index,
+        privilegeLevelRequired: privilegeLevelRequired,
+        packageCondition: packageCondition,
         pageID: pageID
     );
   }
@@ -129,15 +117,20 @@ class GotoPage extends ActionModel {
   static ActionModel fromEntity(GotoPageEntity entity) {
     return GotoPage(
         entity.appID,
-        pageID: entity.pageID);
+        readCondition: toReadCondition(entity.readCondition),
+        privilegeLevelRequired: entity.privilegeLevelRequired,
+        packageCondition: entity.packageCondition,
+        pageID: entity.pageID
+    );
   }
 
   static Future<ActionModel> fromEntityPlus(GotoPageEntity entity) async {
     return fromEntity(entity);
   }
 
+  @override
   String message() {
-    return "Switching page";
+    return 'Switching page';
   }
 }
 
@@ -157,25 +150,15 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(String appID, {String dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, actionType: OpenDialogEntity.label);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is OpenDialog &&
-              appID == other.appID &&
-              runtimeType == other.runtimeType &&
-              dialogID == other.dialogID;
-
-  @override
-  String toString() {
-    return 'OpenDialog{dialogID: $dialogID }';
-  }
+  OpenDialog(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, String dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return OpenDialogEntity(
         appID,
+        readCondition: readCondition.index,
+        privilegeLevelRequired: privilegeLevelRequired,
+        packageCondition: packageCondition,
         dialogID: dialogID
     );
   }
@@ -183,6 +166,9 @@ class OpenDialog extends ActionModel {
   static ActionModel fromEntity(OpenDialogEntity entity) {
     return OpenDialog(
         entity.appID,
+        readCondition: toReadCondition(entity.readCondition),
+        privilegeLevelRequired: entity.privilegeLevelRequired,
+        packageCondition: entity.packageCondition,
         dialogID: entity.dialogID);
   }
 
@@ -190,8 +176,9 @@ class OpenDialog extends ActionModel {
     return fromEntity(entity);
   }
 
+  @override
   String message() {
-    return "Open Dialog";
+    return 'Open Dialog';
   }
 }
 
@@ -211,41 +198,35 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(String appID, {this.toAppID}) : super(appID, actionType: SwitchAppEntity.label);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is SwitchApp &&
-              runtimeType == other.runtimeType &&
-              appID == other.appID &&
-              toAppID == other.toAppID;
-
-  @override
-  String toString() {
-    return 'SwitchApp{toAppID: $toAppID }';
-  }
+  SwitchApp(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.toAppID}) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return SwitchAppEntity(
-      appID,
-      toAppID: toAppID
+        appID,
+        readCondition: readCondition.index,
+        privilegeLevelRequired: privilegeLevelRequired,
+        packageCondition: packageCondition,
+        toAppID: toAppID
     );
   }
 
   static ActionModel fromEntity(SwitchAppEntity entity) {
     return SwitchApp(
-      entity.appID,
-      toAppID: entity.toAppID);
+        entity.appID,
+        readCondition: toReadCondition(entity.readCondition),
+        privilegeLevelRequired: entity.privilegeLevelRequired,
+        packageCondition: entity.packageCondition,
+        toAppID: entity.toAppID);
   }
 
   static Future<ActionModel> fromEntityPlus(SwitchAppEntity entity) async {
     return fromEntity(entity);
   }
 
-  static String msg = "Switching app";
+  static String msg = 'Switching app';
 
+  @override
   String message() {
     return msg;
   }
@@ -267,32 +248,25 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel menuDef;
 
-  PopupMenu(String appID, {this.menuDef}) : super(appID, actionType: PopupMenuEntity.label);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is PopupMenu &&
-              runtimeType == other.runtimeType &&
-              appID == other.appID &&
-              menuDef == other.menuDef;
-
-  @override
-  String toString() {
-    return 'PopupMenu{menuDef: $menuDef }';
-  }
+  PopupMenu(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.menuDef }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return PopupMenuEntity(
-      appID,
-      menuDefID: menuDef.documentID
+        appID,
+        readCondition: readCondition.index,
+        privilegeLevelRequired: privilegeLevelRequired,
+        packageCondition: packageCondition,
+        menuDefID: menuDef.documentID
     );
   }
 
   static ActionModel fromEntity(PopupMenuEntity entity) {
     return PopupMenu(
       entity.appID,
+      readCondition: toReadCondition(entity.readCondition),
+      privilegeLevelRequired: entity.privilegeLevelRequired,
+      packageCondition: entity.packageCondition,
     );
   }
 
@@ -309,13 +283,17 @@ class PopupMenu extends ActionModel {
     }
 
     return PopupMenu(
-      entity.appID,
-      menuDef: menuDefModel
+        entity.appID,
+        readCondition: toReadCondition(entity.readCondition),
+        privilegeLevelRequired: entity.privilegeLevelRequired,
+        packageCondition: entity.packageCondition,
+        menuDef: menuDefModel
     );
   }
 
+  @override
   String message() {
-    return "Open menu";
+    return 'Open menu';
   }
 }
 
@@ -343,34 +321,33 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum internalActionEnum ;
 
-  InternalAction(String appID, { this.internalActionEnum }): super(appID, actionType: InternalActionEntity.label);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is InternalAction &&
-              runtimeType == other.runtimeType &&
-              internalActionEnum == other.internalActionEnum;
-
-  String toString() {
-    return 'InternalAction{internalActionEnum: $internalActionEnum }';
-  }
+  InternalAction(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.internalActionEnum }): super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return InternalActionEntity(
-      appID,
-        action: internalActionEnum.toString()
-    );
+          appID,
+          readCondition: readCondition.index,
+          privilegeLevelRequired: privilegeLevelRequired,
+          packageCondition: packageCondition,
+          action: internalActionEnum.toString()
+      );
   }
 
   static ActionModel fromEntity(InternalActionEntity entity) {
-    String internalAction = entity.action;
+    var internalAction = entity.action;
     if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Login);
     if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Logout);
     if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Flush);
     if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.OtherApps);
-    return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Unknown);
+    return
+      InternalAction(
+          entity.appID,
+          readCondition: toReadCondition(entity.readCondition),
+          privilegeLevelRequired: entity.privilegeLevelRequired,
+          packageCondition: entity.packageCondition,
+          internalActionEnum: InternalActionEnum.Unknown
+      );
   }
 
   static Future<ActionModel> fromEntityPlus(InternalActionEntity entity) async {
@@ -379,12 +356,13 @@ class InternalAction extends ActionModel {
 
   static String unknownMsg = "What's happening?";
 
+  @override
   String message() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login: return "Logging in";
-      case InternalActionEnum.Logout: return "Logging out";
-      case InternalActionEnum.Flush: return "Flushing cache";
-      case InternalActionEnum.OtherApps: return "Other apps";
+      case InternalActionEnum.Login: return 'Logging in';
+      case InternalActionEnum.Logout: return 'Logging out';
+      case InternalActionEnum.Flush: return 'Flushing cache';
+      case InternalActionEnum.OtherApps: return 'Other apps';
       case InternalActionEnum.Unknown: return unknownMsg;
     }
     return unknownMsg;

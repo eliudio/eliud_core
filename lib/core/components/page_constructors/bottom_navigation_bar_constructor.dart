@@ -46,7 +46,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       var menuItems = List();
       for (var i = 0; i < widget.homeMenu.menu.menuItems.length; i++) {
         var item = widget.homeMenu.menu.menuItems[i];
-        if (theState.hasAccess(item)) menuItems.add(item);
+        if (theState.menuItemHasAccess(item)) menuItems.add(item);
       }
       if (menuItems.length < 2)
         return Container(height: 1.0);
@@ -59,18 +59,20 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 backgroundColor: Colors.transparent,
                 onTap: (int index) async {
                   MenuItemModel item = menuItems[index];
-                  ActionModel action = item.action;
-                  if (action is PopupMenu) {
-                    await PopupMenuWidget(widget.app, widget.currentPage)
-                        .openMenu(
-                      context,
-                      action,
-                      widget.homeMenu.popupMenuBackgroundColor,
-                      RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
-                    );
-                  } else {
-                    if (!PageHelper.isActivePage(widget.currentPage, action))
-                      eliudrouter.Router.navigateTo(context, action);
+                  var action = item.action;
+                  if (action.hasAccess(context)) {
+                    if (action is PopupMenu) {
+                      await PopupMenuWidget(widget.app, widget.currentPage)
+                          .openMenu(
+                        context,
+                        action,
+                        widget.homeMenu.popupMenuBackgroundColor,
+                        RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                      );
+                    } else {
+                      if (!PageHelper.isActivePage(widget.currentPage, action))
+                        eliudrouter.Router.navigateTo(context, action);
+                    }
                   }
                 },
                 currentIndex: 0,

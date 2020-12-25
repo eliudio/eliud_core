@@ -66,21 +66,39 @@ class UndeterminedAccessState extends AccessState {
 }
 
 class PagesAndDialogAccesss {
+  // Map between page-id and access
   final Map<String, bool> pagesAccess;
+
+  // Map between dialog-id and access
   final Map<String, bool> dialogsAccess;
 
-  PagesAndDialogAccesss(this.pagesAccess, this.dialogsAccess);
+  // Map between packageCondition and access
+  final Map<String, bool> packageConditionsAccess;
+
+  final int privilegeLevel;
+
+  PagesAndDialogAccesss(this.pagesAccess, this.dialogsAccess, this.packageConditionsAccess, this.privilegeLevel);
 }
 
 class AccessHelper {
-  final Map<String, bool> pagesAccess = {};
 
-  static Future<bool> _conditionOkForPackage(String packageCondition,
-      AppModel app, MemberModel member, bool isOwner) async {
+  static List<String> getAllPackageConditions() {
+    var packageConditions = <String>[];
+    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
+      var newItems = GlobalData.registeredPackages[i].retrieveAllPackageConditions();
+      if (newItems != null) {
+        packageConditions.addAll(newItems);
+      }
+    }
+    return packageConditions;
+  }
+
+  static Future<bool> conditionOkForPackage(String packageCondition,
+      AppModel app, MemberModel member, bool isOwner, int privilegeLevel) async {
     for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
       var plg = GlobalData.registeredPackages[i];
       var plgOk = await plg.isConditionOk(
-          packageCondition, app, member, isOwner);
+          packageCondition, app, member, isOwner, privilegeLevel);
       if (plgOk != null) {
         return plgOk;
       }
@@ -88,9 +106,9 @@ class AccessHelper {
     return false;
   }
 
-  static Future<bool> _ConditionOk(AppModel app, MemberModel member,
-      ReadCondition condition, int privilegedLevelRequired, int privilegedLevel, String packageCondition, bool isOwner,
-      bool isLoggedIn) async {
+  static bool conditionOk(Map<String, bool> packagesConditions, ReadCondition condition,
+      int privilegedLevelRequired, int privilegedLevel, String packageCondition, bool isOwner,
+      bool isLoggedIn) {
     if (condition == null) return true;
     switch (condition) {
       case ReadCondition.NoRestriction:
@@ -98,8 +116,7 @@ class AccessHelper {
       case ReadCondition.MustNotBeLoggedIn:
         return !isLoggedIn;
       case ReadCondition.PackageDecides:
-      return await _conditionOkForPackage(
-          packageCondition, app, member, isOwner);
+        return packagesConditions[packageCondition];
       case ReadCondition.MemberOrPrivilegedMemberOnly:
         return privilegedLevel >= privilegedLevelRequired || isOwner;
     }
@@ -121,6 +138,15 @@ class AccessHelper {
     var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
     var privilegeLevel = await getPrivilegeLevel(app, member, isOwner);
+
+    var packageConditionsAccess = <String, bool> {};
+    {
+      var packageConditions = getAllPackageConditions();
+      for (var i = 0; i < packageConditions.length; i++) {
+        var packageCondition = packageConditions[i];
+        packageConditionsAccess[packageCondition] = await conditionOkForPackage(packageCondition, app, member, isOwner, privilegeLevel);
+      }
+    }
     {
       var repo = pageRepository(appId: app.documentID);
 
@@ -135,9 +161,8 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var page = theList[i];
-        pagesAccess[page.documentID] = await _ConditionOk(
-            app,
-            member,
+        pagesAccess[page.documentID] = conditionOk(
+            packageConditionsAccess,
             page.readCondition,
             page.privilegeLevelRequired,
             privilegeLevel,
@@ -160,9 +185,8 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var dialog = theList[i];
-        dialogsAccess[dialog.documentID] = await _ConditionOk(
-            app,
-            member,
+        dialogsAccess[dialog.documentID] = conditionOk(
+            packageConditionsAccess,
             dialog.readCondition,
             dialog.privilegeLevelRequired,
             privilegeLevel,
@@ -172,7 +196,7 @@ class AccessHelper {
       }
     }
 
-    return PagesAndDialogAccesss(pagesAccess, dialogsAccess);
+    return PagesAndDialogAccesss(pagesAccess, dialogsAccess, packageConditionsAccess, privilegeLevel);
   }
 }
 
@@ -181,62 +205,81 @@ abstract class AppLoaded extends AccessState {
   final AppModel playStoreApp; // The playstore app. If null, then no playstore app available.
   final Map<String, bool> pagesAccess;
   final Map<String, bool> dialogAccess;
+  final Map<String, bool> packageConditionsAccess;
 
   @override
-  List<Object> get props => [ app, playStoreApp, pagesAccess ];
+  List<Object> get props => [ app, playStoreApp, pagesAccess, packageConditionsAccess ];
 
-  AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess);
+  AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess, this.packageConditionsAccess);
 
-  bool hasAccess(MenuItemModel item) {
-    try {
-      var action = item.action;
-      if (action is GotoPage) {
-        var pageID = action.pageID;
-        var access = pagesAccess[pageID];
-        if (access == null) return false;
-        return access;
-      } else if (action is OpenDialog) {
-        var dialogID = action.dialogID;
-        var access = dialogAccess[dialogID];
-        if (access == null) return false;
-        return access;
-      } else if (action is PopupMenu) {
-        var access = false;
-        action.menuDef.menuItems.forEach((item) {
-          if (hasAccess(item)) access = true;
-        });
-        return access;
-      } else if (action is InternalAction){
-        if (action.internalActionEnum == InternalActionEnum.Login) {
-          return !isLoggedIn();
-        } else if (action.internalActionEnum == InternalActionEnum.Logout) {
-          return isLoggedIn();
-        } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
-          return hasAccessToOtherApps();
-        }
-        else if (action.internalActionEnum == InternalActionEnum.Flush) {
-          return true;
-        }
+  bool actionHasAccess(ActionModel action) {
+    if (action.readCondition !=null) {
+      if (!AccessHelper.conditionOk(
+          packageConditionsAccess,
+          action.readCondition,
+          action.privilegeLevelRequired,
+          getPrivilegeLevel(),
+          action.packageCondition,
+          memberIsOwner(),
+          isLoggedIn())) return false;
+    }
+    if (action is GotoPage) {
+      var pageID = action.pageID;
+      var access = pagesAccess[pageID];
+      if (access == null) return false;
+      return access;
+    } else if (action is OpenDialog) {
+      var dialogID = action.dialogID;
+      var access = dialogAccess[dialogID];
+      if (access == null) return false;
+      return access;
+    } else if (action is PopupMenu) {
+      var access = false;
+      action.menuDef.menuItems.forEach((item) {
+        if (menuItemHasAccess(item)) access = true;
+      });
+      return access;
+    } else if (action is InternalAction) {
+      if (action.internalActionEnum == InternalActionEnum.Login) {
+        return !isLoggedIn();
+      } else if (action.internalActionEnum == InternalActionEnum.Logout) {
+        return isLoggedIn();
+      } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
+        return hasAccessToOtherApps();
+      }
+      else if (action.internalActionEnum == InternalActionEnum.Flush) {
         return true;
       }
+      return true;
+    }
+    return true;
+  }
+
+  bool menuItemHasAccess(MenuItemModel item) {
+    try {
+      var action = item.action;
+      return actionHasAccess(action);
     } catch (_) {
       return false;
-    };
-    return false;
+    }
   }
 
   List<bool> hasNAccess(AccessState state, List<MenuItemModel> items) {
-    return items.map((e) => hasAccess(e)).toList();
-  }}
+    return items.map((e) => menuItemHasAccess(e)).toList();
+  }
+
+  MemberModel getMember();
+  int getPrivilegeLevel();
+}
 
 class LoggedOut extends AppLoaded {
   static Future<LoggedOut> getLoggedOut(AppModel app, AppModel playstoreApp) async {
     var access = await AccessHelper._getAccess(null, app, false);
-    var loggedOut = LoggedOut._(app, playstoreApp, access.pagesAccess, access.dialogsAccess);
+    var loggedOut = LoggedOut._(app, playstoreApp, access.pagesAccess, access.dialogsAccess, access.packageConditionsAccess);
     return loggedOut;
   }
 
-  LoggedOut._(AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess): super(app, playstoreApp, pagesAccess, dialogAccess);
+  LoggedOut._(AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess, Map<String, bool> packageConditionsAccess): super(app, playstoreApp, pagesAccess, dialogAccess, packageConditionsAccess);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -249,16 +292,23 @@ class LoggedOut extends AppLoaded {
 
   @override
   bool memberIsOwner() => false;
+
+  @override
+  MemberModel getMember() => null;
+
+  @override
+  int getPrivilegeLevel() => 0;
 }
 
 abstract class LoggedIn extends AppLoaded {
   final FirebaseUser usr;
   final MemberModel member;
+  final int privilegeLevel;
 
   @override
   List<Object> get props => [ app, pagesAccess, dialogAccess, usr, member ];
 
-  LoggedIn._(this.usr, this.member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess) : super(app, playstoreApp, pagesAccess, dialogAccess);
+  LoggedIn._(this.usr, this.member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess, this.privilegeLevel, Map<String, bool> packageConditionsAccess) : super(app, playstoreApp, pagesAccess, dialogAccess, packageConditionsAccess);
 
   @override
   bool hasAccessToOtherApps() {
@@ -278,12 +328,18 @@ abstract class LoggedIn extends AppLoaded {
   }
 
   Future<LoggedIn> copyWith(MemberModel member, AppModel playstoreApp);
+
+  @override
+  MemberModel getMember() => member;
+
+  @override
+  int getPrivilegeLevel() => privilegeLevel;
 }
 
 class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, PostLoginAction postLoginAction) async {
     var access = await AccessHelper._getAccess(member, app, false);
-    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, access.pagesAccess, access.dialogsAccess);
+    var loggedInWithoutMembership = LoggedInWithoutMembership._(usr, member, app, playstoreApp, postLoginAction, access.pagesAccess, access.dialogsAccess, access.privilegeLevel, access.packageConditionsAccess);
     return loggedInWithoutMembership;
   }
 
@@ -292,7 +348,7 @@ class LoggedInWithoutMembership extends LoggedIn {
 
   // What is the event that should be triggered after the membership will be accepted...
   final PostLoginAction postLoginAction;
-  LoggedInWithoutMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, this.postLoginAction, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogAccess);
+  LoggedInWithoutMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, this.postLoginAction, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess, int privilegeLevel, Map<String, bool> packageConditionsAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogAccess, privilegeLevel, packageConditionsAccess);
 
   @override
   Future<LoggedInWithoutMembership> copyWith(MemberModel member, AppModel playstoreApp) async {
@@ -306,14 +362,14 @@ class LoggedInWithoutMembership extends LoggedIn {
 class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, ) async {
     var access = await AccessHelper._getAccess(member, app, false);
-    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, access.pagesAccess, access.dialogsAccess);
+    var loggedInWithMembership = LoggedInWithMembership._(usr, member, app, playstoreApp, access.pagesAccess, access.dialogsAccess, access.privilegeLevel, access.packageConditionsAccess);
     return loggedInWithMembership;
   }
 
   @override
   List<Object> get props => [ usr, member, app, pagesAccess ];
 
-  LoggedInWithMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogsAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess);
+  LoggedInWithMembership._(FirebaseUser usr, MemberModel member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogsAccess, int privilegeLevel, Map<String, bool> packageConditionsAccess): super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess, privilegeLevel, packageConditionsAccess);
 
   @override
   Future<LoggedInWithMembership> copyWith(MemberModel member, AppModel playstoreApp) {

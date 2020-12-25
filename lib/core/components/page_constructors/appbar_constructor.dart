@@ -91,24 +91,25 @@ class AppBarConstructor {
     var playStoreApp = AccessBloc.addPlayStoreApp(context);
     if (playStoreApp != null) {
       ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
-
-      buttons.add(FutureBuilder<AppModel>(
-          future: AbstractMainRepositorySingleton.singleton
-              .appRepository()
-              .get(playStoreApp),
-          builder: (BuildContext context2, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return IconButton(
-                  icon: AbstractPlatform.platform
-                      .getImageFromURL(url: snapshot.data.logoURL),
-                  color: RgbHelper.color(rgbo: value.iconColor),
-                  onPressed: () {
-                    eliudrouter.Router.navigateTo(context, action);
-                  });
-            } else {
-              return Center(child: DelayedCircularProgressIndicator());
-            }
-          }));
+      if (action.hasAccess(context)) {
+        buttons.add(FutureBuilder<AppModel>(
+            future: AbstractMainRepositorySingleton.singleton
+                .appRepository()
+                .get(playStoreApp),
+            builder: (BuildContext context2, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return IconButton(
+                    icon: AbstractPlatform.platform
+                        .getImageFromURL(url: snapshot.data.logoURL),
+                    color: RgbHelper.color(rgbo: value.iconColor),
+                    onPressed: () {
+                      eliudrouter.Router.navigateTo(context, action);
+                    });
+              } else {
+                return Center(child: DelayedCircularProgressIndicator());
+              }
+            }));
+      }
     }
   }
 
@@ -124,7 +125,7 @@ class AppBarConstructor {
           var buttons = <Widget>[];
           if (value.iconMenu != null) {
             value.iconMenu.menuItems.forEach((item) {
-              if (theState.hasAccess(item)) {
+              if (theState.menuItemHasAccess(item)) {
                 _addButton(context, theState, app, value, buttons, item, member);
               }
             });

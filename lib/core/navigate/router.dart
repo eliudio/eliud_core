@@ -112,33 +112,42 @@ class Router {
   }
 
   static void navigateTo(BuildContext context, ActionModel action, { Map<String, Object> parameters }) async {
-    if (action is GotoPage) {
-      if (AccessBloc.appId(context) == action.appID) {
-        BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(action.pageID, parameters: parameters));
-      } else {
-        BlocProvider.of<AccessBloc>(context).add(SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
+    if (action.hasAccess(context)) {
+      if (action is GotoPage) {
+        if (AccessBloc.appId(context) == action.appID) {
+          BlocProvider.of<NavigatorBloc>(context).add(
+              GoToPageEvent(action.pageID, parameters: parameters));
+        } else {
+          BlocProvider.of<AccessBloc>(context).add(
+              SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
+        }
+      } else if (action is OpenDialog) {
+        await Registry.registry().openDialog(
+            context, id: action.dialogID, parameters: parameters);
+      } else if (action is SwitchApp) {
+        var appId = action.toAppID;
+        BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
+      } else if (action is InternalAction) {
+        switch (action.internalActionEnum) {
+          case InternalActionEnum.Login:
+            BlocProvider.of<AccessBloc>(context).add(LoginEvent());
+            break;
+          case InternalActionEnum.Logout:
+            BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
+            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
+            break;
+          case InternalActionEnum.Flush:
+            AbstractRepositorySingleton.singleton.flush(
+                AccessBloc.appId(context));
+            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
+            break;
+          default:
+            return null;
+        }
       }
-    } else if (action is OpenDialog) {
-      await Registry.registry().openDialog(context, id: action.dialogID, parameters: parameters);
-    } else if (action is SwitchApp) {
-      var appId = action.toAppID;
-      BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
-    } else if (action is InternalAction) {
-      switch (action.internalActionEnum) {
-        case InternalActionEnum.Login:
-          BlocProvider.of<AccessBloc>(context).add(LoginEvent());
-          break;
-        case InternalActionEnum.Logout:
-          BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
-          BlocProvider.of<NavigatorBloc>(context).add(GoHome());
-          break;
-        case InternalActionEnum.Flush:
-          AbstractRepositorySingleton.singleton.flush(AccessBloc.appId(context));
-          BlocProvider.of<NavigatorBloc>(context).add(GoHome());
-          break;
-        default:
-          return null;
-      }
+    } else {
+      // return Text("no access");
+      return null;
     }
   }
 

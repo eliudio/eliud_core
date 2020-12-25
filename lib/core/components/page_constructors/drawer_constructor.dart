@@ -104,7 +104,7 @@ class DrawerConstructor {
         var style = PageHelper.isActivePage(currentPage, item.action)
             ? FontTools.textStyle(app.h3)
             : FontTools.textStyle(app.h4);
-        if (theState.hasAccess(item)) {
+        if (theState.menuItemHasAccess(item)) {
           _addWidget(context, widgets, item, style, member);
         }
       }
