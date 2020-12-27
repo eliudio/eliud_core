@@ -22,10 +22,21 @@ class Arguments {
   Arguments(this.mainArgument, this.parameters);
 }
 
+abstract class PackageActionHandler {
+  void navigateTo(BuildContext context, ActionModel action,
+      { Map<String, Object> parameters });
+}
+
 class Router {
   static const String homeRoute = '/';
   static const String pageRoute = '/page';
   static const String justASecond = '/justASecond';
+
+  static final List<PackageActionHandler> _registeredActionHandlers = [];
+
+  static void register(PackageActionHandler handler) {
+    _registeredActionHandlers.add(handler);
+  }
 
   final AccessBloc accessBloc;
 
@@ -143,6 +154,10 @@ class Router {
             break;
           default:
             return null;
+        }
+      } else {
+        for (var i = 0 ; i < _registeredActionHandlers.length ; i++) {
+          _registeredActionHandlers[i].navigateTo(context, action, parameters: parameters);
         }
       }
     } else {

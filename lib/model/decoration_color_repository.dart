@@ -45,6 +45,8 @@ abstract class DecorationColorRepository {
   StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

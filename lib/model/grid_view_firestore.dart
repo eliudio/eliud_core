@@ -167,6 +167,9 @@ class GridViewFirestore implements GridViewRepository {
     return GridViewCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   GridViewFirestore(this.GridViewCollection, this.appId);

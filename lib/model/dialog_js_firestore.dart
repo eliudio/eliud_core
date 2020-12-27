@@ -181,6 +181,9 @@ class DialogJsFirestore implements DialogRepository {
     return dialogCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   DialogJsFirestore(this.dialogCollection, this.appId);
 

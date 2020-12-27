@@ -181,6 +181,9 @@ class PosSizeJsFirestore implements PosSizeRepository {
     return posSizeCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   PosSizeJsFirestore(this.posSizeCollection, this.appId);
 

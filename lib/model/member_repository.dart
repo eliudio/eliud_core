@@ -45,6 +45,8 @@ abstract class MemberRepository {
   StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

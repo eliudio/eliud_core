@@ -178,4 +178,9 @@ class ImageFirestore implements ImageRepository {
     throw UnimplementedError();
   }
 
+
+  @override
+  String timeStampToString(timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  }
 }

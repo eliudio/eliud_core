@@ -167,6 +167,9 @@ class AppFirestore implements AppRepository {
     return AppCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   AppFirestore();
 

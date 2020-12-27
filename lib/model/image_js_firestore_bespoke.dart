@@ -7,6 +7,7 @@
 import 'dart:async';
 
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/js_firestore_tools.dart';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 
@@ -183,6 +184,12 @@ class ImageJsFirestore implements ImageRepository {
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
+  }
+
+
+  @override
+  String timeStampToString(timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
   }
 
 }

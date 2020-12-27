@@ -1,4 +1,5 @@
 import 'package:firebase/firestore.dart';
+import 'package:firebase/src/utils.dart';
 
 Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId}) {
   Query useThisCollection = collection;
@@ -32,4 +33,13 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
     useThisCollection = useThisCollection.limit(limit);
   }
   return useThisCollection;
+}
+
+DateTime timeStampToDateTime(dynamic timestamp) {
+  // this doesn't work
+  return dartify(timestamp);
+}
+
+String firestoreTimeStampToString(dynamic timestamp) {
+  return timestamp.toString();
 }

@@ -181,6 +181,9 @@ class ShadowJsFirestore implements ShadowRepository {
     return shadowCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   ShadowJsFirestore(this.shadowCollection, this.appId);
 

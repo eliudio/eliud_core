@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 // process:
 // If member has privilegeLevel >= 1, then
@@ -44,4 +45,18 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
     useThisCollection = useThisCollection.limit(limit);
   }
   return useThisCollection;
+}
+
+DateTime timeStampToDateTime(Timestamp timestamp) {
+  if (timestamp is Timestamp) {
+    return timestamp.toDate();
+  }
+}
+
+String firestoreTimeStampToString(dynamic timestamp) {
+  if (timestamp is Timestamp) {
+    return DateFormat("dd MMM yyyy hh:mm").format(timestamp.toDate());
+  } else {
+    return null;
+  }
 }

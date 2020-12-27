@@ -181,6 +181,9 @@ class GridViewJsFirestore implements GridViewRepository {
     return gridViewCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   GridViewJsFirestore(this.gridViewCollection, this.appId);
 

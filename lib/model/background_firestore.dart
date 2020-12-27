@@ -167,6 +167,9 @@ class BackgroundFirestore implements BackgroundRepository {
     return BackgroundCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   BackgroundFirestore(this.BackgroundCollection, this.appId);

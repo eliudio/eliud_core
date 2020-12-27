@@ -241,6 +241,11 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       throw UnimplementedError();
     }
 
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+
     Future<void> deleteAll() {}
 }
 
@@ -324,6 +329,11 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     getSubCollection(String documentId, String name) {
       throw UnimplementedError();
     }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() {}
 }
@@ -409,6 +419,11 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       throw UnimplementedError();
     }
 
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+
     Future<void> deleteAll() {}
 }
 
@@ -493,6 +508,11 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       throw UnimplementedError();
     }
 
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+
     Future<void> deleteAll() {}
 }
 
@@ -576,6 +596,11 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     getSubCollection(String documentId, String name) {
       throw UnimplementedError();
     }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() {}
 }

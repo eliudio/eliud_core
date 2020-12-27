@@ -167,6 +167,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return HomeMenuCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   HomeMenuFirestore(this.HomeMenuCollection, this.appId);

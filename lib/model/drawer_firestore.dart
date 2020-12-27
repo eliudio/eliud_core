@@ -167,6 +167,9 @@ class DrawerFirestore implements DrawerRepository {
     return DrawerCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   DrawerFirestore(this.DrawerCollection, this.appId);

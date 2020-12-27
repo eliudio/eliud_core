@@ -4,6 +4,7 @@ Bespoke
 
 import 'dart:async';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/js_firestore_tools.dart';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/member_repository.dart';
@@ -191,5 +192,10 @@ class MemberJsFirestore implements MemberRepository {
   getSubCollection(String documentId, String name) {
     // TODO: implement getSubCollection
     throw UnimplementedError();
+  }
+
+  @override
+  String timeStampToString(timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
   }
 }

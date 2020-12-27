@@ -45,6 +45,8 @@ abstract class BodyComponentRepository {
   StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 

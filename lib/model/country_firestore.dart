@@ -167,6 +167,9 @@ class CountryFirestore implements CountryRepository {
     return CountryCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   CountryFirestore();
 

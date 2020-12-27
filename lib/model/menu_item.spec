@@ -63,15 +63,6 @@
     {
         "group": "icon",
         "description": "Icon"
-    },
-    {
-        "group": "conditional",
-        "description": "Conditional"
-    },
-    {
-        "group": "conditional2",
-        "description": "Plugin Condition",
-        "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
     }
   ],
   "listFields": {

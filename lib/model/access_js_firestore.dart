@@ -181,6 +181,9 @@ class AccessJsFirestore implements AccessRepository {
     return accessCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   AccessJsFirestore(this.accessCollection, this.appId);
 

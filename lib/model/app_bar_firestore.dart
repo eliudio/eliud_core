@@ -167,6 +167,9 @@ class AppBarFirestore implements AppBarRepository {
     return AppBarCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   AppBarFirestore(this.AppBarCollection, this.appId);

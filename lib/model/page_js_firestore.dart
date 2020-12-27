@@ -181,6 +181,9 @@ class PageJsFirestore implements PageRepository {
     return pageCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   PageJsFirestore(this.pageCollection, this.appId);
 

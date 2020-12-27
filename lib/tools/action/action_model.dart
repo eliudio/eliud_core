@@ -107,7 +107,7 @@ class GotoPage extends ActionModel {
   ActionEntity toEntity({String appId}) {
     return GotoPageEntity(
         appID,
-        readCondition: readCondition.index,
+        readCondition: readCondition == null ? null : readCondition.index,
         privilegeLevelRequired: privilegeLevelRequired,
         packageCondition: packageCondition,
         pageID: pageID
@@ -156,7 +156,7 @@ class OpenDialog extends ActionModel {
   ActionEntity toEntity({String appId}) {
     return OpenDialogEntity(
         appID,
-        readCondition: readCondition.index,
+        readCondition: readCondition == null ? null : readCondition.index,
         privilegeLevelRequired: privilegeLevelRequired,
         packageCondition: packageCondition,
         dialogID: dialogID
@@ -204,7 +204,7 @@ class SwitchApp extends ActionModel {
   ActionEntity toEntity({String appId}) {
     return SwitchAppEntity(
         appID,
-        readCondition: readCondition.index,
+        readCondition: readCondition == null ? null : readCondition.index,
         privilegeLevelRequired: privilegeLevelRequired,
         packageCondition: packageCondition,
         toAppID: toAppID
@@ -254,7 +254,7 @@ class PopupMenu extends ActionModel {
   ActionEntity toEntity({String appId}) {
     return PopupMenuEntity(
         appID,
-        readCondition: readCondition.index,
+        readCondition: readCondition == null ? null : readCondition.index,
         privilegeLevelRequired: privilegeLevelRequired,
         packageCondition: packageCondition,
         menuDefID: menuDef.documentID
@@ -327,7 +327,7 @@ class InternalAction extends ActionModel {
   ActionEntity toEntity({String appId}) {
     return InternalActionEntity(
           appID,
-          readCondition: readCondition.index,
+          readCondition: readCondition == null ? null : readCondition.index,
           privilegeLevelRequired: privilegeLevelRequired,
           packageCondition: packageCondition,
           action: internalActionEnum.toString()

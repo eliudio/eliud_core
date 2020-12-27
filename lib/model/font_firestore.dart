@@ -167,6 +167,9 @@ class FontFirestore implements FontRepository {
     return FontCollection.document(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
 
   final String appId;
   FontFirestore(this.FontCollection, this.appId);

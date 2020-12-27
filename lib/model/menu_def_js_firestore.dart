@@ -181,6 +181,9 @@ class MenuDefJsFirestore implements MenuDefRepository {
     return menuDefCollection.doc(documentId).collection(name);
   }
 
+  String timeStampToString(dynamic timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
+  } 
   final String appId;
   MenuDefJsFirestore(this.menuDefCollection, this.appId);
 

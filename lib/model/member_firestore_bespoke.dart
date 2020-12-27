@@ -9,6 +9,7 @@ import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/firestore_tools.dart';
 
 class MemberFirestore implements MemberRepository {
   @override
@@ -209,5 +210,10 @@ class MemberFirestore implements MemberRepository {
   getSubCollection(String documentId, String name) {
     // TODO: implement getSubCollection
     throw UnimplementedError();
+  }
+
+  @override
+  String timeStampToString(timeStamp) {
+    return firestoreTimeStampToString(timeStamp);
   }
 }

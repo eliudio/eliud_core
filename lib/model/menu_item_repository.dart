@@ -45,6 +45,8 @@ abstract class MenuItemRepository {
   StreamSubscription<List<MenuItemModel>> listen(MenuItemModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<MenuItemModel>> listenWithDetails(MenuItemModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   void flush();
+  
+  String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
 
