@@ -210,5 +210,4 @@ class MemberJsFirestore implements MemberRepository {
       changed(member);
     });
   }
-
 }
