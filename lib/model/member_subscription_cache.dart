@@ -109,6 +109,10 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<MemberSubscriptionModel> refreshRelations(MemberSubscriptionModel model) async {
 

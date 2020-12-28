@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef BodyComponentModelTrigger(List<BodyComponentModel> list);
+typedef BodyComponentChanged(BodyComponentModel value);
 
 abstract class BodyComponentRepository {
   Future<BodyComponentModel> add(BodyComponentModel value);
@@ -44,6 +45,7 @@ abstract class BodyComponentRepository {
 
   StreamSubscription<List<BodyComponentModel>> listen(BodyComponentModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<BodyComponentModel>> listenWithDetails(BodyComponentModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ShadowModelTrigger(List<ShadowModel> list);
+typedef ShadowChanged(ShadowModel value);
 
 abstract class ShadowRepository {
   Future<ShadowModel> add(ShadowModel value);
@@ -44,6 +45,7 @@ abstract class ShadowRepository {
 
   StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<ShadowModel> listenTo(String documentId, ShadowChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

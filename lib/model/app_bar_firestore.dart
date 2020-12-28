@@ -103,6 +103,17 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
+  @override
+  StreamSubscription<AppBarModel> listenTo(String documentId, AppBarChanged changed) {
+    var stream = AppBarCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<AppBarModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

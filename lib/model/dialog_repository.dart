@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef DialogModelTrigger(List<DialogModel> list);
+typedef DialogChanged(DialogModel value);
 
 abstract class DialogRepository {
   Future<DialogModel> add(DialogModel value);
@@ -44,6 +45,7 @@ abstract class DialogRepository {
 
   StreamSubscription<List<DialogModel>> listen(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<DialogModel>> listenWithDetails(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<DialogModel> listenTo(String documentId, DialogChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

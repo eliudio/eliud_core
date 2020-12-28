@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef DecorationColorModelTrigger(List<DecorationColorModel> list);
+typedef DecorationColorChanged(DecorationColorModel value);
 
 abstract class DecorationColorRepository {
   Future<DecorationColorModel> add(DecorationColorModel value);
@@ -44,6 +45,7 @@ abstract class DecorationColorRepository {
 
   StreamSubscription<List<DecorationColorModel>> listen(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<DecorationColorModel>> listenWithDetails(DecorationColorModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef PosSizeModelTrigger(List<PosSizeModel> list);
+typedef PosSizeChanged(PosSizeModel value);
 
 abstract class PosSizeRepository {
   Future<PosSizeModel> add(PosSizeModel value);
@@ -44,6 +45,7 @@ abstract class PosSizeRepository {
 
   StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<PosSizeModel> listenTo(String documentId, PosSizeChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

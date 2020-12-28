@@ -218,7 +218,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<MemberModel> listenTo(String documentId, Changed changed) {
+  StreamSubscription<MemberModel> listenTo(String documentId, MemberChanged changed) {
     var stream = MemberCollection.document(documentId)
         .snapshots()
         .asyncMap((data) {

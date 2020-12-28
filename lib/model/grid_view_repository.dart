@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef GridViewModelTrigger(List<GridViewModel> list);
+typedef GridViewChanged(GridViewModel value);
 
 abstract class GridViewRepository {
   Future<GridViewModel> add(GridViewModel value);
@@ -44,6 +45,7 @@ abstract class GridViewRepository {
 
   StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<GridViewModel> listenTo(String documentId, GridViewChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

@@ -109,6 +109,10 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<AppEntryPagesModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<AppEntryPagesModel> refreshRelations(AppEntryPagesModel model) async {
 

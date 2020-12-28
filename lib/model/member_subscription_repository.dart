@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel> list);
+typedef MemberSubscriptionChanged(MemberSubscriptionModel value);
 
 abstract class MemberSubscriptionRepository {
   Future<MemberSubscriptionModel> add(MemberSubscriptionModel value);
@@ -44,6 +45,7 @@ abstract class MemberSubscriptionRepository {
 
   StreamSubscription<List<MemberSubscriptionModel>> listen(MemberSubscriptionModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(MemberSubscriptionModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

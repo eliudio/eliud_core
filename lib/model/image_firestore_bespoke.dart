@@ -183,4 +183,9 @@ class ImageFirestore implements ImageRepository {
   String timeStampToString(timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
+
+  @override
+  StreamSubscription<ImageModel> listenTo(String documentId, changed) {
+    throw UnimplementedError();
+  }
 }

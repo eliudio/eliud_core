@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef AccessModelTrigger(List<AccessModel> list);
+typedef AccessChanged(AccessModel value);
 
 abstract class AccessRepository {
   Future<AccessModel> add(AccessModel value);
@@ -44,6 +45,7 @@ abstract class AccessRepository {
 
   StreamSubscription<List<AccessModel>> listen(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<AccessModel>> listenWithDetails(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<AccessModel> listenTo(String documentId, AccessChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

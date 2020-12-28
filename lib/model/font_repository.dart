@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef FontModelTrigger(List<FontModel> list);
+typedef FontChanged(FontModel value);
 
 abstract class FontRepository {
   Future<FontModel> add(FontModel value);
@@ -44,6 +45,7 @@ abstract class FontRepository {
 
   StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<FontModel> listenTo(String documentId, FontChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

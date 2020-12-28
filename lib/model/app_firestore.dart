@@ -103,6 +103,17 @@ class AppFirestore implements AppRepository {
     });
   }
 
+  @override
+  StreamSubscription<AppModel> listenTo(String documentId, AppChanged changed) {
+    var stream = AppCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<AppModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

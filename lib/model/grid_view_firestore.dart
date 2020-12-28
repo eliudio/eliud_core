@@ -103,6 +103,17 @@ class GridViewFirestore implements GridViewRepository {
     });
   }
 
+  @override
+  StreamSubscription<GridViewModel> listenTo(String documentId, GridViewChanged changed) {
+    var stream = GridViewCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<GridViewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

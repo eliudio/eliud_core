@@ -109,6 +109,10 @@ class BodyComponentCache implements BodyComponentRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<BodyComponentModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<BodyComponentModel> refreshRelations(BodyComponentModel model) async {
 

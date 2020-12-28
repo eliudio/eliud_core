@@ -114,6 +114,18 @@ class BackgroundJsFirestore implements BackgroundRepository {
     });
   }
 
+  @override
+  StreamSubscription<BackgroundModel> listenTo(String documentId, BackgroundChanged changed) {
+    var stream = getCollection().doc(documentId)
+        .onSnapshot
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
+
   Stream<List<BackgroundModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
     Stream<List<BackgroundModel>> _values = getQuery(backgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)

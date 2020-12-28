@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef BackgroundModelTrigger(List<BackgroundModel> list);
+typedef BackgroundChanged(BackgroundModel value);
 
 abstract class BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value);
@@ -44,6 +45,7 @@ abstract class BackgroundRepository {
 
   StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<BackgroundModel> listenTo(String documentId, BackgroundChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

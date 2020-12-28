@@ -109,6 +109,10 @@ class DrawerCache implements DrawerRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<DrawerModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<DrawerModel> refreshRelations(DrawerModel model) async {
 

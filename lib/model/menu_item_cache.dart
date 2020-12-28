@@ -109,6 +109,10 @@ class MenuItemCache implements MenuItemRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<MenuItemModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<MenuItemModel> refreshRelations(MenuItemModel model) async {
 

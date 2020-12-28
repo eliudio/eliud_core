@@ -114,6 +114,18 @@ class PageJsFirestore implements PageRepository {
     });
   }
 
+  @override
+  StreamSubscription<PageModel> listenTo(String documentId, PageChanged changed) {
+    var stream = getCollection().doc(documentId)
+        .onSnapshot
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
+
   Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;
     Stream<List<PageModel>> _values = getQuery(pageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, appId: appId)

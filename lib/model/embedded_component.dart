@@ -245,6 +245,12 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<AppEntryPagesModel> listenTo(String documentId, AppEntryPagesChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -334,6 +340,12 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -423,6 +435,12 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -512,6 +530,12 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }
@@ -601,6 +625,12 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
+  
+  @override
+  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed) {
+    throw UnimplementedError();
+  }
+  
 
     Future<void> deleteAll() {}
 }

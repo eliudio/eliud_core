@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef DrawerModelTrigger(List<DrawerModel> list);
+typedef DrawerChanged(DrawerModel value);
 
 abstract class DrawerRepository {
   Future<DrawerModel> add(DrawerModel value);
@@ -44,6 +45,7 @@ abstract class DrawerRepository {
 
   StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<DrawerModel> listenTo(String documentId, DrawerChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

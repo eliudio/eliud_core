@@ -192,4 +192,9 @@ class ImageJsFirestore implements ImageRepository {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  @override
+  StreamSubscription<ImageModel> listenTo(String documentId, changed) {
+    throw UnimplementedError();
+  }
+
 }

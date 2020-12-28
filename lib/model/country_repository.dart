@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef CountryModelTrigger(List<CountryModel> list);
+typedef CountryChanged(CountryModel value);
 
 abstract class CountryRepository {
   Future<CountryModel> add(CountryModel value);
@@ -44,6 +45,7 @@ abstract class CountryRepository {
 
   StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<CountryModel>> listenWithDetails(CountryModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<CountryModel> listenTo(String documentId, CountryChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

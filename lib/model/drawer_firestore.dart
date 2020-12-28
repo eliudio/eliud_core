@@ -103,6 +103,17 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
+  @override
+  StreamSubscription<DrawerModel> listenTo(String documentId, DrawerChanged changed) {
+    var stream = DrawerCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<DrawerModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

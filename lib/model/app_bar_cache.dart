@@ -109,6 +109,10 @@ class AppBarCache implements AppBarRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<AppBarModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<AppBarModel> refreshRelations(AppBarModel model) async {
 

@@ -109,6 +109,10 @@ class ShadowCache implements ShadowRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<ShadowModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<ShadowModel> refreshRelations(ShadowModel model) async {
 

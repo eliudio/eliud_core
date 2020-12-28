@@ -109,6 +109,10 @@ class BackgroundCache implements BackgroundRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<BackgroundModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {
 

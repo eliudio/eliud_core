@@ -103,6 +103,17 @@ class AccessFirestore implements AccessRepository {
     });
   }
 
+  @override
+  StreamSubscription<AccessModel> listenTo(String documentId, AccessChanged changed) {
+    var stream = AccessCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<AccessModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

@@ -103,6 +103,17 @@ class PosSizeFirestore implements PosSizeRepository {
     });
   }
 
+  @override
+  StreamSubscription<PosSizeModel> listenTo(String documentId, PosSizeChanged changed) {
+    var stream = PosSizeCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((value) {
+      changed(value);
+    });
+  }
 
   Stream<List<PosSizeModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
     DocumentSnapshot lastDoc;

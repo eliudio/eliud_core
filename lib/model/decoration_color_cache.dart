@@ -109,6 +109,10 @@ class DecorationColorCache implements DecorationColorRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<DecorationColorModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<DecorationColorModel> refreshRelations(DecorationColorModel model) async {
 

@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef PageModelTrigger(List<PageModel> list);
+typedef PageChanged(PageModel value);
 
 abstract class PageRepository {
   Future<PageModel> add(PageModel value);
@@ -44,6 +45,7 @@ abstract class PageRepository {
 
   StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<PageModel> listenTo(String documentId, PageChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

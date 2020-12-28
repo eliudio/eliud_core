@@ -30,6 +30,7 @@ import 'package:eliud_core/tools/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 typedef ImageModelTrigger(List<ImageModel> list);
+typedef ImageChanged(ImageModel value);
 
 abstract class ImageRepository {
   Future<ImageModel> add(ImageModel value);
@@ -44,6 +45,7 @@ abstract class ImageRepository {
 
   StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
   StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel});
+  StreamSubscription<ImageModel> listenTo(String documentId, ImageChanged changed);
   void flush();
   
   String timeStampToString(dynamic timeStamp);

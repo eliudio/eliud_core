@@ -109,6 +109,10 @@ class PosSizeCache implements PosSizeRepository {
     return reference.listenWithDetails(trigger, currentMember: currentMember, orderBy: orderBy, descending: descending, privilegeLevel: privilegeLevel, );
   }
 
+  @override
+  StreamSubscription<PosSizeModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
 
   static Future<PosSizeModel> refreshRelations(PosSizeModel model) async {
 
