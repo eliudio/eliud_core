@@ -9,7 +9,8 @@ import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/firestore/firestore_tools.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 
 class MemberFirestore implements MemberRepository {
   @override
@@ -55,7 +56,7 @@ class MemberFirestore implements MemberRepository {
   @override
   StreamSubscription<List<MemberModel>> listen(
       MemberModelTrigger trigger,
-      {String currentMember, String orderBy, bool descending, int privilegeLevel}) {
+      {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       stream =
@@ -88,7 +89,7 @@ class MemberFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(
-      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel }) {
+      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
     if (orderBy == null) {
       stream = MemberCollection.where('readAccess', arrayContains: currentMember)
@@ -112,7 +113,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return MemberCollection.where('readAccess', arrayContains: currentMember)
           .snapshots()
@@ -129,7 +130,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return MemberCollection.where('readAccess', arrayContains: currentMember)
           .snapshots()
@@ -148,7 +149,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     if (orderBy == null) {
       return await MemberCollection.where('readAccess',
           arrayContains: currentMember)
@@ -169,7 +170,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     if (orderBy == null) {
       return await MemberCollection.where('readAccess',
           arrayContains: currentMember)
@@ -208,7 +209,6 @@ class MemberFirestore implements MemberRepository {
 
   @override
   getSubCollection(String documentId, String name) {
-    // TODO: implement getSubCollection
     throw UnimplementedError();
   }
 

@@ -78,6 +78,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           _invokeStateChangeListeners(event, toYield);
           yield toYield;
         } else {
+
           // impossible
         }
       } else if (event is SwitchAppAndPageEvent) {

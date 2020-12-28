@@ -10,8 +10,9 @@ import 'package:eliud_core/model/image_repository.dart';
 import 'package:eliud_core/model/image_model.dart';
 import 'package:eliud_core/model/image_entity.dart';
 import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/firestore_tools.dart';
+import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/image_tools.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 
 class ImageFirestore implements ImageRepository {
   final String appID;
@@ -79,14 +80,14 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     return getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
       return snapshot.documents.map((doc) => _populateDoc(doc)).toList();
     });
   }
 
   @override
-  Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     return getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
         return Future.wait(snapshot.documents
             .map((doc) => _populateDocPlus(doc)).toList());
@@ -94,7 +95,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
+  Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return list.map((doc) => _populateDoc(doc)).toList();
@@ -102,7 +103,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) async {
+  Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).getDocuments().then((value) {
       var list = value.documents;
       return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
@@ -126,7 +127,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel }) {
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<ImageModel>> stream;
     if (orderBy == null) {
       stream = imageCollection.snapshots()
@@ -153,7 +154,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel }) {
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<ImageModel>>  stream;
     if (orderBy == null) {
       stream = imageCollection.snapshots()

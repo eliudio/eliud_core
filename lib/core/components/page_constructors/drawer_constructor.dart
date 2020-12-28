@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
-import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 
 import 'package:eliud_core/core/components/page_helper.dart';
@@ -13,6 +12,7 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrawerConstructor {
   final String currentPage;
@@ -66,59 +66,62 @@ class DrawerConstructor {
   }
 
   Widget drawer(BuildContext context, DrawerModel drawer) {
-    var theState = AccessBloc.getState(context);
-    if (theState is AppLoaded) {
-      var app = theState.app;
-      if (drawer == null) return null;
-      if (drawer.menu == null) return null;
-      var widgets = <Widget>[];
-      widgets.add(
-        Container(
-            height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
-            child: DrawerHeader(
-                child: Center(child: Text(
-                  drawer.headerText, // description drawer
-                  style: FontTools.textStyle(app.h3),
-                )),
-                decoration:
-                BoxDecorationHelper.boxDecoration(theState, drawer.headerBackground))),
-      );
-      if ((drawer.secondHeaderText != null) &&
-          (drawer.secondHeaderText.isNotEmpty)) {
+    return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
+      if (theState is AppLoaded) {
+        var app = theState.app;
+        if (drawer == null) return null;
+        if (drawer.menu == null) return null;
+        var widgets = <Widget>[];
         widgets.add(
-            Container(
+          Container(
               height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
               child: DrawerHeader(
                   child: Center(child: Text(
-                    processDoc(context, drawer.secondHeaderText),
-                    style: FontTools.textStyle(app.h4),
-                  ))
-              ),
-            ));
-      }
-
-      var member = theState is LoggedIn ? theState.member : null;
-
-      for (var i = 0; i < drawer.menu.menuItems.length; i++) {
-        var item = drawer.menu.menuItems[i];
-        var style = PageHelper.isActivePage(currentPage, item.action)
-            ? FontTools.textStyle(app.h3)
-            : FontTools.textStyle(app.h4);
-        if (theState.menuItemHasAccess(item)) {
-          _addWidget(context, widgets, item, style, member);
+                    drawer.headerText, // description drawer
+                    style: FontTools.textStyle(app.h3),
+                  )),
+                  decoration:
+                  BoxDecorationHelper.boxDecoration(
+                      theState, drawer.headerBackground))),
+        );
+        if ((drawer.secondHeaderText != null) &&
+            (drawer.secondHeaderText.isNotEmpty)) {
+          widgets.add(
+              Container(
+                height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
+                child: DrawerHeader(
+                    child: Center(child: Text(
+                      processDoc(context, drawer.secondHeaderText),
+                      style: FontTools.textStyle(app.h4),
+                    ))
+                ),
+              ));
         }
-      }
 
-      return Drawer(
-          child: Container(
-              decoration: BoxDecorationHelper.boxDecoration(theState, drawer.background),
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: widgets,
-              )));
-    } else {
-      return Text("Error constructing Drawer");
-    }
+        var member = theState is LoggedIn ? theState.member : null;
+
+        for (var i = 0; i < drawer.menu.menuItems.length; i++) {
+          var item = drawer.menu.menuItems[i];
+          var style = PageHelper.isActivePage(currentPage, item.action)
+              ? FontTools.textStyle(app.h3)
+              : FontTools.textStyle(app.h4);
+          if (theState.menuItemHasAccess(item)) {
+            _addWidget(context, widgets, item, style, member);
+          }
+        }
+
+        return Drawer(
+            child: Container(
+                decoration: BoxDecorationHelper.boxDecoration(
+                    theState, drawer.background),
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: widgets,
+                )));
+      } else {
+        return Text('Error constructing Drawer');
+      }
+    });
   }
 }

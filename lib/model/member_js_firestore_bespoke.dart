@@ -4,7 +4,8 @@ Bespoke
 
 import 'dart:async';
 import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/js_firestore_tools.dart';
+import 'package:eliud_core/tools/firestore/js_firestore_tools.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 import 'package:eliud_core/model/member_repository.dart';
@@ -47,7 +48,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel }) {
+  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<MemberModel>> stream;
     // If we use memberCollection here, then the second subscription fails
     if (orderBy == null) {
@@ -78,7 +79,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel }) {
+  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       // If we use memberCollection here, then the second subscription fails
@@ -105,7 +106,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -120,7 +121,7 @@ class MemberJsFirestore implements MemberRepository {
     }
   }
 
-  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return memberCollection
           .where("readAccess", "array-contains", currentMember)
@@ -138,7 +139,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {
@@ -157,7 +158,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel }) {
+  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     if (orderBy == null) {
       return memberCollection.where(
           "readAccess", "array-contains", currentMember).get().then((value) {
