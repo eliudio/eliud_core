@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
+import 'package:eliud_core/model/app_entry_pages_form_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBarConstructor {
   final String currentPage;
@@ -23,99 +25,9 @@ class AppBarConstructor {
 
   AppBarConstructor(this.currentPage, this.scaffoldKey);
 
-  Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String theTitle, AppBarModel value, List<Widget> buttons, MemberModel member)  {
-    Widget title;
-    Widget part1;
-    if ((value.header == HeaderSelection.Title) && (value.title != null)) {
-      part1 = Text(value.title,
-          style: FontTools.textStyle(app.h1));
-    } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
-      part1 = IconHelper.getIconFromModel(iconModel: value.icon);
-    } else if ((value.header == HeaderSelection.Image) &&
-        (value.image != null)) {
-      part1 = AbstractPlatform.platform.getImage(state,
-        height: kToolbarHeight,
-        image: value.image,
-      );
-    }
-
-    if (part1 != null) {
-      title = Row(children: [part1, Container(width: 20), Text(theTitle)]);
-    } else if (theTitle != null) {
-      title = Text(
-        theTitle,
-        style:  FontTools.textStyle(app.h1),
-      );
-    } else {
-      title = Text('No title provided',
-          style:  FontTools.textStyle(app.h1));
-    }
-
-    if (member != null) {
-      var userPhotoUrl = member.photoURL;
-      Widget profilePhoto;
-      if (userPhotoUrl != null) {
-        profilePhoto = AbstractPlatform.platform
-          .getImageFromURL(url: userPhotoUrl);
-      }
-      profilePhoto ??= Icon(Icons.person_outline,
-            color: value.iconColor != null ? RgbHelper.color(rgbo: value.iconColor) : null);
-      buttons.add(
-        IconButton(
-          icon: CircleAvatar(
-            radius: 30.0,
-            child: ClipOval(
-                child: profilePhoto),
-            backgroundColor: Colors.transparent,
-          ),
-          onPressed: () {
-            scaffoldKey.currentState.openEndDrawer();
-          },
-        ),
-      );
-    }
-
-    var iconThemeData =
-        IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
-
-    return AppBar(
-        iconTheme: iconThemeData,
-        title: title,
-        actions: buttons,
-        flexibleSpace: Container(
-            decoration: BoxDecorationHelper.boxDecoration(state, value.background)));
-  }
-
-  void _addPlayStoreButton(
-      BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
-    var playStoreApp = AccessBloc.addPlayStoreApp(context);
-    if (playStoreApp != null) {
-      ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
-      if (action.hasAccess(context)) {
-        buttons.add(FutureBuilder<AppModel>(
-            future: AbstractMainRepositorySingleton.singleton
-                .appRepository()
-                .get(playStoreApp),
-            builder: (BuildContext context2, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return IconButton(
-                    icon: AbstractPlatform.platform
-                        .getImageFromURL(url: snapshot.data.logoURL),
-                    color: RgbHelper.color(rgbo: value.iconColor),
-                    onPressed: () {
-                      eliudrouter.Router.navigateTo(context, action);
-                    });
-              } else {
-                return Center(child: DelayedCircularProgressIndicator());
-              }
-            }));
-      }
-    }
-  }
-
   Widget appBar(
       BuildContext context, String theTitle, AppBarModel value) {
-      var theState = AccessBloc.getState(context);
+    return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
         var app = theState.app;
         var member = (theState is LoggedIn) ? theState.member : null;
@@ -131,16 +43,16 @@ class AppBarConstructor {
             });
           }
 
-          _addPlayStoreButton(context, buttons, value, app);
+          _addPlayStoreButton(AccessBloc.playStoreApp(theState), context, buttons, value, app);
           return _appBarWithButtons(context, theState, app, theTitle, value, buttons, member);
         } else {
           var buttons = <Widget>[];
-          _addPlayStoreButton(context, buttons, value, app);
+          _addPlayStoreButton(AccessBloc.playStoreApp(theState), context, buttons, value, app);
           return _appBarWithButtons(context, theState, app, theTitle, value, buttons, member);
         }
       } else {
         return null;
-      }
+      }});
   }
 
   void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel value, List<Widget> buttons,
@@ -201,6 +113,95 @@ class AppBarConstructor {
           borderSide:
               BorderSide(color: FontTools.textStyle(app.h4).color),
         )));
+      }
+    }
+  }
+
+  Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String theTitle, AppBarModel value, List<Widget> buttons, MemberModel member)  {
+    Widget title;
+    Widget part1;
+    if ((value.header == HeaderSelection.Title) && (value.title != null)) {
+      part1 = Text(value.title,
+          style: FontTools.textStyle(app.h1));
+    } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
+      part1 = IconHelper.getIconFromModel(iconModel: value.icon);
+    } else if ((value.header == HeaderSelection.Image) &&
+        (value.image != null)) {
+      part1 = AbstractPlatform.platform.getImage(state,
+        height: kToolbarHeight,
+        image: value.image,
+      );
+    }
+
+    if (part1 != null) {
+      title = Row(children: [part1, Container(width: 20), Text(theTitle)]);
+    } else if (theTitle != null) {
+      title = Text(
+        theTitle,
+        style:  FontTools.textStyle(app.h1),
+      );
+    } else {
+      title = Text('No title provided',
+          style:  FontTools.textStyle(app.h1));
+    }
+
+    if (member != null) {
+      var userPhotoUrl = member.photoURL;
+      Widget profilePhoto;
+      if (userPhotoUrl != null) {
+        profilePhoto = AbstractPlatform.platform
+            .getImageFromURL(url: userPhotoUrl);
+      }
+      profilePhoto ??= Icon(Icons.person_outline,
+          color: value.iconColor != null ? RgbHelper.color(rgbo: value.iconColor) : null);
+      buttons.add(
+        IconButton(
+          icon: CircleAvatar(
+            radius: 30.0,
+            child: ClipOval(
+                child: profilePhoto),
+            backgroundColor: Colors.transparent,
+          ),
+          onPressed: () {
+            scaffoldKey.currentState.openEndDrawer();
+          },
+        ),
+      );
+    }
+
+    var iconThemeData =
+    IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
+
+    return AppBar(
+        iconTheme: iconThemeData,
+        title: title,
+        actions: buttons,
+        flexibleSpace: Container(
+            decoration: BoxDecorationHelper.boxDecoration(state, value.background)));
+  }
+
+  void _addPlayStoreButton(String playStoreApp,
+      BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
+    if (playStoreApp != null) {
+      ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
+      if (action.hasAccess(context)) {
+        buttons.add(FutureBuilder<AppModel>(
+            future: AbstractMainRepositorySingleton.singleton
+                .appRepository()
+                .get(playStoreApp),
+            builder: (BuildContext context2, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return IconButton(
+                    icon: AbstractPlatform.platform
+                        .getImageFromURL(url: snapshot.data.logoURL),
+                    color: RgbHelper.color(rgbo: value.iconColor),
+                    onPressed: () {
+                      eliudrouter.Router.navigateTo(context, action);
+                    });
+              } else {
+                return Center(child: DelayedCircularProgressIndicator());
+              }
+            }));
       }
     }
   }

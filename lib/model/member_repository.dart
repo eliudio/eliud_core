@@ -55,3 +55,5 @@ abstract class MemberRepository {
 
   StreamSubscription<MemberModel> listenTo(String documentId, Changed changed);
 }
+
+

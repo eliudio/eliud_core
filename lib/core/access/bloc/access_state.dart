@@ -24,6 +24,7 @@ abstract class AccessState extends Equatable {
   bool hasAccessToOtherApps();
   bool forceAcceptMembership();
   bool memberIsOwner();
+  MemberModel getMember();
 }
 
 class AppError extends AccessState {
@@ -44,6 +45,9 @@ class AppError extends AccessState {
 
   @override
   bool memberIsOwner() => false;
+
+  @override
+  MemberModel getMember() => null;
 }
 
 class UndeterminedAccessState extends AccessState {
@@ -63,6 +67,9 @@ class UndeterminedAccessState extends AccessState {
 
   @override
   bool memberIsOwner() => false;
+
+  @override
+  MemberModel getMember() => null;
 }
 
 class PagesAndDialogAccesss {

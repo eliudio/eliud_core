@@ -15,8 +15,11 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// When subscribing the MapAccessEvent method, then this will be called before AccessBloc has handled the event, i.e. the state is the current state
 typedef void MapAccessEvent(AccessEvent event, AccessState state);
-typedef void MapAccessState(AccessState state);
+
+// When subscribing the MapAccessState method, then this will be called after AccessBloc has handled the event, i.e. the state is the new state
+typedef void MapAccessState(AccessEvent event, AccessState state);
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final List<MapAccessEvent> extraEventMappers = [];
@@ -39,19 +42,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   void _invokeMappers(AccessEvent event, AccessState state) {
-/*
     for (int i = 0; i < extraEventMappers.length; i++) {
       extraEventMappers[i](event, state);
     }
-*/
   }
 
-  void _invokeStateChangeListeners(AccessState state) {
-/*
+  void _invokeStateChangeListeners(AccessEvent event, AccessState state) {
     for (int i = 0; i < extraStateMappers.length; i++) {
-      extraStateMappers[i](state);
+      extraStateMappers[i](event, state);
     }
-*/
   }
 
   @override
@@ -63,12 +62,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var app = await _fetchApp(event.appId);
       if (app == null) {
         var toYield = AppError('App with ' + event.appId + ' does not exist');
-        _invokeStateChangeListeners(toYield);
+        _invokeStateChangeListeners(event, toYield);
         yield toYield;
       } else {
         var toYield = await _mapUsrAndApp(
             usr, app, event.isPlaystore ? app : null, null);
-        _invokeStateChangeListeners(toYield);
+        _invokeStateChangeListeners(event, toYield);
         yield toYield;
       }
     } else if (theState is AppLoaded) {
@@ -76,7 +75,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (event is MemberUpdated) {
         if (theState is LoggedIn) {
           var toYield = await theState.copyWith(event.member, theState.playStoreApp);
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
         } else {
           // impossible
@@ -85,12 +84,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         var app = await _fetchApp(event.appId);
         if (app == null) {
           var toYield = AppError('App with ' + event.appId + ' does not exist');
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
         } else {
           var toYield = await _mapOldStateToNewApp(
               state, app, theState.playStoreApp, null);
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
           navigatorBloc.add(GoToPageEvent(event.pageId, parameters: event.parameters));
         }
@@ -98,12 +97,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         var app = await _fetchApp(event.appId);
         if (app == null) {
           var toYield = AppError('App with ' + event.appId + ' does not exist');
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
         } else {
           var toYield = await _mapOldStateToNewApp(
               state, app, theState.playStoreApp, null);
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
           navigatorBloc.add(GoHome());
         }
@@ -111,7 +110,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository().signOut();
           var toYield = await _mapUsrAndApp(null, app, theState.playStoreApp, null);
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
           navigatorBloc.add(GoHome());
         } else if (event is LoginEvent) {
@@ -123,7 +122,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               accessState = await _mapUsrAndApp(usr, app, theState.playStoreApp, event.actions);
             }
             var toYield = accessState;
-            _invokeStateChangeListeners(toYield);
+            _invokeStateChangeListeners(event, toYield);
             yield toYield;
             if (accessState is LoggedInWithoutMembership) {
               navigatorBloc.add(GoHome());
@@ -148,7 +147,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             navigatorBloc.add(GoHome());
           }
           var toYield = newState;
-          _invokeStateChangeListeners(toYield);
+          _invokeStateChangeListeners(event, toYield);
           yield toYield;
         }
     } else {
@@ -270,16 +269,18 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return null;
   }
 
-  static String addPlayStoreApp(BuildContext context) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
+  static String playStoreApp(AccessState appState) {
     if (appState is AppLoaded) {
       if (appState.playStoreApp == null) return null;
-      if (appState.app.documentID == appState.playStoreApp.documentID) {
-        return null;
-      }
+      if (appState.app.documentID == appState.playStoreApp.documentID) return null;
       return appState.playStoreApp.documentID;
     }
     return null;
+  }
+
+  static String addPlayStoreApp(BuildContext context) {
+    var appState = BlocProvider.of<AccessBloc>(context).state;
+    return playStoreApp(appState);
   }
 
   static bool isPlayStoreApp(BuildContext context, String documentID) {

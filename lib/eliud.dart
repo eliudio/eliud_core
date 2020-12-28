@@ -25,6 +25,17 @@ abstract class Package {
    * Plugins can create a bloc on the highest level by implementing this method.
    * Example implementation: return BlocProvider<CartBloc>(create: (context) => CartBloc(navigatorBloc, accessBloc));
    *
+   * It is common for a package to subscribe to AccessBloc events and states.
+   * This is best done from within the method createMainBloc.
+   *
+   * To do so, implement
+   *
+   *   void mapAccessEvent(AccessEvent event, AccessState state) {}
+   *
+   * and / or
+   *
+   *   void mapAccessState(AccessEvent event, AccessState state) {}
+   *
    * In this method we also can extend the AccessBloc functionality, i.e. add an event mapper
    * accessBloc.addMapper();
    */
