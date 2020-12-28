@@ -208,7 +208,7 @@ abstract class AppLoaded extends AccessState {
   final Map<String, bool> packageConditionsAccess;
 
   @override
-  List<Object> get props => [ app, playStoreApp, pagesAccess, packageConditionsAccess ];
+  List<Object> get props => [ app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess ];
 
   AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess, this.packageConditionsAccess);
 
@@ -306,7 +306,7 @@ abstract class LoggedIn extends AppLoaded {
   final int privilegeLevel;
 
   @override
-  List<Object> get props => [ app, pagesAccess, dialogAccess, usr, member ];
+  List<Object> get props => [ app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess, usr, member, privilegeLevel ];
 
   LoggedIn._(this.usr, this.member, AppModel app, AppModel playstoreApp, Map<String, bool> pagesAccess, Map<String, bool> dialogAccess, this.privilegeLevel, Map<String, bool> packageConditionsAccess) : super(app, playstoreApp, pagesAccess, dialogAccess, packageConditionsAccess);
 

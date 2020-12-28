@@ -216,4 +216,16 @@ class MemberFirestore implements MemberRepository {
   String timeStampToString(timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
+
+  @override
+  StreamSubscription<MemberModel> listenTo(String documentId, Changed changed) {
+    var stream = MemberCollection.document(documentId)
+        .snapshots()
+        .asyncMap((data) {
+      return _populateDocPlus(data);
+    });
+    return stream.listen((member) {
+      changed(member);
+    });
+  }
 }

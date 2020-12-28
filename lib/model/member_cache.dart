@@ -145,5 +145,11 @@ class MemberCache implements MemberRepository {
     );
   }
 
+  @override
+  StreamSubscription<MemberModel> listenTo(String documentId, changed) {
+    reference.listenTo(documentId, changed);
+  }
+
+
 }
 

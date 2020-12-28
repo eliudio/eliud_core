@@ -22,7 +22,11 @@ abstract class Package {
   void init();
 
   /*
-   * Plugins can depend on the highest level of the app to provide a bloc. A plugin can do this by implementing this method.
+   * Plugins can create a bloc on the highest level by implementing this method.
+   * Example implementation: return BlocProvider<CartBloc>(create: (context) => CartBloc(navigatorBloc, accessBloc));
+   *
+   * In this method we also can extend the AccessBloc functionality, i.e. add an event mapper
+   * accessBloc.addMapper();
    */
   BlocProvider  createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc);
 

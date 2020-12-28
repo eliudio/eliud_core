@@ -198,4 +198,11 @@ class MemberJsFirestore implements MemberRepository {
   String timeStampToString(timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
+
+  @override
+  StreamSubscription<MemberModel> listenTo(String documentId, changed) {
+    // TODO: implement listenTo
+    throw UnimplementedError();
+  }
+
 }
