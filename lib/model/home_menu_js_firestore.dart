@@ -71,25 +71,14 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
   @override
   StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      stream = getCollection().onSnapshot
-          .map((data) {
-        Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
-          HomeMenuModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return homeMenus;
-      });
-    } else {
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .map((data) {
-        Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
-          HomeMenuModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return homeMenus;
-      });
-    }
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .map((data) {
+      Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
+        HomeMenuModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return homeMenus;
+    });
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);
     });
@@ -97,19 +86,11 @@ class HomeMenuJsFirestore implements HomeMenuRepository {
 
   StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
-    if (orderBy == null) {
-      // If we use homeMenuCollection here, then the second subscription fails
-      stream = getCollection().onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      // If we use homeMenuCollection here, then the second subscription fails
-      stream = getCollection().orderBy(orderBy, descending ? 'desc': 'asc').onSnapshot
-          .asyncMap((data) async {
-        return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    // If we use homeMenuCollection here, then the second subscription fails
+    stream = getQuery(getCollection(), currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).onSnapshot
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);
     });

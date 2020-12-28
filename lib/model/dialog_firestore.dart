@@ -60,44 +60,26 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
-  StreamSubscription<List<DialogModel>> listen(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<DialogModel>> listen(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<DialogModel>> stream;
-    if (orderBy == null) {
-       stream = DialogCollection.snapshots().map((data) {
-        Iterable<DialogModel> dialogs  = data.documents.map((doc) {
-          DialogModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return dialogs;
-      });
-    } else {
-      stream = DialogCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<DialogModel> dialogs  = data.documents.map((doc) {
-          DialogModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return dialogs;
-      });
-  
-    }
+    stream = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<DialogModel> dialogs  = data.documents.map((doc) {
+        DialogModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return dialogs;
+    });
     return stream.listen((listOfDialogModels) {
       trigger(listOfDialogModels);
     });
   }
 
-  StreamSubscription<List<DialogModel>> listenWithDetails(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<DialogModel>> listenWithDetails(DialogModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<DialogModel>> stream;
-    if (orderBy == null) {
-      stream = DialogCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = DialogCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(DialogCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfDialogModels) {
       trigger(listOfDialogModels);

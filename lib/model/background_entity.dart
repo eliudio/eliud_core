@@ -46,7 +46,11 @@ class BackgroundEntity {
   static BackgroundEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final decorationColorsList = (map['decorationColors'] as List<dynamic>)
+    var decorationColorsFromMap;
+    decorationColorsFromMap = map['decorationColors'];
+    var decorationColorsList;
+    if (decorationColorsFromMap != null)
+      decorationColorsList = (map['decorationColors'] as List<dynamic>)
         .map((dynamic item) =>
         DecorationColorEntity.fromMap(item as Map))
         .toList();

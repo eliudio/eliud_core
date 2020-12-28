@@ -60,44 +60,26 @@ class MenuDefFirestore implements MenuDefRepository {
     });
   }
 
-  StreamSubscription<List<MenuDefModel>> listen(MenuDefModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MenuDefModel>> listen(MenuDefModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<MenuDefModel>> stream;
-    if (orderBy == null) {
-       stream = MenuDefCollection.snapshots().map((data) {
-        Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
-          MenuDefModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return menuDefs;
-      });
-    } else {
-      stream = MenuDefCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
-          MenuDefModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return menuDefs;
-      });
-  
-    }
+    stream = getQuery(MenuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<MenuDefModel> menuDefs  = data.documents.map((doc) {
+        MenuDefModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return menuDefs;
+    });
     return stream.listen((listOfMenuDefModels) {
       trigger(listOfMenuDefModels);
     });
   }
 
-  StreamSubscription<List<MenuDefModel>> listenWithDetails(MenuDefModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MenuDefModel>> listenWithDetails(MenuDefModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<MenuDefModel>> stream;
-    if (orderBy == null) {
-      stream = MenuDefCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = MenuDefCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(MenuDefCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfMenuDefModels) {
       trigger(listOfMenuDefModels);

@@ -60,44 +60,26 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<HomeMenuModel>> stream;
-    if (orderBy == null) {
-       stream = HomeMenuCollection.snapshots().map((data) {
-        Iterable<HomeMenuModel> homeMenus  = data.documents.map((doc) {
-          HomeMenuModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return homeMenus;
-      });
-    } else {
-      stream = HomeMenuCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<HomeMenuModel> homeMenus  = data.documents.map((doc) {
-          HomeMenuModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return homeMenus;
-      });
-  
-    }
+    stream = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<HomeMenuModel> homeMenus  = data.documents.map((doc) {
+        HomeMenuModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return homeMenus;
+    });
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<HomeMenuModel>> stream;
-    if (orderBy == null) {
-      stream = HomeMenuCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = HomeMenuCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(HomeMenuCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);

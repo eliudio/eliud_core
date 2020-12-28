@@ -41,7 +41,11 @@ class MenuDefEntity {
   static MenuDefEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final menuItemsList = (map['menuItems'] as List<dynamic>)
+    var menuItemsFromMap;
+    menuItemsFromMap = map['menuItems'];
+    var menuItemsList;
+    if (menuItemsFromMap != null)
+      menuItemsList = (map['menuItems'] as List<dynamic>)
         .map((dynamic item) =>
         MenuItemEntity.fromMap(item as Map))
         .toList();

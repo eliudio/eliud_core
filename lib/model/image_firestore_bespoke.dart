@@ -127,7 +127,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+  StreamSubscription<List<ImageModel>> listen(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<ImageModel>> stream;
     if (orderBy == null) {
       stream = imageCollection.snapshots()
@@ -154,7 +154,7 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+  StreamSubscription<List<ImageModel>> listenWithDetails(ImageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<ImageModel>>  stream;
     if (orderBy == null) {
       stream = imageCollection.snapshots()

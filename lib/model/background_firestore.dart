@@ -60,44 +60,26 @@ class BackgroundFirestore implements BackgroundRepository {
     });
   }
 
-  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<BackgroundModel>> listen(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<BackgroundModel>> stream;
-    if (orderBy == null) {
-       stream = BackgroundCollection.snapshots().map((data) {
-        Iterable<BackgroundModel> backgrounds  = data.documents.map((doc) {
-          BackgroundModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return backgrounds;
-      });
-    } else {
-      stream = BackgroundCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<BackgroundModel> backgrounds  = data.documents.map((doc) {
-          BackgroundModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return backgrounds;
-      });
-  
-    }
+    stream = getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<BackgroundModel> backgrounds  = data.documents.map((doc) {
+        BackgroundModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return backgrounds;
+    });
     return stream.listen((listOfBackgroundModels) {
       trigger(listOfBackgroundModels);
     });
   }
 
-  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<BackgroundModel>> listenWithDetails(BackgroundModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<BackgroundModel>> stream;
-    if (orderBy == null) {
-      stream = BackgroundCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = BackgroundCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(BackgroundCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfBackgroundModels) {
       trigger(listOfBackgroundModels);

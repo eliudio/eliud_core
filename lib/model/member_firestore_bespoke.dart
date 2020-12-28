@@ -56,7 +56,7 @@ class MemberFirestore implements MemberRepository {
   @override
   StreamSubscription<List<MemberModel>> listen(
       MemberModelTrigger trigger,
-      {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+      {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       stream =
@@ -89,7 +89,7 @@ class MemberFirestore implements MemberRepository {
 
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(
-      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
     var stream;
     if (orderBy == null) {
       stream = MemberCollection.where('readAccess', arrayContains: currentMember)

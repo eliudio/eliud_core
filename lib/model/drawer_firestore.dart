@@ -60,44 +60,26 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
-  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<DrawerModel>> listen(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<DrawerModel>> stream;
-    if (orderBy == null) {
-       stream = DrawerCollection.snapshots().map((data) {
-        Iterable<DrawerModel> drawers  = data.documents.map((doc) {
-          DrawerModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return drawers;
-      });
-    } else {
-      stream = DrawerCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<DrawerModel> drawers  = data.documents.map((doc) {
-          DrawerModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return drawers;
-      });
-  
-    }
+    stream = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<DrawerModel> drawers  = data.documents.map((doc) {
+        DrawerModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return drawers;
+    });
     return stream.listen((listOfDrawerModels) {
       trigger(listOfDrawerModels);
     });
   }
 
-  StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<DrawerModel>> listenWithDetails(DrawerModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<DrawerModel>> stream;
-    if (orderBy == null) {
-      stream = DrawerCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = DrawerCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(DrawerCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfDrawerModels) {
       trigger(listOfDrawerModels);

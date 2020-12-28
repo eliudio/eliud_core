@@ -60,44 +60,26 @@ class GridViewFirestore implements GridViewRepository {
     });
   }
 
-  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<GridViewModel>> listen(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<GridViewModel>> stream;
-    if (orderBy == null) {
-       stream = GridViewCollection.snapshots().map((data) {
-        Iterable<GridViewModel> gridViews  = data.documents.map((doc) {
-          GridViewModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return gridViews;
-      });
-    } else {
-      stream = GridViewCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<GridViewModel> gridViews  = data.documents.map((doc) {
-          GridViewModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return gridViews;
-      });
-  
-    }
+    stream = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<GridViewModel> gridViews  = data.documents.map((doc) {
+        GridViewModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return gridViews;
+    });
     return stream.listen((listOfGridViewModels) {
       trigger(listOfGridViewModels);
     });
   }
 
-  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<GridViewModel>> listenWithDetails(GridViewModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<GridViewModel>> stream;
-    if (orderBy == null) {
-      stream = GridViewCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = GridViewCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(GridViewCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfGridViewModels) {
       trigger(listOfGridViewModels);

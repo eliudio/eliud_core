@@ -73,7 +73,11 @@ class AppEntity {
   static AppEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final entryPagesList = (map['entryPages'] as List<dynamic>)
+    var entryPagesFromMap;
+    entryPagesFromMap = map['entryPages'];
+    var entryPagesList;
+    if (entryPagesFromMap != null)
+      entryPagesList = (map['entryPages'] as List<dynamic>)
         .map((dynamic item) =>
         AppEntryPagesEntity.fromMap(item as Map))
         .toList();

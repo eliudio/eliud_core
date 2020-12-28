@@ -57,9 +57,22 @@ Query getQuery(collection, {String currentMember, String orderBy, bool descendin
         useThisCollection =
             useThisCollection.where(condition.field, isNull: condition.isNull);
       }
+      if (condition.arrayContains != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, arrayContains: condition.arrayContains);
+      }
+      if (condition.arrayContainsAny != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, arrayContainsAny: condition.arrayContainsAny);
+      }
+      if (condition.whereIn != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, whereIn: condition.whereIn);
+      }
     }
   }
 
+/*
   // Is this a query limitting the data to be retrieved for a specific member? e.g. posts are limitted to people the post is addressed to.
   if (currentMember != null) {
     useThisCollection = useThisCollection.where('readAccess',
@@ -67,6 +80,7 @@ Query getQuery(collection, {String currentMember, String orderBy, bool descendin
           'PUBLIC'
         ] : [currentMember, 'PUBLIC']);
   }
+*/
 
   // Are we paginating?
   if (startAfter != null) {

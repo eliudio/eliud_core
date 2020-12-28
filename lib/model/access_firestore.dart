@@ -60,44 +60,26 @@ class AccessFirestore implements AccessRepository {
     });
   }
 
-  StreamSubscription<List<AccessModel>> listen(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AccessModel>> listen(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<AccessModel>> stream;
-    if (orderBy == null) {
-       stream = AccessCollection.snapshots().map((data) {
-        Iterable<AccessModel> accesss  = data.documents.map((doc) {
-          AccessModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return accesss;
-      });
-    } else {
-      stream = AccessCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<AccessModel> accesss  = data.documents.map((doc) {
-          AccessModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return accesss;
-      });
-  
-    }
+    stream = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<AccessModel> accesss  = data.documents.map((doc) {
+        AccessModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return accesss;
+    });
     return stream.listen((listOfAccessModels) {
       trigger(listOfAccessModels);
     });
   }
 
-  StreamSubscription<List<AccessModel>> listenWithDetails(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AccessModel>> listenWithDetails(AccessModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<AccessModel>> stream;
-    if (orderBy == null) {
-      stream = AccessCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = AccessCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(AccessCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfAccessModels) {
       trigger(listOfAccessModels);

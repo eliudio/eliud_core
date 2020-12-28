@@ -60,44 +60,26 @@ class PosSizeFirestore implements PosSizeRepository {
     });
   }
 
-  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PosSizeModel>> stream;
-    if (orderBy == null) {
-       stream = PosSizeCollection.snapshots().map((data) {
-        Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
-          PosSizeModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return posSizes;
-      });
-    } else {
-      stream = PosSizeCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
-          PosSizeModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return posSizes;
-      });
-  
-    }
+    stream = getQuery(PosSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<PosSizeModel> posSizes  = data.documents.map((doc) {
+        PosSizeModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return posSizes;
+    });
     return stream.listen((listOfPosSizeModels) {
       trigger(listOfPosSizeModels);
     });
   }
 
-  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PosSizeModel>> stream;
-    if (orderBy == null) {
-      stream = PosSizeCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = PosSizeCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(PosSizeCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfPosSizeModels) {
       trigger(listOfPosSizeModels);

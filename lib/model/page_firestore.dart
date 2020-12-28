@@ -60,44 +60,26 @@ class PageFirestore implements PageRepository {
     });
   }
 
-  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PageModel>> listen(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PageModel>> stream;
-    if (orderBy == null) {
-       stream = PageCollection.snapshots().map((data) {
-        Iterable<PageModel> pages  = data.documents.map((doc) {
-          PageModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return pages;
-      });
-    } else {
-      stream = PageCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<PageModel> pages  = data.documents.map((doc) {
-          PageModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return pages;
-      });
-  
-    }
+    stream = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<PageModel> pages  = data.documents.map((doc) {
+        PageModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return pages;
+    });
     return stream.listen((listOfPageModels) {
       trigger(listOfPageModels);
     });
   }
 
-  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<PageModel>> listenWithDetails(PageModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<PageModel>> stream;
-    if (orderBy == null) {
-      stream = PageCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = PageCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(PageCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfPageModels) {
       trigger(listOfPageModels);

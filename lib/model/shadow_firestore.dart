@@ -60,44 +60,26 @@ class ShadowFirestore implements ShadowRepository {
     });
   }
 
-  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShadowModel>> stream;
-    if (orderBy == null) {
-       stream = ShadowCollection.snapshots().map((data) {
-        Iterable<ShadowModel> shadows  = data.documents.map((doc) {
-          ShadowModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shadows;
-      });
-    } else {
-      stream = ShadowCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<ShadowModel> shadows  = data.documents.map((doc) {
-          ShadowModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return shadows;
-      });
-  
-    }
+    stream = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<ShadowModel> shadows  = data.documents.map((doc) {
+        ShadowModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return shadows;
+    });
     return stream.listen((listOfShadowModels) {
       trigger(listOfShadowModels);
     });
   }
 
-  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<ShadowModel>> listenWithDetails(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShadowModel>> stream;
-    if (orderBy == null) {
-      stream = ShadowCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = ShadowCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfShadowModels) {
       trigger(listOfShadowModels);

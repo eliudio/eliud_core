@@ -129,7 +129,8 @@ class PageModel {
           appId: entity.appId, 
           title: entity.title, 
           bodyComponents: 
-            entity. bodyComponents
+            entity.bodyComponents == null ? null :
+            entity.bodyComponents
             .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
             .toList(), 
           layout: toPageLayout(entity.layout), 
@@ -205,7 +206,7 @@ class PageModel {
           endDrawer: endDrawerHolder, 
           homeMenu: homeMenuHolder, 
           bodyComponents: 
-            new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
+            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
             .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           background: backgroundHolder, 

@@ -231,7 +231,8 @@ class AppModel {
           appStatus: toAppStatus(entity.appStatus), 
           darkOrLight: toDarkOrLight(entity.darkOrLight), 
           entryPages: 
-            entity. entryPages
+            entity.entryPages == null ? null :
+            entity.entryPages
             .map((item) => AppEntryPagesModel.fromEntity(newRandomKey(), item))
             .toList(), 
           formSubmitButtonColor: 
@@ -402,7 +403,7 @@ class AppModel {
           darkOrLight: toDarkOrLight(entity.darkOrLight), 
           entryPage: entryPageHolder, 
           entryPages: 
-            new List<AppEntryPagesModel>.from(await Future.wait(entity. entryPages
+            entity. entryPages == null ? null : new List<AppEntryPagesModel>.from(await Future.wait(entity. entryPages
             .map((item) => AppEntryPagesModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           logo: logoHolder, 

@@ -48,7 +48,7 @@ class MemberJsFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+  StreamSubscription<List<MemberModel>> listen(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<MemberModel>> stream;
     // If we use memberCollection here, then the second subscription fails
     if (orderBy == null) {
@@ -79,7 +79,7 @@ class MemberJsFirestore implements MemberRepository {
     });
   }
 
-  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember,  String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery }) {
+  StreamSubscription<List<MemberModel>> listenWithDetails(MemberModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
     Stream<List<MemberModel>> stream;
     if (orderBy == null) {
       // If we use memberCollection here, then the second subscription fails

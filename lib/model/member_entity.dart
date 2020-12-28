@@ -58,7 +58,11 @@ class MemberEntity {
   static MemberEntity fromMap(Map map) {
     if (map == null) return null;
 
-    final subscriptionsList = (map['subscriptions'] as List<dynamic>)
+    var subscriptionsFromMap;
+    subscriptionsFromMap = map['subscriptions'];
+    var subscriptionsList;
+    if (subscriptionsFromMap != null)
+      subscriptionsList = (map['subscriptions'] as List<dynamic>)
         .map((dynamic item) =>
         MemberSubscriptionEntity.fromMap(item as Map))
         .toList();

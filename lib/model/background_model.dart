@@ -145,7 +145,8 @@ class BackgroundModel {
           beginGradientPosition: toStartGradientPosition(entity.beginGradientPosition), 
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           decorationColors: 
-            entity. decorationColors
+            entity.decorationColors == null ? null :
+            entity.decorationColors
             .map((item) => DecorationColorModel.fromEntity(newRandomKey(), item))
             .toList(), 
           border: entity.border, 
@@ -183,7 +184,7 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           shadow: shadowHolder, 
           decorationColors: 
-            new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
+            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
             .map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           border: entity.border, 

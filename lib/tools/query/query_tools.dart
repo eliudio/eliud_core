@@ -1,3 +1,5 @@
+import 'package:eliud_core/model/member_model.dart';
+
 class EliudQueryCondition {
   final dynamic field;
   final dynamic isEqualTo;
@@ -18,7 +20,22 @@ class EliudQueryCondition {
 }
 
 class EliudQuery {
-  final List<EliudQueryCondition> conditions;
+  final List<EliudQueryCondition> conditions = [];
 
-  EliudQuery({this.conditions});
+  EliudQuery({List<EliudQueryCondition> theConditions}) {
+    if (theConditions != null)
+      conditions.addAll(theConditions);
+  }
+
+  EliudQuery withMemberLimittedCondition(String currentMember) {
+    conditions.add(EliudQueryCondition(
+        'readAccess', arrayContainsAny: ((currentMember == null) || (currentMember == "")) ? ['PUBLIC'] : [currentMember, 'PUBLIC']
+    ));
+    return this;
+  }
+
+  static EliudQuery ensureQueryAvailable(EliudQuery query) {
+    if (query == null) return EliudQuery();
+    return query;
+  }
 }

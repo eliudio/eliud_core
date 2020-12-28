@@ -44,6 +44,18 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
       if (condition.isNull != null) {
         throw UnimplementedError("I don't know the js condition for isNull");
       }
+      if (condition.arrayContains != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, 'array-contains', condition.arrayContains);
+      }
+      if (condition.arrayContainsAny != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, 'array-contains-any', condition.arrayContainsAny);
+      }
+      if (condition.whereIn != null) {
+        useThisCollection =
+            useThisCollection.where(condition.field, 'where-in', condition.whereIn);
+      }
     }
   }
 

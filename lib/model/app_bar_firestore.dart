@@ -60,44 +60,26 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppBarModel>> listen(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<AppBarModel>> stream;
-    if (orderBy == null) {
-       stream = AppBarCollection.snapshots().map((data) {
-        Iterable<AppBarModel> appBars  = data.documents.map((doc) {
-          AppBarModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return appBars;
-      });
-    } else {
-      stream = AppBarCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<AppBarModel> appBars  = data.documents.map((doc) {
-          AppBarModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return appBars;
-      });
-  
-    }
+    stream = getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<AppBarModel> appBars  = data.documents.map((doc) {
+        AppBarModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return appBars;
+    });
     return stream.listen((listOfAppBarModels) {
       trigger(listOfAppBarModels);
     });
   }
 
-  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppBarModel>> listenWithDetails(AppBarModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<AppBarModel>> stream;
-    if (orderBy == null) {
-      stream = AppBarCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = AppBarCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(AppBarCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfAppBarModels) {
       trigger(listOfAppBarModels);

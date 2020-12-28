@@ -60,44 +60,26 @@ class FontFirestore implements FontRepository {
     });
   }
 
-  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<FontModel>> listen(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<FontModel>> stream;
-    if (orderBy == null) {
-       stream = FontCollection.snapshots().map((data) {
-        Iterable<FontModel> fonts  = data.documents.map((doc) {
-          FontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return fonts;
-      });
-    } else {
-      stream = FontCollection.orderBy(orderBy, descending: descending).snapshots().map((data) {
-        Iterable<FontModel> fonts  = data.documents.map((doc) {
-          FontModel value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return fonts;
-      });
-  
-    }
+    stream = getQuery(FontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+      Iterable<FontModel> fonts  = data.documents.map((doc) {
+        FontModel value = _populateDoc(doc);
+        return value;
+      }).toList();
+      return fonts;
+    });
     return stream.listen((listOfFontModels) {
       trigger(listOfFontModels);
     });
   }
 
-  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<FontModel>> listenWithDetails(FontModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<FontModel>> stream;
-    if (orderBy == null) {
-      stream = FontCollection.snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    } else {
-      stream = FontCollection.orderBy(orderBy, descending: descending).snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
-      });
-    }
+    stream = getQuery(FontCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+    });
 
     return stream.listen((listOfFontModels) {
       trigger(listOfFontModels);

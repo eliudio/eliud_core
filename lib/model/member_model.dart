@@ -136,7 +136,8 @@ class MemberModel {
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
-            entity. subscriptions
+            entity.subscriptions == null ? null :
+            entity.subscriptions
             .map((item) => MemberSubscriptionModel.fromEntity(newRandomKey(), item))
             .toList(), 
           photoURL: entity.photoURL, 
@@ -183,7 +184,7 @@ class MemberModel {
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
-            new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
+            entity. subscriptions == null ? null : new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
             .map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           photoURL: entity.photoURL, 
