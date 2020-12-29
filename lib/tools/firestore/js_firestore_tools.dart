@@ -3,11 +3,13 @@ import 'package:firebase/firestore.dart';
 import 'package:firebase/src/utils.dart';
 
 Query getQuery(CollectionReference collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId, EliudQuery eliudQuery}) {
+  print("getQuery 1");
   Query useThisCollection = collection;
   if (orderBy != null) {
     useThisCollection = useThisCollection.orderBy(orderBy, descending ? 'desc': 'asc');
   }
   // Do we have some limits in terms of privilege?
+  print("getQuery 2");
   if (privilegeLevel != null) {
     // Do we have some limits in terms of privilege?
     if (privilegeLevel == 0) {
@@ -18,6 +20,7 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
           useThisCollection.where('readCondition', '==', 3).where('privilegeLevelRequired', '==', privilegeLevel).where('appId', '==', appId);
     }
   }
+  print("getQuery 3");
   if ((eliudQuery != null) && (eliudQuery.conditions != null) && (eliudQuery.conditions.isNotEmpty)) {
     for (int i = 0; i < eliudQuery.conditions.length; i++) {
       EliudQueryCondition condition = eliudQuery.conditions[i];
@@ -59,6 +62,8 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
     }
   }
 
+/*
+  print("getQuery 4");
   if (currentMember != null) {
     useThisCollection = useThisCollection.where(
         'readAccess', 'array-contains-any',
@@ -67,12 +72,15 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
           'PUBLIC'
         ]);
   }
+*/
+  print("getQuery 5");
   if (startAfter != null) {
     useThisCollection = useThisCollection.startAfter(snapshot: startAfter);
   }
   if (limit != null) {
     useThisCollection = useThisCollection.limit(limit);
   }
+  print("getQuery 6");
   return useThisCollection;
 }
 
@@ -82,5 +90,6 @@ DateTime timeStampToDateTime(dynamic timestamp) {
 }
 
 String firestoreTimeStampToString(dynamic timestamp) {
+  print("in firestoreTimeStampToString");
   return timestamp.toString();
 }
