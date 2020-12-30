@@ -4,35 +4,28 @@ import 'package:eliud_core/core/components/page_body_helper.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/tools/has_fab.dart';
-import 'package:eliud_core/tools/grid_view_helper.dart';
 
 import 'package:eliud_core/core/components/page_constructors/appbar_constructor.dart';
 import 'package:eliud_core/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
 import 'package:eliud_core/core/components/page_constructors/drawer_constructor.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 
-import 'package:eliud_core/tools/component_constructor.dart';
 
-import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_component_event.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../tools/etc.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final String pageID;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final Map<String, Object> parameters;
 
   PageComponent({this.navigatorKey, this.pageID, this.parameters});
@@ -79,10 +72,10 @@ class PageComponent extends StatelessWidget {
                         .drawer(context, state.value.drawer);
                     var endDrawer = DrawerConstructor(pageID)
                         .drawer(context, state.value.endDrawer);
-                    var appBar = AppBarConstructor(pageID, _scaffoldKey)
+                    var appBar = AppBarConstructor(pageID, scaffoldKey)
                         .appBar(context, state.value.title, state.value.appBar);
                     return Scaffold(
-                      key: _scaffoldKey,
+                      key: scaffoldKey,
                       endDrawer: endDrawer,
                       appBar: PreferredSize(
                           preferredSize: const Size(

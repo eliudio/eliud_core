@@ -23,8 +23,21 @@ class EliudQuery {
   final List<EliudQueryCondition> conditions = [];
 
   EliudQuery({List<EliudQueryCondition> theConditions}) {
-    if (theConditions != null)
+    withConditions(theConditions);
+  }
+
+  EliudQuery withCondition(EliudQueryCondition condition) {
+    if (condition != null) {
+      conditions.add(condition);
+    }
+    return this;
+  }
+
+  EliudQuery withConditions(List<EliudQueryCondition> theConditions) {
+    if (theConditions != null) {
       conditions.addAll(theConditions);
+    }
+    return this;
   }
 
   EliudQuery withMemberLimittedCondition(String currentMember) {

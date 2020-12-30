@@ -10,11 +10,13 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
+import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
 /*
  * Global registry with components
@@ -63,7 +65,13 @@ class Registry {
 
   Future<void> openDialog(BuildContext context,
       {String id, Map<String, Object> parameters}) async {
-    await DialogComponent.openDialog(context, id: id, parameters: parameters);
+    var appId = AccessBloc.appId(context);
+    var dialog = await dialogRepository(appId: appId).get(id);
+    if (dialog != null) {
+      DialogStatefulWidgetHelper.openIt(context, DialogComponent(dialog: dialog, parameters: parameters));
+    } else {
+      DialogStatefulWidgetHelper.openIt(context, MessageDialog(title: 'Error', message: 'Widget with id $id not found in app $appId'));
+    }
   }
 
   Widget application({String id, bool asPlaystore}) {
