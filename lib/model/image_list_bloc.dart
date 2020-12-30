@@ -22,6 +22,7 @@ import 'package:eliud_core/model/image_list_event.dart';
 import 'package:eliud_core/model/image_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
   final ImageRepository _imageRepository;
   StreamSubscription _imagesListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ImageListBloc(this.accessBloc,{ @required ImageRepository imageRepository })
+
+  ImageListBloc(this.accessBloc,{ this.eliudQuery, @required ImageRepository imageRepository })
       : assert(imageRepository != null),
       _imageRepository = imageRepository,
       super(ImageListLoading());
 
   Stream<ImageListState> _mapLoadImageListToState({ String orderBy, bool descending }) async* {
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listen((list) => add(ImageListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _imagesListSubscription = _imageRepository.listen((list) => add(ImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ImageListState> _mapLoadImageListWithDetailsToState() async* {

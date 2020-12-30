@@ -22,6 +22,7 @@ import 'package:eliud_core/model/grid_view_list_event.dart';
 import 'package:eliud_core/model/grid_view_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final GridViewRepository _gridViewRepository;
   StreamSubscription _gridViewsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  GridViewListBloc(this.accessBloc,{ @required GridViewRepository gridViewRepository })
+
+  GridViewListBloc(this.accessBloc,{ this.eliudQuery, @required GridViewRepository gridViewRepository })
       : assert(gridViewRepository != null),
       _gridViewRepository = gridViewRepository,
       super(GridViewListLoading());
 
   Stream<GridViewListState> _mapLoadGridViewListToState({ String orderBy, bool descending }) async* {
     _gridViewsListSubscription?.cancel();
-    _gridViewsListSubscription = _gridViewRepository.listen((list) => add(GridViewListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _gridViewsListSubscription = _gridViewRepository.listen((list) => add(GridViewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<GridViewListState> _mapLoadGridViewListWithDetailsToState() async* {

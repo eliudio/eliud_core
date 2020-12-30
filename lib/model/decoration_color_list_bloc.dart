@@ -22,6 +22,7 @@ import 'package:eliud_core/model/decoration_color_list_event.dart';
 import 'package:eliud_core/model/decoration_color_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   final DecorationColorRepository _decorationColorRepository;
   StreamSubscription _decorationColorsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  DecorationColorListBloc(this.accessBloc,{ @required DecorationColorRepository decorationColorRepository })
+
+  DecorationColorListBloc(this.accessBloc,{ this.eliudQuery, @required DecorationColorRepository decorationColorRepository })
       : assert(decorationColorRepository != null),
       _decorationColorRepository = decorationColorRepository,
       super(DecorationColorListLoading());
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListToState({ String orderBy, bool descending }) async* {
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listen((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _decorationColorsListSubscription = _decorationColorRepository.listen((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {

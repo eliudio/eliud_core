@@ -171,9 +171,12 @@ class PageCache implements PageRepository {
       } catch (_) {}
     }
 
-    List<BodyComponentModel> bodyComponentsHolder = List<BodyComponentModel>.from(await Future.wait(await model.bodyComponents.map((element) async {
-      return await BodyComponentCache.refreshRelations(element);
-    }))).toList();
+    List<BodyComponentModel> bodyComponentsHolder;
+    if (model.bodyComponents != null) {
+      bodyComponentsHolder = List<BodyComponentModel>.from(await Future.wait(await model.bodyComponents.map((element) async {
+        return await BodyComponentCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         appBar: appBarHolder,

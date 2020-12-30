@@ -135,9 +135,12 @@ class MemberCache implements MemberRepository {
       } catch (_) {}
     }
 
-    List<MemberSubscriptionModel> subscriptionsHolder = List<MemberSubscriptionModel>.from(await Future.wait(await model.subscriptions.map((element) async {
-      return await MemberSubscriptionCache.refreshRelations(element);
-    }))).toList();
+    List<MemberSubscriptionModel> subscriptionsHolder;
+    if (model.subscriptions != null) {
+      subscriptionsHolder = List<MemberSubscriptionModel>.from(await Future.wait(await model.subscriptions.map((element) async {
+        return await MemberSubscriptionCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         country: countryHolder,

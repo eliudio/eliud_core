@@ -22,6 +22,7 @@ import 'package:eliud_core/model/drawer_list_event.dart';
 import 'package:eliud_core/model/drawer_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final DrawerRepository _drawerRepository;
   StreamSubscription _drawersListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  DrawerListBloc(this.accessBloc,{ @required DrawerRepository drawerRepository })
+
+  DrawerListBloc(this.accessBloc,{ this.eliudQuery, @required DrawerRepository drawerRepository })
       : assert(drawerRepository != null),
       _drawerRepository = drawerRepository,
       super(DrawerListLoading());
 
   Stream<DrawerListState> _mapLoadDrawerListToState({ String orderBy, bool descending }) async* {
     _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listen((list) => add(DrawerListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _drawersListSubscription = _drawerRepository.listen((list) => add(DrawerListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {

@@ -22,6 +22,7 @@ import 'package:eliud_core/model/font_list_event.dart';
 import 'package:eliud_core/model/font_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
   final FontRepository _fontRepository;
   StreamSubscription _fontsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  FontListBloc(this.accessBloc,{ @required FontRepository fontRepository })
+
+  FontListBloc(this.accessBloc,{ this.eliudQuery, @required FontRepository fontRepository })
       : assert(fontRepository != null),
       _fontRepository = fontRepository,
       super(FontListLoading());
 
   Stream<FontListState> _mapLoadFontListToState({ String orderBy, bool descending }) async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<FontListState> _mapLoadFontListWithDetailsToState() async* {

@@ -12,8 +12,10 @@ class DialogStatefulWidgetHelper {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Container(
-              width: width(context), height: height(context), child: dialog);
+          return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+              width: width(context), height: height(context), child: dialog));
         });
   }
 }

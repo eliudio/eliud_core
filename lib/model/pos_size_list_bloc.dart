@@ -22,6 +22,7 @@ import 'package:eliud_core/model/pos_size_list_event.dart';
 import 'package:eliud_core/model/pos_size_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final PosSizeRepository _posSizeRepository;
   StreamSubscription _posSizesListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  PosSizeListBloc(this.accessBloc,{ @required PosSizeRepository posSizeRepository })
+
+  PosSizeListBloc(this.accessBloc,{ this.eliudQuery, @required PosSizeRepository posSizeRepository })
       : assert(posSizeRepository != null),
       _posSizeRepository = posSizeRepository,
       super(PosSizeListLoading());
 
   Stream<PosSizeListState> _mapLoadPosSizeListToState({ String orderBy, bool descending }) async* {
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listen((list) => add(PosSizeListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _posSizesListSubscription = _posSizeRepository.listen((list) => add(PosSizeListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState() async* {

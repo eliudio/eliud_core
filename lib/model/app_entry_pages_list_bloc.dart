@@ -22,6 +22,7 @@ import 'package:eliud_core/model/app_entry_pages_list_event.dart';
 import 'package:eliud_core/model/app_entry_pages_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   final AppEntryPagesRepository _appEntryPagesRepository;
   StreamSubscription _appEntryPagessListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  AppEntryPagesListBloc(this.accessBloc,{ @required AppEntryPagesRepository appEntryPagesRepository })
+
+  AppEntryPagesListBloc(this.accessBloc,{ this.eliudQuery, @required AppEntryPagesRepository appEntryPagesRepository })
       : assert(appEntryPagesRepository != null),
       _appEntryPagesRepository = appEntryPagesRepository,
       super(AppEntryPagesListLoading());
 
   Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListToState({ String orderBy, bool descending }) async* {
     _appEntryPagessListSubscription?.cancel();
-    _appEntryPagessListSubscription = _appEntryPagesRepository.listen((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _appEntryPagessListSubscription = _appEntryPagesRepository.listen((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState() async* {

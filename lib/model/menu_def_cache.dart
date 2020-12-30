@@ -117,9 +117,12 @@ class MenuDefCache implements MenuDefRepository {
 
   static Future<MenuDefModel> refreshRelations(MenuDefModel model) async {
 
-    List<MenuItemModel> menuItemsHolder = List<MenuItemModel>.from(await Future.wait(await model.menuItems.map((element) async {
-      return await MenuItemCache.refreshRelations(element);
-    }))).toList();
+    List<MenuItemModel> menuItemsHolder;
+    if (model.menuItems != null) {
+      menuItemsHolder = List<MenuItemModel>.from(await Future.wait(await model.menuItems.map((element) async {
+        return await MenuItemCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         menuItems: menuItemsHolder,

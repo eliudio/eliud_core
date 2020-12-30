@@ -22,6 +22,7 @@ import 'package:eliud_core/model/country_list_event.dart';
 import 'package:eliud_core/model/country_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final CountryRepository _countryRepository;
   StreamSubscription _countrysListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  CountryListBloc(this.accessBloc,{ @required CountryRepository countryRepository })
+
+  CountryListBloc(this.accessBloc,{ this.eliudQuery, @required CountryRepository countryRepository })
       : assert(countryRepository != null),
       _countryRepository = countryRepository,
       super(CountryListLoading());
 
   Stream<CountryListState> _mapLoadCountryListToState({ String orderBy, bool descending }) async* {
     _countrysListSubscription?.cancel();
-    _countrysListSubscription = _countryRepository.listen((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _countrysListSubscription = _countryRepository.listen((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<CountryListState> _mapLoadCountryListWithDetailsToState() async* {

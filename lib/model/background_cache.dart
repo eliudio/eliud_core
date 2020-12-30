@@ -135,9 +135,12 @@ class BackgroundCache implements BackgroundRepository {
       } catch (_) {}
     }
 
-    List<DecorationColorModel> decorationColorsHolder = List<DecorationColorModel>.from(await Future.wait(await model.decorationColors.map((element) async {
-      return await DecorationColorCache.refreshRelations(element);
-    }))).toList();
+    List<DecorationColorModel> decorationColorsHolder;
+    if (model.decorationColors != null) {
+      decorationColorsHolder = List<DecorationColorModel>.from(await Future.wait(await model.decorationColors.map((element) async {
+        return await DecorationColorCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         backgroundImage: backgroundImageHolder,

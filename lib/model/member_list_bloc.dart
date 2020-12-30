@@ -22,6 +22,7 @@ import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 import 'package:eliud_core/core/access/bloc/access_state.dart';
@@ -30,8 +31,10 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final MemberRepository _memberRepository;
   StreamSubscription _membersListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  MemberListBloc(this.accessBloc,{ @required MemberRepository memberRepository })
+
+  MemberListBloc(this.accessBloc,{ this.eliudQuery, @required MemberRepository memberRepository })
       : assert(memberRepository != null),
       _memberRepository = memberRepository,
       super(MemberListLoading());
@@ -44,7 +47,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
 
   Stream<MemberListState> _mapLoadMemberListToState({ String orderBy, bool descending }) async* {
     _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listen((list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending, currentMember: _currentMember(), );
+    _membersListSubscription = _memberRepository.listen((list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, currentMember: _currentMember(), );
   }
 
   Stream<MemberListState> _mapLoadMemberListWithDetailsToState() async* {

@@ -243,9 +243,12 @@ class AppCache implements AppRepository {
       } catch (_) {}
     }
 
-    List<AppEntryPagesModel> entryPagesHolder = List<AppEntryPagesModel>.from(await Future.wait(await model.entryPages.map((element) async {
-      return await AppEntryPagesCache.refreshRelations(element);
-    }))).toList();
+    List<AppEntryPagesModel> entryPagesHolder;
+    if (model.entryPages != null) {
+      entryPagesHolder = List<AppEntryPagesModel>.from(await Future.wait(await model.entryPages.map((element) async {
+        return await AppEntryPagesCache.refreshRelations(element);
+      }))).toList();
+    }
 
     return model.copyWith(
         entryPage: entryPageHolder,

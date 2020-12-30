@@ -22,6 +22,7 @@ import 'package:eliud_core/model/body_component_list_event.dart';
 import 'package:eliud_core/model/body_component_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   final BodyComponentRepository _bodyComponentRepository;
   StreamSubscription _bodyComponentsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  BodyComponentListBloc(this.accessBloc,{ @required BodyComponentRepository bodyComponentRepository })
+
+  BodyComponentListBloc(this.accessBloc,{ this.eliudQuery, @required BodyComponentRepository bodyComponentRepository })
       : assert(bodyComponentRepository != null),
       _bodyComponentRepository = bodyComponentRepository,
       super(BodyComponentListLoading());
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListToState({ String orderBy, bool descending }) async* {
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState() async* {

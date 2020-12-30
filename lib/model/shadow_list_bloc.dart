@@ -22,6 +22,7 @@ import 'package:eliud_core/model/shadow_list_event.dart';
 import 'package:eliud_core/model/shadow_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   final ShadowRepository _shadowRepository;
   StreamSubscription _shadowsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  ShadowListBloc(this.accessBloc,{ @required ShadowRepository shadowRepository })
+
+  ShadowListBloc(this.accessBloc,{ this.eliudQuery, @required ShadowRepository shadowRepository })
       : assert(shadowRepository != null),
       _shadowRepository = shadowRepository,
       super(ShadowListLoading());
 
   Stream<ShadowListState> _mapLoadShadowListToState({ String orderBy, bool descending }) async* {
     _shadowsListSubscription?.cancel();
-    _shadowsListSubscription = _shadowRepository.listen((list) => add(ShadowListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _shadowsListSubscription = _shadowRepository.listen((list) => add(ShadowListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<ShadowListState> _mapLoadShadowListWithDetailsToState() async* {

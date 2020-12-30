@@ -22,6 +22,7 @@ import 'package:eliud_core/model/background_list_event.dart';
 import 'package:eliud_core/model/background_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
   final BackgroundRepository _backgroundRepository;
   StreamSubscription _backgroundsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  BackgroundListBloc(this.accessBloc,{ @required BackgroundRepository backgroundRepository })
+
+  BackgroundListBloc(this.accessBloc,{ this.eliudQuery, @required BackgroundRepository backgroundRepository })
       : assert(backgroundRepository != null),
       _backgroundRepository = backgroundRepository,
       super(BackgroundListLoading());
 
   Stream<BackgroundListState> _mapLoadBackgroundListToState({ String orderBy, bool descending }) async* {
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listen((list) => add(BackgroundListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _backgroundsListSubscription = _backgroundRepository.listen((list) => add(BackgroundListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState() async* {

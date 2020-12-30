@@ -22,6 +22,7 @@ import 'package:eliud_core/model/menu_item_list_event.dart';
 import 'package:eliud_core/model/menu_item_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   final MenuItemRepository _menuItemRepository;
   StreamSubscription _menuItemsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  MenuItemListBloc(this.accessBloc,{ @required MenuItemRepository menuItemRepository })
+
+  MenuItemListBloc(this.accessBloc,{ this.eliudQuery, @required MenuItemRepository menuItemRepository })
       : assert(menuItemRepository != null),
       _menuItemRepository = menuItemRepository,
       super(MenuItemListLoading());
 
   Stream<MenuItemListState> _mapLoadMenuItemListToState({ String orderBy, bool descending }) async* {
     _menuItemsListSubscription?.cancel();
-    _menuItemsListSubscription = _menuItemRepository.listen((list) => add(MenuItemListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _menuItemsListSubscription = _menuItemRepository.listen((list) => add(MenuItemListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<MenuItemListState> _mapLoadMenuItemListWithDetailsToState() async* {

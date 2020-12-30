@@ -22,6 +22,7 @@ import 'package:eliud_core/model/app_bar_list_event.dart';
 import 'package:eliud_core/model/app_bar_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final AppBarRepository _appBarRepository;
   StreamSubscription _appBarsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  AppBarListBloc(this.accessBloc,{ @required AppBarRepository appBarRepository })
+
+  AppBarListBloc(this.accessBloc,{ this.eliudQuery, @required AppBarRepository appBarRepository })
       : assert(appBarRepository != null),
       _appBarRepository = appBarRepository,
       super(AppBarListLoading());
 
   Stream<AppBarListState> _mapLoadAppBarListToState({ String orderBy, bool descending }) async* {
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listen((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _appBarsListSubscription = _appBarRepository.listen((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState() async* {

@@ -22,6 +22,7 @@ import 'package:eliud_core/model/menu_def_list_event.dart';
 import 'package:eliud_core/model/menu_def_list_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 
 
@@ -29,15 +30,17 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final MenuDefRepository _menuDefRepository;
   StreamSubscription _menuDefsListSubscription;
   final AccessBloc accessBloc;
+  final EliudQuery eliudQuery;
 
-  MenuDefListBloc(this.accessBloc,{ @required MenuDefRepository menuDefRepository })
+
+  MenuDefListBloc(this.accessBloc,{ this.eliudQuery, @required MenuDefRepository menuDefRepository })
       : assert(menuDefRepository != null),
       _menuDefRepository = menuDefRepository,
       super(MenuDefListLoading());
 
   Stream<MenuDefListState> _mapLoadMenuDefListToState({ String orderBy, bool descending }) async* {
     _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listen((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, );
+    _menuDefsListSubscription = _menuDefRepository.listen((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState() async* {
