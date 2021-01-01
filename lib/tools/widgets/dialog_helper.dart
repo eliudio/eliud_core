@@ -123,6 +123,20 @@ class DialogStateHelper {
           child: Text('Continue')),
     ];
   }
+
+  List<FlatButton> getButtons(BuildContext context, List<String> buttonLabels, List<Function> functions) {
+    if (buttonLabels.length != functions.length) throw Exception("Amount of labels of buttons does not correspond functions");
+    List<FlatButton> buttons = [];
+    for (int i = 0; i < buttonLabels.length; i++) {
+      String label = buttonLabels[i];
+      Function function = functions[i];
+      buttons.add(FlatButton(
+          onPressed: function,
+          child: Text(label)));
+    }
+    return buttons;
+  }
+
 }
 
 class MessageDialog extends StatefulWidget {
@@ -178,5 +192,47 @@ class _YesNoState extends State<YesNoDialog> {
         title: widget.title,
         contents: Text(widget.message),
         buttons: dialogHelper.getYesNoButtons(context, widget.yesFunction, widget.noFunction));
+  }
+}
+
+typedef void ValueChanged(String value);
+
+class DialogField extends StatefulWidget {
+  final InputDecoration decoration;
+  final ValueChanged valueChanged;
+
+  const DialogField({Key key, this.decoration, this.valueChanged}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _DialogFieldState();
+  }
+}
+
+class _DialogFieldState extends State<DialogField> {
+  final myController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    myController.addListener(_fieldChanged);
+  }
+
+  void _fieldChanged() {
+    widget.valueChanged(myController.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+        decoration: widget.decoration,
+        controller: myController
+    );
+  }
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
   }
 }
