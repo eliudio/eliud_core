@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'background_form.dart';
 
+
+typedef BackgroundWidgetProvider(BackgroundModel value);
+
 class BackgroundListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  BackgroundWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   BackgroundListWidgetState state;
   bool isEmbedded;
 
-  BackgroundListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  BackgroundListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   BackgroundListWidgetState createState() {
@@ -170,6 +173,8 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return BackgroundListItem(
             value: value,

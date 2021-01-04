@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'dialog_form.dart';
 
+
+typedef DialogWidgetProvider(DialogModel value);
+
 class DialogListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  DialogWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   DialogListWidgetState state;
   bool isEmbedded;
 
-  DialogListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  DialogListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   DialogListWidgetState createState() {
@@ -170,6 +173,8 @@ class DialogListWidgetState extends State<DialogListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return DialogListItem(
             value: value,

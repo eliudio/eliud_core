@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'member_form.dart';
 
+
+typedef MemberWidgetProvider(MemberModel value);
+
 class MemberListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  MemberWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   MemberListWidgetState state;
   bool isEmbedded;
 
-  MemberListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  MemberListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   MemberListWidgetState createState() {
@@ -170,6 +173,8 @@ class MemberListWidgetState extends State<MemberListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return MemberListItem(
             value: value,

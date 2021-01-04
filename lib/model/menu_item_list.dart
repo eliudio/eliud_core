@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'menu_item_form.dart';
 
+
+typedef MenuItemWidgetProvider(MenuItemModel value);
+
 class MenuItemListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  MenuItemWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   MenuItemListWidgetState state;
   bool isEmbedded;
 
-  MenuItemListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  MenuItemListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   MenuItemListWidgetState createState() {
@@ -170,6 +173,8 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return MenuItemListItem(
             value: value,

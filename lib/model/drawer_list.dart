@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'drawer_form.dart';
 
+
+typedef DrawerWidgetProvider(DrawerModel value);
+
 class DrawerListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  DrawerWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   DrawerListWidgetState state;
   bool isEmbedded;
 
-  DrawerListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  DrawerListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   DrawerListWidgetState createState() {
@@ -170,6 +173,8 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return DrawerListItem(
             value: value,

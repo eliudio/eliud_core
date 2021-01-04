@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'app_entry_pages_form.dart';
 
+
+typedef AppEntryPagesWidgetProvider(AppEntryPagesModel value);
+
 class AppEntryPagesListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  AppEntryPagesWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   AppEntryPagesListWidgetState state;
   bool isEmbedded;
 
-  AppEntryPagesListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  AppEntryPagesListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   AppEntryPagesListWidgetState createState() {
@@ -170,6 +173,8 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return AppEntryPagesListItem(
             value: value,

@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'font_form.dart';
 
+
+typedef FontWidgetProvider(FontModel value);
+
 class FontListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  FontWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   FontListWidgetState state;
   bool isEmbedded;
 
-  FontListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  FontListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   FontListWidgetState createState() {
@@ -170,6 +173,8 @@ class FontListWidgetState extends State<FontListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return FontListItem(
             value: value,

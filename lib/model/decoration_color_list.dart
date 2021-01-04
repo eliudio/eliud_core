@@ -44,15 +44,18 @@ import 'package:eliud_core/model/app_model.dart';
 
 import 'decoration_color_form.dart';
 
+
+typedef DecorationColorWidgetProvider(DecorationColorModel value);
+
 class DecorationColorListWidget extends StatefulWidget with HasFab {
   BackgroundModel listBackground;
+  DecorationColorWidgetProvider widgetProvider;
   bool readOnly;
   String form;
-  String listItemWidget;
   DecorationColorListWidgetState state;
   bool isEmbedded;
 
-  DecorationColorListWidget({ Key key, this.readOnly, this.form, this.listItemWidget, this.isEmbedded, this.listBackground }): super(key: key);
+  DecorationColorListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   DecorationColorListWidgetState createState() {
@@ -170,6 +173,8 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
         itemCount: values.length,
         itemBuilder: (context, index) {
           final value = values[index];
+          
+          if (widget.widgetProvider != null) return widget.widgetProvider(value);
 
           return DecorationColorListItem(
             value: value,
