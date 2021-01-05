@@ -56,8 +56,6 @@ import '../model/image_repository.dart';
 import '../model/image_cache.dart';
 import '../model/member_repository.dart';
 import '../model/member_cache.dart';
-import '../model/member_subscription_repository.dart';
-import '../model/member_subscription_cache.dart';
 import '../model/menu_def_firestore.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_def_cache.dart';
@@ -72,6 +70,8 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/member_subscription_repository.dart';
+import '../model/member_subscription_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -81,8 +81,8 @@ import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
-import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
+import '../model/member_subscription_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();

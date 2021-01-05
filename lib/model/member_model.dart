@@ -104,7 +104,7 @@ class MemberModel {
   }
 
   MemberEntity toEntity({String appId}) {
-    readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();
+    readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toSet().toList();
     return MemberEntity(
           name: (name != null) ? name : null, 
           subscriptions: (subscriptions != null) ? subscriptions
