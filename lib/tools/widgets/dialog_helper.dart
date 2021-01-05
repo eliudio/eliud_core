@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,22 @@ class DialogStatefulWidgetHelper {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 0.9;
 
-  static void openIt(BuildContext context, Widget dialog) {
+  static void openIt(BuildContext context, Widget dialog,
+      {double heightValue, double widthValue}) {
+    var deletemethisistest = min(width(context), widthValue);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-              width: width(context), height: height(context), child: dialog));
+              child: Container(
+                  width: widthValue == null
+                      ? width(context)
+                      : min(width(context), widthValue),
+                  height: heightValue == null
+                      ? height(context)
+                      : min(height(context), heightValue),
+                  child: dialog));
         });
   }
 }
@@ -92,20 +101,25 @@ class DialogStateHelper {
   }
 
   /* Helper method to format the fields */
-  Widget fieldsWidget(BuildContext context, List<Widget> widgets) {
+  Widget fieldsWidget(BuildContext context, List<Widget> widgets,
+      {double height, double width}) {
     return Container(
-        height: DialogStatefulWidgetHelper.height(context) -
-            150 /* minus the size of the button, title and divider */,
-        width: DialogStatefulWidgetHelper.width(context),
+        height: (height != null)
+            ? height
+            : DialogStatefulWidgetHelper.height(context) -
+                150 /* minus the size of the button, title and divider */,
+        width:
+            (width != null) ? width : DialogStatefulWidgetHelper.width(context),
         child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             children: widgets));
   }
 
   /* Helper method to retrieve the close button */
-  List<FlatButton> getCloseButton(BuildContext context, Function closeFunction) {
+  List<FlatButton> getCloseButton(
+      BuildContext context, Function closeFunction) {
     return <FlatButton>[
-      FlatButton( child: Text('Close'), onPressed: closeFunction),
+      FlatButton(child: Text('Close'), onPressed: closeFunction),
     ];
   }
 
@@ -113,30 +127,27 @@ class DialogStateHelper {
     return getCloseButton(context, () => Navigator.pop(context));
   }
 
-  List<FlatButton> getYesNoButtons(BuildContext context, Function yesFunction, Function noFunction) {
+  List<FlatButton> getYesNoButtons(
+      BuildContext context, Function yesFunction, Function noFunction) {
     return <FlatButton>[
-      FlatButton(
-          onPressed: noFunction,
-          child: Text('Cancel')),
-      FlatButton(
-          onPressed: yesFunction,
-          child: Text('Continue')),
+      FlatButton(onPressed: noFunction, child: Text('Cancel')),
+      FlatButton(onPressed: yesFunction, child: Text('Continue')),
     ];
   }
 
-  List<FlatButton> getButtons(BuildContext context, List<String> buttonLabels, List<Function> functions) {
-    if (buttonLabels.length != functions.length) throw Exception("Amount of labels of buttons does not correspond functions");
+  List<FlatButton> getButtons(BuildContext context, List<String> buttonLabels,
+      List<Function> functions) {
+    if (buttonLabels.length != functions.length)
+      throw Exception(
+          "Amount of labels of buttons does not correspond functions");
     List<FlatButton> buttons = [];
     for (int i = 0; i < buttonLabels.length; i++) {
       String label = buttonLabels[i];
       Function function = functions[i];
-      buttons.add(FlatButton(
-          onPressed: function,
-          child: Text(label)));
+      buttons.add(FlatButton(onPressed: function, child: Text(label)));
     }
     return buttons;
   }
-
 }
 
 class MessageDialog extends StatefulWidget {
@@ -176,7 +187,9 @@ class YesNoDialog extends StatefulWidget {
   YesNoDialog({
     Key key,
     this.title,
-    this.message, this.yesFunction, this.noFunction,
+    this.message,
+    this.yesFunction,
+    this.noFunction,
   }) : super(key: key);
 
   @override
@@ -191,7 +204,8 @@ class _YesNoState extends State<YesNoDialog> {
     return dialogHelper.build(
         title: widget.title,
         contents: Text(widget.message),
-        buttons: dialogHelper.getYesNoButtons(context, widget.yesFunction, widget.noFunction));
+        buttons: dialogHelper.getYesNoButtons(
+            context, widget.yesFunction, widget.noFunction));
   }
 }
 
@@ -201,7 +215,8 @@ class DialogField extends StatefulWidget {
   final InputDecoration decoration;
   final ValueChanged valueChanged;
 
-  const DialogField({Key key, this.decoration, this.valueChanged}) : super(key: key);
+  const DialogField({Key key, this.decoration, this.valueChanged})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -224,10 +239,7 @@ class _DialogFieldState extends State<DialogField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-        decoration: widget.decoration,
-        controller: myController
-    );
+    return TextField(decoration: widget.decoration, controller: myController);
   }
 
   @override
