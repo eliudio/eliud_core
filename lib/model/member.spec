@@ -41,6 +41,14 @@
       "group": "subscriptions"
     },
     {
+      "fieldName": "subscriptionsAsString",
+      "displayName": "Subscriptions, but as string array for simple filtering",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "arrayType": "Array",
+      "hidden": true
+    },
+    {
       "fieldName": "photoURL",
       "displayName": "Profile Photo",
       "fieldType": "String",
@@ -219,7 +227,7 @@
     "title": "documentID",
     "subTitle": "name"
   },
-  "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();",
+  "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();\nsubscriptionsAsString = subscriptions.map((subscription) => subscription.app.documentID).toList();",
   "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",
   "extraImports": {
     "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';"

@@ -11,7 +11,6 @@ class DialogStatefulWidgetHelper {
 
   static void openIt(BuildContext context, Widget dialog,
       {double heightValue, double widthValue}) {
-    var deletemethisistest = min(width(context), widthValue);
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -35,6 +34,7 @@ class DialogStateHelper {
 
   Widget build({String title, Widget contents, List<FlatButton> buttons}) {
     return Dialog(
+        insetPadding:EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -115,7 +115,7 @@ class DialogStateHelper {
             children: widgets));
   }
 
-  /* Helper method to retrieve the close button */
+  /* Helper method to retrieve the button */
   List<FlatButton> getCloseButton(
       BuildContext context, Function closeFunction) {
     return <FlatButton>[
@@ -248,3 +248,53 @@ class _DialogFieldState extends State<DialogField> {
     super.dispose();
   }
 }
+
+class RequestValueDialog extends StatefulWidget {
+  final String title;
+  final String yesButtonText;
+  final String noButtonText;
+  final String hintText;
+  final Function(String response) yesFunction;
+  final Function noFunction;
+
+  RequestValueDialog({
+    Key key,
+    this.title,
+    this.yesButtonText,
+    this.noButtonText,
+    this.hintText,
+    this.yesFunction,
+    this.noFunction,
+  }) : super(key: key);
+
+  @override
+  _RequestValueDialogState createState() => _RequestValueDialogState();
+}
+
+class _RequestValueDialogState extends State<RequestValueDialog> {
+  final DialogStateHelper dialogHelper = DialogStateHelper();
+
+  @override
+  Widget build(BuildContext context) {
+    String feedback;
+    return dialogHelper.build(
+        title: widget.title,
+        contents: DialogStateHelper().getListTile(
+            leading: Icon(Icons.payment),
+            title: DialogField(
+              valueChanged: (value) => feedback = value,
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                labelText: widget.hintText,
+              ),
+            )),
+        buttons: <FlatButton>[
+          FlatButton(
+              onPressed: widget.noFunction, child: Text(widget.noButtonText)),
+          FlatButton(
+              onPressed: widget.yesFunction(feedback),
+              child: Text(widget.yesButtonText)),
+        ]);
+  }
+}
+

@@ -668,6 +668,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               documentID: state.value.documentID, 
                               name: state.value.name, 
                               subscriptions: state.value.subscriptions, 
+                              subscriptionsAsString: state.value.subscriptionsAsString, 
                               photoURL: state.value.photoURL, 
                               shipStreet1: state.value.shipStreet1, 
                               shipStreet2: state.value.shipStreet2, 
@@ -693,6 +694,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               documentID: state.value.documentID, 
                               name: state.value.name, 
                               subscriptions: state.value.subscriptions, 
+                              subscriptionsAsString: state.value.subscriptionsAsString, 
                               photoURL: state.value.photoURL, 
                               shipStreet1: state.value.shipStreet1, 
                               shipStreet2: state.value.shipStreet2, 
@@ -756,6 +758,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
   void _onSubscriptionsChanged(value) {
     _myFormBloc.add(ChangedMemberSubscriptions(value: value));
+    setState(() {});
+  }
+
+
+  void _onSubscriptionsAsStringChanged(value) {
+    _myFormBloc.add(ChangedMemberSubscriptionsAsString(value: value));
     setState(() {});
   }
 

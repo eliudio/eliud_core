@@ -111,6 +111,22 @@ class SubscriptionsMemberFormError extends MemberFormError {
 }
 
 
+class SubscriptionsAsStringMemberFormError extends MemberFormError { 
+  const SubscriptionsAsStringMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''SubscriptionsAsStringMemberFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class PhotoURLMemberFormError extends MemberFormError { 
   const PhotoURLMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
 

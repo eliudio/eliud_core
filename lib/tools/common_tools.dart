@@ -4,16 +4,23 @@ typedef SetLastDoc(Object value);
 // Data has no real restrictions to be read unless it is specified with ReadCondition = MemberOrPrivilegedMemberOnly
 
 enum ReadCondition {
-  NoRestriction, MustNotBeLoggedIn, PackageDecides, MemberOrPrivilegedMemberOnly
+  NoRestriction,
+  MustNotBeLoggedIn,
+  PackageDecides,
+  MemberOrPrivilegedMemberOnly
 }
 
 ReadCondition toReadCondition(int index) {
   if (index == null) return ReadCondition.NoRestriction;
   switch (index) {
-    case 0: return ReadCondition.NoRestriction;
-    case 1: return ReadCondition.MustNotBeLoggedIn;
-    case 2: return ReadCondition.PackageDecides;
-    case 3: return ReadCondition.MemberOrPrivilegedMemberOnly;
+    case 0:
+      return ReadCondition.NoRestriction;
+    case 1:
+      return ReadCondition.MustNotBeLoggedIn;
+    case 2:
+      return ReadCondition.PackageDecides;
+    case 3:
+      return ReadCondition.MemberOrPrivilegedMemberOnly;
   }
 }
 
@@ -21,7 +28,23 @@ ReadCondition toReadCondition(int index) {
 // privilegeLevels can be:
 
 const int BLOCKED_MEMBERSHIP = -2;
-const int NO_PRIVILEGE = 0;     // equals subscription
+const int NO_PRIVILEGE = 0; // equals subscription
 const int LEVEL1_PRIVILEGE = 1; // equals membership
 const int LEVEL2_PRIVILEGE = 2; // equals privileged membership
 const int OWNER_PRIVILEGES = 3;
+
+String privilegeLevelToString(int status) {
+  switch (status) {
+    case BLOCKED_MEMBERSHIP:
+      return "banned";
+    case NO_PRIVILEGE:
+      return "subscribed";
+    case LEVEL1_PRIVILEGE:
+      return "member";
+    case LEVEL2_PRIVILEGE:
+      return "vip member";
+    case OWNER_PRIVILEGES:
+      return "owner";
+  }
+  return null;
+}
