@@ -176,7 +176,7 @@ class AccessHelper {
 
       var pages = <PageModel>[];
       var countDown = privilegeLevel;
-      while (countDown >= 0) {
+      while (countDown >= NO_PRIVILEGE) {
         pages.addAll(await repo.valuesList(privilegeLevel: countDown));
         countDown--;
       }

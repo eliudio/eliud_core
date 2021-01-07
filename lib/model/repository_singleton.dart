@@ -18,7 +18,6 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'dart:collection';
 import '../model/access_firestore.dart';
 import '../model/access_repository.dart';
-import '../model/access_cache.dart';
 import '../model/app_firestore.dart';
 import '../model/app_repository.dart';
 import '../model/app_cache.dart';
@@ -56,6 +55,8 @@ import '../model/image_repository.dart';
 import '../model/image_cache.dart';
 import '../model/member_repository.dart';
 import '../model/member_cache.dart';
+import '../model/member_subscription_repository.dart';
+import '../model/member_subscription_cache.dart';
 import '../model/menu_def_firestore.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_def_cache.dart';
@@ -70,8 +71,6 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
-import '../model/member_subscription_repository.dart';
-import '../model/member_subscription_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -81,8 +80,8 @@ import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
-import '../model/page_model.dart';
 import '../model/member_subscription_model.dart';
+import '../model/page_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
@@ -100,7 +99,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _shadowRepository = HashMap<String, ShadowRepository>();
 
     AccessRepository accessRepository(String appId) {
-      if (_accessRepository[appId] == null) _accessRepository[appId] = AccessCache(AccessFirestore(appRepository().getSubCollection(appId, 'access'), appId));
+      if (_accessRepository[appId] == null) _accessRepository[appId] = AccessFirestore(appRepository().getSubCollection(appId, 'access'), appId);
       return _accessRepository[appId];
     }
     AppBarRepository appBarRepository(String appId) {

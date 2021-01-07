@@ -69,21 +69,11 @@
       "group": "darkOrLight"
     },
     {
-      "fieldName": "entryPage",
-      "remark": "Entry page for non members or for apps with AppEntryPages specified",
-      "displayName": "Entry Page",
-      "fieldType": "Page",
-      "association": true,
-      "optional": false,
-      "iconName": "play_arrow",
-      "group": "entryPage"
-    },
-    {
-      "fieldName": "entryPages",
-      "displayName": "Entry pages",
-      "fieldType": "AppEntryPages",
-      "arrayType": "Array",
-      "group": "entryPages"
+      "fieldName": "homePages",
+      "fieldType": "AppHomePageReferences",
+      "association": false,
+      "optional": true,
+      "group": "homePages"
     },
     {
       "fieldName": "logo",
@@ -308,12 +298,6 @@
       "association": true,
       "optional": true,
       "group": "fontLink"
-    },
-    {
-      "fieldName": "autoMembership",
-      "displayName": "If set to auto membership, people can just login. If set to manual membership, a membership request is sent to the owner",
-      "fieldType": "bool",
-      "defaultValue": "true"
     }
   ],
   "groups": [
@@ -330,12 +314,8 @@
         "description": "Dark or Light"
     },
     {
-        "group": "entryPage",
-        "description": "Entry Page (for everybody)"
-    },
-    {
-        "group": "entryPages",
-        "description": "Entry Pages (per privilege)"
+        "group": "homePages",
+        "description": "Home Pages"
     },
     {
         "group": "logo",

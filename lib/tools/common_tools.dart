@@ -27,7 +27,7 @@ ReadCondition toReadCondition(int index) {
 // When readCondition is set to MemberOrPrivilegedMemberOnly, then privilegeLevelRequired is compared against the priveligeLevel of the member (in App/Access/{user id}/privilegeLevel)
 // privilegeLevels can be:
 
-const int BLOCKED_MEMBERSHIP = -2;
+const int BLOCKED_MEMBERSHIP = -1;
 const int NO_PRIVILEGE = 0; // equals subscription
 const int LEVEL1_PRIVILEGE = 1; // equals membership
 const int LEVEL2_PRIVILEGE = 2; // equals privileged membership

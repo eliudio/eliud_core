@@ -3,6 +3,8 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,6 +44,22 @@ class Router {
 
   Router(this.accessBloc);
 
+  String getHomepage(AppLoaded state) {
+    var privilegeLevel;
+    if (state is LoggedIn) {
+      privilegeLevel = state.privilegeLevel;
+    } else {
+      privilegeLevel = NO_PRIVILEGE;
+    }
+    if ((privilegeLevel >= OWNER_PRIVILEGES) && (state.app.homePages.homePageOwnerId != null)) return state.app.homePages.homePageOwnerId;
+    if ((privilegeLevel >= LEVEL2_PRIVILEGE) && (state.app.homePages.homePageLevel2MemberId != null)) return state.app.homePages.homePageLevel2MemberId;
+    if ((privilegeLevel >= LEVEL1_PRIVILEGE) && (state.app.homePages.homePageLevel1MemberId != null)) return state.app.homePages.homePageLevel1MemberId;
+    if ((privilegeLevel >= NO_PRIVILEGE) && (state.app.homePages.homePageSubscribedMemberId != null)) return state.app.homePages.homePageSubscribedMemberId;
+    if ((privilegeLevel == BLOCKED_MEMBERSHIP) && (state.app.homePages.homePageBlockedMemberId != null)) return state.app.homePages.homePageBlockedMemberId;
+    print('Unknown privilegeLevel $privilegeLevel');
+    return state.app.homePages.homePageSubscribedMemberId;
+  }
+
   Route<dynamic> generateRoute(RouteSettings settings) {
     var theState = accessBloc.state;
     if (theState is AppLoaded) {
@@ -53,10 +71,10 @@ class Router {
         case '':
         // in flutterweb, the initialRoute is "", not "/"
           return pageRouteBuilder(theState.app,
-              page: Registry.registry().page(id: theState.app.entryPage.documentID));
+              page: Registry.registry().page(id: getHomepage(theState)));
         case homeRoute:
           return pageRouteBuilder(theState.app,
-              page: Registry.registry().page(id: theState.app.entryPage.documentID));
+              page: Registry.registry().page(id: getHomepage(theState)));
         case justASecond:
           return pageRouteBuilder(theState.app, page: justASecondWidget(
               arguments == null ? '?' : arguments.mainArgument));

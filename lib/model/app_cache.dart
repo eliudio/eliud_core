@@ -117,15 +117,6 @@ class AppCache implements AppRepository {
 
   static Future<AppModel> refreshRelations(AppModel model) async {
 
-    PageModel entryPageHolder;
-    if (model.entryPage != null) {
-      try {
-        await pageRepository(appId: model.entryPage.appId).get(model.entryPage.documentID).then((val) {
-          entryPageHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     ImageModel logoHolder;
     if (model.logo != null) {
       try {
@@ -243,16 +234,7 @@ class AppCache implements AppRepository {
       } catch (_) {}
     }
 
-    List<AppEntryPagesModel> entryPagesHolder;
-    if (model.entryPages != null) {
-      entryPagesHolder = List<AppEntryPagesModel>.from(await Future.wait(await model.entryPages.map((element) async {
-        return await AppEntryPagesCache.refreshRelations(element);
-      }))).toList();
-    }
-
     return model.copyWith(
-        entryPage: entryPageHolder,
-
         logo: logoHolder,
 
         formBackground: formBackgroundHolder,
@@ -278,8 +260,6 @@ class AppCache implements AppRepository {
         fontHighlight2: fontHighlight2Holder,
 
         fontLink: fontLinkHolder,
-
-        entryPages: entryPagesHolder,
 
 
     );

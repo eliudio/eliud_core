@@ -42,29 +42,29 @@ import '../model/decoration_color_list_event.dart';
 import '../model/decoration_color_model.dart';
 import '../model/decoration_color_repository.dart';
 
-import '../model/menu_item_list_bloc.dart';
-import '../model/menu_item_list.dart';
-import '../model/menu_item_list_event.dart';
-import '../model/menu_item_model.dart';
-import '../model/menu_item_repository.dart';
-
 import '../model/member_subscription_list_bloc.dart';
 import '../model/member_subscription_list.dart';
 import '../model/member_subscription_list_event.dart';
 import '../model/member_subscription_model.dart';
 import '../model/member_subscription_repository.dart';
 
+import '../model/menu_item_list_bloc.dart';
+import '../model/menu_item_list.dart';
+import '../model/menu_item_list_event.dart';
+import '../model/menu_item_model.dart';
+import '../model/menu_item_repository.dart';
+
 typedef AppEntryPagesListChanged(List<AppEntryPagesModel> values);
 typedef BodyComponentListChanged(List<BodyComponentModel> values);
 typedef DecorationColorListChanged(List<DecorationColorModel> values);
-typedef MenuItemListChanged(List<MenuItemModel> values);
 typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
+typedef MenuItemListChanged(List<MenuItemModel> values);
 
 appEntryPagessList(context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(context, value, trigger);
 bodyComponentsList(context, value, trigger) => EmbeddedComponentFactory.bodyComponentsList(context, value, trigger);
 decorationColorsList(context, value, trigger) => EmbeddedComponentFactory.decorationColorsList(context, value, trigger);
-menuItemsList(context, value, trigger) => EmbeddedComponentFactory.menuItemsList(context, value, trigger);
 memberSubscriptionsList(context, value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(context, value, trigger);
+menuItemsList(context, value, trigger) => EmbeddedComponentFactory.menuItemsList(context, value, trigger);
 
 class EmbeddedComponentFactory {
 
@@ -122,24 +122,6 @@ static Widget decorationColorsList(BuildContext context, List<DecorationColorMod
   );
 }
 
-static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
-  MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(
-    trigger: trigger,
-    items: values,
-  );
-  return MultiBlocProvider(
-    providers: [
-      BlocProvider<MenuItemListBloc>(
-        create: (context) => MenuItemListBloc(
-          AccessBloc.getBloc(context), 
-          menuItemRepository: inMemoryRepository,
-          )..add(LoadMenuItemList()),
-        )
-        ],
-    child: MenuItemListWidget(isEmbedded: true),
-  );
-}
-
 static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
   MemberSubscriptionInMemoryRepository inMemoryRepository = MemberSubscriptionInMemoryRepository(
     trigger: trigger,
@@ -155,6 +137,24 @@ static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscript
         )
         ],
     child: MemberSubscriptionListWidget(isEmbedded: true),
+  );
+}
+
+static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
+  MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(
+    trigger: trigger,
+    items: values,
+  );
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider<MenuItemListBloc>(
+        create: (context) => MenuItemListBloc(
+          AccessBloc.getBloc(context), 
+          menuItemRepository: inMemoryRepository,
+          )..add(LoadMenuItemList()),
+        )
+        ],
+    child: MenuItemListWidget(isEmbedded: true),
   );
 }
 
@@ -446,101 +446,6 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     Future<void> deleteAll() {}
 }
 
-class MenuItemInMemoryRepository implements MenuItemRepository {
-    final List<MenuItemModel> items;
-    final MenuItemListChanged trigger;
-    Stream<List<MenuItemModel>> theValues;
-
-    MenuItemInMemoryRepository({this.trigger, this.items}) {
-        List<List<MenuItemModel>> myList = new List<List<MenuItemModel>>();
-        myList.add(items);
-        theValues = Stream<List<MenuItemModel>>.fromIterable(myList);
-    }
-
-    int _index(String documentID) {
-      int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
-          return i;
-        }
-        i++;
-      }
-      return -1;
-    }
-
-    Future<MenuItemModel> add(MenuItemModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
-    }
-
-    Future<void> delete(MenuItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
-    }
-
-    Future<MenuItemModel> update(MenuItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
-      }
-    }
-
-    Future<MenuItemModel> get(String id) {
-      int index = _index(id);
-      var completer = new Completer<MenuItemModel>();
-      completer.complete(items[index]);
-      return completer.future;
-    }
-
-    Stream<List<MenuItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
-    }
-    
-    Stream<List<MenuItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues;
-    }
-    
-    @override
-    StreamSubscription<List<MenuItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
-    }
-  
-    @override
-    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
-    }
-    
-    void flush() {}
-
-    Future<List<MenuItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return Future.value(items);
-    }
-    
-    Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-      return Future.value(items);
-    }
-
-    @override
-    getSubCollection(String documentId, String name) {
-      throw UnimplementedError();
-    }
-
-  @override
-  String timeStampToString(timeStamp) {
-    throw UnimplementedError();
-  }
-  
-  @override
-  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed) {
-    throw UnimplementedError();
-  }
-  
-
-    Future<void> deleteAll() {}
-}
-
 class MemberSubscriptionInMemoryRepository implements MemberSubscriptionRepository {
     final List<MemberSubscriptionModel> items;
     final MemberSubscriptionListChanged trigger;
@@ -629,6 +534,101 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
   
   @override
   StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed) {
+    throw UnimplementedError();
+  }
+  
+
+    Future<void> deleteAll() {}
+}
+
+class MenuItemInMemoryRepository implements MenuItemRepository {
+    final List<MenuItemModel> items;
+    final MenuItemListChanged trigger;
+    Stream<List<MenuItemModel>> theValues;
+
+    MenuItemInMemoryRepository({this.trigger, this.items}) {
+        List<List<MenuItemModel>> myList = new List<List<MenuItemModel>>();
+        myList.add(items);
+        theValues = Stream<List<MenuItemModel>>.fromIterable(myList);
+    }
+
+    int _index(String documentID) {
+      int i = 0;
+      for (final item in items) {
+        if (item.documentID == documentID) {
+          return i;
+        }
+        i++;
+      }
+      return -1;
+    }
+
+    Future<MenuItemModel> add(MenuItemModel value) {
+        items.add(value.copyWith(documentID: newRandomKey()));
+        trigger(items);
+    }
+
+    Future<void> delete(MenuItemModel value) {
+      int index = _index(value.documentID);
+      if (index >= 0) items.removeAt(index);
+      trigger(items);
+    }
+
+    Future<MenuItemModel> update(MenuItemModel value) {
+      int index = _index(value.documentID);
+      if (index >= 0) {
+        items.replaceRange(index, index+1, [value]);
+        trigger(items);
+      }
+    }
+
+    Future<MenuItemModel> get(String id) {
+      int index = _index(id);
+      var completer = new Completer<MenuItemModel>();
+      completer.complete(items[index]);
+      return completer.future;
+    }
+
+    Stream<List<MenuItemModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues;
+    }
+    
+    Stream<List<MenuItemModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues;
+    }
+    
+    @override
+    StreamSubscription<List<MenuItemModel>> listen(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues.listen((theList) => trigger(theList));
+    }
+  
+    @override
+    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues.listen((theList) => trigger(theList));
+    }
+    
+    void flush() {}
+
+    Future<List<MenuItemModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return Future.value(items);
+    }
+    
+    Future<List<MenuItemModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed) {
     throw UnimplementedError();
   }
   

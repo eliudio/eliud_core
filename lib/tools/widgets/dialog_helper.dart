@@ -280,7 +280,7 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
     return dialogHelper.build(
         title: widget.title,
         contents: DialogStateHelper().getListTile(
-            leading: Icon(Icons.payment),
+            leading: Icon(Icons.message),
             title: DialogField(
               valueChanged: (value) => feedback = value,
               decoration: InputDecoration(
@@ -292,9 +292,9 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
           FlatButton(
               onPressed: widget.noFunction, child: Text(widget.noButtonText)),
           FlatButton(
-              onPressed: widget.yesFunction(feedback),
+              onPressed: () => widget.yesFunction(feedback),
               child: Text(widget.yesButtonText)),
-        ]);
+    ]);
   }
 }
 

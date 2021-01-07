@@ -139,28 +139,16 @@ class ChangedAppDarkOrLight extends AppFormEvent {
   String toString() => 'ChangedAppDarkOrLight{ value: $value }';
 }
 
-class ChangedAppEntryPage extends AppFormEvent {
-  final String value;
+class ChangedAppHomePages extends AppFormEvent {
+  final AppHomePageReferencesModel value;
 
-  ChangedAppEntryPage({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppEntryPage{ value: $value }';
-}
-
-class ChangedAppEntryPages extends AppFormEvent {
-  final List<AppEntryPagesModel> value;
-
-  ChangedAppEntryPages({this.value});
+  ChangedAppHomePages({this.value});
 
   @override
   List<Object> get props => [ value ];
 
   @override
-  String toString() => 'ChangedAppEntryPages{ value: $value }';
+  String toString() => 'ChangedAppHomePages{ value: $value }';
 }
 
 class ChangedAppLogo extends AppFormEvent {
@@ -485,17 +473,5 @@ class ChangedAppFontLink extends AppFormEvent {
 
   @override
   String toString() => 'ChangedAppFontLink{ value: $value }';
-}
-
-class ChangedAppAutoMembership extends AppFormEvent {
-  final bool value;
-
-  ChangedAppAutoMembership({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppAutoMembership{ value: $value }';
 }
 

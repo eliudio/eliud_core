@@ -128,22 +128,24 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           var usr = await AbstractMainRepositorySingleton.singleton
               .userRepository()
               .signInWithGoogle();
-          AccessState accessState;
           if (usr != null) {
-            accessState = await _mapUsrAndApp(
+            AccessState accessState = await _mapUsrAndApp(
                 usr, app, theState.playStoreApp, event.actions);
-          }
-          var toYield = accessState;
-          _invokeStateChangeListeners(event, toYield);
-          yield toYield;
-          if (accessState is LoggedInWithoutMembership) {
-            navigatorBloc.add(GoHome());
-          } else {
-            if (event.actions != null) {
-              event.actions.runTheAction();
-            } else {
+            var toYield = accessState;
+            _invokeStateChangeListeners(event, toYield);
+            yield toYield;
+            if (accessState is LoggedInWithoutMembership) {
               navigatorBloc.add(GoHome());
+            } else {
+              if (event.actions != null) {
+                event.actions.runTheAction();
+              } else {
+                navigatorBloc.add(GoHome());
+              }
             }
+          } else {
+            // yield current state
+            yield state;
           }
         } catch (all) {
           debugPrint(all.toString());

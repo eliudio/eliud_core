@@ -175,31 +175,15 @@ class DarkOrLightAppFormError extends AppFormError {
 }
 
 
-class EntryPageAppFormError extends AppFormError { 
-  const EntryPageAppFormError({ String message, AppModel value }): super(message: message, value: value);
+class HomePagesAppFormError extends AppFormError { 
+  const HomePagesAppFormError({ String message, AppModel value }): super(message: message, value: value);
 
   @override
   List<Object> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''EntryPageAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class EntryPagesAppFormError extends AppFormError { 
-  const EntryPagesAppFormError({ String message, AppModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''EntryPagesAppFormError {
+    return '''HomePagesAppFormError {
       value: $value,
       message: $message,
     }''';
@@ -632,22 +616,6 @@ class FontLinkAppFormError extends AppFormError {
   @override
   String toString() {
     return '''FontLinkAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class AutoMembershipAppFormError extends AppFormError { 
-  const AutoMembershipAppFormError({ String message, AppModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''AutoMembershipAppFormError {
       value: $value,
       message: $message,
     }''';

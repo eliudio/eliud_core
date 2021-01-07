@@ -132,7 +132,6 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _descriptionController = TextEditingController();
   int _appStatusSelectedRadioTile;
   int _darkOrLightSelectedRadioTile;
-  String _entryPage;
   String _logo;
   String _formBackground;
   String _formAppBarBackground;
@@ -149,7 +148,6 @@ class _MyAppFormState extends State<MyAppForm> {
   String _fontHighlight1;
   String _fontHighlight2;
   String _fontLink;
-  bool _autoMembershipSelection;
 
 
   _MyAppFormState(this.formAction);
@@ -168,7 +166,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _routeBuilderSelectedRadioTile = 0;
     _routeAnimationDurationController.addListener(_onRouteAnimationDurationChanged);
     _logoURLController.addListener(_onLogoURLChanged);
-    _autoMembershipSelection = false;
   }
 
   @override
@@ -209,10 +206,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _darkOrLightSelectedRadioTile = state.value.darkOrLight.index;
         else
           _darkOrLightSelectedRadioTile = 0;
-        if (state.value.entryPage != null)
-          _entryPage= state.value.entryPage.documentID;
-        else
-          _entryPage= "";
         if (state.value.logo != null)
           _logo= state.value.logo.documentID;
         else
@@ -277,10 +270,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _fontLink= state.value.fontLink.documentID;
         else
           _fontLink= "";
-        if (state.value.autoMembership != null)
-        _autoMembershipSelection = state.value.autoMembership;
-        else
-        _autoMembershipSelection = false;
       }
       if (state is AppFormInitialized) {
         List<Widget> children = List();
@@ -295,16 +284,6 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "fonts", value: _fontLink, trigger: _onFontLinkSelected, optional: true),
-          );
-
-        children.add(
-
-                CheckboxListTile(
-                    title: Text('If set to auto membership, people can just login. If set to manual membership, a membership request is sent to the owner', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _autoMembershipSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (val) {
-                      setSelectionAutoMembership(val);
-                    }),
           );
 
 
@@ -453,36 +432,11 @@ class _MyAppFormState extends State<MyAppForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Entry Page (for everybody)',
+                  child: Text('Home Pages',
                       style: TextStyle(
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Entry Pages (per privilege)',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
-                ));
-
-        children.add(
-
-                new Container(
-                    height: (fullScreenHeight(context) / 2.5), 
-                    child: appEntryPagessList(context, state.value.entryPages, _onEntryPagesChanged)
-                )
-          );
 
 
         children.add(Container(height: 20.0));
@@ -1005,8 +959,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               description: state.value.description, 
                               appStatus: state.value.appStatus, 
                               darkOrLight: state.value.darkOrLight, 
-                              entryPage: state.value.entryPage, 
-                              entryPages: state.value.entryPages, 
+                              homePages: state.value.homePages, 
                               logo: state.value.logo, 
                               formSubmitButtonColor: state.value.formSubmitButtonColor, 
                               formBackground: state.value.formBackground, 
@@ -1034,7 +987,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
-                              autoMembership: state.value.autoMembership, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -1046,8 +998,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               description: state.value.description, 
                               appStatus: state.value.appStatus, 
                               darkOrLight: state.value.darkOrLight, 
-                              entryPage: state.value.entryPage, 
-                              entryPages: state.value.entryPages, 
+                              homePages: state.value.homePages, 
                               logo: state.value.logo, 
                               formSubmitButtonColor: state.value.formSubmitButtonColor, 
                               formBackground: state.value.formBackground, 
@@ -1075,7 +1026,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
-                              autoMembership: state.value.autoMembership, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1147,20 +1097,6 @@ class _MyAppFormState extends State<MyAppForm> {
       _darkOrLightSelectedRadioTile = val;
     });
     _myFormBloc.add(ChangedAppDarkOrLight(value: toDarkOrLight(val)));
-  }
-
-
-  void _onEntryPageSelected(String val) {
-    setState(() {
-      _entryPage = val;
-    });
-    _myFormBloc.add(ChangedAppEntryPage(value: val));
-  }
-
-
-  void _onEntryPagesChanged(value) {
-    _myFormBloc.add(ChangedAppEntryPages(value: value));
-    setState(() {});
   }
 
 
@@ -1351,13 +1287,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _myFormBloc.add(ChangedAppFontLink(value: val));
   }
 
-
-  void setSelectionAutoMembership(bool val) {
-    setState(() {
-      _autoMembershipSelection = val;
-    });
-    _myFormBloc.add(ChangedAppAutoMembership(value: val));
-  }
 
 
   @override
