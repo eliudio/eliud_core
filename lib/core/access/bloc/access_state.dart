@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
@@ -175,7 +177,7 @@ class AccessHelper {
       var repo = pageRepository(appId: app.documentID);
 
       var pages = <PageModel>[];
-      var countDown = privilegeLevel;
+      var countDown = max(privilegeLevel, NO_PRIVILEGE);
       while (countDown >= NO_PRIVILEGE) {
         pages.addAll(await repo.valuesList(privilegeLevel: countDown));
         countDown--;
@@ -199,7 +201,7 @@ class AccessHelper {
     {
       var repo = dialogRepository(appId: app.documentID);
       var dialogs = <DialogModel>[];
-      var countDown = privilegeLevel;
+      var countDown = max(privilegeLevel, NO_PRIVILEGE);
       while (countDown >= 0) {
         dialogs.addAll(await repo.valuesList(privilegeLevel: countDown));
         countDown--;
