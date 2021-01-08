@@ -23,23 +23,27 @@ import 'package:eliud_core/model/entity_export.dart';
 class AccessEntity {
   final int privilegeLevel;
   final int points;
+  final bool blocked;
+  final int privilegeLevelBeforeBlocked;
 
-  AccessEntity({this.privilegeLevel, this.points, });
+  AccessEntity({this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
 
 
-  List<Object> get props => [privilegeLevel, points, ];
+  List<Object> get props => [privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
 
   @override
   String toString() {
-    return 'AccessEntity{privilegeLevel: $privilegeLevel, points: $points}';
+    return 'AccessEntity{privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
   static AccessEntity fromMap(Map map) {
     if (map == null) return null;
 
     return AccessEntity(
-      privilegeLevel: int.tryParse(map['privilegeLevel'].toString()), 
+      privilegeLevel: map['privilegeLevel'], 
       points: int.tryParse(map['points'].toString()), 
+      blocked: map['blocked'], 
+      privilegeLevelBeforeBlocked: map['privilegeLevelBeforeBlocked'], 
     );
   }
 
@@ -49,6 +53,10 @@ class AccessEntity {
       else theDocument["privilegeLevel"] = null;
     if (points != null) theDocument["points"] = points;
       else theDocument["points"] = null;
+    if (blocked != null) theDocument["blocked"] = blocked;
+      else theDocument["blocked"] = null;
+    if (privilegeLevelBeforeBlocked != null) theDocument["privilegeLevelBeforeBlocked"] = privilegeLevelBeforeBlocked;
+      else theDocument["privilegeLevelBeforeBlocked"] = null;
     return theDocument;
   }
 

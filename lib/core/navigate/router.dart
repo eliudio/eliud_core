@@ -3,6 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/registry.dart';
@@ -49,13 +50,14 @@ class Router {
     if (state is LoggedIn) {
       privilegeLevel = state.privilegeLevel;
     } else {
-      privilegeLevel = NO_PRIVILEGE;
+      privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
-    if ((privilegeLevel >= OWNER_PRIVILEGES) && (state.app.homePages.homePageOwnerId != null)) return state.app.homePages.homePageOwnerId;
-    if ((privilegeLevel >= LEVEL2_PRIVILEGE) && (state.app.homePages.homePageLevel2MemberId != null)) return state.app.homePages.homePageLevel2MemberId;
-    if ((privilegeLevel >= LEVEL1_PRIVILEGE) && (state.app.homePages.homePageLevel1MemberId != null)) return state.app.homePages.homePageLevel1MemberId;
-    if ((privilegeLevel >= NO_PRIVILEGE) && (state.app.homePages.homePageSubscribedMemberId != null)) return state.app.homePages.homePageSubscribedMemberId;
-    if ((privilegeLevel == BLOCKED_MEMBERSHIP) && (state.app.homePages.homePageBlockedMemberId != null)) return state.app.homePages.homePageBlockedMemberId;
+    if (state.isBlocked()) return state.app.homePages.homePageBlockedMemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) && (state.app.homePages.homePageOwnerId != null)) return state.app.homePages.homePageOwnerId;
+    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) && (state.app.homePages.homePageLevel2MemberId != null)) return state.app.homePages.homePageLevel2MemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) && (state.app.homePages.homePageLevel1MemberId != null)) return state.app.homePages.homePageLevel1MemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) && (state.app.homePages.homePageSubscribedMemberId != null)) return state.app.homePages.homePageSubscribedMemberId;
+
     print('Unknown privilegeLevel $privilegeLevel');
     return state.app.homePages.homePageSubscribedMemberId;
   }
@@ -69,7 +71,7 @@ class Router {
       }
       switch (settings.name) {
         case '':
-        // in flutterweb, the initialRoute is "", not "/"
+          // in flutterweb, the initialRoute is "", not "/"
           return pageRouteBuilder(theState.app,
               page: Registry.registry().page(id: getHomepage(theState)));
         case homeRoute:

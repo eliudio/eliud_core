@@ -21,41 +21,38 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ConditionsEntity {
-  final ReadCondition readCondition;
   final int privilegeLevelRequired;
   final String packageCondition;
+  final int conditionOverride;
 
-  ConditionsEntity({this.readCondition, this.privilegeLevelRequired, this.packageCondition, });
+  ConditionsEntity({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, });
 
 
-  List<Object> get props => [readCondition, privilegeLevelRequired, packageCondition, ];
+  List<Object> get props => [privilegeLevelRequired, packageCondition, conditionOverride, ];
 
   @override
   String toString() {
-    return 'ConditionsEntity{readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
+    return 'ConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
   static ConditionsEntity fromMap(Map map) {
     if (map == null) return null;
 
-    var readConditionFromMap;
-    readConditionFromMap = map['readCondition'];
-    if (readConditionFromMap != null)
-      readConditionFromMap = toReadCondition(map['readCondition']);
     return ConditionsEntity(
-      readCondition: readConditionFromMap, 
-      privilegeLevelRequired: int.tryParse(map['privilegeLevelRequired'].toString()), 
+      privilegeLevelRequired: map['privilegeLevelRequired'], 
       packageCondition: map['packageCondition'], 
+      conditionOverride: map['conditionOverride'], 
     );
   }
 
   Map<String, Object> toDocument() {
     Map<String, Object> theDocument = HashMap();
-    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;
     if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
       else theDocument["privilegeLevelRequired"] = null;
     if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
       else theDocument["packageCondition"] = null;
+    if (conditionOverride != null) theDocument["conditionOverride"] = conditionOverride;
+      else theDocument["conditionOverride"] = null;
     return theDocument;
   }
 

@@ -19,15 +19,9 @@ Query getQuery(collection, {String currentMember, String orderBy, bool descendin
 
   if (privilegeLevel != null) {
     // Do we have some limits in terms of privilege?
-    if (privilegeLevel == 0) {
       useThisCollection =
-          useThisCollection.where('conditions.readCondition', isLessThan: 3);
-    } else {
-      useThisCollection =
-          useThisCollection.where('conditions.readCondition', isEqualTo: 3).where(
-              'conditions.privilegeLevelRequired', isEqualTo: privilegeLevel).where(
+          useThisCollection.where('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel).where(
               'appId', isEqualTo: appId);
-    }
   }
 
   if ((eliudQuery != null) && (eliudQuery.conditions != null) && (eliudQuery.conditions.isNotEmpty)) {

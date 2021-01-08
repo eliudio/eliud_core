@@ -32,13 +32,29 @@
       "fieldName": "privilegeLevel",
       "displayName": "Privilege Level",
       "remark": "This is the privilege level and will determine the data accessible",
-      "fieldType": "int"
+      "fieldType": "enum",
+      "enumName": "PrivilegeLevel",
+      "enumValues" : [ "NoPrivilege", "Level1Privilege", "Level2Privilege", "OwnerPrivilege" ]
     },
     {
       "fieldName": "points",
       "displayName": "Points",
       "remark": "Points received for this app. Points accrued can result in increase of privilege",
       "fieldType": "int"
+    },
+    {
+      "fieldName": "blocked",
+      "displayName": "Is Blocked",
+      "remark": "Is this user blocked",
+      "fieldType": "bool"
+    },
+    {
+      "fieldName": "privilegeLevelBeforeBlocked",
+      "displayName": "Privilege Level Before Blocked",
+      "remark": "This is the privilege level before the member was blocked and allows to restore to this point",
+      "fieldType": "enum",
+      "enumName": "PrivilegeLevelBeforeBlocked",
+      "enumValues" : [ "NoPrivilege", "Level1Privilege", "Level2Privilege", "OwnerPrivilege" ]
     }
   ]
 }
