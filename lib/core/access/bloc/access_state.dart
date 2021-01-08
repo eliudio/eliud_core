@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -132,9 +133,16 @@ class AccessHelper {
     return null;
   }
 
+  static bool conditionOk(Map<String, PackageCondition> packagesConditions, ConditionsModel conditions,
+      int privilegedLevelRequired, bool isOwner, bool isLoggedIn) {
+    ReadCondition condition = conditions.readCondition;
+    int privilegedLevel = conditions.privilegeLevelRequired;
+    String packageCondition = conditions.packageCondition;
+/*
   static bool conditionOk(Map<String, PackageCondition> packagesConditions, ReadCondition condition,
       int privilegedLevelRequired, int privilegedLevel, String packageCondition, bool isOwner,
       bool isLoggedIn) {
+*/
     if (condition == null) return true;
     switch (condition) {
       case ReadCondition.NoRestriction:
@@ -189,10 +197,8 @@ class AccessHelper {
         var page = theList[i];
         pagesAccess[page.documentID] = conditionOk(
             packageConditionsAccess,
-            page.readCondition,
-            page.privilegeLevelRequired,
+            page.conditions,
             privilegeLevel,
-            page.packageCondition,
             isOwner,
             isLoggedIn);
       }
@@ -213,10 +219,8 @@ class AccessHelper {
         var dialog = theList[i];
         dialogsAccess[dialog.documentID] = conditionOk(
             packageConditionsAccess,
-            dialog.readCondition,
-            dialog.privilegeLevelRequired,
+            dialog.conditions,
             privilegeLevel,
-            dialog.packageCondition,
             isOwner,
             isLoggedIn);
       }
@@ -239,13 +243,11 @@ abstract class AppLoaded extends AccessState {
   AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess, this.packageConditionsAccess);
 
   bool actionHasAccess(ActionModel action) {
-    if (action.readCondition !=null) {
+    if (action.conditions !=null) {
       if (!AccessHelper.conditionOk(
           packageConditionsAccess,
-          action.readCondition,
-          action.privilegeLevelRequired,
+          action.conditions,
           getPrivilegeLevel(),
-          action.packageCondition,
           memberIsOwner(),
           isLoggedIn())) return false;
     }

@@ -105,30 +105,10 @@
       "group": "gridView"
     },
     {
-      "fieldName": "readCondition",
-      "displayName": "Read condition",
-      "remark": "Page only accessible conditionally. See type definition for more info",
-      "fieldType": "bespoke",
-      "bespokeFieldType": "ReadCondition",
-      "bespokeEntityMapping": "toReadCondition(map['readCondition'])",
-      "bespokeEntityToDocument" : "    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;",
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "Conditions",
       "group": "conditional"
-    },
-    {
-      "fieldName": "privilegeLevelRequired",
-      "displayName": "Privilege Level Required",
-      "fieldType": "int",
-      "defaultValue": "0",
-      "conditional": "(state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)",
-      "group": "conditional"
-    },
-    {
-      "fieldName": "packageCondition",
-      "displayName": "Package condition",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)",
-      "group": "conditional2"
     }
   ],
   "groups": [
@@ -172,11 +152,6 @@
     {
         "group": "conditional",
         "description": "Conditional"
-    },
-    {
-        "group": "conditional2",
-        "description": "Plugin Condition",
-        "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
     }
   ],
   "listFields": {

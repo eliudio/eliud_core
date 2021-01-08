@@ -55,22 +55,18 @@ class DialogModel {
 
   // Specific gridview
   GridViewModel gridView;
+  ConditionsModel conditions;
 
-  // Page only accessible conditionally. See type definition for more info
-  ReadCondition readCondition;
-  int privilegeLevelRequired;
-  String packageCondition;
-
-  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.readCondition, this.privilegeLevelRequired, this.packageCondition, })  {
+  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, RgbModel background, DialogLayout layout, GridViewModel gridView, ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, }) {
-    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, readCondition: readCondition ?? this.readCondition, privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition: packageCondition ?? this.packageCondition, );
+  DialogModel copyWith({String documentID, String appId, String title, List<BodyComponentModel> bodyComponents, RgbModel background, DialogLayout layout, GridViewModel gridView, ConditionsModel conditions, }) {
+    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ readCondition.hashCode ^ privilegeLevelRequired.hashCode ^ packageCondition.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -84,15 +80,13 @@ class DialogModel {
           background == other.background &&
           layout == other.layout &&
           gridView == other.gridView &&
-          readCondition == other.readCondition &&
-          privilegeLevelRequired == other.privilegeLevelRequired &&
-          packageCondition == other.packageCondition;
+          conditions == other.conditions;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
+    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
   DialogEntity toEntity({String appId}) {
@@ -105,8 +99,7 @@ class DialogModel {
           background: (background != null) ? background.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout.index : null, 
           gridViewId: (gridView != null) ? gridView.documentID : null, 
-          readCondition: readCondition,           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired : null, 
-          packageCondition: (packageCondition != null) ? packageCondition : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -124,9 +117,8 @@ class DialogModel {
           background: 
             RgbModel.fromEntity(entity.background), 
           layout: toDialogLayout(entity.layout), 
-          readCondition: entity.readCondition, 
-          privilegeLevelRequired: entity.privilegeLevelRequired, 
-          packageCondition: entity.packageCondition, 
+          conditions: 
+            ConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -154,9 +146,8 @@ class DialogModel {
             await RgbModel.fromEntityPlus(entity.background, appId: appId), 
           layout: toDialogLayout(entity.layout), 
           gridView: gridViewHolder, 
-          readCondition: entity.readCondition, 
-          privilegeLevelRequired: entity.privilegeLevelRequired, 
-          packageCondition: entity.packageCondition, 
+          conditions: 
+            await ConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

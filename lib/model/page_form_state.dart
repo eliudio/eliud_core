@@ -239,47 +239,15 @@ class GridViewPageFormError extends PageFormError {
 }
 
 
-class ReadConditionPageFormError extends PageFormError { 
-  const ReadConditionPageFormError({ String message, PageModel value }): super(message: message, value: value);
+class ConditionsPageFormError extends PageFormError { 
+  const ConditionsPageFormError({ String message, PageModel value }): super(message: message, value: value);
 
   @override
   List<Object> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''ReadConditionPageFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class PrivilegeLevelRequiredPageFormError extends PageFormError { 
-  const PrivilegeLevelRequiredPageFormError({ String message, PageModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''PrivilegeLevelRequiredPageFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class PackageConditionPageFormError extends PageFormError { 
-  const PackageConditionPageFormError({ String message, PageModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''PackageConditionPageFormError {
+    return '''ConditionsPageFormError {
       value: $value,
       message: $message,
     }''';

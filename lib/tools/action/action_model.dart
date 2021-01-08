@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -46,13 +47,10 @@ abstract class ActionModel {
 
   // Also important to note that data access is not limited through limiting the access on the level of the action:
   // if you want to protect your data from being accessed, then you must specify these conditions on the level of the page, dialog, component, ...
-  final ReadCondition readCondition;
-  final int privilegeLevelRequired;
-  final String packageCondition;
-
+  final ConditionsModel conditions;
   final String actionType;
 
-  const ActionModel(this.appID, {this.readCondition, this.privilegeLevelRequired, this.packageCondition, this.actionType} );
+  const ActionModel(this.appID, {this.conditions, this.actionType} );
 
   ActionEntity toEntity({String appId});
 
@@ -100,16 +98,14 @@ abstract class ActionModelMapper {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(String appID, {ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, String pageID}) : this.pageID = pageID?.toLowerCase(),
-        super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: GotoPageEntity.label);
+  GotoPage(String appID, {ConditionsModel conditions, String pageID}) : this.pageID = pageID?.toLowerCase(),
+        super(appID, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return GotoPageEntity(
         appID,
-        readCondition: readCondition == null ? null : readCondition.index,
-        privilegeLevelRequired: privilegeLevelRequired,
-        packageCondition: packageCondition,
+        conditions: (conditions != null) ? conditions.toEntity(): null,
         pageID: pageID
     );
   }
@@ -117,9 +113,7 @@ class GotoPage extends ActionModel {
   static ActionModel fromEntity(GotoPageEntity entity) {
     return GotoPage(
         entity.appID,
-        readCondition: toReadCondition(entity.readCondition),
-        privilegeLevelRequired: entity.privilegeLevelRequired,
-        packageCondition: entity.packageCondition,
+        conditions: ConditionsModel.fromEntity(entity.conditions),
         pageID: entity.pageID
     );
   }
@@ -150,15 +144,13 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, String dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: OpenDialogEntity.label);
+  OpenDialog(String appID, { ConditionsModel conditions, String dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return OpenDialogEntity(
         appID,
-        readCondition: readCondition == null ? null : readCondition.index,
-        privilegeLevelRequired: privilegeLevelRequired,
-        packageCondition: packageCondition,
+        conditions: (conditions != null) ? conditions.toEntity(): null,
         dialogID: dialogID
     );
   }
@@ -166,9 +158,7 @@ class OpenDialog extends ActionModel {
   static ActionModel fromEntity(OpenDialogEntity entity) {
     return OpenDialog(
         entity.appID,
-        readCondition: toReadCondition(entity.readCondition),
-        privilegeLevelRequired: entity.privilegeLevelRequired,
-        packageCondition: entity.packageCondition,
+        conditions: ConditionsModel.fromEntity(entity.conditions),
         dialogID: entity.dialogID);
   }
 
@@ -198,15 +188,13 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.toAppID}) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: SwitchAppEntity.label);
+  SwitchApp(String appID, { ConditionsModel conditions, this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return SwitchAppEntity(
         appID,
-        readCondition: readCondition == null ? null : readCondition.index,
-        privilegeLevelRequired: privilegeLevelRequired,
-        packageCondition: packageCondition,
+        conditions: (conditions != null) ? conditions.toEntity(): null,
         toAppID: toAppID
     );
   }
@@ -214,9 +202,7 @@ class SwitchApp extends ActionModel {
   static ActionModel fromEntity(SwitchAppEntity entity) {
     return SwitchApp(
         entity.appID,
-        readCondition: toReadCondition(entity.readCondition),
-        privilegeLevelRequired: entity.privilegeLevelRequired,
-        packageCondition: entity.packageCondition,
+        conditions: ConditionsModel.fromEntity(entity.conditions),
         toAppID: entity.toAppID);
   }
 
@@ -248,15 +234,13 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel menuDef;
 
-  PopupMenu(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.menuDef }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: PopupMenuEntity.label);
+  PopupMenu(String appID, { ConditionsModel conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return PopupMenuEntity(
         appID,
-        readCondition: readCondition == null ? null : readCondition.index,
-        privilegeLevelRequired: privilegeLevelRequired,
-        packageCondition: packageCondition,
+        conditions: (conditions != null) ? conditions.toEntity(): null,
         menuDefID: menuDef.documentID
     );
   }
@@ -264,9 +248,7 @@ class PopupMenu extends ActionModel {
   static ActionModel fromEntity(PopupMenuEntity entity) {
     return PopupMenu(
       entity.appID,
-      readCondition: toReadCondition(entity.readCondition),
-      privilegeLevelRequired: entity.privilegeLevelRequired,
-      packageCondition: entity.packageCondition,
+      conditions: ConditionsModel.fromEntity(entity.conditions),
     );
   }
 
@@ -284,9 +266,7 @@ class PopupMenu extends ActionModel {
 
     return PopupMenu(
         entity.appID,
-        readCondition: toReadCondition(entity.readCondition),
-        privilegeLevelRequired: entity.privilegeLevelRequired,
-        packageCondition: entity.packageCondition,
+        conditions: ConditionsModel.fromEntity(entity.conditions),
         menuDef: menuDefModel
     );
   }
@@ -321,15 +301,13 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum internalActionEnum ;
 
-  InternalAction(String appID, { ReadCondition readCondition, int privilegeLevelRequired, String packageCondition, this.internalActionEnum }): super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: InternalActionEntity.label);
+  InternalAction(String appID, { ConditionsModel conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String appId}) {
     return InternalActionEntity(
           appID,
-          readCondition: readCondition == null ? null : readCondition.index,
-          privilegeLevelRequired: privilegeLevelRequired,
-          packageCondition: packageCondition,
+          conditions: (conditions != null) ? conditions.toEntity(): null,
           action: internalActionEnum.toString()
       );
   }
@@ -343,9 +321,7 @@ class InternalAction extends ActionModel {
     return
       InternalAction(
           entity.appID,
-          readCondition: toReadCondition(entity.readCondition),
-          privilegeLevelRequired: entity.privilegeLevelRequired,
-          packageCondition: entity.packageCondition,
+          conditions: ConditionsModel.fromEntity(entity.conditions),
           internalActionEnum: InternalActionEnum.Unknown
       );
   }

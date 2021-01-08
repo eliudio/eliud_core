@@ -139,39 +139,15 @@ class ChangedDialogGridView extends DialogFormEvent {
   String toString() => 'ChangedDialogGridView{ value: $value }';
 }
 
-class ChangedDialogReadCondition extends DialogFormEvent {
-  final ReadCondition value;
+class ChangedDialogConditions extends DialogFormEvent {
+  final ConditionsModel value;
 
-  ChangedDialogReadCondition({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedDialogReadCondition{ value: $value }';
-}
-
-class ChangedDialogPrivilegeLevelRequired extends DialogFormEvent {
-  final String value;
-
-  ChangedDialogPrivilegeLevelRequired({this.value});
+  ChangedDialogConditions({this.value});
 
   @override
   List<Object> get props => [ value ];
 
   @override
-  String toString() => 'ChangedDialogPrivilegeLevelRequired{ value: $value }';
-}
-
-class ChangedDialogPackageCondition extends DialogFormEvent {
-  final String value;
-
-  ChangedDialogPackageCondition({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedDialogPackageCondition{ value: $value }';
+  String toString() => 'ChangedDialogConditions{ value: $value }';
 }
 

@@ -14,10 +14,10 @@ Query getQuery(CollectionReference collection, {String currentMember, String ord
     // Do we have some limits in terms of privilege?
     if (privilegeLevel == 0) {
       useThisCollection =
-          useThisCollection.where('readCondition', '<', 3);
+          useThisCollection.where('conditions.readCondition', '<', 3);
     } else {
       useThisCollection =
-          useThisCollection.where('readCondition', '==', 3).where('privilegeLevelRequired', '==', privilegeLevel).where('appId', '==', appId);
+          useThisCollection.where('conditions.readCondition', '==', 3).where('conditions.privilegeLevelRequired', '==', privilegeLevel).where('appId', '==', appId);
     }
   }
   print("getQuery 3");

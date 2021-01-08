@@ -187,39 +187,15 @@ class ChangedPageGridView extends PageFormEvent {
   String toString() => 'ChangedPageGridView{ value: $value }';
 }
 
-class ChangedPageReadCondition extends PageFormEvent {
-  final ReadCondition value;
+class ChangedPageConditions extends PageFormEvent {
+  final ConditionsModel value;
 
-  ChangedPageReadCondition({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedPageReadCondition{ value: $value }';
-}
-
-class ChangedPagePrivilegeLevelRequired extends PageFormEvent {
-  final String value;
-
-  ChangedPagePrivilegeLevelRequired({this.value});
+  ChangedPageConditions({this.value});
 
   @override
   List<Object> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPagePrivilegeLevelRequired{ value: $value }';
-}
-
-class ChangedPagePackageCondition extends PageFormEvent {
-  final String value;
-
-  ChangedPagePackageCondition({this.value});
-
-  @override
-  List<Object> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedPagePackageCondition{ value: $value }';
+  String toString() => 'ChangedPageConditions{ value: $value }';
 }
 

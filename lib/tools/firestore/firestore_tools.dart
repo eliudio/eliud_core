@@ -21,11 +21,11 @@ Query getQuery(collection, {String currentMember, String orderBy, bool descendin
     // Do we have some limits in terms of privilege?
     if (privilegeLevel == 0) {
       useThisCollection =
-          useThisCollection.where('readCondition', isLessThan: 3);
+          useThisCollection.where('conditions.readCondition', isLessThan: 3);
     } else {
       useThisCollection =
-          useThisCollection.where('readCondition', isEqualTo: 3).where(
-              'privilegeLevelRequired', isEqualTo: privilegeLevel).where(
+          useThisCollection.where('conditions.readCondition', isEqualTo: 3).where(
+              'conditions.privilegeLevelRequired', isEqualTo: privilegeLevel).where(
               'appId', isEqualTo: appId);
     }
   }

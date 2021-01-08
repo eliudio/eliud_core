@@ -31,20 +31,18 @@ class PageEntity {
   final String backgroundId;
   final int layout;
   final String gridViewId;
-  final ReadCondition readCondition;
-  final int privilegeLevelRequired;
-  final String packageCondition;
+  final ConditionsEntity conditions;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.readCondition, this.privilegeLevelRequired, this.packageCondition, });
+  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, readCondition, privilegeLevelRequired, packageCondition, ];
+  List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
+    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static PageEntity fromMap(Map map) {
@@ -58,10 +56,10 @@ class PageEntity {
         .map((dynamic item) =>
         BodyComponentEntity.fromMap(item as Map))
         .toList();
-    var readConditionFromMap;
-    readConditionFromMap = map['readCondition'];
-    if (readConditionFromMap != null)
-      readConditionFromMap = toReadCondition(map['readCondition']);
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsEntity.fromMap(conditionsFromMap);
 
     return PageEntity(
       appId: map['appId'], 
@@ -74,15 +72,16 @@ class PageEntity {
       backgroundId: map['backgroundId'], 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
-      readCondition: readConditionFromMap, 
-      privilegeLevelRequired: int.tryParse(map['privilegeLevelRequired'].toString()), 
-      packageCondition: map['packageCondition'], 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object> toDocument() {
     final List<Map<String, dynamic>> bodyComponentsListMap = bodyComponents != null 
         ? bodyComponents.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -106,11 +105,8 @@ class PageEntity {
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
-    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;
-    if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
-      else theDocument["privilegeLevelRequired"] = null;
-    if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
-      else theDocument["packageCondition"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

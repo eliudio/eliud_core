@@ -27,20 +27,18 @@ class DialogEntity {
   final RgbEntity background;
   final int layout;
   final String gridViewId;
-  final ReadCondition readCondition;
-  final int privilegeLevelRequired;
-  final String packageCondition;
+  final ConditionsEntity conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.readCondition, this.privilegeLevelRequired, this.packageCondition, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, bodyComponents, background, layout, gridViewId, readCondition, privilegeLevelRequired, packageCondition, ];
+  List<Object> get props => [appId, title, bodyComponents, background, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, readCondition: $readCondition, privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static DialogEntity fromMap(Map map) {
@@ -58,10 +56,10 @@ class DialogEntity {
     backgroundFromMap = map['background'];
     if (backgroundFromMap != null)
       backgroundFromMap = RgbEntity.fromMap(backgroundFromMap);
-    var readConditionFromMap;
-    readConditionFromMap = map['readCondition'];
-    if (readConditionFromMap != null)
-      readConditionFromMap = toReadCondition(map['readCondition']);
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsEntity.fromMap(conditionsFromMap);
 
     return DialogEntity(
       appId: map['appId'], 
@@ -70,9 +68,7 @@ class DialogEntity {
       background: backgroundFromMap, 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
-      readCondition: readConditionFromMap, 
-      privilegeLevelRequired: int.tryParse(map['privilegeLevelRequired'].toString()), 
-      packageCondition: map['packageCondition'], 
+      conditions: conditionsFromMap, 
     );
   }
 
@@ -82,6 +78,9 @@ class DialogEntity {
         : null;
     final Map<String, dynamic> backgroundMap = background != null 
         ? background.toDocument()
+        : null;
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
         : null;
 
     Map<String, Object> theDocument = HashMap();
@@ -97,11 +96,8 @@ class DialogEntity {
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
-    if (readCondition != null) theDocument['readCondition'] = readCondition.index; else theDocument['readCondition'] = null;
-    if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
-      else theDocument["privilegeLevelRequired"] = null;
-    if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
-      else theDocument["packageCondition"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

@@ -130,8 +130,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _titleController = TextEditingController();
   int _layoutSelectedRadioTile;
   String _gridView;
-  final TextEditingController _privilegeLevelRequiredController = TextEditingController();
-  final TextEditingController _packageConditionController = TextEditingController();
 
 
   _MyDialogFormState(this.formAction);
@@ -144,8 +142,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
-    _privilegeLevelRequiredController.addListener(_onPrivilegeLevelRequiredChanged);
-    _packageConditionController.addListener(_onPackageConditionChanged);
   }
 
   @override
@@ -178,14 +174,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _gridView= state.value.gridView.documentID;
         else
           _gridView= "";
-        if (state.value.privilegeLevelRequired != null)
-          _privilegeLevelRequiredController.text = state.value.privilegeLevelRequired.toString();
-        else
-          _privilegeLevelRequiredController.text = "";
-        if (state.value.packageCondition != null)
-          _packageConditionController.text = state.value.packageCondition.toString();
-        else
-          _packageConditionController.text = "";
       }
       if (state is DialogFormInitialized) {
         List<Widget> children = List();
@@ -383,55 +371,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
                 ));
 
 
-        if ((state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)) children.add(
-
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _privilegeLevelRequiredController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Privilege Level Required',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PrivilegeLevelRequiredDialogFormError ? state.message : null;
-                  },
-                ),
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
-
-
-        if (state.value.packageCondition == ReadCondition.PackageDecides) children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Plugin Condition',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
-                ));
-
-        if ((state.value.packageCondition == ReadCondition.PackageDecides)) children.add(
-
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _packageConditionController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Package condition',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PackageConditionDialogFormError ? state.message : null;
-                  },
-                ),
-          );
-
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -445,55 +384,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-
-        if ((state.value.privilegeLevelRequired == ReadCondition.MemberOrPrivilegedMemberOnly)) children.add(
-
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _privilegeLevelRequiredController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Privilege Level Required',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PrivilegeLevelRequiredDialogFormError ? state.message : null;
-                  },
-                ),
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
-
-
-        if (state.value.packageCondition == ReadCondition.PackageDecides) children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Plugin Condition',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
-                ));
-
-        if ((state.value.packageCondition == ReadCondition.PackageDecides)) children.add(
-
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _packageConditionController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Package condition',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PackageConditionDialogFormError ? state.message : null;
-                  },
-                ),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -517,9 +407,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value.background, 
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
-                              readCondition: state.value.readCondition, 
-                              privilegeLevelRequired: state.value.privilegeLevelRequired, 
-                              packageCondition: state.value.packageCondition, 
+                              conditions: state.value.conditions, 
                         )));
                       } else {
                         BlocProvider.of<DialogListBloc>(context).add(
@@ -531,9 +419,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value.background, 
                               layout: state.value.layout, 
                               gridView: state.value.gridView, 
-                              readCondition: state.value.readCondition, 
-                              privilegeLevelRequired: state.value.privilegeLevelRequired, 
-                              packageCondition: state.value.packageCondition, 
+                              conditions: state.value.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -610,24 +496,12 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void _onPrivilegeLevelRequiredChanged() {
-    _myFormBloc.add(ChangedDialogPrivilegeLevelRequired(value: _privilegeLevelRequiredController.text));
-  }
-
-
-  void _onPackageConditionChanged() {
-    _myFormBloc.add(ChangedDialogPackageCondition(value: _packageConditionController.text));
-  }
-
-
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
-    _privilegeLevelRequiredController.dispose();
-    _packageConditionController.dispose();
     super.dispose();
   }
 

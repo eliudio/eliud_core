@@ -1,14 +1,18 @@
+import 'package:eliud_core/model/conditions_entity.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 
 abstract class ActionEntity {
   final String appID;
   final String actionType;
 
+  final ConditionsEntity conditions;
+/*
   final int readCondition;
   final int privilegeLevelRequired;
   final String packageCondition;
+*/
 
-  const ActionEntity(this.appID, { this.readCondition, this.privilegeLevelRequired, this.packageCondition, this.actionType });
+  const ActionEntity(this.appID, { this.conditions, /*this.readCondition, this.privilegeLevelRequired, this.packageCondition, */this.actionType });
 
   Map<String, Object> toDocument();
 
@@ -19,16 +23,14 @@ class GotoPageEntity extends ActionEntity {
   static const String label = 'GotoPage';
   final String pageID;
 
-  const GotoPageEntity(String appID, {int readCondition, int privilegeLevelRequired, String packageCondition, this.pageID }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType : label);
+  const GotoPageEntity(String appID, {ConditionsEntity conditions, this.pageID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object> toDocument() {
     return {
       'appID': appID,
       'actionType': actionType,
-      'readCondition': readCondition,
-      'privilegeLevelRequired': privilegeLevelRequired,
-      'packageCondition': packageCondition,
+      'conditions': conditions == null ? null : conditions.toDocument(),
       'pageID': pageID
     };
   }
@@ -36,9 +38,7 @@ class GotoPageEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return GotoPageEntity(
       snap['appID'],
-      readCondition: snap['readCondition'],
-      privilegeLevelRequired: snap['privilegeLevelRequired'],
-      packageCondition: snap['packageCondition'],
+      conditions: ConditionsEntity.fromMap(snap['conditions']),
       pageID: snap['pageID'],
     );
   }
@@ -48,16 +48,14 @@ class OpenDialogEntity extends ActionEntity {
   static const String label = 'Dialog';
   final String dialogID;
 
-  const OpenDialogEntity(String appID, { int readCondition, int privilegeLevelRequired, String packageCondition, this.dialogID }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType : label);
+  const OpenDialogEntity(String appID, { ConditionsEntity conditions, this.dialogID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object> toDocument() {
     return {
       'appID': appID,
       'actionType': actionType,
-      'readCondition': readCondition,
-      'privilegeLevelRequired': privilegeLevelRequired,
-      'packageCondition': packageCondition,
+      'conditions': conditions == null ? null : conditions.toDocument(),
       'dialogID': dialogID
     };
   }
@@ -65,9 +63,7 @@ class OpenDialogEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return OpenDialogEntity(
         snap['appID'],
-        readCondition: snap['readCondition'],
-        privilegeLevelRequired: snap['privilegeLevelRequired'],
-        packageCondition: snap['packageCondition'],
+        conditions: ConditionsEntity.fromMap(snap['conditions']),
         dialogID: snap['dialogID']
     );
   }
@@ -77,16 +73,14 @@ class SwitchAppEntity extends ActionEntity {
   static const String label = 'SwitchApp';
   final String toAppID;
 
-  const SwitchAppEntity(String appID, { int readCondition, int privilegeLevelRequired, String packageCondition, this.toAppID }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType : label);
+  const SwitchAppEntity(String appID, { ConditionsEntity conditions, this.toAppID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object> toDocument() {
     return {
       'appID': appID,
       'actionType': actionType,
-      'readCondition': readCondition,
-      'privilegeLevelRequired': privilegeLevelRequired,
-      'packageCondition': packageCondition,
+      'conditions': conditions == null ? null : conditions.toDocument(),
       'toAppID': toAppID,
     };
   }
@@ -94,9 +88,7 @@ class SwitchAppEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return SwitchAppEntity(
         snap['appID'],
-        readCondition: snap['readCondition'],
-        privilegeLevelRequired: snap['privilegeLevelRequired'],
-        packageCondition: snap['packageCondition'],
+        conditions: ConditionsEntity.fromMap(snap['conditions']),
         toAppID: snap['toAppID']
     );
   }
@@ -106,16 +98,14 @@ class PopupMenuEntity extends ActionEntity {
   static const String label = 'PopupMenu';
   final String menuDefID;
 
-  const PopupMenuEntity(String appID, { int readCondition, int privilegeLevelRequired, String packageCondition, this.menuDefID }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType : label);
+  const PopupMenuEntity(String appID, { ConditionsEntity conditions, this.menuDefID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object> toDocument() {
     return {
       'actionType': actionType,
       'appID': appID,
-      'readCondition': readCondition,
-      'privilegeLevelRequired': privilegeLevelRequired,
-      'packageCondition': packageCondition,
+      'conditions': conditions == null ? null : conditions.toDocument(),
       'menuDefID': menuDefID
     };
   }
@@ -123,9 +113,7 @@ class PopupMenuEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return PopupMenuEntity(
         snap['appID'],
-        readCondition: snap['readCondition'],
-        privilegeLevelRequired: snap['privilegeLevelRequired'],
-        packageCondition: snap['packageCondition'],
+        conditions: ConditionsEntity.fromMap(snap['conditions']),
         menuDefID: snap['menuDefID']
     );
   }
@@ -135,16 +123,14 @@ class InternalActionEntity extends ActionEntity {
   static const String label = 'InternalAction';
   final String action;
 
-  const InternalActionEntity(String appID, { int readCondition, int privilegeLevelRequired, String packageCondition, this.action }) : super(appID, readCondition: readCondition, privilegeLevelRequired: privilegeLevelRequired, packageCondition: packageCondition, actionType: label);
+  const InternalActionEntity(String appID, { ConditionsEntity conditions, this.action }) : super(appID, conditions: conditions, actionType: label);
 
   @override
   Map<String, Object> toDocument() {
     return {
       'actionType': actionType,
       'appID': appID,
-      'readCondition': readCondition,
-      'privilegeLevelRequired': privilegeLevelRequired,
-      'packageCondition': packageCondition,
+      'conditions': conditions == null ? null : conditions.toDocument(),
       'action': action
     };
   }
@@ -152,9 +138,7 @@ class InternalActionEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return InternalActionEntity(
         snap['appID'],
-        readCondition: snap['readCondition'],
-        privilegeLevelRequired: snap['privilegeLevelRequired'],
-        packageCondition: snap['packageCondition'],
+        conditions: ConditionsEntity.fromMap(snap['conditions']),
         action: snap['action']
     );
   }

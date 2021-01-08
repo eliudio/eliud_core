@@ -175,47 +175,15 @@ class GridViewDialogFormError extends DialogFormError {
 }
 
 
-class ReadConditionDialogFormError extends DialogFormError { 
-  const ReadConditionDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+class ConditionsDialogFormError extends DialogFormError { 
+  const ConditionsDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
 
   @override
   List<Object> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''ReadConditionDialogFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class PrivilegeLevelRequiredDialogFormError extends DialogFormError { 
-  const PrivilegeLevelRequiredDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''PrivilegeLevelRequiredDialogFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class PackageConditionDialogFormError extends DialogFormError { 
-  const PackageConditionDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''PackageConditionDialogFormError {
+    return '''ConditionsDialogFormError {
       value: $value,
       message: $message,
     }''';
