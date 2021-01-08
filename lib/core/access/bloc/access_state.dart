@@ -151,25 +151,28 @@ class AccessHelper {
       return false;
     }
 
-    var packageCondition = conditions.packageCondition;
-
     if (conditions == null) return true;
-    if ((isBlocked != null) && (isBlocked)) {
-      if ((conditions.conditionOverride ==
-              ConditionOverride.InclusiveForBlockedMembers) ||
-          (conditions.conditionOverride ==
-              ConditionOverride.ExclusiveForBlockedMember))
-        return true;
-      else
-        return false;
+
+    var packageCondition = conditions.packageCondition;
+    if ((packageCondition != null) && (!packagesConditions[packageCondition].access)) {
+      return false;
     }
 
-    if (packageCondition != null) {
-      return packagesConditions[packageCondition].access;
+    if (conditions.conditionOverride != null) {
+      switch (conditions.conditionOverride) {
+        case ConditionOverride.ExactPrivilege:
+          if (privilegedLevel.index != conditions.privilegeLevelRequired.index) return false;
+          break;
+        case ConditionOverride.InclusiveForBlockedMembers:
+          if ((isBlocked != null) && (isBlocked)) return true;
+          break;
+        case ConditionOverride.ExclusiveForBlockedMember:
+          if ((isBlocked != null) && (isBlocked)) return true;
+          break;
+      }
     }
 
-    if ((conditions.conditionOverride == ConditionOverride.ExactPrivilege) &&
-        (privilegedLevel.index != conditions.privilegeLevelRequired.index)) return false;
+    if ((isBlocked != null) && (isBlocked)) return false;
 
     return true;
   }
