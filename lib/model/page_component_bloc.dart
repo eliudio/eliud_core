@@ -20,6 +20,8 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   final PageRepository pageRepository;
@@ -31,13 +33,23 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     if (event is FetchPageComponent) {
       try {
         if (currentState is PageComponentUninitialized) {
-          final PageModel model = await _fetchPage(event.id);
-
-          if (model != null) {
-            yield PageComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await pageRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield PageComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield PageComponentError(message: "Page with id = '$id' not found");
+            if (model != null) {
+              yield PageComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield PageComponentError(
+                  message: "Page with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     }
   }
 
-  Future<PageModel> _fetchPage(String id) async {
-    return pageRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

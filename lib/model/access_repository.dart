@@ -35,7 +35,7 @@ typedef AccessChanged(AccessModel value);
 abstract class AccessRepository {
   Future<AccessModel> add(AccessModel value);
   Future<void> delete(AccessModel value);
-  Future<AccessModel> get(String id);
+  Future<AccessModel> get(String id, { Function(Exception) onError });
   Future<AccessModel> update(AccessModel value);
 
   Stream<List<AccessModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

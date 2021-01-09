@@ -33,19 +33,25 @@ class GridViewEntity {
   final double padding;
   final double mainAxisSpacing;
   final double crossAxisSpacing;
+  final ConditionsSimpleEntity conditions;
 
-  GridViewEntity({this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, });
+  GridViewEntity({this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, });
 
 
-  List<Object> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, ];
+  List<Object> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, conditions, ];
 
   @override
   String toString() {
-    return 'GridViewEntity{appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing}';
+    return 'GridViewEntity{appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
   static GridViewEntity fromMap(Map map) {
     if (map == null) return null;
+
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
 
     return GridViewEntity(
       appId: map['appId'], 
@@ -60,10 +66,15 @@ class GridViewEntity {
       padding: double.tryParse(map['padding'].toString()), 
       mainAxisSpacing: double.tryParse(map['mainAxisSpacing'].toString()), 
       crossAxisSpacing: double.tryParse(map['crossAxisSpacing'].toString()), 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object> toDocument() {
+    final Map<String, dynamic> conditionsMap = conditions != null 
+        ? conditions.toDocument()
+        : null;
+
     Map<String, Object> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
@@ -89,6 +100,8 @@ class GridViewEntity {
       else theDocument["mainAxisSpacing"] = null;
     if (crossAxisSpacing != null) theDocument["crossAxisSpacing"] = crossAxisSpacing;
       else theDocument["crossAxisSpacing"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

@@ -30,6 +30,10 @@ class AppBarComponentError extends AppBarComponentState {
   AppBarComponentError({ this.message });
 }
 
+class AppBarComponentPermissionDenied extends AppBarComponentState {
+  AppBarComponentPermissionDenied();
+}
+
 class AppBarComponentLoaded extends AppBarComponentState {
   final AppBarModel value;
 
@@ -45,5 +49,4 @@ class AppBarComponentLoaded extends AppBarComponentState {
   @override
   String toString() => 'AppBarComponentLoaded { value: $value }';
 }
-
 

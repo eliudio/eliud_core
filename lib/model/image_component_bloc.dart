@@ -20,6 +20,8 @@ import 'package:eliud_core/model/image_model.dart';
 import 'package:eliud_core/model/image_component_event.dart';
 import 'package:eliud_core/model/image_component_state.dart';
 import 'package:eliud_core/model/image_repository.dart';
+import 'package:flutter/services.dart';
+
 class ImageComponentBloc extends Bloc<ImageComponentEvent, ImageComponentState> {
   final ImageRepository imageRepository;
 
@@ -30,13 +32,23 @@ class ImageComponentBloc extends Bloc<ImageComponentEvent, ImageComponentState> 
     if (event is FetchImageComponent) {
       try {
         if (currentState is ImageComponentUninitialized) {
-          final ImageModel model = await _fetchImage(event.id);
-
-          if (model != null) {
-            yield ImageComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await imageRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield ImageComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield ImageComponentError(message: "Image with id = '$id' not found");
+            if (model != null) {
+              yield ImageComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield ImageComponentError(
+                  message: "Image with id = '$id' not found");
+            }
           }
           return;
         }
@@ -46,15 +58,10 @@ class ImageComponentBloc extends Bloc<ImageComponentEvent, ImageComponentState> 
     }
   }
 
-  Future<ImageModel> _fetchImage(String id) async {
-    return imageRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

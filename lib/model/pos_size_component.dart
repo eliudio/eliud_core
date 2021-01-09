@@ -43,10 +43,16 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
     return BlocBuilder<PosSizeComponentBloc, PosSizeComponentState>(builder: (context, state) {
       if (state is PosSizeComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No posSize defined');
+          return alertWidget(title: 'Error', content: 'No PosSize defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is PosSizeComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is PosSizeComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   PosSizeRepository getPosSizeRepository(BuildContext context);
 }
-
 

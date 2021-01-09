@@ -43,10 +43,16 @@ abstract class AbstractDialogComponent extends StatelessWidget {
     return BlocBuilder<DialogComponentBloc, DialogComponentState>(builder: (context, state) {
       if (state is DialogComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No dialog defined');
+          return alertWidget(title: 'Error', content: 'No Dialog defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is DialogComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is DialogComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractDialogComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   DialogRepository getDialogRepository(BuildContext context);
 }
-
 

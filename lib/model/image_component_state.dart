@@ -30,6 +30,10 @@ class ImageComponentError extends ImageComponentState {
   ImageComponentError({ this.message });
 }
 
+class ImageComponentPermissionDenied extends ImageComponentState {
+  ImageComponentPermissionDenied();
+}
+
 class ImageComponentLoaded extends ImageComponentState {
   final ImageModel value;
 
@@ -45,5 +49,4 @@ class ImageComponentLoaded extends ImageComponentState {
   @override
   String toString() => 'ImageComponentLoaded { value: $value }';
 }
-
 

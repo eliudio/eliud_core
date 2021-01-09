@@ -18,6 +18,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/home_menu_repository.dart';
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -47,10 +48,10 @@ class HomeMenuCache implements HomeMenuRepository {
     return Future.value();
   }
 
-  Future<HomeMenuModel> get(String id){
+  Future<HomeMenuModel> get(String id, {Function(Exception) onError}) {
     HomeMenuModel value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id).then((value) {
+    return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
       return value;
     });

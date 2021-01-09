@@ -43,10 +43,16 @@ abstract class AbstractMemberComponent extends StatelessWidget {
     return BlocBuilder<MemberComponentBloc, MemberComponentState>(builder: (context, state) {
       if (state is MemberComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No member defined');
+          return alertWidget(title: 'Error', content: 'No Member defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is MemberComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is MemberComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractMemberComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   MemberRepository getMemberRepository(BuildContext context);
 }
-
 

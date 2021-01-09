@@ -20,6 +20,8 @@ import 'package:eliud_core/model/country_model.dart';
 import 'package:eliud_core/model/country_component_event.dart';
 import 'package:eliud_core/model/country_component_state.dart';
 import 'package:eliud_core/model/country_repository.dart';
+import 'package:flutter/services.dart';
+
 class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentState> {
   final CountryRepository countryRepository;
 
@@ -30,13 +32,23 @@ class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentS
     if (event is FetchCountryComponent) {
       try {
         if (currentState is CountryComponentUninitialized) {
-          final CountryModel model = await _fetchCountry(event.id);
-
-          if (model != null) {
-            yield CountryComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await countryRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield CountryComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield CountryComponentError(message: "Country with id = '$id' not found");
+            if (model != null) {
+              yield CountryComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield CountryComponentError(
+                  message: "Country with id = '$id' not found");
+            }
           }
           return;
         }
@@ -46,15 +58,10 @@ class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentS
     }
   }
 
-  Future<CountryModel> _fetchCountry(String id) async {
-    return countryRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

@@ -69,12 +69,16 @@ class ImageFirestore implements ImageRepository {
   }
 
   @override
-  Future<ImageModel> get(String id) {
+  Future<ImageModel> get(String id, { Function(Exception) onError }) {
     return imageCollection.document(id).get().then((doc) {
       if (doc.data != null) {
         return _populateDocPlus(doc);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

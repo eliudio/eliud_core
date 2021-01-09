@@ -38,7 +38,7 @@ String privilegeLevelToMemberRoleString(PrivilegeLevel privilegeLevel, bool bloc
 }
 
 String privilegeLevelIntToMemberRoleString(int privilegeLevelInt, bool blocked) {
-  if (blocked) {
+  if ((blocked != null) && (blocked)) {
     return "Blocked member";
   } else {
     switch (privilegeLevelInt) {

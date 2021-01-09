@@ -20,6 +20,8 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/dialog_component_event.dart';
 import 'package:eliud_core/model/dialog_component_state.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentState> {
   final DialogRepository dialogRepository;
@@ -31,13 +33,23 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
     if (event is FetchDialogComponent) {
       try {
         if (currentState is DialogComponentUninitialized) {
-          final DialogModel model = await _fetchDialog(event.id);
-
-          if (model != null) {
-            yield DialogComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await dialogRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield DialogComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield DialogComponentError(message: "Dialog with id = '$id' not found");
+            if (model != null) {
+              yield DialogComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield DialogComponentError(
+                  message: "Dialog with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
     }
   }
 
-  Future<DialogModel> _fetchDialog(String id) async {
-    return dialogRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

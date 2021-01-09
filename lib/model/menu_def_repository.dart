@@ -35,7 +35,7 @@ typedef MenuDefChanged(MenuDefModel value);
 abstract class MenuDefRepository {
   Future<MenuDefModel> add(MenuDefModel value);
   Future<void> delete(MenuDefModel value);
-  Future<MenuDefModel> get(String id);
+  Future<MenuDefModel> get(String id, { Function(Exception) onError });
   Future<MenuDefModel> update(MenuDefModel value);
 
   Stream<List<MenuDefModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

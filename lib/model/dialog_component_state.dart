@@ -30,6 +30,10 @@ class DialogComponentError extends DialogComponentState {
   DialogComponentError({ this.message });
 }
 
+class DialogComponentPermissionDenied extends DialogComponentState {
+  DialogComponentPermissionDenied();
+}
+
 class DialogComponentLoaded extends DialogComponentState {
   final DialogModel value;
 
@@ -45,5 +49,4 @@ class DialogComponentLoaded extends DialogComponentState {
   @override
   String toString() => 'DialogComponentLoaded { value: $value }';
 }
-
 

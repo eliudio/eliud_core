@@ -35,7 +35,7 @@ typedef AppBarChanged(AppBarModel value);
 abstract class AppBarRepository {
   Future<AppBarModel> add(AppBarModel value);
   Future<void> delete(AppBarModel value);
-  Future<AppBarModel> get(String id);
+  Future<AppBarModel> get(String id, { Function(Exception) onError });
   Future<AppBarModel> update(AppBarModel value);
 
   Stream<List<AppBarModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

@@ -43,10 +43,16 @@ abstract class AbstractPageComponent extends StatelessWidget {
     return BlocBuilder<PageComponentBloc, PageComponentState>(builder: (context, state) {
       if (state is PageComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No page defined');
+          return alertWidget(title: 'Error', content: 'No Page defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is PageComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is PageComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractPageComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   PageRepository getPageRepository(BuildContext context);
 }
-
 

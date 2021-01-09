@@ -21,6 +21,7 @@ export '../model/app_home_page_references_model.dart';
 export '../model/background_model.dart';
 export '../model/body_component_model.dart';
 export '../model/conditions_model.dart';
+export '../model/conditions_simple_model.dart';
 export '../model/country_model.dart';
 export '../model/decoration_color_model.dart';
 export '../model/dialog_model.dart';

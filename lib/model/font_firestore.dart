@@ -51,12 +51,16 @@ class FontFirestore implements FontRepository {
   Future<FontModel> _populateDocPlus(DocumentSnapshot value) async {
     return FontModel.fromEntityPlus(value.documentID, FontEntity.fromMap(value.data), appId: appId);  }
 
-  Future<FontModel> get(String id) {
+  Future<FontModel> get(String id, {Function(Exception) onError}) {
     return FontCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

@@ -51,12 +51,16 @@ class PageFirestore implements PageRepository {
   Future<PageModel> _populateDocPlus(DocumentSnapshot value) async {
     return PageModel.fromEntityPlus(value.documentID, PageEntity.fromMap(value.data), appId: appId);  }
 
-  Future<PageModel> get(String id) {
+  Future<PageModel> get(String id, {Function(Exception) onError}) {
     return PageCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

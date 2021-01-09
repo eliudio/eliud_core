@@ -20,6 +20,8 @@ import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentState> {
   final AppBarRepository appBarRepository;
@@ -31,13 +33,23 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
     if (event is FetchAppBarComponent) {
       try {
         if (currentState is AppBarComponentUninitialized) {
-          final AppBarModel model = await _fetchAppBar(event.id);
-
-          if (model != null) {
-            yield AppBarComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await appBarRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield AppBarComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield AppBarComponentError(message: "AppBar with id = '$id' not found");
+            if (model != null) {
+              yield AppBarComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield AppBarComponentError(
+                  message: "AppBar with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
     }
   }
 
-  Future<AppBarModel> _fetchAppBar(String id) async {
-    return appBarRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

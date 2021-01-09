@@ -35,7 +35,7 @@ typedef MemberChanged(MemberModel value);
 abstract class MemberRepository {
   Future<MemberModel> add(MemberModel value);
   Future<void> delete(MemberModel value);
-  Future<MemberModel> get(String id);
+  Future<MemberModel> get(String id, { Function(Exception) onError });
   Future<MemberModel> update(MemberModel value);
 
   Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

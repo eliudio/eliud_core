@@ -35,7 +35,7 @@ typedef AppEntryPagesChanged(AppEntryPagesModel value);
 abstract class AppEntryPagesRepository {
   Future<AppEntryPagesModel> add(AppEntryPagesModel value);
   Future<void> delete(AppEntryPagesModel value);
-  Future<AppEntryPagesModel> get(String id);
+  Future<AppEntryPagesModel> get(String id, { Function(Exception) onError });
   Future<AppEntryPagesModel> update(AppEntryPagesModel value);
 
   Stream<List<AppEntryPagesModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

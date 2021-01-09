@@ -51,12 +51,16 @@ class DrawerFirestore implements DrawerRepository {
   Future<DrawerModel> _populateDocPlus(DocumentSnapshot value) async {
     return DrawerModel.fromEntityPlus(value.documentID, DrawerEntity.fromMap(value.data), appId: appId);  }
 
-  Future<DrawerModel> get(String id) {
+  Future<DrawerModel> get(String id, {Function(Exception) onError}) {
     return DrawerCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

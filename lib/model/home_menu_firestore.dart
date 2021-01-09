@@ -51,12 +51,16 @@ class HomeMenuFirestore implements HomeMenuRepository {
   Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot value) async {
     return HomeMenuModel.fromEntityPlus(value.documentID, HomeMenuEntity.fromMap(value.data), appId: appId);  }
 
-  Future<HomeMenuModel> get(String id) {
+  Future<HomeMenuModel> get(String id, {Function(Exception) onError}) {
     return HomeMenuCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

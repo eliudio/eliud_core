@@ -51,12 +51,16 @@ class GridViewFirestore implements GridViewRepository {
   Future<GridViewModel> _populateDocPlus(DocumentSnapshot value) async {
     return GridViewModel.fromEntityPlus(value.documentID, GridViewEntity.fromMap(value.data), appId: appId);  }
 
-  Future<GridViewModel> get(String id) {
+  Future<GridViewModel> get(String id, {Function(Exception) onError}) {
     return GridViewCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

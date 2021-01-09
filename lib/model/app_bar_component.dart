@@ -43,10 +43,16 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
     return BlocBuilder<AppBarComponentBloc, AppBarComponentState>(builder: (context, state) {
       if (state is AppBarComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No appBar defined');
+          return alertWidget(title: 'Error', content: 'No AppBar defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is AppBarComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is AppBarComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   AppBarRepository getAppBarRepository(BuildContext context);
 }
-
 

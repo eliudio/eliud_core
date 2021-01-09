@@ -189,6 +189,12 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         }
         return;
       }
+      if (event is ChangedGridViewConditions) {
+        newValue = currentState.value.copyWith(conditions: event.value);
+        yield SubmittableGridViewForm(value: newValue);
+
+        return;
+      }
     }
   }
 

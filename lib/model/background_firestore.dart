@@ -51,12 +51,16 @@ class BackgroundFirestore implements BackgroundRepository {
   Future<BackgroundModel> _populateDocPlus(DocumentSnapshot value) async {
     return BackgroundModel.fromEntityPlus(value.documentID, BackgroundEntity.fromMap(value.data), appId: appId);  }
 
-  Future<BackgroundModel> get(String id) {
+  Future<BackgroundModel> get(String id, {Function(Exception) onError}) {
     return BackgroundCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

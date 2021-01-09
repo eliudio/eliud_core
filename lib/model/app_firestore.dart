@@ -51,12 +51,16 @@ class AppFirestore implements AppRepository {
   Future<AppModel> _populateDocPlus(DocumentSnapshot value) async {
     return AppModel.fromEntityPlus(value.documentID, AppEntity.fromMap(value.data), appId: value.documentID);  }
 
-  Future<AppModel> get(String id) {
+  Future<AppModel> get(String id, {Function(Exception) onError}) {
     return AppCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

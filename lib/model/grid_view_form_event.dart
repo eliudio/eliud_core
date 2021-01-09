@@ -211,3 +211,15 @@ class ChangedGridViewCrossAxisSpacing extends GridViewFormEvent {
   String toString() => 'ChangedGridViewCrossAxisSpacing{ value: $value }';
 }
 
+class ChangedGridViewConditions extends GridViewFormEvent {
+  final ConditionsSimpleModel value;
+
+  ChangedGridViewConditions({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedGridViewConditions{ value: $value }';
+}
+

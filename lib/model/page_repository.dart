@@ -35,7 +35,7 @@ typedef PageChanged(PageModel value);
 abstract class PageRepository {
   Future<PageModel> add(PageModel value);
   Future<void> delete(PageModel value);
-  Future<PageModel> get(String id);
+  Future<PageModel> get(String id, { Function(Exception) onError });
   Future<PageModel> update(PageModel value);
 
   Stream<List<PageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

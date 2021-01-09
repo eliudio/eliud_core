@@ -58,12 +58,16 @@ class ShadowJsFirestore implements ShadowRepository {
     return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<ShadowModel> get(String id) {
+  Future<ShadowModel> get(String id, { Function(Exception) onError }) {
     return shadowCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

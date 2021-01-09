@@ -202,7 +202,7 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       }
     }
 
-    Future<AppEntryPagesModel> get(String id) {
+    Future<AppEntryPagesModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<AppEntryPagesModel>();
       completer.complete(items[index]);
@@ -297,7 +297,7 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       }
     }
 
-    Future<BodyComponentModel> get(String id) {
+    Future<BodyComponentModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<BodyComponentModel>();
       completer.complete(items[index]);
@@ -392,7 +392,7 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       }
     }
 
-    Future<DecorationColorModel> get(String id) {
+    Future<DecorationColorModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<DecorationColorModel>();
       completer.complete(items[index]);
@@ -487,7 +487,7 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       }
     }
 
-    Future<MemberSubscriptionModel> get(String id) {
+    Future<MemberSubscriptionModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<MemberSubscriptionModel>();
       completer.complete(items[index]);
@@ -582,7 +582,7 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
       }
     }
 
-    Future<MenuItemModel> get(String id) {
+    Future<MenuItemModel> get(String id, { Function(Exception) onError }) {
       int index = _index(id);
       var completer = new Completer<MenuItemModel>();
       completer.complete(items[index]);

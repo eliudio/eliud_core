@@ -30,6 +30,10 @@ class PageComponentError extends PageComponentState {
   PageComponentError({ this.message });
 }
 
+class PageComponentPermissionDenied extends PageComponentState {
+  PageComponentPermissionDenied();
+}
+
 class PageComponentLoaded extends PageComponentState {
   final PageModel value;
 
@@ -45,5 +49,4 @@ class PageComponentLoaded extends PageComponentState {
   @override
   String toString() => 'PageComponentLoaded { value: $value }';
 }
-
 

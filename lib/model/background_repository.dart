@@ -35,7 +35,7 @@ typedef BackgroundChanged(BackgroundModel value);
 abstract class BackgroundRepository {
   Future<BackgroundModel> add(BackgroundModel value);
   Future<void> delete(BackgroundModel value);
-  Future<BackgroundModel> get(String id);
+  Future<BackgroundModel> get(String id, { Function(Exception) onError });
   Future<BackgroundModel> update(BackgroundModel value);
 
   Stream<List<BackgroundModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

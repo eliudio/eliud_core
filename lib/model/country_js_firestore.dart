@@ -58,12 +58,16 @@ class CountryJsFirestore implements CountryRepository {
     return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );
   }
 
-  Future<CountryModel> get(String id) {
+  Future<CountryModel> get(String id, { Function(Exception) onError }) {
     return countryCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

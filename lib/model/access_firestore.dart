@@ -51,12 +51,16 @@ class AccessFirestore implements AccessRepository {
   Future<AccessModel> _populateDocPlus(DocumentSnapshot value) async {
     return AccessModel.fromEntityPlus(value.documentID, AccessEntity.fromMap(value.data), appId: appId);  }
 
-  Future<AccessModel> get(String id) {
+  Future<AccessModel> get(String id, {Function(Exception) onError}) {
     return AccessCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

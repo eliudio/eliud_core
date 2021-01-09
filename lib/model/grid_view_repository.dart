@@ -35,7 +35,7 @@ typedef GridViewChanged(GridViewModel value);
 abstract class GridViewRepository {
   Future<GridViewModel> add(GridViewModel value);
   Future<void> delete(GridViewModel value);
-  Future<GridViewModel> get(String id);
+  Future<GridViewModel> get(String id, { Function(Exception) onError });
   Future<GridViewModel> update(GridViewModel value);
 
   Stream<List<GridViewModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

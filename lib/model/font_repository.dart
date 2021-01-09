@@ -35,7 +35,7 @@ typedef FontChanged(FontModel value);
 abstract class FontRepository {
   Future<FontModel> add(FontModel value);
   Future<void> delete(FontModel value);
-  Future<FontModel> get(String id);
+  Future<FontModel> get(String id, { Function(Exception) onError });
   Future<FontModel> update(FontModel value);
 
   Stream<List<FontModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

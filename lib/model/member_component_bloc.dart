@@ -20,6 +20,8 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_component_event.dart';
 import 'package:eliud_core/model/member_component_state.dart';
 import 'package:eliud_core/model/member_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentState> {
   final MemberRepository memberRepository;
@@ -31,13 +33,23 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
     if (event is FetchMemberComponent) {
       try {
         if (currentState is MemberComponentUninitialized) {
-          final MemberModel model = await _fetchMember(event.id);
-
-          if (model != null) {
-            yield MemberComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await memberRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield MemberComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield MemberComponentError(message: "Member with id = '$id' not found");
+            if (model != null) {
+              yield MemberComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield MemberComponentError(
+                  message: "Member with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
     }
   }
 
-  Future<MemberModel> _fetchMember(String id) async {
-    return memberRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

@@ -30,6 +30,10 @@ class GridViewComponentError extends GridViewComponentState {
   GridViewComponentError({ this.message });
 }
 
+class GridViewComponentPermissionDenied extends GridViewComponentState {
+  GridViewComponentPermissionDenied();
+}
+
 class GridViewComponentLoaded extends GridViewComponentState {
   final GridViewModel value;
 
@@ -45,5 +49,4 @@ class GridViewComponentLoaded extends GridViewComponentState {
   @override
   String toString() => 'GridViewComponentLoaded { value: $value }';
 }
-
 

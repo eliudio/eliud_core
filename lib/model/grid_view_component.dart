@@ -43,10 +43,16 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
     return BlocBuilder<GridViewComponentBloc, GridViewComponentState>(builder: (context, state) {
       if (state is GridViewComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No gridView defined');
+          return alertWidget(title: 'Error', content: 'No GridView defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is GridViewComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is GridViewComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   GridViewRepository getGridViewRepository(BuildContext context);
 }
-
 

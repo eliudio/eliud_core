@@ -58,12 +58,16 @@ class FontJsFirestore implements FontRepository {
     return FontModel.fromEntityPlus(value.id, FontEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<FontModel> get(String id) {
+  Future<FontModel> get(String id, { Function(Exception) onError }) {
     return fontCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

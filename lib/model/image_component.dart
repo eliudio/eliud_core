@@ -43,10 +43,16 @@ abstract class AbstractImageComponent extends StatelessWidget {
     return BlocBuilder<ImageComponentBloc, ImageComponentState>(builder: (context, state) {
       if (state is ImageComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No image defined');
+          return alertWidget(title: 'Error', content: 'No Image defined');
         } else {
           return yourWidget(context, state.value);
         }
+      } else if (state is ImageComponentPermissionDenied) {
+        return Icon(
+          Icons.highlight_off,
+          color: Colors.red,
+          size: 30.0,
+        );
       } else if (state is ImageComponentError) {
         return alertWidget(title: 'Error', content: state.message);
       } else {
@@ -61,5 +67,4 @@ abstract class AbstractImageComponent extends StatelessWidget {
   Widget alertWidget({ title: String, content: String});
   ImageRepository getImageRepository(BuildContext context);
 }
-
 

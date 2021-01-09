@@ -30,6 +30,10 @@ class CountryComponentError extends CountryComponentState {
   CountryComponentError({ this.message });
 }
 
+class CountryComponentPermissionDenied extends CountryComponentState {
+  CountryComponentPermissionDenied();
+}
+
 class CountryComponentLoaded extends CountryComponentState {
   final CountryModel value;
 
@@ -45,5 +49,4 @@ class CountryComponentLoaded extends CountryComponentState {
   @override
   String toString() => 'CountryComponentLoaded { value: $value }';
 }
-
 

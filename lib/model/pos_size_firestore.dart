@@ -51,12 +51,16 @@ class PosSizeFirestore implements PosSizeRepository {
   Future<PosSizeModel> _populateDocPlus(DocumentSnapshot value) async {
     return PosSizeModel.fromEntityPlus(value.documentID, PosSizeEntity.fromMap(value.data), appId: appId);  }
 
-  Future<PosSizeModel> get(String id) {
+  Future<PosSizeModel> get(String id, {Function(Exception) onError}) {
     return PosSizeCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

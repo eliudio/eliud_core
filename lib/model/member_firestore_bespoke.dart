@@ -43,12 +43,16 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<MemberModel> get(String id) {
+  Future<MemberModel> get(String id, { Function(Exception) onError }) {
     return MemberCollection.document(id).get().then((doc) {
       if (doc.data != null) {
         return _populateDocPlus(doc);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

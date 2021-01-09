@@ -37,12 +37,16 @@ class MemberJsFirestore implements MemberRepository {
     return MemberModel.fromEntityPlus(doc.id, MemberEntity.fromMap(doc.data()));
   }
 
-  Future<MemberModel> get(String id) {
+  Future<MemberModel> get(String id, { Function(Exception) onError }) {
     return memberCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

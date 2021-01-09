@@ -271,6 +271,22 @@ class CrossAxisSpacingGridViewFormError extends GridViewFormError {
 }
 
 
+class ConditionsGridViewFormError extends GridViewFormError { 
+  const ConditionsGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsGridViewFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class GridViewFormLoaded extends GridViewFormInitialized { 
   const GridViewFormLoaded({ GridViewModel value }): super(value: value);
 

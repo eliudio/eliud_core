@@ -35,7 +35,7 @@ typedef DrawerChanged(DrawerModel value);
 abstract class DrawerRepository {
   Future<DrawerModel> add(DrawerModel value);
   Future<void> delete(DrawerModel value);
-  Future<DrawerModel> get(String id);
+  Future<DrawerModel> get(String id, { Function(Exception) onError });
   Future<DrawerModel> update(DrawerModel value);
 
   Stream<List<DrawerModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

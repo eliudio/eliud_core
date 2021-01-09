@@ -35,7 +35,7 @@ typedef CountryChanged(CountryModel value);
 abstract class CountryRepository {
   Future<CountryModel> add(CountryModel value);
   Future<void> delete(CountryModel value);
-  Future<CountryModel> get(String id);
+  Future<CountryModel> get(String id, { Function(Exception) onError });
   Future<CountryModel> update(CountryModel value);
 
   Stream<List<CountryModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

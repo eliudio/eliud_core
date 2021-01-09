@@ -59,7 +59,7 @@
         "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
     },
     {
-        "group": "conditional",
+        "group": "conditional3",
         "description": "Conditional"
     }
   ]

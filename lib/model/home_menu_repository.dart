@@ -35,7 +35,7 @@ typedef HomeMenuChanged(HomeMenuModel value);
 abstract class HomeMenuRepository {
   Future<HomeMenuModel> add(HomeMenuModel value);
   Future<void> delete(HomeMenuModel value);
-  Future<HomeMenuModel> get(String id);
+  Future<HomeMenuModel> get(String id, { Function(Exception) onError });
   Future<HomeMenuModel> update(HomeMenuModel value);
 
   Stream<List<HomeMenuModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

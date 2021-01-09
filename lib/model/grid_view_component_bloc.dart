@@ -20,6 +20,8 @@ import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/model/grid_view_component_event.dart';
 import 'package:eliud_core/model/grid_view_component_state.dart';
 import 'package:eliud_core/model/grid_view_repository.dart';
+import 'package:flutter/services.dart';
+
 class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewComponentState> {
   final GridViewRepository gridViewRepository;
 
@@ -30,13 +32,23 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
     if (event is FetchGridViewComponent) {
       try {
         if (currentState is GridViewComponentUninitialized) {
-          final GridViewModel model = await _fetchGridView(event.id);
-
-          if (model != null) {
-            yield GridViewComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await gridViewRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield GridViewComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield GridViewComponentError(message: "GridView with id = '$id' not found");
+            if (model != null) {
+              yield GridViewComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield GridViewComponentError(
+                  message: "GridView with id = '$id' not found");
+            }
           }
           return;
         }
@@ -46,15 +58,10 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
     }
   }
 
-  Future<GridViewModel> _fetchGridView(String id) async {
-    return gridViewRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

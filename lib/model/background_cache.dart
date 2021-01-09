@@ -18,6 +18,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/background_repository.dart';
+
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
@@ -47,10 +48,10 @@ class BackgroundCache implements BackgroundRepository {
     return Future.value();
   }
 
-  Future<BackgroundModel> get(String id){
+  Future<BackgroundModel> get(String id, {Function(Exception) onError}) {
     BackgroundModel value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id).then((value) {
+    return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
       return value;
     });

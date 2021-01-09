@@ -35,7 +35,7 @@ typedef BodyComponentChanged(BodyComponentModel value);
 abstract class BodyComponentRepository {
   Future<BodyComponentModel> add(BodyComponentModel value);
   Future<void> delete(BodyComponentModel value);
-  Future<BodyComponentModel> get(String id);
+  Future<BodyComponentModel> get(String id, { Function(Exception) onError });
   Future<BodyComponentModel> update(BodyComponentModel value);
 
   Stream<List<BodyComponentModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

@@ -30,6 +30,10 @@ class MemberComponentError extends MemberComponentState {
   MemberComponentError({ this.message });
 }
 
+class MemberComponentPermissionDenied extends MemberComponentState {
+  MemberComponentPermissionDenied();
+}
+
 class MemberComponentLoaded extends MemberComponentState {
   final MemberModel value;
 
@@ -45,5 +49,4 @@ class MemberComponentLoaded extends MemberComponentState {
   @override
   String toString() => 'MemberComponentLoaded { value: $value }';
 }
-
 

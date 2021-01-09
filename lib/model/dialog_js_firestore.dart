@@ -58,12 +58,16 @@ class DialogJsFirestore implements DialogRepository {
     return DialogModel.fromEntityPlus(value.id, DialogEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<DialogModel> get(String id) {
+  Future<DialogModel> get(String id, { Function(Exception) onError }) {
     return dialogCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

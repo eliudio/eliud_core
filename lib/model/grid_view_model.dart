@@ -89,17 +89,18 @@ class GridViewModel {
   double padding;
   double mainAxisSpacing;
   double crossAxisSpacing;
+  ConditionsSimpleModel conditions;
 
-  GridViewModel({this.documentID, this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, })  {
+  GridViewModel({this.documentID, this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
     assert(documentID != null);
   }
 
-  GridViewModel copyWith({String documentID, String appId, String name, GridViewScrollDirection scrollDirection, GridViewGridType type, int crossAxisCount, MaxCrossAxisExtentType maxCrossAxisExtentType, double absoluteMaxCrossAxisExtent, double relativeMaxCrossAxisExtent, double childAspectRatio, double padding, double mainAxisSpacing, double crossAxisSpacing, }) {
-    return GridViewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, scrollDirection: scrollDirection ?? this.scrollDirection, type: type ?? this.type, crossAxisCount: crossAxisCount ?? this.crossAxisCount, maxCrossAxisExtentType: maxCrossAxisExtentType ?? this.maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: absoluteMaxCrossAxisExtent ?? this.absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: relativeMaxCrossAxisExtent ?? this.relativeMaxCrossAxisExtent, childAspectRatio: childAspectRatio ?? this.childAspectRatio, padding: padding ?? this.padding, mainAxisSpacing: mainAxisSpacing ?? this.mainAxisSpacing, crossAxisSpacing: crossAxisSpacing ?? this.crossAxisSpacing, );
+  GridViewModel copyWith({String documentID, String appId, String name, GridViewScrollDirection scrollDirection, GridViewGridType type, int crossAxisCount, MaxCrossAxisExtentType maxCrossAxisExtentType, double absoluteMaxCrossAxisExtent, double relativeMaxCrossAxisExtent, double childAspectRatio, double padding, double mainAxisSpacing, double crossAxisSpacing, ConditionsSimpleModel conditions, }) {
+    return GridViewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, scrollDirection: scrollDirection ?? this.scrollDirection, type: type ?? this.type, crossAxisCount: crossAxisCount ?? this.crossAxisCount, maxCrossAxisExtentType: maxCrossAxisExtentType ?? this.maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: absoluteMaxCrossAxisExtent ?? this.absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: relativeMaxCrossAxisExtent ?? this.relativeMaxCrossAxisExtent, childAspectRatio: childAspectRatio ?? this.childAspectRatio, padding: padding ?? this.padding, mainAxisSpacing: mainAxisSpacing ?? this.mainAxisSpacing, crossAxisSpacing: crossAxisSpacing ?? this.crossAxisSpacing, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ scrollDirection.hashCode ^ type.hashCode ^ crossAxisCount.hashCode ^ maxCrossAxisExtentType.hashCode ^ absoluteMaxCrossAxisExtent.hashCode ^ relativeMaxCrossAxisExtent.hashCode ^ childAspectRatio.hashCode ^ padding.hashCode ^ mainAxisSpacing.hashCode ^ crossAxisSpacing.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ scrollDirection.hashCode ^ type.hashCode ^ crossAxisCount.hashCode ^ maxCrossAxisExtentType.hashCode ^ absoluteMaxCrossAxisExtent.hashCode ^ relativeMaxCrossAxisExtent.hashCode ^ childAspectRatio.hashCode ^ padding.hashCode ^ mainAxisSpacing.hashCode ^ crossAxisSpacing.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -118,11 +119,12 @@ class GridViewModel {
           childAspectRatio == other.childAspectRatio &&
           padding == other.padding &&
           mainAxisSpacing == other.mainAxisSpacing &&
-          crossAxisSpacing == other.crossAxisSpacing;
+          crossAxisSpacing == other.crossAxisSpacing &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing}';
+    return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
   GridViewEntity toEntity({String appId}) {
@@ -139,6 +141,7 @@ class GridViewModel {
           padding: (padding != null) ? padding : null, 
           mainAxisSpacing: (mainAxisSpacing != null) ? mainAxisSpacing : null, 
           crossAxisSpacing: (crossAxisSpacing != null) ? crossAxisSpacing : null, 
+          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
 
@@ -158,6 +161,8 @@ class GridViewModel {
           padding: entity.padding, 
           mainAxisSpacing: entity.mainAxisSpacing, 
           crossAxisSpacing: entity.crossAxisSpacing, 
+          conditions: 
+            ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -178,6 +183,8 @@ class GridViewModel {
           padding: entity.padding, 
           mainAxisSpacing: entity.mainAxisSpacing, 
           crossAxisSpacing: entity.crossAxisSpacing, 
+          conditions: 
+            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

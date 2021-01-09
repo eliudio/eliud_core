@@ -51,12 +51,16 @@ class MenuDefFirestore implements MenuDefRepository {
   Future<MenuDefModel> _populateDocPlus(DocumentSnapshot value) async {
     return MenuDefModel.fromEntityPlus(value.documentID, MenuDefEntity.fromMap(value.data), appId: appId);  }
 
-  Future<MenuDefModel> get(String id) {
+  Future<MenuDefModel> get(String id, {Function(Exception) onError}) {
     return MenuDefCollection.document(id).get().then((doc) {
       if (doc.data != null)
         return _populateDocPlus(doc);
       else
         return null;
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
+      }
     });
   }
 

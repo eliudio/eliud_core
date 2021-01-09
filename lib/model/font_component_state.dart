@@ -30,6 +30,10 @@ class FontComponentError extends FontComponentState {
   FontComponentError({ this.message });
 }
 
+class FontComponentPermissionDenied extends FontComponentState {
+  FontComponentPermissionDenied();
+}
+
 class FontComponentLoaded extends FontComponentState {
   final FontModel value;
 
@@ -45,5 +49,4 @@ class FontComponentLoaded extends FontComponentState {
   @override
   String toString() => 'FontComponentLoaded { value: $value }';
 }
-
 

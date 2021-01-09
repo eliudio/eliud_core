@@ -113,6 +113,12 @@
       "displayName": "CrossAxisSpacing",
       "fieldType": "double",
       "group": "spec"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "ConditionsSimple",
+      "group": "conditional"
     }
   ],
   "groups": [
@@ -151,6 +157,10 @@
     {
         "group": "spec",
         "description": "Spec"
+    },
+    {
+        "group": "conditional",
+        "description": "Conditions"
     }
   ],
   "listFields": {

@@ -35,7 +35,7 @@ typedef DecorationColorChanged(DecorationColorModel value);
 abstract class DecorationColorRepository {
   Future<DecorationColorModel> add(DecorationColorModel value);
   Future<void> delete(DecorationColorModel value);
-  Future<DecorationColorModel> get(String id);
+  Future<DecorationColorModel> get(String id, { Function(Exception) onError });
   Future<DecorationColorModel> update(DecorationColorModel value);
 
   Stream<List<DecorationColorModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

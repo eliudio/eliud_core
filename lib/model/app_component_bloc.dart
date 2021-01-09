@@ -20,6 +20,8 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/app_component_event.dart';
 import 'package:eliud_core/model/app_component_state.dart';
 import 'package:eliud_core/model/app_repository.dart';
+import 'package:flutter/services.dart';
+
 
 class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   final AppRepository appRepository;
@@ -31,13 +33,23 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     if (event is FetchAppComponent) {
       try {
         if (currentState is AppComponentUninitialized) {
-          final AppModel model = await _fetchApp(event.id);
-
-          if (model != null) {
-            yield AppComponentLoaded(value: model);
+          bool permissionDenied = false;
+          final model = await appRepository.get(event.id, onError: (error) {
+            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
+            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+              permissionDenied = true;
+            }
+          });
+          if (permissionDenied) {
+            yield AppComponentPermissionDenied();
           } else {
-            String id = event.id;
-            yield AppComponentError(message: "App with id = '$id' not found");
+            if (model != null) {
+              yield AppComponentLoaded(value: model);
+            } else {
+              String id = event.id;
+              yield AppComponentError(
+                  message: "App with id = '$id' not found");
+            }
           }
           return;
         }
@@ -47,15 +59,10 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     }
   }
 
-  Future<AppModel> _fetchApp(String id) async {
-    return appRepository.get(id);
-  }
-
   @override
   Future<void> close() {
     return super.close();
   }
 
 }
-
 

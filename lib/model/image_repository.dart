@@ -35,7 +35,7 @@ typedef ImageChanged(ImageModel value);
 abstract class ImageRepository {
   Future<ImageModel> add(ImageModel value);
   Future<void> delete(ImageModel value);
-  Future<ImageModel> get(String id);
+  Future<ImageModel> get(String id, { Function(Exception) onError });
   Future<ImageModel> update(ImageModel value);
 
   Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });

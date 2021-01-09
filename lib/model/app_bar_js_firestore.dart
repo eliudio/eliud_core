@@ -58,12 +58,16 @@ class AppBarJsFirestore implements AppBarRepository {
     return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);
   }
 
-  Future<AppBarModel> get(String id) {
+  Future<AppBarModel> get(String id, { Function(Exception) onError }) {
     return appBarCollection.doc(id).get().then((data) {
       if (data.data() != null) {
         return _populateDocPlus(data);
       } else {
         return null;
+      }
+    }).catchError((Object e) {
+      if (onError != null) {
+        onError(e);
       }
     });
   }

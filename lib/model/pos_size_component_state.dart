@@ -30,6 +30,10 @@ class PosSizeComponentError extends PosSizeComponentState {
   PosSizeComponentError({ this.message });
 }
 
+class PosSizeComponentPermissionDenied extends PosSizeComponentState {
+  PosSizeComponentPermissionDenied();
+}
+
 class PosSizeComponentLoaded extends PosSizeComponentState {
   final PosSizeModel value;
 
@@ -45,5 +49,4 @@ class PosSizeComponentLoaded extends PosSizeComponentState {
   @override
   String toString() => 'PosSizeComponentLoaded { value: $value }';
 }
-
 
