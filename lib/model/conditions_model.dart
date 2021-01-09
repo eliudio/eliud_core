@@ -60,14 +60,13 @@ ConditionOverride toConditionOverride(int index) {
 
 class ConditionsModel {
 
-  // To determine access to a page/dialog/component, privilegeLevelRequired is compared against the privilegeLevel of the member (in app/access/{user id}/privilegeLevel).
-// If a member is blocked, meaning his app/access/{user id}/blocked is set to true, then that member can still see the pages which have 
+  // see firestore rules
   PrivilegeLevelRequired privilegeLevelRequired;
 
-  // If a ReadCondition is PackageDecides, then the field packageCondition is used as label to query the packages for the condition. Package condition is for example 'must have items in basket' and used to show the basket icon/action referring to the cart page. That page is conditional to having items in the basket. This is a display condition, not a data access restriction.
+  // see firestore rules
   String packageCondition;
 
-  // The default condition is defined in the readCondition + privilegeLevelRequired + packageCondition, as explained in the remarks on those. However, when the condition is true, then the override can add extra display condition. ExactPrivilege means that the condition is met when the member's privilegeLevel equals exactly the privilegeLevelRequired. In other words a member with higher access rights does not see the page/component. InclusiveForBlockedMembers is to allow blocked members to also see the page/component. Remember: a blocked user can always see those pages anyway, because they are public pages. This is an display condition, not a data access restriction
+  // see firestore rules
   ConditionOverride conditionOverride;
 
   ConditionsModel({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, })  {

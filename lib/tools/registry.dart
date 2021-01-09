@@ -51,7 +51,7 @@ class Registry {
   }
 
   Widget page({String id, Map<String, Object> parameters}) {
-    Widget returnThis;
+    PageComponent returnThis;
     try {
       returnThis = PageComponent(
         navigatorKey: navigatorKey,
@@ -74,6 +74,23 @@ class Registry {
     }
   }
 
+  void snackbar(
+      String text, {
+        String snackbarActionLabel,
+        Function() action,
+      }) {
+    final snackBar = SnackBar(
+      content: Text(text),
+      action: snackbarActionLabel == null ? null : SnackBarAction(
+          label: snackbarActionLabel,
+          onPressed: () {
+            if (action != null) action();
+          }),
+    );
+    rootScaffoldMessengerKey.currentState.showSnackBar(snackBar);
+  }
+
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   Widget application({String id, bool asPlaystore}) {
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
     var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
@@ -110,10 +127,10 @@ class Registry {
                       (app.darkOrLight == DarkOrLight.Dark)) {
                     darkTheme = ThemeData.dark();
                   }
-
                   return MaterialApp(
                     debugShowCheckedModeBanner: false,
                     navigatorKey: navigatorKey,
+                    scaffoldMessengerKey: rootScaffoldMessengerKey,
                     initialRoute: eliudrouter.Router.homeRoute,
                     onGenerateRoute: router.generateRoute,
                     darkTheme: darkTheme,

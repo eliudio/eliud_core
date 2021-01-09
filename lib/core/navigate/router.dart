@@ -27,7 +27,7 @@ class Arguments {
 
 abstract class PackageActionHandler {
   void navigateTo(BuildContext context, ActionModel action,
-      { Map<String, Object> parameters });
+      {Map<String, Object> parameters});
 }
 
 class Router {
@@ -53,10 +53,18 @@ class Router {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
     if (state.isBlocked()) return state.app.homePages.homePageBlockedMemberId;
-    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) && (state.app.homePages.homePageOwnerId != null)) return state.app.homePages.homePageOwnerId;
-    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) && (state.app.homePages.homePageLevel2MemberId != null)) return state.app.homePages.homePageLevel2MemberId;
-    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) && (state.app.homePages.homePageLevel1MemberId != null)) return state.app.homePages.homePageLevel1MemberId;
-    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) && (state.app.homePages.homePageSubscribedMemberId != null)) return state.app.homePages.homePageSubscribedMemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
+        (state.app.homePages.homePageOwnerId != null))
+      return state.app.homePages.homePageOwnerId;
+    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
+        (state.app.homePages.homePageLevel2MemberId != null))
+      return state.app.homePages.homePageLevel2MemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
+        (state.app.homePages.homePageLevel1MemberId != null))
+      return state.app.homePages.homePageLevel1MemberId;
+    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
+        (state.app.homePages.homePageSubscribedMemberId != null))
+      return state.app.homePages.homePageSubscribedMemberId;
 
     print('Unknown privilegeLevel $privilegeLevel');
     return state.app.homePages.homePageSubscribedMemberId;
@@ -78,17 +86,20 @@ class Router {
           return pageRouteBuilder(theState.app,
               page: Registry.registry().page(id: getHomepage(theState)));
         case justASecond:
-          return pageRouteBuilder(theState.app, page: justASecondWidget(
-              arguments == null ? '?' : arguments.mainArgument));
+          return pageRouteBuilder(theState.app,
+              page: justASecondWidget(
+                  arguments == null ? '?' : arguments.mainArgument));
         case pageRoute:
-          return pageRouteBuilder(theState.app, page: Registry.registry().page(
-              id: arguments == null ? null : arguments.mainArgument,
-              parameters: arguments == null ? null : arguments.parameters));
+          return pageRouteBuilder(theState.app,
+              page: Registry.registry().page(
+                  id: arguments == null ? null : arguments.mainArgument,
+                  parameters: arguments == null ? null : arguments.parameters));
         default:
-          return pageRouteBuilder(theState.app, page: Scaffold(
-            body: Center(
-                child: Text('No route defined for ${settings.name}')),
-          ));
+          return pageRouteBuilder(theState.app,
+              page: Scaffold(
+                body: Center(
+                    child: Text('No route defined for ${settings.name}')),
+              ));
       }
     } else {
       return null;
@@ -100,16 +111,17 @@ class Router {
   Widget justASecondWidget(String message) {
     return Material(
         type: MaterialType.transparency,
-        child: Container(child: Center(
-      child: Container(
-          height: 200,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: _colors,
-                stops: _stops,
-              ),
-              borderRadius: BorderRadius.all(const Radius.circular(40.0)),
-              boxShadow: [
+        child: Container(
+            child: Center(
+          child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: _colors,
+                  stops: _stops,
+                ),
+                borderRadius: BorderRadius.all(const Radius.circular(40.0)),
+                boxShadow: [
                   BoxShadow(
                     color: Colors.white.withOpacity(.3),
                     spreadRadius: 4,
@@ -117,44 +129,45 @@ class Router {
                     offset: Offset(2, 2), // changes position of shadow
                   ),
                 ],
-          ),
-          //color: Colors.white,
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              DelayedCircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                 child: Text(message, style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.black,
-                  )),
-              )
-            ],
-          )
-      ),
-    )));
+              //color: Colors.white,
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  DelayedCircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(message,
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.black,
+                        )),
+                  )
+                ],
+              )),
+        )));
   }
 
-  static void navigateTo(BuildContext context, ActionModel action, { Map<String, Object> parameters }) async {
+  static void navigateTo(BuildContext context, ActionModel action,
+      {Map<String, Object> parameters}) async {
     if (action.hasAccess(context)) {
       if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
-          BlocProvider.of<NavigatorBloc>(context).add(
-              GoToPageEvent(action.pageID, parameters: parameters));
+          BlocProvider.of<NavigatorBloc>(context)
+              .add(GoToPageEvent(action.pageID, parameters: parameters));
         } else {
           BlocProvider.of<AccessBloc>(context).add(
               SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
         }
       } else if (action is OpenDialog) {
-        await Registry.registry().openDialog(
-            context, id: action.dialogID, parameters: parameters);
+        await Registry.registry()
+            .openDialog(context, id: action.dialogID, parameters: parameters);
       } else if (action is SwitchApp) {
         var appId = action.toAppID;
         BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
@@ -168,16 +181,17 @@ class Router {
             BlocProvider.of<NavigatorBloc>(context).add(GoHome());
             break;
           case InternalActionEnum.Flush:
-            AbstractRepositorySingleton.singleton.flush(
-                AccessBloc.appId(context));
+            AbstractRepositorySingleton.singleton
+                .flush(AccessBloc.appId(context));
             BlocProvider.of<NavigatorBloc>(context).add(GoHome());
             break;
           default:
             return null;
         }
       } else {
-        for (var i = 0 ; i < _registeredActionHandlers.length ; i++) {
-          _registeredActionHandlers[i].navigateTo(context, action, parameters: parameters);
+        for (var i = 0; i < _registeredActionHandlers.length; i++) {
+          _registeredActionHandlers[i]
+              .navigateTo(context, action, parameters: parameters);
         }
       }
     } else {
@@ -186,11 +200,12 @@ class Router {
     }
   }
 
-  static void navigateToPage(NavigatorBloc bloc, ActionModel action, { Map<String, Object> parameters }) async {
+  static void navigateToPage(NavigatorBloc bloc, ActionModel action,
+      {Map<String, Object> parameters}) async {
     if (action is GotoPage) {
       bloc.add(GoToPageEvent(action.pageID, parameters: parameters));
     } else {
       throw "I didn't expect this action type";
-  }
+    }
   }
 }
