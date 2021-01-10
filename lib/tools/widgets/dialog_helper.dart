@@ -34,7 +34,7 @@ class DialogStateHelper {
 
   Widget build({String title, Widget contents, List<FlatButton> buttons}) {
     return Dialog(
-        insetPadding:EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+      insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -128,10 +128,15 @@ class DialogStateHelper {
   }
 
   List<FlatButton> getYesNoButtons(
-      BuildContext context, Function yesFunction, Function noFunction) {
+      BuildContext context, Function yesFunction, Function noFunction,
+      {String yesButtonLabel, String noButtonLabel}) {
     return <FlatButton>[
-      FlatButton(onPressed: noFunction, child: Text('Cancel')),
-      FlatButton(onPressed: yesFunction, child: Text('Continue')),
+      FlatButton(
+          onPressed: noFunction,
+          child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel)),
+      FlatButton(
+          onPressed: yesFunction,
+          child: Text(yesButtonLabel == null ? 'Continue' : yesButtonLabel)),
     ];
   }
 
@@ -183,6 +188,8 @@ class YesNoDialog extends StatefulWidget {
   final String message;
   final Function yesFunction;
   final Function noFunction;
+  final String yesButtonLabel;
+  final String noButtonLabel;
 
   YesNoDialog({
     Key key,
@@ -190,6 +197,8 @@ class YesNoDialog extends StatefulWidget {
     this.message,
     this.yesFunction,
     this.noFunction,
+    this.yesButtonLabel,
+    this.noButtonLabel,
   }) : super(key: key);
 
   @override
@@ -205,7 +214,9 @@ class _YesNoState extends State<YesNoDialog> {
         title: widget.title,
         contents: Text(widget.message),
         buttons: dialogHelper.getYesNoButtons(
-            context, widget.yesFunction, widget.noFunction));
+            context, widget.yesFunction, widget.noFunction,
+            yesButtonLabel: widget.yesButtonLabel,
+            noButtonLabel: widget.noButtonLabel));
   }
 }
 
@@ -294,7 +305,6 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
           FlatButton(
               onPressed: () => widget.yesFunction(feedback),
               child: Text(widget.yesButtonText)),
-    ]);
+        ]);
   }
 }
-
