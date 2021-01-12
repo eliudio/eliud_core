@@ -29,7 +29,7 @@ class ImageTools {
         .ref().child(thumbNailFileName);
     var uploadTaskThumbNail = firebaseStorageRefThumbNail
         .putFile(_thumbNailFile);
-    return await uploadTaskThumbNail.onComplete.then((onValue) async {
+    return await uploadTaskThumbNail.then((onValue) async {
       return await firebaseStorageRefThumbNail.getDownloadURL().then((valThumbNail) {
         return model.copyWith(imageURLThumbnail: valThumbNail);
       });});
@@ -60,7 +60,7 @@ class ImageTools {
         var uploadTaskOriginal = firebaseStorageRefOriginal
             .putFile(_originalImage);
         return await createThumbnail(model, basenameWithoutExtension, image).then((model) async {
-          return await uploadTaskOriginal.onComplete.then((onValue) async {
+          return await uploadTaskOriginal.then((onValue) async {
             return await firebaseStorageRefOriginal.getDownloadURL().then((
                 valOriginal) async {
               return model.copyWith(imageURLOriginal: valOriginal);

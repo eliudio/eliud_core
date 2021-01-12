@@ -105,7 +105,7 @@ const String _gdpr = '''
 class AcceptMembershipWidget extends StatefulWidget {
   final AppModel app;
   final MemberModel member;
-  final FirebaseUser usr;
+  final User usr;
 
   const AcceptMembershipWidget(
     this.app,

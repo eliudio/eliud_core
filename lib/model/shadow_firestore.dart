@@ -33,27 +33,27 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class ShadowFirestore implements ShadowRepository {
   Future<ShadowModel> add(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).setData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ShadowCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   Future<void> delete(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).delete();
+    return ShadowCollection.doc(value.documentID).delete();
   }
 
   Future<ShadowModel> update(ShadowModel value) {
-    return ShadowCollection.document(value.documentID).updateData(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return ShadowCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ShadowModel _populateDoc(DocumentSnapshot value) {
-    return ShadowModel.fromEntity(value.documentID, ShadowEntity.fromMap(value.data));
+    return ShadowModel.fromEntity(value.id, ShadowEntity.fromMap(value.data()));
   }
 
   Future<ShadowModel> _populateDocPlus(DocumentSnapshot value) async {
-    return ShadowModel.fromEntityPlus(value.documentID, ShadowEntity.fromMap(value.data), appId: appId);  }
+    return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), appId: appId);  }
 
   Future<ShadowModel> get(String id, {Function(Exception) onError}) {
-    return ShadowCollection.document(id).get().then((doc) {
-      if (doc.data != null)
+    return ShadowCollection.doc(id).get().then((doc) {
+      if (doc.data() != null)
         return _populateDocPlus(doc);
       else
         return null;
@@ -67,7 +67,7 @@ class ShadowFirestore implements ShadowRepository {
   StreamSubscription<List<ShadowModel>> listen(ShadowModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<ShadowModel>> stream;
     stream = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
-      Iterable<ShadowModel> shadows  = data.documents.map((doc) {
+      Iterable<ShadowModel> shadows  = data.docs.map((doc) {
         ShadowModel value = _populateDoc(doc);
         return value;
       }).toList();
@@ -82,7 +82,7 @@ class ShadowFirestore implements ShadowRepository {
     Stream<List<ShadowModel>> stream;
     stream = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
 
     return stream.listen((listOfShadowModels) {
@@ -92,7 +92,7 @@ class ShadowFirestore implements ShadowRepository {
 
   @override
   StreamSubscription<ShadowModel> listenTo(String documentId, ShadowChanged changed) {
-    var stream = ShadowCollection.document(documentId)
+    var stream = ShadowCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
@@ -105,7 +105,7 @@ class ShadowFirestore implements ShadowRepository {
   Stream<List<ShadowModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<ShadowModel>> _values = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
-      return snapshot.documents.map((doc) {
+      return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList();});
@@ -116,7 +116,7 @@ class ShadowFirestore implements ShadowRepository {
   Stream<List<ShadowModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<ShadowModel>> _values = getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents.map((doc) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
@@ -127,8 +127,8 @@ class ShadowFirestore implements ShadowRepository {
 
   Future<List<ShadowModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<ShadowModel> _values = await getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).getDocuments().then((value) {
-      var list = value.documents;
+    List<ShadowModel> _values = await getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+      var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
         return _populateDoc(doc);
@@ -140,8 +140,8 @@ class ShadowFirestore implements ShadowRepository {
 
   Future<List<ShadowModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<ShadowModel> _values = await getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).getDocuments().then((value) {
-      var list = value.documents;
+    List<ShadowModel> _values = await getQuery(ShadowCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+      var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -154,15 +154,15 @@ class ShadowFirestore implements ShadowRepository {
   void flush() {}
 
   Future<void> deleteAll() {
-    return ShadowCollection.getDocuments().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.documents){
+    return ShadowCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs){
         ds.reference.delete();
       }
     });
   }
 
   dynamic getSubCollection(String documentId, String name) {
-    return ShadowCollection.document(documentId).collection(name);
+    return ShadowCollection.doc(documentId).collection(name);
   }
 
   String timeStampToString(dynamic timeStamp) {

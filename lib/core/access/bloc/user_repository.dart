@@ -11,24 +11,25 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
-  Future<FirebaseUser> currentSignedinUser() {
-    return _firebaseAuth.currentUser();
+  User currentSignedinUser() {
+    return _firebaseAuth.currentUser;
   }
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth = await googleUser
             .authentication;
-        final AuthCredential credential = GoogleAuthProvider.getCredential(
+        final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
         await _firebaseAuth.signInWithCredential(credential);
-        return _firebaseAuth.currentUser();
+        return _firebaseAuth.currentUser;
       }
     } catch (exception) {
+      print(exception);
     }
     return null;
   }
@@ -40,16 +41,16 @@ class UserRepository {
     ]);
   }
 
-  Future<bool> isSignedIn() async {
-    final currentUser = await _firebaseAuth.currentUser();
+  bool isSignedIn() {
+    final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
-  Future<String> getUser() async {
-    return (await _firebaseAuth.currentUser()).email;
+  String getUser() {
+    return _firebaseAuth.currentUser.email;
   }
 
-  Future<String> profilePhoto() async {
-    return (await _firebaseAuth.currentUser()).photoUrl;
+  String profilePhoto() {
+    return _firebaseAuth.currentUser.photoURL;
   }
 }

@@ -25,23 +25,23 @@ class ImageFirestore implements ImageRepository {
     if (value.source != SourceImage.YourProfilePhoto) {
       return ImageTools.uploadPic(value).then((onValue) {
         return imageCollection
-            .document(value.documentID)
-            .setData(onValue.toEntity(appId: appID).toDocument()).then((_) =>
+            .doc(value.documentID)
+            .set(onValue.toEntity(appId: appID).toDocument()).then((_) =>
         onValue);
       }).catchError((onError) =>
           print(onError)
       );
     } else {
       return imageCollection
-          .document(value.documentID)
-          .setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+          .doc(value.documentID)
+          .set(value.toEntity(appId: appID).toDocument()).then((_) => value);
     }
   }
 
   @override
   Future<void> delete(ImageModel value) {
     return _deletePic(value).then(
-        (onValue) => imageCollection.document(onValue.documentID).delete());
+        (onValue) => imageCollection.doc(onValue.documentID).delete());
   }
 
   @override
@@ -49,28 +49,28 @@ class ImageFirestore implements ImageRepository {
     if (value.source != SourceImage.YourProfilePhoto) {
       return ImageTools.uploadPic(value).then((uploaded) =>
           imageCollection
-              .document(uploaded.documentID)
-              .updateData(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
+              .doc(uploaded.documentID)
+              .update(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
           uploaded)
       );
     } else {
       return imageCollection
-          .document(value.documentID)
-          .setData(value.toEntity(appId: appID).toDocument()).then((_) => value);
+          .doc(value.documentID)
+          .set(value.toEntity(appId: appID).toDocument()).then((_) => value);
     }
   }
 
   ImageModel _populateDoc(DocumentSnapshot doc) {
-    return ImageModel.fromEntity(doc.documentID, ImageEntity.fromMap(doc.data));
+    return ImageModel.fromEntity(doc.id, ImageEntity.fromMap(doc.data()));
   }
 
   Future<ImageModel> _populateDocPlus(DocumentSnapshot doc) async {
-    return ImageModel.fromEntityPlus(doc.documentID, ImageEntity.fromMap(doc.data));
+    return ImageModel.fromEntityPlus(doc.id, ImageEntity.fromMap(doc.data()));
   }
 
   @override
   Future<ImageModel> get(String id, { Function(Exception) onError }) {
-    return imageCollection.document(id).get().then((doc) {
+    return imageCollection.doc(id).get().then((doc) {
       if (doc.data != null) {
         return _populateDocPlus(doc);
       } else {
@@ -86,30 +86,30 @@ class ImageFirestore implements ImageRepository {
   @override
   Stream<List<ImageModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     return getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).snapshots().map((snapshot) {
-      return snapshot.documents.map((doc) => _populateDoc(doc)).toList();
+      return snapshot.docs.map((doc) => _populateDoc(doc)).toList();
     });
   }
 
   @override
   Stream<List<ImageModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     return getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).snapshots().asyncMap((snapshot) {
-        return Future.wait(snapshot.documents
+        return Future.wait(snapshot.docs
             .map((doc) => _populateDocPlus(doc)).toList());
       });
   }
 
   @override
   Future<List<ImageModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).getDocuments().then((value) {
-      var list = value.documents;
+    return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).get().then((value) {
+      var list = value.docs;
       return list.map((doc) => _populateDoc(doc)).toList();
     });
   }
 
   @override
   Future<List<ImageModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).getDocuments().then((value) {
-      var list = value.documents;
+    return await getQuery(imageCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel).get().then((value) {
+      var list = value.docs;
       return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
     });
   }
@@ -120,8 +120,8 @@ class ImageFirestore implements ImageRepository {
 
   @override
   Future<void> deleteAll() {
-    return imageCollection.getDocuments().then((snapshot) {
-      for (var ds in snapshot.documents){
+    return imageCollection.get().then((snapshot) {
+      for (var ds in snapshot.docs){
         ds.reference.delete();
       }});
   }
@@ -136,7 +136,7 @@ class ImageFirestore implements ImageRepository {
     if (orderBy == null) {
       stream = imageCollection.snapshots()
           .map((data) {
-        Iterable<ImageModel> images = data.documents.map((doc) {
+        Iterable<ImageModel> images = data.docs.map((doc) {
           var value = _populateDoc(doc);
           return value;
         }).toList();
@@ -145,7 +145,7 @@ class ImageFirestore implements ImageRepository {
     } else {
       stream = imageCollection.orderBy(orderBy, descending: descending).snapshots()
           .map((data) {
-        Iterable<ImageModel> images = data.documents.map((doc) {
+        Iterable<ImageModel> images = data.docs.map((doc) {
           var value = _populateDoc(doc);
           return value;
         }).toList();
@@ -164,13 +164,13 @@ class ImageFirestore implements ImageRepository {
       stream = imageCollection.snapshots()
           .asyncMap((data) async {
         return await Future.wait(
-            data.documents.map((doc) => _populateDocPlus(doc)).toList());
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
       });
     } else {
       stream = imageCollection.orderBy(orderBy, descending: descending).snapshots()
           .asyncMap((data) async {
         return await Future.wait(
-            data.documents.map((doc) => _populateDocPlus(doc)).toList());
+            data.docs.map((doc) => _populateDocPlus(doc)).toList());
       });
     }
     return stream.listen((listOfImageModels) {

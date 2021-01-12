@@ -1,5 +1,9 @@
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/image_model.dart';
+import 'package:eliud_core/model/repository_singleton.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class AbstractPlatform {
@@ -66,5 +70,8 @@ abstract class AbstractPlatform {
     }
   }
 
-  void init();
+  void init() {
+    AbstractRepositorySingleton.singleton = RepositorySingleton();
+    AbstractMainRepositorySingleton.singleton = MainRepositorySingleton();
+  }
 }

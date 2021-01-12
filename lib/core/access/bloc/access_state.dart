@@ -375,7 +375,7 @@ class LoggedOut extends AppLoaded {
 }
 
 abstract class LoggedIn extends AppLoaded {
-  final FirebaseUser usr;
+  final User usr;
   final MemberModel member;
   final PrivilegeLevel privilegeLevel;
   final bool blocked;
@@ -436,7 +436,7 @@ abstract class LoggedIn extends AppLoaded {
 
 class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(
-      FirebaseUser usr,
+      User usr,
       MemberModel member,
       AppModel app,
       AppModel playstoreApp,
@@ -472,7 +472,7 @@ class LoggedInWithoutMembership extends LoggedIn {
   // What is the event that should be triggered after the membership will be accepted...
   final PostLoginAction postLoginAction;
   LoggedInWithoutMembership._(
-      FirebaseUser usr,
+      User usr,
       MemberModel member,
       AppModel app,
       AppModel playstoreApp,
@@ -498,7 +498,7 @@ class LoggedInWithoutMembership extends LoggedIn {
 
 class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(
-    FirebaseUser usr,
+    User usr,
     MemberModel member,
     AppModel app,
     AppModel playstoreApp,
@@ -531,7 +531,7 @@ class LoggedInWithMembership extends LoggedIn {
       ];
 
   LoggedInWithMembership._(
-      FirebaseUser usr,
+      User usr,
       MemberModel member,
       AppModel app,
       AppModel playstoreApp,

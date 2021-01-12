@@ -33,27 +33,27 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class CountryFirestore implements CountryRepository {
   Future<CountryModel> add(CountryModel value) {
-    return CountryCollection.document(value.documentID).setData(value.toEntity().toDocument()).then((_) => value);
+    return CountryCollection.doc(value.documentID).set(value.toEntity().toDocument()).then((_) => value);
   }
 
   Future<void> delete(CountryModel value) {
-    return CountryCollection.document(value.documentID).delete();
+    return CountryCollection.doc(value.documentID).delete();
   }
 
   Future<CountryModel> update(CountryModel value) {
-    return CountryCollection.document(value.documentID).updateData(value.toEntity().toDocument()).then((_) => value);
+    return CountryCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
   }
 
   CountryModel _populateDoc(DocumentSnapshot value) {
-    return CountryModel.fromEntity(value.documentID, CountryEntity.fromMap(value.data));
+    return CountryModel.fromEntity(value.id, CountryEntity.fromMap(value.data()));
   }
 
   Future<CountryModel> _populateDocPlus(DocumentSnapshot value) async {
-    return CountryModel.fromEntityPlus(value.documentID, CountryEntity.fromMap(value.data), );  }
+    return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );  }
 
   Future<CountryModel> get(String id, {Function(Exception) onError}) {
-    return CountryCollection.document(id).get().then((doc) {
-      if (doc.data != null)
+    return CountryCollection.doc(id).get().then((doc) {
+      if (doc.data() != null)
         return _populateDocPlus(doc);
       else
         return null;
@@ -67,7 +67,7 @@ class CountryFirestore implements CountryRepository {
   StreamSubscription<List<CountryModel>> listen(CountryModelTrigger trigger, {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
     Stream<List<CountryModel>> stream;
     stream = getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots().map((data) {
-      Iterable<CountryModel> countrys  = data.documents.map((doc) {
+      Iterable<CountryModel> countrys  = data.docs.map((doc) {
         CountryModel value = _populateDoc(doc);
         return value;
       }).toList();
@@ -82,7 +82,7 @@ class CountryFirestore implements CountryRepository {
     Stream<List<CountryModel>> stream;
     stream = getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.documents.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
 
     return stream.listen((listOfCountryModels) {
@@ -92,7 +92,7 @@ class CountryFirestore implements CountryRepository {
 
   @override
   StreamSubscription<CountryModel> listenTo(String documentId, CountryChanged changed) {
-    var stream = CountryCollection.document(documentId)
+    var stream = CountryCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
@@ -105,7 +105,7 @@ class CountryFirestore implements CountryRepository {
   Stream<List<CountryModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<CountryModel>> _values = getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots().map((snapshot) {
-      return snapshot.documents.map((doc) {
+      return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList();});
@@ -116,7 +116,7 @@ class CountryFirestore implements CountryRepository {
   Stream<List<CountryModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
     DocumentSnapshot lastDoc;
     Stream<List<CountryModel>> _values = getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots().asyncMap((snapshot) {
-      return Future.wait(snapshot.documents.map((doc) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
@@ -127,8 +127,8 @@ class CountryFirestore implements CountryRepository {
 
   Future<List<CountryModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<CountryModel> _values = await getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).getDocuments().then((value) {
-      var list = value.documents;
+    List<CountryModel> _values = await getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).get().then((value) {
+      var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
         return _populateDoc(doc);
@@ -140,8 +140,8 @@ class CountryFirestore implements CountryRepository {
 
   Future<List<CountryModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
     DocumentSnapshot lastDoc;
-    List<CountryModel> _values = await getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).getDocuments().then((value) {
-      var list = value.documents;
+    List<CountryModel> _values = await getQuery(CountryCollection, currentMember: currentMember, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).get().then((value) {
+      var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -154,15 +154,15 @@ class CountryFirestore implements CountryRepository {
   void flush() {}
 
   Future<void> deleteAll() {
-    return CountryCollection.getDocuments().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.documents){
+    return CountryCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs){
         ds.reference.delete();
       }
     });
   }
 
   dynamic getSubCollection(String documentId, String name) {
-    return CountryCollection.document(documentId).collection(name);
+    return CountryCollection.doc(documentId).collection(name);
   }
 
   String timeStampToString(dynamic timeStamp) {
@@ -171,7 +171,7 @@ class CountryFirestore implements CountryRepository {
 
   CountryFirestore();
 
-  final CollectionReference CountryCollection = Firestore.instance.collection('country');
+  final CollectionReference CountryCollection = FirebaseFirestore.instance.collection('country');
 
 }
 

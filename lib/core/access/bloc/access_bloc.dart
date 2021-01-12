@@ -171,7 +171,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessState> _mapMemberAndApp(
-      FirebaseUser usr,
+      User usr,
       MemberModel member,
       AppModel app,
       AppModel playstoreApp,
@@ -200,7 +200,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessState> _mapUsrAndApp(FirebaseUser usr, AppModel app,
+  Future<AccessState> _mapUsrAndApp(User usr, AppModel app,
       AppModel playstoreApp, PostLoginAction postLoginAction) async {
     if (usr == null) {
       return await LoggedOut.getLoggedOut(app, playstoreApp);
@@ -215,7 +215,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  static Future<MemberModel> firebaseToMemberModel(FirebaseUser usr) async {
+  static Future<MemberModel> firebaseToMemberModel(User usr) async {
     var futureMemberModel =
         await memberRepository().get(usr.uid).then((member) async {
       if (member == null) {
@@ -224,7 +224,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           name: usr.displayName,
           email: usr.email,
           isAnonymous: usr.isAnonymous,
-          photoURL: usr.photoUrl,
+          photoURL: usr.photoURL,
           subscriptions: [],
           /*items:[]*/
         );

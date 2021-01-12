@@ -59,7 +59,7 @@ class LoginEvent extends AccessEvent {
 
 class AcceptedMembership extends AccessEvent{
   final MemberModel member;
-  final FirebaseUser usr;
+  final User usr;
 
   AcceptedMembership(this.member, this.usr);
 

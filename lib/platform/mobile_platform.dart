@@ -47,10 +47,4 @@ class MobilePlatform extends AbstractPlatform {
 */
     return widget;
   }
-
-  @override
-  void init() {
-    AbstractRepositorySingleton.singleton = RepositorySingleton();
-    AbstractMainRepositorySingleton.singleton = MainRepositorySingleton();
-  }
 }
