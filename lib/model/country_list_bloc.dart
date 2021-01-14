@@ -43,9 +43,9 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
     _countrysListSubscription = _countryRepository.listen((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<CountryListState> _mapLoadCountryListWithDetailsToState() async* {
+  Stream<CountryListState> _mapLoadCountryListWithDetailsToState({ String orderBy, bool descending }) async* {
     _countrysListSubscription?.cancel();
-    _countrysListSubscription = _countryRepository.listenWithDetails((list) => add(CountryListUpdated(value: list)), );
+    _countrysListSubscription = _countryRepository.listenWithDetails((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<CountryListState> _mapAddCountryListToState(AddCountryList event) async* {

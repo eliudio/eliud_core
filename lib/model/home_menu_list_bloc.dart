@@ -43,9 +43,9 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     _homeMenusListSubscription = _homeMenuRepository.listen((list) => add(HomeMenuListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<HomeMenuListState> _mapLoadHomeMenuListWithDetailsToState() async* {
+  Stream<HomeMenuListState> _mapLoadHomeMenuListWithDetailsToState({ String orderBy, bool descending }) async* {
     _homeMenusListSubscription?.cancel();
-    _homeMenusListSubscription = _homeMenuRepository.listenWithDetails((list) => add(HomeMenuListUpdated(value: list)), );
+    _homeMenusListSubscription = _homeMenuRepository.listenWithDetails((list) => add(HomeMenuListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<HomeMenuListState> _mapAddHomeMenuListToState(AddHomeMenuList event) async* {

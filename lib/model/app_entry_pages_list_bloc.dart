@@ -43,9 +43,9 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     _appEntryPagessListSubscription = _appEntryPagesRepository.listen((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState() async* {
+  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState({ String orderBy, bool descending }) async* {
     _appEntryPagessListSubscription?.cancel();
-    _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails((list) => add(AppEntryPagesListUpdated(value: list)), );
+    _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<AppEntryPagesListState> _mapAddAppEntryPagesListToState(AddAppEntryPagesList event) async* {

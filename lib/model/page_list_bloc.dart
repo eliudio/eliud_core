@@ -43,9 +43,9 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     _pagesListSubscription = _pageRepository.listen((list) => add(PageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<PageListState> _mapLoadPageListWithDetailsToState() async* {
+  Stream<PageListState> _mapLoadPageListWithDetailsToState({ String orderBy, bool descending }) async* {
     _pagesListSubscription?.cancel();
-    _pagesListSubscription = _pageRepository.listenWithDetails((list) => add(PageListUpdated(value: list)), );
+    _pagesListSubscription = _pageRepository.listenWithDetails((list) => add(PageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<PageListState> _mapAddPageListToState(AddPageList event) async* {

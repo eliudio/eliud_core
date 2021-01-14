@@ -43,9 +43,9 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     _decorationColorsListSubscription = _decorationColorRepository.listen((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
+  Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState({ String orderBy, bool descending }) async* {
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails((list) => add(DecorationColorListUpdated(value: list)), );
+    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<DecorationColorListState> _mapAddDecorationColorListToState(AddDecorationColorList event) async* {

@@ -43,9 +43,9 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     _dialogsListSubscription = _dialogRepository.listen((list) => add(DialogListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<DialogListState> _mapLoadDialogListWithDetailsToState() async* {
+  Stream<DialogListState> _mapLoadDialogListWithDetailsToState({ String orderBy, bool descending }) async* {
     _dialogsListSubscription?.cancel();
-    _dialogsListSubscription = _dialogRepository.listenWithDetails((list) => add(DialogListUpdated(value: list)), );
+    _dialogsListSubscription = _dialogRepository.listenWithDetails((list) => add(DialogListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<DialogListState> _mapAddDialogListToState(AddDialogList event) async* {

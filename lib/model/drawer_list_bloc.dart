@@ -43,9 +43,9 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     _drawersListSubscription = _drawerRepository.listen((list) => add(DrawerListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
-  Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {
+  Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState({ String orderBy, bool descending }) async* {
     _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listenWithDetails((list) => add(DrawerListUpdated(value: list)), );
+    _drawersListSubscription = _drawerRepository.listenWithDetails((list) => add(DrawerListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
   }
 
   Stream<DrawerListState> _mapAddDrawerListToState(AddDrawerList event) async* {
