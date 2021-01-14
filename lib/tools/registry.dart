@@ -70,7 +70,7 @@ class Registry {
     if (dialog != null) {
       DialogStatefulWidgetHelper.openIt(context, DialogComponent(dialog: dialog, parameters: parameters));
     } else {
-      DialogStatefulWidgetHelper.openIt(context, MessageDialog(title: 'Error', message: 'Widget with id $id not found in app $appId'));
+      DialogStatefulWidgetHelper.openIt(context, MessageDialog(title: 'Error', message: 'Widget with id $id not found in app $appId', yesFunction: () => Navigator.of(context).pop()));
     }
   }
 

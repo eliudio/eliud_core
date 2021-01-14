@@ -1,5 +1,11 @@
+import 'package:bloc/src/cubit.dart';
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/global_data.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/extensions/member_profile_component.dart';
+import 'package:eliud_core/model/access_model.dart';
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,8 +13,35 @@ import 'package:flutter/material.dart';
 
 
 import 'package:eliud_core/model/component_registry.dart';
+import 'package:flutter_bloc/src/bloc_provider.dart';
 
 import 'package/package.dart';
+
+class CorePackage extends Package {
+  static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
+
+  @override
+  void init() {
+  }
+
+  @override
+  BlocProvider<Cubit<Object>> createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc) => null;
+
+  @override
+  Future<bool> isConditionOk(String packageCondition, AppModel app, MemberModel member, bool isOwner, bool isBlocked, PrivilegeLevel privilegeLevel) async {
+    if (packageCondition == MUST_BE_LOGGED_ON) {
+      return (member != null);
+    }
+    return false;
+  }
+
+  @override
+  List<String> retrieveAllPackageConditions() {
+    return [
+      MUST_BE_LOGGED_ON
+    ];
+  }
+}
 
 abstract class Eliud {
   void register(Package package) {
@@ -17,6 +50,8 @@ abstract class Eliud {
 
   void initRegistryAndPackages() {
     try {
+
+
       AbstractPlatform.platform = getPlatform();
       AbstractPlatform.platform.init();
       ComponentRegistry().init();
@@ -27,6 +62,7 @@ abstract class Eliud {
               .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
           componentConstructor: MemberProfileConstructorDefault());
 
+      GlobalData.registeredPackages.add(CorePackage());
       var plugins = GlobalData.registeredPackages;
       for (var i = 0; i < plugins.length; i++) {
         var plugin = plugins[i];

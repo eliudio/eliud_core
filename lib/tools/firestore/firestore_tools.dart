@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 //
 // If not logged in, or if privilegeLevel <= 0, theh query the pages with privilegeLevel = 0
 Query getQuery(collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId, EliudQuery eliudQuery}) {
-  Query useThisCollection = collection;
+  var useThisCollection = collection;
   // Are we ordering?
   if (orderBy != null) {
     useThisCollection = useThisCollection.orderBy(orderBy, descending: descending);
