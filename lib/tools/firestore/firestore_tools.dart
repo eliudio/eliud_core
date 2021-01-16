@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 //     query the pages with privilegeLevel = 0
 //
 // If not logged in, or if privilegeLevel <= 0, theh query the pages with privilegeLevel = 0
-Query getQuery(collection, {String currentMember, String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId, EliudQuery eliudQuery}) {
+Query getQuery(collection, {String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId, EliudQuery eliudQuery}) {
   var useThisCollection = collection;
   // Are we ordering?
   if (orderBy != null) {
@@ -65,16 +65,6 @@ Query getQuery(collection, {String currentMember, String orderBy, bool descendin
       }
     }
   }
-
-/*
-  // Is this a query limitting the data to be retrieved for a specific member? e.g. posts are limitted to people the post is addressed to.
-  if (currentMember != null) {
-    useThisCollection = useThisCollection.where('readAccess',
-        arrayContainsAny: ((currentMember == null) || (currentMember == '')) ? [
-          'PUBLIC'
-        ] : [currentMember, 'PUBLIC']);
-  }
-*/
 
   // Are we paginating?
   if (startAfter != null) {

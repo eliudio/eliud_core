@@ -40,12 +40,12 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
 
   Stream<FontListState> _mapLoadFontListToState({ String orderBy, bool descending }) async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<FontListState> _mapLoadFontListWithDetailsToState({ String orderBy, bool descending }) async* {
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listenWithDetails((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _fontsListSubscription = _fontRepository.listenWithDetails((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<FontListState> _mapAddFontListToState(AddFontList event) async* {

@@ -40,13 +40,6 @@ class EliudQuery {
     return this;
   }
 
-  EliudQuery withMemberLimittedCondition(String currentMember) {
-    conditions.add(EliudQueryCondition(
-        'readAccess', arrayContainsAny: ((currentMember == null) || (currentMember == "")) ? ['PUBLIC'] : [currentMember, 'PUBLIC']
-    ));
-    return this;
-  }
-
   static EliudQuery ensureQueryAvailable(EliudQuery query) {
     if (query == null) return EliudQuery();
     return query;

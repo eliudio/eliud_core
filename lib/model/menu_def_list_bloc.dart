@@ -40,12 +40,12 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
 
   Stream<MenuDefListState> _mapLoadMenuDefListToState({ String orderBy, bool descending }) async* {
     _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listen((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _menuDefsListSubscription = _menuDefRepository.listen((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState({ String orderBy, bool descending }) async* {
     _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listenWithDetails((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _menuDefsListSubscription = _menuDefRepository.listenWithDetails((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<MenuDefListState> _mapAddMenuDefListToState(AddMenuDefList event) async* {

@@ -40,12 +40,12 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
 
   Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListToState({ String orderBy, bool descending }) async* {
     _memberSubscriptionsListSubscription?.cancel();
-    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListWithDetailsToState({ String orderBy, bool descending }) async* {
     _memberSubscriptionsListSubscription?.cancel();
-    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<MemberSubscriptionListState> _mapAddMemberSubscriptionListToState(AddMemberSubscriptionList event) async* {

@@ -40,12 +40,12 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListToState({ String orderBy, bool descending }) async* {
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState({ String orderBy, bool descending }) async* {
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<BodyComponentListState> _mapAddBodyComponentListToState(AddBodyComponentList event) async* {

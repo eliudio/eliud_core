@@ -40,12 +40,12 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
 
   Stream<AppBarListState> _mapLoadAppBarListToState({ String orderBy, bool descending }) async* {
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listen((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _appBarsListSubscription = _appBarRepository.listen((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState({ String orderBy, bool descending }) async* {
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listenWithDetails((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery, );
+    _appBarsListSubscription = _appBarRepository.listenWithDetails((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
   }
 
   Stream<AppBarListState> _mapAddAppBarListToState(AddAppBarList event) async* {
