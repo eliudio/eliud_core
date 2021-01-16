@@ -26,7 +26,8 @@ abstract class Package {
    *
    * and / or
    *
-   *   void mapAccessState(AccessEvent event, AccessState state) {}
+   *   void mapAccessStateBefore(AccessEvent event, AccessState state) {}
+   *   void mapAccessStateAfter(AccessEvent event, AccessState state) {}
    *
    * In this method we also can extend the AccessBloc functionality, i.e. add an event mapper
    * accessBloc.addMapper();

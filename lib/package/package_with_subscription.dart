@@ -25,30 +25,45 @@ abstract class PackageWithSubscription extends Package {
 
     // register an extra access bloc event mapper, pointing our mapAccessEvent method
     //  accessBloc.addMapper(mapAccessEvent);
-    accessBloc.addStateChangeListener(mapAccessState);
+    accessBloc.addStateChangeListenerBefore(mapAccessStateBefore);
+    accessBloc.addStateChangeListenerAfter(mapAccessStateAfter);
 
     return null;
   }
 
-  void mapAccessState(AccessEvent event, AccessState state) {
+  void mapAccessStateAfter(AccessEvent event, AccessState state) {
     // state is the state after it was handled by AccessBloc
     if (state is AppLoaded) {
       if (event is InitApp) {
         _listenForChanges(state.app, state.getMember());
       } else if (event is SwitchAppEvent) {
         _listenForChanges(state.app, state.getMember());
-      } else if (event is LogoutEvent) {
-        subscription?.cancel();
       } else if (event is LoginEvent) {
         _listenForChanges(state.app, state.getMember());
       }
     }
   }
 
-  void _listenForChanges(AppModel app, MemberModel currentMember) {
-    if (currentMember == null) return;
-    String appId = app.documentID;
+  void mapAccessStateBefore(AccessEvent event, AccessState state) {
+    // state is the state after it was handled by AccessBloc
+    if (state is AppLoaded) {
+      if (event is InitApp) {
+        unsubscribe();
+      } else if (event is SwitchAppEvent) {
+        unsubscribe();
+      } else if (event is LogoutEvent) {
+        unsubscribe();
+      } else if (event is LoginEvent) {
+        unsubscribe();
+      }
+    }
+  }
+
+  void unsubscribe() {
     subscription?.cancel();
+  }
+
+  void _listenForChanges(AppModel app, MemberModel currentMember) {
     resubscribe(app, currentMember);
   }
 

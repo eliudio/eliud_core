@@ -178,7 +178,6 @@ class Router {
             break;
           case InternalActionEnum.Logout:
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
-            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
             break;
           case InternalActionEnum.Flush:
             AbstractRepositorySingleton.singleton
