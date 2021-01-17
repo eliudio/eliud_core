@@ -399,22 +399,6 @@ class IsAnonymousMemberFormError extends MemberFormError {
 }
 
 
-class PackageDataMemberFormError extends MemberFormError { 
-  const PackageDataMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
-
-  @override
-  List<Object> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''PackageDataMemberFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class MemberFormLoaded extends MemberFormInitialized { 
   const MemberFormLoaded({ MemberModel value }): super(value: value);
 

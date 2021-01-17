@@ -174,13 +174,6 @@
       "displayName": "Is Anonymous",
       "fieldType": "bool",
       "group": "general"
-    },
-    {
-      "fieldName": "packageData",
-      "fieldType": "bespoke",
-      "bespokeFieldType": "Map<String, Object>",
-      "bespokeEntityMapping": "(map['packageData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)))",
-      "bespokeEntityToDocument" : "    if (packageData != null) {\n      var myMap = Map();\n      packageData.forEach((key, value) {\n        myMap[key] = jsonDecode(value);\n      });\n      theDocument['packageData'] = myMap;\n    } else theDocument['packageData'] = null;\n"
     }
   ],
   "groups": [

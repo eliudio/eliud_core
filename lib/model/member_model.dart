@@ -56,18 +56,17 @@ class MemberModel {
   List<String> readAccess;
   String email;
   bool isAnonymous;
-  Map<String, Object> packageData;
 
-  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.readAccess, this.email, this.isAnonymous, this.packageData, })  {
+  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.readAccess, this.email, this.isAnonymous, })  {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String documentID, String name, List<MemberSubscriptionModel> subscriptions, List<String> subscriptionsAsString, String photoURL, String shipStreet1, String shipStreet2, String shipCity, String shipState, String postcode, CountryModel country, bool invoiceSame, String invoiceStreet1, String invoiceStreet2, String invoiceCity, String invoiceState, String invoicePostcode, CountryModel invoiceCountry, List<String> readAccess, String email, bool isAnonymous, Map<String, Object> packageData, }) {
-    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsString: subscriptionsAsString ?? this.subscriptionsAsString, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, packageData: packageData ?? this.packageData, );
+  MemberModel copyWith({String documentID, String name, List<MemberSubscriptionModel> subscriptions, List<String> subscriptionsAsString, String photoURL, String shipStreet1, String shipStreet2, String shipCity, String shipState, String postcode, CountryModel country, bool invoiceSame, String invoiceStreet1, String invoiceStreet2, String invoiceCity, String invoiceState, String invoicePostcode, CountryModel invoiceCountry, List<String> readAccess, String email, bool isAnonymous, }) {
+    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsString: subscriptionsAsString ?? this.subscriptionsAsString, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsString.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ readAccess.hashCode ^ email.hashCode ^ isAnonymous.hashCode ^ packageData.hashCode;
+  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsString.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ readAccess.hashCode ^ email.hashCode ^ isAnonymous.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -94,8 +93,7 @@ class MemberModel {
           invoiceCountry == other.invoiceCountry &&
           ListEquality().equals(readAccess, other.readAccess) &&
           email == other.email &&
-          isAnonymous == other.isAnonymous &&
-          packageData == other.packageData;
+          isAnonymous == other.isAnonymous;
 
   @override
   String toString() {
@@ -103,7 +101,7 @@ class MemberModel {
     String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous, packageData: $packageData}';
+    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
   MemberEntity toEntity({String appId}) {
@@ -132,7 +130,7 @@ subscriptionsAsString = subscriptions.map((subscription) => subscription.app.doc
           readAccess: (readAccess != null) ? readAccess : null, 
           email: (email != null) ? email : null, 
           isAnonymous: (isAnonymous != null) ? isAnonymous : null, 
-          packageData: packageData,     );
+    );
   }
 
   static MemberModel fromEntity(String documentID, MemberEntity entity) {
@@ -161,7 +159,6 @@ subscriptionsAsString = subscriptions.map((subscription) => subscription.app.doc
           readAccess: entity.readAccess, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
-          packageData: entity.packageData, 
     );
   }
 
@@ -211,7 +208,6 @@ subscriptionsAsString = subscriptions.map((subscription) => subscription.app.doc
           readAccess: entity.readAccess, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
-          packageData: entity.packageData, 
     );
   }
 

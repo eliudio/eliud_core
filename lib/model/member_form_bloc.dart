@@ -158,7 +158,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  readAccess: currentState.value.readAccess,
                                  email: currentState.value.email,
                                  isAnonymous: currentState.value.isAnonymous,
-                                 packageData: currentState.value.packageData,
           );
         yield SubmittableMemberForm(value: newValue);
 
@@ -226,7 +225,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  readAccess: currentState.value.readAccess,
                                  email: currentState.value.email,
                                  isAnonymous: currentState.value.isAnonymous,
-                                 packageData: currentState.value.packageData,
           );
         yield SubmittableMemberForm(value: newValue);
 
@@ -240,12 +238,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
       }
       if (event is ChangedMemberIsAnonymous) {
         newValue = currentState.value.copyWith(isAnonymous: event.value);
-        yield SubmittableMemberForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedMemberPackageData) {
-        newValue = currentState.value.copyWith(packageData: event.value);
         yield SubmittableMemberForm(value: newValue);
 
         return;

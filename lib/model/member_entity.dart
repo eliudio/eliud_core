@@ -41,12 +41,11 @@ class MemberEntity {
   final List<String> readAccess;
   final String email;
   final bool isAnonymous;
-  final Map<String, Object> packageData;
 
-  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, this.packageData, });
+  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, });
 
 
-  List<Object> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, packageData, ];
+  List<Object> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, ];
 
   @override
   String toString() {
@@ -54,7 +53,7 @@ class MemberEntity {
     String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous, packageData: $packageData}';
+    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
   static MemberEntity fromMap(Map map) {
@@ -68,10 +67,6 @@ class MemberEntity {
         .map((dynamic item) =>
         MemberSubscriptionEntity.fromMap(item as Map))
         .toList();
-    var packageDataFromMap;
-    packageDataFromMap = map['packageData'];
-    if (packageDataFromMap != null)
-      packageDataFromMap = (map['packageData'] as Map<String, dynamic>).map((key, dynamic item) => MapEntry(key, jsonEncode(item)));
 
     return MemberEntity(
       name: map['name'], 
@@ -94,7 +89,6 @@ class MemberEntity {
       readAccess: map['readAccess'] == null ? null : List.from(map['readAccess']), 
       email: map['email'], 
       isAnonymous: map['isAnonymous'], 
-      packageData: packageDataFromMap, 
     );
   }
 
@@ -144,14 +138,6 @@ class MemberEntity {
       else theDocument["email"] = null;
     if (isAnonymous != null) theDocument["isAnonymous"] = isAnonymous;
       else theDocument["isAnonymous"] = null;
-    if (packageData != null) {
-      var myMap = Map();
-      packageData.forEach((key, value) {
-        myMap[key] = jsonDecode(value);
-      });
-      theDocument['packageData'] = myMap;
-    } else theDocument['packageData'] = null;
-
     return theDocument;
   }
 
