@@ -1,5 +1,9 @@
 import 'package:eliud_core/model/member_model.dart';
 
+abstract class SpecialField {}
+
+class DocumentIdField extends SpecialField {}
+
 class EliudQueryCondition {
   final dynamic field;
   final dynamic isEqualTo;

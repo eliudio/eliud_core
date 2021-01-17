@@ -2,6 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:intl/intl.dart';
 
+dynamic getFirestoreField(dynamic conditionField) {
+  if (conditionField is DocumentIdField) {
+    return FieldPath.documentId;
+  } else {
+    return conditionField;
+  }
+}
+
 // process:
 // If member has privilegeLevel >= 1, then
 //     query the pages and dialogs. Pass in privilegeLevel = 3, 2 and 1 and then merge results from query with privilegeLevel = 3, privilegeLevel = 2 and privilegeLevel = 1
@@ -29,39 +37,39 @@ Query getQuery(collection, {String orderBy, bool descending, DocumentSnapshot st
       var condition = eliudQuery.conditions[i];
       if (condition.isLessThanOrEqualTo != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isLessThanOrEqualTo: condition.isLessThanOrEqualTo);
+            useThisCollection.where(getFirestoreField(condition.field), isLessThanOrEqualTo: condition.isLessThanOrEqualTo);
       }
       if (condition.isLessThan != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isLessThan: condition.isLessThan);
+            useThisCollection.where(getFirestoreField(condition.field), isLessThan: condition.isLessThan);
       }
       if (condition.isEqualTo != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isEqualTo: condition.isEqualTo);
+            useThisCollection.where(getFirestoreField(condition.field), isEqualTo: condition.isEqualTo);
       }
       if (condition.isGreaterThanOrEqualTo != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isGreaterThanOrEqualTo: condition.isGreaterThanOrEqualTo);
+            useThisCollection.where(getFirestoreField(condition.field), isGreaterThanOrEqualTo: condition.isGreaterThanOrEqualTo);
       }
       if (condition.isGreaterThan != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isGreaterThan: condition.isGreaterThan);
+            useThisCollection.where(getFirestoreField(condition.field), isGreaterThan: condition.isGreaterThan);
       }
       if (condition.isNull != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, isNull: condition.isNull);
+            useThisCollection.where(getFirestoreField(condition.field), isNull: condition.isNull);
       }
       if (condition.arrayContains != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, arrayContains: condition.arrayContains);
+            useThisCollection.where(getFirestoreField(condition.field), arrayContains: condition.arrayContains);
       }
       if (condition.arrayContainsAny != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, arrayContainsAny: condition.arrayContainsAny);
+            useThisCollection.where(getFirestoreField(condition.field), arrayContainsAny: condition.arrayContainsAny);
       }
       if (condition.whereIn != null) {
         useThisCollection =
-            useThisCollection.where(condition.field, whereIn: condition.whereIn);
+            useThisCollection.where(getFirestoreField(condition.field), whereIn: condition.whereIn);
       }
     }
   }
