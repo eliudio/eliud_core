@@ -69,11 +69,12 @@ class AcceptedMembership extends AccessEvent{
 
 class MemberUpdated extends AccessEvent {
   final MemberModel member;
+  bool refresh; // goto the (potentially new) homepage?
 
-  MemberUpdated(this.member);
+  MemberUpdated(this.member, {this.refresh});
 
   @override
-  List<Object> get props => [ member ];
+  List<Object> get props => [ member, refresh ];
 }
 
 

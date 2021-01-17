@@ -97,6 +97,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               await theState.copyWith(event.member, theState.playStoreApp);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
+          if ((event.refresh != null) && (event.refresh)) {
+            navigatorBloc.add(GoHome());
+          }
         } else {
           // Assumed the result of having logged out, which has been processed seperatly by the bloc already
         }

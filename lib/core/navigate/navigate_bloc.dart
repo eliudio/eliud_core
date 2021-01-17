@@ -16,7 +16,10 @@ class NavigatorBloc extends Bloc<NavigatorEvent, dynamic> {
     } else if (event is JustASecondWait) {
       yield navigatorKey.currentState.pushNamed(eliudrouter.Router.justASecond, arguments: eliudrouter.Arguments(event.message, null));
     } if (event is GoHome) {
-      yield navigatorKey.currentState.pushNamed(eliudrouter.Router.homeRoute);
+      if (navigatorKey.currentState != null)
+        yield navigatorKey.currentState.pushNamed(eliudrouter.Router.homeRoute);
+      else
+        yield state;
     } else if (event is GoToPageEvent) {
       yield navigatorKey.currentState.pushNamed(eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(event.ID, event.parameters));
     }

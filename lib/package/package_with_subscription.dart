@@ -16,12 +16,14 @@ import 'package.dart';
 // Todo: clearly we can introduce some caching, as we are listening as well as querying the same data. So, instead: keep a cache and update the cache adnd use it from within the isConditionOk
 abstract class PackageWithSubscription extends Package {
   AccessBloc accessBloc;
+  NavigatorBloc navigatorBloc;
   StreamSubscription subscription;
 
   @override
   BlocProvider createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
     // store the accessBloc
     this.accessBloc = accessBloc;
+    this.navigatorBloc = navigatorBloc;
 
     // register an extra access bloc event mapper, pointing our mapAccessEvent method
     //  accessBloc.addMapper(mapAccessEvent);

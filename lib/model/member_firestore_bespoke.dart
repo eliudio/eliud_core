@@ -61,10 +61,8 @@ class MemberFirestore implements MemberRepository {
   StreamSubscription<List<MemberModel>> listen(
       MemberModelTrigger trigger,
       {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<MemberModel>> stream;
-    if (orderBy == null) {
-      stream =
-          MemberCollection.where('readAccess', arrayContains: currentMember)
+    Stream<List<MemberModel>>  stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+          .where('readAccess', arrayContains: currentMember)
               .snapshots()
               .map((data) {
         Iterable<MemberModel> members = data.docs.map((doc) {
@@ -73,18 +71,6 @@ class MemberFirestore implements MemberRepository {
         }).toList();
         return members;
       });
-    } else {
-      stream = MemberCollection.orderBy(orderBy, descending: descending)
-          .where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .map((data) {
-        Iterable<MemberModel> members = data.docs.map((doc) {
-          var value = _populateDoc(doc);
-          return value;
-        }).toList();
-        return members;
-      });
-    }
 
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);
@@ -94,23 +80,13 @@ class MemberFirestore implements MemberRepository {
   @override
   StreamSubscription<List<MemberModel>> listenWithDetails(
       MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-    var stream;
-    if (orderBy == null) {
-      stream = MemberCollection.where('readAccess', arrayContains: currentMember)
+    var stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+        .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .asyncMap((data) async {
         return await Future.wait(
             data.docs.map((doc) => _populateDocPlus(doc)).toList());
       });
-    } else {
-      stream = MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(
-            data.docs.map((doc) => _populateDocPlus(doc)).toList());
-      });
-    }
-
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);
     });
@@ -118,80 +94,45 @@ class MemberFirestore implements MemberRepository {
 
   @override
   Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    if (orderBy == null) {
-      return MemberCollection.where('readAccess', arrayContains: currentMember)
+    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+          .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .map((snapshot) {
         return snapshot.docs.map((doc) => _populateDoc(doc)).toList();
       });
-    } else {
-      return MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .map((snapshot) {
-        return snapshot.docs.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
   }
 
   @override
   Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    if (orderBy == null) {
-      return MemberCollection.where('readAccess', arrayContains: currentMember)
+    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+          .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .asyncMap((snapshot) {
         return Future.wait(
             snapshot.docs.map((doc) => _populateDocPlus(doc)).toList());
       });
-    } else {
-      return MemberCollection.orderBy(orderBy, descending: descending).where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .asyncMap((snapshot) {
-        return Future.wait(
-            snapshot.docs.map((doc) => _populateDocPlus(doc)).toList());
-      });
-    }
   }
 
   @override
   Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    if (orderBy == null) {
-      return await MemberCollection.where('readAccess',
-          arrayContains: currentMember)
+    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+          .where('readAccess', arrayContains: currentMember)
           .get()
           .then((value) {
         var list = value.docs;
         return list.map((doc) => _populateDoc(doc)).toList();
       });
-    } else {
-      return await MemberCollection.orderBy(orderBy, descending: descending).where('readAccess',
-          arrayContains: currentMember)
-          .get()
-          .then((value) {
-        var list = value.docs;
-        return list.map((doc) => _populateDoc(doc)).toList();
-      });
-    }
   }
 
   @override
   Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    if (orderBy == null) {
-      return await MemberCollection.where('readAccess',
-          arrayContains: currentMember)
+    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+        .where('readAccess', arrayContains: currentMember)
           .get()
           .then((value) {
         var list = value.docs;
         return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
       });
-    } else {
-      return await MemberCollection.orderBy(orderBy, descending: descending).where('readAccess',
-          arrayContains: currentMember)
-          .get()
-          .then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
-      });
-    }
   }
 
   @override
