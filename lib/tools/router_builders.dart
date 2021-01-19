@@ -10,8 +10,9 @@ abstract class SlideRoute extends PageRouteBuilder {
   final Offset begin;
   final Offset end;
 
-  SlideRoute({this.page, this.milliseconds, this.begin, this.end})
+  SlideRoute({String pageId, Map<String, Object> parameters, this.page, this.milliseconds, this.begin, this.end})
       : super(
+          settings: RouteSettings(name: pageId, arguments: parameters),
           pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) {
             return page;
@@ -33,8 +34,10 @@ abstract class SlideRoute extends PageRouteBuilder {
 }
 
 class RightToLeftRoute extends SlideRoute {
-  RightToLeftRoute({Widget page, int milliseconds})
+  RightToLeftRoute({String pageId, Map<String, Object> parameters, Widget page, int milliseconds})
       : super(
+            pageId: pageId,
+            parameters: parameters,
             page: page,
             milliseconds: milliseconds,
             begin: Offset(1.0, 0.0),
@@ -42,8 +45,10 @@ class RightToLeftRoute extends SlideRoute {
 }
 
 class BottomToTopRoute extends SlideRoute {
-  BottomToTopRoute({Widget page, int milliseconds})
+  BottomToTopRoute({String pageId, Map<String, Object> parameters, Widget page, int milliseconds})
       : super(
+            pageId: pageId,
+            parameters: parameters,
             page: page,
             milliseconds: milliseconds,
             begin: Offset(0.0, 1.0),
@@ -54,8 +59,9 @@ class ScaleRoute extends PageRouteBuilder {
   final Widget page;
   final int milliseconds;
 
-  ScaleRoute({this.page, this.milliseconds})
+  ScaleRoute({String pageId, Map<String, Object> parameters, this.page, this.milliseconds})
       : super(
+        settings: RouteSettings(name: pageId, arguments: parameters),
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -88,8 +94,9 @@ class RotationRoute extends PageRouteBuilder {
   final Widget page;
   final int milliseconds;
 
-  RotationRoute({this.page, this.milliseconds})
+  RotationRoute({String pageId, Map<String, Object> parameters, this.page, this.milliseconds})
       : super(
+          settings: RouteSettings(name: pageId, arguments: parameters),
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -122,8 +129,9 @@ class FadeRoute extends PageRouteBuilder {
   final Widget page;
   final int milliseconds;
 
-  FadeRoute({this.page, this.milliseconds})
+  FadeRoute({String pageId, Map<String, Object> parameters, this.page, this.milliseconds})
       : super(
+          settings: RouteSettings(name: pageId, arguments: parameters),
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -144,23 +152,23 @@ class FadeRoute extends PageRouteBuilder {
         );
 }
 
-PageRouteBuilder pageRouteBuilder(AppModel app, {Widget page}) {
+PageRouteBuilder pageRouteBuilder(AppModel app, {String pageId, Map<String, Object> parameters, Widget page}) {
   var milliseconds = app != null ? app.routeAnimationDuration : 1000;
   if (app != null) {
     switch (app.routeBuilder) {
       case PageTransitionAnimation.SlideRightToLeft:
-        return RightToLeftRoute(page: page, milliseconds: milliseconds);
+        return RightToLeftRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: milliseconds);
       case PageTransitionAnimation.SlideBottomToTop:
-        return BottomToTopRoute(page: page, milliseconds: milliseconds);
+        return BottomToTopRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: milliseconds);
       case PageTransitionAnimation.ScaleRoute:
-        return ScaleRoute(page: page, milliseconds: milliseconds);
+        return ScaleRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: milliseconds);
       case PageTransitionAnimation.RotationRoute:
-        return RotationRoute(page: page, milliseconds: milliseconds);
+        return RotationRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: milliseconds);
       case PageTransitionAnimation.FadeRoute:
-        return FadeRoute(page: page, milliseconds: milliseconds);
+        return FadeRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: milliseconds);
       default:
-        return FadeRoute(page: page, milliseconds: 1000);
+        return FadeRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: 1000);
     }
   }
-  return FadeRoute(page: page, milliseconds: 1000);
+  return FadeRoute(pageId: pageId, parameters: parameters, page: page, milliseconds: 1000);
 }

@@ -80,17 +80,23 @@ class Router {
       switch (settings.name) {
         case '':
           // in flutterweb, the initialRoute is "", not "/"
+          var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              page: Registry.registry().page(id: getHomepage(theState)));
+              pageId: pageId,
+              page: Registry.registry().page(id: pageId));
         case homeRoute:
+          var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              page: Registry.registry().page(id: getHomepage(theState)));
+              pageId: pageId,
+              page: Registry.registry().page(id: pageId));
         case justASecond:
           return pageRouteBuilder(theState.app,
               page: justASecondWidget(
                   arguments == null ? '?' : arguments.mainArgument));
         case pageRoute:
           return pageRouteBuilder(theState.app,
+              pageId: arguments.mainArgument,
+              parameters: arguments.parameters,
               page: Registry.registry().page(
                   id: arguments == null ? null : arguments.mainArgument,
                   parameters: arguments == null ? null : arguments.parameters));
