@@ -27,11 +27,12 @@ class MenuDefListLoading extends MenuDefListState {}
 
 class MenuDefListLoaded extends MenuDefListState {
   final List<MenuDefModel> values;
+  final bool mightHaveMore;
 
-  const MenuDefListLoaded({this.values = const []});
+  const MenuDefListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'MenuDefListLoaded { values: $values }';

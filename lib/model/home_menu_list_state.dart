@@ -27,11 +27,12 @@ class HomeMenuListLoading extends HomeMenuListState {}
 
 class HomeMenuListLoaded extends HomeMenuListState {
   final List<HomeMenuModel> values;
+  final bool mightHaveMore;
 
-  const HomeMenuListLoaded({this.values = const []});
+  const HomeMenuListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'HomeMenuListLoaded { values: $values }';

@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/app_list_event.dart';
 import 'package:eliud_core/model/app_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _appLimit = 5;
 
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final AppRepository _appRepository;
   StreamSubscription _appsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  AppListBloc(this.accessBloc,{ this.eliudQuery, @required AppRepository appRepository })
+  AppListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppRepository appRepository})
       : assert(appRepository != null),
-      _appRepository = appRepository,
-      super(AppListLoading());
+        _appRepository = appRepository,
+        super(AppListLoading());
 
-  Stream<AppListState> _mapLoadAppListToState({ String orderBy, bool descending }) async* {
+  Stream<AppListState> _mapLoadAppListToState() async* {
+    int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values.length : 0;
     _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listen((list) => add(AppListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appsListSubscription = _appRepository.listen(
+          (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _appLimit : null
+    );
   }
 
-  Stream<AppListState> _mapLoadAppListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
+    int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values.length : 0;
     _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listenWithDetails((list) => add(AppListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appsListSubscription = _appRepository.listenWithDetails(
+            (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _appLimit : null
+    );
   }
 
   Stream<AppListState> _mapAddAppListToState(AddAppList event) async* {
@@ -60,17 +76,22 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     _appRepository.delete(event.value);
   }
 
-  Stream<AppListState> _mapAppListUpdatedToState(AppListUpdated event) async* {
-    yield AppListLoaded(values: event.value);
+  Stream<AppListState> _mapAppListUpdatedToState(
+      AppListUpdated event) async* {
+    yield AppListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<AppListState> mapEventToState(AppListEvent event) async* {
-    final currentState = state;
     if (event is LoadAppList) {
-      yield* _mapLoadAppListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadAppListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadAppListToState();
+      } else {
+        yield* _mapLoadAppListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadAppListWithDetailsToState();
     } else if (event is AddAppList) {
       yield* _mapAddAppListToState(event);
@@ -88,7 +109,6 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     _appsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

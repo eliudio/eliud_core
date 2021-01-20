@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/member_subscription_repository.dart';
 import 'package:eliud_core/model/member_subscription_list_event.dart';
 import 'package:eliud_core/model/member_subscription_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _memberSubscriptionLimit = 5;
 
 class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, MemberSubscriptionListState> {
   final MemberSubscriptionRepository _memberSubscriptionRepository;
   StreamSubscription _memberSubscriptionsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  MemberSubscriptionListBloc(this.accessBloc,{ this.eliudQuery, @required MemberSubscriptionRepository memberSubscriptionRepository })
+  MemberSubscriptionListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MemberSubscriptionRepository memberSubscriptionRepository})
       : assert(memberSubscriptionRepository != null),
-      _memberSubscriptionRepository = memberSubscriptionRepository,
-      super(MemberSubscriptionListLoading());
+        _memberSubscriptionRepository = memberSubscriptionRepository,
+        super(MemberSubscriptionListLoading());
 
-  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListToState({ String orderBy, bool descending }) async* {
+  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListToState() async* {
+    int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
-    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen(
+          (list) => add(MemberSubscriptionListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _memberSubscriptionLimit : null
+    );
   }
 
-  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListWithDetailsToState() async* {
+    int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
-    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails((list) => add(MemberSubscriptionListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails(
+            (list) => add(MemberSubscriptionListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _memberSubscriptionLimit : null
+    );
   }
 
   Stream<MemberSubscriptionListState> _mapAddMemberSubscriptionListToState(AddMemberSubscriptionList event) async* {
@@ -60,17 +76,22 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     _memberSubscriptionRepository.delete(event.value);
   }
 
-  Stream<MemberSubscriptionListState> _mapMemberSubscriptionListUpdatedToState(MemberSubscriptionListUpdated event) async* {
-    yield MemberSubscriptionListLoaded(values: event.value);
+  Stream<MemberSubscriptionListState> _mapMemberSubscriptionListUpdatedToState(
+      MemberSubscriptionListUpdated event) async* {
+    yield MemberSubscriptionListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<MemberSubscriptionListState> mapEventToState(MemberSubscriptionListEvent event) async* {
-    final currentState = state;
     if (event is LoadMemberSubscriptionList) {
-      yield* _mapLoadMemberSubscriptionListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadMemberSubscriptionListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadMemberSubscriptionListToState();
+      } else {
+        yield* _mapLoadMemberSubscriptionListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadMemberSubscriptionListWithDetailsToState();
     } else if (event is AddMemberSubscriptionList) {
       yield* _mapAddMemberSubscriptionListToState(event);
@@ -88,7 +109,6 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     _memberSubscriptionsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -22,18 +22,9 @@ abstract class DecorationColorListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDecorationColorList extends DecorationColorListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadDecorationColorList extends DecorationColorListEvent {}
 
-  LoadDecorationColorList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadDecorationColorListWithDetails extends DecorationColorListEvent {}
+class NewPage extends DecorationColorListEvent {}
 
 class AddDecorationColorList extends DecorationColorListEvent {
   final DecorationColorModel value;
@@ -73,13 +64,14 @@ class DeleteDecorationColorList extends DecorationColorListEvent {
 
 class DecorationColorListUpdated extends DecorationColorListEvent {
   final List<DecorationColorModel> value;
+  final bool mightHaveMore;
 
-  const DecorationColorListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const DecorationColorListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'DecorationColorListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'DecorationColorListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

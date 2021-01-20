@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/pos_size_repository.dart';
 import 'package:eliud_core/model/pos_size_list_event.dart';
 import 'package:eliud_core/model/pos_size_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _posSizeLimit = 5;
 
 class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final PosSizeRepository _posSizeRepository;
   StreamSubscription _posSizesListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  PosSizeListBloc(this.accessBloc,{ this.eliudQuery, @required PosSizeRepository posSizeRepository })
+  PosSizeListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PosSizeRepository posSizeRepository})
       : assert(posSizeRepository != null),
-      _posSizeRepository = posSizeRepository,
-      super(PosSizeListLoading());
+        _posSizeRepository = posSizeRepository,
+        super(PosSizeListLoading());
 
-  Stream<PosSizeListState> _mapLoadPosSizeListToState({ String orderBy, bool descending }) async* {
+  Stream<PosSizeListState> _mapLoadPosSizeListToState() async* {
+    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values.length : 0;
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listen((list) => add(PosSizeListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _posSizesListSubscription = _posSizeRepository.listen(
+          (list) => add(PosSizeListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _posSizeLimit : null
+    );
   }
 
-  Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState() async* {
+    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values.length : 0;
     _posSizesListSubscription?.cancel();
-    _posSizesListSubscription = _posSizeRepository.listenWithDetails((list) => add(PosSizeListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _posSizesListSubscription = _posSizeRepository.listenWithDetails(
+            (list) => add(PosSizeListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _posSizeLimit : null
+    );
   }
 
   Stream<PosSizeListState> _mapAddPosSizeListToState(AddPosSizeList event) async* {
@@ -60,17 +76,22 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
     _posSizeRepository.delete(event.value);
   }
 
-  Stream<PosSizeListState> _mapPosSizeListUpdatedToState(PosSizeListUpdated event) async* {
-    yield PosSizeListLoaded(values: event.value);
+  Stream<PosSizeListState> _mapPosSizeListUpdatedToState(
+      PosSizeListUpdated event) async* {
+    yield PosSizeListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<PosSizeListState> mapEventToState(PosSizeListEvent event) async* {
-    final currentState = state;
     if (event is LoadPosSizeList) {
-      yield* _mapLoadPosSizeListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadPosSizeListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadPosSizeListToState();
+      } else {
+        yield* _mapLoadPosSizeListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPosSizeListWithDetailsToState();
     } else if (event is AddPosSizeList) {
       yield* _mapAddPosSizeListToState(event);
@@ -88,7 +109,6 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
     _posSizesListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

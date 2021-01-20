@@ -22,18 +22,9 @@ abstract class BodyComponentListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadBodyComponentList extends BodyComponentListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadBodyComponentList extends BodyComponentListEvent {}
 
-  LoadBodyComponentList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadBodyComponentListWithDetails extends BodyComponentListEvent {}
+class NewPage extends BodyComponentListEvent {}
 
 class AddBodyComponentList extends BodyComponentListEvent {
   final BodyComponentModel value;
@@ -73,13 +64,14 @@ class DeleteBodyComponentList extends BodyComponentListEvent {
 
 class BodyComponentListUpdated extends BodyComponentListEvent {
   final List<BodyComponentModel> value;
+  final bool mightHaveMore;
 
-  const BodyComponentListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const BodyComponentListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'BodyComponentListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'BodyComponentListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

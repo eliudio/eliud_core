@@ -22,18 +22,9 @@ abstract class HomeMenuListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadHomeMenuList extends HomeMenuListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadHomeMenuList extends HomeMenuListEvent {}
 
-  LoadHomeMenuList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadHomeMenuListWithDetails extends HomeMenuListEvent {}
+class NewPage extends HomeMenuListEvent {}
 
 class AddHomeMenuList extends HomeMenuListEvent {
   final HomeMenuModel value;
@@ -73,13 +64,14 @@ class DeleteHomeMenuList extends HomeMenuListEvent {
 
 class HomeMenuListUpdated extends HomeMenuListEvent {
   final List<HomeMenuModel> value;
+  final bool mightHaveMore;
 
-  const HomeMenuListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const HomeMenuListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'HomeMenuListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'HomeMenuListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

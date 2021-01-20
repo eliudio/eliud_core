@@ -22,18 +22,9 @@ abstract class MenuItemListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMenuItemList extends MenuItemListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadMenuItemList extends MenuItemListEvent {}
 
-  LoadMenuItemList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadMenuItemListWithDetails extends MenuItemListEvent {}
+class NewPage extends MenuItemListEvent {}
 
 class AddMenuItemList extends MenuItemListEvent {
   final MenuItemModel value;
@@ -73,13 +64,14 @@ class DeleteMenuItemList extends MenuItemListEvent {
 
 class MenuItemListUpdated extends MenuItemListEvent {
   final List<MenuItemModel> value;
+  final bool mightHaveMore;
 
-  const MenuItemListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const MenuItemListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'MenuItemListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'MenuItemListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

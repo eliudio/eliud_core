@@ -27,11 +27,12 @@ class GridViewListLoading extends GridViewListState {}
 
 class GridViewListLoaded extends GridViewListState {
   final List<GridViewModel> values;
+  final bool mightHaveMore;
 
-  const GridViewListLoaded({this.values = const []});
+  const GridViewListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'GridViewListLoaded { values: $values }';

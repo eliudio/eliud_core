@@ -27,11 +27,12 @@ class AppBarListLoading extends AppBarListState {}
 
 class AppBarListLoaded extends AppBarListState {
   final List<AppBarModel> values;
+  final bool mightHaveMore;
 
-  const AppBarListLoaded({this.values = const []});
+  const AppBarListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'AppBarListLoaded { values: $values }';

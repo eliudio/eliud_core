@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/body_component_repository.dart';
 import 'package:eliud_core/model/body_component_list_event.dart';
 import 'package:eliud_core/model/body_component_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _bodyComponentLimit = 5;
 
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {
   final BodyComponentRepository _bodyComponentRepository;
   StreamSubscription _bodyComponentsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  BodyComponentListBloc(this.accessBloc,{ this.eliudQuery, @required BodyComponentRepository bodyComponentRepository })
+  BodyComponentListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required BodyComponentRepository bodyComponentRepository})
       : assert(bodyComponentRepository != null),
-      _bodyComponentRepository = bodyComponentRepository,
-      super(BodyComponentListLoading());
+        _bodyComponentRepository = bodyComponentRepository,
+        super(BodyComponentListLoading());
 
-  Stream<BodyComponentListState> _mapLoadBodyComponentListToState({ String orderBy, bool descending }) async* {
+  Stream<BodyComponentListState> _mapLoadBodyComponentListToState() async* {
+    int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values.length : 0;
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listen((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _bodyComponentsListSubscription = _bodyComponentRepository.listen(
+          (list) => add(BodyComponentListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _bodyComponentLimit : null
+    );
   }
 
-  Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState() async* {
+    int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values.length : 0;
     _bodyComponentsListSubscription?.cancel();
-    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails((list) => add(BodyComponentListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails(
+            (list) => add(BodyComponentListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _bodyComponentLimit : null
+    );
   }
 
   Stream<BodyComponentListState> _mapAddBodyComponentListToState(AddBodyComponentList event) async* {
@@ -60,17 +76,22 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     _bodyComponentRepository.delete(event.value);
   }
 
-  Stream<BodyComponentListState> _mapBodyComponentListUpdatedToState(BodyComponentListUpdated event) async* {
-    yield BodyComponentListLoaded(values: event.value);
+  Stream<BodyComponentListState> _mapBodyComponentListUpdatedToState(
+      BodyComponentListUpdated event) async* {
+    yield BodyComponentListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<BodyComponentListState> mapEventToState(BodyComponentListEvent event) async* {
-    final currentState = state;
     if (event is LoadBodyComponentList) {
-      yield* _mapLoadBodyComponentListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadBodyComponentListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadBodyComponentListToState();
+      } else {
+        yield* _mapLoadBodyComponentListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadBodyComponentListWithDetailsToState();
     } else if (event is AddBodyComponentList) {
       yield* _mapAddBodyComponentListToState(event);
@@ -88,7 +109,6 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     _bodyComponentsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

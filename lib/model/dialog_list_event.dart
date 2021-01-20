@@ -22,18 +22,9 @@ abstract class DialogListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDialogList extends DialogListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadDialogList extends DialogListEvent {}
 
-  LoadDialogList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadDialogListWithDetails extends DialogListEvent {}
+class NewPage extends DialogListEvent {}
 
 class AddDialogList extends DialogListEvent {
   final DialogModel value;
@@ -73,13 +64,14 @@ class DeleteDialogList extends DialogListEvent {
 
 class DialogListUpdated extends DialogListEvent {
   final List<DialogModel> value;
+  final bool mightHaveMore;
 
-  const DialogListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const DialogListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'DialogListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'DialogListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

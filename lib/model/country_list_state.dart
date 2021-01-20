@@ -27,11 +27,12 @@ class CountryListLoading extends CountryListState {}
 
 class CountryListLoaded extends CountryListState {
   final List<CountryModel> values;
+  final bool mightHaveMore;
 
-  const CountryListLoaded({this.values = const []});
+  const CountryListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'CountryListLoaded { values: $values }';

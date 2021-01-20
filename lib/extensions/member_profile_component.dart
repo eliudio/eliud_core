@@ -60,8 +60,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
                     providers: [
                       BlocProvider<MemberListBloc>(
                         create: (context) =>
-                        MemberListBloc(accessBloc,
-                          memberRepository: memberRepository(),
+                        MemberListBloc(memberRepository: memberRepository(),
                         )
                           ..add(LoadMemberList()),
                       )

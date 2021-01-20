@@ -77,7 +77,6 @@ static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> 
     providers: [
       BlocProvider<AppEntryPagesListBloc>(
         create: (context) => AppEntryPagesListBloc(
-          AccessBloc.getBloc(context), 
           appEntryPagesRepository: inMemoryRepository,
           )..add(LoadAppEntryPagesList()),
         )
@@ -95,7 +94,6 @@ static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> 
     providers: [
       BlocProvider<BodyComponentListBloc>(
         create: (context) => BodyComponentListBloc(
-          AccessBloc.getBloc(context), 
           bodyComponentRepository: inMemoryRepository,
           )..add(LoadBodyComponentList()),
         )
@@ -113,7 +111,6 @@ static Widget decorationColorsList(BuildContext context, List<DecorationColorMod
     providers: [
       BlocProvider<DecorationColorListBloc>(
         create: (context) => DecorationColorListBloc(
-          AccessBloc.getBloc(context), 
           decorationColorRepository: inMemoryRepository,
           )..add(LoadDecorationColorList()),
         )
@@ -131,7 +128,6 @@ static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscript
     providers: [
       BlocProvider<MemberSubscriptionListBloc>(
         create: (context) => MemberSubscriptionListBloc(
-          AccessBloc.getBloc(context), 
           memberSubscriptionRepository: inMemoryRepository,
           )..add(LoadMemberSubscriptionList()),
         )
@@ -149,7 +145,6 @@ static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, Me
     providers: [
       BlocProvider<MenuItemListBloc>(
         create: (context) => MenuItemListBloc(
-          AccessBloc.getBloc(context), 
           menuItemRepository: inMemoryRepository,
           )..add(LoadMenuItemList()),
         )

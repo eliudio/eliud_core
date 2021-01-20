@@ -27,11 +27,12 @@ class DrawerListLoading extends DrawerListState {}
 
 class DrawerListLoaded extends DrawerListState {
   final List<DrawerModel> values;
+  final bool mightHaveMore;
 
-  const DrawerListLoaded({this.values = const []});
+  const DrawerListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'DrawerListLoaded { values: $values }';

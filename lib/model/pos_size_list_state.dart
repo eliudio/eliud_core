@@ -27,11 +27,12 @@ class PosSizeListLoading extends PosSizeListState {}
 
 class PosSizeListLoaded extends PosSizeListState {
   final List<PosSizeModel> values;
+  final bool mightHaveMore;
 
-  const PosSizeListLoaded({this.values = const []});
+  const PosSizeListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PosSizeListLoaded { values: $values }';

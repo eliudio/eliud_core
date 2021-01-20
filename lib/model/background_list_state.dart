@@ -27,11 +27,12 @@ class BackgroundListLoading extends BackgroundListState {}
 
 class BackgroundListLoaded extends BackgroundListState {
   final List<BackgroundModel> values;
+  final bool mightHaveMore;
 
-  const BackgroundListLoaded({this.values = const []});
+  const BackgroundListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'BackgroundListLoaded { values: $values }';

@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/decoration_color_repository.dart';
 import 'package:eliud_core/model/decoration_color_list_event.dart';
 import 'package:eliud_core/model/decoration_color_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _decorationColorLimit = 5;
 
 class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationColorListState> {
   final DecorationColorRepository _decorationColorRepository;
   StreamSubscription _decorationColorsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  DecorationColorListBloc(this.accessBloc,{ this.eliudQuery, @required DecorationColorRepository decorationColorRepository })
+  DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required DecorationColorRepository decorationColorRepository})
       : assert(decorationColorRepository != null),
-      _decorationColorRepository = decorationColorRepository,
-      super(DecorationColorListLoading());
+        _decorationColorRepository = decorationColorRepository,
+        super(DecorationColorListLoading());
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListToState({ String orderBy, bool descending }) async* {
+  Stream<DecorationColorListState> _mapLoadDecorationColorListToState() async* {
+    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values.length : 0;
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listen((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _decorationColorsListSubscription = _decorationColorRepository.listen(
+          (list) => add(DecorationColorListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _decorationColorLimit : null
+    );
   }
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
+    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values.length : 0;
     _decorationColorsListSubscription?.cancel();
-    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails((list) => add(DecorationColorListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails(
+            (list) => add(DecorationColorListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _decorationColorLimit : null
+    );
   }
 
   Stream<DecorationColorListState> _mapAddDecorationColorListToState(AddDecorationColorList event) async* {
@@ -60,17 +76,22 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     _decorationColorRepository.delete(event.value);
   }
 
-  Stream<DecorationColorListState> _mapDecorationColorListUpdatedToState(DecorationColorListUpdated event) async* {
-    yield DecorationColorListLoaded(values: event.value);
+  Stream<DecorationColorListState> _mapDecorationColorListUpdatedToState(
+      DecorationColorListUpdated event) async* {
+    yield DecorationColorListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<DecorationColorListState> mapEventToState(DecorationColorListEvent event) async* {
-    final currentState = state;
     if (event is LoadDecorationColorList) {
-      yield* _mapLoadDecorationColorListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadDecorationColorListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadDecorationColorListToState();
+      } else {
+        yield* _mapLoadDecorationColorListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadDecorationColorListWithDetailsToState();
     } else if (event is AddDecorationColorList) {
       yield* _mapAddDecorationColorListToState(event);
@@ -88,7 +109,6 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     _decorationColorsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

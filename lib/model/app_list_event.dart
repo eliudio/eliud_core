@@ -22,18 +22,9 @@ abstract class AppListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAppList extends AppListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadAppList extends AppListEvent {}
 
-  LoadAppList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadAppListWithDetails extends AppListEvent {}
+class NewPage extends AppListEvent {}
 
 class AddAppList extends AppListEvent {
   final AppModel value;
@@ -73,13 +64,14 @@ class DeleteAppList extends AppListEvent {
 
 class AppListUpdated extends AppListEvent {
   final List<AppModel> value;
+  final bool mightHaveMore;
 
-  const AppListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const AppListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'AppListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'AppListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

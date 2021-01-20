@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 import 'package:eliud_core/model/app_bar_list_event.dart';
 import 'package:eliud_core/model/app_bar_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _appBarLimit = 5;
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final AppBarRepository _appBarRepository;
   StreamSubscription _appBarsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  AppBarListBloc(this.accessBloc,{ this.eliudQuery, @required AppBarRepository appBarRepository })
+  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppBarRepository appBarRepository})
       : assert(appBarRepository != null),
-      _appBarRepository = appBarRepository,
-      super(AppBarListLoading());
+        _appBarRepository = appBarRepository,
+        super(AppBarListLoading());
 
-  Stream<AppBarListState> _mapLoadAppBarListToState({ String orderBy, bool descending }) async* {
+  Stream<AppBarListState> _mapLoadAppBarListToState() async* {
+    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values.length : 0;
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listen((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appBarsListSubscription = _appBarRepository.listen(
+          (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _appBarLimit : null
+    );
   }
 
-  Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState() async* {
+    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values.length : 0;
     _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listenWithDetails((list) => add(AppBarListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appBarsListSubscription = _appBarRepository.listenWithDetails(
+            (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _appBarLimit : null
+    );
   }
 
   Stream<AppBarListState> _mapAddAppBarListToState(AddAppBarList event) async* {
@@ -60,17 +76,22 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     _appBarRepository.delete(event.value);
   }
 
-  Stream<AppBarListState> _mapAppBarListUpdatedToState(AppBarListUpdated event) async* {
-    yield AppBarListLoaded(values: event.value);
+  Stream<AppBarListState> _mapAppBarListUpdatedToState(
+      AppBarListUpdated event) async* {
+    yield AppBarListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<AppBarListState> mapEventToState(AppBarListEvent event) async* {
-    final currentState = state;
     if (event is LoadAppBarList) {
-      yield* _mapLoadAppBarListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadAppBarListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadAppBarListToState();
+      } else {
+        yield* _mapLoadAppBarListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadAppBarListWithDetailsToState();
     } else if (event is AddAppBarList) {
       yield* _mapAddAppBarListToState(event);
@@ -88,7 +109,6 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     _appBarsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/font_repository.dart';
 import 'package:eliud_core/model/font_list_event.dart';
 import 'package:eliud_core/model/font_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _fontLimit = 5;
 
 class FontListBloc extends Bloc<FontListEvent, FontListState> {
   final FontRepository _fontRepository;
   StreamSubscription _fontsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  FontListBloc(this.accessBloc,{ this.eliudQuery, @required FontRepository fontRepository })
+  FontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required FontRepository fontRepository})
       : assert(fontRepository != null),
-      _fontRepository = fontRepository,
-      super(FontListLoading());
+        _fontRepository = fontRepository,
+        super(FontListLoading());
 
-  Stream<FontListState> _mapLoadFontListToState({ String orderBy, bool descending }) async* {
+  Stream<FontListState> _mapLoadFontListToState() async* {
+    int amountNow =  (state is FontListLoaded) ? (state as FontListLoaded).values.length : 0;
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listen((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _fontsListSubscription = _fontRepository.listen(
+          (list) => add(FontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _fontLimit : null
+    );
   }
 
-  Stream<FontListState> _mapLoadFontListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<FontListState> _mapLoadFontListWithDetailsToState() async* {
+    int amountNow =  (state is FontListLoaded) ? (state as FontListLoaded).values.length : 0;
     _fontsListSubscription?.cancel();
-    _fontsListSubscription = _fontRepository.listenWithDetails((list) => add(FontListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _fontsListSubscription = _fontRepository.listenWithDetails(
+            (list) => add(FontListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _fontLimit : null
+    );
   }
 
   Stream<FontListState> _mapAddFontListToState(AddFontList event) async* {
@@ -60,17 +76,22 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
     _fontRepository.delete(event.value);
   }
 
-  Stream<FontListState> _mapFontListUpdatedToState(FontListUpdated event) async* {
-    yield FontListLoaded(values: event.value);
+  Stream<FontListState> _mapFontListUpdatedToState(
+      FontListUpdated event) async* {
+    yield FontListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<FontListState> mapEventToState(FontListEvent event) async* {
-    final currentState = state;
     if (event is LoadFontList) {
-      yield* _mapLoadFontListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadFontListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadFontListToState();
+      } else {
+        yield* _mapLoadFontListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadFontListWithDetailsToState();
     } else if (event is AddFontList) {
       yield* _mapAddFontListToState(event);
@@ -88,7 +109,6 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
     _fontsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

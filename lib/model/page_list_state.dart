@@ -27,11 +27,12 @@ class PageListLoading extends PageListState {}
 
 class PageListLoaded extends PageListState {
   final List<PageModel> values;
+  final bool mightHaveMore;
 
-  const PageListLoaded({this.values = const []});
+  const PageListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PageListLoaded { values: $values }';

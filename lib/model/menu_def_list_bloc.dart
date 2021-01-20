@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/menu_def_repository.dart';
 import 'package:eliud_core/model/menu_def_list_event.dart';
 import 'package:eliud_core/model/menu_def_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _menuDefLimit = 5;
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final MenuDefRepository _menuDefRepository;
   StreamSubscription _menuDefsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  MenuDefListBloc(this.accessBloc,{ this.eliudQuery, @required MenuDefRepository menuDefRepository })
+  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MenuDefRepository menuDefRepository})
       : assert(menuDefRepository != null),
-      _menuDefRepository = menuDefRepository,
-      super(MenuDefListLoading());
+        _menuDefRepository = menuDefRepository,
+        super(MenuDefListLoading());
 
-  Stream<MenuDefListState> _mapLoadMenuDefListToState({ String orderBy, bool descending }) async* {
+  Stream<MenuDefListState> _mapLoadMenuDefListToState() async* {
+    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values.length : 0;
     _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listen((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _menuDefsListSubscription = _menuDefRepository.listen(
+          (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _menuDefLimit : null
+    );
   }
 
-  Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState() async* {
+    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values.length : 0;
     _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listenWithDetails((list) => add(MenuDefListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
+            (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _menuDefLimit : null
+    );
   }
 
   Stream<MenuDefListState> _mapAddMenuDefListToState(AddMenuDefList event) async* {
@@ -60,17 +76,22 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     _menuDefRepository.delete(event.value);
   }
 
-  Stream<MenuDefListState> _mapMenuDefListUpdatedToState(MenuDefListUpdated event) async* {
-    yield MenuDefListLoaded(values: event.value);
+  Stream<MenuDefListState> _mapMenuDefListUpdatedToState(
+      MenuDefListUpdated event) async* {
+    yield MenuDefListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<MenuDefListState> mapEventToState(MenuDefListEvent event) async* {
-    final currentState = state;
     if (event is LoadMenuDefList) {
-      yield* _mapLoadMenuDefListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadMenuDefListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadMenuDefListToState();
+      } else {
+        yield* _mapLoadMenuDefListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadMenuDefListWithDetailsToState();
     } else if (event is AddMenuDefList) {
       yield* _mapAddMenuDefListToState(event);
@@ -88,7 +109,6 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     _menuDefsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

@@ -27,11 +27,12 @@ class BodyComponentListLoading extends BodyComponentListState {}
 
 class BodyComponentListLoaded extends BodyComponentListState {
   final List<BodyComponentModel> values;
+  final bool mightHaveMore;
 
-  const BodyComponentListLoaded({this.values = const []});
+  const BodyComponentListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'BodyComponentListLoaded { values: $values }';

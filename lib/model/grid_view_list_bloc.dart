@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/grid_view_repository.dart';
 import 'package:eliud_core/model/grid_view_list_event.dart';
 import 'package:eliud_core/model/grid_view_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _gridViewLimit = 5;
 
 class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final GridViewRepository _gridViewRepository;
   StreamSubscription _gridViewsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  GridViewListBloc(this.accessBloc,{ this.eliudQuery, @required GridViewRepository gridViewRepository })
+  GridViewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required GridViewRepository gridViewRepository})
       : assert(gridViewRepository != null),
-      _gridViewRepository = gridViewRepository,
-      super(GridViewListLoading());
+        _gridViewRepository = gridViewRepository,
+        super(GridViewListLoading());
 
-  Stream<GridViewListState> _mapLoadGridViewListToState({ String orderBy, bool descending }) async* {
+  Stream<GridViewListState> _mapLoadGridViewListToState() async* {
+    int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values.length : 0;
     _gridViewsListSubscription?.cancel();
-    _gridViewsListSubscription = _gridViewRepository.listen((list) => add(GridViewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _gridViewsListSubscription = _gridViewRepository.listen(
+          (list) => add(GridViewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _gridViewLimit : null
+    );
   }
 
-  Stream<GridViewListState> _mapLoadGridViewListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<GridViewListState> _mapLoadGridViewListWithDetailsToState() async* {
+    int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values.length : 0;
     _gridViewsListSubscription?.cancel();
-    _gridViewsListSubscription = _gridViewRepository.listenWithDetails((list) => add(GridViewListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _gridViewsListSubscription = _gridViewRepository.listenWithDetails(
+            (list) => add(GridViewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _gridViewLimit : null
+    );
   }
 
   Stream<GridViewListState> _mapAddGridViewListToState(AddGridViewList event) async* {
@@ -60,17 +76,22 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     _gridViewRepository.delete(event.value);
   }
 
-  Stream<GridViewListState> _mapGridViewListUpdatedToState(GridViewListUpdated event) async* {
-    yield GridViewListLoaded(values: event.value);
+  Stream<GridViewListState> _mapGridViewListUpdatedToState(
+      GridViewListUpdated event) async* {
+    yield GridViewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<GridViewListState> mapEventToState(GridViewListEvent event) async* {
-    final currentState = state;
     if (event is LoadGridViewList) {
-      yield* _mapLoadGridViewListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadGridViewListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadGridViewListToState();
+      } else {
+        yield* _mapLoadGridViewListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadGridViewListWithDetailsToState();
     } else if (event is AddGridViewList) {
       yield* _mapAddGridViewListToState(event);
@@ -88,7 +109,6 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     _gridViewsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

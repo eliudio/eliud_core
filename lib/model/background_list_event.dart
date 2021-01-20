@@ -22,18 +22,9 @@ abstract class BackgroundListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadBackgroundList extends BackgroundListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadBackgroundList extends BackgroundListEvent {}
 
-  LoadBackgroundList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadBackgroundListWithDetails extends BackgroundListEvent {}
+class NewPage extends BackgroundListEvent {}
 
 class AddBackgroundList extends BackgroundListEvent {
   final BackgroundModel value;
@@ -73,13 +64,14 @@ class DeleteBackgroundList extends BackgroundListEvent {
 
 class BackgroundListUpdated extends BackgroundListEvent {
   final List<BackgroundModel> value;
+  final bool mightHaveMore;
 
-  const BackgroundListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const BackgroundListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'BackgroundListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'BackgroundListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

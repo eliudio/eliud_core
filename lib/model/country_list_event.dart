@@ -22,18 +22,9 @@ abstract class CountryListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCountryList extends CountryListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadCountryList extends CountryListEvent {}
 
-  LoadCountryList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadCountryListWithDetails extends CountryListEvent {}
+class NewPage extends CountryListEvent {}
 
 class AddCountryList extends CountryListEvent {
   final CountryModel value;
@@ -73,13 +64,14 @@ class DeleteCountryList extends CountryListEvent {
 
 class CountryListUpdated extends CountryListEvent {
   final List<CountryModel> value;
+  final bool mightHaveMore;
 
-  const CountryListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const CountryListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'CountryListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'CountryListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

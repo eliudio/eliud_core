@@ -20,39 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+
+const _memberLimit = 5;
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final MemberRepository _memberRepository;
   StreamSubscription _membersListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  MemberListBloc(this.accessBloc,{ this.eliudQuery, @required MemberRepository memberRepository })
+  MemberListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MemberRepository memberRepository})
       : assert(memberRepository != null),
-      _memberRepository = memberRepository,
-      super(MemberListLoading());
-  String _currentMember() {
-    var _currentMember = '';
-    var state = accessBloc.state;
-    if (state is LoggedIn) _currentMember = state.member.documentID;
-    return _currentMember;
+        _memberRepository = memberRepository,
+        super(MemberListLoading());
+
+  Stream<MemberListState> _mapLoadMemberListToState() async* {
+    int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values.length : 0;
+    _membersListSubscription?.cancel();
+    _membersListSubscription = _memberRepository.listen(
+          (list) => add(MemberListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _memberLimit : null
+    );
   }
 
-  Stream<MemberListState> _mapLoadMemberListToState({ String orderBy, bool descending }) async* {
+  Stream<MemberListState> _mapLoadMemberListWithDetailsToState() async* {
+    int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values.length : 0;
     _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listen((list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
-  }
-
-  Stream<MemberListState> _mapLoadMemberListWithDetailsToState({ String orderBy, bool descending }) async* {
-    _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listenWithDetails((list) => add(MemberListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _membersListSubscription = _memberRepository.listenWithDetails(
+            (list) => add(MemberListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _memberLimit : null
+    );
   }
 
   Stream<MemberListState> _mapAddMemberListToState(AddMemberList event) async* {
@@ -60,13 +69,6 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   }
 
   Stream<MemberListState> _mapUpdateMemberListToState(UpdateMemberList event) async* {
-    var state = accessBloc.state;
-    if (state is LoggedIn) {
-        // normally I can only update myself, but checking regardless
-        if (event.value.documentID == state.member.documentID) {
-            await accessBloc.add(MemberUpdated(event.value));
-        }
-    }
     _memberRepository.update(event.value);
   }
 
@@ -74,17 +76,22 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     _memberRepository.delete(event.value);
   }
 
-  Stream<MemberListState> _mapMemberListUpdatedToState(MemberListUpdated event) async* {
-    yield MemberListLoaded(values: event.value);
+  Stream<MemberListState> _mapMemberListUpdatedToState(
+      MemberListUpdated event) async* {
+    yield MemberListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<MemberListState> mapEventToState(MemberListEvent event) async* {
-    final currentState = state;
     if (event is LoadMemberList) {
-      yield* _mapLoadMemberListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadMemberListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadMemberListToState();
+      } else {
+        yield* _mapLoadMemberListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadMemberListWithDetailsToState();
     } else if (event is AddMemberList) {
       yield* _mapAddMemberListToState(event);
@@ -102,7 +109,6 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     _membersListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

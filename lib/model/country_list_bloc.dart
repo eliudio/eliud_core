@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/country_repository.dart';
 import 'package:eliud_core/model/country_list_event.dart';
 import 'package:eliud_core/model/country_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _countryLimit = 5;
 
 class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final CountryRepository _countryRepository;
   StreamSubscription _countrysListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  CountryListBloc(this.accessBloc,{ this.eliudQuery, @required CountryRepository countryRepository })
+  CountryListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required CountryRepository countryRepository})
       : assert(countryRepository != null),
-      _countryRepository = countryRepository,
-      super(CountryListLoading());
+        _countryRepository = countryRepository,
+        super(CountryListLoading());
 
-  Stream<CountryListState> _mapLoadCountryListToState({ String orderBy, bool descending }) async* {
+  Stream<CountryListState> _mapLoadCountryListToState() async* {
+    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values.length : 0;
     _countrysListSubscription?.cancel();
-    _countrysListSubscription = _countryRepository.listen((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _countrysListSubscription = _countryRepository.listen(
+          (list) => add(CountryListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _countryLimit : null
+    );
   }
 
-  Stream<CountryListState> _mapLoadCountryListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<CountryListState> _mapLoadCountryListWithDetailsToState() async* {
+    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values.length : 0;
     _countrysListSubscription?.cancel();
-    _countrysListSubscription = _countryRepository.listenWithDetails((list) => add(CountryListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _countrysListSubscription = _countryRepository.listenWithDetails(
+            (list) => add(CountryListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _countryLimit : null
+    );
   }
 
   Stream<CountryListState> _mapAddCountryListToState(AddCountryList event) async* {
@@ -60,17 +76,22 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
     _countryRepository.delete(event.value);
   }
 
-  Stream<CountryListState> _mapCountryListUpdatedToState(CountryListUpdated event) async* {
-    yield CountryListLoaded(values: event.value);
+  Stream<CountryListState> _mapCountryListUpdatedToState(
+      CountryListUpdated event) async* {
+    yield CountryListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<CountryListState> mapEventToState(CountryListEvent event) async* {
-    final currentState = state;
     if (event is LoadCountryList) {
-      yield* _mapLoadCountryListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadCountryListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadCountryListToState();
+      } else {
+        yield* _mapLoadCountryListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadCountryListWithDetailsToState();
     } else if (event is AddCountryList) {
       yield* _mapAddCountryListToState(event);
@@ -88,7 +109,6 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
     _countrysListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

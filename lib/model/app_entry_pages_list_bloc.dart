@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/app_entry_pages_repository.dart';
 import 'package:eliud_core/model/app_entry_pages_list_event.dart';
 import 'package:eliud_core/model/app_entry_pages_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _appEntryPagesLimit = 5;
 
 class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesListState> {
   final AppEntryPagesRepository _appEntryPagesRepository;
   StreamSubscription _appEntryPagessListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  AppEntryPagesListBloc(this.accessBloc,{ this.eliudQuery, @required AppEntryPagesRepository appEntryPagesRepository })
+  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppEntryPagesRepository appEntryPagesRepository})
       : assert(appEntryPagesRepository != null),
-      _appEntryPagesRepository = appEntryPagesRepository,
-      super(AppEntryPagesListLoading());
+        _appEntryPagesRepository = appEntryPagesRepository,
+        super(AppEntryPagesListLoading());
 
-  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListToState({ String orderBy, bool descending }) async* {
+  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListToState() async* {
+    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values.length : 0;
     _appEntryPagessListSubscription?.cancel();
-    _appEntryPagessListSubscription = _appEntryPagesRepository.listen((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appEntryPagessListSubscription = _appEntryPagesRepository.listen(
+          (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _appEntryPagesLimit : null
+    );
   }
 
-  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState() async* {
+    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values.length : 0;
     _appEntryPagessListSubscription?.cancel();
-    _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails((list) => add(AppEntryPagesListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails(
+            (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _appEntryPagesLimit : null
+    );
   }
 
   Stream<AppEntryPagesListState> _mapAddAppEntryPagesListToState(AddAppEntryPagesList event) async* {
@@ -60,17 +76,22 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     _appEntryPagesRepository.delete(event.value);
   }
 
-  Stream<AppEntryPagesListState> _mapAppEntryPagesListUpdatedToState(AppEntryPagesListUpdated event) async* {
-    yield AppEntryPagesListLoaded(values: event.value);
+  Stream<AppEntryPagesListState> _mapAppEntryPagesListUpdatedToState(
+      AppEntryPagesListUpdated event) async* {
+    yield AppEntryPagesListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<AppEntryPagesListState> mapEventToState(AppEntryPagesListEvent event) async* {
-    final currentState = state;
     if (event is LoadAppEntryPagesList) {
-      yield* _mapLoadAppEntryPagesListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadAppEntryPagesListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadAppEntryPagesListToState();
+      } else {
+        yield* _mapLoadAppEntryPagesListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadAppEntryPagesListWithDetailsToState();
     } else if (event is AddAppEntryPagesList) {
       yield* _mapAddAppEntryPagesListToState(event);
@@ -88,7 +109,6 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     _appEntryPagessListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

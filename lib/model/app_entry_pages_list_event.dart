@@ -22,18 +22,9 @@ abstract class AppEntryPagesListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadAppEntryPagesList extends AppEntryPagesListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadAppEntryPagesList extends AppEntryPagesListEvent {}
 
-  LoadAppEntryPagesList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadAppEntryPagesListWithDetails extends AppEntryPagesListEvent {}
+class NewPage extends AppEntryPagesListEvent {}
 
 class AddAppEntryPagesList extends AppEntryPagesListEvent {
   final AppEntryPagesModel value;
@@ -73,13 +64,14 @@ class DeleteAppEntryPagesList extends AppEntryPagesListEvent {
 
 class AppEntryPagesListUpdated extends AppEntryPagesListEvent {
   final List<AppEntryPagesModel> value;
+  final bool mightHaveMore;
 
-  const AppEntryPagesListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const AppEntryPagesListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'AppEntryPagesListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'AppEntryPagesListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

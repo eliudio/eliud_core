@@ -27,11 +27,12 @@ class ShadowListLoading extends ShadowListState {}
 
 class ShadowListLoaded extends ShadowListState {
   final List<ShadowModel> values;
+  final bool mightHaveMore;
 
-  const ShadowListLoaded({this.values = const []});
+  const ShadowListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'ShadowListLoaded { values: $values }';

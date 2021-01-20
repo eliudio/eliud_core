@@ -22,18 +22,9 @@ abstract class PageListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPageList extends PageListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadPageList extends PageListEvent {}
 
-  LoadPageList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadPageListWithDetails extends PageListEvent {}
+class NewPage extends PageListEvent {}
 
 class AddPageList extends PageListEvent {
   final PageModel value;
@@ -73,13 +64,14 @@ class DeletePageList extends PageListEvent {
 
 class PageListUpdated extends PageListEvent {
   final List<PageModel> value;
+  final bool mightHaveMore;
 
-  const PageListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const PageListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'PageListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'PageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

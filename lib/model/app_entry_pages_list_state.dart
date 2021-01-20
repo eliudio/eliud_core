@@ -27,11 +27,12 @@ class AppEntryPagesListLoading extends AppEntryPagesListState {}
 
 class AppEntryPagesListLoaded extends AppEntryPagesListState {
   final List<AppEntryPagesModel> values;
+  final bool mightHaveMore;
 
-  const AppEntryPagesListLoaded({this.values = const []});
+  const AppEntryPagesListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'AppEntryPagesListLoaded { values: $values }';

@@ -22,18 +22,9 @@ abstract class PosSizeListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPosSizeList extends PosSizeListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadPosSizeList extends PosSizeListEvent {}
 
-  LoadPosSizeList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadPosSizeListWithDetails extends PosSizeListEvent {}
+class NewPage extends PosSizeListEvent {}
 
 class AddPosSizeList extends PosSizeListEvent {
   final PosSizeModel value;
@@ -73,13 +64,14 @@ class DeletePosSizeList extends PosSizeListEvent {
 
 class PosSizeListUpdated extends PosSizeListEvent {
   final List<PosSizeModel> value;
+  final bool mightHaveMore;
 
-  const PosSizeListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const PosSizeListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'PosSizeListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'PosSizeListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

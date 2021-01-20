@@ -22,18 +22,9 @@ abstract class GridViewListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadGridViewList extends GridViewListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadGridViewList extends GridViewListEvent {}
 
-  LoadGridViewList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadGridViewListWithDetails extends GridViewListEvent {}
+class NewPage extends GridViewListEvent {}
 
 class AddGridViewList extends GridViewListEvent {
   final GridViewModel value;
@@ -73,13 +64,14 @@ class DeleteGridViewList extends GridViewListEvent {
 
 class GridViewListUpdated extends GridViewListEvent {
   final List<GridViewModel> value;
+  final bool mightHaveMore;
 
-  const GridViewListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const GridViewListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'GridViewListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'GridViewListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

@@ -22,18 +22,9 @@ abstract class DrawerListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDrawerList extends DrawerListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadDrawerList extends DrawerListEvent {}
 
-  LoadDrawerList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadDrawerListWithDetails extends DrawerListEvent {}
+class NewPage extends DrawerListEvent {}
 
 class AddDrawerList extends DrawerListEvent {
   final DrawerModel value;
@@ -73,13 +64,14 @@ class DeleteDrawerList extends DrawerListEvent {
 
 class DrawerListUpdated extends DrawerListEvent {
   final List<DrawerModel> value;
+  final bool mightHaveMore;
 
-  const DrawerListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const DrawerListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'DrawerListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'DrawerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

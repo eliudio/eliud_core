@@ -22,18 +22,9 @@ abstract class ShadowListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadShadowList extends ShadowListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadShadowList extends ShadowListEvent {}
 
-  LoadShadowList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadShadowListWithDetails extends ShadowListEvent {}
+class NewPage extends ShadowListEvent {}
 
 class AddShadowList extends ShadowListEvent {
   final ShadowModel value;
@@ -73,13 +64,14 @@ class DeleteShadowList extends ShadowListEvent {
 
 class ShadowListUpdated extends ShadowListEvent {
   final List<ShadowModel> value;
+  final bool mightHaveMore;
 
-  const ShadowListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const ShadowListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'ShadowListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'ShadowListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

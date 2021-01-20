@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/background_repository.dart';
 import 'package:eliud_core/model/background_list_event.dart';
 import 'package:eliud_core/model/background_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _backgroundLimit = 5;
 
 class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> {
   final BackgroundRepository _backgroundRepository;
   StreamSubscription _backgroundsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  BackgroundListBloc(this.accessBloc,{ this.eliudQuery, @required BackgroundRepository backgroundRepository })
+  BackgroundListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required BackgroundRepository backgroundRepository})
       : assert(backgroundRepository != null),
-      _backgroundRepository = backgroundRepository,
-      super(BackgroundListLoading());
+        _backgroundRepository = backgroundRepository,
+        super(BackgroundListLoading());
 
-  Stream<BackgroundListState> _mapLoadBackgroundListToState({ String orderBy, bool descending }) async* {
+  Stream<BackgroundListState> _mapLoadBackgroundListToState() async* {
+    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values.length : 0;
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listen((list) => add(BackgroundListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _backgroundsListSubscription = _backgroundRepository.listen(
+          (list) => add(BackgroundListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _backgroundLimit : null
+    );
   }
 
-  Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState() async* {
+    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values.length : 0;
     _backgroundsListSubscription?.cancel();
-    _backgroundsListSubscription = _backgroundRepository.listenWithDetails((list) => add(BackgroundListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _backgroundsListSubscription = _backgroundRepository.listenWithDetails(
+            (list) => add(BackgroundListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _backgroundLimit : null
+    );
   }
 
   Stream<BackgroundListState> _mapAddBackgroundListToState(AddBackgroundList event) async* {
@@ -60,17 +76,22 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
     _backgroundRepository.delete(event.value);
   }
 
-  Stream<BackgroundListState> _mapBackgroundListUpdatedToState(BackgroundListUpdated event) async* {
-    yield BackgroundListLoaded(values: event.value);
+  Stream<BackgroundListState> _mapBackgroundListUpdatedToState(
+      BackgroundListUpdated event) async* {
+    yield BackgroundListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<BackgroundListState> mapEventToState(BackgroundListEvent event) async* {
-    final currentState = state;
     if (event is LoadBackgroundList) {
-      yield* _mapLoadBackgroundListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadBackgroundListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadBackgroundListToState();
+      } else {
+        yield* _mapLoadBackgroundListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadBackgroundListWithDetailsToState();
     } else if (event is AddBackgroundList) {
       yield* _mapAddBackgroundListToState(event);
@@ -88,7 +109,6 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
     _backgroundsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

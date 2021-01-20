@@ -27,11 +27,12 @@ class MemberSubscriptionListLoading extends MemberSubscriptionListState {}
 
 class MemberSubscriptionListLoaded extends MemberSubscriptionListState {
   final List<MemberSubscriptionModel> values;
+  final bool mightHaveMore;
 
-  const MemberSubscriptionListLoaded({this.values = const []});
+  const MemberSubscriptionListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'MemberSubscriptionListLoaded { values: $values }';

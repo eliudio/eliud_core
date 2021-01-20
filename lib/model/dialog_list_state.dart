@@ -27,11 +27,12 @@ class DialogListLoading extends DialogListState {}
 
 class DialogListLoaded extends DialogListState {
   final List<DialogModel> values;
+  final bool mightHaveMore;
 
-  const DialogListLoaded({this.values = const []});
+  const DialogListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'DialogListLoaded { values: $values }';

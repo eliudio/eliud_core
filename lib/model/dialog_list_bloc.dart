@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
 import 'package:eliud_core/model/dialog_list_event.dart';
 import 'package:eliud_core/model/dialog_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _dialogLimit = 5;
 
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final DialogRepository _dialogRepository;
   StreamSubscription _dialogsListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  DialogListBloc(this.accessBloc,{ this.eliudQuery, @required DialogRepository dialogRepository })
+  DialogListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required DialogRepository dialogRepository})
       : assert(dialogRepository != null),
-      _dialogRepository = dialogRepository,
-      super(DialogListLoading());
+        _dialogRepository = dialogRepository,
+        super(DialogListLoading());
 
-  Stream<DialogListState> _mapLoadDialogListToState({ String orderBy, bool descending }) async* {
+  Stream<DialogListState> _mapLoadDialogListToState() async* {
+    int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values.length : 0;
     _dialogsListSubscription?.cancel();
-    _dialogsListSubscription = _dialogRepository.listen((list) => add(DialogListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _dialogsListSubscription = _dialogRepository.listen(
+          (list) => add(DialogListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _dialogLimit : null
+    );
   }
 
-  Stream<DialogListState> _mapLoadDialogListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<DialogListState> _mapLoadDialogListWithDetailsToState() async* {
+    int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values.length : 0;
     _dialogsListSubscription?.cancel();
-    _dialogsListSubscription = _dialogRepository.listenWithDetails((list) => add(DialogListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _dialogsListSubscription = _dialogRepository.listenWithDetails(
+            (list) => add(DialogListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _dialogLimit : null
+    );
   }
 
   Stream<DialogListState> _mapAddDialogListToState(AddDialogList event) async* {
@@ -60,17 +76,22 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     _dialogRepository.delete(event.value);
   }
 
-  Stream<DialogListState> _mapDialogListUpdatedToState(DialogListUpdated event) async* {
-    yield DialogListLoaded(values: event.value);
+  Stream<DialogListState> _mapDialogListUpdatedToState(
+      DialogListUpdated event) async* {
+    yield DialogListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<DialogListState> mapEventToState(DialogListEvent event) async* {
-    final currentState = state;
     if (event is LoadDialogList) {
-      yield* _mapLoadDialogListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadDialogListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadDialogListToState();
+      } else {
+        yield* _mapLoadDialogListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadDialogListWithDetailsToState();
     } else if (event is AddDialogList) {
       yield* _mapAddDialogListToState(event);
@@ -88,7 +109,6 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     _dialogsListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

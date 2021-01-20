@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/page_repository.dart';
 import 'package:eliud_core/model/page_list_event.dart';
 import 'package:eliud_core/model/page_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _pageLimit = 5;
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final PageRepository _pageRepository;
   StreamSubscription _pagesListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  PageListBloc(this.accessBloc,{ this.eliudQuery, @required PageRepository pageRepository })
+  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PageRepository pageRepository})
       : assert(pageRepository != null),
-      _pageRepository = pageRepository,
-      super(PageListLoading());
+        _pageRepository = pageRepository,
+        super(PageListLoading());
 
-  Stream<PageListState> _mapLoadPageListToState({ String orderBy, bool descending }) async* {
+  Stream<PageListState> _mapLoadPageListToState() async* {
+    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values.length : 0;
     _pagesListSubscription?.cancel();
-    _pagesListSubscription = _pageRepository.listen((list) => add(PageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _pagesListSubscription = _pageRepository.listen(
+          (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _pageLimit : null
+    );
   }
 
-  Stream<PageListState> _mapLoadPageListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<PageListState> _mapLoadPageListWithDetailsToState() async* {
+    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values.length : 0;
     _pagesListSubscription?.cancel();
-    _pagesListSubscription = _pageRepository.listenWithDetails((list) => add(PageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _pagesListSubscription = _pageRepository.listenWithDetails(
+            (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _pageLimit : null
+    );
   }
 
   Stream<PageListState> _mapAddPageListToState(AddPageList event) async* {
@@ -60,17 +76,22 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     _pageRepository.delete(event.value);
   }
 
-  Stream<PageListState> _mapPageListUpdatedToState(PageListUpdated event) async* {
-    yield PageListLoaded(values: event.value);
+  Stream<PageListState> _mapPageListUpdatedToState(
+      PageListUpdated event) async* {
+    yield PageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<PageListState> mapEventToState(PageListEvent event) async* {
-    final currentState = state;
     if (event is LoadPageList) {
-      yield* _mapLoadPageListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadPageListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadPageListToState();
+      } else {
+        yield* _mapLoadPageListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPageListWithDetailsToState();
     } else if (event is AddPageList) {
       yield* _mapAddPageListToState(event);
@@ -88,7 +109,6 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     _pagesListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

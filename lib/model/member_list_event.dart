@@ -22,18 +22,9 @@ abstract class MemberListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMemberList extends MemberListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadMemberList extends MemberListEvent {}
 
-  LoadMemberList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadMemberListWithDetails extends MemberListEvent {}
+class NewPage extends MemberListEvent {}
 
 class AddMemberList extends MemberListEvent {
   final MemberModel value;
@@ -73,13 +64,14 @@ class DeleteMemberList extends MemberListEvent {
 
 class MemberListUpdated extends MemberListEvent {
   final List<MemberModel> value;
+  final bool mightHaveMore;
 
-  const MemberListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const MemberListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'MemberListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'MemberListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

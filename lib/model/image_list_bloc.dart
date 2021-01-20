@@ -20,32 +20,48 @@ import 'package:meta/meta.dart';
 import 'package:eliud_core/model/image_repository.dart';
 import 'package:eliud_core/model/image_list_event.dart';
 import 'package:eliud_core/model/image_list_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 
+
+const _imageLimit = 5;
 
 class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
   final ImageRepository _imageRepository;
   StreamSubscription _imagesListSubscription;
-  final AccessBloc accessBloc;
   final EliudQuery eliudQuery;
+  int pages = 1;
+  final bool paged;
+  final String orderBy;
+  final bool descending;
+  final bool detailed;
 
-
-  ImageListBloc(this.accessBloc,{ this.eliudQuery, @required ImageRepository imageRepository })
+  ImageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ImageRepository imageRepository})
       : assert(imageRepository != null),
-      _imageRepository = imageRepository,
-      super(ImageListLoading());
+        _imageRepository = imageRepository,
+        super(ImageListLoading());
 
-  Stream<ImageListState> _mapLoadImageListToState({ String orderBy, bool descending }) async* {
+  Stream<ImageListState> _mapLoadImageListToState() async* {
+    int amountNow =  (state is ImageListLoaded) ? (state as ImageListLoaded).values.length : 0;
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listen((list) => add(ImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _imagesListSubscription = _imageRepository.listen(
+          (list) => add(ImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+      orderBy: orderBy,
+      descending: descending,
+      eliudQuery: eliudQuery,
+      limit: ((paged != null) && (paged)) ? pages * _imageLimit : null
+    );
   }
 
-  Stream<ImageListState> _mapLoadImageListWithDetailsToState({ String orderBy, bool descending }) async* {
+  Stream<ImageListState> _mapLoadImageListWithDetailsToState() async* {
+    int amountNow =  (state is ImageListLoaded) ? (state as ImageListLoaded).values.length : 0;
     _imagesListSubscription?.cancel();
-    _imagesListSubscription = _imageRepository.listenWithDetails((list) => add(ImageListUpdated(value: list)), orderBy: orderBy, descending: descending, eliudQuery: eliudQuery,);
+    _imagesListSubscription = _imageRepository.listenWithDetails(
+            (list) => add(ImageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && (paged)) ? pages * _imageLimit : null
+    );
   }
 
   Stream<ImageListState> _mapAddImageListToState(AddImageList event) async* {
@@ -60,17 +76,22 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
     _imageRepository.delete(event.value);
   }
 
-  Stream<ImageListState> _mapImageListUpdatedToState(ImageListUpdated event) async* {
-    yield ImageListLoaded(values: event.value);
+  Stream<ImageListState> _mapImageListUpdatedToState(
+      ImageListUpdated event) async* {
+    yield ImageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
   }
-
 
   @override
   Stream<ImageListState> mapEventToState(ImageListEvent event) async* {
-    final currentState = state;
     if (event is LoadImageList) {
-      yield* _mapLoadImageListToState(orderBy: event.orderBy, descending: event.descending);
-    } if (event is LoadImageListWithDetails) {
+      if ((detailed == null) || (!detailed)) {
+        yield* _mapLoadImageListToState();
+      } else {
+        yield* _mapLoadImageListWithDetailsToState();
+      }
+    }
+    if (event is NewPage) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadImageListWithDetailsToState();
     } else if (event is AddImageList) {
       yield* _mapAddImageListToState(event);
@@ -88,7 +109,6 @@ class ImageListBloc extends Bloc<ImageListEvent, ImageListState> {
     _imagesListSubscription?.cancel();
     return super.close();
   }
-
 }
 
 

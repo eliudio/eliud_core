@@ -27,11 +27,12 @@ class FontListLoading extends FontListState {}
 
 class FontListLoaded extends FontListState {
   final List<FontModel> values;
+  final bool mightHaveMore;
 
-  const FontListLoaded({this.values = const []});
+  const FontListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'FontListLoaded { values: $values }';

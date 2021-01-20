@@ -27,11 +27,12 @@ class DecorationColorListLoading extends DecorationColorListState {}
 
 class DecorationColorListLoaded extends DecorationColorListState {
   final List<DecorationColorModel> values;
+  final bool mightHaveMore;
 
-  const DecorationColorListLoaded({this.values = const []});
+  const DecorationColorListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values ];
+  List<Object> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'DecorationColorListLoaded { values: $values }';

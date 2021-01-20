@@ -22,18 +22,9 @@ abstract class MemberSubscriptionListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMemberSubscriptionList extends MemberSubscriptionListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadMemberSubscriptionList extends MemberSubscriptionListEvent {}
 
-  LoadMemberSubscriptionList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadMemberSubscriptionListWithDetails extends MemberSubscriptionListEvent {}
+class NewPage extends MemberSubscriptionListEvent {}
 
 class AddMemberSubscriptionList extends MemberSubscriptionListEvent {
   final MemberSubscriptionModel value;
@@ -73,13 +64,14 @@ class DeleteMemberSubscriptionList extends MemberSubscriptionListEvent {
 
 class MemberSubscriptionListUpdated extends MemberSubscriptionListEvent {
   final List<MemberSubscriptionModel> value;
+  final bool mightHaveMore;
 
-  const MemberSubscriptionListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const MemberSubscriptionListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'MemberSubscriptionListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'MemberSubscriptionListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 

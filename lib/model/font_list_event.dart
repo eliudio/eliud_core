@@ -22,18 +22,9 @@ abstract class FontListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadFontList extends FontListEvent {
-  final String orderBy;
-  final bool descending;
+class LoadFontList extends FontListEvent {}
 
-  LoadFontList({this.orderBy, this.descending});
-
-  @override
-  List<Object> get props => [orderBy, descending];
-
-}
-
-class LoadFontListWithDetails extends FontListEvent {}
+class NewPage extends FontListEvent {}
 
 class AddFontList extends FontListEvent {
   final FontModel value;
@@ -73,13 +64,14 @@ class DeleteFontList extends FontListEvent {
 
 class FontListUpdated extends FontListEvent {
   final List<FontModel> value;
+  final bool mightHaveMore;
 
-  const FontListUpdated({ this.value });
-
-  @override
-  List<Object> get props => [ value ];
+  const FontListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  String toString() => 'FontListUpdated{ value: $value }';
+  List<Object> get props => [ value, mightHaveMore ];
+
+  @override
+  String toString() => 'FontListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
