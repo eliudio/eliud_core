@@ -246,6 +246,11 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   StreamSubscription<AppEntryPagesModel> listenTo(String documentId, AppEntryPagesChanged changed) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<AppEntryPagesModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
   
 
     Future<void> deleteAll() {}
@@ -339,6 +344,11 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
   
   @override
   StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<BodyComponentModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     throw UnimplementedError();
   }
   
@@ -436,6 +446,11 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
   StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<DecorationColorModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
   
 
     Future<void> deleteAll() {}
@@ -531,6 +546,11 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
   StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<MemberSubscriptionModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
   
 
     Future<void> deleteAll() {}
@@ -624,6 +644,11 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
   
   @override
   StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<MenuItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     throw UnimplementedError();
   }
   

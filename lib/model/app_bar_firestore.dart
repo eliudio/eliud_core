@@ -176,6 +176,12 @@ class AppBarFirestore implements AppBarRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<AppBarModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return AppBarCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   AppBarFirestore(this.AppBarCollection, this.appId);
 

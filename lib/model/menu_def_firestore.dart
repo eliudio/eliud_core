@@ -176,6 +176,12 @@ class MenuDefFirestore implements MenuDefRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<MenuDefModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return MenuDefCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   MenuDefFirestore(this.MenuDefCollection, this.appId);
 

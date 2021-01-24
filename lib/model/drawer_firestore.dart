@@ -176,6 +176,12 @@ class DrawerFirestore implements DrawerRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<DrawerModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return DrawerCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   DrawerFirestore(this.DrawerCollection, this.appId);
 

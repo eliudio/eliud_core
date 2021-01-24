@@ -176,6 +176,12 @@ class AppFirestore implements AppRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<AppModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return AppCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   AppFirestore();
 
   final CollectionReference AppCollection = FirebaseFirestore.instance.collection('app');

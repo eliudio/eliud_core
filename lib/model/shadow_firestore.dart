@@ -176,6 +176,12 @@ class ShadowFirestore implements ShadowRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<ShadowModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return ShadowCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   ShadowFirestore(this.ShadowCollection, this.appId);
 

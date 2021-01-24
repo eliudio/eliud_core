@@ -176,6 +176,12 @@ class PageFirestore implements PageRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<PageModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return PageCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   PageFirestore(this.PageCollection, this.appId);
 

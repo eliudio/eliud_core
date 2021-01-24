@@ -51,6 +51,7 @@ abstract class HomeMenuRepository {
   String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
+  Future<HomeMenuModel> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

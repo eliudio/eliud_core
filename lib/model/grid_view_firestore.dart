@@ -176,6 +176,12 @@ class GridViewFirestore implements GridViewRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<GridViewModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return GridViewCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   GridViewFirestore(this.GridViewCollection, this.appId);
 

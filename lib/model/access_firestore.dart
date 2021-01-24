@@ -176,6 +176,12 @@ class AccessFirestore implements AccessRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<AccessModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return AccessCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   AccessFirestore(this.AccessCollection, this.appId);
 

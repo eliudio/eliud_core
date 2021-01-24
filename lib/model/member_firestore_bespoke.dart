@@ -173,4 +173,10 @@ class MemberFirestore implements MemberRepository {
       changed(member);
     });
   }
+
+  @override
+  Future<MemberModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return MemberCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
 }

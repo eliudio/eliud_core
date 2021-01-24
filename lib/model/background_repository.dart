@@ -51,6 +51,7 @@ abstract class BackgroundRepository {
   String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
+  Future<BackgroundModel> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

@@ -176,6 +176,12 @@ class DialogFirestore implements DialogRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<DialogModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return DialogCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   DialogFirestore(this.DialogCollection, this.appId);
 

@@ -176,6 +176,12 @@ class FontFirestore implements FontRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<FontModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return FontCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   FontFirestore(this.FontCollection, this.appId);
 

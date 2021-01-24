@@ -51,6 +51,7 @@ abstract class ImageRepository {
   String timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
+  Future<ImageModel> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

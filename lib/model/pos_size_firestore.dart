@@ -176,6 +176,12 @@ class PosSizeFirestore implements PosSizeRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<PosSizeModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return PosSizeCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   PosSizeFirestore(this.PosSizeCollection, this.appId);
 

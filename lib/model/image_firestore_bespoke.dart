@@ -193,4 +193,10 @@ class ImageFirestore implements ImageRepository {
   StreamSubscription<ImageModel> listenTo(String documentId, changed) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<ImageModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return imageCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
 }

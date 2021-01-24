@@ -176,6 +176,12 @@ class BackgroundFirestore implements BackgroundRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<BackgroundModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return BackgroundCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   final String appId;
   BackgroundFirestore(this.BackgroundCollection, this.appId);
 

@@ -176,6 +176,12 @@ class CountryFirestore implements CountryRepository {
     return firestoreTimeStampToString(timeStamp);
   } 
 
+  Future<CountryModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return CountryCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+  }
+
+
   CountryFirestore();
 
   final CollectionReference CountryCollection = FirebaseFirestore.instance.collection('country');
