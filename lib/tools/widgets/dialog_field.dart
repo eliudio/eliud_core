@@ -8,8 +8,9 @@ typedef void ValueChanged(String value);
 class DialogField extends StatefulWidget {
   final InputDecoration decoration;
   final ValueChanged valueChanged;
+  final String initialValue;
 
-  const DialogField({Key key, this.decoration, this.valueChanged})
+  const DialogField({Key key, this.decoration, this.valueChanged, this.initialValue})
       : super(key: key);
 
   @override
@@ -25,6 +26,9 @@ class _DialogFieldState extends State<DialogField> {
   void initState() {
     super.initState();
     myController.addListener(_fieldChanged);
+    if (widget.initialValue != null) {
+      myController.text = widget.initialValue;
+    }
   }
 
   void _fieldChanged() {

@@ -13,6 +13,7 @@ class RequestValueDialog extends StatefulWidget {
   final String hintText;
   final Function(String response) yesFunction;
   final Function noFunction;
+  final String initialValue;
 
   RequestValueDialog({
     Key key,
@@ -22,6 +23,7 @@ class RequestValueDialog extends StatefulWidget {
     this.hintText,
     this.yesFunction,
     this.noFunction,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,7 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
             leading: Icon(Icons.message),
             title: DialogField(
               valueChanged: (value) => feedback = value,
+              initialValue: widget.initialValue,
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 labelText: widget.hintText,
