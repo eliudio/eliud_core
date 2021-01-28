@@ -353,8 +353,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static bool isPlayStoreApp(BuildContext context, String documentID) {
     var appState = BlocProvider.of<AccessBloc>(context).state;
     if (appState is AppLoaded) {
-      if (appState.playStoreApp != null)
+      if (appState.playStoreApp != null) {
         return appState.playStoreApp.documentID == documentID;
+      }
     }
     return false;
   }
