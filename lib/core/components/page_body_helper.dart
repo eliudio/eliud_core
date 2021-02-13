@@ -77,6 +77,7 @@ class PageBodyHelper {
 
   Widget _container(
       BuildContext context, List<Widget> components, Layout layout, GridViewModel gridView) {
+    if (components.length == 1) return _justTheFirst(components);
     switch (layout) {
       case Layout.GridView:
         return _gridView(context, components, gridView);
