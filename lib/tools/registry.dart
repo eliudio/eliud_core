@@ -93,23 +93,30 @@ class Registry {
 
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   Widget application({String id, bool asPlaystore}) {
+    print("application");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
+    print("application 2");
     var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
+    print("application 3");
     var blocProviders = <BlocProvider>[];
     blocProviders
         .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
+    print("application 4");
     blocProviders
         .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
+    print("application 5");
     GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
         blocProviders.add(provider);
       }
     });
+    print("application 6");
     return MultiBlocProvider(
         providers: blocProviders,
         child: BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
           if (state is AppLoaded) {
+            print("AppLoaded");
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (accessContext, accessState) {
               if (accessState is UndeterminedAccessState) {
@@ -148,8 +155,11 @@ class Registry {
               }
             });
           } else if (state is AppError) {
+            print("AppError");
+            print(state.message);
             return AlertWidget(title: 'Error', content: state.message);
           } else {
+            print("Center");
             return Center(
                 child: SizedBox(
                     width: 30,
