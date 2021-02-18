@@ -55,6 +55,9 @@ import '../model/image_repository.dart';
 import '../model/image_cache.dart';
 import '../model/member_repository.dart';
 import '../model/member_cache.dart';
+import '../model/member_medium_firestore.dart';
+import '../model/member_medium_repository.dart';
+import '../model/member_medium_cache.dart';
 import '../model/member_subscription_repository.dart';
 import '../model/member_subscription_cache.dart';
 import '../model/menu_def_firestore.dart';
@@ -93,6 +96,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _fontRepository = HashMap<String, FontRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
     var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
+    var _memberMediumRepository = HashMap<String, MemberMediumRepository>();
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
@@ -132,6 +136,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     HomeMenuRepository homeMenuRepository(String appId) {
       if (_homeMenuRepository[appId] == null) _homeMenuRepository[appId] = HomeMenuCache(HomeMenuFirestore(appRepository().getSubCollection(appId, 'homemenu'), appId));
       return _homeMenuRepository[appId];
+    }
+    MemberMediumRepository memberMediumRepository(String appId) {
+      if (_memberMediumRepository[appId] == null) _memberMediumRepository[appId] = MemberMediumCache(MemberMediumFirestore(appRepository().getSubCollection(appId, 'membermedium'), appId));
+      return _memberMediumRepository[appId];
     }
     MenuDefRepository menuDefRepository(String appId) {
       if (_menuDefRepository[appId] == null) _menuDefRepository[appId] = MenuDefCache(MenuDefFirestore(appRepository().getSubCollection(appId, 'menudef'), appId));

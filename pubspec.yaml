@@ -28,6 +28,8 @@ dependencies:
   equatable: ^1.1.1
   delayed_display: 1.1.0
   transparent_image: 1.0.0
+  camera: ^0.7.0+2
+  thumbnails: 1.0.1
 
   flutter:
     sdk: flutter

@@ -89,9 +89,7 @@ abstract class Eliud {
 
   void initRegistryAndPackages() {
     try {
-
-
-      AbstractPlatform.platform = getPlatform();
+      init();
       AbstractPlatform.platform.init();
       ComponentRegistry().init();
 
@@ -124,5 +122,5 @@ abstract class Eliud {
     runApp(Registry.registry().application(id: appId, asPlaystore: asPlaystore));
   }
 
-  AbstractPlatform getPlatform();
+  void init();
 }

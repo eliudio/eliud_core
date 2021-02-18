@@ -32,6 +32,7 @@ export '../model/home_menu_model.dart';
 export '../model/icon_model.dart';
 export '../model/image_model.dart';
 export '../model/member_model.dart';
+export '../model/member_medium_model.dart';
 export '../model/member_subscription_model.dart';
 export '../model/menu_def_model.dart';
 export '../model/menu_item_model.dart';
