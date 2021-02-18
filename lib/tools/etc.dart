@@ -77,12 +77,27 @@ class BoxDecorationHelper {
 
   static BoxDecoration boxDecoration(AccessState state, BackgroundModel bdm) {
     if (bdm == null) return null;
-    var border = bdm.border != null && bdm.border ?  Border.all() : null;
-    var imageProvider = (bdm.backgroundImage != null) ? AbstractPlatform.platform.getImageProvider(state, bdm.backgroundImage) : null;
-    var image = (imageProvider != null) ? DecorationImage(
-            image: imageProvider,
-            fit: BoxFit.scaleDown)
-        : null;
+    var border = bdm.border != null && bdm.border ? Border.all() : null;
+    var image;
+    if ((bdm.useProfilePhotoAsBackground != null) &&
+        (bdm.useProfilePhotoAsBackground)) {
+      var member = state.getMember();
+      if (member != null) {
+        image = DecorationImage(
+            image: NetworkImage(
+                member.photoURL
+            ),
+            fit: BoxFit.scaleDown);
+      }
+    }
+    if (image == null) {
+      var imageProvider = (bdm.backgroundImage != null) ? NetworkImage(
+          bdm.backgroundImage.imageURLOriginal) : null;
+      image = (imageProvider != null) ? DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.scaleDown)
+          : null;
+    }
     if ((bdm.decorationColors == null) || (bdm.decorationColors.isEmpty)) {
       if (image == null) {
         return null;

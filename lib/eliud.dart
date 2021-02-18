@@ -35,7 +35,7 @@ class CorePackage extends PackageWithSubscription {
   void resubscribe(AppModel app, MemberModel currentMember) {
     var appId = app.documentID;
     if (currentMember != null) {
-      subscription = memberRepository(appId: appId).listen((list) {
+      subscription = memberRepository(appId: appId).listenWithDetails((list) {
         if (list.isNotEmpty) {
           _setState(list.first);
         } else {
@@ -47,7 +47,7 @@ class CorePackage extends PackageWithSubscription {
       _setState(null);
     }
   }
-
+  
   void unsubscribe() {
     super.unsubscribe();
     _setState(null);

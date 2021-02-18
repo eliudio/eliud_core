@@ -13,21 +13,6 @@ class MobilePlatform extends AbstractPlatform {
 
   @override
   @protected
-  ImageProvider getImageProviderOnPlatform(String url) {
-    if (url != null) {
-      return NetworkImage(url);
-/*
-      return CachedNetworkImageProvider(
-        url,
-      );
-*/
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  @protected
   Widget getImageOnPlatform({String imageUrl, double height, double width, BoxFit fit, Alignment alignment}) {
     Widget widget = CachedNetworkImage(imageUrl: imageUrl,
       fit: fit,

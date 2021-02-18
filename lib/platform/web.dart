@@ -5,12 +5,6 @@ import 'package:flutter/material.dart';
 class Web extends AbstractPlatform {
   @override
   @protected
-  ImageProvider getImageProviderOnPlatform(String url) {
-    return NetworkImage(url);
-  }
-
-  @override
-  @protected
   Widget getImageOnPlatform(
       {String imageUrl,
       double height,

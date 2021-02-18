@@ -22,20 +22,14 @@ class ImageFirestore implements ImageRepository {
 
   @override
   Future<ImageModel> add(ImageModel value) async {
-    if (value.source != SourceImage.YourProfilePhoto) {
-      return ImageTools.uploadPic(value).then((onValue) {
-        return imageCollection
-            .doc(value.documentID)
-            .set(onValue.toEntity(appId: appID).toDocument()).then((_) =>
-        onValue);
-      }).catchError((onError) =>
-          print(onError)
-      );
-    } else {
+    return ImageTools.uploadPic(value).then((onValue) {
       return imageCollection
           .doc(value.documentID)
-          .set(value.toEntity(appId: appID).toDocument()).then((_) => value);
-    }
+          .set(onValue.toEntity(appId: appID).toDocument()).then((_) =>
+      onValue);
+    }).catchError((onError) =>
+        print(onError)
+    );
   }
 
   @override
@@ -46,18 +40,12 @@ class ImageFirestore implements ImageRepository {
 
   @override
   Future<ImageModel> update(ImageModel value) {
-    if (value.source != SourceImage.YourProfilePhoto) {
-      return ImageTools.uploadPic(value).then((uploaded) =>
-          imageCollection
-              .doc(uploaded.documentID)
-              .update(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
-          uploaded)
-      );
-    } else {
-      return imageCollection
-          .doc(value.documentID)
-          .set(value.toEntity(appId: appID).toDocument()).then((_) => value);
-    }
+    return ImageTools.uploadPic(value).then((uploaded) =>
+        imageCollection
+            .doc(uploaded.documentID)
+            .update(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
+        uploaded)
+    );
   }
 
   ImageModel _populateDoc(DocumentSnapshot doc) {

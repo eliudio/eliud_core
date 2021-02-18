@@ -258,19 +258,6 @@ class _MyImageFormState extends State<MyImageForm> {
                     },
                 ),
           );
-        children.add(
-
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _sourceSelectedRadioTile,
-                    title: Text("YourProfilePhoto", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("YourProfilePhoto", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
-                      setSelectionSource(val);
-                    },
-                ),
-          );
 
 
         children.add(Container(height: 20.0));

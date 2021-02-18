@@ -220,7 +220,7 @@
     "title": "documentID",
     "subTitle": "name"
   },
-  "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app.ownerID).toList();\nsubscriptionsAsString = subscriptions.map((subscription) => subscription.app.documentID).toList();",
+  "preToEntityCode": "readAccess = subscriptions.map((subscription) => subscription.app != null ? subscription.app.ownerID : null).toList();\n    subscriptionsAsString = subscriptions.map((subscription) => subscription.app != null ? subscription.app.documentID : null).toList();",
   "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",
   "extraImports": {
     "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';"

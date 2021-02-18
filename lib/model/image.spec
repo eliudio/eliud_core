@@ -49,7 +49,7 @@
       "fieldType": "enum",
       "enumName": "SourceImage",
       "group": "imageSource",
-      "enumValues" : [ "Upload", "SpecifyURL", "YourProfilePhoto" ]
+      "enumValues" : [ "Upload", "SpecifyURL" ]
     },
     {
       "fieldName": "imageURLOriginal",

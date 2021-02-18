@@ -97,6 +97,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
                                  appId: currentState.value.appId,
                                  comments: currentState.value.comments,
                                  backgroundImage: null,
+                                 useProfilePhotoAsBackground: currentState.value.useProfilePhotoAsBackground,
                                  beginGradientPosition: currentState.value.beginGradientPosition,
                                  endGradientPosition: currentState.value.endGradientPosition,
                                  shadow: currentState.value.shadow,
@@ -104,6 +105,12 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
                                  border: currentState.value.border,
                                  admin: currentState.value.admin,
           );
+        yield SubmittableBackgroundForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedBackgroundUseProfilePhotoAsBackground) {
+        newValue = currentState.value.copyWith(useProfilePhotoAsBackground: event.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
@@ -129,6 +136,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
                                  appId: currentState.value.appId,
                                  comments: currentState.value.comments,
                                  backgroundImage: currentState.value.backgroundImage,
+                                 useProfilePhotoAsBackground: currentState.value.useProfilePhotoAsBackground,
                                  beginGradientPosition: currentState.value.beginGradientPosition,
                                  endGradientPosition: currentState.value.endGradientPosition,
                                  shadow: null,

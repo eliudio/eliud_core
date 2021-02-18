@@ -129,6 +129,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
   String _backgroundImage;
+  bool _useProfilePhotoAsBackgroundSelection;
   int _beginGradientPositionSelectedRadioTile;
   int _endGradientPositionSelectedRadioTile;
   String _shadow;
@@ -145,6 +146,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
     _commentsController.addListener(_onCommentsChanged);
+    _useProfilePhotoAsBackgroundSelection = false;
     _beginGradientPositionSelectedRadioTile = 0;
     _endGradientPositionSelectedRadioTile = 0;
     _borderSelection = false;
@@ -177,6 +179,10 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           _backgroundImage= state.value.backgroundImage.documentID;
         else
           _backgroundImage= "";
+        if (state.value.useProfilePhotoAsBackground != null)
+        _useProfilePhotoAsBackgroundSelection = state.value.useProfilePhotoAsBackground;
+        else
+        _useProfilePhotoAsBackgroundSelection = false;
         if (state.value.beginGradientPosition != null)
           _beginGradientPositionSelectedRadioTile = state.value.beginGradientPosition.index;
         else
@@ -200,6 +206,29 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
       }
       if (state is BackgroundFormInitialized) {
         List<Widget> children = List();
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('General',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        children.add(
+
+                CheckboxListTile(
+                    title: Text('Use Profile Photo As Background', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    value: _useProfilePhotoAsBackgroundSelection,
+                    onChanged: _readOnly(accessState, state) ? null : (val) {
+                      setSelectionUseProfilePhotoAsBackground(val);
+                    }),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -592,6 +621,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                               appId: state.value.appId, 
                               comments: state.value.comments, 
                               backgroundImage: state.value.backgroundImage, 
+                              useProfilePhotoAsBackground: state.value.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value.beginGradientPosition, 
                               endGradientPosition: state.value.endGradientPosition, 
                               shadow: state.value.shadow, 
@@ -606,6 +636,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                               appId: state.value.appId, 
                               comments: state.value.comments, 
                               backgroundImage: state.value.backgroundImage, 
+                              useProfilePhotoAsBackground: state.value.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value.beginGradientPosition, 
                               endGradientPosition: state.value.endGradientPosition, 
                               shadow: state.value.shadow, 
@@ -667,6 +698,13 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     _myFormBloc.add(ChangedBackgroundBackgroundImage(value: val));
   }
 
+
+  void setSelectionUseProfilePhotoAsBackground(bool val) {
+    setState(() {
+      _useProfilePhotoAsBackgroundSelection = val;
+    });
+    _myFormBloc.add(ChangedBackgroundUseProfilePhotoAsBackground(value: val));
+  }
 
   void setSelectionBeginGradientPosition(int val) {
     setState(() {

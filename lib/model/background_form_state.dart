@@ -127,6 +127,22 @@ class BackgroundImageBackgroundFormError extends BackgroundFormError {
 }
 
 
+class UseProfilePhotoAsBackgroundBackgroundFormError extends BackgroundFormError { 
+  const UseProfilePhotoAsBackgroundBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''UseProfilePhotoAsBackgroundBackgroundFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class BeginGradientPositionBackgroundFormError extends BackgroundFormError { 
   const BeginGradientPositionBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
 

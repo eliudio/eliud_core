@@ -50,6 +50,12 @@
       "group": "image"
     },
     {
+      "fieldName": "useProfilePhotoAsBackground",
+      "remark": "When set, the profile photo will be used as background. This takes preference over backgroundImage.",
+      "displayName": "Use Profile Photo As Background",
+      "fieldType": "bool"
+    },
+    {
       "fieldName": "beginGradientPosition",
       "displayName": "Start Gradient",
       "remark": "Start position of the gradient",

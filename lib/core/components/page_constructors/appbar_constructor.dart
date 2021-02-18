@@ -149,8 +149,9 @@ class AppBarConstructor {
       var userPhotoUrl = member.photoURL;
       Widget profilePhoto;
       if (userPhotoUrl != null) {
-        profilePhoto = AbstractPlatform.platform
-            .getImageFromURL(url: userPhotoUrl);
+        profilePhoto =  Image.network(
+          member.photoURL
+        );
       }
       profilePhoto ??= Icon(Icons.person_outline,
           color: value.iconColor != null ? RgbHelper.color(rgbo: value.iconColor) : null);
@@ -192,8 +193,10 @@ class AppBarConstructor {
             builder: (BuildContext context2, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return IconButton(
-                    icon: AbstractPlatform.platform
-                        .getImageFromURL(url: snapshot.data.logoURL),
+                    icon: Image.network(
+                        snapshot.data.logoURL
+                    )/*AbstractPlatform.platform
+                        .getImageFromURL(url: snapshot.data.logoURL)*/,
                     color: RgbHelper.color(rgbo: value.iconColor),
                     onPressed: () {
                       eliudrouter.Router.navigateTo(context, action);

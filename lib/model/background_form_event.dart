@@ -103,6 +103,18 @@ class ChangedBackgroundBackgroundImage extends BackgroundFormEvent {
   String toString() => 'ChangedBackgroundBackgroundImage{ value: $value }';
 }
 
+class ChangedBackgroundUseProfilePhotoAsBackground extends BackgroundFormEvent {
+  final bool value;
+
+  ChangedBackgroundUseProfilePhotoAsBackground({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedBackgroundUseProfilePhotoAsBackground{ value: $value }';
+}
+
 class ChangedBackgroundBeginGradientPosition extends BackgroundFormEvent {
   final StartGradientPosition value;
 

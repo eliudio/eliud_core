@@ -30,7 +30,7 @@ import 'package:eliud_core/model/image_entity.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum SourceImage {
-  Upload, SpecifyURL, YourProfilePhoto, Unknown
+  Upload, SpecifyURL, Unknown
 }
 
 
@@ -38,7 +38,6 @@ SourceImage toSourceImage(int index) {
   switch (index) {
     case 0: return SourceImage.Upload;
     case 1: return SourceImage.SpecifyURL;
-    case 2: return SourceImage.YourProfilePhoto;
   }
   return SourceImage.Unknown;
 }

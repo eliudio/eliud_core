@@ -24,6 +24,7 @@ class BackgroundEntity {
   final String appId;
   final String comments;
   final String backgroundImageId;
+  final bool useProfilePhotoAsBackground;
   final int beginGradientPosition;
   final int endGradientPosition;
   final String shadowId;
@@ -31,16 +32,16 @@ class BackgroundEntity {
   final bool border;
   final bool admin;
 
-  BackgroundEntity({this.appId, this.comments, this.backgroundImageId, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, this.admin, });
+  BackgroundEntity({this.appId, this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, this.admin, });
 
 
-  List<Object> get props => [appId, comments, backgroundImageId, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
+  List<Object> get props => [appId, comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors.join(', ');
 
-    return 'BackgroundEntity{appId: $appId, comments: $comments, backgroundImageId: $backgroundImageId, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
+    return 'BackgroundEntity{appId: $appId, comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
   }
 
   static BackgroundEntity fromMap(Map map) {
@@ -59,6 +60,7 @@ class BackgroundEntity {
       appId: map['appId'], 
       comments: map['comments'], 
       backgroundImageId: map['backgroundImageId'], 
+      useProfilePhotoAsBackground: map['useProfilePhotoAsBackground'], 
       beginGradientPosition: map['beginGradientPosition'], 
       endGradientPosition: map['endGradientPosition'], 
       shadowId: map['shadowId'], 
@@ -80,6 +82,8 @@ class BackgroundEntity {
       else theDocument["comments"] = null;
     if (backgroundImageId != null) theDocument["backgroundImageId"] = backgroundImageId;
       else theDocument["backgroundImageId"] = null;
+    if (useProfilePhotoAsBackground != null) theDocument["useProfilePhotoAsBackground"] = useProfilePhotoAsBackground;
+      else theDocument["useProfilePhotoAsBackground"] = null;
     if (beginGradientPosition != null) theDocument["beginGradientPosition"] = beginGradientPosition;
       else theDocument["beginGradientPosition"] = null;
     if (endGradientPosition != null) theDocument["endGradientPosition"] = endGradientPosition;
