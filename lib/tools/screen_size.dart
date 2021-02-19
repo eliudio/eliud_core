@@ -12,3 +12,6 @@ double fullScreenHeight(BuildContext context) {
       - kBottomNavigationBarHeight; // BottomNavigationBar
 }
 
+double screenRatio(BuildContext context) {
+  return fullScreenWidth(context) / fullScreenHeight(context);
+}
