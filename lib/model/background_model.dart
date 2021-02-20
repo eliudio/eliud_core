@@ -74,7 +74,7 @@ class BackgroundModel {
   String documentID;
   String appId;
   String comments;
-  ImageModel backgroundImage;
+  MemberMediumModel backgroundImage;
 
   // When set, the profile photo will be used as background. This takes preference over backgroundImage.
   bool useProfilePhotoAsBackground;
@@ -93,7 +93,7 @@ class BackgroundModel {
     assert(documentID != null);
   }
 
-  BackgroundModel copyWith({String documentID, String appId, String comments, ImageModel backgroundImage, bool useProfilePhotoAsBackground, StartGradientPosition beginGradientPosition, EndGradientPosition endGradientPosition, ShadowModel shadow, List<DecorationColorModel> decorationColors, bool border, bool admin, }) {
+  BackgroundModel copyWith({String documentID, String appId, String comments, MemberMediumModel backgroundImage, bool useProfilePhotoAsBackground, StartGradientPosition beginGradientPosition, EndGradientPosition endGradientPosition, ShadowModel shadow, List<DecorationColorModel> decorationColors, bool border, bool admin, }) {
     return BackgroundModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, admin: admin ?? this.admin, );
   }
 
@@ -163,10 +163,10 @@ class BackgroundModel {
   static Future<BackgroundModel> fromEntityPlus(String documentID, BackgroundEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    ImageModel backgroundImageHolder;
+    MemberMediumModel backgroundImageHolder;
     if (entity.backgroundImageId != null) {
       try {
-        await imageRepository(appId: appId).get(entity.backgroundImageId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.backgroundImageId).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

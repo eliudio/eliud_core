@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
@@ -92,7 +93,7 @@ class BoxDecorationHelper {
     }
     if (image == null) {
       var imageProvider = (bdm.backgroundImage != null) ? NetworkImage(
-          bdm.backgroundImage.imageURLOriginal) : null;
+          bdm.backgroundImage.url) : null;
       image = (imageProvider != null) ? DecorationImage(
           image: imageProvider,
           fit: BoxFit.scaleDown)
@@ -150,13 +151,27 @@ class ImageHelper {
       {ImageModel imageModel, double height, double width, BoxFit fit, Alignment alignment}) {
     if (imageModel == null) {
       return Image(
-          image: AssetImage('assets/images/image_not_available.png'),
-          height: height,
-          width: width,
-      alignment: alignment,);
+        image: AssetImage('assets/images/image_not_available.png'),
+        height: height,
+        width: width,
+        alignment: alignment,);
     } else {
       return getImageFromURL(
           url: imageModel.imageURLOriginal, height: height, width: width);
+    }
+  }
+
+  static Widget getImageFromMediumModel(
+      {MemberMediumModel memberMediumModel, double height, double width, BoxFit fit, Alignment alignment}) {
+    if (memberMediumModel == null) {
+      return Image(
+        image: AssetImage('assets/images/image_not_available.png'),
+        height: height,
+        width: width,
+        alignment: alignment,);
+    } else {
+      return getImageFromURL(
+          url: memberMediumModel.url, height: height, width: width);
     }
   }
 
@@ -170,6 +185,19 @@ class ImageHelper {
     } else {
       return getImageFromURL(
           url: imageModel.imageURLThumbnail, height: height, width: width);
+    }
+  }
+
+  static Widget getThumbnailFromMembereMediumModel(
+      {MemberMediumModel memberMediumModel, double height, double width, BoxFit fit, Alignment alignment}) {
+    if (memberMediumModel == null) {
+      return Image(
+          image: AssetImage('assets/images/image_not_available.png'),
+          height: height,
+          width: width);
+    } else {
+      return getImageFromURL(
+          url: memberMediumModel.url, height: height, width: width);
     }
   }
 

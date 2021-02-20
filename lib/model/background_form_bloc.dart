@@ -90,7 +90,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
       }
       if (event is ChangedBackgroundBackgroundImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(backgroundImage: await imageRepository(appId: appId).get(event.value));
+          newValue = currentState.value.copyWith(backgroundImage: await memberMediumRepository(appId: appId).get(event.value));
         else
           newValue = new BackgroundModel(
                                  documentID: currentState.value.documentID,

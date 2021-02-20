@@ -124,10 +124,10 @@ class AppCache implements AppRepository {
 
   static Future<AppModel> refreshRelations(AppModel model) async {
 
-    ImageModel logoHolder;
+    MemberMediumModel logoHolder;
     if (model.logo != null) {
       try {
-        await imageRepository(appId: model.logo.appId).get(model.logo.documentID).then((val) {
+        await memberMediumRepository(appId: model.logo.appId).get(model.logo.documentID).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}

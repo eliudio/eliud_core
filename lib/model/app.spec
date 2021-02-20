@@ -77,7 +77,7 @@
     },
     {
       "fieldName": "logo",
-      "fieldType": "Image",
+      "fieldType": "MemberMedium",
       "association": true,
       "optional": true,
       "iconName": "add_a_photo",
@@ -223,7 +223,7 @@
     },
     {
       "fieldName": "logoURL",
-      "remark": "This is a copy of logo.imageURLOriginal because logo.imageURLOriginal is not accessible as a cross-app document. Hence we copy it into this field.",
+      "remark": "This is a copy of logo.url because logo.url is not accessible as a cross-app document. Hence we copy it into this field.",
       "fieldType": "String",
       "hidden": true
     },
@@ -402,5 +402,5 @@
     "title": "documentID",
     "subTitle": "title"
   },
-  "preToEntityCode": "logoURL = logo != null ? logo.imageURLOriginal : null;"
+  "preToEntityCode": "logoURL = logo != null ? logo.url : null;"
 }

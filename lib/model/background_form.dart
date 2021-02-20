@@ -319,7 +319,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "images", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
           );
 
 

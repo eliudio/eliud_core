@@ -80,7 +80,7 @@ class AppModel {
   AppStatus appStatus;
   DarkOrLight darkOrLight;
   AppHomePageReferencesModel homePages;
-  ImageModel logo;
+  MemberMediumModel logo;
   RgbModel formSubmitButtonColor;
   BackgroundModel formBackground;
   RgbModel formSubmitButtonTextColor;
@@ -98,7 +98,7 @@ class AppModel {
   PageTransitionAnimation routeBuilder;
   int routeAnimationDuration;
 
-  // This is a copy of logo.imageURLOriginal because logo.imageURLOriginal is not accessible as a cross-app document. Hence we copy it into this field.
+  // This is a copy of logo.url because logo.url is not accessible as a cross-app document. Hence we copy it into this field.
   String logoURL;
   FontModel h1;
   FontModel h2;
@@ -114,7 +114,7 @@ class AppModel {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, AppHomePageReferencesModel homePages, ImageModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, }) {
+  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, AppHomePageReferencesModel homePages, MemberMediumModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, }) {
     return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
   }
 
@@ -168,7 +168,7 @@ class AppModel {
   }
 
   AppEntity toEntity({String appId}) {
-    logoURL = logo != null ? logo.imageURLOriginal : null;
+    logoURL = logo != null ? logo.url : null;
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
@@ -250,10 +250,10 @@ class AppModel {
   static Future<AppModel> fromEntityPlus(String documentID, AppEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    ImageModel logoHolder;
+    MemberMediumModel logoHolder;
     if (entity.logoId != null) {
       try {
-        await imageRepository(appId: appId).get(entity.logoId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.logoId).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}

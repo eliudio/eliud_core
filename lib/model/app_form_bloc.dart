@@ -134,7 +134,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppLogo) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(logo: await imageRepository(appId: appId).get(event.value));
+          newValue = currentState.value.copyWith(logo: await memberMediumRepository(appId: appId).get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value.documentID,

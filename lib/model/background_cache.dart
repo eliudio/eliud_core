@@ -124,10 +124,10 @@ class BackgroundCache implements BackgroundRepository {
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {
 
-    ImageModel backgroundImageHolder;
+    MemberMediumModel backgroundImageHolder;
     if (model.backgroundImage != null) {
       try {
-        await imageRepository(appId: model.backgroundImage.appId).get(model.backgroundImage.documentID).then((val) {
+        await memberMediumRepository(appId: model.backgroundImage.appId).get(model.backgroundImage.documentID).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
