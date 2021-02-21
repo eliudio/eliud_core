@@ -139,19 +139,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/image_list_bloc.dart';
-import 'package:eliud_core/model/image_list.dart';
-import 'package:eliud_core/model/image_dropdown_button.dart';
-import 'package:eliud_core/model/image_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list.dart';
 import 'package:eliud_core/model/member_dropdown_button.dart';
@@ -239,7 +226,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "fonts") return true;
     if (id == "gridViews") return true;
     if (id == "homeMenus") return true;
-    if (id == "images") return true;
     if (id == "members") return true;
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
@@ -275,9 +261,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "homeMenus")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
-
-    if (id == "images")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "members")
@@ -329,7 +312,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
-    if (componentId == 'images') return _imageBuild(context);
     if (componentId == 'members') return _memberBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
@@ -348,7 +330,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'fonts') widget = FontListWidget();
     if (componentId == 'gridViews') widget = GridViewListWidget();
     if (componentId == 'homeMenus') widget = HomeMenuListWidget();
-    if (componentId == 'images') widget = ImageListWidget();
     if (componentId == 'members') widget = MemberListWidget();
     if (componentId == 'menuDefs') widget = MenuDefListWidget();
     if (componentId == 'pages') widget = PageListWidget();
@@ -473,19 +454,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _imageBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ImageListBloc>(
-          create: (context) => ImageListBloc(
-            imageRepository: imageRepository(appId: AccessBloc.appId(context)),
-          )..add(LoadImageList()),
-        )
-      ],
-      child: widget,
-    );
-  }
-
   Widget _memberBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -576,7 +544,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
-    if (componentId == 'images') return _imageBuild(context);
     if (componentId == 'members') return _memberBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
@@ -700,19 +667,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: HomeMenuDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _imageBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ImageListBloc>(
-          create: (context) => ImageListBloc(
-            imageRepository: imageRepository(appId: AccessBloc.appId(context)),
-          )..add(LoadImageList()),
-        )
-      ],
-      child: ImageDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 

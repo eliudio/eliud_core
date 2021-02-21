@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 
 // From https://gdpr.eu/privacy-notice/
@@ -157,12 +156,12 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     var app = AccessBloc.app(context);
     var accessState = AccessBloc.getState(context);
     var widgets = <Widget>[];
-    widgets.add(HtmlWidget(
-        process(_gdpr, parameters: <String, String>{
+    // TODO WAS HTML
+    widgets.add(RichText(
+        text: TextSpan(text: process(_gdpr, parameters: <String, String>{
           '\${appName}': app.title,
           '\${email}': app.email,
-        }),
-        webView: false));
+        }),)));
 
     widgets.add(Text(''));
     _addButtons(widgets);

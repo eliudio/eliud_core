@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart';
 //import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
+import 'package:image/image.dart' as imgpackage;
 import 'package:thumbnails/thumbnails.dart';
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 
@@ -25,6 +26,60 @@ class MediumAndItsThumbnailData {
   final MediumData thumbNailData;
 
   MediumAndItsThumbnailData({this.mediumData, this.thumbNailData});
+}
+
+/* This helper is used to translate the callback for method decodeImageFromList to be translated into a future
+ */
+class ThumbnailHelper {
+  final int thumbnailSize;
+  final String filePath;
+  final Completer _completer = new Completer<MediumAndItsThumbnailData>();
+
+  ThumbnailHelper(this.filePath, this.thumbnailSize, );
+
+  Future<MediumAndItsThumbnailData> imageToMediumAndItsThumbnailData(Uint8List list, String thumbNameFilePath, ui.Image img) async {
+    var bytes = await img.toByteData();
+    var codec = await ui.instantiateImageCodec(list
+        , targetHeight: thumbnailSize, targetWidth: thumbnailSize);
+    var frameInfo = await codec.getNextFrame();
+    var thumbnailImage = frameInfo.image;
+    var thumbnailBytes = await thumbnailImage.toByteData();
+    await File(thumbNameFilePath).writeAsBytes(
+        thumbnailBytes.buffer.asUint8List(thumbnailBytes.offsetInBytes, thumbnailBytes.lengthInBytes));
+
+    return MediumAndItsThumbnailData(
+        mediumData: MediumData(
+            width: img.width, height: img.height, filePath: filePath),
+        thumbNailData: MediumData(width: thumbnailSize,
+            height: thumbnailSize,
+            filePath: thumbNameFilePath)
+    );
+  }
+
+  void _startOperation() {
+    var list = File(filePath).readAsBytesSync();
+    var extension = context.extension(filePath);
+    var thumbNameFilePath = filePath + '.thumbnail' + extension;
+    ui.decodeImageFromList(list, ((ui.Image img) async {
+      var mediumAndItsThumbnailData = await imageToMediumAndItsThumbnailData(list, thumbNameFilePath, img);
+      _finishOperation(mediumAndItsThumbnailData);
+    }));
+  }
+
+  Future<MediumAndItsThumbnailData> doOperation() {
+    _startOperation();
+    return _completer.future; // Send future object back to client.
+  }
+
+  // Something calls this when the value is ready.
+  void _finishOperation(MediumAndItsThumbnailData result) {
+    _completer.complete(result);
+  }
+
+  // If something goes wrong, call this.
+  void _errorHappened(error) {
+    _completer.completeError(error);
+  }
 }
 
 class UploadFile {
@@ -46,21 +101,29 @@ class UploadFile {
   static Future<String> _getImageFileFromAssets(String path) async {
     final byteData = await rootBundle.load(path);
 
-    final file = File(Directory.systemTemp.path + newRandomKey());
-    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    final newFileName = context.basenameWithoutExtension(path) + '-' + newRandomKey() + context.extension(path); // make sure it's a unique filename
+    final newFile = File(Directory.systemTemp.path + '/' + newFileName);
+    await newFile.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
-    return file.path;
+    return newFile.path;
   }
 
-  static Future<MediumAndItsThumbnailData> imageToMediumAndItsThumbnailData(Uint8List m, String filePath, String thumbNameFilePath, ui.Image img) async {
-    var bytes = await img.toByteData();
-    var codec = await ui.instantiateImageCodec(m
-        , targetHeight: thumbnailSize, targetWidth: thumbnailSize);
-    var frameInfo = await codec.getNextFrame();
-    var thumbnailImage = frameInfo.image;
-    var thumbnailBytes = await thumbnailImage.toByteData();
-    await File(thumbNameFilePath).writeAsBytes(
-        thumbnailBytes.buffer.asUint32List());
+  /*
+   * Create a thumbnail from a photo
+   */
+  static Future<MediumAndItsThumbnailData> _createThumbNailFromPhoto(String filePath) async {
+    var img = imgpackage.decodeImage(File(filePath).readAsBytesSync());
+    var thumbnailWidth;
+    var thumbnailHeight;
+    if (img.width > img.height) {
+      thumbnailWidth = thumbnailSize;
+    } else {
+      thumbnailHeight = thumbnailSize;
+    }
+    var thumbnail = imgpackage.copyResize(img, width: thumbnailWidth, height: thumbnailHeight);
+    var thumbNameFilePath = filePath + '.thumbnail' + '.png';
+    File(thumbNameFilePath)..writeAsBytesSync(imgpackage.encodePng(thumbnail));
+
     return MediumAndItsThumbnailData(
         mediumData: MediumData(
             width: img.width, height: img.height, filePath: filePath),
@@ -68,20 +131,8 @@ class UploadFile {
             height: thumbnailSize,
             filePath: thumbNameFilePath)
     );
-  }
 
-  /*
-   * Create a thumbnail from a photo
-   */
-  static Future<MediumAndItsThumbnailData> _createThumbNailFromPhoto(String filePath) async {
-    var m = File(filePath).readAsBytesSync();
-    var thumbNameFilePath = filePath + '.thumbnail' + context.extension(filePath);
-    var completer = Completer();
-    ui.decodeImageFromList(m, ((ui.Image img) async {
-      var mediumAndItsThumbnailData = await imageToMediumAndItsThumbnailData(m, filePath, thumbNameFilePath, img);
-      completer.complete(mediumAndItsThumbnailData);
-    }));
-    return completer.future;
+//    return ThumbnailHelper(filePath, thumbnailSize, ).doOperation();
   }
 
   /*
@@ -104,16 +155,16 @@ class UploadFile {
     );
   }
 
-  static Future<String> _uploadFile(String filePath, String ownerId, List<String> readAccess) async {
+  static Future<String> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
     File file = File(filePath);
     try {
-      var baseName = newRandomKey() + context.extension(filePath);
+      var baseName = context.basename(filePath);
       var customMetaData = {
         'owner': ownerId,
         'readAccess': readAccess.join(';') + ";"
       };
       var uploadTask = await firebase_storage.FirebaseStorage.instance
-          .ref('$ownerId/$baseName')
+          .ref('$appId/$ownerId/$baseName')
           .putFile(file, firebase_storage.SettableMetadata(
           customMetadata: customMetaData
       ));
@@ -144,13 +195,13 @@ class UploadFile {
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoFile(String appId, String filePath, String ownerId, List<String> readAccess) async {
     // First, upload the file
-    var url = await _uploadFile(filePath, ownerId, readAccess);
+    var url = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
     var photoData = await _createThumbNailFromPhoto(filePath);
 
     // Third, upload the thumnail;
-    var thumbnailUrl = await _uploadFile(photoData.thumbNailData.filePath, ownerId, readAccess);
+    var thumbnailUrl = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
@@ -188,13 +239,13 @@ class UploadFile {
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoFile(String appId, String filePath, String ownerId, List<String> readAccess) async {
     // First, upload the file
-    var url = await _uploadFile(filePath, ownerId, readAccess);
+    var url = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
     var videoData = await _createThumbNailFromVideo(filePath);
 
     // Third, upload the thumbnail;
-    var thumbnailUrl = await _uploadFile(videoData.thumbNailData.filePath, ownerId, readAccess);
+    var thumbnailUrl = await _uploadFile(videoData.thumbNailData.filePath, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(

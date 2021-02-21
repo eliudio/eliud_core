@@ -1,10 +1,8 @@
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
-import 'package:eliud_core/model/image_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
@@ -12,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class RgbHelper {
   static Color color({RgbModel rgbo}) {
@@ -147,20 +146,6 @@ class BoxDecorationHelper {
 }
 
 class ImageHelper {
-  static Widget getImageFromImageModel(
-      {ImageModel imageModel, double height, double width, BoxFit fit, Alignment alignment}) {
-    if (imageModel == null) {
-      return Image(
-        image: AssetImage('assets/images/image_not_available.png'),
-        height: height,
-        width: width,
-        alignment: alignment,);
-    } else {
-      return getImageFromURL(
-          url: imageModel.imageURLOriginal, height: height, width: width);
-    }
-  }
-
   static Widget getImageFromMediumModel(
       {MemberMediumModel memberMediumModel, double height, double width, BoxFit fit, Alignment alignment}) {
     if (memberMediumModel == null) {
@@ -172,19 +157,6 @@ class ImageHelper {
     } else {
       return getImageFromURL(
           url: memberMediumModel.url, height: height, width: width);
-    }
-  }
-
-  static Widget getThumbnailFromImageModel(
-      {ImageModel imageModel, double height, double width, BoxFit fit, Alignment alignment}) {
-    if (imageModel == null) {
-      return Image(
-          image: AssetImage('assets/images/image_not_available.png'),
-          height: height,
-          width: width);
-    } else {
-      return getImageFromURL(
-          url: imageModel.imageURLThumbnail, height: height, width: width);
     }
   }
 
@@ -204,12 +176,13 @@ class ImageHelper {
   static Widget getImageFromURL(
       {String url, double height, double width, BoxFit fit, Alignment alignment}) {
     try {
-      return AbstractPlatform.platform.getImageFromURL(
-        url: url,
-        height: height,
-        width: width,
-        fit: BoxFit.fill,
-        alignment: alignment
+      return FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: url,
+        fit: BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
+        alignment: Alignment.center,
       );
     } catch (_) {
       return Image(
@@ -227,14 +200,6 @@ class ImageTool {
     return firebaseStorage.ref().child(pathName).getDownloadURL();
   }
 
-  Future<ImageModel> provideImageUrl(ImageModel imageModel) async {
-    var imageURL =
-        getImageDownloadURL(imageModel.documentID + '.png');
-    return await imageURL.then((val) {
-      imageModel = imageModel.copyWith(imageURLOriginal: val);
-      return imageModel;
-    }).catchError((onError) {});
-  }
 }
 
 class IconHelper {

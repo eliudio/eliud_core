@@ -51,8 +51,6 @@ import '../model/grid_view_cache.dart';
 import '../model/home_menu_firestore.dart';
 import '../model/home_menu_repository.dart';
 import '../model/home_menu_cache.dart';
-import '../model/image_repository.dart';
-import '../model/image_cache.dart';
 import '../model/member_repository.dart';
 import '../model/member_cache.dart';
 import '../model/member_medium_firestore.dart';

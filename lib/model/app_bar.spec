@@ -60,7 +60,7 @@
     {
       "fieldName": "image",
       "displayName": "Image",
-      "fieldType": "Image",
+      "fieldType": "MemberMedium",
       "association": true,
       "optional": true,
       "group": "Image"

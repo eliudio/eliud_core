@@ -264,30 +264,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _imagesPages() {
-    List<BodyComponentModel> components = List();
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-images", componentName: "eliud_core_internalWidgets", componentId: "images"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_images_page",
-        title: "Images",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _membersPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -428,8 +404,6 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId).add(_homeMenusPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_imagesPages()))
-
         .then((_) => pageRepository(appId: appId).add(_membersPages()))
 
         .then((_) => pageRepository(appId: appId).add(_menuDefsPages()))
@@ -543,16 +517,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "HomeMenus",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_homemenus_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Images",
-        text: "Images",
-        description: "Images",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_images_page"))
     );
 
 

@@ -30,7 +30,6 @@ export '../model/font_entity.dart';
 export '../model/grid_view_entity.dart';
 export '../model/home_menu_entity.dart';
 export '../model/icon_entity.dart';
-export '../model/image_entity.dart';
 export '../model/member_entity.dart';
 export '../model/member_medium_entity.dart';
 export '../model/member_subscription_entity.dart';

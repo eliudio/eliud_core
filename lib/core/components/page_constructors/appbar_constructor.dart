@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
-import 'package:eliud_core/model/app_entry_pages_form_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
@@ -9,7 +8,6 @@ import 'package:eliud_core/core/components/page_helper.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/platform/platform.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -18,6 +16,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class AppBarConstructor {
   final String currentPage;
@@ -127,9 +126,11 @@ class AppBarConstructor {
       part1 = IconHelper.getIconFromModel(iconModel: value.icon);
     } else if ((value.header == HeaderSelection.Image) &&
         (value.image != null)) {
-      part1 = AbstractPlatform.platform.getImage(state,
+
+      part1 = FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: value.image.url,
         height: kToolbarHeight,
-        image: value.image,
       );
     }
 

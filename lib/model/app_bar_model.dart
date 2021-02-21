@@ -53,7 +53,7 @@ class AppBarModel {
   // Enum indicating which header to use, and hence which field to use: title, icon or image
   HeaderSelection header;
   IconModel icon;
-  ImageModel image;
+  MemberMediumModel image;
   MenuDefModel iconMenu;
   BackgroundModel background;
   RgbModel iconColor;
@@ -64,7 +64,7 @@ class AppBarModel {
     assert(documentID != null);
   }
 
-  AppBarModel copyWith({String documentID, String appId, String title, HeaderSelection header, IconModel icon, ImageModel image, MenuDefModel iconMenu, BackgroundModel background, RgbModel iconColor, RgbModel selectedIconColor, RgbModel menuBackgroundColor, }) {
+  AppBarModel copyWith({String documentID, String appId, String title, HeaderSelection header, IconModel icon, MemberMediumModel image, MenuDefModel iconMenu, BackgroundModel background, RgbModel iconColor, RgbModel selectedIconColor, RgbModel menuBackgroundColor, }) {
     return AppBarModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, header: header ?? this.header, icon: icon ?? this.icon, image: image ?? this.image, iconMenu: iconMenu ?? this.iconMenu, background: background ?? this.background, iconColor: iconColor ?? this.iconColor, selectedIconColor: selectedIconColor ?? this.selectedIconColor, menuBackgroundColor: menuBackgroundColor ?? this.menuBackgroundColor, );
   }
 
@@ -129,10 +129,10 @@ class AppBarModel {
   static Future<AppBarModel> fromEntityPlus(String documentID, AppBarEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    ImageModel imageHolder;
+    MemberMediumModel imageHolder;
     if (entity.imageId != null) {
       try {
-        await imageRepository(appId: appId).get(entity.imageId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

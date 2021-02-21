@@ -26,7 +26,6 @@ import '../model/drawer_repository.dart';
 import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
 import '../model/home_menu_repository.dart';
-import '../model/image_repository.dart';
 import '../model/member_repository.dart';
 import '../model/member_medium_repository.dart';
 import '../model/member_subscription_repository.dart';
