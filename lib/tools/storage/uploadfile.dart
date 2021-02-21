@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart';
-import 'package:image/image.dart' as img;
+//import 'package:image/image.dart' as img;
+import 'dart:ui' as ui;
 import 'package:thumbnails/thumbnails.dart';
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 
@@ -50,42 +52,50 @@ class UploadFile {
     return file.path;
   }
 
+  static Future<MediumAndItsThumbnailData> imageToMediumAndItsThumbnailData(Uint8List m, String filePath, String thumbNameFilePath, ui.Image img) async {
+    var bytes = await img.toByteData();
+    var codec = await ui.instantiateImageCodec(m
+        , targetHeight: thumbnailSize, targetWidth: thumbnailSize);
+    var frameInfo = await codec.getNextFrame();
+    var thumbnailImage = frameInfo.image;
+    var thumbnailBytes = await thumbnailImage.toByteData();
+    await File(thumbNameFilePath).writeAsBytes(
+        thumbnailBytes.buffer.asUint32List());
+    return MediumAndItsThumbnailData(
+        mediumData: MediumData(
+            width: img.width, height: img.height, filePath: filePath),
+        thumbNailData: MediumData(width: thumbnailSize,
+            height: thumbnailSize,
+            filePath: thumbNameFilePath)
+    );
+  }
+
   /*
    * Create a thumbnail from a photo
    */
-  static MediumAndItsThumbnailData _createThumbNailFromPhoto(String filePath) {
-    img.Image image = img.decodeImage(File(filePath).readAsBytesSync());
-    int width = image.width;
-    int height = image.height;
-    var thumbNailImage;
-    if (image.width > image.height) {
-      thumbNailImage = img.copyResize(image, width: thumbnailSize);
-    } else {
-      thumbNailImage = img.copyResize(image, height: thumbnailSize);
-    }
-    int thumbNailWidth = thumbNailImage.width;
-    int thumbNailHeight = thumbNailImage.height;
+  static Future<MediumAndItsThumbnailData> _createThumbNailFromPhoto(String filePath) async {
+    var m = File(filePath).readAsBytesSync();
     var thumbNameFilePath = filePath + '.thumbnail' + context.extension(filePath);
-    File(thumbNameFilePath)..writeAsBytesSync(img.encodePng(thumbNailImage));
-
-    return MediumAndItsThumbnailData(
-        mediumData: MediumData(width: width, height: height, filePath: filePath),
-        thumbNailData: MediumData(width: thumbNailWidth, height: thumbNailHeight, filePath: thumbNameFilePath)
-    );
+    var completer = Completer();
+    ui.decodeImageFromList(m, ((ui.Image img) async {
+      var mediumAndItsThumbnailData = await imageToMediumAndItsThumbnailData(m, filePath, thumbNameFilePath, img);
+      completer.complete(mediumAndItsThumbnailData);
+    }));
+    return completer.future;
   }
 
   /*
    * Create a thumbnail from a video
    */
   static Future<MediumAndItsThumbnailData> _createThumbNailFromVideo(String filePath) async {
-    String thumnailFromVideo = await Thumbnails.getThumbnail(
+    var thumnailFromVideo = await Thumbnails.getThumbnail(
         thumbnailFolder: Directory.systemTemp.path ,
         videoFile: filePath,
         imageType: ThumbFormat.PNG,//this image will store in created folderpath
         quality: 30);
 
     // the thumnailFromVideo is too big, it's 512 x something, so we make a thumbnail from the thumbnail
-    var photoData = _createThumbNailFromPhoto(thumnailFromVideo);
+    var photoData = await _createThumbNailFromPhoto(thumnailFromVideo);
 
     // return the data
     return MediumAndItsThumbnailData(
@@ -137,7 +147,7 @@ class UploadFile {
     var url = await _uploadFile(filePath, ownerId, readAccess);
 
     // Second, create the thumbnail
-    var photoData = _createThumbNailFromPhoto(filePath);
+    var photoData = await _createThumbNailFromPhoto(filePath);
 
     // Third, upload the thumnail;
     var thumbnailUrl = await _uploadFile(photoData.thumbNailData.filePath, ownerId, readAccess);

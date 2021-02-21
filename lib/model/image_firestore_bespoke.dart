@@ -22,6 +22,7 @@ class ImageFirestore implements ImageRepository {
 
   @override
   Future<ImageModel> add(ImageModel value) async {
+/*
     return ImageTools.uploadPic(value).then((onValue) {
       return imageCollection
           .doc(value.documentID)
@@ -30,6 +31,8 @@ class ImageFirestore implements ImageRepository {
     }).catchError((onError) =>
         print(onError)
     );
+*/
+    return null;
   }
 
   @override
@@ -40,12 +43,15 @@ class ImageFirestore implements ImageRepository {
 
   @override
   Future<ImageModel> update(ImageModel value) {
+/*
     return ImageTools.uploadPic(value).then((uploaded) =>
         imageCollection
             .doc(uploaded.documentID)
             .update(uploaded.toEntity(appId: appID).toDocument()).then((value) =>
         uploaded)
     );
+*/
+    return null;
   }
 
   ImageModel _populateDoc(DocumentSnapshot doc) {

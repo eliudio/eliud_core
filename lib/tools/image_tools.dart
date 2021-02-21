@@ -11,7 +11,6 @@ import 'package:eliud_core/model/image_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
-import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:eliud_core/tools/file_tools.dart';
@@ -19,6 +18,7 @@ import 'package:eliud_core/tools/file_tools.dart';
 class ImageTools {
   static String FIREBASE_STORAGE_DIRECTORY = 'mydirectory';
 
+/*
   static Future<ImageModel> createThumbnail(ImageModel model, String name, img.Image image) async {
     var documentID = model.documentID;
     var thumbNailImage = img.copyResize(image, width: 200);
@@ -85,4 +85,5 @@ class ImageTools {
       return model;
     }
   }
+*/
 }
