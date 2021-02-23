@@ -194,6 +194,14 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
     widgets.add(MarkdownBody(
       selectable: true,
+      styleSheet: MarkdownStyleSheet(
+        h1: FontTools.textStyle(app.h1),
+        h2: FontTools.textStyle(app.h2),
+        h3: FontTools.textStyle(app.h3),
+        h4: FontTools.textStyle(app.h4),
+        h5: FontTools.textStyle(app.h5),
+        p: FontTools.textStyle(app.fontText),
+      ),
       data: process(_gdpr, parameters: <String, String>{
         '\${appName}': app.title,
         '\${email}': app.email,

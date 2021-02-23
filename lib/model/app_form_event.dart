@@ -331,6 +331,18 @@ class ChangedAppDividerColor extends AppFormEvent {
   String toString() => 'ChangedAppDividerColor{ value: $value }';
 }
 
+class ChangedAppIconColor extends AppFormEvent {
+  final RgbModel value;
+
+  ChangedAppIconColor({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppIconColor{ value: $value }';
+}
+
 class ChangedAppRouteBuilder extends AppFormEvent {
   final PageTransitionAnimation value;
 

@@ -95,6 +95,7 @@ class AppModel {
   RgbModel floatingButtonForegroundColor;
   RgbModel floatingButtonBackgroundColor;
   RgbModel dividerColor;
+  RgbModel iconColor;
   PageTransitionAnimation routeBuilder;
   int routeAnimationDuration;
 
@@ -110,16 +111,16 @@ class AppModel {
   FontModel fontHighlight2;
   FontModel fontLink;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logo, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logo, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, AppHomePageReferencesModel homePages, MemberMediumModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
+  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, AppHomePageReferencesModel homePages, MemberMediumModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, RgbModel iconColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, iconColor: iconColor ?? this.iconColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ darkOrLight.hashCode ^ homePages.hashCode ^ logo.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ logoURL.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ darkOrLight.hashCode ^ homePages.hashCode ^ logo.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ iconColor.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ logoURL.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -149,6 +150,7 @@ class AppModel {
           floatingButtonForegroundColor == other.floatingButtonForegroundColor &&
           floatingButtonBackgroundColor == other.floatingButtonBackgroundColor &&
           dividerColor == other.dividerColor &&
+          iconColor == other.iconColor &&
           routeBuilder == other.routeBuilder &&
           routeAnimationDuration == other.routeAnimationDuration &&
           logoURL == other.logoURL &&
@@ -164,7 +166,7 @@ class AppModel {
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
   }
 
   AppEntity toEntity({String appId}) {
@@ -192,6 +194,7 @@ class AppModel {
           floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor.toEntity(appId: appId) : null, 
           floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor.toEntity(appId: appId) : null, 
           dividerColor: (dividerColor != null) ? dividerColor.toEntity(appId: appId) : null, 
+          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
           routeBuilder: (routeBuilder != null) ? routeBuilder.index : null, 
           routeAnimationDuration: (routeAnimationDuration != null) ? routeAnimationDuration : null, 
           logoURL: (logoURL != null) ? logoURL : null, 
@@ -241,6 +244,8 @@ class AppModel {
             RgbModel.fromEntity(entity.floatingButtonBackgroundColor), 
           dividerColor: 
             RgbModel.fromEntity(entity.dividerColor), 
+          iconColor: 
+            RgbModel.fromEntity(entity.iconColor), 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
           logoURL: entity.logoURL, 
@@ -403,6 +408,8 @@ class AppModel {
             await RgbModel.fromEntityPlus(entity.floatingButtonBackgroundColor, appId: appId), 
           dividerColor: 
             await RgbModel.fromEntityPlus(entity.dividerColor, appId: appId), 
+          iconColor: 
+            await RgbModel.fromEntityPlus(entity.iconColor, appId: appId), 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
           logoURL: entity.logoURL, 

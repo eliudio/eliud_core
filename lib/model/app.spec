@@ -207,6 +207,15 @@
       "bespokeFormField": "RgbField(\"Divider Color\", state.value.dividerColor, _onDividerColorChanged)"
     },
     {
+      "fieldName": "iconColor",
+      "displayName": "Icon Color",
+      "defaultValue": "RgbModel(r: 255, g: 0, b: 0, opacity: 1.00)",
+      "fieldType": "Rgb",
+      "group": "otherColors",
+      "iconName": "color_lens",
+      "bespokeFormField": "RgbField(\"Divider Color\", state.value.dividerColor, _onDividerColorChanged)"
+    },
+    {
       "fieldName": "routeBuilder",
       "displayName": "Page Route Builder",
       "fieldType": "enum",

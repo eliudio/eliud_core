@@ -563,6 +563,11 @@ class _MyAppFormState extends State<MyAppForm> {
                 RgbField("Divider Color", state.value.dividerColor, _onDividerColorChanged)
           );
 
+        children.add(
+
+                RgbField("Divider Color", state.value.dividerColor, _onDividerColorChanged)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -975,6 +980,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               floatingButtonForegroundColor: state.value.floatingButtonForegroundColor, 
                               floatingButtonBackgroundColor: state.value.floatingButtonBackgroundColor, 
                               dividerColor: state.value.dividerColor, 
+                              iconColor: state.value.iconColor, 
                               routeBuilder: state.value.routeBuilder, 
                               routeAnimationDuration: state.value.routeAnimationDuration, 
                               logoURL: state.value.logoURL, 
@@ -1014,6 +1020,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               floatingButtonForegroundColor: state.value.floatingButtonForegroundColor, 
                               floatingButtonBackgroundColor: state.value.floatingButtonBackgroundColor, 
                               dividerColor: state.value.dividerColor, 
+                              iconColor: state.value.iconColor, 
                               routeBuilder: state.value.routeBuilder, 
                               routeAnimationDuration: state.value.routeAnimationDuration, 
                               logoURL: state.value.logoURL, 
@@ -1194,6 +1201,12 @@ class _MyAppFormState extends State<MyAppForm> {
 
   void _onDividerColorChanged(value) {
     _myFormBloc.add(ChangedAppDividerColor(value: value));
+    
+  }
+
+
+  void _onIconColorChanged(value) {
+    _myFormBloc.add(ChangedAppIconColor(value: value));
     
   }
 

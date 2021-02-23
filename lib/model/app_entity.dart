@@ -43,6 +43,7 @@ class AppEntity {
   final RgbEntity floatingButtonForegroundColor;
   final RgbEntity floatingButtonBackgroundColor;
   final RgbEntity dividerColor;
+  final RgbEntity iconColor;
   final int routeBuilder;
   final int routeAnimationDuration;
   final String logoURL;
@@ -56,14 +57,14 @@ class AppEntity {
   final String fontHighlight2Id;
   final String fontLinkId;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logoId, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logoId, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
 
 
-  List<Object> get props => [ownerID, title, email, description, appStatus, darkOrLight, homePages, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
+  List<Object> get props => [ownerID, title, email, description, appStatus, darkOrLight, homePages, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logoId: $logoId, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logoId: $logoId, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
   }
 
   static AppEntity fromMap(Map map) {
@@ -117,6 +118,10 @@ class AppEntity {
     dividerColorFromMap = map['dividerColor'];
     if (dividerColorFromMap != null)
       dividerColorFromMap = RgbEntity.fromMap(dividerColorFromMap);
+    var iconColorFromMap;
+    iconColorFromMap = map['iconColor'];
+    if (iconColorFromMap != null)
+      iconColorFromMap = RgbEntity.fromMap(iconColorFromMap);
 
     return AppEntity(
       ownerID: map['ownerID'], 
@@ -141,6 +146,7 @@ class AppEntity {
       floatingButtonForegroundColor: floatingButtonForegroundColorFromMap, 
       floatingButtonBackgroundColor: floatingButtonBackgroundColorFromMap, 
       dividerColor: dividerColorFromMap, 
+      iconColor: iconColorFromMap, 
       routeBuilder: map['routeBuilder'], 
       routeAnimationDuration: int.tryParse(map['routeAnimationDuration'].toString()), 
       logoURL: map['logoURL'], 
@@ -193,6 +199,9 @@ class AppEntity {
     final Map<String, dynamic> dividerColorMap = dividerColor != null 
         ? dividerColor.toDocument()
         : null;
+    final Map<String, dynamic> iconColorMap = iconColor != null 
+        ? iconColor.toDocument()
+        : null;
 
     Map<String, Object> theDocument = HashMap();
     if (ownerID != null) theDocument["ownerID"] = ownerID;
@@ -239,6 +248,8 @@ class AppEntity {
       else theDocument["floatingButtonBackgroundColor"] = null;
     if (dividerColor != null) theDocument["dividerColor"] = dividerColorMap;
       else theDocument["dividerColor"] = null;
+    if (iconColor != null) theDocument["iconColor"] = iconColorMap;
+      else theDocument["iconColor"] = null;
     if (routeBuilder != null) theDocument["routeBuilder"] = routeBuilder;
       else theDocument["routeBuilder"] = null;
     if (routeAnimationDuration != null) theDocument["routeAnimationDuration"] = routeAnimationDuration;

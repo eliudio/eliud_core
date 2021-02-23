@@ -64,6 +64,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
                                  floatingButtonBackgroundColor: RgbModel(r: 255, g: 0, b: 255, opacity: 1.00), 
                                  dividerColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
+                                 iconColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
                                  routeAnimationDuration: 1000, 
                                  logoURL: "",
 
@@ -160,6 +161,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -211,6 +213,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -286,6 +289,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -337,6 +341,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -374,6 +379,12 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppDividerColor) {
         newValue = currentState.value.copyWith(dividerColor: event.value);
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedAppIconColor) {
+        newValue = currentState.value.copyWith(iconColor: event.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
@@ -423,6 +434,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -468,6 +480,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -513,6 +526,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -558,6 +572,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -603,6 +618,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -648,6 +664,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -693,6 +710,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -738,6 +756,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,
@@ -783,6 +802,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
                                  floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
                                  routeBuilder: currentState.value.routeBuilder,
                                  routeAnimationDuration: currentState.value.routeAnimationDuration,
                                  logoURL: currentState.value.logoURL,

@@ -431,6 +431,22 @@ class DividerColorAppFormError extends AppFormError {
 }
 
 
+class IconColorAppFormError extends AppFormError { 
+  const IconColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IconColorAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class RouteBuilderAppFormError extends AppFormError { 
   const RouteBuilderAppFormError({ String message, AppModel value }): super(message: message, value: value);
 
