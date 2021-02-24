@@ -75,7 +75,7 @@ class CorePackage extends PackageWithSubscription {
     if (packageCondition == MUST_BE_LOGGED_ON) {
       return (member != null);
     }
-    return false;
+    return null;
   }
 
   @override
