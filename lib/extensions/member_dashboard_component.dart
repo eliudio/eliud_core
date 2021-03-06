@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -9,6 +10,7 @@ import 'package:eliud_core/model/member_form.dart';
 import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -76,10 +78,14 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         physics: ScrollPhysics(),
         shrinkWrap: true,
         children: [
-          profilePhoto,
-          Text(welcomeText,
-              textAlign: TextAlign.center,
-              style: FontTools.textStyle(app.fontText)),
+          Row(children: [
+            Spacer(),
+            Text(welcomeText,
+                textAlign: TextAlign.center,
+                style: FontTools.textStyle(app.fontText)),
+            Spacer(),
+            profilePhoto,
+          ]),
           Container(height:20),
           Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)),
           Container(height:20),
@@ -123,7 +129,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to gather all your data and send this as an email to your registered email address: ' + member.email + '. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            dumpMemberData(app.documentID, dashboardModel.retrieveDataEmailSubject, app.email);
+            await GDPR.dumpMemberData(app.documentID, dashboardModel.retrieveDataEmailSubject, app.email, AccessBloc.getState(context).getMemberCollectionInfo());
           },
           noFunction: () => Navigator.pop(context),
         ));
@@ -137,13 +143,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            _confirmDeleteAccount(context, dashboardModel, app, member);
+            _confirmDeleteAccount(context, dashboardModel, app, member, AccessBloc.getState(context).getMemberCollectionInfo());
           },
           noFunction: () => Navigator.pop(context),
         ));
   }
 
-  void _confirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member) {
+  void _confirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member, List<MemberCollectionInfo> memberCollectionInfo) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
@@ -151,13 +157,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            _reConfirmDeleteAccount(context, dashboardModel, app, member);
+            _reConfirmDeleteAccount(context, dashboardModel, app, member, memberCollectionInfo);
           },
           noFunction: () => Navigator.pop(context),
         ));
   }
 
-  void _reConfirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member) {
+  void _reConfirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member, List<MemberCollectionInfo> memberCollectionInfo) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
@@ -165,7 +171,8 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            deleteMemberData(app.documentID, dashboardModel.deleteDataEmailSubject, app.email, dashboardModel.deleteDataText);
+            await GDPR.deleteMemberData(member, app.documentID, dashboardModel.deleteDataEmailSubject, app.email, dashboardModel.deleteDataText, memberCollectionInfo);
+            BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
           },
           noFunction: () => Navigator.pop(context),
         ));

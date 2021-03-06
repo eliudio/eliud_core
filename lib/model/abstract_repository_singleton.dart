@@ -38,6 +38,7 @@ import '../model/shadow_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/package/package.dart';
 
 AccessRepository accessRepository({ String appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
 AppBarRepository appBarRepository({ String appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
@@ -56,6 +57,10 @@ PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingl
 ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
 
 abstract class AbstractRepositorySingleton {
+  static List<MemberCollectionInfo> collections = [
+    MemberCollectionInfo('access', 'documentID'),
+    MemberCollectionInfo('membermedium', 'authorId'),
+  ];
   static AbstractRepositorySingleton singleton;
 
   AccessRepository accessRepository(String appId);

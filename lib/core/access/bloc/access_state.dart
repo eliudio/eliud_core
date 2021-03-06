@@ -27,6 +27,8 @@ abstract class AccessState extends Equatable {
   bool forceAcceptMembership();
   bool memberIsOwner();
   MemberModel getMember();
+
+  List<MemberCollectionInfo> getMemberCollectionInfo();
 }
 
 class AppError extends AccessState {
@@ -50,6 +52,9 @@ class AppError extends AccessState {
 
   @override
   MemberModel getMember() => null;
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
 }
 
 class UndeterminedAccessState extends AccessState {
@@ -72,6 +77,9 @@ class UndeterminedAccessState extends AccessState {
 
   @override
   MemberModel getMember() => null;
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
 }
 
 class PackageCondition extends Equatable {
@@ -372,6 +380,9 @@ class LoggedOut extends AppLoaded {
 
   @override
   bool isBlocked() => false;
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
 }
 
 abstract class LoggedIn extends AppLoaded {
@@ -432,6 +443,18 @@ abstract class LoggedIn extends AppLoaded {
 
   @override
   bool isBlocked() => (blocked != null) && blocked;
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() {
+    List<MemberCollectionInfo> memberCollectionInfo = [];
+    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
+      var packageCollectionInfo = GlobalData.registeredPackages[i].getMemberCollectionInfo();
+      if (packageCollectionInfo != null) {
+        memberCollectionInfo.addAll(packageCollectionInfo);
+      }
+    }
+    return memberCollectionInfo;
+  }
 }
 
 class LoggedInWithoutMembership extends LoggedIn {

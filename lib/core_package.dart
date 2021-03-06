@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
@@ -77,4 +78,7 @@ class CorePackage extends PackageWithSubscription {
       MUST_BE_LOGGED_ON
     ];
   }
+
+  @override
+  List<MemberCollectionInfo> getMemberCollectionInfo() => AbstractRepositorySingleton.collections;
 }

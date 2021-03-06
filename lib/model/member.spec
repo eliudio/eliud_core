@@ -6,7 +6,7 @@
     "generateComponent": true,
     "generateRepository": true,
     "generateCache": true,
-	"hasPersistentRepository": true,
+    "hasPersistentRepository": true,
     "generateFirestoreRepository": false,
     "generateRepositorySingleton": false,
     "generateModel": true,

@@ -6,6 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 
+class MemberCollectionInfo {
+  // name of the collection, e.g. "Post"
+  final String name;
+
+  // name of the field which is the member, e.g. "memberId"
+  final String memberIdentifier;
+
+  MemberCollectionInfo(this.name, this.memberIdentifier);
+}
+
 abstract class Package {
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
@@ -48,4 +58,9 @@ abstract class Package {
   Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner, bool isBlocked, PrivilegeLevel privilegeLevel);
 
   List<String> retrieveAllPackageConditions();
+
+  /*
+   * Retrieve the list of MemberCollections. This is required for GDPR functionality, i.e. the ability to retrieve and delete member data
+   */
+  List<MemberCollectionInfo> getMemberCollectionInfo();
 }

@@ -359,4 +359,5 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
     return false;
   }
+
 }
