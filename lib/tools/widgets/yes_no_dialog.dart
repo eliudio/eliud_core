@@ -1,5 +1,3 @@
-import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +23,17 @@ class YesNoDialog extends StatefulWidget {
 
   @override
   _YesNoState createState() => _YesNoState();
+
+  static YesNoDialog confirmDialog({ String title, String message, Function yesFunction, Function noFunction }) {
+    return YesNoDialog(
+      message: message,
+      yesFunction: yesFunction,
+      noFunction: noFunction,
+      title: title ?? 'Please confirm',
+      yesButtonLabel: 'Confirm',
+      noButtonLabel: 'Cancel',
+    );
+  }
 }
 
 class _YesNoState extends State<YesNoDialog> {

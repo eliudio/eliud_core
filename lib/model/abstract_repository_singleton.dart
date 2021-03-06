@@ -27,6 +27,7 @@ import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
 import '../model/home_menu_repository.dart';
 import '../model/member_repository.dart';
+import '../model/member_dashboard_repository.dart';
 import '../model/member_medium_repository.dart';
 import '../model/member_subscription_repository.dart';
 import '../model/menu_def_repository.dart';
@@ -34,7 +35,6 @@ import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
-import '../model/member_dashboard_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -48,12 +48,12 @@ DrawerRepository drawerRepository({ String appId }) => AbstractRepositorySinglet
 FontRepository fontRepository({ String appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
 GridViewRepository gridViewRepository({ String appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
 HomeMenuRepository homeMenuRepository({ String appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
+MemberDashboardRepository memberDashboardRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
 MemberMediumRepository memberMediumRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
 MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
-MemberDashboardRepository memberDashboardRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static AbstractRepositorySingleton singleton;
@@ -67,12 +67,12 @@ abstract class AbstractRepositorySingleton {
   FontRepository fontRepository(String appId);
   GridViewRepository gridViewRepository(String appId);
   HomeMenuRepository homeMenuRepository(String appId);
+  MemberDashboardRepository memberDashboardRepository(String appId);
   MemberMediumRepository memberMediumRepository(String appId);
   MenuDefRepository menuDefRepository(String appId);
   PageRepository pageRepository(String appId);
   PosSizeRepository posSizeRepository(String appId);
   ShadowRepository shadowRepository(String appId);
-  MemberDashboardRepository memberDashboardRepository(String appId);
 
   void flush(String appId) {
     countryRepository().flush();

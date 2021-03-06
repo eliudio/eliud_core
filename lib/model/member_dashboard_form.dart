@@ -133,6 +133,11 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _updateProfileTextController = TextEditingController();
+  final TextEditingController _retrieveDataTextController = TextEditingController();
+  final TextEditingController _deleteDataTextController = TextEditingController();
+  final TextEditingController _retrieveDataEmailSubjectController = TextEditingController();
+  final TextEditingController _deleteDataEmailSubjectController = TextEditingController();
 
 
   _MyMemberDashboardFormState(this.formAction);
@@ -144,6 +149,11 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
     _descriptionController.addListener(_onDescriptionChanged);
+    _updateProfileTextController.addListener(_onUpdateProfileTextChanged);
+    _retrieveDataTextController.addListener(_onRetrieveDataTextChanged);
+    _deleteDataTextController.addListener(_onDeleteDataTextChanged);
+    _retrieveDataEmailSubjectController.addListener(_onRetrieveDataEmailSubjectChanged);
+    _deleteDataEmailSubjectController.addListener(_onDeleteDataEmailSubjectChanged);
   }
 
   @override
@@ -168,6 +178,26 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
           _descriptionController.text = state.value.description.toString();
         else
           _descriptionController.text = "";
+        if (state.value.updateProfileText != null)
+          _updateProfileTextController.text = state.value.updateProfileText.toString();
+        else
+          _updateProfileTextController.text = "";
+        if (state.value.retrieveDataText != null)
+          _retrieveDataTextController.text = state.value.retrieveDataText.toString();
+        else
+          _retrieveDataTextController.text = "";
+        if (state.value.deleteDataText != null)
+          _deleteDataTextController.text = state.value.deleteDataText.toString();
+        else
+          _deleteDataTextController.text = "";
+        if (state.value.retrieveDataEmailSubject != null)
+          _retrieveDataEmailSubjectController.text = state.value.retrieveDataEmailSubject.toString();
+        else
+          _retrieveDataEmailSubjectController.text = "";
+        if (state.value.deleteDataEmailSubject != null)
+          _deleteDataEmailSubjectController.text = state.value.deleteDataEmailSubject.toString();
+        else
+          _deleteDataEmailSubjectController.text = "";
       }
       if (state is MemberDashboardFormInitialized) {
         List<Widget> children = List();
@@ -234,6 +264,101 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                 ),
           );
 
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _updateProfileTextController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Update Profile Text',
+                    hintText: "This is the text on the member dashboard screen providing more information about what it means to update the member profile",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is UpdateProfileTextMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _retrieveDataTextController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Retrieve Data Text',
+                    hintText: "This is the text on the member dashboard screen providing more information about what it means to retrieve all data",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is RetrieveDataTextMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _deleteDataTextController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Delete Data Text',
+                    hintText: "This is the text on the member dashboard screen providing more information about what it means to destroy the account, i.e. the member will loose all data",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is DeleteDataTextMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _retrieveDataEmailSubjectController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Retrieve Data Email Subject',
+                    hintText: "This is the subject of the email providing the member his data stored in the app (after requesting it)",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is RetrieveDataEmailSubjectMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _deleteDataEmailSubjectController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Delete Data Email Subject',
+                    hintText: "This is the subject of the email informing the member that his account and all of his data has been destroyed (after requesting it)",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is DeleteDataEmailSubjectMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -266,6 +391,11 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                               documentID: state.value.documentID, 
                               appId: state.value.appId, 
                               description: state.value.description, 
+                              updateProfileText: state.value.updateProfileText, 
+                              retrieveDataText: state.value.retrieveDataText, 
+                              deleteDataText: state.value.deleteDataText, 
+                              retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
+                              deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
                               conditions: state.value.conditions, 
                         )));
                       } else {
@@ -274,6 +404,11 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                               documentID: state.value.documentID, 
                               appId: state.value.appId, 
                               description: state.value.description, 
+                              updateProfileText: state.value.updateProfileText, 
+                              retrieveDataText: state.value.retrieveDataText, 
+                              deleteDataText: state.value.deleteDataText, 
+                              retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
+                              deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
                               conditions: state.value.conditions, 
                           )));
                       }
@@ -323,12 +458,42 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   }
 
 
+  void _onUpdateProfileTextChanged() {
+    _myFormBloc.add(ChangedMemberDashboardUpdateProfileText(value: _updateProfileTextController.text));
+  }
+
+
+  void _onRetrieveDataTextChanged() {
+    _myFormBloc.add(ChangedMemberDashboardRetrieveDataText(value: _retrieveDataTextController.text));
+  }
+
+
+  void _onDeleteDataTextChanged() {
+    _myFormBloc.add(ChangedMemberDashboardDeleteDataText(value: _deleteDataTextController.text));
+  }
+
+
+  void _onRetrieveDataEmailSubjectChanged() {
+    _myFormBloc.add(ChangedMemberDashboardRetrieveDataEmailSubject(value: _retrieveDataEmailSubjectController.text));
+  }
+
+
+  void _onDeleteDataEmailSubjectChanged() {
+    _myFormBloc.add(ChangedMemberDashboardDeleteDataEmailSubject(value: _deleteDataEmailSubjectController.text));
+  }
+
+
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
     _descriptionController.dispose();
+    _updateProfileTextController.dispose();
+    _retrieveDataTextController.dispose();
+    _deleteDataTextController.dispose();
+    _retrieveDataEmailSubjectController.dispose();
+    _deleteDataEmailSubjectController.dispose();
     super.dispose();
   }
 

@@ -292,6 +292,30 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _memberDashboardsPages() {
+    List<BodyComponentModel> components = List();
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-memberDashboards", componentName: "eliud_core_internalWidgets", componentId: "memberDashboards"));
+    PageModel page = PageModel(
+        conditions: ConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
+          packageCondition: null,
+          conditionOverride: null,
+        ),
+        appId: appId,
+        documentID: "eliud_core_memberdashboards_page",
+        title: "MemberDashboards",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _menuDefsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -388,30 +412,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _memberDashboardsPages() {
-    List<BodyComponentModel> components = List();
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-memberDashboards", componentName: "eliud_core_internalWidgets", componentId: "memberDashboards"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_memberdashboards_page",
-        title: "MemberDashboards",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId).add(_appsPages())
@@ -434,6 +434,8 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId).add(_membersPages()))
 
+        .then((_) => pageRepository(appId: appId).add(_memberDashboardsPages()))
+
         .then((_) => pageRepository(appId: appId).add(_menuDefsPages()))
 
         .then((_) => pageRepository(appId: appId).add(_pagesPages()))
@@ -441,8 +443,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId).add(_shadowsPages()))
-
-        .then((_) => pageRepository(appId: appId).add(_memberDashboardsPages()))
 
     ;
   }
@@ -562,6 +562,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 
     menuItems.add(
       MenuItemModel(
+        documentID: "MemberDashboards",
+        text: "MemberDashboards",
+        description: "MemberDashboards",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_memberdashboards_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
         documentID: "MenuDefs",
         text: "MenuDefs",
         description: "MenuDefs",
@@ -597,16 +607,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_shadows_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "MemberDashboards",
-        text: "MemberDashboards",
-        description: "MemberDashboards",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_memberdashboards_page"))
     );
 
 

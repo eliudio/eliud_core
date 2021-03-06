@@ -33,9 +33,9 @@ class _DialogComponentState extends State<DialogComponent> {
         buttons: getButtons(context));
   }
 
-  List<FlatButton> getButtons(BuildContext context) {
-    return <FlatButton>[
-      FlatButton(onPressed: () => pressed(true), child: Text('Close')),
+  List<TextButton> getButtons(BuildContext context) {
+    return <TextButton>[
+      TextButton(onPressed: () => pressed(true), child: Text('Close')),
     ];
   }
 

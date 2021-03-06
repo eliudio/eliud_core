@@ -48,10 +48,10 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
                 labelText: widget.hintText,
               ),
             )),
-        buttons: <FlatButton>[
-          FlatButton(
+        buttons: <TextButton>[
+          TextButton(
               onPressed: widget.noFunction, child: Text(widget.noButtonText)),
-          FlatButton(
+          TextButton(
               onPressed: () => widget.yesFunction(feedback),
               child: Text(widget.yesButtonText)),
         ]);

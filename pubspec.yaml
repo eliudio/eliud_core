@@ -36,6 +36,8 @@ dependencies:
   uuid: 2.2.2
   image: 2.1.14
   flutter_markdown: ^0.3.3
+  docx_template: 0.2.7
+  cloud_functions: ^0.9.0
 
   flutter:
     sdk: flutter

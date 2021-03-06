@@ -55,6 +55,11 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
                                                documentID: "",
                                  appId: "",
                                  description: "",
+                                 updateProfileText: "",
+                                 retrieveDataText: "",
+                                 deleteDataText: "",
+                                 retrieveDataEmailSubject: "",
+                                 deleteDataEmailSubject: "",
 
         ));
         yield loaded;
@@ -93,6 +98,36 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
       }
       if (event is ChangedMemberDashboardDescription) {
         newValue = currentState.value.copyWith(description: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardUpdateProfileText) {
+        newValue = currentState.value.copyWith(updateProfileText: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardRetrieveDataText) {
+        newValue = currentState.value.copyWith(retrieveDataText: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardDeleteDataText) {
+        newValue = currentState.value.copyWith(deleteDataText: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardRetrieveDataEmailSubject) {
+        newValue = currentState.value.copyWith(retrieveDataEmailSubject: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardDeleteDataEmailSubject) {
+        newValue = currentState.value.copyWith(deleteDataEmailSubject: event.value);
         yield SubmittableMemberDashboardForm(value: newValue);
 
         return;

@@ -32,7 +32,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({String title, Widget contents, List<FlatButton> buttons}) {
+  Widget build({String title, Widget contents, List<TextButton> buttons}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -45,14 +45,14 @@ class DialogStateHelper {
   }
 
   Widget _contentBox(
-      {String title, Widget contents, List<FlatButton> buttons}) {
+      {String title, Widget contents, List<TextButton> buttons}) {
     return Form(
         key: _formKey,
         child: _titleAndFields(
             title: title, contents: contents, buttons: buttons));
   }
 
-  Widget _getRowWithButtons(List<FlatButton> buttons) {
+  Widget _getRowWithButtons(List<TextButton> buttons) {
     var widgets = <Widget>[
       Spacer(),
     ];
@@ -62,7 +62,7 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {String title, Widget contents, List<FlatButton> buttons}) {
+      {String title, Widget contents, List<TextButton> buttons}) {
     var widgets = <Widget>[
       Center(
           child: Text(title,
@@ -116,40 +116,40 @@ class DialogStateHelper {
   }
 
   /* Helper method to retrieve the button */
-  List<FlatButton> getCloseButton(
+  List<TextButton> getCloseButton(
       BuildContext context, Function closeFunction) {
-    return <FlatButton>[
-      FlatButton(child: Text('Close'), onPressed: closeFunction),
+    return <TextButton>[
+      TextButton(child: Text('Close'), onPressed: closeFunction),
     ];
   }
 
-  List<FlatButton> getDefaultCloseButton(BuildContext context) {
+  List<TextButton> getDefaultCloseButton(BuildContext context) {
     return getCloseButton(context, () => Navigator.pop(context));
   }
 
-  List<FlatButton> getYesNoButtons(
+  List<TextButton> getYesNoButtons(
       BuildContext context, Function yesFunction, Function noFunction,
       {String yesButtonLabel, String noButtonLabel}) {
-    return <FlatButton>[
-      FlatButton(
+    return <TextButton>[
+      TextButton(
           onPressed: noFunction,
           child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel)),
-      FlatButton(
+      TextButton(
           onPressed: yesFunction,
           child: Text(yesButtonLabel == null ? 'Continue' : yesButtonLabel)),
     ];
   }
 
-  List<FlatButton> getButtons(BuildContext context, List<String> buttonLabels,
+  List<TextButton> getButtons(BuildContext context, List<String> buttonLabels,
       List<Function> functions) {
     if (buttonLabels.length != functions.length)
       throw Exception(
           "Amount of labels of buttons does not correspond functions");
-    List<FlatButton> buttons = [];
+    List<TextButton> buttons = [];
     for (int i = 0; i < buttonLabels.length; i++) {
       String label = buttonLabels[i];
       Function function = functions[i];
-      buttons.add(FlatButton(onPressed: function, child: Text(label)));
+      buttons.add(TextButton(onPressed: function, child: Text(label)));
     }
     return buttons;
   }

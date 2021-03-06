@@ -24,16 +24,21 @@ import 'package:eliud_core/model/entity_export.dart';
 class MemberDashboardEntity {
   final String appId;
   final String description;
+  final String updateProfileText;
+  final String retrieveDataText;
+  final String deleteDataText;
+  final String retrieveDataEmailSubject;
+  final String deleteDataEmailSubject;
   final ConditionsSimpleEntity conditions;
 
-  MemberDashboardEntity({this.appId, this.description, this.conditions, });
+  MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.conditions, });
 
 
-  List<Object> get props => [appId, description, conditions, ];
+  List<Object> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, conditions, ];
 
   @override
   String toString() {
-    return 'MemberDashboardEntity{appId: $appId, description: $description, conditions: $conditions}';
+    return 'MemberDashboardEntity{appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, conditions: $conditions}';
   }
 
   static MemberDashboardEntity fromMap(Map map) {
@@ -47,6 +52,11 @@ class MemberDashboardEntity {
     return MemberDashboardEntity(
       appId: map['appId'], 
       description: map['description'], 
+      updateProfileText: map['updateProfileText'], 
+      retrieveDataText: map['retrieveDataText'], 
+      deleteDataText: map['deleteDataText'], 
+      retrieveDataEmailSubject: map['retrieveDataEmailSubject'], 
+      deleteDataEmailSubject: map['deleteDataEmailSubject'], 
       conditions: conditionsFromMap, 
     );
   }
@@ -61,6 +71,16 @@ class MemberDashboardEntity {
       else theDocument["appId"] = null;
     if (description != null) theDocument["description"] = description;
       else theDocument["description"] = null;
+    if (updateProfileText != null) theDocument["updateProfileText"] = updateProfileText;
+      else theDocument["updateProfileText"] = null;
+    if (retrieveDataText != null) theDocument["retrieveDataText"] = retrieveDataText;
+      else theDocument["retrieveDataText"] = null;
+    if (deleteDataText != null) theDocument["deleteDataText"] = deleteDataText;
+      else theDocument["deleteDataText"] = null;
+    if (retrieveDataEmailSubject != null) theDocument["retrieveDataEmailSubject"] = retrieveDataEmailSubject;
+      else theDocument["retrieveDataEmailSubject"] = null;
+    if (deleteDataEmailSubject != null) theDocument["deleteDataEmailSubject"] = deleteDataEmailSubject;
+      else theDocument["deleteDataEmailSubject"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

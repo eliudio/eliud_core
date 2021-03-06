@@ -111,6 +111,86 @@ class DescriptionMemberDashboardFormError extends MemberDashboardFormError {
 }
 
 
+class UpdateProfileTextMemberDashboardFormError extends MemberDashboardFormError { 
+  const UpdateProfileTextMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''UpdateProfileTextMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class RetrieveDataTextMemberDashboardFormError extends MemberDashboardFormError { 
+  const RetrieveDataTextMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''RetrieveDataTextMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DeleteDataTextMemberDashboardFormError extends MemberDashboardFormError { 
+  const DeleteDataTextMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DeleteDataTextMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class RetrieveDataEmailSubjectMemberDashboardFormError extends MemberDashboardFormError { 
+  const RetrieveDataEmailSubjectMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''RetrieveDataEmailSubjectMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DeleteDataEmailSubjectMemberDashboardFormError extends MemberDashboardFormError { 
+  const DeleteDataEmailSubjectMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DeleteDataEmailSubjectMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ConditionsMemberDashboardFormError extends MemberDashboardFormError { 
   const ConditionsMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
 

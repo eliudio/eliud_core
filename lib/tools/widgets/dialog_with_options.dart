@@ -57,7 +57,7 @@ class _DialogWithOptionsState extends State<DialogWithOptions> {
         shrinkWrap: true,
         itemCount: widget.options.length,
         itemBuilder: (context, i) {
-          return FlatButton(onPressed: () => onPressed(i), child: Text(widget.options[i].value));
+          return TextButton(onPressed: () => onPressed(i), child: Text(widget.options[i].value));
       });
   }
 

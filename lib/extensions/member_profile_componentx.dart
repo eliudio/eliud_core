@@ -109,7 +109,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
           title: Text('Delete yourself'),
           content: Text('Are you sure you want to proceed? All data will be destroyed. This action cannot be reverted.'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('YES'),
               onPressed: () {
                 memberRepository().delete(state.member);
@@ -117,7 +117,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
               },
             ),
 
-            FlatButton(
+            TextButton(
               child: Text('NO'),
               onPressed: () {
                 //Put your code here which you want to execute on No button click.
