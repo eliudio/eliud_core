@@ -29,16 +29,17 @@ class MemberDashboardEntity {
   final String deleteDataText;
   final String retrieveDataEmailSubject;
   final String deleteDataEmailSubject;
+  final String deleteDataEmailMessage;
   final ConditionsSimpleEntity conditions;
 
-  MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.conditions, });
+  MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
 
 
-  List<Object> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, conditions, ];
+  List<Object> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, deleteDataEmailMessage, conditions, ];
 
   @override
   String toString() {
-    return 'MemberDashboardEntity{appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, conditions: $conditions}';
+    return 'MemberDashboardEntity{appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
   static MemberDashboardEntity fromMap(Map map) {
@@ -57,6 +58,7 @@ class MemberDashboardEntity {
       deleteDataText: map['deleteDataText'], 
       retrieveDataEmailSubject: map['retrieveDataEmailSubject'], 
       deleteDataEmailSubject: map['deleteDataEmailSubject'], 
+      deleteDataEmailMessage: map['deleteDataEmailMessage'], 
       conditions: conditionsFromMap, 
     );
   }
@@ -81,6 +83,8 @@ class MemberDashboardEntity {
       else theDocument["retrieveDataEmailSubject"] = null;
     if (deleteDataEmailSubject != null) theDocument["deleteDataEmailSubject"] = deleteDataEmailSubject;
       else theDocument["deleteDataEmailSubject"] = null;
+    if (deleteDataEmailMessage != null) theDocument["deleteDataEmailMessage"] = deleteDataEmailMessage;
+      else theDocument["deleteDataEmailMessage"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

@@ -72,11 +72,17 @@
       "fieldType": "String",
       "group": "general"
     },
-
     {
       "fieldName": "deleteDataEmailSubject",
       "remark": "This is the subject of the email informing the member that his account and all of his data has been destroyed (after requesting it)",
       "displayName": "Delete Data Email Subject",
+      "fieldType": "String",
+      "group": "general"
+    },
+    {
+      "fieldName": "deleteDataEmailMessage",
+      "remark": "This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)",
+      "displayName": "Delete Data Email Message",
       "fieldType": "String",
       "group": "general"
     },

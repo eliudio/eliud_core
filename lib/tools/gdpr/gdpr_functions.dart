@@ -7,12 +7,17 @@ import '../main_abstract_repository_singleton.dart';
 class GDPR {
   static List<Map<String, String>> _toFunctionFormat(
       List<MemberCollectionInfo> memberCollectionInfo) {
-    return memberCollectionInfo
+    var collection1 = [
+      {'name': 'post', 'memberIdentifier': 'authorId'},
+      {'name': 'membermedium', 'memberIdentifier': 'authorId'},
+    ];
+    var collection = memberCollectionInfo
         .map(
           (info) =>
               {'name': info.name, 'memberIdentifier': info.memberIdentifier},
         )
         .toList();
+    return collection;
   }
 
   static Future<void> dumpMemberData(String appId, String subject, String from,

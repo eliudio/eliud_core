@@ -191,6 +191,22 @@ class DeleteDataEmailSubjectMemberDashboardFormError extends MemberDashboardForm
 }
 
 
+class DeleteDataEmailMessageMemberDashboardFormError extends MemberDashboardFormError { 
+  const DeleteDataEmailMessageMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DeleteDataEmailMessageMemberDashboardFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ConditionsMemberDashboardFormError extends MemberDashboardFormError { 
   const ConditionsMemberDashboardFormError({ String message, MemberDashboardModel value }): super(message: message, value: value);
 

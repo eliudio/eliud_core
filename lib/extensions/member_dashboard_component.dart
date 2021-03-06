@@ -19,6 +19,7 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
+import 'package:eliud_core/tools/widgets/widget_dialog.dart';
 import 'package:eliud_core/tools/widgets/yes_no_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,6 +131,12 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           yesFunction: () async {
             Navigator.pop(context);
             await GDPR.dumpMemberData(app.documentID, dashboardModel.retrieveDataEmailSubject, app.email, AccessBloc.getState(context).getMemberCollectionInfo());
+            DialogStatefulWidgetHelper.openIt(
+                context,
+                WidgetDialog(
+                    title: 'Photo',
+                    widget: Text('You will receive an email at your registered email address ' + member.email + ' with the data you have with us.'),
+                    yesFunction: () => Navigator.of(context).pop()));
           },
           noFunction: () => Navigator.pop(context),
         ));
@@ -171,7 +178,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            await GDPR.deleteMemberData(member, app.documentID, dashboardModel.deleteDataEmailSubject, app.email, dashboardModel.deleteDataText, memberCollectionInfo);
+            await GDPR.deleteMemberData(member, app.documentID, dashboardModel.deleteDataEmailSubject, app.email, dashboardModel.deleteDataEmailMessage, memberCollectionInfo);
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
           },
           noFunction: () => Navigator.pop(context),

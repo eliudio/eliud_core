@@ -138,6 +138,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   final TextEditingController _deleteDataTextController = TextEditingController();
   final TextEditingController _retrieveDataEmailSubjectController = TextEditingController();
   final TextEditingController _deleteDataEmailSubjectController = TextEditingController();
+  final TextEditingController _deleteDataEmailMessageController = TextEditingController();
 
 
   _MyMemberDashboardFormState(this.formAction);
@@ -154,6 +155,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
     _deleteDataTextController.addListener(_onDeleteDataTextChanged);
     _retrieveDataEmailSubjectController.addListener(_onRetrieveDataEmailSubjectChanged);
     _deleteDataEmailSubjectController.addListener(_onDeleteDataEmailSubjectChanged);
+    _deleteDataEmailMessageController.addListener(_onDeleteDataEmailMessageChanged);
   }
 
   @override
@@ -198,6 +200,10 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
           _deleteDataEmailSubjectController.text = state.value.deleteDataEmailSubject.toString();
         else
           _deleteDataEmailSubjectController.text = "";
+        if (state.value.deleteDataEmailMessage != null)
+          _deleteDataEmailMessageController.text = state.value.deleteDataEmailMessage.toString();
+        else
+          _deleteDataEmailMessageController.text = "";
       }
       if (state is MemberDashboardFormInitialized) {
         List<Widget> children = List();
@@ -359,6 +365,25 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                 ),
           );
 
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _deleteDataEmailMessageController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Delete Data Email Message',
+                    hintText: "This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is DeleteDataEmailMessageMemberDashboardFormError ? state.message : null;
+                  },
+                ),
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -396,6 +421,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                               deleteDataText: state.value.deleteDataText, 
                               retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
                               deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
+                              deleteDataEmailMessage: state.value.deleteDataEmailMessage, 
                               conditions: state.value.conditions, 
                         )));
                       } else {
@@ -409,6 +435,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                               deleteDataText: state.value.deleteDataText, 
                               retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
                               deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
+                              deleteDataEmailMessage: state.value.deleteDataEmailMessage, 
                               conditions: state.value.conditions, 
                           )));
                       }
@@ -483,6 +510,11 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   }
 
 
+  void _onDeleteDataEmailMessageChanged() {
+    _myFormBloc.add(ChangedMemberDashboardDeleteDataEmailMessage(value: _deleteDataEmailMessageController.text));
+  }
+
+
 
   @override
   void dispose() {
@@ -494,6 +526,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
     _deleteDataTextController.dispose();
     _retrieveDataEmailSubjectController.dispose();
     _deleteDataEmailSubjectController.dispose();
+    _deleteDataEmailMessageController.dispose();
     super.dispose();
   }
 

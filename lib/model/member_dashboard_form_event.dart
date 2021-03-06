@@ -155,6 +155,18 @@ class ChangedMemberDashboardDeleteDataEmailSubject extends MemberDashboardFormEv
   String toString() => 'ChangedMemberDashboardDeleteDataEmailSubject{ value: $value }';
 }
 
+class ChangedMemberDashboardDeleteDataEmailMessage extends MemberDashboardFormEvent {
+  final String value;
+
+  ChangedMemberDashboardDeleteDataEmailMessage({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberDashboardDeleteDataEmailMessage{ value: $value }';
+}
+
 class ChangedMemberDashboardConditions extends MemberDashboardFormEvent {
   final ConditionsSimpleModel value;
 

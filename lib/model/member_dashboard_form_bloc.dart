@@ -60,6 +60,7 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
                                  deleteDataText: "",
                                  retrieveDataEmailSubject: "",
                                  deleteDataEmailSubject: "",
+                                 deleteDataEmailMessage: "",
 
         ));
         yield loaded;
@@ -128,6 +129,12 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
       }
       if (event is ChangedMemberDashboardDeleteDataEmailSubject) {
         newValue = currentState.value.copyWith(deleteDataEmailSubject: event.value);
+        yield SubmittableMemberDashboardForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberDashboardDeleteDataEmailMessage) {
+        newValue = currentState.value.copyWith(deleteDataEmailMessage: event.value);
         yield SubmittableMemberDashboardForm(value: newValue);
 
         return;

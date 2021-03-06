@@ -56,18 +56,21 @@ class MemberDashboardModel {
 
   // This is the subject of the email informing the member that his account and all of his data has been destroyed (after requesting it)
   String deleteDataEmailSubject;
+
+  // This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)
+  String deleteDataEmailMessage;
   ConditionsSimpleModel conditions;
 
-  MemberDashboardModel({this.documentID, this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.conditions, })  {
+  MemberDashboardModel({this.documentID, this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
     assert(documentID != null);
   }
 
-  MemberDashboardModel copyWith({String documentID, String appId, String description, String updateProfileText, String retrieveDataText, String deleteDataText, String retrieveDataEmailSubject, String deleteDataEmailSubject, ConditionsSimpleModel conditions, }) {
-    return MemberDashboardModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, updateProfileText: updateProfileText ?? this.updateProfileText, retrieveDataText: retrieveDataText ?? this.retrieveDataText, deleteDataText: deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject: retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject: deleteDataEmailSubject ?? this.deleteDataEmailSubject, conditions: conditions ?? this.conditions, );
+  MemberDashboardModel copyWith({String documentID, String appId, String description, String updateProfileText, String retrieveDataText, String deleteDataText, String retrieveDataEmailSubject, String deleteDataEmailSubject, String deleteDataEmailMessage, ConditionsSimpleModel conditions, }) {
+    return MemberDashboardModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, updateProfileText: updateProfileText ?? this.updateProfileText, retrieveDataText: retrieveDataText ?? this.retrieveDataText, deleteDataText: deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject: retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject: deleteDataEmailSubject ?? this.deleteDataEmailSubject, deleteDataEmailMessage: deleteDataEmailMessage ?? this.deleteDataEmailMessage, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ updateProfileText.hashCode ^ retrieveDataText.hashCode ^ deleteDataText.hashCode ^ retrieveDataEmailSubject.hashCode ^ deleteDataEmailSubject.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ updateProfileText.hashCode ^ retrieveDataText.hashCode ^ deleteDataText.hashCode ^ retrieveDataEmailSubject.hashCode ^ deleteDataEmailSubject.hashCode ^ deleteDataEmailMessage.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -82,11 +85,12 @@ class MemberDashboardModel {
           deleteDataText == other.deleteDataText &&
           retrieveDataEmailSubject == other.retrieveDataEmailSubject &&
           deleteDataEmailSubject == other.deleteDataEmailSubject &&
+          deleteDataEmailMessage == other.deleteDataEmailMessage &&
           conditions == other.conditions;
 
   @override
   String toString() {
-    return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, conditions: $conditions}';
+    return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
   MemberDashboardEntity toEntity({String appId}) {
@@ -98,6 +102,7 @@ class MemberDashboardModel {
           deleteDataText: (deleteDataText != null) ? deleteDataText : null, 
           retrieveDataEmailSubject: (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null, 
           deleteDataEmailSubject: (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null, 
+          deleteDataEmailMessage: (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null, 
           conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
     );
   }
@@ -113,6 +118,7 @@ class MemberDashboardModel {
           deleteDataText: entity.deleteDataText, 
           retrieveDataEmailSubject: entity.retrieveDataEmailSubject, 
           deleteDataEmailSubject: entity.deleteDataEmailSubject, 
+          deleteDataEmailMessage: entity.deleteDataEmailMessage, 
           conditions: 
             ConditionsSimpleModel.fromEntity(entity.conditions), 
     );
@@ -130,6 +136,7 @@ class MemberDashboardModel {
           deleteDataText: entity.deleteDataText, 
           retrieveDataEmailSubject: entity.retrieveDataEmailSubject, 
           deleteDataEmailSubject: entity.deleteDataEmailSubject, 
+          deleteDataEmailMessage: entity.deleteDataEmailMessage, 
           conditions: 
             await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
