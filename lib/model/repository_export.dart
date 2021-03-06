@@ -34,3 +34,4 @@ export '../model/menu_item_repository.dart';
 export '../model/page_repository.dart';
 export '../model/pos_size_repository.dart';
 export '../model/shadow_repository.dart';
+export '../model/member_dashboard_repository.dart';

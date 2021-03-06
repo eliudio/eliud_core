@@ -1,22 +1,15 @@
-import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/extensions/member_profile_component.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
-import 'package:eliud_core/tools/registry.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 
-import 'package:eliud_core/model/component_registry.dart';
 
 import 'core/access/bloc/access_event.dart';
 import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
-import 'package/package.dart';
 import 'package/package_with_subscription.dart';
 
 class CorePackage extends PackageWithSubscription {

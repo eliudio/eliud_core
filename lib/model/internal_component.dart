@@ -204,6 +204,23 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+import 'package:eliud_core/model/member_dashboard_list_bloc.dart';
+import 'package:eliud_core/model/member_dashboard_list.dart';
+import 'package:eliud_core/model/member_dashboard_dropdown_button.dart';
+import 'package:eliud_core/model/member_dashboard_list_event.dart';
+
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
+import '../tools/bespoke_models.dart';
+import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
+import '../tools/bespoke_entities.dart';
+import 'package:eliud_core/model/entity_export.dart';
+
 class ListComponentFactory implements ComponentConstructor {
   Widget createNew({String id, Map<String, Object> parameters}) {
     return ListComponent(componentId: id);
@@ -231,6 +248,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "pages") return true;
     if (id == "posSizes") return true;
     if (id == "shadows") return true;
+    if (id == "memberDashboards") return true;
     return false;
   }
 
@@ -278,6 +296,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "shadows")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
+    if (id == "memberDashboards")
+      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+
     return null;
   }
 }
@@ -317,6 +338,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
+    if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -335,6 +357,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'pages') widget = PageListWidget();
     if (componentId == 'posSizes') widget = PosSizeListWidget();
     if (componentId == 'shadows') widget = ShadowListWidget();
+    if (componentId == 'memberDashboards') widget = MemberDashboardListWidget();
   }
 
   Widget _appBuild(BuildContext context) {
@@ -519,6 +542,19 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
+  Widget _memberDashboardBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MemberDashboardListBloc>(
+          create: (context) => MemberDashboardListBloc(
+            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadMemberDashboardList()),
+        )
+      ],
+      child: widget,
+    );
+  }
+
 }
 
 
@@ -549,6 +585,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
+    if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -732,6 +769,19 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: ShadowDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+    );
+  }
+
+  Widget _memberDashboardBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MemberDashboardListBloc>(
+          create: (context) => MemberDashboardListBloc(
+            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.appId(context)),
+          )..add(LoadMemberDashboardList()),
+        )
+      ],
+      child: MemberDashboardDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 

@@ -27,11 +27,15 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 
+import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
+import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
@@ -384,6 +388,30 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _memberDashboardsPages() {
+    List<BodyComponentModel> components = List();
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-memberDashboards", componentName: "eliud_core_internalWidgets", componentId: "memberDashboards"));
+    PageModel page = PageModel(
+        conditions: ConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
+          packageCondition: null,
+          conditionOverride: null,
+        ),
+        appId: appId,
+        documentID: "eliud_core_memberdashboards_page",
+        title: "MemberDashboards",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId).add(_appsPages())
@@ -413,6 +441,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId).add(_shadowsPages()))
+
+        .then((_) => pageRepository(appId: appId).add(_memberDashboardsPages()))
 
     ;
   }
@@ -567,6 +597,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_shadows_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "MemberDashboards",
+        text: "MemberDashboards",
+        description: "MemberDashboards",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_memberdashboards_page"))
     );
 
 

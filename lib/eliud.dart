@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/extensions/member_profile_component.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +13,6 @@ class Eliud {
   void initRegistryAndPackages() {
     try {
       ComponentRegistry().init();
-
-      // Initialise custom extensions:
-      Registry.registry().register(
-          componentName: MemberProfileConstructorDefault
-              .MEMBER_PROFILE_COMPONENT_IDENTIFIER,
-          componentConstructor: MemberProfileConstructorDefault());
 
       var plugins = GlobalData.registeredPackages;
       for (var i = 0; i < plugins.length; i++) {

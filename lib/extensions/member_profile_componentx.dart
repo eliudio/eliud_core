@@ -39,8 +39,7 @@ class MemberProfileState extends State<MemberProfileComponent> {
     if (accessState is LoggedIn) {
       var app = accessState.app;
       var widgets = <Widget>[];
-      var style = TextStyle(
-          color: RgbHelper.color(rgbo: app.formFieldTextColor), fontSize: 15);
+      var style = FontTools.textStyle(app.fontText);
       widgets.add(Text('Hello ' + accessState
           .member
           .name + '!', style: style));

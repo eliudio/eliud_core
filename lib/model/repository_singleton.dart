@@ -72,6 +72,9 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/member_dashboard_firestore.dart';
+import '../model/member_dashboard_repository.dart';
+import '../model/member_dashboard_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -99,6 +102,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
+    var _memberDashboardRepository = HashMap<String, MemberDashboardRepository>();
 
     AccessRepository accessRepository(String appId) {
       if (_accessRepository[appId] == null) _accessRepository[appId] = AccessFirestore(appRepository().getSubCollection(appId, 'access'), appId);
@@ -154,6 +158,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     ShadowRepository shadowRepository(String appId) {
       if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appRepository().getSubCollection(appId, 'shadow'), appId));
       return _shadowRepository[appId];
+    }
+    MemberDashboardRepository memberDashboardRepository(String appId) {
+      if (_memberDashboardRepository[appId] == null) _memberDashboardRepository[appId] = MemberDashboardCache(MemberDashboardFirestore(appRepository().getSubCollection(appId, 'memberdashboard'), appId));
+      return _memberDashboardRepository[appId];
     }
 
 }

@@ -39,3 +39,4 @@ export '../model/page_entity.dart';
 export '../model/pos_size_entity.dart';
 export '../model/rgb_entity.dart';
 export '../model/shadow_entity.dart';
+export '../model/member_dashboard_entity.dart';
