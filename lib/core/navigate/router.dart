@@ -4,8 +4,6 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,17 +52,21 @@ class Router {
     }
     if (state.isBlocked()) return state.app.homePages.homePageBlockedMemberId;
     if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
-        (state.app.homePages.homePageOwnerId != null))
+        (state.app.homePages.homePageOwnerId != null)) {
       return state.app.homePages.homePageOwnerId;
+    }
     if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
-        (state.app.homePages.homePageLevel2MemberId != null))
+        (state.app.homePages.homePageLevel2MemberId != null)) {
       return state.app.homePages.homePageLevel2MemberId;
+    }
     if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
-        (state.app.homePages.homePageLevel1MemberId != null))
+        (state.app.homePages.homePageLevel1MemberId != null)) {
       return state.app.homePages.homePageLevel1MemberId;
+    }
     if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
-        (state.app.homePages.homePageSubscribedMemberId != null))
+        (state.app.homePages.homePageSubscribedMemberId != null)) {
       return state.app.homePages.homePageSubscribedMemberId;
+    }
 
     print('Unknown privilegeLevel $privilegeLevel');
     return state.app.homePages.homePageSubscribedMemberId;
@@ -82,13 +84,11 @@ class Router {
           // in flutterweb, the initialRoute is "", not "/"
           var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId,
-              page: Registry.registry().page(id: pageId));
+              pageId: pageId, page: Registry.registry().page(id: pageId));
         case homeRoute:
           var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId,
-              page: Registry.registry().page(id: pageId));
+              pageId: pageId, page: Registry.registry().page(id: pageId));
         case justASecond:
           return pageRouteBuilder(theState.app,
               page: justASecondWidget(
@@ -101,15 +101,44 @@ class Router {
                   id: arguments == null ? null : arguments.mainArgument,
                   parameters: arguments == null ? null : arguments.parameters));
         default:
-          return pageRouteBuilder(theState.app,
-              page: Scaffold(
-                body: Center(
-                    child: Text('No route defined for ${settings.name}')),
-              ));
+          final settingsUri = Uri.parse(settings.name);
+          final pagePath = settingsUri.path.split('/');
+          if ((pagePath != null) && (pagePath.length == 2)) {
+            final appId = pagePath[0];
+            print('appId is =' + appId);
+            if (theState.app == null) {
+              print('theState app is null');
+            }
+            if ((theState.app.documentID == null) ||
+                (theState.app.documentID != appId)) {
+              return error(
+                  'Not allowing to switch to app ' + appId + '.');
+            } else {
+              final pageId = pagePath[1];
+              print('paggeId is ' + pageId);
+              final parameters = settingsUri.queryParameters;
+              if (pageId != null) print(pageId);
+              if (parameters != null) print(parameters);
+              var page =
+                  Registry.registry().page(id: pageId, parameters: parameters);
+              if (page != null) {
+                return pageRouteBuilder(theState.app,
+                    pageId: pageId, parameters: parameters, page: page);
+              }
+            }
+          }
       }
+      return error('No route defined for ${settings.name}!');
     } else {
-      return null;
+      return error("App not loaded, so can't load page!");
     }
+  }
+
+  PageRouteBuilder error(String error) {
+    return FadeRoute(
+        name: 'error',
+        page: Scaffold(body: Center(child: Text(error))),
+        milliseconds: 1000);
   }
 
   final List<Color> _colors = [Colors.white, Colors.grey];
@@ -226,5 +255,4 @@ class Router {
     var refreshPage = GotoPage(appId, pageID: parentPageId);
     navigateTo(context, refreshPage);
   }
-
 }
