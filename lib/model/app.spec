@@ -307,12 +307,24 @@
       "association": true,
       "optional": true,
       "group": "fontLink"
+    },
+    {
+      "fieldName": "policies",
+      "displayName": "Policy",
+      "fieldType": "AppPolicy",
+      "association": true,
+      "optional": true,
+      "group": "policy"
     }
   ],
   "groups": [
     {
         "group": "general",
         "description": "General"
+    },
+    {
+        "group": "policy",
+        "description": "Policy"
     },
     {
         "group": "owner",

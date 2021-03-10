@@ -26,6 +26,11 @@ import '../model/app_bar_repository.dart';
 import '../model/app_bar_cache.dart';
 import '../model/app_entry_pages_repository.dart';
 import '../model/app_entry_pages_cache.dart';
+import '../model/app_policy_firestore.dart';
+import '../model/app_policy_repository.dart';
+import '../model/app_policy_cache.dart';
+import '../model/app_policy_item_repository.dart';
+import '../model/app_policy_item_cache.dart';
 import '../model/background_firestore.dart';
 import '../model/background_repository.dart';
 import '../model/background_cache.dart';
@@ -69,16 +74,23 @@ import '../model/menu_item_cache.dart';
 import '../model/page_firestore.dart';
 import '../model/page_repository.dart';
 import '../model/page_cache.dart';
+import '../model/policy_firestore.dart';
+import '../model/policy_repository.dart';
+import '../model/policy_cache.dart';
 import '../model/pos_size_firestore.dart';
 import '../model/pos_size_repository.dart';
 import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/policy_presentation_firestore.dart';
+import '../model/policy_presentation_repository.dart';
+import '../model/policy_presentation_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
 import '../model/app_entry_pages_model.dart';
+import '../model/app_policy_item_model.dart';
 import '../model/background_model.dart';
 import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
@@ -86,10 +98,12 @@ import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
+import '../model/policy_presentation_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
+    var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
     var _backgroundRepository = HashMap<String, BackgroundRepository>();
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
@@ -101,8 +115,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _memberMediumRepository = HashMap<String, MemberMediumRepository>();
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
+    var _policyRepository = HashMap<String, PolicyRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
+    var _policyPresentationRepository = HashMap<String, PolicyPresentationRepository>();
 
     AccessRepository accessRepository(String appId) {
       if (_accessRepository[appId] == null) _accessRepository[appId] = AccessFirestore(appRepository().getSubCollection(appId, 'access'), appId);
@@ -111,6 +127,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     AppBarRepository appBarRepository(String appId) {
       if (_appBarRepository[appId] == null) _appBarRepository[appId] = AppBarCache(AppBarFirestore(appRepository().getSubCollection(appId, 'appbar'), appId));
       return _appBarRepository[appId];
+    }
+    AppPolicyRepository appPolicyRepository(String appId) {
+      if (_appPolicyRepository[appId] == null) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(appRepository().getSubCollection(appId, 'apppolicy'), appId));
+      return _appPolicyRepository[appId];
     }
     BackgroundRepository backgroundRepository(String appId) {
       if (_backgroundRepository[appId] == null) _backgroundRepository[appId] = BackgroundCache(BackgroundFirestore(appRepository().getSubCollection(appId, 'background'), appId));
@@ -155,6 +175,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if (_pageRepository[appId] == null) _pageRepository[appId] = PageCache(PageFirestore(appRepository().getSubCollection(appId, 'page'), appId));
       return _pageRepository[appId];
     }
+    PolicyRepository policyRepository(String appId) {
+      if (_policyRepository[appId] == null) _policyRepository[appId] = PolicyCache(PolicyFirestore(appRepository().getSubCollection(appId, 'policy'), appId));
+      return _policyRepository[appId];
+    }
     PosSizeRepository posSizeRepository(String appId) {
       if (_posSizeRepository[appId] == null) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository().getSubCollection(appId, 'possize'), appId));
       return _posSizeRepository[appId];
@@ -162,6 +186,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     ShadowRepository shadowRepository(String appId) {
       if (_shadowRepository[appId] == null) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appRepository().getSubCollection(appId, 'shadow'), appId));
       return _shadowRepository[appId];
+    }
+    PolicyPresentationRepository policyPresentationRepository(String appId) {
+      if (_policyPresentationRepository[appId] == null) _policyPresentationRepository[appId] = PolicyPresentationCache(PolicyPresentationFirestore(appRepository().getSubCollection(appId, 'policypresentation'), appId));
+      return _policyPresentationRepository[appId];
     }
 
 }

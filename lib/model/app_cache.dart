@@ -241,6 +241,15 @@ class AppCache implements AppRepository {
       } catch (_) {}
     }
 
+    AppPolicyModel policiesHolder;
+    if (model.policies != null) {
+      try {
+        await appPolicyRepository(appId: model.policies.appId).get(model.policies.documentID).then((val) {
+          policiesHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     return model.copyWith(
         logo: logoHolder,
 
@@ -267,6 +276,8 @@ class AppCache implements AppRepository {
         fontHighlight2: fontHighlight2Holder,
 
         fontLink: fontLinkHolder,
+
+        policies: policiesHolder,
 
 
     );

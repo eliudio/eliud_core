@@ -639,6 +639,22 @@ class FontLinkAppFormError extends AppFormError {
 }
 
 
+class PoliciesAppFormError extends AppFormError { 
+  const PoliciesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PoliciesAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppFormLoaded extends AppFormInitialized { 
   const AppFormLoaded({ AppModel value }): super(value: value);
 

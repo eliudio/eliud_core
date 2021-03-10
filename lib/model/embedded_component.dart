@@ -30,6 +30,12 @@ import '../model/app_entry_pages_list_event.dart';
 import '../model/app_entry_pages_model.dart';
 import '../model/app_entry_pages_repository.dart';
 
+import '../model/app_policy_item_list_bloc.dart';
+import '../model/app_policy_item_list.dart';
+import '../model/app_policy_item_list_event.dart';
+import '../model/app_policy_item_model.dart';
+import '../model/app_policy_item_repository.dart';
+
 import '../model/body_component_list_bloc.dart';
 import '../model/body_component_list.dart';
 import '../model/body_component_list_event.dart';
@@ -61,6 +67,7 @@ import '../model/menu_item_model.dart';
 import '../model/menu_item_repository.dart';
 
 typedef AppEntryPagesListChanged(List<AppEntryPagesModel> values);
+typedef AppPolicyItemListChanged(List<AppPolicyItemModel> values);
 typedef BodyComponentListChanged(List<BodyComponentModel> values);
 typedef DecorationColorListChanged(List<DecorationColorModel> values);
 typedef MemberMediumListChanged(List<MemberMediumModel> values);
@@ -68,6 +75,7 @@ typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
 typedef MenuItemListChanged(List<MenuItemModel> values);
 
 appEntryPagessList(context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(context, value, trigger);
+appPolicyItemsList(context, value, trigger) => EmbeddedComponentFactory.appPolicyItemsList(context, value, trigger);
 bodyComponentsList(context, value, trigger) => EmbeddedComponentFactory.bodyComponentsList(context, value, trigger);
 decorationColorsList(context, value, trigger) => EmbeddedComponentFactory.decorationColorsList(context, value, trigger);
 memberMediumsList(context, value, trigger) => EmbeddedComponentFactory.memberMediumsList(context, value, trigger);
@@ -90,6 +98,23 @@ static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> 
         )
         ],
     child: AppEntryPagesListWidget(isEmbedded: true),
+  );
+}
+
+static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
+  AppPolicyItemInMemoryRepository inMemoryRepository = AppPolicyItemInMemoryRepository(
+    trigger: trigger,
+    items: values,
+  );
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider<AppPolicyItemListBloc>(
+        create: (context) => AppPolicyItemListBloc(
+          appPolicyItemRepository: inMemoryRepository,
+          )..add(LoadAppPolicyItemList()),
+        )
+        ],
+    child: AppPolicyItemListWidget(isEmbedded: true),
   );
 }
 
@@ -274,6 +299,106 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
 
   @override
   Future<AppEntryPagesModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
+  
+
+    Future<void> deleteAll() {}
+}
+
+class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
+    final List<AppPolicyItemModel> items;
+    final AppPolicyItemListChanged trigger;
+    Stream<List<AppPolicyItemModel>> theValues;
+
+    AppPolicyItemInMemoryRepository({this.trigger, this.items}) {
+        List<List<AppPolicyItemModel>> myList = new List<List<AppPolicyItemModel>>();
+        myList.add(items);
+        theValues = Stream<List<AppPolicyItemModel>>.fromIterable(myList);
+    }
+
+    int _index(String documentID) {
+      int i = 0;
+      for (final item in items) {
+        if (item.documentID == documentID) {
+          return i;
+        }
+        i++;
+      }
+      return -1;
+    }
+
+    Future<AppPolicyItemModel> add(AppPolicyItemModel value) {
+        items.add(value.copyWith(documentID: newRandomKey()));
+        trigger(items);
+    }
+
+    Future<void> delete(AppPolicyItemModel value) {
+      int index = _index(value.documentID);
+      if (index >= 0) items.removeAt(index);
+      trigger(items);
+    }
+
+    Future<AppPolicyItemModel> update(AppPolicyItemModel value) {
+      int index = _index(value.documentID);
+      if (index >= 0) {
+        items.replaceRange(index, index+1, [value]);
+        trigger(items);
+      }
+    }
+
+    Future<AppPolicyItemModel> get(String id, { Function(Exception) onError }) {
+      int index = _index(id);
+      var completer = new Completer<AppPolicyItemModel>();
+      completer.complete(items[index]);
+      return completer.future;
+    }
+
+    Stream<List<AppPolicyItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues;
+    }
+    
+    Stream<List<AppPolicyItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues;
+    }
+    
+    @override
+    StreamSubscription<List<AppPolicyItemModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues.listen((theList) => trigger(theList));
+    }
+  
+    @override
+    StreamSubscription<List<AppPolicyItemModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
+      return theValues.listen((theList) => trigger(theList));
+    }
+    
+    void flush() {}
+
+    Future<List<AppPolicyItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return Future.value(items);
+    }
+    
+    Future<List<AppPolicyItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+      return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  StreamSubscription<AppPolicyItemModel> listenTo(String documentId, AppPolicyItemChanged changed) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AppPolicyItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     throw UnimplementedError();
   }
   

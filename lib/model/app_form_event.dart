@@ -487,3 +487,15 @@ class ChangedAppFontLink extends AppFormEvent {
   String toString() => 'ChangedAppFontLink{ value: $value }';
 }
 
+class ChangedAppPolicies extends AppFormEvent {
+  final String value;
+
+  ChangedAppPolicies({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppPolicies{ value: $value }';
+}
+

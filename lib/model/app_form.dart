@@ -148,6 +148,7 @@ class _MyAppFormState extends State<MyAppForm> {
   String _fontHighlight1;
   String _fontHighlight2;
   String _fontLink;
+  String _policies;
 
 
   _MyAppFormState(this.formAction);
@@ -270,6 +271,10 @@ class _MyAppFormState extends State<MyAppForm> {
           _fontLink= state.value.fontLink.documentID;
         else
           _fontLink= "";
+        if (state.value.policies != null)
+          _policies= state.value.policies.documentID;
+        else
+          _policies= "";
       }
       if (state is AppFormInitialized) {
         List<Widget> children = List();
@@ -369,6 +374,24 @@ class _MyAppFormState extends State<MyAppForm> {
                     return state is DescriptionAppFormError ? state.message : null;
                   },
                 ),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+
+
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Text('Policy',
+                      style: TextStyle(
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                ));
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "appPolicys", value: _policies, trigger: _onPoliciesSelected, optional: true),
           );
 
 
@@ -993,6 +1016,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
+                              policies: state.value.policies, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -1033,6 +1057,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               fontHighlight1: state.value.fontHighlight1, 
                               fontHighlight2: state.value.fontHighlight2, 
                               fontLink: state.value.fontLink, 
+                              policies: state.value.policies, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -1298,6 +1323,14 @@ class _MyAppFormState extends State<MyAppForm> {
       _fontLink = val;
     });
     _myFormBloc.add(ChangedAppFontLink(value: val));
+  }
+
+
+  void _onPoliciesSelected(String val) {
+    setState(() {
+      _policies = val;
+    });
+    _myFormBloc.add(ChangedAppPolicies(value: val));
   }
 
 

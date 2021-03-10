@@ -174,6 +174,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -226,6 +227,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -302,6 +304,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -354,6 +357,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -447,6 +451,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -493,6 +498,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -539,6 +545,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -585,6 +592,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -631,6 +639,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -677,6 +686,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -723,6 +733,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: null,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -769,6 +780,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: null,
                                  fontLink: currentState.value.fontLink,
+                                 policies: currentState.value.policies,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -815,6 +827,54 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  fontHighlight1: currentState.value.fontHighlight1,
                                  fontHighlight2: currentState.value.fontHighlight2,
                                  fontLink: null,
+                                 policies: currentState.value.policies,
+          );
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedAppPolicies) {
+        if (event.value != null)
+          newValue = currentState.value.copyWith(policies: await appPolicyRepository(appId: appId).get(event.value));
+        else
+          newValue = new AppModel(
+                                 documentID: currentState.value.documentID,
+                                 ownerID: currentState.value.ownerID,
+                                 title: currentState.value.title,
+                                 email: currentState.value.email,
+                                 description: currentState.value.description,
+                                 appStatus: currentState.value.appStatus,
+                                 darkOrLight: currentState.value.darkOrLight,
+                                 homePages: currentState.value.homePages,
+                                 logo: currentState.value.logo,
+                                 formSubmitButtonColor: currentState.value.formSubmitButtonColor,
+                                 formBackground: currentState.value.formBackground,
+                                 formSubmitButtonTextColor: currentState.value.formSubmitButtonTextColor,
+                                 formGroupTitleColor: currentState.value.formGroupTitleColor,
+                                 formFieldTextColor: currentState.value.formFieldTextColor,
+                                 formFieldHeaderColor: currentState.value.formFieldHeaderColor,
+                                 formFieldFocusColor: currentState.value.formFieldFocusColor,
+                                 formAppBarBackground: currentState.value.formAppBarBackground,
+                                 formAppBarTextColor: currentState.value.formAppBarTextColor,
+                                 listBackground: currentState.value.listBackground,
+                                 listTextItemColor: currentState.value.listTextItemColor,
+                                 floatingButtonForegroundColor: currentState.value.floatingButtonForegroundColor,
+                                 floatingButtonBackgroundColor: currentState.value.floatingButtonBackgroundColor,
+                                 dividerColor: currentState.value.dividerColor,
+                                 iconColor: currentState.value.iconColor,
+                                 routeBuilder: currentState.value.routeBuilder,
+                                 routeAnimationDuration: currentState.value.routeAnimationDuration,
+                                 logoURL: currentState.value.logoURL,
+                                 h1: currentState.value.h1,
+                                 h2: currentState.value.h2,
+                                 h3: currentState.value.h3,
+                                 h4: currentState.value.h4,
+                                 h5: currentState.value.h5,
+                                 fontText: currentState.value.fontText,
+                                 fontHighlight1: currentState.value.fontHighlight1,
+                                 fontHighlight2: currentState.value.fontHighlight2,
+                                 fontLink: currentState.value.fontLink,
+                                 policies: null,
           );
         yield SubmittableAppForm(value: newValue);
 
