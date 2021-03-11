@@ -7,7 +7,7 @@ import 'package:eliud_core/model/policy_presentation_repository.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+//import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class PolicyPresentationComponentConstructorDefault
     implements ComponentConstructor {
@@ -28,7 +28,7 @@ class PolicyPresentation extends AbstractPolicyPresentationComponent {
   @override
   Widget yourWidget(BuildContext context, PolicyPresentationModel policyPresentationModel) {
     if ((policyPresentationModel != null) || (policyPresentationModel.policy != null) || (policyPresentationModel.policy.html != null)) {
-      return Container(height: 100, width:100, child: HtmlWidget(policyPresentationModel.policy.html));
+      return Text(policyPresentationModel.policy.html);
     } else {
       return Text('No html specified');
     }
