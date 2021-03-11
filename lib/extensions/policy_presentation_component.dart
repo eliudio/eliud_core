@@ -28,7 +28,7 @@ class PolicyPresentation extends AbstractPolicyPresentationComponent {
   @override
   Widget yourWidget(BuildContext context, PolicyPresentationModel policyPresentationModel) {
     if ((policyPresentationModel != null) || (policyPresentationModel.policy != null) || (policyPresentationModel.policy.html != null)) {
-      return HtmlWidget(policyPresentationModel.policy.html);
+      return Container(height: 100, width:100, child: HtmlWidget(policyPresentationModel.policy.html));
     } else {
       return Text('No html specified');
     }
