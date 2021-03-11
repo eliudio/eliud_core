@@ -40,7 +40,7 @@ export '../model/menu_def_model.dart';
 export '../model/menu_item_model.dart';
 export '../model/page_model.dart';
 export '../model/policy_model.dart';
+export '../model/policy_presentation_model.dart';
 export '../model/pos_size_model.dart';
 export '../model/rgb_model.dart';
 export '../model/shadow_model.dart';
-export '../model/policy_presentation_model.dart';

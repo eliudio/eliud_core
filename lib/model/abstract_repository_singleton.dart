@@ -36,9 +36,9 @@ import '../model/menu_def_repository.dart';
 import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/policy_repository.dart';
+import '../model/policy_presentation_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
-import '../model/policy_presentation_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -59,9 +59,9 @@ MemberMediumRepository memberMediumRepository({ String appId }) => AbstractRepos
 MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PolicyRepository policyRepository({ String appId }) => AbstractRepositorySingleton.singleton.policyRepository(appId);
+PolicyPresentationRepository policyPresentationRepository({ String appId }) => AbstractRepositorySingleton.singleton.policyPresentationRepository(appId);
 PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
-PolicyPresentationRepository policyPresentationRepository({ String appId }) => AbstractRepositorySingleton.singleton.policyPresentationRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -85,9 +85,9 @@ abstract class AbstractRepositorySingleton {
   MenuDefRepository menuDefRepository(String appId);
   PageRepository pageRepository(String appId);
   PolicyRepository policyRepository(String appId);
+  PolicyPresentationRepository policyPresentationRepository(String appId);
   PosSizeRepository posSizeRepository(String appId);
   ShadowRepository shadowRepository(String appId);
-  PolicyPresentationRepository policyPresentationRepository(String appId);
 
   void flush(String appId) {
     countryRepository().flush();

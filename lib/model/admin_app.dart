@@ -412,6 +412,30 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _policyPresentationsPages() {
+    List<BodyComponentModel> components = List();
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-policyPresentations", componentName: "eliud_core_internalWidgets", componentId: "policyPresentations"));
+    PageModel page = PageModel(
+        conditions: ConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
+          packageCondition: null,
+          conditionOverride: null,
+        ),
+        appId: appId,
+        documentID: "eliud_core_policypresentations_page",
+        title: "PolicyPresentations",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _posSizesPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -460,30 +484,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _policyPresentationsPages() {
-    List<BodyComponentModel> components = List();
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-policyPresentations", componentName: "eliud_core_internalWidgets", componentId: "policyPresentations"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_policypresentations_page",
-        title: "PolicyPresentations",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId).add(_appsPages())
@@ -516,11 +516,11 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId).add(_policysPages()))
 
+        .then((_) => pageRepository(appId: appId).add(_policyPresentationsPages()))
+
         .then((_) => pageRepository(appId: appId).add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId).add(_shadowsPages()))
-
-        .then((_) => pageRepository(appId: appId).add(_policyPresentationsPages()))
 
     ;
   }
@@ -690,6 +690,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 
     menuItems.add(
       MenuItemModel(
+        documentID: "PolicyPresentations",
+        text: "PolicyPresentations",
+        description: "PolicyPresentations",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_policypresentations_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
         documentID: "PosSizes",
         text: "PosSizes",
         description: "PosSizes",
@@ -705,16 +715,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_shadows_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "PolicyPresentations",
-        text: "PolicyPresentations",
-        description: "PolicyPresentations",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_policypresentations_page"))
     );
 
 
