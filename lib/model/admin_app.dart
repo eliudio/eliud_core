@@ -388,30 +388,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _policysPages() {
-    List<BodyComponentModel> components = List();
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-policys", componentName: "eliud_core_internalWidgets", componentId: "policys"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_policys_page",
-        title: "Policys",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _policyPresentationsPages() {
     List<BodyComponentModel> components = List();
     components.add(BodyComponentModel(
@@ -513,8 +489,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId).add(_menuDefsPages()))
 
         .then((_) => pageRepository(appId: appId).add(_pagesPages()))
-
-        .then((_) => pageRepository(appId: appId).add(_policysPages()))
 
         .then((_) => pageRepository(appId: appId).add(_policyPresentationsPages()))
 
@@ -675,16 +649,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Pages",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_pages_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Policys",
-        text: "Policys",
-        description: "Policys",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_policys_page"))
     );
 
 

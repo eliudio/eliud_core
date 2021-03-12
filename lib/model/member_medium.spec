@@ -46,6 +46,11 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "ref",
+      "displayName": "Image Ref on Firebase Storage",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "urlThumbnail",
       "displayName": "Image Thumbnail URL",
       "fieldType": "String"
@@ -62,7 +67,7 @@
       "fieldName": "mediumType",
       "fieldType": "enum",
       "enumName": "MediumType",
-      "enumValues" : [ "Photo", "Video" ]
+      "enumValues" : [ "Photo", "Video", "Pdf" ]
     },
     {
       "fieldName": "mediumWidth",

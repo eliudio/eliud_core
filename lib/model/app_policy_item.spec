@@ -27,9 +27,16 @@
       "hidden": true
     },
     {
+      "fieldName": "name",
+      "displayName": "Name",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "group": "general"
+    },
+    {
       "fieldName": "policy",
       "association": true,
-      "fieldType": "Policy",
+      "fieldType": "MemberMedium",
       "group": "policy"
     }
   ],

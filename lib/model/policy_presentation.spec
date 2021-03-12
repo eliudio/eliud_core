@@ -43,7 +43,7 @@
     {
       "fieldName": "policy",
       "displayName": "Policy",
-      "fieldType": "Policy",
+      "fieldType": "MemberMedium",
       "association": true,
       "optional": true,
       "group": "policy"

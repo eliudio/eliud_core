@@ -33,18 +33,19 @@ import 'package:eliud_core/tools/random.dart';
 
 class AppPolicyItemModel {
   String documentID;
-  PolicyModel policy;
+  String name;
+  MemberMediumModel policy;
 
-  AppPolicyItemModel({this.documentID, this.policy, })  {
+  AppPolicyItemModel({this.documentID, this.name, this.policy, })  {
     assert(documentID != null);
   }
 
-  AppPolicyItemModel copyWith({String documentID, PolicyModel policy, }) {
-    return AppPolicyItemModel(documentID: documentID ?? this.documentID, policy: policy ?? this.policy, );
+  AppPolicyItemModel copyWith({String documentID, String name, MemberMediumModel policy, }) {
+    return AppPolicyItemModel(documentID: documentID ?? this.documentID, name: name ?? this.name, policy: policy ?? this.policy, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ policy.hashCode;
+  int get hashCode => documentID.hashCode ^ name.hashCode ^ policy.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -52,15 +53,17 @@ class AppPolicyItemModel {
           other is AppPolicyItemModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
+          name == other.name &&
           policy == other.policy;
 
   @override
   String toString() {
-    return 'AppPolicyItemModel{documentID: $documentID, policy: $policy}';
+    return 'AppPolicyItemModel{documentID: $documentID, name: $name, policy: $policy}';
   }
 
   AppPolicyItemEntity toEntity({String appId}) {
     return AppPolicyItemEntity(
+          name: (name != null) ? name : null, 
           policyId: (policy != null) ? policy.documentID : null, 
     );
   }
@@ -69,16 +72,17 @@ class AppPolicyItemModel {
     if (entity == null) return null;
     return AppPolicyItemModel(
           documentID: documentID, 
+          name: entity.name, 
     );
   }
 
   static Future<AppPolicyItemModel> fromEntityPlus(String documentID, AppPolicyItemEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    PolicyModel policyHolder;
+    MemberMediumModel policyHolder;
     if (entity.policyId != null) {
       try {
-        await policyRepository(appId: appId).get(entity.policyId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.policyId).then((val) {
           policyHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -86,6 +90,7 @@ class AppPolicyItemModel {
 
     return AppPolicyItemModel(
           documentID: documentID, 
+          name: entity.name, 
           policy: policyHolder, 
     );
   }

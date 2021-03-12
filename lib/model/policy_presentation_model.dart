@@ -37,14 +37,14 @@ class PolicyPresentationModel {
   // This is the identifier of the app to which this belongs
   String appId;
   String description;
-  PolicyModel policy;
+  MemberMediumModel policy;
   ConditionsSimpleModel conditions;
 
   PolicyPresentationModel({this.documentID, this.appId, this.description, this.policy, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PolicyPresentationModel copyWith({String documentID, String appId, String description, PolicyModel policy, ConditionsSimpleModel conditions, }) {
+  PolicyPresentationModel copyWith({String documentID, String appId, String description, MemberMediumModel policy, ConditionsSimpleModel conditions, }) {
     return PolicyPresentationModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, policy: policy ?? this.policy, conditions: conditions ?? this.conditions, );
   }
 
@@ -90,10 +90,10 @@ class PolicyPresentationModel {
   static Future<PolicyPresentationModel> fromEntityPlus(String documentID, PolicyPresentationEntity entity, { String appId}) async {
     if (entity == null) return null;
 
-    PolicyModel policyHolder;
+    MemberMediumModel policyHolder;
     if (entity.policyId != null) {
       try {
-        await policyRepository(appId: appId).get(entity.policyId).then((val) {
+        await memberMediumRepository(appId: appId).get(entity.policyId).then((val) {
           policyHolder = val;
         }).catchError((error) {});
       } catch (_) {}

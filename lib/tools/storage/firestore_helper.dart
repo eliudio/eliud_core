@@ -6,6 +6,7 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:path/path.dart';
 //import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
@@ -82,6 +83,13 @@ class ThumbnailHelper {
   }
 }
 
+class UploadInfo {
+  final String url;
+  final String ref;
+
+  UploadInfo(this.url, this.ref);
+}
+
 class UploadFile {
   static int thumbnailSize = 200;
 
@@ -98,7 +106,7 @@ class UploadFile {
    *
    * 3) specify 'packages/eliud_pkg_apps/assets/minkey_app/feed/abc.jpg' as value for your assetPath
    */
-  static Future<String> _getImageFileFromAssets(String path) async {
+  static Future<String> _getFileFromAssets(String path) async {
     final byteData = await rootBundle.load(path);
 
     final newFileName = context.basenameWithoutExtension(path) + '-' + newRandomKey() + context.extension(path); // make sure it's a unique filename
@@ -155,7 +163,7 @@ class UploadFile {
     );
   }
 
-  static Future<String> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
+  static Future<UploadInfo> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
     File file = File(filePath);
     try {
       var baseName = context.basename(filePath);
@@ -163,13 +171,14 @@ class UploadFile {
         'owner': ownerId,
         'readAccess': readAccess.join(';') + ";"
       };
+      var ref = '$appId/$ownerId/$baseName';
       var uploadTask = await firebase_storage.FirebaseStorage.instance
-          .ref('$appId/$ownerId/$baseName')
+          .ref(ref)
           .putFile(file, firebase_storage.SettableMetadata(
           customMetadata: customMetaData
       ));
       var url = await uploadTask.ref.getDownloadURL();
-      return url;
+      return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       print(e);
       // e.g, e.code == 'canceled'
@@ -178,12 +187,12 @@ class UploadFile {
 
   /*
    * Upload a photo from an asset for a given app with appId
-   * Asset specified by assetPath. See details about assetPath in _getImageFileFromAssets.
+   * Asset specified by assetPath. See details about assetPath in _getFileFromAssets.
    * ownerId is the memberId
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoAsset(String appId, String assetPath, String ownerId, List<String> readAccess) async {
-    String filePath = await _getImageFileFromAssets(assetPath);
+    String filePath = await _getFileFromAssets(assetPath);
     return createThumbnailUploadPhotoFile(appId, filePath, ownerId, readAccess);
   }
 
@@ -195,23 +204,24 @@ class UploadFile {
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoFile(String appId, String filePath, String ownerId, List<String> readAccess) async {
     // First, upload the file
-    var url = await _uploadFile(filePath, appId, ownerId, readAccess);
+    var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
     var photoData = await _createThumbNailFromPhoto(filePath);
 
     // Third, upload the thumnail;
-    var thumbnailUrl = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
       documentID: newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      url: url,
+      ref: fileInfo.ref,
+      url: fileInfo.url,
       readAccess: readAccess,
       mediumType: MediumType.Photo,
-      urlThumbnail: thumbnailUrl,
+      urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoData.mediumData.width,
       mediumHeight: photoData.mediumData.height,
       thumbnailWidth: photoData.thumbNailData.width,
@@ -222,12 +232,12 @@ class UploadFile {
 
   /*
    * Upload a video from an asset for a given app with appId
-   * Asset specified by assetPath. See details about assetPath in _getImageFileFromAssets.
+   * Asset specified by assetPath. See details about assetPath in _getFileFromAssets.
    * ownerId is the memberId
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoAsset(String appId, String assetPath, String ownerId, List<String> readAccess) async {
-    String filePath = await _getImageFileFromAssets(assetPath);
+    String filePath = await _getFileFromAssets(assetPath);
     return createThumbnailUploadVideoFile(appId, filePath, ownerId, readAccess);
   }
 
@@ -239,23 +249,24 @@ class UploadFile {
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoFile(String appId, String filePath, String ownerId, List<String> readAccess) async {
     // First, upload the file
-    var url = await _uploadFile(filePath, appId, ownerId, readAccess);
+    var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
     var videoData = await _createThumbNailFromVideo(filePath);
 
     // Third, upload the thumbnail;
-    var thumbnailUrl = await _uploadFile(videoData.thumbNailData.filePath, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(videoData.thumbNailData.filePath, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
       documentID: newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      url: url,
+      ref: fileInfoThumbnail.ref,
+      url: fileInfoThumbnail.url,
       readAccess: readAccess,
       mediumType: MediumType.Video,
-      urlThumbnail: thumbnailUrl,
+      urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: videoData.mediumData.width,
       mediumHeight: videoData.mediumData.height,
       thumbnailWidth: videoData.thumbNailData.width,
@@ -264,4 +275,91 @@ class UploadFile {
 
     return memberMediumRepository(appId: appId).add(memberImageModel);
   }
+
+  /*
+   * Create a thumbnail from a pdf doc
+   */
+  static Future<MediumAndItsThumbnailData> _createThumbNailFromPdf(String filePath) async {
+    final document = await PdfDocument.openFile(filePath);
+    final page = await document.getPage(1);
+    final pageImage = await page.render(width: page.width, height: page.height);
+    imgpackage.Image img = imgpackage.decodeImage(pageImage.bytes);
+    var thumbnailWidth;
+    var thumbnailHeight;
+    if (img.width > img.height) {
+      thumbnailWidth = thumbnailSize;
+    } else {
+      thumbnailHeight = thumbnailSize;
+    }
+    var thumbnail = imgpackage.copyResize(img, width: thumbnailWidth, height: thumbnailHeight);
+    var thumbNameFilePath = filePath + '.thumbnail' + '.png';
+    File(thumbNameFilePath)..writeAsBytesSync(imgpackage.encodePng(thumbnail));
+
+    return MediumAndItsThumbnailData(
+        thumbNailData: MediumData(width: thumbnailSize,
+            height: thumbnailSize,
+            filePath: thumbNameFilePath)
+    );
+
+//    return ThumbnailHelper(filePath, thumbnailSize, ).doOperation();
+  }
+
+  /*
+   * Upload a pdf from an asset for a given app with appId
+   * Asset specified by assetPath. See details about assetPath in _getFileFromAssets.
+   * ownerId is the memberId
+   * readAccess is the list of member IDs, or 'PUBLIC'
+   */
+  static Future<MemberMediumModel> createThumbnailUploadPdfAsset(String appId, String assetPath, String ownerId, List<String> readAccess, {String documentID}) async {
+    var filePath = await _getFileFromAssets(assetPath);
+
+    return createThumbnailUploadPdfFile(appId, filePath, ownerId, readAccess, documentID: documentID);
+  }
+
+  /*
+   * Upload a photo from a file for a given app with appId
+   * filePath is the path to the file
+   * ownerId is the memberId
+   * readAccess is the list of member IDs, or 'PUBLIC'
+   */
+  static Future<MemberMediumModel> createThumbnailUploadPdfFile(String appId, String filePath, String ownerId, List<String> readAccess, {String documentID}) async {
+    // First, upload the file
+    var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
+
+    // Second, create the thumbnail
+    var photoData = await _createThumbNailFromPdf(filePath);
+
+    // Third, upload the thumnail;
+    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
+
+    // Create the MemberImageModel
+    var memberImageModel = MemberMediumModel(
+      documentID: documentID != null ? documentID : newRandomKey(),
+      appId: appId,
+      authorId: ownerId,
+      url: fileInfo.url,
+      ref: fileInfo.ref,
+      readAccess: readAccess,
+      mediumType: MediumType.Pdf,
+      urlThumbnail: fileInfoThumbnail.url,
+      thumbnailWidth: photoData.thumbNailData.width,
+      thumbnailHeight: photoData.thumbNailData.height,
+    );
+    return memberMediumRepository(appId: appId).add(memberImageModel);
+  }
+}
+
+class DownloadFile {
+  static Future<Uint8List> downloadFile(MemberMediumModel medium) async {
+    try {
+      var downloadTask = await firebase_storage.FirebaseStorage.instance
+          .ref(medium.ref);
+      return downloadTask.getData();
+    } on firebase_storage.FirebaseException catch (e) {
+      print(e);
+      // e.g, e.code == 'canceled'
+    }
+  }
+
+
 }

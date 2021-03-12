@@ -95,7 +95,7 @@ class PolicyPresentationFormBloc extends Bloc<PolicyPresentationFormEvent, Polic
       }
       if (event is ChangedPolicyPresentationPolicy) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(policy: await policyRepository(appId: appId).get(event.value));
+          newValue = currentState.value.copyWith(policy: await memberMediumRepository(appId: appId).get(event.value));
         else
           newValue = new PolicyPresentationModel(
                                  documentID: currentState.value.documentID,

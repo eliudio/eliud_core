@@ -67,6 +67,18 @@ class ChangedAppPolicyItemDocumentID extends AppPolicyItemFormEvent {
   String toString() => 'ChangedAppPolicyItemDocumentID{ value: $value }';
 }
 
+class ChangedAppPolicyItemName extends AppPolicyItemFormEvent {
+  final String value;
+
+  ChangedAppPolicyItemName({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppPolicyItemName{ value: $value }';
+}
+
 class ChangedAppPolicyItemPolicy extends AppPolicyItemFormEvent {
   final String value;
 

@@ -24,6 +24,7 @@ class MemberMediumEntity {
   final String appId;
   final String authorId;
   final String url;
+  final String ref;
   final String urlThumbnail;
   final List<String> readAccess;
   final int mediumType;
@@ -32,16 +33,16 @@ class MemberMediumEntity {
   final int thumbnailWidth;
   final int thumbnailHeight;
 
-  MemberMediumEntity({this.appId, this.authorId, this.url, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, });
+  MemberMediumEntity({this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, });
 
 
-  List<Object> get props => [appId, authorId, url, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, ];
+  List<Object> get props => [appId, authorId, url, ref, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, ];
 
   @override
   String toString() {
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight}';
+    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight}';
   }
 
   static MemberMediumEntity fromMap(Map map) {
@@ -51,6 +52,7 @@ class MemberMediumEntity {
       appId: map['appId'], 
       authorId: map['authorId'], 
       url: map['url'], 
+      ref: map['ref'], 
       urlThumbnail: map['urlThumbnail'], 
       readAccess: map['readAccess'] == null ? null : List.from(map['readAccess']), 
       mediumType: map['mediumType'], 
@@ -69,6 +71,8 @@ class MemberMediumEntity {
       else theDocument["authorId"] = null;
     if (url != null) theDocument["url"] = url;
       else theDocument["url"] = null;
+    if (ref != null) theDocument["ref"] = ref;
+      else theDocument["ref"] = null;
     if (urlThumbnail != null) theDocument["urlThumbnail"] = urlThumbnail;
       else theDocument["urlThumbnail"] = null;
     if (readAccess != null) theDocument["readAccess"] = readAccess.toList();

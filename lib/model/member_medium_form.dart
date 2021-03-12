@@ -129,6 +129,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _authorIdController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
   int _mediumTypeSelectedRadioTile;
   final TextEditingController _mediumWidthController = TextEditingController();
@@ -147,6 +148,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _appIdController.addListener(_onAppIdChanged);
     _authorIdController.addListener(_onAuthorIdChanged);
     _urlController.addListener(_onUrlChanged);
+    _refController.addListener(_onRefChanged);
     _urlThumbnailController.addListener(_onUrlThumbnailChanged);
     _mediumTypeSelectedRadioTile = 0;
     _mediumWidthController.addListener(_onMediumWidthChanged);
@@ -181,6 +183,10 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
           _urlController.text = state.value.url.toString();
         else
           _urlController.text = "";
+        if (state.value.ref != null)
+          _refController.text = state.value.ref.toString();
+        else
+          _refController.text = "";
         if (state.value.urlThumbnail != null)
           _urlThumbnailController.text = state.value.urlThumbnail.toString();
         else
@@ -257,6 +263,24 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
+                  controller: _refController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Image Ref on Firebase Storage',
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is RefMemberMediumFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
                   controller: _urlThumbnailController,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
@@ -291,6 +315,19 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                     groupValue: _mediumTypeSelectedRadioTile,
                     title: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                      setSelectionMediumType(val);
+                    },
+                ),
+          );
+        children.add(
+
+                RadioListTile(
+                    value: 2,
+                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    groupValue: _mediumTypeSelectedRadioTile,
+                    title: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    subtitle: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (val) {
                       setSelectionMediumType(val);
                     },
@@ -445,6 +482,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               appId: state.value.appId, 
                               authorId: state.value.authorId, 
                               url: state.value.url, 
+                              ref: state.value.ref, 
                               urlThumbnail: state.value.urlThumbnail, 
                               readAccess: state.value.readAccess, 
                               mediumType: state.value.mediumType, 
@@ -460,6 +498,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               appId: state.value.appId, 
                               authorId: state.value.authorId, 
                               url: state.value.url, 
+                              ref: state.value.ref, 
                               urlThumbnail: state.value.urlThumbnail, 
                               readAccess: state.value.readAccess, 
                               mediumType: state.value.mediumType, 
@@ -520,6 +559,11 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   }
 
 
+  void _onRefChanged() {
+    _myFormBloc.add(ChangedMemberMediumRef(value: _refController.text));
+  }
+
+
   void _onUrlThumbnailChanged() {
     _myFormBloc.add(ChangedMemberMediumUrlThumbnail(value: _urlThumbnailController.text));
   }
@@ -566,6 +610,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _appIdController.dispose();
     _authorIdController.dispose();
     _urlController.dispose();
+    _refController.dispose();
     _urlThumbnailController.dispose();
     _mediumWidthController.dispose();
     _mediumHeightController.dispose();

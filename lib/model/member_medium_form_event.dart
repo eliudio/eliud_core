@@ -103,6 +103,18 @@ class ChangedMemberMediumUrl extends MemberMediumFormEvent {
   String toString() => 'ChangedMemberMediumUrl{ value: $value }';
 }
 
+class ChangedMemberMediumRef extends MemberMediumFormEvent {
+  final String value;
+
+  ChangedMemberMediumRef({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumRef{ value: $value }';
+}
+
 class ChangedMemberMediumUrlThumbnail extends MemberMediumFormEvent {
   final String value;
 

@@ -127,6 +127,22 @@ class UrlMemberMediumFormError extends MemberMediumFormError {
 }
 
 
+class RefMemberMediumFormError extends MemberMediumFormError { 
+  const RefMemberMediumFormError({ String message, MemberMediumModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''RefMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class UrlThumbnailMemberMediumFormError extends MemberMediumFormError { 
   const UrlThumbnailMemberMediumFormError({ String message, MemberMediumModel value }): super(message: message, value: value);
 

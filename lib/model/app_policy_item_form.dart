@@ -123,6 +123,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
   AppPolicyItemFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   String _policy;
 
 
@@ -133,6 +134,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<AppPolicyItemFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _nameController.addListener(_onNameChanged);
   }
 
   @override
@@ -149,6 +151,10 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
           _documentIDController.text = state.value.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value.name != null)
+          _nameController.text = state.value.name.toString();
+        else
+          _nameController.text = "";
         if (state.value.policy != null)
           _policy= state.value.policy.documentID;
         else
@@ -163,6 +169,24 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
                       style: TextStyle(
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Name',
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is NameAppPolicyItemFormError ? state.message : null;
+                  },
+                ),
+          );
 
 
         children.add(Container(height: 20.0));
@@ -179,7 +203,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "policys", value: _policy, trigger: _onPolicySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _policy, trigger: _onPolicySelected, optional: false),
           );
 
 
@@ -198,12 +222,14 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
                         BlocProvider.of<AppPolicyItemListBloc>(context).add(
                           UpdateAppPolicyItemList(value: state.value.copyWith(
                               documentID: state.value.documentID, 
+                              name: state.value.name, 
                               policy: state.value.policy, 
                         )));
                       } else {
                         BlocProvider.of<AppPolicyItemListBloc>(context).add(
                           AddAppPolicyItemList(value: AppPolicyItemModel(
                               documentID: state.value.documentID, 
+                              name: state.value.name, 
                               policy: state.value.policy, 
                           )));
                       }
@@ -243,6 +269,11 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
   }
 
 
+  void _onNameChanged() {
+    _myFormBloc.add(ChangedAppPolicyItemName(value: _nameController.text));
+  }
+
+
   void _onPolicySelected(String val) {
     setState(() {
       _policy = val;
@@ -255,6 +286,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 

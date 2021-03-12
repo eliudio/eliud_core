@@ -21,28 +21,32 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppPolicyItemEntity {
+  final String name;
   final String policyId;
 
-  AppPolicyItemEntity({this.policyId, });
+  AppPolicyItemEntity({this.name, this.policyId, });
 
 
-  List<Object> get props => [policyId, ];
+  List<Object> get props => [name, policyId, ];
 
   @override
   String toString() {
-    return 'AppPolicyItemEntity{policyId: $policyId}';
+    return 'AppPolicyItemEntity{name: $name, policyId: $policyId}';
   }
 
   static AppPolicyItemEntity fromMap(Map map) {
     if (map == null) return null;
 
     return AppPolicyItemEntity(
+      name: map['name'], 
       policyId: map['policyId'], 
     );
   }
 
   Map<String, Object> toDocument() {
     Map<String, Object> theDocument = HashMap();
+    if (name != null) theDocument["name"] = name;
+      else theDocument["name"] = null;
     if (policyId != null) theDocument["policyId"] = policyId;
       else theDocument["policyId"] = null;
     return theDocument;

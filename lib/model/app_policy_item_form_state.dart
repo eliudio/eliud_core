@@ -79,6 +79,22 @@ class DocumentIDAppPolicyItemFormError extends AppPolicyItemFormError {
 }
 
 
+class NameAppPolicyItemFormError extends AppPolicyItemFormError { 
+  const NameAppPolicyItemFormError({ String message, AppPolicyItemModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''NameAppPolicyItemFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class PolicyAppPolicyItemFormError extends AppPolicyItemFormError { 
   const PolicyAppPolicyItemFormError({ String message, AppPolicyItemModel value }): super(message: message, value: value);
 

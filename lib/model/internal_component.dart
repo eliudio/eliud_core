@@ -208,19 +208,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/policy_list_bloc.dart';
-import 'package:eliud_core/model/policy_list.dart';
-import 'package:eliud_core/model/policy_dropdown_button.dart';
-import 'package:eliud_core/model/policy_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/policy_presentation_list_bloc.dart';
 import 'package:eliud_core/model/policy_presentation_list.dart';
 import 'package:eliud_core/model/policy_presentation_dropdown_button.dart';
@@ -287,7 +274,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "memberDashboards") return true;
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
-    if (id == "policys") return true;
     if (id == "policyPresentations") return true;
     if (id == "posSizes") return true;
     if (id == "shadows") return true;
@@ -338,9 +324,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "pages")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
-    if (id == "policys")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
-
     if (id == "policyPresentations")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
@@ -389,7 +372,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'policys') return _policyBuild(context);
     if (componentId == 'policyPresentations') return _policyPresentationBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
@@ -411,7 +393,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberDashboards') widget = MemberDashboardListWidget();
     if (componentId == 'menuDefs') widget = MenuDefListWidget();
     if (componentId == 'pages') widget = PageListWidget();
-    if (componentId == 'policys') widget = PolicyListWidget();
     if (componentId == 'policyPresentations') widget = PolicyPresentationListWidget();
     if (componentId == 'posSizes') widget = PosSizeListWidget();
     if (componentId == 'shadows') widget = ShadowListWidget();
@@ -599,19 +580,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _policyBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PolicyListBloc>(
-          create: (context) => PolicyListBloc(
-            policyRepository: policyRepository(appId: AccessBloc.appId(context)),
-          )..add(LoadPolicyList()),
-        )
-      ],
-      child: widget,
-    );
-  }
-
   Widget _policyPresentationBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -681,7 +649,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'policys') return _policyBuild(context);
     if (componentId == 'policyPresentations') return _policyPresentationBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
@@ -868,19 +835,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: PageDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _policyBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PolicyListBloc>(
-          create: (context) => PolicyListBloc(
-            policyRepository: policyRepository(appId: AccessBloc.appId(context)),
-          )..add(LoadPolicyList()),
-        )
-      ],
-      child: PolicyDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 

@@ -31,7 +31,7 @@ import 'package:eliud_core/model/member_medium_entity.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum MediumType {
-  Photo, Video, Unknown
+  Photo, Video, Pdf, Unknown
 }
 
 
@@ -39,6 +39,7 @@ MediumType toMediumType(int index) {
   switch (index) {
     case 0: return MediumType.Photo;
     case 1: return MediumType.Video;
+    case 2: return MediumType.Pdf;
   }
   return MediumType.Unknown;
 }
@@ -49,6 +50,7 @@ class MemberMediumModel {
   String appId;
   String authorId;
   String url;
+  String ref;
   String urlThumbnail;
   List<String> readAccess;
   MediumType mediumType;
@@ -57,16 +59,16 @@ class MemberMediumModel {
   int thumbnailWidth;
   int thumbnailHeight;
 
-  MemberMediumModel({this.documentID, this.appId, this.authorId, this.url, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, })  {
+  MemberMediumModel({this.documentID, this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, })  {
     assert(documentID != null);
   }
 
-  MemberMediumModel copyWith({String documentID, String appId, String authorId, String url, String urlThumbnail, List<String> readAccess, MediumType mediumType, int mediumWidth, int mediumHeight, int thumbnailWidth, int thumbnailHeight, }) {
-    return MemberMediumModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, authorId: authorId ?? this.authorId, url: url ?? this.url, urlThumbnail: urlThumbnail ?? this.urlThumbnail, readAccess: readAccess ?? this.readAccess, mediumType: mediumType ?? this.mediumType, mediumWidth: mediumWidth ?? this.mediumWidth, mediumHeight: mediumHeight ?? this.mediumHeight, thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight, );
+  MemberMediumModel copyWith({String documentID, String appId, String authorId, String url, String ref, String urlThumbnail, List<String> readAccess, MediumType mediumType, int mediumWidth, int mediumHeight, int thumbnailWidth, int thumbnailHeight, }) {
+    return MemberMediumModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, authorId: authorId ?? this.authorId, url: url ?? this.url, ref: ref ?? this.ref, urlThumbnail: urlThumbnail ?? this.urlThumbnail, readAccess: readAccess ?? this.readAccess, mediumType: mediumType ?? this.mediumType, mediumWidth: mediumWidth ?? this.mediumWidth, mediumHeight: mediumHeight ?? this.mediumHeight, thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ authorId.hashCode ^ url.hashCode ^ urlThumbnail.hashCode ^ readAccess.hashCode ^ mediumType.hashCode ^ mediumWidth.hashCode ^ mediumHeight.hashCode ^ thumbnailWidth.hashCode ^ thumbnailHeight.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ authorId.hashCode ^ url.hashCode ^ ref.hashCode ^ urlThumbnail.hashCode ^ readAccess.hashCode ^ mediumType.hashCode ^ mediumWidth.hashCode ^ mediumHeight.hashCode ^ thumbnailWidth.hashCode ^ thumbnailHeight.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -77,6 +79,7 @@ class MemberMediumModel {
           appId == other.appId &&
           authorId == other.authorId &&
           url == other.url &&
+          ref == other.ref &&
           urlThumbnail == other.urlThumbnail &&
           ListEquality().equals(readAccess, other.readAccess) &&
           mediumType == other.mediumType &&
@@ -89,7 +92,7 @@ class MemberMediumModel {
   String toString() {
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, url: $url, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight}';
+    return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight}';
   }
 
   MemberMediumEntity toEntity({String appId}) {
@@ -97,6 +100,7 @@ class MemberMediumModel {
           appId: (appId != null) ? appId : null, 
           authorId: (authorId != null) ? authorId : null, 
           url: (url != null) ? url : null, 
+          ref: (ref != null) ? ref : null, 
           urlThumbnail: (urlThumbnail != null) ? urlThumbnail : null, 
           readAccess: (readAccess != null) ? readAccess : null, 
           mediumType: (mediumType != null) ? mediumType.index : null, 
@@ -114,6 +118,7 @@ class MemberMediumModel {
           appId: entity.appId, 
           authorId: entity.authorId, 
           url: entity.url, 
+          ref: entity.ref, 
           urlThumbnail: entity.urlThumbnail, 
           readAccess: entity.readAccess, 
           mediumType: toMediumType(entity.mediumType), 
@@ -132,6 +137,7 @@ class MemberMediumModel {
           appId: entity.appId, 
           authorId: entity.authorId, 
           url: entity.url, 
+          ref: entity.ref, 
           urlThumbnail: entity.urlThumbnail, 
           readAccess: entity.readAccess, 
           mediumType: toMediumType(entity.mediumType), 

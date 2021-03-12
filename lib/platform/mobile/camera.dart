@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:eliud_core/tools/storage/uploadfile.dart';
+import 'package:eliud_core/tools/storage/firestore_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 

@@ -36,10 +36,11 @@ dependencies:
   video_player: 1.0.1
   uuid: 3.0.1
   image: 3.0.1
-  flutter_markdown: ^0.3.3
+  flutter_markdown: 0.6.0 
   cloud_functions: 1.0.0
   #flutter_widget_from_html_core: 0.5.2+1
   native_pdf_view: 4.0.1
+  native_pdf_renderer: 3.0.0
   path: 1.8.0
 
   flutter:
