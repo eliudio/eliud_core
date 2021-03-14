@@ -592,13 +592,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  native_pdf_view:
-    dependency: "direct main"
-    description:
-      name: native_pdf_view
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.1"
   nested:
     dependency: transitive
     description:
@@ -662,6 +655,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  pdf_render:
+    dependency: "direct main"
+    description:
+      name: pdf_render
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
   pedantic:
     dependency: transitive
     description:
@@ -677,7 +677,7 @@ packages:
     source: hosted
     version: "4.0.2"
   photo_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: photo_view
       url: "https://pub.dartlang.org"

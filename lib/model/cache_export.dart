@@ -34,6 +34,5 @@ export '../model/member_subscription_cache.dart';
 export '../model/menu_def_cache.dart';
 export '../model/menu_item_cache.dart';
 export '../model/page_cache.dart';
-export '../model/policy_presentation_cache.dart';
 export '../model/pos_size_cache.dart';
 export '../model/shadow_cache.dart';

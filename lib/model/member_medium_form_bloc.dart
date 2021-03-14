@@ -59,6 +59,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
                                  mediumHeight: 0,
                                  thumbnailWidth: 0,
                                  thumbnailHeight: 0,
+                                 relatedMediumId: "",
 
         ));
         yield loaded;
@@ -161,6 +162,12 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           newValue = currentState.value.copyWith(thumbnailHeight: 0);
           yield ThumbnailHeightMemberMediumFormError(message: "Value should be a number", value: newValue);
         }
+        return;
+      }
+      if (event is ChangedMemberMediumRelatedMediumId) {
+        newValue = currentState.value.copyWith(relatedMediumId: event.value);
+        yield SubmittableMemberMediumForm(value: newValue);
+
         return;
       }
     }

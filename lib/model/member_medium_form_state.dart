@@ -255,6 +255,22 @@ class ThumbnailHeightMemberMediumFormError extends MemberMediumFormError {
 }
 
 
+class RelatedMediumIdMemberMediumFormError extends MemberMediumFormError { 
+  const RelatedMediumIdMemberMediumFormError({ String message, MemberMediumModel value }): super(message: message, value: value);
+
+  @override
+  List<Object> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''RelatedMediumIdMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class MemberMediumFormLoaded extends MemberMediumFormInitialized { 
   const MemberMediumFormLoaded({ MemberMediumModel value }): super(value: value);
 

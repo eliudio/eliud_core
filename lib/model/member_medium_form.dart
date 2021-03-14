@@ -136,6 +136,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _mediumHeightController = TextEditingController();
   final TextEditingController _thumbnailWidthController = TextEditingController();
   final TextEditingController _thumbnailHeightController = TextEditingController();
+  final TextEditingController _relatedMediumIdController = TextEditingController();
 
 
   _MyMemberMediumFormState(this.formAction);
@@ -155,6 +156,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _mediumHeightController.addListener(_onMediumHeightChanged);
     _thumbnailWidthController.addListener(_onThumbnailWidthChanged);
     _thumbnailHeightController.addListener(_onThumbnailHeightChanged);
+    _relatedMediumIdController.addListener(_onRelatedMediumIdChanged);
   }
 
   @override
@@ -211,6 +213,10 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
           _thumbnailHeightController.text = state.value.thumbnailHeight.toString();
         else
           _thumbnailHeightController.text = "";
+        if (state.value.relatedMediumId != null)
+          _relatedMediumIdController.text = state.value.relatedMediumId.toString();
+        else
+          _relatedMediumIdController.text = "";
       }
       if (state is MemberMediumFormInitialized) {
         List<Widget> children = List();
@@ -406,6 +412,25 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                 ),
           );
 
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _relatedMediumIdController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'relatedMediumId',
+                    hintText: "In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is RelatedMediumIdMemberMediumFormError ? state.message : null;
+                  },
+                ),
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
@@ -490,6 +515,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               mediumHeight: state.value.mediumHeight, 
                               thumbnailWidth: state.value.thumbnailWidth, 
                               thumbnailHeight: state.value.thumbnailHeight, 
+                              relatedMediumId: state.value.relatedMediumId, 
                         )));
                       } else {
                         BlocProvider.of<MemberMediumListBloc>(context).add(
@@ -506,6 +532,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               mediumHeight: state.value.mediumHeight, 
                               thumbnailWidth: state.value.thumbnailWidth, 
                               thumbnailHeight: state.value.thumbnailHeight, 
+                              relatedMediumId: state.value.relatedMediumId, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -603,6 +630,11 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   }
 
 
+  void _onRelatedMediumIdChanged() {
+    _myFormBloc.add(ChangedMemberMediumRelatedMediumId(value: _relatedMediumIdController.text));
+  }
+
+
 
   @override
   void dispose() {
@@ -616,6 +648,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _mediumHeightController.dispose();
     _thumbnailWidthController.dispose();
     _thumbnailHeightController.dispose();
+    _relatedMediumIdController.dispose();
     super.dispose();
   }
 

@@ -74,9 +74,6 @@ import '../model/menu_item_cache.dart';
 import '../model/page_firestore.dart';
 import '../model/page_repository.dart';
 import '../model/page_cache.dart';
-import '../model/policy_presentation_firestore.dart';
-import '../model/policy_presentation_repository.dart';
-import '../model/policy_presentation_cache.dart';
 import '../model/pos_size_firestore.dart';
 import '../model/pos_size_repository.dart';
 import '../model/pos_size_cache.dart';
@@ -95,7 +92,6 @@ import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
-import '../model/policy_presentation_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
@@ -112,7 +108,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _memberMediumRepository = HashMap<String, MemberMediumRepository>();
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
-    var _policyPresentationRepository = HashMap<String, PolicyPresentationRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
 
@@ -170,10 +165,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     PageRepository pageRepository(String appId) {
       if (_pageRepository[appId] == null) _pageRepository[appId] = PageCache(PageFirestore(appRepository().getSubCollection(appId, 'page'), appId));
       return _pageRepository[appId];
-    }
-    PolicyPresentationRepository policyPresentationRepository(String appId) {
-      if (_policyPresentationRepository[appId] == null) _policyPresentationRepository[appId] = PolicyPresentationCache(PolicyPresentationFirestore(appRepository().getSubCollection(appId, 'policypresentation'), appId));
-      return _policyPresentationRepository[appId];
     }
     PosSizeRepository posSizeRepository(String appId) {
       if (_posSizeRepository[appId] == null) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository().getSubCollection(appId, 'possize'), appId));

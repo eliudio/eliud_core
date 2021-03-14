@@ -84,6 +84,11 @@
     {
       "fieldName": "thumbnailHeight",
       "fieldType": "int"
+    },
+    {
+      "fieldName": "relatedMediumId",
+      "remark": "In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.",
+      "fieldType": "String"
     }
   ],
   "groups": [

@@ -199,3 +199,15 @@ class ChangedMemberMediumThumbnailHeight extends MemberMediumFormEvent {
   String toString() => 'ChangedMemberMediumThumbnailHeight{ value: $value }';
 }
 
+class ChangedMemberMediumRelatedMediumId extends MemberMediumFormEvent {
+  final String value;
+
+  ChangedMemberMediumRelatedMediumId({this.value});
+
+  @override
+  List<Object> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumRelatedMediumId{ value: $value }';
+}
+

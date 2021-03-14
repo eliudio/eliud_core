@@ -35,6 +35,5 @@ export '../model/member_subscription_repository.dart';
 export '../model/menu_def_repository.dart';
 export '../model/menu_item_repository.dart';
 export '../model/page_repository.dart';
-export '../model/policy_presentation_repository.dart';
 export '../model/pos_size_repository.dart';
 export '../model/shadow_repository.dart';

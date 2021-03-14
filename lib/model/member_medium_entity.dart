@@ -32,17 +32,18 @@ class MemberMediumEntity {
   final int mediumHeight;
   final int thumbnailWidth;
   final int thumbnailHeight;
+  final String relatedMediumId;
 
-  MemberMediumEntity({this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, });
+  MemberMediumEntity({this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object> get props => [appId, authorId, url, ref, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, ];
+  List<Object> get props => [appId, authorId, url, ref, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
     String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
 
-    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight}';
+    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static MemberMediumEntity fromMap(Map map) {
@@ -60,6 +61,7 @@ class MemberMediumEntity {
       mediumHeight: int.tryParse(map['mediumHeight'].toString()), 
       thumbnailWidth: int.tryParse(map['thumbnailWidth'].toString()), 
       thumbnailHeight: int.tryParse(map['thumbnailHeight'].toString()), 
+      relatedMediumId: map['relatedMediumId'], 
     );
   }
 
@@ -87,6 +89,8 @@ class MemberMediumEntity {
       else theDocument["thumbnailWidth"] = null;
     if (thumbnailHeight != null) theDocument["thumbnailHeight"] = thumbnailHeight;
       else theDocument["thumbnailHeight"] = null;
+    if (relatedMediumId != null) theDocument["relatedMediumId"] = relatedMediumId;
+      else theDocument["relatedMediumId"] = null;
     return theDocument;
   }
 

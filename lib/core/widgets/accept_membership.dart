@@ -1,142 +1,23 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/tool_set.dart';
+import 'package:eliud_core/tools/widgets/dialog_helper.dart';
+import 'package:eliud_core/tools/widgets/member_medium_dialog.dart';
+import 'package:eliud_core/tools/widgets/message_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-
-
-// From https://gdpr.eu/privacy-notice/
-const String _gdpr = '''
-\${appName} Privacy Policy
-===========================
-
-This privacy policy will explain how our organization uses the personal data we collect from you when you use our website.
-
-Topics:
-
-*   What data do we collect?
-*   How do we collect your data?
-*   How will we use your data?
-*   How do we store your data?
-*   Marketing
-*   What are your data protection rights?
-*   What are cookies?
-*   How do we use cookies?
-*   What types of cookies do we use?
-*   How to manage your cookies
-*   Privacy policies of other websites
-*   Changes to our privacy policy
-*   How to contact us
-*   How to contact the appropriate authorities
-
-### What data do we collect?
-
-\${appName} collects the following data:
-
-*   Personal identification information (Name, email address, phone number, etc.)
-*   Shipping and invoice information (Address, City, Country, etc.)
-
-### How do we collect your data?
-
-You directly provide \${appName} with all of the data we collect. We collect data and process data when you:
-
-*   Register online or place an order for any of our products or services.
-*   Voluntarily complete a customer survey or provide feedback on any of our message boards or via email.
-*   Use or view our website via your browser’s cookies.
-
-### How will we use your data?
-
-\${appName} collects your data so that we can:
-
-*   Process your order and manage your account.
-*   Email you with special offers on other products and services we think you might like.
-
-When \${appName} processes your order, it may send your data to, and also use the resulting information from, credit reference agencies to prevent fraudulent purchases.
-
-### How do we store your data?
-
-\${appName} securely stores your data at Google Data Centers.
-
-\${appName} will keep your information for 1 year since you last logged on. Once this time period has expired, we will delete your data automatically.
-
-### Marketing
-
-\${appName} would like to send you information about products and services of ours that we think you might like.
-
-If you have agreed to receive marketing, you may always opt out at a later date.
-
-You have the right at any time to stop \${appName} from contacting you for marketing purposes.
-
-If you no longer wish to be contacted for marketing purposes, please click here.
-
-### What are your data protection rights?
-
-\${appName} would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:
-
-**The right to access** – You have the right to request \${appName} for copies of your personal data. We may charge you a small fee for this service.
-
-**The right to rectification** – You have the right to request that \${appName} correct any information you believe is inaccurate. You also have the right to request \${appName} to complete the information you believe is incomplete.
-
-**The right to erasure** – You have the right to request that \${appName} erase your personal data, under certain conditions.
-
-**The right to restrict processing** – You have the right to request that \${appName} restrict the processing of your personal data, under certain conditions.
-
-**The right to object to processing** – You have the right to object to \${appName}’s processing of your personal data, under certain conditions.
-
-**The right to data portability** – You have the right to request that \${appName} transfer the data that we have collected to another organization, or directly to you, under certain conditions.
-
-If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us at our email:
-
-Call us at:
-
-Or write to us:
-
-### Cookies
-
-Cookies are text files placed on your computer to collect standard Internet log information and visitor behavior information. When you visit our websites, we may collect information from you automatically through cookies or similar technology
-
-For further information, visit allaboutcookies.org.
-
-### How do we use cookies?
-
-\${appName} uses cookies in a range of ways to improve your experience on our website, including:
-
-*   Keeping you signed in
-*   Understanding how you use our website
-*   Keep track of your shopping bag
-
-### What types of cookies do we use?
-
-There are a number of different types of cookies, however, our website uses:
-
-*   Functionality – \${appName} uses these cookies so that we recognize you on our website and remember your previously selected preferences. These could include what language you prefer and location you are in. A mix of first-party and third-party cookies are used.
-*   Advertising – \${appName} uses these cookies to collect information about your visit to our website, the content you viewed, the links you followed and information about your browser, device, and your IP address. \${appName} sometimes shares some limited aspects of this data with third parties for advertising purposes. We may also share online data collected through cookies with our advertising partners. This means that when you visit another website, you may be shown advertising based on your browsing patterns on our website.
-
-### How to manage cookies
-
-You can set your browser not to accept cookies, and the above website tells you how to remove cookies from your browser. However, in a few cases, some of our website features may not function as a result.
-
-### Privacy policies of other websites
-
-The \${appName} website contains links to other websites. Our privacy policy applies only to our website, so if you click on a link to another website, you should read their privacy policy.
-
-### Changes to our privacy policy
-
-\${appName} keeps its privacy policy under regular review and places any updates on this web page. This privacy policy was last updated on 9 January 2019.
-
-### How to contact us
-
-If you have any questions about \${appName}’s privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please do not hesitate to contact us.
-
-\${email}''';
 
 class AcceptMembershipWidget extends StatefulWidget {
+  static double width(BuildContext context) =>
+      MediaQuery.of(context).size.width * 0.8;
+  static double height(BuildContext context) =>
+      MediaQuery.of(context).size.height * 0.6;
+
   final AppModel app;
   final MemberModel member;
   final User usr;
@@ -152,29 +33,152 @@ class AcceptMembershipWidget extends StatefulWidget {
   _AcceptMembershipWidgetState createState() => _AcceptMembershipWidgetState();
 }
 
+class CheckboxHandler {
+  final MemberMediumModel item;
+  bool value;
+
+  CheckboxHandler(this.value, this.item);
+
+  void handle(newValue) {
+    value = newValue;
+  }
+}
+
 class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     with SingleTickerProviderStateMixin {
+  List<CheckboxHandler> checked;
+
+  @override
+  void initState() {
+    super.initState();
+    var app = AccessBloc.app(context);
+    checked = app.policies.policies.map((element) => CheckboxHandler(false, element.policy)).toList();
+  }
+
   @override
   void dispose() {
     super.dispose();
   }
 
-  void _addButtons(List<Widget> widgets) {
+  bool _allEnabled(AppModel app) {
+    for (var i = 0; i < app.policies.policies.length; i++) {
+      if (!checked[i].value) return false;
+    }
+    return true;
+  }
+
+  void _openPolicy(String title, MemberMediumModel item) {
+    DialogStatefulWidgetHelper.openIt(context, MemberMediumDialog(title: title, memberMediumModel: item, closeFunction: () => Navigator.of(context).pop()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var app = AccessBloc.app(context);
+    var accessState = AccessBloc.getState(context);
+    var contents = <Widget>[];
+
+    var i = 0;
+    app.policies.policies.forEach((policy) {
+      var handler = checked[i];
+      contents.add(Row(
+          children: [
+        Container(
+            height: 40,
+            child: Center(
+                child: Checkbox(
+              value: handler.value,
+              onChanged: (newValue) {
+                setState(() {
+                  handler.value = newValue;
+                });
+              },
+            ))),
+        Spacer(),
+        Container(
+            height: 30, width: 200, child: Center(child: Text(policy.name))),
+        Spacer(),
+        Container(
+            height: 30,
+            child: Center(
+                child:
+                    TextButton(child: Text('Read'), onPressed: () async {
+                      _openPolicy(policy.name, handler.item);
+                    }))),
+        Spacer(),
+      ]));
+      i++;
+    });
+
+    return Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecorationHelper.boxDecoration(
+            accessState, app.formAppBarBackground),
+        child: Center(
+            child: Container(
+          width: AcceptMembershipWidget.width(context),
+          height: AcceptMembershipWidget.height(context),
+          child: addStuff(contents, app),
+          //padding: EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                )
+              ]),
+        )));
+  }
+
+  Widget addStuff(List<Widget> content, AppModel app) {
+    var widgets = <Widget>[
+      Center(
+          child: Text('Read and accept policies',
+              style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20))),
+      Divider(
+        height: 10,
+        color: Colors.red,
+      ),
+      Text(
+          "Welcome! Please read the below policies. After reading, check the checkbox and finalise with the Accept button."),
+      Divider(
+        height: 10,
+        color: Colors.red,
+      ),
+      Container(
+          width: AcceptMembershipWidget.width(context),
+          height: AcceptMembershipWidget.height(context) - 150,
+          child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: content)),
+      Divider(
+        height: 10,
+        color: Colors.red,
+      ),
+    ];
     widgets.add(Row(children: <Widget>[
-      RaisedButton(
-        color: RgbHelper.color(rgbo: widget.app.formSubmitButtonColor),
-        onPressed: () async {
-          BlocProvider.of<AccessBloc>(context)
-              .add(AcceptedMembership(widget.member, widget.usr));
-        },
+      Spacer(flex: 7),
+      ElevatedButton(
+        onPressed: _allEnabled(app)
+            ? () async {
+                BlocProvider.of<AccessBloc>(context)
+                    .add(AcceptedMembership(widget.member, widget.usr));
+              }
+            : null,
         child: Text('Accept',
             style: TextStyle(
                 color: RgbHelper.color(
                     rgbo: widget.app.formSubmitButtonTextColor))),
       ),
-      Container(width: 10),
-      RaisedButton(
-        color: RgbHelper.color(rgbo: widget.app.formSubmitButtonColor),
+      Spacer(),
+      ElevatedButton(
         onPressed: () async {
           BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
         },
@@ -184,43 +188,11 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                     rgbo: widget.app.formSubmitButtonTextColor))),
       ),
     ]));
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
-    var accessState = AccessBloc.getState(context);
-    var widgets = <Widget>[];
-
-    widgets.add(MarkdownBody(
-      selectable: true,
-      styleSheet: MarkdownStyleSheet(
-        h1: FontTools.textStyle(app.h1),
-        h2: FontTools.textStyle(app.h2),
-        h3: FontTools.textStyle(app.h3),
-        h4: FontTools.textStyle(app.h4),
-        h5: FontTools.textStyle(app.h5),
-        p: FontTools.textStyle(app.fontText),
-      ),
-      data: process(_gdpr, parameters: <String, String>{
-        '\${appName}': app.title,
-        '\${email}': app.email,
-      }),
-    ));
-
-    widgets.add(Container(height:10));
-    _addButtons(widgets);
-
-    return Container(
-        decoration: BoxDecorationHelper.boxDecoration(accessState,
-            app.formAppBarBackground),
-        child: Container(
-            padding: const EdgeInsets.all(20),
-            child: ListView.builder(
-              itemCount: widgets.length,
-              itemBuilder: (BuildContext context, int index) {
-                return widgets[index];
-              },
-            )));
+    return ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        children: widgets);
   }
 }

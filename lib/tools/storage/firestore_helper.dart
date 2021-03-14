@@ -279,29 +279,48 @@ class UploadFile {
   /*
    * Create a thumbnail from a pdf doc
    */
-  static Future<MediumAndItsThumbnailData> _createThumbNailFromPdf(String filePath) async {
+  static Future<MediumAndItsThumbnailData> _createImageFromPdfPage(String filePath, int pageNumber, bool thumbNail) async {
     final document = await PdfDocument.openFile(filePath);
-    final page = await document.getPage(1);
+    final page = await document.getPage(pageNumber);
     final pageImage = await page.render(width: page.width, height: page.height);
     imgpackage.Image img = imgpackage.decodeImage(pageImage.bytes);
-    var thumbnailWidth;
-    var thumbnailHeight;
-    if (img.width > img.height) {
-      thumbnailWidth = thumbnailSize;
+    if (thumbNail) {
+      var thumbnailWidth;
+      var thumbnailHeight;
+      if (img.width > img.height) {
+        thumbnailWidth = thumbnailSize;
+      } else {
+        thumbnailHeight = thumbnailSize;
+      }
+      var thumbnail = imgpackage.copyResize(
+          img, width: thumbnailWidth, height: thumbnailHeight);
+      var thumbNameFilePath = filePath + '.page' + pageNumber.toString() + '.tumbnail.png';
+      File(thumbNameFilePath)
+        ..writeAsBytesSync(imgpackage.encodePng(thumbnail));
+
+      return MediumAndItsThumbnailData(
+          thumbNailData: MediumData(width: thumbnailSize,
+              height: thumbnailSize,
+              filePath: thumbNameFilePath)
+      );
     } else {
-      thumbnailHeight = thumbnailSize;
+      var imageFilePath = filePath + '.page' + pageNumber.toString() + '.png';
+      File(imageFilePath)
+        ..writeAsBytesSync(imgpackage.encodePng(img));
+
+      return MediumAndItsThumbnailData(
+          mediumData: MediumData(width: img.width,
+              height: img.height,
+              filePath: imageFilePath)
+      );
     }
-    var thumbnail = imgpackage.copyResize(img, width: thumbnailWidth, height: thumbnailHeight);
-    var thumbNameFilePath = filePath + '.thumbnail' + '.png';
-    File(thumbNameFilePath)..writeAsBytesSync(imgpackage.encodePng(thumbnail));
+  }
 
-    return MediumAndItsThumbnailData(
-        thumbNailData: MediumData(width: thumbnailSize,
-            height: thumbnailSize,
-            filePath: thumbNameFilePath)
-    );
-
-//    return ThumbnailHelper(filePath, thumbnailSize, ).doOperation();
+  /*
+   * Create a thumbnail from a pdf doc
+   */
+  static Future<MediumAndItsThumbnailData> _createThumbNailFromPdf(String filePath) async {
+    return _createImageFromPdfPage(filePath, 1, true);
   }
 
   /*
@@ -329,8 +348,46 @@ class UploadFile {
     // Second, create the thumbnail
     var photoData = await _createThumbNailFromPdf(filePath);
 
-    // Third, upload the thumnail;
+    // Third, upload the thumbnail;
     var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
+
+    // Now create extra MemberImageModels for each page
+    final document = await PdfDocument.openFile(filePath);
+    final pageCount = await document.pagesCount;
+    var previousMediumId = null;
+    for (var i = pageCount; i >= 1; i--) {
+      // First, create the thumbnail
+      var pageData = await _createImageFromPdfPage(filePath, i, true);
+
+      // Second, upload the thumbnail;
+      var pageThumbnail = await _uploadFile(pageData.thumbNailData.filePath, appId, ownerId, readAccess);
+
+      // Third, create image
+      var imageFromPdf = await _createImageFromPdfPage(filePath, i, false);
+
+      // Forth, upload the image
+      var pageImage = await _uploadFile(imageFromPdf.mediumData.filePath, appId, ownerId, readAccess);
+
+      var documentID = newRandomKey();
+      // Forth, upload the file;
+      var pageImageModel = MemberMediumModel(
+        documentID: documentID,
+        appId: appId,
+        authorId: ownerId,
+        url: pageImage.url,
+        ref: pageImage.ref,
+        urlThumbnail: pageThumbnail.url,
+        mediumType: MediumType.Photo,
+        mediumWidth: imageFromPdf.mediumData.width,
+        mediumHeight: imageFromPdf.mediumData.height,
+        readAccess: readAccess,
+        thumbnailWidth: pageData.thumbNailData.width,
+        thumbnailHeight: pageData.thumbNailData.height,
+        relatedMediumId: previousMediumId
+      );
+      previousMediumId = documentID;
+      await memberMediumRepository(appId: appId).add(pageImageModel);
+    }
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
@@ -344,8 +401,9 @@ class UploadFile {
       urlThumbnail: fileInfoThumbnail.url,
       thumbnailWidth: photoData.thumbNailData.width,
       thumbnailHeight: photoData.thumbNailData.height,
+      relatedMediumId: previousMediumId
     );
-    return memberMediumRepository(appId: appId).add(memberImageModel);
+    return await memberMediumRepository(appId: appId).add(memberImageModel);
   }
 }
 
@@ -362,4 +420,23 @@ class DownloadFile {
   }
 
 
+}
+
+class ChainOfMediumModels {
+  static void _addUrl(List<String> urls, MemberMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == MediumType.Photo) {
+      urls.add(currentPolicy.url);
+    }
+  }
+
+  static Future<List<String>> getChainOfUrls(String appId, MemberMediumModel memberMediumModel) async {
+    List<String> urls = [];
+    var currentPolicy = memberMediumModel;
+    _addUrl(urls, currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      currentPolicy = await memberMediumRepository(appId: appId).get(currentPolicy.relatedMediumId);
+      _addUrl(urls, currentPolicy);
+    }
+    return urls;
+  }
 }
