@@ -32,7 +32,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({String title, Widget contents, List<TextButton> buttons}) {
+  Widget build({String title, Widget contents, List<TextButton> buttons, double width}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -45,11 +45,11 @@ class DialogStateHelper {
   }
 
   Widget _contentBox(
-      {String title, Widget contents, List<TextButton> buttons}) {
+      {String title, Widget contents, List<TextButton> buttons, double width}) {
     return Form(
         key: _formKey,
-        child: _titleAndFields(
-            title: title, contents: contents, buttons: buttons));
+        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width)
+    );
   }
 
   Widget _getRowWithButtons(List<TextButton> buttons) {
@@ -62,7 +62,7 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {String title, Widget contents, List<TextButton> buttons}) {
+      {String title, Widget contents, List<TextButton> buttons, double width}) {
     var widgets = <Widget>[
       Center(
           child: Text(title,
@@ -79,14 +79,14 @@ class DialogStateHelper {
         height: 10,
         color: Colors.red,
       ),
+      _getRowWithButtons(buttons),
     ];
-    widgets.add(_getRowWithButtons(buttons));
 
-    return ListView(
+    return Container(width: width, child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         shrinkWrap: true,
         physics: ScrollPhysics(),
-        children: widgets);
+        children: widgets));
   }
 
   /* Helper method to create a list tile */

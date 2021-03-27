@@ -68,7 +68,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   void _openPolicy(String title, MemberMediumModel item) {
-    DialogStatefulWidgetHelper.openIt(context, MemberMediumDialog(title: title, memberMediumModel: item, closeFunction: () => Navigator.of(context).pop()));
+    DialogStatefulWidgetHelper.openIt(context, MemberMediumDialog(width: 100, title: title, memberMediumModel: item, closeFunction: () => Navigator.of(context).pop()), );
   }
 
   @override
@@ -94,8 +94,11 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
               },
             ))),
         Spacer(),
-        Container(
-            height: 30, width: 200, child: Center(child: Text(policy.name))),
+/*
+            Container(
+                height: 30, width: 200, child: Center(child: Text(policy.name))),
+*/
+        Text(policy.name),
         Spacer(),
         Container(
             height: 30,
@@ -104,7 +107,6 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                     TextButton(child: Text('Read'), onPressed: () async {
                       _openPolicy(policy.name, handler.item);
                     }))),
-        Spacer(),
       ]));
       i++;
     });

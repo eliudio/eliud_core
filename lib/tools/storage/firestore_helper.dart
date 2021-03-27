@@ -422,10 +422,24 @@ class DownloadFile {
 
 }
 
+class MediumInfo {
+  final int width;
+  final int height;
+  final String url;
+
+  MediumInfo(this.width, this.height, this.url);
+}
+
 class ChainOfMediumModels {
   static void _addUrl(List<String> urls, MemberMediumModel currentPolicy) {
     if (currentPolicy.mediumType == MediumType.Photo) {
       urls.add(currentPolicy.url);
+    }
+  }
+
+  static void _addInfo(List<MediumInfo> infos, MemberMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == MediumType.Photo) {
+      infos.add(MediumInfo(currentPolicy.mediumWidth, currentPolicy.mediumHeight, currentPolicy.url));
     }
   }
 
@@ -438,5 +452,16 @@ class ChainOfMediumModels {
       _addUrl(urls, currentPolicy);
     }
     return urls;
+  }
+
+  static Future<List<MediumInfo>> getChainOfMediumInfo(String appId, MemberMediumModel memberMediumModel) async {
+    List<MediumInfo> infos = [];
+    var currentPolicy = memberMediumModel;
+    _addInfo(infos, currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      currentPolicy = await memberMediumRepository(appId: appId).get(currentPolicy.relatedMediumId);
+      _addInfo(infos, currentPolicy);
+    }
+    return infos;
   }
 }

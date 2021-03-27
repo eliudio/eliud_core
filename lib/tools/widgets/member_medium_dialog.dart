@@ -9,6 +9,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'dialog_helper.dart';
 
 class MemberMediumDialog extends StatefulWidget {
+  final double width;
   final String title;
   final MemberMediumModel memberMediumModel;
   final Function closeFunction;
@@ -18,6 +19,7 @@ class MemberMediumDialog extends StatefulWidget {
     this.title,
     this.memberMediumModel,
     this.closeFunction,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -26,23 +28,26 @@ class MemberMediumDialog extends StatefulWidget {
 
 class _MemberMediumState extends State<MemberMediumDialog> {
   final DialogStateHelper dialogHelper = DialogStateHelper();
+  static double height(BuildContext context) =>
+      MediaQuery.of(context).size.height * 1;
 
-  Future<List<String>> buildImagesList() async {
+  Future<List<MediumInfo>> buildImagesList() async {
     var memberMediumModel = widget.memberMediumModel;
     var appId = memberMediumModel.appId;
-    return await ChainOfMediumModels.getChainOfUrls(appId, memberMediumModel);
+    return await ChainOfMediumModels.getChainOfMediumInfo(appId, memberMediumModel);
   }
 
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
+      width: widget.width,
         title: widget.title,
         buttons: dialogHelper.getCloseButton(context, widget.closeFunction),
-        contents: FutureBuilder<List<String>>(
+        contents: FutureBuilder<List<MediumInfo>>(
             future: buildImagesList(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return getAllImages(snapshot.data);
+                return Container(width: widget.width, height : height(context) - 130, child: getAllImages(context, snapshot.data));
               } else {
                 return Center(
                   child: DelayedCircularProgressIndicator(),
@@ -51,34 +56,17 @@ class _MemberMediumState extends State<MemberMediumDialog> {
             }));
   }
 
-  Widget getAllImages(List<String> urls) {
+  Widget getAllImages(BuildContext context, List<MediumInfo> infos) {
     return ListView.builder(
+      padding: EdgeInsets.all(0.0),
       shrinkWrap: true,
       physics: ScrollPhysics(),
-      itemCount: urls.length,
+      itemCount: infos.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container(height: 400, child: PhotoView(
-            imageProvider: NetworkImage(urls[index]),
-            backgroundDecoration: BoxDecoration(color: Colors.transparent)
-        ));
+        return Image.network(
+            infos[index].url, width: infos[index].width.toDouble(), height: infos[index].height.toDouble()
+            );
       },
     );
   }
 }
-
-/*
-class MemberMediumImage extends StatefulWidget {
-  final MemberMediumModel memberMediumModel;
-
-  MemberMediumImage({ Key key, this.memberMediumModel,
-  }) : super(key: key);
-
-  @override
-  _MemberMediumState createState() => _MemberMediumState();
-}
-
-class _MemberMediumImageState extends State<MemberMediumImage> {
-  @override
-  Widget build(BuildContext context) {
-  }
-}*/
