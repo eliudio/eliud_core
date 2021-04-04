@@ -22,6 +22,12 @@ class GoToPageEvent extends NavigatorEvent {
   GoToPageEvent(this.ID, { this.parameters });
 }
 
+class MessageEvent extends NavigatorEvent {
+  final String message;
+
+  MessageEvent(this.message);
+}
+
 class GoHome extends NavigatorEvent {
   GoHome();
 }

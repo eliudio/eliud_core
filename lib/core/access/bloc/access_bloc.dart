@@ -147,7 +147,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         try {
           var usr = await AbstractMainRepositorySingleton.singleton
               .userRepository()
-              .signInWithGoogle();
+              .signInWithGoogle(navigatorBloc);
           if (usr != null) {
             AccessState accessState = await _mapUsrAndApp(
                 usr, app, theState.playStoreApp, event.actions);

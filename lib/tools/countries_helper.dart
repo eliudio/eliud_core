@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/country_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
@@ -254,7 +255,7 @@ class CountriesHelper {
     //AppModel appModel = await AbstractRepositorySingleton.singleton.appRepository().get(appId);
     await AbstractMainRepositorySingleton.singleton
         .userRepository()
-        .signInWithGoogle()
+        .signInWithGoogle(null)
         .then((value) async {
       AbstractRepositorySingleton.singleton.countryRepository().deleteAll().then((_) async {
         LineSplitter ls = new LineSplitter();

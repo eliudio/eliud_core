@@ -31,6 +31,7 @@ abstract class PackageActionHandler {
 class Router {
   static const String homeRoute = '/';
   static const String pageRoute = '/page';
+  static const String messageRoute = '/message';
   static const String justASecond = '/justASecond';
 
   static final List<PackageActionHandler> _registeredActionHandlers = [];
@@ -100,6 +101,15 @@ class Router {
               page: Registry.registry().page(
                   id: arguments == null ? null : arguments.mainArgument,
                   parameters: arguments == null ? null : arguments.parameters));
+        case messageRoute:
+          var value = settings.name;
+          if (arguments != null) {
+            value = value + arguments.mainArgument;
+            for (var v in arguments.parameters.values) {
+              value = value + v;
+            }
+          }
+          return error(settings.arguments);
         default:
           final settingsUri = Uri.parse(settings.name);
           final pagePath = settingsUri.path.split('/');
@@ -241,6 +251,10 @@ class Router {
     } else {
       throw "I didn't expect this action type";
     }
+  }
+
+  static void message(NavigatorBloc bloc, String message) {
+    bloc.add(MessageEvent(message));
   }
 
   /*
