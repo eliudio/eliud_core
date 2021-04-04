@@ -11,7 +11,7 @@ import 'package:path/path.dart';
 //import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 import 'package:image/image.dart' as imgpackage;
-import 'package:thumbnails/thumbnails.dart';
+//import 'package:thumbnails/thumbnails.dart';
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 
 class MediumData {
@@ -147,6 +147,8 @@ class UploadFile {
    * Create a thumbnail from a video
    */
   static Future<MediumAndItsThumbnailData> _createThumbNailFromVideo(String filePath) async {
+    throw "Thumbnails is not available as null safe, so excluded now";
+/*
     var thumnailFromVideo = await Thumbnails.getThumbnail(
         thumbnailFolder: Directory.systemTemp.path ,
         videoFile: filePath,
@@ -161,6 +163,7 @@ class UploadFile {
         mediumData: MediumData(width: null, height: null, filePath: filePath),  // we don't know the size of the video... todo
         thumbNailData: MediumData(width: photoData.thumbNailData.width, height: photoData.thumbNailData.height, filePath: photoData.thumbNailData.filePath)
     );
+*/
   }
 
   static Future<UploadInfo> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
