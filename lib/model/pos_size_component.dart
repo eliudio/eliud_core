@@ -25,7 +25,7 @@ import 'package:eliud_core/model/pos_size_component_state.dart';
 
 abstract class AbstractPosSizeComponent extends StatelessWidget {
   static String componentName = "posSizes";
-  final String posSizeID;
+  final String? posSizeID;
 
   AbstractPosSizeComponent({this.posSizeID});
 
@@ -63,7 +63,7 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, PosSizeModel value);
+  Widget yourWidget(BuildContext context, PosSizeModel? value);
   Widget alertWidget({ title: String, content: String});
   PosSizeRepository getPosSizeRepository(BuildContext context);
 }

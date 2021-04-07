@@ -38,13 +38,13 @@ import 'package:eliud_core/model/app_policy_form_state.dart';
 import 'package:eliud_core/model/app_policy_repository.dart';
 
 class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   AppPolicyFormBloc(this.appId, { this.formAction }): super(AppPolicyFormUninitialized());
   @override
   Stream<AppPolicyFormState> mapEventToState(AppPolicyFormEvent event) async* {
-    final currentState = state;
+    final AppPolicyFormState currentState = state;
     if (currentState is AppPolicyFormUninitialized) {
       if (event is InitialiseNewAppPolicyFormEvent) {
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: AppPolicyModel(
@@ -62,7 +62,7 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
 
       if (event is InitialiseAppPolicyFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: await appPolicyRepository(appId: appId).get(event.value.documentID));
+        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: await appPolicyRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppPolicyFormNoLoadEvent) {
@@ -71,9 +71,9 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
         return;
       }
     } else if (currentState is AppPolicyFormInitialized) {
-      AppPolicyModel newValue = null;
+      AppPolicyModel? newValue = null;
       if (event is ChangedAppPolicyDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -83,13 +83,13 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
         return;
       }
       if (event is ChangedAppPolicyComments) {
-        newValue = currentState.value.copyWith(comments: event.value);
+        newValue = currentState.value!.copyWith(comments: event.value);
         yield SubmittableAppPolicyForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppPolicyPolicies) {
-        newValue = currentState.value.copyWith(policies: event.value);
+        newValue = currentState.value!.copyWith(policies: event.value);
         yield SubmittableAppPolicyForm(value: newValue);
 
         return;
@@ -100,10 +100,10 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
 
   DocumentIDAppPolicyFormError error(String message, AppPolicyModel newValue) => DocumentIDAppPolicyFormError(message: message, value: newValue);
 
-  Future<AppPolicyFormState> _isDocumentIDValid(String value, AppPolicyModel newValue) async {
+  Future<AppPolicyFormState> _isDocumentIDValid(String? value, AppPolicyModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<AppPolicyModel> findDocument = appPolicyRepository(appId: appId).get(value);
+    Future<AppPolicyModel?> findDocument = appPolicyRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableAppPolicyForm(value: newValue);

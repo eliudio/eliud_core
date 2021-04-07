@@ -32,17 +32,17 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MenuItemModel {
-  String documentID;
-  String text;
-  String description;
-  IconModel icon;
-  ActionModel action;
+  String? documentID;
+  String? text;
+  String? description;
+  IconModel? icon;
+  ActionModel? action;
 
   MenuItemModel({this.documentID, this.text, this.description, this.icon, this.action, })  {
     assert(documentID != null);
   }
 
-  MenuItemModel copyWith({String documentID, String text, String description, IconModel icon, ActionModel action, }) {
+  MenuItemModel copyWith({String? documentID, String? text, String? description, IconModel? icon, ActionModel? action, }) {
     return MenuItemModel(documentID: documentID ?? this.documentID, text: text ?? this.text, description: description ?? this.description, icon: icon ?? this.icon, action: action ?? this.action, );
   }
 
@@ -65,12 +65,12 @@ class MenuItemModel {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  MenuItemEntity toEntity({String appId}) {
+  MenuItemEntity toEntity({String? appId}) {
     return MenuItemEntity(
           text: (text != null) ? text : null, 
           description: (description != null) ? description : null, 
-          icon: (icon != null) ? icon.toEntity(appId: appId) : null, 
-          action: (action != null) ? action.toEntity(appId: appId) : null, 
+          icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
+          action: (action != null) ? action!.toEntity(appId: appId) : null, 
     );
   }
 
@@ -87,7 +87,7 @@ class MenuItemModel {
     );
   }
 
-  static Future<MenuItemModel> fromEntityPlus(String documentID, MenuItemEntity entity, { String appId}) async {
+  static Future<MenuItemModel> fromEntityPlus(String documentID, MenuItemEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
     return MenuItemModel(

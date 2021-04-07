@@ -1,6 +1,6 @@
 import 'package:eliud_core/model/access_model.dart';
 
-String process(String template, { Map<String, String> parameters }) {
+String process(String template, { Map<String, String>? parameters }) {
   if (parameters != null) {
     String processed = template;
     parameters.forEach((key, value) {
@@ -31,6 +31,7 @@ String privilegeLevelToPrivilegeStringInt(int privilegeLevelInt, bool blocked) {
         return 'Ownership privilege level';
     }
   }
+  return "Unknwon privilege";
 }
 
 String privilegeLevelToMemberRoleString(PrivilegeLevel privilegeLevel, bool blocked) {
@@ -52,4 +53,5 @@ String privilegeLevelIntToMemberRoleString(int privilegeLevelInt, bool blocked) 
         return 'Member with ownership privileges';
     }
   }
+  return "Member with unknwon privilege";
 }

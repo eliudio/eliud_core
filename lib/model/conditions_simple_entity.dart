@@ -21,19 +21,19 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ConditionsSimpleEntity {
-  final int privilegeLevelRequired;
+  final int? privilegeLevelRequired;
 
   ConditionsSimpleEntity({this.privilegeLevelRequired, });
 
 
-  List<Object> get props => [privilegeLevelRequired, ];
+  List<Object?> get props => [privilegeLevelRequired, ];
 
   @override
   String toString() {
     return 'ConditionsSimpleEntity{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  static ConditionsSimpleEntity fromMap(Map map) {
+  static ConditionsSimpleEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return ConditionsSimpleEntity(
@@ -41,15 +41,15 @@ class ConditionsSimpleEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
       else theDocument["privilegeLevelRequired"] = null;
     return theDocument;
   }
 
-  static ConditionsSimpleEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ConditionsSimpleEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

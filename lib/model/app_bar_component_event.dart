@@ -21,7 +21,7 @@ abstract class AppBarComponentEvent extends Equatable {
 }
 
 class FetchAppBarComponent extends AppBarComponentEvent {
-  final String id;
+  final String? id;
 
   FetchAppBarComponent({ this.id });
 }

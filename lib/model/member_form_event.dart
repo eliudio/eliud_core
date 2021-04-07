@@ -30,7 +30,7 @@ abstract class MemberFormEvent extends Equatable {
   const MemberFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewMemberFormEvent extends MemberFormEvent {
@@ -38,270 +38,270 @@ class InitialiseNewMemberFormEvent extends MemberFormEvent {
 
 
 class InitialiseMemberFormEvent extends MemberFormEvent {
-  final MemberModel value;
+  final MemberModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberFormEvent({this.value});
 }
 
 class InitialiseMemberFormNoLoadEvent extends MemberFormEvent {
-  final MemberModel value;
+  final MemberModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberFormNoLoadEvent({this.value});
 }
 
 class ChangedMemberDocumentID extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberDocumentID{ value: $value }';
 }
 
 class ChangedMemberName extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberName{ value: $value }';
 }
 
 class ChangedMemberSubscriptions extends MemberFormEvent {
-  final List<MemberSubscriptionModel> value;
+  final List<MemberSubscriptionModel>? value;
 
   ChangedMemberSubscriptions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberSubscriptions{ value: $value }';
 }
 
 class ChangedMemberSubscriptionsAsString extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberSubscriptionsAsString({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberSubscriptionsAsString{ value: $value }';
 }
 
 class ChangedMemberPhotoURL extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberPhotoURL({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberPhotoURL{ value: $value }';
 }
 
 class ChangedMemberShipStreet1 extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberShipStreet1({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberShipStreet1{ value: $value }';
 }
 
 class ChangedMemberShipStreet2 extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberShipStreet2({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberShipStreet2{ value: $value }';
 }
 
 class ChangedMemberShipCity extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberShipCity({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberShipCity{ value: $value }';
 }
 
 class ChangedMemberShipState extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberShipState({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberShipState{ value: $value }';
 }
 
 class ChangedMemberPostcode extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberPostcode({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberPostcode{ value: $value }';
 }
 
 class ChangedMemberCountry extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberCountry({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberCountry{ value: $value }';
 }
 
 class ChangedMemberInvoiceSame extends MemberFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedMemberInvoiceSame({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceSame{ value: $value }';
 }
 
 class ChangedMemberInvoiceStreet1 extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoiceStreet1({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceStreet1{ value: $value }';
 }
 
 class ChangedMemberInvoiceStreet2 extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoiceStreet2({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceStreet2{ value: $value }';
 }
 
 class ChangedMemberInvoiceCity extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoiceCity({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceCity{ value: $value }';
 }
 
 class ChangedMemberInvoiceState extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoiceState({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceState{ value: $value }';
 }
 
 class ChangedMemberInvoicePostcode extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoicePostcode({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoicePostcode{ value: $value }';
 }
 
 class ChangedMemberInvoiceCountry extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberInvoiceCountry({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberInvoiceCountry{ value: $value }';
 }
 
 class ChangedMemberReadAccess extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberReadAccess({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberReadAccess{ value: $value }';
 }
 
 class ChangedMemberEmail extends MemberFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberEmail({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberEmail{ value: $value }';
 }
 
 class ChangedMemberIsAnonymous extends MemberFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedMemberIsAnonymous({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberIsAnonymous{ value: $value }';

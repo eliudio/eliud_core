@@ -58,10 +58,10 @@ import 'package:eliud_core/model/app_bar_form_state.dart';
 
 class AppBarForm extends StatelessWidget {
   FormAction formAction;
-  AppBarModel value;
-  ActionModel submitAction;
+  AppBarModel? value;
+  ActionModel? submitAction;
 
-  AppBarForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  AppBarForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class AppBarForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class AppBarForm extends StatelessWidget {
 
 
 class MyAppBarForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyAppBarForm({this.formAction, this.submitAction});
 
@@ -122,16 +122,16 @@ class MyAppBarForm extends StatefulWidget {
 
 
 class _MyAppBarFormState extends State<MyAppBarForm> {
-  final FormAction formAction;
-  AppBarFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late AppBarFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  int _headerSelectedRadioTile;
-  String _image;
-  String _iconMenu;
-  String _background;
+  int? _headerSelectedRadioTile;
+  String? _image;
+  String? _iconMenu;
+  String? _background;
 
 
   _MyAppBarFormState(this.formAction);
@@ -156,43 +156,43 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
       );
 
       if (state is AppBarFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.title != null)
-          _titleController.text = state.value.title.toString();
+        if (state.value!.title != null)
+          _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value.header != null)
-          _headerSelectedRadioTile = state.value.header.index;
+        if (state.value!.header != null)
+          _headerSelectedRadioTile = state.value!.header!.index;
         else
           _headerSelectedRadioTile = 0;
-        if (state.value.image != null)
-          _image= state.value.image.documentID;
+        if (state.value!.image != null)
+          _image= state.value!.image!.documentID;
         else
           _image= "";
-        if (state.value.iconMenu != null)
-          _iconMenu= state.value.iconMenu.documentID;
+        if (state.value!.iconMenu != null)
+          _iconMenu= state.value!.iconMenu!.documentID;
         else
           _iconMenu= "";
-        if (state.value.background != null)
-          _background= state.value.background.documentID;
+        if (state.value!.background != null)
+          _background= state.value!.background!.documentID;
         else
           _background= "";
       }
       if (state is AppBarFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -252,7 +252,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -265,7 +265,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -278,7 +278,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -291,7 +291,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     groupValue: _headerSelectedRadioTile,
                     title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
                 ),
@@ -330,7 +330,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                IconField(state.value.icon, _onIconChanged)
+                IconField(state.value!.icon, _onIconChanged)
           );
 
 
@@ -379,12 +379,12 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                RgbField("Text color", state.value.iconColor, _onIconColorChanged)
+                RgbField("Text color", state.value!.iconColor, _onIconColorChanged)
           );
 
         children.add(
 
-                RgbField("Selected Icon Color", state.value.selectedIconColor, _onSelectedIconColorChanged)
+                RgbField("Selected Icon Color", state.value!.selectedIconColor, _onSelectedIconColorChanged)
           );
 
 
@@ -402,7 +402,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                RgbField("Background Color", state.value.menuBackgroundColor, _onMenuBackgroundColorChanged)
+                RgbField("Background Color", state.value!.menuBackgroundColor, _onMenuBackgroundColorChanged)
           );
 
 
@@ -437,37 +437,37 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<AppBarListBloc>(context).add(
-                          UpdateAppBarList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              header: state.value.header, 
-                              icon: state.value.icon, 
-                              image: state.value.image, 
-                              iconMenu: state.value.iconMenu, 
-                              background: state.value.background, 
-                              iconColor: state.value.iconColor, 
-                              selectedIconColor: state.value.selectedIconColor, 
-                              menuBackgroundColor: state.value.menuBackgroundColor, 
+                          UpdateAppBarList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              header: state.value!.header, 
+                              icon: state.value!.icon, 
+                              image: state.value!.image, 
+                              iconMenu: state.value!.iconMenu, 
+                              background: state.value!.background, 
+                              iconColor: state.value!.iconColor, 
+                              selectedIconColor: state.value!.selectedIconColor, 
+                              menuBackgroundColor: state.value!.menuBackgroundColor, 
                         )));
                       } else {
                         BlocProvider.of<AppBarListBloc>(context).add(
                           AddAppBarList(value: AppBarModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              header: state.value.header, 
-                              icon: state.value.icon, 
-                              image: state.value.image, 
-                              iconMenu: state.value.iconMenu, 
-                              background: state.value.background, 
-                              iconColor: state.value.iconColor, 
-                              selectedIconColor: state.value.selectedIconColor, 
-                              menuBackgroundColor: state.value.menuBackgroundColor, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              header: state.value!.header, 
+                              icon: state.value!.icon, 
+                              image: state.value!.image, 
+                              iconMenu: state.value!.iconMenu, 
+                              background: state.value!.background, 
+                              iconColor: state.value!.iconColor, 
+                              selectedIconColor: state.value!.selectedIconColor, 
+                              menuBackgroundColor: state.value!.menuBackgroundColor, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -487,7 +487,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -512,7 +512,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void setSelectionHeader(int val) {
+  void setSelectionHeader(int? val) {
     setState(() {
       _headerSelectedRadioTile = val;
     });

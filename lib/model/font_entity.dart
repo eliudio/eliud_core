@@ -21,25 +21,25 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class FontEntity {
-  final String appId;
-  final String fontName;
-  final double size;
-  final int weight;
-  final int style;
-  final int decoration;
-  final RgbEntity color;
+  final String? appId;
+  final String? fontName;
+  final double? size;
+  final int? weight;
+  final int? style;
+  final int? decoration;
+  final RgbEntity? color;
 
   FontEntity({this.appId, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, });
 
 
-  List<Object> get props => [appId, fontName, size, weight, style, decoration, color, ];
+  List<Object?> get props => [appId, fontName, size, weight, style, decoration, color, ];
 
   @override
   String toString() {
     return 'FontEntity{appId: $appId, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
-  static FontEntity fromMap(Map map) {
+  static FontEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var colorFromMap;
@@ -58,12 +58,12 @@ class FontEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> colorMap = color != null 
-        ? color.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? colorMap = color != null 
+        ? color!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (fontName != null) theDocument["fontName"] = fontName;
@@ -81,8 +81,8 @@ class FontEntity {
     return theDocument;
   }
 
-  static FontEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static FontEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

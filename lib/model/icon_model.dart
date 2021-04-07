@@ -34,15 +34,15 @@ import 'package:eliud_core/tools/random.dart';
 class IconModel {
 
   // The Unicode code point at which this icon is stored in the icon font. For example, for materialicon 'Home', use codePoint: 0xe88a. Find the codePoint from sources such as https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/icons.dart, https://github.com/google/material-design-icons/blob/master/iconfont/codepoints, https://material.io/resources/icons or ...
-  int codePoint;
+  int? codePoint;
 
   // The font family from which the glyph for the codePoint will be selected. For example MaterialIcons
-  String fontFamily;
+  String? fontFamily;
 
   IconModel({this.codePoint, this.fontFamily, })  {
   }
 
-  IconModel copyWith({int codePoint, String fontFamily, }) {
+  IconModel copyWith({int? codePoint, String? fontFamily, }) {
     return IconModel(codePoint: codePoint ?? this.codePoint, fontFamily: fontFamily ?? this.fontFamily, );
   }
 
@@ -62,14 +62,14 @@ class IconModel {
     return 'IconModel{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  IconEntity toEntity({String appId}) {
+  IconEntity toEntity({String? appId}) {
     return IconEntity(
           codePoint: (codePoint != null) ? codePoint : null, 
           fontFamily: (fontFamily != null) ? fontFamily : null, 
     );
   }
 
-  static IconModel fromEntity(IconEntity entity) {
+  static IconModel? fromEntity(IconEntity? entity) {
     if (entity == null) return null;
     return IconModel(
           codePoint: entity.codePoint, 
@@ -77,7 +77,7 @@ class IconModel {
     );
   }
 
-  static Future<IconModel> fromEntityPlus(IconEntity entity, { String appId}) async {
+  static Future<IconModel?> fromEntityPlus(IconEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return IconModel(

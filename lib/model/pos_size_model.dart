@@ -66,7 +66,7 @@ enum ClipType {
 }
 
 
-WidthTypePortrait toWidthTypePortrait(int index) {
+WidthTypePortrait toWidthTypePortrait(int? index) {
   switch (index) {
     case 0: return WidthTypePortrait.AbsoluteWidth;
     case 1: return WidthTypePortrait.PercentageWidth;
@@ -74,7 +74,7 @@ WidthTypePortrait toWidthTypePortrait(int index) {
   return WidthTypePortrait.Unknown;
 }
 
-WidthTypeLandscape toWidthTypeLandscape(int index) {
+WidthTypeLandscape toWidthTypeLandscape(int? index) {
   switch (index) {
     case 0: return WidthTypeLandscape.AbsoluteWidth;
     case 1: return WidthTypeLandscape.PercentageWidth;
@@ -82,7 +82,7 @@ WidthTypeLandscape toWidthTypeLandscape(int index) {
   return WidthTypeLandscape.Unknown;
 }
 
-HeightTypePortrait toHeightTypePortrait(int index) {
+HeightTypePortrait toHeightTypePortrait(int? index) {
   switch (index) {
     case 0: return HeightTypePortrait.AbsoluteHeight;
     case 1: return HeightTypePortrait.PercentageHeight;
@@ -90,7 +90,7 @@ HeightTypePortrait toHeightTypePortrait(int index) {
   return HeightTypePortrait.Unknown;
 }
 
-HeightTypeLandscape toHeightTypeLandscape(int index) {
+HeightTypeLandscape toHeightTypeLandscape(int? index) {
   switch (index) {
     case 0: return HeightTypeLandscape.AbsoluteHeight;
     case 1: return HeightTypeLandscape.PercentageHeight;
@@ -98,7 +98,7 @@ HeightTypeLandscape toHeightTypeLandscape(int index) {
   return HeightTypeLandscape.Unknown;
 }
 
-PortraitFitType toPortraitFitType(int index) {
+PortraitFitType toPortraitFitType(int? index) {
   switch (index) {
     case 0: return PortraitFitType.PortraitFitWidth;
     case 1: return PortraitFitType.PortraitFitHeight;
@@ -111,7 +111,7 @@ PortraitFitType toPortraitFitType(int index) {
   return PortraitFitType.Unknown;
 }
 
-LandscapeFitType toLandscapeFitType(int index) {
+LandscapeFitType toLandscapeFitType(int? index) {
   switch (index) {
     case 0: return LandscapeFitType.LandscapeFitWidth;
     case 1: return LandscapeFitType.LandscapeFitHeight;
@@ -124,7 +124,7 @@ LandscapeFitType toLandscapeFitType(int index) {
   return LandscapeFitType.Unknown;
 }
 
-PortraitAlignType toPortraitAlignType(int index) {
+PortraitAlignType toPortraitAlignType(int? index) {
   switch (index) {
     case 0: return PortraitAlignType.PortraitAlignTopLeft;
     case 1: return PortraitAlignType.PortraitAlignTopCenter;
@@ -139,7 +139,7 @@ PortraitAlignType toPortraitAlignType(int index) {
   return PortraitAlignType.Unknown;
 }
 
-LandscapeAlignType toLandscapeAlignType(int index) {
+LandscapeAlignType toLandscapeAlignType(int? index) {
   switch (index) {
     case 0: return LandscapeAlignType.LandscapeAlignTopLeft;
     case 1: return LandscapeAlignType.LandscapeAlignTopCenter;
@@ -154,7 +154,7 @@ LandscapeAlignType toLandscapeAlignType(int index) {
   return LandscapeAlignType.Unknown;
 }
 
-ClipType toClipType(int index) {
+ClipType toClipType(int? index) {
   switch (index) {
     case 0: return ClipType.NoClip;
     case 1: return ClipType.ClipOval;
@@ -170,46 +170,46 @@ ClipType toClipType(int index) {
 
 
 class PosSizeModel {
-  String documentID;
-  String appId;
-  String name;
-  double widthPortrait;
+  String? documentID;
+  String? appId;
+  String? name;
+  double? widthPortrait;
 
   // Is width an absolute value or a percentage of the device width?
-  WidthTypePortrait widthTypePortrait;
-  double widthLandscape;
+  WidthTypePortrait? widthTypePortrait;
+  double? widthLandscape;
 
   // Is width an absolute value or a percentage of the device width?
-  WidthTypeLandscape widthTypeLandscape;
-  double heightPortrait;
+  WidthTypeLandscape? widthTypeLandscape;
+  double? heightPortrait;
 
   // Is height an absolute value or a percentage of the device height?
-  HeightTypePortrait heightTypePortrait;
-  double heightLandscape;
+  HeightTypePortrait? heightTypePortrait;
+  double? heightLandscape;
 
   // Is height an absolute value or a percentage of the device height?
-  HeightTypeLandscape heightTypeLandscape;
+  HeightTypeLandscape? heightTypeLandscape;
 
   // How to fit the item within the box, when portrait
-  PortraitFitType fitPortrait;
+  PortraitFitType? fitPortrait;
 
   // How to fit the item within the box, when landscape
-  LandscapeFitType fitLandscape;
+  LandscapeFitType? fitLandscape;
 
   // Align when Portrait
-  PortraitAlignType alignTypePortrait;
+  PortraitAlignType? alignTypePortrait;
 
   // Align when Landscape
-  LandscapeAlignType alignTypeLandscape;
+  LandscapeAlignType? alignTypeLandscape;
 
   // Clip
-  ClipType clip;
+  ClipType? clip;
 
   PosSizeModel({this.documentID, this.appId, this.name, this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, })  {
     assert(documentID != null);
   }
 
-  PosSizeModel copyWith({String documentID, String appId, String name, double widthPortrait, WidthTypePortrait widthTypePortrait, double widthLandscape, WidthTypeLandscape widthTypeLandscape, double heightPortrait, HeightTypePortrait heightTypePortrait, double heightLandscape, HeightTypeLandscape heightTypeLandscape, PortraitFitType fitPortrait, LandscapeFitType fitLandscape, PortraitAlignType alignTypePortrait, LandscapeAlignType alignTypeLandscape, ClipType clip, }) {
+  PosSizeModel copyWith({String? documentID, String? appId, String? name, double? widthPortrait, WidthTypePortrait? widthTypePortrait, double? widthLandscape, WidthTypeLandscape? widthTypeLandscape, double? heightPortrait, HeightTypePortrait? heightTypePortrait, double? heightLandscape, HeightTypeLandscape? heightTypeLandscape, PortraitFitType? fitPortrait, LandscapeFitType? fitLandscape, PortraitAlignType? alignTypePortrait, LandscapeAlignType? alignTypeLandscape, ClipType? clip, }) {
     return PosSizeModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, widthPortrait: widthPortrait ?? this.widthPortrait, widthTypePortrait: widthTypePortrait ?? this.widthTypePortrait, widthLandscape: widthLandscape ?? this.widthLandscape, widthTypeLandscape: widthTypeLandscape ?? this.widthTypeLandscape, heightPortrait: heightPortrait ?? this.heightPortrait, heightTypePortrait: heightTypePortrait ?? this.heightTypePortrait, heightLandscape: heightLandscape ?? this.heightLandscape, heightTypeLandscape: heightTypeLandscape ?? this.heightTypeLandscape, fitPortrait: fitPortrait ?? this.fitPortrait, fitLandscape: fitLandscape ?? this.fitLandscape, alignTypePortrait: alignTypePortrait ?? this.alignTypePortrait, alignTypeLandscape: alignTypeLandscape ?? this.alignTypeLandscape, clip: clip ?? this.clip, );
   }
 
@@ -243,27 +243,27 @@ class PosSizeModel {
     return 'PosSizeModel{documentID: $documentID, appId: $appId, name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  PosSizeEntity toEntity({String appId}) {
+  PosSizeEntity toEntity({String? appId}) {
     return PosSizeEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           widthPortrait: (widthPortrait != null) ? widthPortrait : null, 
-          widthTypePortrait: (widthTypePortrait != null) ? widthTypePortrait.index : null, 
+          widthTypePortrait: (widthTypePortrait != null) ? widthTypePortrait!.index : null, 
           widthLandscape: (widthLandscape != null) ? widthLandscape : null, 
-          widthTypeLandscape: (widthTypeLandscape != null) ? widthTypeLandscape.index : null, 
+          widthTypeLandscape: (widthTypeLandscape != null) ? widthTypeLandscape!.index : null, 
           heightPortrait: (heightPortrait != null) ? heightPortrait : null, 
-          heightTypePortrait: (heightTypePortrait != null) ? heightTypePortrait.index : null, 
+          heightTypePortrait: (heightTypePortrait != null) ? heightTypePortrait!.index : null, 
           heightLandscape: (heightLandscape != null) ? heightLandscape : null, 
-          heightTypeLandscape: (heightTypeLandscape != null) ? heightTypeLandscape.index : null, 
-          fitPortrait: (fitPortrait != null) ? fitPortrait.index : null, 
-          fitLandscape: (fitLandscape != null) ? fitLandscape.index : null, 
-          alignTypePortrait: (alignTypePortrait != null) ? alignTypePortrait.index : null, 
-          alignTypeLandscape: (alignTypeLandscape != null) ? alignTypeLandscape.index : null, 
-          clip: (clip != null) ? clip.index : null, 
+          heightTypeLandscape: (heightTypeLandscape != null) ? heightTypeLandscape!.index : null, 
+          fitPortrait: (fitPortrait != null) ? fitPortrait!.index : null, 
+          fitLandscape: (fitLandscape != null) ? fitLandscape!.index : null, 
+          alignTypePortrait: (alignTypePortrait != null) ? alignTypePortrait!.index : null, 
+          alignTypeLandscape: (alignTypeLandscape != null) ? alignTypeLandscape!.index : null, 
+          clip: (clip != null) ? clip!.index : null, 
     );
   }
 
-  static PosSizeModel fromEntity(String documentID, PosSizeEntity entity) {
+  static PosSizeModel? fromEntity(String documentID, PosSizeEntity? entity) {
     if (entity == null) return null;
     return PosSizeModel(
           documentID: documentID, 
@@ -285,7 +285,7 @@ class PosSizeModel {
     );
   }
 
-  static Future<PosSizeModel> fromEntityPlus(String documentID, PosSizeEntity entity, { String appId}) async {
+  static Future<PosSizeModel?> fromEntityPlus(String documentID, PosSizeEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return PosSizeModel(

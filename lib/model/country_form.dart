@@ -58,10 +58,10 @@ import 'package:eliud_core/model/country_form_state.dart';
 
 class CountryForm extends StatelessWidget {
   FormAction formAction;
-  CountryModel value;
-  ActionModel submitAction;
+  CountryModel? value;
+  ActionModel? submitAction;
 
-  CountryForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  CountryForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class CountryForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Country", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Country", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Country", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Country", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class CountryForm extends StatelessWidget {
 
 
 class MyCountryForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyCountryForm({this.formAction, this.submitAction});
 
@@ -122,8 +122,8 @@ class MyCountryForm extends StatefulWidget {
 
 
 class _MyCountryFormState extends State<MyCountryForm> {
-  final FormAction formAction;
-  CountryFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late CountryFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _countryCodeController = TextEditingController();
@@ -151,16 +151,16 @@ class _MyCountryFormState extends State<MyCountryForm> {
       );
 
       if (state is CountryFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.countryCode != null)
-          _countryCodeController.text = state.value.countryCode.toString();
+        if (state.value!.countryCode != null)
+          _countryCodeController.text = state.value!.countryCode.toString();
         else
           _countryCodeController.text = "";
-        if (state.value.countryName != null)
-          _countryNameController.text = state.value.countryName.toString();
+        if (state.value!.countryName != null)
+          _countryNameController.text = state.value!.countryName.toString();
         else
           _countryNameController.text = "";
       }
@@ -171,7 +171,7 @@ class _MyCountryFormState extends State<MyCountryForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -242,21 +242,21 @@ class _MyCountryFormState extends State<MyCountryForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<CountryListBloc>(context).add(
-                          UpdateCountryList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              countryCode: state.value.countryCode, 
-                              countryName: state.value.countryName, 
+                          UpdateCountryList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              countryCode: state.value!.countryCode, 
+                              countryName: state.value!.countryName, 
                         )));
                       } else {
                         BlocProvider.of<CountryListBloc>(context).add(
                           AddCountryList(value: CountryModel(
-                              documentID: state.value.documentID, 
-                              countryCode: state.value.countryCode, 
-                              countryName: state.value.countryName, 
+                              documentID: state.value!.documentID, 
+                              countryCode: state.value!.countryCode, 
+                              countryName: state.value!.countryName, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

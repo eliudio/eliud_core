@@ -42,7 +42,7 @@ enum MaxCrossAxisExtentType {
 }
 
 
-GridViewScrollDirection toGridViewScrollDirection(int index) {
+GridViewScrollDirection toGridViewScrollDirection(int? index) {
   switch (index) {
     case 0: return GridViewScrollDirection.Horizontal;
     case 1: return GridViewScrollDirection.Vertical;
@@ -50,7 +50,7 @@ GridViewScrollDirection toGridViewScrollDirection(int index) {
   return GridViewScrollDirection.Unknown;
 }
 
-GridViewGridType toGridViewGridType(int index) {
+GridViewGridType toGridViewGridType(int? index) {
   switch (index) {
     case 0: return GridViewGridType.Count;
     case 1: return GridViewGridType.Extent;
@@ -58,7 +58,7 @@ GridViewGridType toGridViewGridType(int index) {
   return GridViewGridType.Unknown;
 }
 
-MaxCrossAxisExtentType toMaxCrossAxisExtentType(int index) {
+MaxCrossAxisExtentType toMaxCrossAxisExtentType(int? index) {
   switch (index) {
     case 0: return MaxCrossAxisExtentType.Absolute;
     case 1: return MaxCrossAxisExtentType.Relative;
@@ -68,34 +68,34 @@ MaxCrossAxisExtentType toMaxCrossAxisExtentType(int index) {
 
 
 class GridViewModel {
-  String documentID;
-  String appId;
-  String name;
-  GridViewScrollDirection scrollDirection;
-  GridViewGridType type;
+  String? documentID;
+  String? appId;
+  String? name;
+  GridViewScrollDirection? scrollDirection;
+  GridViewGridType? type;
 
   // Amount of components cross axis
-  int crossAxisCount;
+  int? crossAxisCount;
 
   // Is this absolute amount of pixels or % of full width of the screen
-  MaxCrossAxisExtentType maxCrossAxisExtentType;
+  MaxCrossAxisExtentType? maxCrossAxisExtentType;
 
   // Absolute Max Cross Axis Extent
-  double absoluteMaxCrossAxisExtent;
+  double? absoluteMaxCrossAxisExtent;
 
   // Relative Max Cross Axis Extent
-  double relativeMaxCrossAxisExtent;
-  double childAspectRatio;
-  double padding;
-  double mainAxisSpacing;
-  double crossAxisSpacing;
-  ConditionsSimpleModel conditions;
+  double? relativeMaxCrossAxisExtent;
+  double? childAspectRatio;
+  double? padding;
+  double? mainAxisSpacing;
+  double? crossAxisSpacing;
+  ConditionsSimpleModel? conditions;
 
   GridViewModel({this.documentID, this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
     assert(documentID != null);
   }
 
-  GridViewModel copyWith({String documentID, String appId, String name, GridViewScrollDirection scrollDirection, GridViewGridType type, int crossAxisCount, MaxCrossAxisExtentType maxCrossAxisExtentType, double absoluteMaxCrossAxisExtent, double relativeMaxCrossAxisExtent, double childAspectRatio, double padding, double mainAxisSpacing, double crossAxisSpacing, ConditionsSimpleModel conditions, }) {
+  GridViewModel copyWith({String? documentID, String? appId, String? name, GridViewScrollDirection? scrollDirection, GridViewGridType? type, int? crossAxisCount, MaxCrossAxisExtentType? maxCrossAxisExtentType, double? absoluteMaxCrossAxisExtent, double? relativeMaxCrossAxisExtent, double? childAspectRatio, double? padding, double? mainAxisSpacing, double? crossAxisSpacing, ConditionsSimpleModel? conditions, }) {
     return GridViewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, scrollDirection: scrollDirection ?? this.scrollDirection, type: type ?? this.type, crossAxisCount: crossAxisCount ?? this.crossAxisCount, maxCrossAxisExtentType: maxCrossAxisExtentType ?? this.maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: absoluteMaxCrossAxisExtent ?? this.absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: relativeMaxCrossAxisExtent ?? this.relativeMaxCrossAxisExtent, childAspectRatio: childAspectRatio ?? this.childAspectRatio, padding: padding ?? this.padding, mainAxisSpacing: mainAxisSpacing ?? this.mainAxisSpacing, crossAxisSpacing: crossAxisSpacing ?? this.crossAxisSpacing, conditions: conditions ?? this.conditions, );
   }
 
@@ -127,25 +127,25 @@ class GridViewModel {
     return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
-  GridViewEntity toEntity({String appId}) {
+  GridViewEntity toEntity({String? appId}) {
     return GridViewEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          scrollDirection: (scrollDirection != null) ? scrollDirection.index : null, 
-          type: (type != null) ? type.index : null, 
+          scrollDirection: (scrollDirection != null) ? scrollDirection!.index : null, 
+          type: (type != null) ? type!.index : null, 
           crossAxisCount: (crossAxisCount != null) ? crossAxisCount : null, 
-          maxCrossAxisExtentType: (maxCrossAxisExtentType != null) ? maxCrossAxisExtentType.index : null, 
+          maxCrossAxisExtentType: (maxCrossAxisExtentType != null) ? maxCrossAxisExtentType!.index : null, 
           absoluteMaxCrossAxisExtent: (absoluteMaxCrossAxisExtent != null) ? absoluteMaxCrossAxisExtent : null, 
           relativeMaxCrossAxisExtent: (relativeMaxCrossAxisExtent != null) ? relativeMaxCrossAxisExtent : null, 
           childAspectRatio: (childAspectRatio != null) ? childAspectRatio : null, 
           padding: (padding != null) ? padding : null, 
           mainAxisSpacing: (mainAxisSpacing != null) ? mainAxisSpacing : null, 
           crossAxisSpacing: (crossAxisSpacing != null) ? crossAxisSpacing : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static GridViewModel fromEntity(String documentID, GridViewEntity entity) {
+  static GridViewModel? fromEntity(String documentID, GridViewEntity? entity) {
     if (entity == null) return null;
     return GridViewModel(
           documentID: documentID, 
@@ -166,7 +166,7 @@ class GridViewModel {
     );
   }
 
-  static Future<GridViewModel> fromEntityPlus(String documentID, GridViewEntity entity, { String appId}) async {
+  static Future<GridViewModel?> fromEntityPlus(String documentID, GridViewEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return GridViewModel(

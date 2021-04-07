@@ -20,19 +20,19 @@ abstract class MemberDashboardListState extends Equatable {
   const MemberDashboardListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class MemberDashboardListLoading extends MemberDashboardListState {}
 
 class MemberDashboardListLoaded extends MemberDashboardListState {
-  final List<MemberDashboardModel> values;
-  final bool mightHaveMore;
+  final List<MemberDashboardModel?>? values;
+  final bool? mightHaveMore;
 
   const MemberDashboardListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'MemberDashboardListLoaded { values: $values }';

@@ -27,40 +27,40 @@ const _shadowLimit = 5;
 
 class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   final ShadowRepository _shadowRepository;
-  StreamSubscription _shadowsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _shadowsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  ShadowListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required ShadowRepository shadowRepository})
+  ShadowListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShadowRepository shadowRepository})
       : assert(shadowRepository != null),
         _shadowRepository = shadowRepository,
         super(ShadowListLoading());
 
   Stream<ShadowListState> _mapLoadShadowListToState() async* {
-    int amountNow =  (state is ShadowListLoaded) ? (state as ShadowListLoaded).values.length : 0;
+    int amountNow =  (state is ShadowListLoaded) ? (state as ShadowListLoaded).values!.length : 0;
     _shadowsListSubscription?.cancel();
     _shadowsListSubscription = _shadowRepository.listen(
           (list) => add(ShadowListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _shadowLimit : null
+      limit: ((paged != null) && paged!) ? pages * _shadowLimit : null
     );
   }
 
   Stream<ShadowListState> _mapLoadShadowListWithDetailsToState() async* {
-    int amountNow =  (state is ShadowListLoaded) ? (state as ShadowListLoaded).values.length : 0;
+    int amountNow =  (state is ShadowListLoaded) ? (state as ShadowListLoaded).values!.length : 0;
     _shadowsListSubscription?.cancel();
     _shadowsListSubscription = _shadowRepository.listenWithDetails(
             (list) => add(ShadowListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _shadowLimit : null
+        limit: ((paged != null) && paged!) ? pages * _shadowLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   @override
   Stream<ShadowListState> mapEventToState(ShadowListEvent event) async* {
     if (event is LoadShadowList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadShadowListToState();
       } else {
         yield* _mapLoadShadowListWithDetailsToState();

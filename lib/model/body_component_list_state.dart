@@ -20,19 +20,19 @@ abstract class BodyComponentListState extends Equatable {
   const BodyComponentListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class BodyComponentListLoading extends BodyComponentListState {}
 
 class BodyComponentListLoaded extends BodyComponentListState {
-  final List<BodyComponentModel> values;
-  final bool mightHaveMore;
+  final List<BodyComponentModel>? values;
+  final bool? mightHaveMore;
 
   const BodyComponentListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'BodyComponentListLoaded { values: $values }';

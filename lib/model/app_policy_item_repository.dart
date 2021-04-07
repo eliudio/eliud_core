@@ -33,18 +33,18 @@ typedef AppPolicyItemModelTrigger(List<AppPolicyItemModel> list);
 typedef AppPolicyItemChanged(AppPolicyItemModel value);
 
 abstract class AppPolicyItemRepository {
-  Future<AppPolicyItemModel> add(AppPolicyItemModel value);
-  Future<void> delete(AppPolicyItemModel value);
-  Future<AppPolicyItemModel> get(String id, { Function(Exception) onError });
-  Future<AppPolicyItemModel> update(AppPolicyItemModel value);
+  Future<AppPolicyItemModel> add(AppPolicyItemModel? value);
+  Future<void> delete(AppPolicyItemModel? value);
+  Future<AppPolicyItemModel> get(String id, { Function(Exception)? onError });
+  Future<AppPolicyItemModel> update(AppPolicyItemModel? value);
 
-  Stream<List<AppPolicyItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Stream<List<AppPolicyItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<AppPolicyItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<AppPolicyItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
+  Stream<List<AppPolicyItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<AppPolicyItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<AppPolicyItemModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<AppPolicyItemModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<AppPolicyItemModel>> listen(AppPolicyItemModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<List<AppPolicyItemModel>> listenWithDetails(AppPolicyItemModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
+  StreamSubscription<List<AppPolicyItemModel?>?> listen(AppPolicyItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<AppPolicyItemModel?>?> listenWithDetails(AppPolicyItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<AppPolicyItemModel> listenTo(String documentId, AppPolicyItemChanged changed);
   void flush();
   

@@ -21,7 +21,7 @@ abstract class MemberComponentEvent extends Equatable {
 }
 
 class FetchMemberComponent extends MemberComponentEvent {
-  final String id;
+  final String? id;
 
   FetchMemberComponent({ this.id });
 }

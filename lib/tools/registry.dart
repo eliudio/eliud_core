@@ -29,30 +29,30 @@ class Registry {
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
 
-  List<String> allInternalComponents(String pluginName) =>
+  List<String>? allInternalComponents(String pluginName) =>
       _allInternalComponents[pluginName];
 
   void addInternalComponents(String pluginName, List<String> list) {
     _allInternalComponents[pluginName] = list;
   }
 
-  final Map<String, ComponentConstructor> _registryMap = HashMap();
+  final Map<String?, ComponentConstructor?> _registryMap = HashMap();
 
-  static Registry _instance;
+  static Registry? _instance;
 
-  Map<String, ComponentConstructor> registryMap() => _registryMap;
+  Map<String?, ComponentConstructor?> registryMap() => _registryMap;
 
   Registry._internal() {
   }
 
-  static Registry registry() {
+  static Registry? registry() {
     _instance ??= Registry._internal();
 
     return _instance;
   }
 
-  Widget page({String id, Map<String, Object> parameters}) {
-    PageComponent returnThis;
+  Widget? page({String? id, Map<String, Object>? parameters}) {
+    PageComponent? returnThis;
     try {
       returnThis = PageComponent(
         navigatorKey: navigatorKey,
@@ -65,9 +65,9 @@ class Registry {
   }
 
   Future<void> openDialog(BuildContext context,
-      {String id, Map<String, Object> parameters}) async {
+      {String? id, Map<String, Object>? parameters}) async {
     var appId = AccessBloc.appId(context);
-    var dialog = await dialogRepository(appId: appId).get(id);
+    var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
       DialogStatefulWidgetHelper.openIt(context, DialogComponent(dialog: dialog, parameters: parameters));
     } else {
@@ -77,8 +77,8 @@ class Registry {
 
   void snackbar(
       String text, {
-        String snackbarActionLabel,
-        Function() action,
+        String? snackbarActionLabel,
+        Function()? action,
       }) {
     final snackBar = SnackBar(
       content: Text(text),
@@ -88,11 +88,11 @@ class Registry {
             if (action != null) action();
           }),
     );
-    rootScaffoldMessengerKey.currentState.showSnackBar(snackBar);
+    rootScaffoldMessengerKey.currentState!.showSnackBar(snackBar);
   }
 
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-  Widget application({String id, bool asPlaystore}) {
+  Widget application({String? id, bool? asPlaystore}) {
     print("application");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
     print("application 2");
@@ -103,7 +103,7 @@ class Registry {
         .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
     print("application 4");
     blocProviders
-        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
+        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc) as BlocProvider<BlocBase<Object>>);
     print("application 5");
     GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
@@ -130,7 +130,7 @@ class Registry {
                 } else {
                   var app = accessState.app;
                   var router = eliudrouter.Router(AccessBloc.getBloc(context));
-                  ThemeData darkTheme;
+                  ThemeData? darkTheme;
                   if ((app.darkOrLight != null) &&
                       (app.darkOrLight == DarkOrLight.Dark)) {
                     darkTheme = ThemeData.dark();
@@ -169,9 +169,8 @@ class Registry {
         }));
   }
 
-  Widget component(
-      {String componentName, String id, Map<String, Object> parameters}) {
-    Widget returnThis;
+  Widget component(String componentName, String id, {Map<String, Object>? parameters}) {
+    Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
@@ -184,14 +183,10 @@ class Registry {
   }
 
   Widget _missingComponent(String componentName) {
-    try {
-      return Text('Missing component with name $componentName');
-    } catch (_) {
-      return null;
-    }
+    return Text('Missing component with name $componentName');
   }
 
-  Widget _missingPage() {
+  Widget? _missingPage() {
     try {
       return Text('Page not available');
     } catch (_) {
@@ -200,7 +195,7 @@ class Registry {
   }
 
   void register(
-      {String componentName, ComponentConstructor componentConstructor}) {
+      {String? componentName, ComponentConstructor? componentConstructor}) {
     _registryMap[componentName] = componentConstructor;
   }
 
@@ -208,7 +203,7 @@ class Registry {
     componentDropDownSupporters[componentId] = support;
   }
 
-  ComponentDropDown getSupportingDropDown(String componentId) {
+  ComponentDropDown? getSupportingDropDown(String componentId) {
     return componentDropDownSupporters[componentId];
   }
 }

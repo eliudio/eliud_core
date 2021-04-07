@@ -27,13 +27,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
-  Widget createNew({String id, Map<String, Object> parameters}) {
+  Widget createNew({String? id, Map<String, Object>? parameters}) {
     return MemberDashboard(id: id);
   }
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  MemberDashboard({String id}) : super(memberDashboardID: id);
+  MemberDashboard({String? id}) : super(memberDashboardID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
@@ -59,19 +59,19 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   @override
-  Widget yourWidget(BuildContext context, MemberDashboardModel dashboardModel) {
+  Widget yourWidget(BuildContext context, MemberDashboardModel? dashboardModel) {
     var app = AccessBloc.app(context);
     var state = AccessBloc.getState(context);
     var member = AccessBloc.memberFor(state);
     if (member != null) {
       var welcomeText = 'Welcome ' +
-          member.name +
+          member.name! +
           '. Use the below links to maintain your account with us.';
       var userPhotoUrl = member.photoURL;
       Widget profilePhoto;
       if (userPhotoUrl != null) {
         profilePhoto = Align(alignment: Alignment.topRight, child: Container(
-            width: 30, height: 30, child: Image.network(member.photoURL)));
+            width: 30, height: 30, child: Image.network(member.photoURL!)));
       } else {
         profilePhoto = Container();
       }
@@ -83,7 +83,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             Spacer(),
             Text(welcomeText,
                 textAlign: TextAlign.center,
-                style: FontTools.textStyle(app.fontText)),
+                style: FontTools.textStyle(app!.fontText)),
             Spacer(),
             profilePhoto,
           ]),
@@ -95,9 +95,9 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             border: TableBorder.symmetric(inside: BorderSide(color: RgbHelper.color(rgbo: app.dividerColor))),
             children: [
 //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
-              getRow(app, 'Update profile', dashboardModel.updateProfileText, () => _updateProfile(context, app, member)),
-              getRow(app, 'Retrieve data', dashboardModel.retrieveDataText, () => _retrieveData(context, dashboardModel, app, member)),
-              getRow(app, 'Delete account', dashboardModel.deleteDataText, () => _deleteAccount(context, dashboardModel, app, member)),
+              getRow(app, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),
+              getRow(app, 'Retrieve data', dashboardModel.retrieveDataText!, () => _retrieveData(context, dashboardModel, app, member)),
+              getRow(app, 'Delete account', dashboardModel.deleteDataText!, () => _deleteAccount(context, dashboardModel, app, member)),
             ],
           )
         ],
@@ -107,13 +107,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
     }
   }
 
-  void _updateProfile(BuildContext context, AppModel app, MemberModel member) async {
+  void _updateProfile(BuildContext context, AppModel? app, MemberModel member) async {
     await Navigator.of(context).push(pageRouteBuilder(app,
         page: MultiBlocProvider(
             providers: [
               BlocProvider<MemberListBloc>(
                 create: (context) =>
-                MemberListBloc(memberRepository: memberRepository(),
+                MemberListBloc(memberRepository: memberRepository()!,
                 )
                   ..add(LoadMemberList()),
               )
@@ -123,26 +123,26 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 formAction: FormAction.UpdateAction))));
   }
 
-  void _retrieveData(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member) {
+  void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
-          message: 'You are about to send a request to gather all your data and send this as an email to your registered email address: ' + member.email + '. Please confirm',
+          message: 'You are about to send a request to gather all your data and send this as an email to your registered email address: ' + member.email! + '. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            await GDPR.dumpMemberData(app.documentID, dashboardModel.retrieveDataEmailSubject, app.email, AccessBloc.getState(context).getMemberCollectionInfo());
+            await GDPR.dumpMemberData(app!.documentID, dashboardModel!.retrieveDataEmailSubject, app.email, AccessBloc.getState(context).getMemberCollectionInfo()!);
             DialogStatefulWidgetHelper.openIt(
                 context,
                 WidgetDialog(
                     title: 'Photo',
-                    widget: Text('You will receive an email at your registered email address ' + member.email + ' with the data you have with us.'),
+                    widget: Text('You will receive an email at your registered email address ' + member.email! + ' with the data you have with us.'),
                     yesFunction: () => Navigator.of(context).pop()));
           },
           noFunction: () => Navigator.pop(context),
         ));
   }
 
-  void _deleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member) {
+  void _deleteAccount(BuildContext context, MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
@@ -156,7 +156,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         ));
   }
 
-  void _confirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member, List<MemberCollectionInfo> memberCollectionInfo) {
+  void _confirmDeleteAccount(BuildContext context, MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member, List<MemberCollectionInfo>? memberCollectionInfo) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
@@ -170,7 +170,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         ));
   }
 
-  void _reConfirmDeleteAccount(BuildContext context, MemberDashboardModel dashboardModel, AppModel app, MemberModel member, List<MemberCollectionInfo> memberCollectionInfo) {
+  void _reConfirmDeleteAccount(BuildContext context, MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member, List<MemberCollectionInfo>? memberCollectionInfo) {
     DialogStatefulWidgetHelper.openIt(
         context,
         YesNoDialog.confirmDialog(
@@ -178,7 +178,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           message: 'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
           yesFunction: () async {
             Navigator.pop(context);
-            await GDPR.deleteMemberData(member, app.documentID, dashboardModel.deleteDataEmailSubject, app.email, dashboardModel.deleteDataEmailMessage, memberCollectionInfo);
+            await GDPR.deleteMemberData(member, app!.documentID, dashboardModel!.deleteDataEmailSubject, app.email, dashboardModel.deleteDataEmailMessage, memberCollectionInfo!);
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
           },
           noFunction: () => Navigator.pop(context),
@@ -186,7 +186,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   @override
-  MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
+  MemberDashboardRepository? getMemberDashboardRepository(BuildContext context) {
     return memberDashboardRepository(appId: AccessBloc.appId(context));
   }
 }

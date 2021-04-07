@@ -23,7 +23,7 @@ class FileTools {
   }
 
   static var httpClient = new HttpClient();
-  static Future<File> downloadFile(String url, String fileName) async {
+  static Future<File?> downloadFile(String url, String fileName) async {
     try {
       return await httpClient.getUrl(Uri.parse(url)).then((value) async {
         return value.close().then((response) async {

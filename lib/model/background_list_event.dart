@@ -19,7 +19,7 @@ import 'package:eliud_core/model/background_model.dart';
 abstract class BackgroundListEvent extends Equatable {
   const BackgroundListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadBackgroundList extends BackgroundListEvent {}
@@ -27,49 +27,49 @@ class LoadBackgroundList extends BackgroundListEvent {}
 class NewPage extends BackgroundListEvent {}
 
 class AddBackgroundList extends BackgroundListEvent {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   const AddBackgroundList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddBackgroundList{ value: $value }';
 }
 
 class UpdateBackgroundList extends BackgroundListEvent {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   const UpdateBackgroundList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateBackgroundList{ value: $value }';
 }
 
 class DeleteBackgroundList extends BackgroundListEvent {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   const DeleteBackgroundList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteBackgroundList{ value: $value }';
 }
 
 class BackgroundListUpdated extends BackgroundListEvent {
-  final List<BackgroundModel> value;
-  final bool mightHaveMore;
+  final List<BackgroundModel?>? value;
+  final bool? mightHaveMore;
 
   const BackgroundListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'BackgroundListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

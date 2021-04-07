@@ -27,40 +27,40 @@ const _homeMenuLimit = 5;
 
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final HomeMenuRepository _homeMenuRepository;
-  StreamSubscription _homeMenusListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _homeMenusListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required HomeMenuRepository homeMenuRepository})
+  HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository})
       : assert(homeMenuRepository != null),
         _homeMenuRepository = homeMenuRepository,
         super(HomeMenuListLoading());
 
   Stream<HomeMenuListState> _mapLoadHomeMenuListToState() async* {
-    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values.length : 0;
+    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listen(
           (list) => add(HomeMenuListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _homeMenuLimit : null
+      limit: ((paged != null) && paged!) ? pages * _homeMenuLimit : null
     );
   }
 
   Stream<HomeMenuListState> _mapLoadHomeMenuListWithDetailsToState() async* {
-    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values.length : 0;
+    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listenWithDetails(
             (list) => add(HomeMenuListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _homeMenuLimit : null
+        limit: ((paged != null) && paged!) ? pages * _homeMenuLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   @override
   Stream<HomeMenuListState> mapEventToState(HomeMenuListEvent event) async* {
     if (event is LoadHomeMenuList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadHomeMenuListToState();
       } else {
         yield* _mapLoadHomeMenuListWithDetailsToState();

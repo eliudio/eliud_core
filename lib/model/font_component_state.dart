@@ -20,13 +20,13 @@ abstract class FontComponentState extends Equatable {
   const FontComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FontComponentUninitialized extends FontComponentState {}
 
 class FontComponentError extends FontComponentState {
-  final String message;
+  final String? message;
   FontComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class FontComponentPermissionDenied extends FontComponentState {
 }
 
 class FontComponentLoaded extends FontComponentState {
-  final FontModel value;
+  final FontModel? value;
 
   const FontComponentLoaded({ this.value });
 
-  FontComponentLoaded copyWith({ FontModel copyThis }) {
+  FontComponentLoaded copyWith({ FontModel? copyThis }) {
     return FontComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'FontComponentLoaded { value: $value }';

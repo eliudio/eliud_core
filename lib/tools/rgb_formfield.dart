@@ -10,7 +10,7 @@ typedef ChangeRgbField(RgbModel value);
 
 class RgbField extends StatefulWidget {
   final String label;
-  final RgbModel rgbModel;
+  final RgbModel? rgbModel;
   final ChangeRgbField trigger;
 
   RgbField(this.label, this.rgbModel, this.trigger);
@@ -22,13 +22,13 @@ class RgbField extends StatefulWidget {
 }
 
 class RgbFieldState extends State<RgbField> {
-  Color color;
+  Color? color;
 
   @override
   void initState() {
     super.initState();
     if (widget.rgbModel != null)
-      color = Color.fromRGBO(widget.rgbModel.r, widget.rgbModel.g, widget.rgbModel.b, widget.rgbModel.opacity);
+      color = Color.fromRGBO(widget.rgbModel!.r!, widget.rgbModel!.g!, widget.rgbModel!.b!, widget.rgbModel!.opacity!);
     else
       color = Color.fromRGBO(255, 0, 0, 1.0);
   }
@@ -36,7 +36,7 @@ class RgbFieldState extends State<RgbField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    List<Widget> widgets = List();
+    var widgets = <Widget>[];
     if (accessState.memberIsOwner()) {
       widgets.add(ExpandablePanel(
         header: Text(widget.label),
@@ -47,7 +47,7 @@ class RgbFieldState extends State<RgbField> {
               color: color,
             )),
         expanded: ColorPicker(
-          pickerColor: color,
+          pickerColor: color!,
           onColorChanged: changeColor,
           //enableLabel: true,
           pickerAreaHeightPercent: 0.8,

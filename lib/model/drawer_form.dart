@@ -58,10 +58,10 @@ import 'package:eliud_core/model/drawer_form_state.dart';
 
 class DrawerForm extends StatelessWidget {
   FormAction formAction;
-  DrawerModel value;
-  ActionModel submitAction;
+  DrawerModel? value;
+  ActionModel? submitAction;
 
-  DrawerForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  DrawerForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class DrawerForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class DrawerForm extends StatelessWidget {
 
 
 class MyDrawerForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyDrawerForm({this.formAction, this.submitAction});
 
@@ -122,18 +122,18 @@ class MyDrawerForm extends StatefulWidget {
 
 
 class _MyDrawerFormState extends State<MyDrawerForm> {
-  final FormAction formAction;
-  DrawerFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late DrawerFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String _background;
+  String? _background;
   final TextEditingController _headerTextController = TextEditingController();
   final TextEditingController _secondHeaderTextController = TextEditingController();
   final TextEditingController _headerHeightController = TextEditingController();
-  String _headerBackground;
-  String _menu;
+  String? _headerBackground;
+  String? _menu;
 
 
   _MyDrawerFormState(this.formAction);
@@ -160,56 +160,56 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
       );
 
       if (state is DrawerFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.background != null)
-          _background= state.value.background.documentID;
+        if (state.value!.background != null)
+          _background= state.value!.background!.documentID;
         else
           _background= "";
-        if (state.value.headerText != null)
-          _headerTextController.text = state.value.headerText.toString();
+        if (state.value!.headerText != null)
+          _headerTextController.text = state.value!.headerText.toString();
         else
           _headerTextController.text = "";
-        if (state.value.secondHeaderText != null)
-          _secondHeaderTextController.text = state.value.secondHeaderText.toString();
+        if (state.value!.secondHeaderText != null)
+          _secondHeaderTextController.text = state.value!.secondHeaderText.toString();
         else
           _secondHeaderTextController.text = "";
-        if (state.value.headerHeight != null)
-          _headerHeightController.text = state.value.headerHeight.toString();
+        if (state.value!.headerHeight != null)
+          _headerHeightController.text = state.value!.headerHeight.toString();
         else
           _headerHeightController.text = "";
-        if (state.value.headerBackground != null)
-          _headerBackground= state.value.headerBackground.documentID;
+        if (state.value!.headerBackground != null)
+          _headerBackground= state.value!.headerBackground!.documentID;
         else
           _headerBackground= "";
-        if (state.value.menu != null)
-          _menu= state.value.menu.documentID;
+        if (state.value!.menu != null)
+          _menu= state.value!.menu!.documentID;
         else
           _menu= "";
       }
       if (state is DrawerFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
-                RgbField("Popup Menu Background Color", state.value.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
+                RgbField("Popup Menu Background Color", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
           );
 
 
@@ -410,35 +410,35 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<DrawerListBloc>(context).add(
-                          UpdateDrawerList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              background: state.value.background, 
-                              headerText: state.value.headerText, 
-                              secondHeaderText: state.value.secondHeaderText, 
-                              headerHeight: state.value.headerHeight, 
-                              popupMenuBackgroundColor: state.value.popupMenuBackgroundColor, 
-                              headerBackground: state.value.headerBackground, 
-                              menu: state.value.menu, 
+                          UpdateDrawerList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              background: state.value!.background, 
+                              headerText: state.value!.headerText, 
+                              secondHeaderText: state.value!.secondHeaderText, 
+                              headerHeight: state.value!.headerHeight, 
+                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
+                              headerBackground: state.value!.headerBackground, 
+                              menu: state.value!.menu, 
                         )));
                       } else {
                         BlocProvider.of<DrawerListBloc>(context).add(
                           AddDrawerList(value: DrawerModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              background: state.value.background, 
-                              headerText: state.value.headerText, 
-                              secondHeaderText: state.value.secondHeaderText, 
-                              headerHeight: state.value.headerHeight, 
-                              popupMenuBackgroundColor: state.value.popupMenuBackgroundColor, 
-                              headerBackground: state.value.headerBackground, 
-                              menu: state.value.menu, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              background: state.value!.background, 
+                              headerText: state.value!.headerText, 
+                              secondHeaderText: state.value!.secondHeaderText, 
+                              headerHeight: state.value!.headerHeight, 
+                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
+                              headerBackground: state.value!.headerBackground, 
+                              menu: state.value!.menu, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -458,7 +458,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

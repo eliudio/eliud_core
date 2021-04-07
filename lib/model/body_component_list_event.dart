@@ -19,7 +19,7 @@ import 'package:eliud_core/model/body_component_model.dart';
 abstract class BodyComponentListEvent extends Equatable {
   const BodyComponentListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadBodyComponentList extends BodyComponentListEvent {}
@@ -27,49 +27,49 @@ class LoadBodyComponentList extends BodyComponentListEvent {}
 class NewPage extends BodyComponentListEvent {}
 
 class AddBodyComponentList extends BodyComponentListEvent {
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   const AddBodyComponentList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddBodyComponentList{ value: $value }';
 }
 
 class UpdateBodyComponentList extends BodyComponentListEvent {
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   const UpdateBodyComponentList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateBodyComponentList{ value: $value }';
 }
 
 class DeleteBodyComponentList extends BodyComponentListEvent {
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   const DeleteBodyComponentList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteBodyComponentList{ value: $value }';
 }
 
 class BodyComponentListUpdated extends BodyComponentListEvent {
-  final List<BodyComponentModel> value;
-  final bool mightHaveMore;
+  final List<BodyComponentModel>? value;
+  final bool? mightHaveMore;
 
   const BodyComponentListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'BodyComponentListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

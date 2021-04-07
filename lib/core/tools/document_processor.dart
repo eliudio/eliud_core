@@ -74,7 +74,7 @@ class DocumentParameterProcessor {
 
   DocumentParameterProcessor(this.context, this.state);
 
-  Param param(String parseMe) {
+  Param? param(String parseMe) {
     var pos = parseMe.indexOf('\${');
     if (pos > 0) {
       var pos2 = parseMe.indexOf('}', pos);
@@ -93,11 +93,16 @@ class DocumentParameterProcessor {
     return null;
   }
 
-  String userName()  {
+  String? userName()  {
     try {
       var theState = state;
       if (theState is LoggedIn) {
-        return theState.member.name;
+        var member = theState.member;
+        if (member == null) {
+          return 'Error. Member logged in without object';
+        } else {
+          return member.name;
+        }
       }
     } catch (_) {
     }
@@ -132,7 +137,7 @@ class DocumentParameterProcessor {
         }
       } else if (p is SingleValue) {
         if (p.value() == USER_NAME) {
-          var usr = userName();
+          var usr = userName()!;
           myString = p.replaceParamInStringWithString(myString, usr);
         } else if (p.value() == USER_GROUP) {
           var usr = userGroup();

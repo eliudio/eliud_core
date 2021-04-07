@@ -30,7 +30,7 @@ abstract class AppPolicyFormEvent extends Equatable {
   const AppPolicyFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewAppPolicyFormEvent extends AppPolicyFormEvent {
@@ -38,66 +38,66 @@ class InitialiseNewAppPolicyFormEvent extends AppPolicyFormEvent {
 
 
 class InitialiseAppPolicyFormEvent extends AppPolicyFormEvent {
-  final AppPolicyModel value;
+  final AppPolicyModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppPolicyFormEvent({this.value});
 }
 
 class InitialiseAppPolicyFormNoLoadEvent extends AppPolicyFormEvent {
-  final AppPolicyModel value;
+  final AppPolicyModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppPolicyFormNoLoadEvent({this.value});
 }
 
 class ChangedAppPolicyDocumentID extends AppPolicyFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyDocumentID{ value: $value }';
 }
 
 class ChangedAppPolicyAppId extends AppPolicyFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyAppId{ value: $value }';
 }
 
 class ChangedAppPolicyComments extends AppPolicyFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyComments({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyComments{ value: $value }';
 }
 
 class ChangedAppPolicyPolicies extends AppPolicyFormEvent {
-  final List<AppPolicyItemModel> value;
+  final List<AppPolicyItemModel>? value;
 
   ChangedAppPolicyPolicies({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyPolicies{ value: $value }';

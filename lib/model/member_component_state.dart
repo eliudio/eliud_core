@@ -20,13 +20,13 @@ abstract class MemberComponentState extends Equatable {
   const MemberComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class MemberComponentUninitialized extends MemberComponentState {}
 
 class MemberComponentError extends MemberComponentState {
-  final String message;
+  final String? message;
   MemberComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class MemberComponentPermissionDenied extends MemberComponentState {
 }
 
 class MemberComponentLoaded extends MemberComponentState {
-  final MemberModel value;
+  final MemberModel? value;
 
   const MemberComponentLoaded({ this.value });
 
-  MemberComponentLoaded copyWith({ MemberModel copyThis }) {
+  MemberComponentLoaded copyWith({ MemberModel? copyThis }) {
     return MemberComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'MemberComponentLoaded { value: $value }';

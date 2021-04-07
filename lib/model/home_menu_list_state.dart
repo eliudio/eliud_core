@@ -20,19 +20,19 @@ abstract class HomeMenuListState extends Equatable {
   const HomeMenuListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class HomeMenuListLoading extends HomeMenuListState {}
 
 class HomeMenuListLoaded extends HomeMenuListState {
-  final List<HomeMenuModel> values;
-  final bool mightHaveMore;
+  final List<HomeMenuModel?>? values;
+  final bool? mightHaveMore;
 
   const HomeMenuListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'HomeMenuListLoaded { values: $values }';

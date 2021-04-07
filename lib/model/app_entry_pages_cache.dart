@@ -31,25 +31,25 @@ import 'package:eliud_core/model/entity_export.dart';
 class AppEntryPagesCache implements AppEntryPagesRepository {
 
   final AppEntryPagesRepository reference;
-  final Map<String, AppEntryPagesModel> fullCache = Map();
+  final Map<String?, AppEntryPagesModel> fullCache = Map();
 
   AppEntryPagesCache(this.reference);
 
-  Future<AppEntryPagesModel> add(AppEntryPagesModel value) {
+  Future<AppEntryPagesModel> add(AppEntryPagesModel? value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppEntryPagesModel value){
-    fullCache.remove(value.documentID);
+  Future<void> delete(AppEntryPagesModel? value){
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<AppEntryPagesModel> get(String id, {Function(Exception) onError}) {
-    AppEntryPagesModel value = fullCache[id];
+  Future<AppEntryPagesModel> get(String id, {Function(Exception)? onError}) {
+    AppEntryPagesModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
@@ -57,30 +57,30 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     });
   }
 
-  Future<AppEntryPagesModel> update(AppEntryPagesModel value) {
+  Future<AppEntryPagesModel> update(AppEntryPagesModel? value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<AppEntryPagesModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<AppEntryPagesModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<AppEntryPagesModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<AppEntryPagesModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<AppEntryPagesModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<AppEntryPagesModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<AppEntryPagesModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<AppEntryPagesModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -108,12 +108,12 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
   }
 
   @override
-  StreamSubscription<List<AppEntryPagesModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppEntryPagesModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppEntryPagesModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -124,10 +124,10 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
 
   static Future<AppEntryPagesModel> refreshRelations(AppEntryPagesModel model) async {
 
-    PageModel entryPageHolder;
+    PageModel? entryPageHolder;
     if (model.entryPage != null) {
       try {
-        await pageRepository(appId: model.entryPage.appId).get(model.entryPage.documentID).then((val) {
+        await pageRepository(appId: model.entryPage!.appId)!.get(model.entryPage!.documentID).then((val) {
           entryPageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

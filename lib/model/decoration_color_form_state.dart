@@ -22,7 +22,7 @@ abstract class DecorationColorFormState extends Equatable {
   const DecorationColorFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class DecorationColorFormUninitialized extends DecorationColorFormState {
 
 // DecorationColorModel has been initialised and hence DecorationColorModel is available
 class DecorationColorFormInitialized extends DecorationColorFormState {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const DecorationColorFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class DecorationColorFormError extends DecorationColorFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const DecorationColorFormError({this.message, DecorationColorModel value }) : super(value: value);
+  const DecorationColorFormError({this.message, DecorationColorModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class DecorationColorFormError extends DecorationColorFormInitialized {
   }
 }
 class DocumentIDDecorationColorFormError extends DecorationColorFormError { 
-  const DocumentIDDecorationColorFormError({ String message, DecorationColorModel value }): super(message: message, value: value);
+  const DocumentIDDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDDecorationColorFormError extends DecorationColorFormError {
 
 
 class ColorDecorationColorFormError extends DecorationColorFormError { 
-  const ColorDecorationColorFormError({ String message, DecorationColorModel value }): super(message: message, value: value);
+  const ColorDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class ColorDecorationColorFormError extends DecorationColorFormError {
 
 
 class StopDecorationColorFormError extends DecorationColorFormError { 
-  const StopDecorationColorFormError({ String message, DecorationColorModel value }): super(message: message, value: value);
+  const StopDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class StopDecorationColorFormError extends DecorationColorFormError {
 
 
 class DecorationColorFormLoaded extends DecorationColorFormInitialized { 
-  const DecorationColorFormLoaded({ DecorationColorModel value }): super(value: value);
+  const DecorationColorFormLoaded({ DecorationColorModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -127,10 +127,10 @@ class DecorationColorFormLoaded extends DecorationColorFormInitialized {
 
 
 class SubmittableDecorationColorForm extends DecorationColorFormInitialized { 
-  const SubmittableDecorationColorForm({ DecorationColorModel value }): super(value: value);
+  const SubmittableDecorationColorForm({ DecorationColorModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

@@ -58,10 +58,10 @@ import 'package:eliud_core/model/app_policy_form_state.dart';
 
 class AppPolicyForm extends StatelessWidget {
   FormAction formAction;
-  AppPolicyModel value;
-  ActionModel submitAction;
+  AppPolicyModel? value;
+  ActionModel? submitAction;
 
-  AppPolicyForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  AppPolicyForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class AppPolicyForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update AppPolicy", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update AppPolicy", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add AppPolicy", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add AppPolicy", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class AppPolicyForm extends StatelessWidget {
 
 
 class MyAppPolicyForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyAppPolicyForm({this.formAction, this.submitAction});
 
@@ -122,8 +122,8 @@ class MyAppPolicyForm extends StatefulWidget {
 
 
 class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
-  final FormAction formAction;
-  AppPolicyFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late AppPolicyFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
@@ -151,16 +151,16 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
       );
 
       if (state is AppPolicyFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.comments != null)
-          _commentsController.text = state.value.comments.toString();
+        if (state.value!.comments != null)
+          _commentsController.text = state.value!.comments.toString();
         else
           _commentsController.text = "";
       }
@@ -171,7 +171,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -227,7 +227,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: appPolicyItemsList(context, state.value.policies, _onPoliciesChanged)
+                    child: appPolicyItemsList(context, state.value!.policies, _onPoliciesChanged)
                 )
           );
 
@@ -245,23 +245,23 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<AppPolicyListBloc>(context).add(
-                          UpdateAppPolicyList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              comments: state.value.comments, 
-                              policies: state.value.policies, 
+                          UpdateAppPolicyList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              comments: state.value!.comments, 
+                              policies: state.value!.policies, 
                         )));
                       } else {
                         BlocProvider.of<AppPolicyListBloc>(context).add(
                           AddAppPolicyList(value: AppPolicyModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              comments: state.value.comments, 
-                              policies: state.value.policies, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              comments: state.value!.comments, 
+                              policies: state.value!.policies, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

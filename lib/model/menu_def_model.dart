@@ -33,17 +33,17 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MenuDefModel {
-  String documentID;
-  String appId;
-  String name;
-  List<MenuItemModel> menuItems;
-  bool admin;
+  String? documentID;
+  String? appId;
+  String? name;
+  List<MenuItemModel>? menuItems;
+  bool? admin;
 
   MenuDefModel({this.documentID, this.appId, this.name, this.menuItems, this.admin, })  {
     assert(documentID != null);
   }
 
-  MenuDefModel copyWith({String documentID, String appId, String name, List<MenuItemModel> menuItems, bool admin, }) {
+  MenuDefModel copyWith({String? documentID, String? appId, String? name, List<MenuItemModel>? menuItems, bool? admin, }) {
     return MenuDefModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, menuItems: menuItems ?? this.menuItems, admin: admin ?? this.admin, );
   }
 
@@ -63,23 +63,23 @@ class MenuDefModel {
 
   @override
   String toString() {
-    String menuItemsCsv = (menuItems == null) ? '' : menuItems.join(', ');
+    String menuItemsCsv = (menuItems == null) ? '' : menuItems!.join(', ');
 
     return 'MenuDefModel{documentID: $documentID, appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  MenuDefEntity toEntity({String appId}) {
+  MenuDefEntity toEntity({String? appId}) {
     return MenuDefEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          menuItems: (menuItems != null) ? menuItems
+          menuItems: (menuItems != null) ? menuItems!
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           admin: (admin != null) ? admin : null, 
     );
   }
 
-  static MenuDefModel fromEntity(String documentID, MenuDefEntity entity) {
+  static MenuDefModel? fromEntity(String documentID, MenuDefEntity? entity) {
     if (entity == null) return null;
     return MenuDefModel(
           documentID: documentID, 
@@ -87,14 +87,14 @@ class MenuDefModel {
           name: entity.name, 
           menuItems: 
             entity.menuItems == null ? null :
-            entity.menuItems
+            entity.menuItems!
             .map((item) => MenuItemModel.fromEntity(newRandomKey(), item))
             .toList(), 
           admin: entity.admin, 
     );
   }
 
-  static Future<MenuDefModel> fromEntityPlus(String documentID, MenuDefEntity entity, { String appId}) async {
+  static Future<MenuDefModel?> fromEntityPlus(String documentID, MenuDefEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return MenuDefModel(
@@ -102,7 +102,7 @@ class MenuDefModel {
           appId: entity.appId, 
           name: entity.name, 
           menuItems: 
-            entity. menuItems == null ? null : new List<MenuItemModel>.from(await Future.wait(entity. menuItems
+            entity. menuItems == null ? null : new List<MenuItemModel>.from(await Future.wait(entity. menuItems!
             .map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           admin: entity.admin, 

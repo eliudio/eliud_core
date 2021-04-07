@@ -27,40 +27,40 @@ const _appEntryPagesLimit = 5;
 
 class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesListState> {
   final AppEntryPagesRepository _appEntryPagesRepository;
-  StreamSubscription _appEntryPagessListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _appEntryPagessListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppEntryPagesRepository appEntryPagesRepository})
+  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository})
       : assert(appEntryPagesRepository != null),
         _appEntryPagesRepository = appEntryPagesRepository,
         super(AppEntryPagesListLoading());
 
   Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListToState() async* {
-    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values.length : 0;
+    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listen(
           (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _appEntryPagesLimit : null
+      limit: ((paged != null) && paged!) ? pages * _appEntryPagesLimit : null
     );
   }
 
   Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState() async* {
-    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values.length : 0;
+    int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails(
             (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _appEntryPagesLimit : null
+        limit: ((paged != null) && paged!) ? pages * _appEntryPagesLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   @override
   Stream<AppEntryPagesListState> mapEventToState(AppEntryPagesListEvent event) async* {
     if (event is LoadAppEntryPagesList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadAppEntryPagesListToState();
       } else {
         yield* _mapLoadAppEntryPagesListWithDetailsToState();

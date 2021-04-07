@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'drawer_form.dart';
 
 
-typedef DrawerWidgetProvider(DrawerModel value);
+typedef DrawerWidgetProvider(DrawerModel? value);
 
 class DrawerListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  DrawerWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  DrawerListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  DrawerWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  DrawerListWidgetState? state;
+  bool? isEmbedded;
 
-  DrawerListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  DrawerListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   DrawerListWidgetState createState() {
     state ??= DrawerListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= DrawerListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class DrawerListWidgetState extends State<DrawerListWidget> {
-  DrawerListBloc bloc;
+  DrawerListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
           );
         } else if (state is DrawerListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return DrawerListItem(
             value: value,
@@ -210,7 +210,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return DrawerForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class DrawerListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final DrawerModel value;
+  final DrawerModel? value;
 
   DrawerListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__Drawer_item_${value.documentID}'),
+      key: Key('__Drawer_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__DrawerheroTag',
+          tag: '${value!.documentID}__DrawerheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.name != null) && (value.name.isNotEmpty)
+        subtitle: (value!.name != null) && (value!.name!.isNotEmpty)
             ? Center( child: Text(
-          value.name,
+          value!.name!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

@@ -30,7 +30,7 @@ abstract class MenuItemFormEvent extends Equatable {
   const MenuItemFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewMenuItemFormEvent extends MenuItemFormEvent {
@@ -38,78 +38,78 @@ class InitialiseNewMenuItemFormEvent extends MenuItemFormEvent {
 
 
 class InitialiseMenuItemFormEvent extends MenuItemFormEvent {
-  final MenuItemModel value;
+  final MenuItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMenuItemFormEvent({this.value});
 }
 
 class InitialiseMenuItemFormNoLoadEvent extends MenuItemFormEvent {
-  final MenuItemModel value;
+  final MenuItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMenuItemFormNoLoadEvent({this.value});
 }
 
 class ChangedMenuItemDocumentID extends MenuItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuItemDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuItemDocumentID{ value: $value }';
 }
 
 class ChangedMenuItemText extends MenuItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuItemText({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuItemText{ value: $value }';
 }
 
 class ChangedMenuItemDescription extends MenuItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuItemDescription({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuItemDescription{ value: $value }';
 }
 
 class ChangedMenuItemIcon extends MenuItemFormEvent {
-  final IconModel value;
+  final IconModel? value;
 
   ChangedMenuItemIcon({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuItemIcon{ value: $value }';
 }
 
 class ChangedMenuItemAction extends MenuItemFormEvent {
-  final ActionModel value;
+  final ActionModel? value;
 
   ChangedMenuItemAction({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuItemAction{ value: $value }';

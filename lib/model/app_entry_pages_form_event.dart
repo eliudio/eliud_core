@@ -30,7 +30,7 @@ abstract class AppEntryPagesFormEvent extends Equatable {
   const AppEntryPagesFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewAppEntryPagesFormEvent extends AppEntryPagesFormEvent {
@@ -38,54 +38,54 @@ class InitialiseNewAppEntryPagesFormEvent extends AppEntryPagesFormEvent {
 
 
 class InitialiseAppEntryPagesFormEvent extends AppEntryPagesFormEvent {
-  final AppEntryPagesModel value;
+  final AppEntryPagesModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppEntryPagesFormEvent({this.value});
 }
 
 class InitialiseAppEntryPagesFormNoLoadEvent extends AppEntryPagesFormEvent {
-  final AppEntryPagesModel value;
+  final AppEntryPagesModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppEntryPagesFormNoLoadEvent({this.value});
 }
 
 class ChangedAppEntryPagesDocumentID extends AppEntryPagesFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppEntryPagesDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppEntryPagesDocumentID{ value: $value }';
 }
 
 class ChangedAppEntryPagesEntryPage extends AppEntryPagesFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppEntryPagesEntryPage({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppEntryPagesEntryPage{ value: $value }';
 }
 
 class ChangedAppEntryPagesMinPrivilege extends AppEntryPagesFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppEntryPagesMinPrivilege({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppEntryPagesMinPrivilege{ value: $value }';

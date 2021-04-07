@@ -34,7 +34,7 @@ enum PrivilegeLevelRequiredSimple {
 }
 
 
-PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int index) {
+PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int? index) {
   switch (index) {
     case 0: return PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple;
     case 1: return PrivilegeLevelRequiredSimple.Level1PrivilegeRequiredSimple;
@@ -48,12 +48,12 @@ PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int index) {
 class ConditionsSimpleModel {
 
   // see firestore rules
-  PrivilegeLevelRequiredSimple privilegeLevelRequired;
+  PrivilegeLevelRequiredSimple? privilegeLevelRequired;
 
   ConditionsSimpleModel({this.privilegeLevelRequired, })  {
   }
 
-  ConditionsSimpleModel copyWith({PrivilegeLevelRequiredSimple privilegeLevelRequired, }) {
+  ConditionsSimpleModel copyWith({PrivilegeLevelRequiredSimple? privilegeLevelRequired, }) {
     return ConditionsSimpleModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, );
   }
 
@@ -72,20 +72,20 @@ class ConditionsSimpleModel {
     return 'ConditionsSimpleModel{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  ConditionsSimpleEntity toEntity({String appId}) {
+  ConditionsSimpleEntity toEntity({String? appId}) {
     return ConditionsSimpleEntity(
-          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired.index : null, 
+          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
     );
   }
 
-  static ConditionsSimpleModel fromEntity(ConditionsSimpleEntity entity) {
+  static ConditionsSimpleModel? fromEntity(ConditionsSimpleEntity? entity) {
     if (entity == null) return null;
     return ConditionsSimpleModel(
           privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
     );
   }
 
-  static Future<ConditionsSimpleModel> fromEntityPlus(ConditionsSimpleEntity entity, { String appId}) async {
+  static Future<ConditionsSimpleModel?> fromEntityPlus(ConditionsSimpleEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return ConditionsSimpleModel(

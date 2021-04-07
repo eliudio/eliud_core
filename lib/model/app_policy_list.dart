@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'app_policy_form.dart';
 
 
-typedef AppPolicyWidgetProvider(AppPolicyModel value);
+typedef AppPolicyWidgetProvider(AppPolicyModel? value);
 
 class AppPolicyListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  AppPolicyWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  AppPolicyListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  AppPolicyWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  AppPolicyListWidgetState? state;
+  bool? isEmbedded;
 
-  AppPolicyListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  AppPolicyListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   AppPolicyListWidgetState createState() {
     state ??= AppPolicyListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= AppPolicyListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
-  AppPolicyListBloc bloc;
+  AppPolicyListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
           );
         } else if (state is AppPolicyListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return AppPolicyListItem(
             value: value,
@@ -210,7 +210,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return AppPolicyForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class AppPolicyListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final AppPolicyModel value;
+  final AppPolicyModel? value;
 
   AppPolicyListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__AppPolicy_item_${value.documentID}'),
+      key: Key('__AppPolicy_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__AppPolicyheroTag',
+          tag: '${value!.documentID}__AppPolicyheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.comments != null) && (value.comments.isNotEmpty)
+        subtitle: (value!.comments != null) && (value!.comments!.isNotEmpty)
             ? Center( child: Text(
-          value.comments,
+          value!.comments!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

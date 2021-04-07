@@ -58,10 +58,10 @@ import 'package:eliud_core/model/font_form_state.dart';
 
 class FontForm extends StatelessWidget {
   FormAction formAction;
-  FontModel value;
-  ActionModel submitAction;
+  FontModel? value;
+  ActionModel? submitAction;
 
-  FontForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  FontForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class FontForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Font", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Font", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Font", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Font", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class FontForm extends StatelessWidget {
 
 
 class MyFontForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyFontForm({this.formAction, this.submitAction});
 
@@ -122,16 +122,16 @@ class MyFontForm extends StatefulWidget {
 
 
 class _MyFontFormState extends State<MyFontForm> {
-  final FormAction formAction;
-  FontFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late FontFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _fontNameController = TextEditingController();
   final TextEditingController _sizeController = TextEditingController();
-  int _weightSelectedRadioTile;
-  int _styleSelectedRadioTile;
-  int _decorationSelectedRadioTile;
+  int? _weightSelectedRadioTile;
+  int? _styleSelectedRadioTile;
+  int? _decorationSelectedRadioTile;
 
 
   _MyFontFormState(this.formAction);
@@ -159,32 +159,32 @@ class _MyFontFormState extends State<MyFontForm> {
       );
 
       if (state is FontFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.fontName != null)
-          _fontNameController.text = state.value.fontName.toString();
+        if (state.value!.fontName != null)
+          _fontNameController.text = state.value!.fontName.toString();
         else
           _fontNameController.text = "";
-        if (state.value.size != null)
-          _sizeController.text = state.value.size.toString();
+        if (state.value!.size != null)
+          _sizeController.text = state.value!.size.toString();
         else
           _sizeController.text = "";
-        if (state.value.weight != null)
-          _weightSelectedRadioTile = state.value.weight.index;
+        if (state.value!.weight != null)
+          _weightSelectedRadioTile = state.value!.weight!.index;
         else
           _weightSelectedRadioTile = 0;
-        if (state.value.style != null)
-          _styleSelectedRadioTile = state.value.style.index;
+        if (state.value!.style != null)
+          _styleSelectedRadioTile = state.value!.style!.index;
         else
           _styleSelectedRadioTile = 0;
-        if (state.value.decoration != null)
-          _decorationSelectedRadioTile = state.value.decoration.index;
+        if (state.value!.decoration != null)
+          _decorationSelectedRadioTile = state.value!.decoration!.index;
         else
           _decorationSelectedRadioTile = 0;
       }
@@ -195,7 +195,7 @@ class _MyFontFormState extends State<MyFontForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -274,7 +274,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -287,7 +287,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -300,7 +300,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -313,7 +313,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -326,7 +326,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -339,7 +339,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -352,7 +352,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -365,7 +365,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -378,7 +378,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _weightSelectedRadioTile,
                     title: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
                 ),
@@ -405,7 +405,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _styleSelectedRadioTile,
                     title: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionStyle(val);
                     },
                 ),
@@ -418,7 +418,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _styleSelectedRadioTile,
                     title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionStyle(val);
                     },
                 ),
@@ -445,7 +445,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -458,7 +458,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -471,7 +471,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -484,7 +484,7 @@ class _MyFontFormState extends State<MyFontForm> {
                     groupValue: _decorationSelectedRadioTile,
                     title: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
                 ),
@@ -505,7 +505,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
         children.add(
 
-                RgbField("Font Color", state.value.color, _onColorChanged)
+                RgbField("Font Color", state.value!.color, _onColorChanged)
           );
 
 
@@ -522,31 +522,31 @@ class _MyFontFormState extends State<MyFontForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<FontListBloc>(context).add(
-                          UpdateFontList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              fontName: state.value.fontName, 
-                              size: state.value.size, 
-                              weight: state.value.weight, 
-                              style: state.value.style, 
-                              decoration: state.value.decoration, 
-                              color: state.value.color, 
+                          UpdateFontList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              fontName: state.value!.fontName, 
+                              size: state.value!.size, 
+                              weight: state.value!.weight, 
+                              style: state.value!.style, 
+                              decoration: state.value!.decoration, 
+                              color: state.value!.color, 
                         )));
                       } else {
                         BlocProvider.of<FontListBloc>(context).add(
                           AddFontList(value: FontModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              fontName: state.value.fontName, 
-                              size: state.value.size, 
-                              weight: state.value.weight, 
-                              style: state.value.style, 
-                              decoration: state.value.decoration, 
-                              color: state.value.color, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              fontName: state.value!.fontName, 
+                              size: state.value!.size, 
+                              weight: state.value!.weight, 
+                              style: state.value!.style, 
+                              decoration: state.value!.decoration, 
+                              color: state.value!.color, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -596,7 +596,7 @@ class _MyFontFormState extends State<MyFontForm> {
   }
 
 
-  void setSelectionWeight(int val) {
+  void setSelectionWeight(int? val) {
     setState(() {
       _weightSelectedRadioTile = val;
     });
@@ -604,7 +604,7 @@ class _MyFontFormState extends State<MyFontForm> {
   }
 
 
-  void setSelectionStyle(int val) {
+  void setSelectionStyle(int? val) {
     setState(() {
       _styleSelectedRadioTile = val;
     });
@@ -612,7 +612,7 @@ class _MyFontFormState extends State<MyFontForm> {
   }
 
 
-  void setSelectionDecoration(int val) {
+  void setSelectionDecoration(int? val) {
     setState(() {
       _decorationSelectedRadioTile = val;
     });

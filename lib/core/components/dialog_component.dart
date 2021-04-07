@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DialogComponent extends StatefulWidget {
-  final DialogModel dialog;
-  final Map<String, Object> parameters;
+  final DialogModel? dialog;
+  final Map<String, Object>? parameters;
   DialogComponent({
-    Key key,
+    Key? key,
     this.dialog,
     this.parameters,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class _DialogComponentState extends State<DialogComponent> {
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
-        title: widget.dialog.title,
+        title: widget.dialog!.title!,
         contents: getContents(context),
         buttons: getButtons(context));
   }
@@ -41,13 +41,13 @@ class _DialogComponentState extends State<DialogComponent> {
 
   Widget getContents(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return dialogHelper.fieldsWidget(context, <Widget>[
+    return dialogHelper.fieldsWidget(context, <Widget?>[
       pageHelper.theBody(context, accessState,
           backgroundDecoration: null,
           components: pageHelper.getComponents(
-              widget.dialog.bodyComponents, widget.parameters),
-          layout: fromDialogLayout(widget.dialog.layout),
-          gridView: widget.dialog.gridView)
+              widget.dialog!.bodyComponents!, widget.parameters),
+          layout: fromDialogLayout(widget.dialog!.layout),
+          gridView: widget.dialog!.gridView)
       ]);
   }
 

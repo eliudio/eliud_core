@@ -20,13 +20,13 @@ abstract class CountryComponentState extends Equatable {
   const CountryComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CountryComponentUninitialized extends CountryComponentState {}
 
 class CountryComponentError extends CountryComponentState {
-  final String message;
+  final String? message;
   CountryComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class CountryComponentPermissionDenied extends CountryComponentState {
 }
 
 class CountryComponentLoaded extends CountryComponentState {
-  final CountryModel value;
+  final CountryModel? value;
 
   const CountryComponentLoaded({ this.value });
 
-  CountryComponentLoaded copyWith({ CountryModel copyThis }) {
+  CountryComponentLoaded copyWith({ CountryModel? copyThis }) {
     return CountryComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'CountryComponentLoaded { value: $value }';

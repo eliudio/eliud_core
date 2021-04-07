@@ -38,12 +38,12 @@ import 'package:eliud_core/model/app_policy_item_form_state.dart';
 import 'package:eliud_core/model/app_policy_item_repository.dart';
 
 class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFormState> {
-  final String appId;
+  final String? appId;
 
   AppPolicyItemFormBloc(this.appId, ): super(AppPolicyItemFormUninitialized());
   @override
   Stream<AppPolicyItemFormState> mapEventToState(AppPolicyItemFormEvent event) async* {
-    final currentState = state;
+    final AppPolicyItemFormState currentState = state;
     if (currentState is AppPolicyItemFormUninitialized) {
       if (event is InitialiseNewAppPolicyItemFormEvent) {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: AppPolicyItemModel(
@@ -67,20 +67,20 @@ class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFo
         return;
       }
     } else if (currentState is AppPolicyItemFormInitialized) {
-      AppPolicyItemModel newValue = null;
+      AppPolicyItemModel? newValue = null;
       if (event is ChangedAppPolicyItemName) {
-        newValue = currentState.value.copyWith(name: event.value);
+        newValue = currentState.value!.copyWith(name: event.value);
         yield SubmittableAppPolicyItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppPolicyItemPolicy) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(policy: await memberMediumRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(policy: await memberMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppPolicyItemModel(
-                                 documentID: currentState.value.documentID,
-                                 name: currentState.value.name,
+                                 documentID: currentState.value!.documentID,
+                                 name: currentState.value!.name,
                                  policy: null,
           );
         yield SubmittableAppPolicyItemForm(value: newValue);

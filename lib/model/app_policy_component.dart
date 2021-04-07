@@ -25,7 +25,7 @@ import 'package:eliud_core/model/app_policy_component_state.dart';
 
 abstract class AbstractAppPolicyComponent extends StatelessWidget {
   static String componentName = "appPolicys";
-  final String appPolicyID;
+  final String? appPolicyID;
 
   AbstractAppPolicyComponent({this.appPolicyID});
 
@@ -63,7 +63,7 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, AppPolicyModel value);
+  Widget yourWidget(BuildContext context, AppPolicyModel? value);
   Widget alertWidget({ title: String, content: String});
   AppPolicyRepository getAppPolicyRepository(BuildContext context);
 }

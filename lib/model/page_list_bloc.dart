@@ -27,40 +27,40 @@ const _pageLimit = 5;
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final PageRepository _pageRepository;
-  StreamSubscription _pagesListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _pagesListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PageRepository pageRepository})
+  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository})
       : assert(pageRepository != null),
         _pageRepository = pageRepository,
         super(PageListLoading());
 
   Stream<PageListState> _mapLoadPageListToState() async* {
-    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values.length : 0;
+    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listen(
           (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _pageLimit : null
+      limit: ((paged != null) && paged!) ? pages * _pageLimit : null
     );
   }
 
   Stream<PageListState> _mapLoadPageListWithDetailsToState() async* {
-    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values.length : 0;
+    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listenWithDetails(
             (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _pageLimit : null
+        limit: ((paged != null) && paged!) ? pages * _pageLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   @override
   Stream<PageListState> mapEventToState(PageListEvent event) async* {
     if (event is LoadPageList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadPageListToState();
       } else {
         yield* _mapLoadPageListWithDetailsToState();

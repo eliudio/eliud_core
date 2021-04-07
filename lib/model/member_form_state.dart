@@ -22,7 +22,7 @@ abstract class MemberFormState extends Equatable {
   const MemberFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class MemberFormUninitialized extends MemberFormState {
 
 // MemberModel has been initialised and hence MemberModel is available
 class MemberFormInitialized extends MemberFormState {
-  final MemberModel value;
+  final MemberModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const MemberFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class MemberFormError extends MemberFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const MemberFormError({this.message, MemberModel value }) : super(value: value);
+  const MemberFormError({this.message, MemberModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class MemberFormError extends MemberFormInitialized {
   }
 }
 class DocumentIDMemberFormError extends MemberFormError { 
-  const DocumentIDMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const DocumentIDMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDMemberFormError extends MemberFormError {
 
 
 class NameMemberFormError extends MemberFormError { 
-  const NameMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const NameMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class NameMemberFormError extends MemberFormError {
 
 
 class SubscriptionsMemberFormError extends MemberFormError { 
-  const SubscriptionsMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const SubscriptionsMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class SubscriptionsMemberFormError extends MemberFormError {
 
 
 class SubscriptionsAsStringMemberFormError extends MemberFormError { 
-  const SubscriptionsAsStringMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const SubscriptionsAsStringMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class SubscriptionsAsStringMemberFormError extends MemberFormError {
 
 
 class PhotoURLMemberFormError extends MemberFormError { 
-  const PhotoURLMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const PhotoURLMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class PhotoURLMemberFormError extends MemberFormError {
 
 
 class ShipStreet1MemberFormError extends MemberFormError { 
-  const ShipStreet1MemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const ShipStreet1MemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class ShipStreet1MemberFormError extends MemberFormError {
 
 
 class ShipStreet2MemberFormError extends MemberFormError { 
-  const ShipStreet2MemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const ShipStreet2MemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class ShipStreet2MemberFormError extends MemberFormError {
 
 
 class ShipCityMemberFormError extends MemberFormError { 
-  const ShipCityMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const ShipCityMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class ShipCityMemberFormError extends MemberFormError {
 
 
 class ShipStateMemberFormError extends MemberFormError { 
-  const ShipStateMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const ShipStateMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class ShipStateMemberFormError extends MemberFormError {
 
 
 class PostcodeMemberFormError extends MemberFormError { 
-  const PostcodeMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const PostcodeMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class PostcodeMemberFormError extends MemberFormError {
 
 
 class CountryMemberFormError extends MemberFormError { 
-  const CountryMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const CountryMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class CountryMemberFormError extends MemberFormError {
 
 
 class InvoiceSameMemberFormError extends MemberFormError { 
-  const InvoiceSameMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceSameMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class InvoiceSameMemberFormError extends MemberFormError {
 
 
 class InvoiceStreet1MemberFormError extends MemberFormError { 
-  const InvoiceStreet1MemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceStreet1MemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -272,10 +272,10 @@ class InvoiceStreet1MemberFormError extends MemberFormError {
 
 
 class InvoiceStreet2MemberFormError extends MemberFormError { 
-  const InvoiceStreet2MemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceStreet2MemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -288,10 +288,10 @@ class InvoiceStreet2MemberFormError extends MemberFormError {
 
 
 class InvoiceCityMemberFormError extends MemberFormError { 
-  const InvoiceCityMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceCityMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -304,10 +304,10 @@ class InvoiceCityMemberFormError extends MemberFormError {
 
 
 class InvoiceStateMemberFormError extends MemberFormError { 
-  const InvoiceStateMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceStateMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -320,10 +320,10 @@ class InvoiceStateMemberFormError extends MemberFormError {
 
 
 class InvoicePostcodeMemberFormError extends MemberFormError { 
-  const InvoicePostcodeMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoicePostcodeMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -336,10 +336,10 @@ class InvoicePostcodeMemberFormError extends MemberFormError {
 
 
 class InvoiceCountryMemberFormError extends MemberFormError { 
-  const InvoiceCountryMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const InvoiceCountryMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -352,10 +352,10 @@ class InvoiceCountryMemberFormError extends MemberFormError {
 
 
 class ReadAccessMemberFormError extends MemberFormError { 
-  const ReadAccessMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const ReadAccessMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -368,10 +368,10 @@ class ReadAccessMemberFormError extends MemberFormError {
 
 
 class EmailMemberFormError extends MemberFormError { 
-  const EmailMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const EmailMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -384,10 +384,10 @@ class EmailMemberFormError extends MemberFormError {
 
 
 class IsAnonymousMemberFormError extends MemberFormError { 
-  const IsAnonymousMemberFormError({ String message, MemberModel value }): super(message: message, value: value);
+  const IsAnonymousMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -400,10 +400,10 @@ class IsAnonymousMemberFormError extends MemberFormError {
 
 
 class MemberFormLoaded extends MemberFormInitialized { 
-  const MemberFormLoaded({ MemberModel value }): super(value: value);
+  const MemberFormLoaded({ MemberModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -415,10 +415,10 @@ class MemberFormLoaded extends MemberFormInitialized {
 
 
 class SubmittableMemberForm extends MemberFormInitialized { 
-  const SubmittableMemberForm({ MemberModel value }): super(value: value);
+  const SubmittableMemberForm({ MemberModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

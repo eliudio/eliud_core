@@ -21,7 +21,7 @@ abstract class PageComponentEvent extends Equatable {
 }
 
 class FetchPageComponent extends PageComponentEvent {
-  final String id;
+  final String? id;
 
   FetchPageComponent({ this.id });
 }

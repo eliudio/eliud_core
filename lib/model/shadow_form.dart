@@ -58,10 +58,10 @@ import 'package:eliud_core/model/shadow_form_state.dart';
 
 class ShadowForm extends StatelessWidget {
   FormAction formAction;
-  ShadowModel value;
-  ActionModel submitAction;
+  ShadowModel? value;
+  ActionModel? submitAction;
 
-  ShadowForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  ShadowForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class ShadowForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class ShadowForm extends StatelessWidget {
 
 
 class MyShadowForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyShadowForm({this.formAction, this.submitAction});
 
@@ -122,8 +122,8 @@ class MyShadowForm extends StatefulWidget {
 
 
 class _MyShadowFormState extends State<MyShadowForm> {
-  final FormAction formAction;
-  ShadowFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late ShadowFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
@@ -159,32 +159,32 @@ class _MyShadowFormState extends State<MyShadowForm> {
       );
 
       if (state is ShadowFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.comments != null)
-          _commentsController.text = state.value.comments.toString();
+        if (state.value!.comments != null)
+          _commentsController.text = state.value!.comments.toString();
         else
           _commentsController.text = "";
-        if (state.value.offsetDX != null)
-          _offsetDXController.text = state.value.offsetDX.toString();
+        if (state.value!.offsetDX != null)
+          _offsetDXController.text = state.value!.offsetDX.toString();
         else
           _offsetDXController.text = "";
-        if (state.value.offsetDY != null)
-          _offsetDYController.text = state.value.offsetDY.toString();
+        if (state.value!.offsetDY != null)
+          _offsetDYController.text = state.value!.offsetDY.toString();
         else
           _offsetDYController.text = "";
-        if (state.value.spreadRadius != null)
-          _spreadRadiusController.text = state.value.spreadRadius.toString();
+        if (state.value!.spreadRadius != null)
+          _spreadRadiusController.text = state.value!.spreadRadius.toString();
         else
           _spreadRadiusController.text = "";
-        if (state.value.blurRadius != null)
-          _blurRadiusController.text = state.value.blurRadius.toString();
+        if (state.value!.blurRadius != null)
+          _blurRadiusController.text = state.value!.blurRadius.toString();
         else
           _blurRadiusController.text = "";
       }
@@ -195,12 +195,12 @@ class _MyShadowFormState extends State<MyShadowForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
-                RgbField("Color", state.value.color, _onColorChanged)
+                RgbField("Color", state.value!.color, _onColorChanged)
           );
 
 
@@ -368,31 +368,31 @@ class _MyShadowFormState extends State<MyShadowForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<ShadowListBloc>(context).add(
-                          UpdateShadowList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              comments: state.value.comments, 
-                              color: state.value.color, 
-                              offsetDX: state.value.offsetDX, 
-                              offsetDY: state.value.offsetDY, 
-                              spreadRadius: state.value.spreadRadius, 
-                              blurRadius: state.value.blurRadius, 
+                          UpdateShadowList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              comments: state.value!.comments, 
+                              color: state.value!.color, 
+                              offsetDX: state.value!.offsetDX, 
+                              offsetDY: state.value!.offsetDY, 
+                              spreadRadius: state.value!.spreadRadius, 
+                              blurRadius: state.value!.blurRadius, 
                         )));
                       } else {
                         BlocProvider.of<ShadowListBloc>(context).add(
                           AddShadowList(value: ShadowModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              comments: state.value.comments, 
-                              color: state.value.color, 
-                              offsetDX: state.value.offsetDX, 
-                              offsetDY: state.value.offsetDY, 
-                              spreadRadius: state.value.spreadRadius, 
-                              blurRadius: state.value.blurRadius, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              comments: state.value!.comments, 
+                              color: state.value!.color, 
+                              offsetDX: state.value!.offsetDX, 
+                              offsetDY: state.value!.offsetDY, 
+                              spreadRadius: state.value!.spreadRadius, 
+                              blurRadius: state.value!.blurRadius, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

@@ -20,19 +20,19 @@ abstract class AppPolicyItemListState extends Equatable {
   const AppPolicyItemListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AppPolicyItemListLoading extends AppPolicyItemListState {}
 
 class AppPolicyItemListLoaded extends AppPolicyItemListState {
-  final List<AppPolicyItemModel> values;
-  final bool mightHaveMore;
+  final List<AppPolicyItemModel>? values;
+  final bool? mightHaveMore;
 
   const AppPolicyItemListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'AppPolicyItemListLoaded { values: $values }';

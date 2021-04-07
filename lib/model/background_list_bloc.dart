@@ -27,40 +27,40 @@ const _backgroundLimit = 5;
 
 class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> {
   final BackgroundRepository _backgroundRepository;
-  StreamSubscription _backgroundsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _backgroundsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  BackgroundListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required BackgroundRepository backgroundRepository})
+  BackgroundListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackgroundRepository backgroundRepository})
       : assert(backgroundRepository != null),
         _backgroundRepository = backgroundRepository,
         super(BackgroundListLoading());
 
   Stream<BackgroundListState> _mapLoadBackgroundListToState() async* {
-    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values.length : 0;
+    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values!.length : 0;
     _backgroundsListSubscription?.cancel();
     _backgroundsListSubscription = _backgroundRepository.listen(
           (list) => add(BackgroundListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _backgroundLimit : null
+      limit: ((paged != null) && paged!) ? pages * _backgroundLimit : null
     );
   }
 
   Stream<BackgroundListState> _mapLoadBackgroundListWithDetailsToState() async* {
-    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values.length : 0;
+    int amountNow =  (state is BackgroundListLoaded) ? (state as BackgroundListLoaded).values!.length : 0;
     _backgroundsListSubscription?.cancel();
     _backgroundsListSubscription = _backgroundRepository.listenWithDetails(
             (list) => add(BackgroundListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _backgroundLimit : null
+        limit: ((paged != null) && paged!) ? pages * _backgroundLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
   @override
   Stream<BackgroundListState> mapEventToState(BackgroundListEvent event) async* {
     if (event is LoadBackgroundList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadBackgroundListToState();
       } else {
         yield* _mapLoadBackgroundListWithDetailsToState();

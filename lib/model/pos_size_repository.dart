@@ -29,29 +29,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef PosSizeModelTrigger(List<PosSizeModel> list);
-typedef PosSizeChanged(PosSizeModel value);
+typedef PosSizeModelTrigger(List<PosSizeModel?> list);
+typedef PosSizeChanged(PosSizeModel? value);
 
 abstract class PosSizeRepository {
-  Future<PosSizeModel> add(PosSizeModel value);
-  Future<void> delete(PosSizeModel value);
-  Future<PosSizeModel> get(String id, { Function(Exception) onError });
-  Future<PosSizeModel> update(PosSizeModel value);
+  Future<PosSizeModel> add(PosSizeModel? value);
+  Future<void> delete(PosSizeModel? value);
+  Future<PosSizeModel?> get(String? id, { Function(Exception)? onError });
+  Future<PosSizeModel> update(PosSizeModel? value);
 
-  Stream<List<PosSizeModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Stream<List<PosSizeModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<PosSizeModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<PosSizeModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
+  Stream<List<PosSizeModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<PosSizeModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<PosSizeModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<PosSizeModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<PosSizeModel>> listen(PosSizeModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<List<PosSizeModel>> listenWithDetails(PosSizeModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<PosSizeModel> listenTo(String documentId, PosSizeChanged changed);
+  StreamSubscription<List<PosSizeModel?>> listen(PosSizeModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<PosSizeModel?>> listenWithDetails(PosSizeModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<PosSizeModel?> listenTo(String documentId, PosSizeChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<PosSizeModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<PosSizeModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

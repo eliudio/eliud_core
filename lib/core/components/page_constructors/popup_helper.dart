@@ -14,25 +14,25 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/core/components/page_helper.dart';
 
 class PopupHelper {
-  final String currentPage;
-  final MemberModel member;
+  final String? currentPage;
+  final MemberModel? member;
   final AppModel app;
   final AccessState state;
 
   PopupHelper(this.app, this.state, this.currentPage, this.member);
 
-  Widget popupMenuButton(
+  Widget? popupMenuButton(
       BuildContext context,
-      MenuDefModel menu,
+      MenuDefModel? menu,
       Widget text,
-      Icon icon,
-      RgbModel menuBackgroundColor) {
+      Icon? icon,
+      RgbModel? menuBackgroundColor) {
     var theState = state;
     if (theState is AppLoaded) {
-      if (menu.menuItems.isEmpty) return null;
+      if (menu!.menuItems!.isEmpty) return null;
       var menuItems = <MenuItemModel>[];
-      for (var i = 0; i < menu.menuItems.length; i++) {
-        var item = menu.menuItems[i];
+      for (var i = 0; i < menu.menuItems!.length; i++) {
+        var item = menu.menuItems![i];
         if (theState.menuItemHasAccess(item)) menuItems.add(item);
       }
       return PopupMenuButton<int>(
@@ -50,7 +50,7 @@ class PopupHelper {
               );
             } else {
               if (!PageHelper.isActivePage(currentPage, action)) {
-                eliudrouter.Router.navigateTo(context, action);
+                eliudrouter.Router.navigateTo(context, action!);
               }
             }
           },
@@ -62,7 +62,7 @@ class PopupHelper {
                   currentPage, item.action)
                   ? FontTools.textStyle(app.h3)
                   : FontTools.textStyle(app.h4);
-              var description = item.description;
+              var description = item.description!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
                 child: Text(description),

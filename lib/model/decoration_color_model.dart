@@ -32,15 +32,15 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class DecorationColorModel {
-  String documentID;
-  RgbModel color;
-  double stop;
+  String? documentID;
+  RgbModel? color;
+  double? stop;
 
   DecorationColorModel({this.documentID, this.color, this.stop, })  {
     assert(documentID != null);
   }
 
-  DecorationColorModel copyWith({String documentID, RgbModel color, double stop, }) {
+  DecorationColorModel copyWith({String? documentID, RgbModel? color, double? stop, }) {
     return DecorationColorModel(documentID: documentID ?? this.documentID, color: color ?? this.color, stop: stop ?? this.stop, );
   }
 
@@ -61,9 +61,9 @@ class DecorationColorModel {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
-  DecorationColorEntity toEntity({String appId}) {
+  DecorationColorEntity toEntity({String? appId}) {
     return DecorationColorEntity(
-          color: (color != null) ? color.toEntity(appId: appId) : null, 
+          color: (color != null) ? color!.toEntity(appId: appId) : null, 
           stop: (stop != null) ? stop : null, 
     );
   }
@@ -78,7 +78,7 @@ class DecorationColorModel {
     );
   }
 
-  static Future<DecorationColorModel> fromEntityPlus(String documentID, DecorationColorEntity entity, { String appId}) async {
+  static Future<DecorationColorModel> fromEntityPlus(String documentID, DecorationColorEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
     return DecorationColorModel(

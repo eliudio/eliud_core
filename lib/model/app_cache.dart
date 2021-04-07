@@ -31,56 +31,56 @@ import 'package:eliud_core/model/entity_export.dart';
 class AppCache implements AppRepository {
 
   final AppRepository reference;
-  final Map<String, AppModel> fullCache = Map();
+  final Map<String?, AppModel?> fullCache = Map();
 
   AppCache(this.reference);
 
-  Future<AppModel> add(AppModel value) {
+  Future<AppModel> add(AppModel? value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppModel value){
-    fullCache.remove(value.documentID);
+  Future<void> delete(AppModel? value){
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<AppModel> get(String id, {Function(Exception) onError}) {
-    AppModel value = fullCache[id];
+  Future<AppModel> get(String? id, {Function(Exception)? onError}) {
+    AppModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<AppModel> update(AppModel value) {
+  Future<AppModel> update(AppModel? value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<AppModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<AppModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<AppModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<AppModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<AppModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<AppModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<AppModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<AppModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,18 +88,18 @@ class AppCache implements AppRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
-  dynamic getSubCollection(String documentId, String name) {
+  dynamic getSubCollection(String? documentId, String name) {
     return reference.getSubCollection(documentId, name);
   }
 
   Future<AppModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,12 +108,12 @@ class AppCache implements AppRepository {
   }
 
   @override
-  StreamSubscription<List<AppModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<AppModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<AppModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -124,127 +124,127 @@ class AppCache implements AppRepository {
 
   static Future<AppModel> refreshRelations(AppModel model) async {
 
-    MemberMediumModel logoHolder;
+    MemberMediumModel? logoHolder;
     if (model.logo != null) {
       try {
-        await memberMediumRepository(appId: model.logo.appId).get(model.logo.documentID).then((val) {
+        await memberMediumRepository(appId: model.logo!.appId)!.get(model.logo!.documentID).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel formBackgroundHolder;
+    BackgroundModel? formBackgroundHolder;
     if (model.formBackground != null) {
       try {
-        await backgroundRepository(appId: model.formBackground.appId).get(model.formBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.formBackground!.appId)!.get(model.formBackground!.documentID).then((val) {
           formBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel formAppBarBackgroundHolder;
+    BackgroundModel? formAppBarBackgroundHolder;
     if (model.formAppBarBackground != null) {
       try {
-        await backgroundRepository(appId: model.formAppBarBackground.appId).get(model.formAppBarBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.formAppBarBackground!.appId)!.get(model.formAppBarBackground!.documentID).then((val) {
           formAppBarBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel listBackgroundHolder;
+    BackgroundModel? listBackgroundHolder;
     if (model.listBackground != null) {
       try {
-        await backgroundRepository(appId: model.listBackground.appId).get(model.listBackground.documentID).then((val) {
+        await backgroundRepository(appId: model.listBackground!.appId)!.get(model.listBackground!.documentID).then((val) {
           listBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h1Holder;
+    FontModel? h1Holder;
     if (model.h1 != null) {
       try {
-        await fontRepository(appId: model.h1.appId).get(model.h1.documentID).then((val) {
+        await fontRepository(appId: model.h1!.appId)!.get(model.h1!.documentID).then((val) {
           h1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h2Holder;
+    FontModel? h2Holder;
     if (model.h2 != null) {
       try {
-        await fontRepository(appId: model.h2.appId).get(model.h2.documentID).then((val) {
+        await fontRepository(appId: model.h2!.appId)!.get(model.h2!.documentID).then((val) {
           h2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h3Holder;
+    FontModel? h3Holder;
     if (model.h3 != null) {
       try {
-        await fontRepository(appId: model.h3.appId).get(model.h3.documentID).then((val) {
+        await fontRepository(appId: model.h3!.appId)!.get(model.h3!.documentID).then((val) {
           h3Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h4Holder;
+    FontModel? h4Holder;
     if (model.h4 != null) {
       try {
-        await fontRepository(appId: model.h4.appId).get(model.h4.documentID).then((val) {
+        await fontRepository(appId: model.h4!.appId)!.get(model.h4!.documentID).then((val) {
           h4Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h5Holder;
+    FontModel? h5Holder;
     if (model.h5 != null) {
       try {
-        await fontRepository(appId: model.h5.appId).get(model.h5.documentID).then((val) {
+        await fontRepository(appId: model.h5!.appId)!.get(model.h5!.documentID).then((val) {
           h5Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontTextHolder;
+    FontModel? fontTextHolder;
     if (model.fontText != null) {
       try {
-        await fontRepository(appId: model.fontText.appId).get(model.fontText.documentID).then((val) {
+        await fontRepository(appId: model.fontText!.appId)!.get(model.fontText!.documentID).then((val) {
           fontTextHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontHighlight1Holder;
+    FontModel? fontHighlight1Holder;
     if (model.fontHighlight1 != null) {
       try {
-        await fontRepository(appId: model.fontHighlight1.appId).get(model.fontHighlight1.documentID).then((val) {
+        await fontRepository(appId: model.fontHighlight1!.appId)!.get(model.fontHighlight1!.documentID).then((val) {
           fontHighlight1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontHighlight2Holder;
+    FontModel? fontHighlight2Holder;
     if (model.fontHighlight2 != null) {
       try {
-        await fontRepository(appId: model.fontHighlight2.appId).get(model.fontHighlight2.documentID).then((val) {
+        await fontRepository(appId: model.fontHighlight2!.appId)!.get(model.fontHighlight2!.documentID).then((val) {
           fontHighlight2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontLinkHolder;
+    FontModel? fontLinkHolder;
     if (model.fontLink != null) {
       try {
-        await fontRepository(appId: model.fontLink.appId).get(model.fontLink.documentID).then((val) {
+        await fontRepository(appId: model.fontLink!.appId)!.get(model.fontLink!.documentID).then((val) {
           fontLinkHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    AppPolicyModel policiesHolder;
+    AppPolicyModel? policiesHolder;
     if (model.policies != null) {
       try {
-        await appPolicyRepository(appId: model.policies.appId).get(model.policies.documentID).then((val) {
+        await appPolicyRepository(appId: model.policies!.appId)!.get(model.policies!.documentID).then((val) {
           policiesHolder = val;
         }).catchError((error) {});
       } catch (_) {}

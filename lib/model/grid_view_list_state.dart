@@ -20,19 +20,19 @@ abstract class GridViewListState extends Equatable {
   const GridViewListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class GridViewListLoading extends GridViewListState {}
 
 class GridViewListLoaded extends GridViewListState {
-  final List<GridViewModel> values;
-  final bool mightHaveMore;
+  final List<GridViewModel?>? values;
+  final bool? mightHaveMore;
 
   const GridViewListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'GridViewListLoaded { values: $values }';

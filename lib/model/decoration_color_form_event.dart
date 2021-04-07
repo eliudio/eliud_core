@@ -30,7 +30,7 @@ abstract class DecorationColorFormEvent extends Equatable {
   const DecorationColorFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewDecorationColorFormEvent extends DecorationColorFormEvent {
@@ -38,54 +38,54 @@ class InitialiseNewDecorationColorFormEvent extends DecorationColorFormEvent {
 
 
 class InitialiseDecorationColorFormEvent extends DecorationColorFormEvent {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseDecorationColorFormEvent({this.value});
 }
 
 class InitialiseDecorationColorFormNoLoadEvent extends DecorationColorFormEvent {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseDecorationColorFormNoLoadEvent({this.value});
 }
 
 class ChangedDecorationColorDocumentID extends DecorationColorFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDecorationColorDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDecorationColorDocumentID{ value: $value }';
 }
 
 class ChangedDecorationColorColor extends DecorationColorFormEvent {
-  final RgbModel value;
+  final RgbModel? value;
 
   ChangedDecorationColorColor({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDecorationColorColor{ value: $value }';
 }
 
 class ChangedDecorationColorStop extends DecorationColorFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDecorationColorStop({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDecorationColorStop{ value: $value }';

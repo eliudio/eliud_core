@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 typedef void MediumAvailable(MemberMediumModel model);
 
 abstract class AbstractStoragePlatform {
-  static AbstractStoragePlatform platform;
+  static AbstractStoragePlatform? platform;
 
   /*
    * Allows the user to take a photo or record a video.

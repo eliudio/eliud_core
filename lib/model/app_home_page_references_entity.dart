@@ -21,23 +21,23 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppHomePageReferencesEntity {
-  final String homePageBlockedMemberId;
-  final String homePageSubscribedMemberId;
-  final String homePageLevel1MemberId;
-  final String homePageLevel2MemberId;
-  final String homePageOwnerId;
+  final String? homePageBlockedMemberId;
+  final String? homePageSubscribedMemberId;
+  final String? homePageLevel1MemberId;
+  final String? homePageLevel2MemberId;
+  final String? homePageOwnerId;
 
   AppHomePageReferencesEntity({this.homePageBlockedMemberId, this.homePageSubscribedMemberId, this.homePageLevel1MemberId, this.homePageLevel2MemberId, this.homePageOwnerId, });
 
 
-  List<Object> get props => [homePageBlockedMemberId, homePageSubscribedMemberId, homePageLevel1MemberId, homePageLevel2MemberId, homePageOwnerId, ];
+  List<Object?> get props => [homePageBlockedMemberId, homePageSubscribedMemberId, homePageLevel1MemberId, homePageLevel2MemberId, homePageOwnerId, ];
 
   @override
   String toString() {
     return 'AppHomePageReferencesEntity{homePageBlockedMemberId: $homePageBlockedMemberId, homePageSubscribedMemberId: $homePageSubscribedMemberId, homePageLevel1MemberId: $homePageLevel1MemberId, homePageLevel2MemberId: $homePageLevel2MemberId, homePageOwnerId: $homePageOwnerId}';
   }
 
-  static AppHomePageReferencesEntity fromMap(Map map) {
+  static AppHomePageReferencesEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return AppHomePageReferencesEntity(
@@ -49,8 +49,8 @@ class AppHomePageReferencesEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (homePageBlockedMemberId != null) theDocument["homePageBlockedMemberId"] = homePageBlockedMemberId;
       else theDocument["homePageBlockedMemberId"] = null;
     if (homePageSubscribedMemberId != null) theDocument["homePageSubscribedMemberId"] = homePageSubscribedMemberId;
@@ -64,8 +64,8 @@ class AppHomePageReferencesEntity {
     return theDocument;
   }
 
-  static AppHomePageReferencesEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static AppHomePageReferencesEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

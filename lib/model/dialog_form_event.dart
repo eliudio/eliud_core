@@ -30,7 +30,7 @@ abstract class DialogFormEvent extends Equatable {
   const DialogFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewDialogFormEvent extends DialogFormEvent {
@@ -38,114 +38,114 @@ class InitialiseNewDialogFormEvent extends DialogFormEvent {
 
 
 class InitialiseDialogFormEvent extends DialogFormEvent {
-  final DialogModel value;
+  final DialogModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseDialogFormEvent({this.value});
 }
 
 class InitialiseDialogFormNoLoadEvent extends DialogFormEvent {
-  final DialogModel value;
+  final DialogModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseDialogFormNoLoadEvent({this.value});
 }
 
 class ChangedDialogDocumentID extends DialogFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDialogDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogDocumentID{ value: $value }';
 }
 
 class ChangedDialogAppId extends DialogFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDialogAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogAppId{ value: $value }';
 }
 
 class ChangedDialogTitle extends DialogFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDialogTitle({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogTitle{ value: $value }';
 }
 
 class ChangedDialogBodyComponents extends DialogFormEvent {
-  final List<BodyComponentModel> value;
+  final List<BodyComponentModel>? value;
 
   ChangedDialogBodyComponents({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogBodyComponents{ value: $value }';
 }
 
 class ChangedDialogBackground extends DialogFormEvent {
-  final RgbModel value;
+  final RgbModel? value;
 
   ChangedDialogBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogBackground{ value: $value }';
 }
 
 class ChangedDialogLayout extends DialogFormEvent {
-  final DialogLayout value;
+  final DialogLayout? value;
 
   ChangedDialogLayout({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogLayout{ value: $value }';
 }
 
 class ChangedDialogGridView extends DialogFormEvent {
-  final String value;
+  final String? value;
 
   ChangedDialogGridView({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogGridView{ value: $value }';
 }
 
 class ChangedDialogConditions extends DialogFormEvent {
-  final ConditionsModel value;
+  final ConditionsModel? value;
 
   ChangedDialogConditions({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedDialogConditions{ value: $value }';

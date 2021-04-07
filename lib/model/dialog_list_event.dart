@@ -19,7 +19,7 @@ import 'package:eliud_core/model/dialog_model.dart';
 abstract class DialogListEvent extends Equatable {
   const DialogListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadDialogList extends DialogListEvent {}
@@ -27,49 +27,49 @@ class LoadDialogList extends DialogListEvent {}
 class NewPage extends DialogListEvent {}
 
 class AddDialogList extends DialogListEvent {
-  final DialogModel value;
+  final DialogModel? value;
 
   const AddDialogList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddDialogList{ value: $value }';
 }
 
 class UpdateDialogList extends DialogListEvent {
-  final DialogModel value;
+  final DialogModel? value;
 
   const UpdateDialogList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateDialogList{ value: $value }';
 }
 
 class DeleteDialogList extends DialogListEvent {
-  final DialogModel value;
+  final DialogModel? value;
 
   const DeleteDialogList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteDialogList{ value: $value }';
 }
 
 class DialogListUpdated extends DialogListEvent {
-  final List<DialogModel> value;
-  final bool mightHaveMore;
+  final List<DialogModel?>? value;
+  final bool? mightHaveMore;
 
   const DialogListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'DialogListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

@@ -22,7 +22,7 @@ abstract class PageFormState extends Equatable {
   const PageFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class PageFormUninitialized extends PageFormState {
 
 // PageModel has been initialised and hence PageModel is available
 class PageFormInitialized extends PageFormState {
-  final PageModel value;
+  final PageModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const PageFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class PageFormError extends PageFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const PageFormError({this.message, PageModel value }) : super(value: value);
+  const PageFormError({this.message, PageModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class PageFormError extends PageFormInitialized {
   }
 }
 class DocumentIDPageFormError extends PageFormError { 
-  const DocumentIDPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const DocumentIDPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDPageFormError extends PageFormError {
 
 
 class AppIdPageFormError extends PageFormError { 
-  const AppIdPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const AppIdPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdPageFormError extends PageFormError {
 
 
 class TitlePageFormError extends PageFormError { 
-  const TitlePageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const TitlePageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitlePageFormError extends PageFormError {
 
 
 class AppBarPageFormError extends PageFormError { 
-  const AppBarPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const AppBarPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class AppBarPageFormError extends PageFormError {
 
 
 class DrawerPageFormError extends PageFormError { 
-  const DrawerPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const DrawerPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class DrawerPageFormError extends PageFormError {
 
 
 class EndDrawerPageFormError extends PageFormError { 
-  const EndDrawerPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const EndDrawerPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class EndDrawerPageFormError extends PageFormError {
 
 
 class HomeMenuPageFormError extends PageFormError { 
-  const HomeMenuPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const HomeMenuPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class HomeMenuPageFormError extends PageFormError {
 
 
 class BodyComponentsPageFormError extends PageFormError { 
-  const BodyComponentsPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const BodyComponentsPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class BodyComponentsPageFormError extends PageFormError {
 
 
 class BackgroundPageFormError extends PageFormError { 
-  const BackgroundPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const BackgroundPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class BackgroundPageFormError extends PageFormError {
 
 
 class LayoutPageFormError extends PageFormError { 
-  const LayoutPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const LayoutPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class LayoutPageFormError extends PageFormError {
 
 
 class GridViewPageFormError extends PageFormError { 
-  const GridViewPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const GridViewPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class GridViewPageFormError extends PageFormError {
 
 
 class ConditionsPageFormError extends PageFormError { 
-  const ConditionsPageFormError({ String message, PageModel value }): super(message: message, value: value);
+  const ConditionsPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class ConditionsPageFormError extends PageFormError {
 
 
 class PageFormLoaded extends PageFormInitialized { 
-  const PageFormLoaded({ PageModel value }): super(value: value);
+  const PageFormLoaded({ PageModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -271,10 +271,10 @@ class PageFormLoaded extends PageFormInitialized {
 
 
 class SubmittablePageForm extends PageFormInitialized { 
-  const SubmittablePageForm({ PageModel value }): super(value: value);
+  const SubmittablePageForm({ PageModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

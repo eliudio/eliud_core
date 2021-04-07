@@ -254,7 +254,7 @@ class CountriesHelper {
   static Future<void> uploadCountries(String appId) async {
     //AppModel appModel = await AbstractRepositorySingleton.singleton.appRepository().get(appId);
     await AbstractMainRepositorySingleton.singleton
-        .userRepository()
+        .userRepository()!
         .signInWithGoogle(null)
         .then((value) async {
       AbstractRepositorySingleton.singleton.countryRepository().deleteAll().then((_) async {

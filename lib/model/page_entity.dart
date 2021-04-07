@@ -21,31 +21,31 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class PageEntity {
-  final String appId;
-  final String title;
-  final String appBarId;
-  final String drawerId;
-  final String endDrawerId;
-  final String homeMenuId;
-  final List<BodyComponentEntity> bodyComponents;
-  final String backgroundId;
-  final int layout;
-  final String gridViewId;
-  final ConditionsEntity conditions;
+  final String? appId;
+  final String? title;
+  final String? appBarId;
+  final String? drawerId;
+  final String? endDrawerId;
+  final String? homeMenuId;
+  final List<BodyComponentEntity>? bodyComponents;
+  final String? backgroundId;
+  final int? layout;
+  final String? gridViewId;
+  final ConditionsEntity? conditions;
 
   PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
-    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
+    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
     return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
-  static PageEntity fromMap(Map map) {
+  static PageEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var bodyComponentsFromMap;
@@ -76,15 +76,15 @@ class PageEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> bodyComponentsListMap = bodyComponents != null 
-        ? bodyComponents.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String, dynamic>>? bodyComponentsListMap = bodyComponents != null 
+        ? bodyComponents!.map((item) => item.toDocument()).toList()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -110,8 +110,8 @@ class PageEntity {
     return theDocument;
   }
 
-  static PageEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static PageEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

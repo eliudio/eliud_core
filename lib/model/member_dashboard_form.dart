@@ -63,10 +63,10 @@ import 'package:eliud_core/model/member_dashboard_form_state.dart';
 
 class MemberDashboardForm extends StatelessWidget {
   FormAction formAction;
-  MemberDashboardModel value;
-  ActionModel submitAction;
+  MemberDashboardModel? value;
+  ActionModel? submitAction;
 
-  MemberDashboardForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberDashboardForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,12 +94,12 @@ class MemberDashboardForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MemberDashboard", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update MemberDashboard", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MemberDashboard", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add MemberDashboard", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -117,8 +117,8 @@ class MemberDashboardForm extends StatelessWidget {
 
 
 class MyMemberDashboardForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberDashboardForm({this.formAction, this.submitAction});
 
@@ -127,8 +127,8 @@ class MyMemberDashboardForm extends StatefulWidget {
 
 
 class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
-  final FormAction formAction;
-  MemberDashboardFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberDashboardFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
@@ -168,40 +168,40 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
       );
 
       if (state is MemberDashboardFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.description != null)
-          _descriptionController.text = state.value.description.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
           _descriptionController.text = "";
-        if (state.value.updateProfileText != null)
-          _updateProfileTextController.text = state.value.updateProfileText.toString();
+        if (state.value!.updateProfileText != null)
+          _updateProfileTextController.text = state.value!.updateProfileText.toString();
         else
           _updateProfileTextController.text = "";
-        if (state.value.retrieveDataText != null)
-          _retrieveDataTextController.text = state.value.retrieveDataText.toString();
+        if (state.value!.retrieveDataText != null)
+          _retrieveDataTextController.text = state.value!.retrieveDataText.toString();
         else
           _retrieveDataTextController.text = "";
-        if (state.value.deleteDataText != null)
-          _deleteDataTextController.text = state.value.deleteDataText.toString();
+        if (state.value!.deleteDataText != null)
+          _deleteDataTextController.text = state.value!.deleteDataText.toString();
         else
           _deleteDataTextController.text = "";
-        if (state.value.retrieveDataEmailSubject != null)
-          _retrieveDataEmailSubjectController.text = state.value.retrieveDataEmailSubject.toString();
+        if (state.value!.retrieveDataEmailSubject != null)
+          _retrieveDataEmailSubjectController.text = state.value!.retrieveDataEmailSubject.toString();
         else
           _retrieveDataEmailSubjectController.text = "";
-        if (state.value.deleteDataEmailSubject != null)
-          _deleteDataEmailSubjectController.text = state.value.deleteDataEmailSubject.toString();
+        if (state.value!.deleteDataEmailSubject != null)
+          _deleteDataEmailSubjectController.text = state.value!.deleteDataEmailSubject.toString();
         else
           _deleteDataEmailSubjectController.text = "";
-        if (state.value.deleteDataEmailMessage != null)
-          _deleteDataEmailMessageController.text = state.value.deleteDataEmailMessage.toString();
+        if (state.value!.deleteDataEmailMessage != null)
+          _deleteDataEmailMessageController.text = state.value!.deleteDataEmailMessage.toString();
         else
           _deleteDataEmailMessageController.text = "";
       }
@@ -212,7 +212,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -412,35 +412,35 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberDashboardListBloc>(context).add(
-                          UpdateMemberDashboardList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              description: state.value.description, 
-                              updateProfileText: state.value.updateProfileText, 
-                              retrieveDataText: state.value.retrieveDataText, 
-                              deleteDataText: state.value.deleteDataText, 
-                              retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
-                              deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
-                              deleteDataEmailMessage: state.value.deleteDataEmailMessage, 
-                              conditions: state.value.conditions, 
+                          UpdateMemberDashboardList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              description: state.value!.description, 
+                              updateProfileText: state.value!.updateProfileText, 
+                              retrieveDataText: state.value!.retrieveDataText, 
+                              deleteDataText: state.value!.deleteDataText, 
+                              retrieveDataEmailSubject: state.value!.retrieveDataEmailSubject, 
+                              deleteDataEmailSubject: state.value!.deleteDataEmailSubject, 
+                              deleteDataEmailMessage: state.value!.deleteDataEmailMessage, 
+                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<MemberDashboardListBloc>(context).add(
                           AddMemberDashboardList(value: MemberDashboardModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              description: state.value.description, 
-                              updateProfileText: state.value.updateProfileText, 
-                              retrieveDataText: state.value.retrieveDataText, 
-                              deleteDataText: state.value.deleteDataText, 
-                              retrieveDataEmailSubject: state.value.retrieveDataEmailSubject, 
-                              deleteDataEmailSubject: state.value.deleteDataEmailSubject, 
-                              deleteDataEmailMessage: state.value.deleteDataEmailMessage, 
-                              conditions: state.value.conditions, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              description: state.value!.description, 
+                              updateProfileText: state.value!.updateProfileText, 
+                              retrieveDataText: state.value!.retrieveDataText, 
+                              deleteDataText: state.value!.deleteDataText, 
+                              retrieveDataEmailSubject: state.value!.retrieveDataEmailSubject, 
+                              deleteDataEmailSubject: state.value!.deleteDataEmailSubject, 
+                              deleteDataEmailMessage: state.value!.deleteDataEmailMessage, 
+                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

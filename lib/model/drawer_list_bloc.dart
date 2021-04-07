@@ -27,40 +27,40 @@ const _drawerLimit = 5;
 
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final DrawerRepository _drawerRepository;
-  StreamSubscription _drawersListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _drawersListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  DrawerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required DrawerRepository drawerRepository})
+  DrawerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository})
       : assert(drawerRepository != null),
         _drawerRepository = drawerRepository,
         super(DrawerListLoading());
 
   Stream<DrawerListState> _mapLoadDrawerListToState() async* {
-    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values.length : 0;
+    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
     _drawersListSubscription?.cancel();
     _drawersListSubscription = _drawerRepository.listen(
           (list) => add(DrawerListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _drawerLimit : null
+      limit: ((paged != null) && paged!) ? pages * _drawerLimit : null
     );
   }
 
   Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {
-    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values.length : 0;
+    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
     _drawersListSubscription?.cancel();
     _drawersListSubscription = _drawerRepository.listenWithDetails(
             (list) => add(DrawerListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _drawerLimit : null
+        limit: ((paged != null) && paged!) ? pages * _drawerLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   @override
   Stream<DrawerListState> mapEventToState(DrawerListEvent event) async* {
     if (event is LoadDrawerList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadDrawerListToState();
       } else {
         yield* _mapLoadDrawerListWithDetailsToState();

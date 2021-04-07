@@ -27,40 +27,40 @@ const _appBarLimit = 5;
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final AppBarRepository _appBarRepository;
-  StreamSubscription _appBarsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _appBarsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppBarRepository appBarRepository})
+  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository})
       : assert(appBarRepository != null),
         _appBarRepository = appBarRepository,
         super(AppBarListLoading());
 
   Stream<AppBarListState> _mapLoadAppBarListToState() async* {
-    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values.length : 0;
+    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listen(
           (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _appBarLimit : null
+      limit: ((paged != null) && paged!) ? pages * _appBarLimit : null
     );
   }
 
   Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState() async* {
-    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values.length : 0;
+    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listenWithDetails(
             (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _appBarLimit : null
+        limit: ((paged != null) && paged!) ? pages * _appBarLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   @override
   Stream<AppBarListState> mapEventToState(AppBarListEvent event) async* {
     if (event is LoadAppBarList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadAppBarListToState();
       } else {
         yield* _mapLoadAppBarListWithDetailsToState();

@@ -27,40 +27,40 @@ const _memberDashboardLimit = 5;
 
 class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashboardListState> {
   final MemberDashboardRepository _memberDashboardRepository;
-  StreamSubscription _memberDashboardsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _memberDashboardsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  MemberDashboardListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MemberDashboardRepository memberDashboardRepository})
+  MemberDashboardListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberDashboardRepository memberDashboardRepository})
       : assert(memberDashboardRepository != null),
         _memberDashboardRepository = memberDashboardRepository,
         super(MemberDashboardListLoading());
 
   Stream<MemberDashboardListState> _mapLoadMemberDashboardListToState() async* {
-    int amountNow =  (state is MemberDashboardListLoaded) ? (state as MemberDashboardListLoaded).values.length : 0;
+    int amountNow =  (state is MemberDashboardListLoaded) ? (state as MemberDashboardListLoaded).values!.length : 0;
     _memberDashboardsListSubscription?.cancel();
     _memberDashboardsListSubscription = _memberDashboardRepository.listen(
           (list) => add(MemberDashboardListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _memberDashboardLimit : null
+      limit: ((paged != null) && paged!) ? pages * _memberDashboardLimit : null
     );
   }
 
   Stream<MemberDashboardListState> _mapLoadMemberDashboardListWithDetailsToState() async* {
-    int amountNow =  (state is MemberDashboardListLoaded) ? (state as MemberDashboardListLoaded).values.length : 0;
+    int amountNow =  (state is MemberDashboardListLoaded) ? (state as MemberDashboardListLoaded).values!.length : 0;
     _memberDashboardsListSubscription?.cancel();
     _memberDashboardsListSubscription = _memberDashboardRepository.listenWithDetails(
             (list) => add(MemberDashboardListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _memberDashboardLimit : null
+        limit: ((paged != null) && paged!) ? pages * _memberDashboardLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
   @override
   Stream<MemberDashboardListState> mapEventToState(MemberDashboardListEvent event) async* {
     if (event is LoadMemberDashboardList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadMemberDashboardListToState();
       } else {
         yield* _mapLoadMemberDashboardListWithDetailsToState();

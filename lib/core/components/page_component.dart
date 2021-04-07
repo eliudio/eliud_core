@@ -21,18 +21,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
-  final GlobalKey<NavigatorState> navigatorKey;
-  final String pageID;
+  final GlobalKey<NavigatorState>? navigatorKey;
+  final String? pageID;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  final Map<String, Object> parameters;
+  final Map<String, Object>? parameters;
 
   PageComponent({this.navigatorKey, this.pageID, this.parameters});
 
   @override
   Widget build(BuildContext context) {
-    var accessState = BlocProvider.of<AccessBloc>(context).state;
+    AccessState accessState = BlocProvider.of<AccessBloc>(context).state;
     if (accessState is AppLoaded) {
       var app = accessState.app;
       return MultiBlocProvider(
@@ -49,7 +49,7 @@ class PageComponent extends StatelessWidget {
               if (state.value == null) {
                 return AlertWidget(title: 'Error', content: 'No page defined');
               } else {
-                Widget theBody;
+                Widget? theBody;
                 var hasFab;
                 if ((accessState is LoggedIn) &&
                     (accessState.forceAcceptMembership())) {
@@ -58,21 +58,21 @@ class PageComponent extends StatelessWidget {
                 } else {
                   var helper = PageBodyHelper();
                   var components = helper.getComponents(
-                      state.value.bodyComponents, parameters);
+                      state.value!.bodyComponents!, parameters);
                   hasFab = getFab(components);
                   theBody = helper.theBody(context, accessState,
-                      backgroundDecoration: state.value.background,
+                      backgroundDecoration: state.value!.background,
                       components: components,
-                      layout: fromPageLayout(state.value.layout),
-                      gridView: state.value.gridView);
+                      layout: fromPageLayout(state.value!.layout),
+                      gridView: state.value!.gridView);
                 }
 
                 var drawer = DrawerConstructor(pageID)
-                    .drawer(context, state.value.drawer);
+                    .drawer(context, state.value!.drawer);
                 var endDrawer = DrawerConstructor(pageID)
-                    .drawer(context, state.value.endDrawer);
+                    .drawer(context, state.value!.endDrawer);
                 var appBar = AppBarConstructor(pageID, scaffoldKey)
-                    .appBar(context, state.value.title, state.value.appBar);
+                    .appBar(context, state.value!.title, state.value!.appBar);
                 return ScaffoldMessenger(
                     key: scaffoldMessengerKey,
                     child: Scaffold(
@@ -90,8 +90,8 @@ class PageComponent extends StatelessWidget {
                           FloatingActionButtonLocation.centerFloat,
                       bottomNavigationBar:
                           BottomNavigationBarConstructor(pageID)
-                              .bottomNavigationBar(app, state.value.homeMenu,
-                                  state.value.background),
+                              .bottomNavigationBar(app, state.value!.homeMenu,
+                                  state.value!.background),
                     ));
               }
             } else if (state is PageComponentError) {
@@ -107,11 +107,11 @@ class PageComponent extends StatelessWidget {
     }
   }
 
-  HasFab getFab(List<Widget> components) {
-    HasFab hasFab;
+  HasFab? getFab(List<Widget?> components) {
+    HasFab? hasFab;
     components.forEach((element) {
       if (element is HasFab) {
-        hasFab = element as HasFab;
+        hasFab = element as HasFab?;
       }
     });
     return hasFab;

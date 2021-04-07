@@ -38,13 +38,13 @@ import 'package:eliud_core/model/shadow_form_state.dart';
 import 'package:eliud_core/model/shadow_repository.dart';
 
 class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   ShadowFormBloc(this.appId, { this.formAction }): super(ShadowFormUninitialized());
   @override
   Stream<ShadowFormState> mapEventToState(ShadowFormEvent event) async* {
-    final currentState = state;
+    final ShadowFormState currentState = state;
     if (currentState is ShadowFormUninitialized) {
       if (event is InitialiseNewShadowFormEvent) {
         ShadowFormLoaded loaded = ShadowFormLoaded(value: ShadowModel(
@@ -66,7 +66,7 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
 
       if (event is InitialiseShadowFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appId: appId).get(event.value.documentID));
+        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShadowFormNoLoadEvent) {
@@ -75,9 +75,9 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
     } else if (currentState is ShadowFormInitialized) {
-      ShadowModel newValue = null;
+      ShadowModel? newValue = null;
       if (event is ChangedShadowDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -87,57 +87,57 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
       if (event is ChangedShadowComments) {
-        newValue = currentState.value.copyWith(comments: event.value);
+        newValue = currentState.value!.copyWith(comments: event.value);
         yield SubmittableShadowForm(value: newValue);
 
         return;
       }
       if (event is ChangedShadowColor) {
-        newValue = currentState.value.copyWith(color: event.value);
+        newValue = currentState.value!.copyWith(color: event.value);
         yield SubmittableShadowForm(value: newValue);
 
         return;
       }
       if (event is ChangedShadowOffsetDX) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(offsetDX: double.parse(event.value));
+          newValue = currentState.value!.copyWith(offsetDX: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(offsetDX: 0.0);
+          newValue = currentState.value!.copyWith(offsetDX: 0.0);
           yield OffsetDXShadowFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShadowOffsetDY) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(offsetDY: double.parse(event.value));
+          newValue = currentState.value!.copyWith(offsetDY: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(offsetDY: 0.0);
+          newValue = currentState.value!.copyWith(offsetDY: 0.0);
           yield OffsetDYShadowFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShadowSpreadRadius) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(spreadRadius: double.parse(event.value));
+          newValue = currentState.value!.copyWith(spreadRadius: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(spreadRadius: 0.0);
+          newValue = currentState.value!.copyWith(spreadRadius: 0.0);
           yield SpreadRadiusShadowFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedShadowBlurRadius) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(blurRadius: double.parse(event.value));
+          newValue = currentState.value!.copyWith(blurRadius: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(blurRadius: 0.0);
+          newValue = currentState.value!.copyWith(blurRadius: 0.0);
           yield BlurRadiusShadowFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
@@ -148,10 +148,10 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
 
   DocumentIDShadowFormError error(String message, ShadowModel newValue) => DocumentIDShadowFormError(message: message, value: newValue);
 
-  Future<ShadowFormState> _isDocumentIDValid(String value, ShadowModel newValue) async {
+  Future<ShadowFormState> _isDocumentIDValid(String? value, ShadowModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<ShadowModel> findDocument = shadowRepository(appId: appId).get(value);
+    Future<ShadowModel?> findDocument = shadowRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableShadowForm(value: newValue);

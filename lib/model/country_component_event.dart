@@ -21,7 +21,7 @@ abstract class CountryComponentEvent extends Equatable {
 }
 
 class FetchCountryComponent extends CountryComponentEvent {
-  final String id;
+  final String? id;
 
   FetchCountryComponent({ this.id });
 }

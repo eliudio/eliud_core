@@ -20,13 +20,13 @@ abstract class PosSizeComponentState extends Equatable {
   const PosSizeComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PosSizeComponentUninitialized extends PosSizeComponentState {}
 
 class PosSizeComponentError extends PosSizeComponentState {
-  final String message;
+  final String? message;
   PosSizeComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class PosSizeComponentPermissionDenied extends PosSizeComponentState {
 }
 
 class PosSizeComponentLoaded extends PosSizeComponentState {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   const PosSizeComponentLoaded({ this.value });
 
-  PosSizeComponentLoaded copyWith({ PosSizeModel copyThis }) {
+  PosSizeComponentLoaded copyWith({ PosSizeModel? copyThis }) {
     return PosSizeComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'PosSizeComponentLoaded { value: $value }';

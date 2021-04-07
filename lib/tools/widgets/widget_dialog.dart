@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'dialog_helper.dart';
 
 class WidgetDialog extends StatefulWidget {
-  final String title;
-  final Widget widget;
-  final Function yesFunction;
+  final String? title;
+  final Widget? widget;
+  final Function? yesFunction;
 
   WidgetDialog({
-    Key key,
+    Key? key,
     this.title,
     this.widget,
     this.yesFunction,
@@ -25,7 +25,7 @@ class _WidgetDialogState extends State<WidgetDialog> {
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
-        title: widget.title,
+        title: widget.title!,
         contents: widget.widget,
         buttons: dialogHelper.getCloseButton(context, widget.yesFunction));
   }

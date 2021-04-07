@@ -20,19 +20,19 @@ abstract class BackgroundListState extends Equatable {
   const BackgroundListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class BackgroundListLoading extends BackgroundListState {}
 
 class BackgroundListLoaded extends BackgroundListState {
-  final List<BackgroundModel> values;
-  final bool mightHaveMore;
+  final List<BackgroundModel?>? values;
+  final bool? mightHaveMore;
 
   const BackgroundListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'BackgroundListLoaded { values: $values }';

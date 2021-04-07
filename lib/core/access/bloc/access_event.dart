@@ -5,36 +5,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AccessEvent extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SwitchAppEvent extends AccessEvent {
-  final String appId;
+  final String? appId;
 
   SwitchAppEvent(this.appId);
 
   @override
-  List<Object> get props => [ appId ];
+  List<Object?> get props => [ appId ];
 }
 
 class SwitchAppAndPageEvent extends SwitchAppEvent {
-  final String pageId;
-  final Map<String, Object> parameters;
+  final String? pageId;
+  final Map<String, Object>? parameters;
 
-  SwitchAppAndPageEvent(String appId, this.pageId, this.parameters) : super(appId);
+  SwitchAppAndPageEvent(String? appId, this.pageId, this.parameters) : super(appId);
 
   @override
-  List<Object> get props => [ appId, pageId, parameters ];
+  List<Object?> get props => [ appId, pageId, parameters ];
 }
 
 class InitApp extends AccessEvent {
-  final String appId;
-  final bool isPlaystore;
+  final String? appId;
+  final bool? isPlaystore;
 
   InitApp(this.appId, this.isPlaystore);
 
   @override
-  List<Object> get props => [ appId ];
+  List<Object?> get props => [ appId ];
 }
 
 class LogoutEvent extends AccessEvent {
@@ -49,12 +49,12 @@ abstract class PostLoginAction {
 }
 
 class LoginEvent extends AccessEvent {
-  PostLoginAction actions;
+  PostLoginAction? actions;
 
   LoginEvent({this.actions});
 
   @override
-  List<Object> get props => [ actions ];
+  List<Object?> get props => [ actions ];
 }
 
 class AcceptedMembership extends AccessEvent{
@@ -68,13 +68,13 @@ class AcceptedMembership extends AccessEvent{
 }
 
 class MemberUpdated extends AccessEvent {
-  final MemberModel member;
-  bool refresh; // goto the (potentially new) homepage?
+  final MemberModel? member;
+  bool? refresh; // goto the (potentially new) homepage?
 
   MemberUpdated(this.member, {this.refresh});
 
   @override
-  List<Object> get props => [ member, refresh ];
+  List<Object?> get props => [ member, refresh ];
 }
 
 

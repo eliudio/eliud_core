@@ -20,11 +20,11 @@ class GDPR {
     return collection;
   }
 
-  static Future<void> dumpMemberData(String appId, String subject, String from,
+  static Future<void> dumpMemberData(String? appId, String? subject, String? from,
       List<MemberCollectionInfo> memberCollectionInfo) async {
     var dumpMemberData =
         FirebaseFunctions.instance.httpsCallable('dumpMemberData');
-    return await dumpMemberData.call(<String, dynamic>{
+    await dumpMemberData.call(<String, dynamic>{
       'appId': appId,
       'subject': subject,
       'from': from,
@@ -34,10 +34,10 @@ class GDPR {
 
   static Future<void> deleteMemberData(
       MemberModel member,
-      String appId,
-      String subject,
-      String from,
-      String message,
+      String? appId,
+      String? subject,
+      String? from,
+      String? message,
       List<MemberCollectionInfo> memberCollectionInfo) async {
     var deleteMemberData =
         FirebaseFunctions.instance.httpsCallable('deleteMemberData');
@@ -48,6 +48,6 @@ class GDPR {
       'message': message,
       'collections': _toFunctionFormat(memberCollectionInfo)
     });
-    memberRepository().delete(member);
+    memberRepository()!.delete(member);
   }
 }

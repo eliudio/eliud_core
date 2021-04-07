@@ -27,40 +27,40 @@ const _memberMediumLimit = 5;
 
 class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListState> {
   final MemberMediumRepository _memberMediumRepository;
-  StreamSubscription _memberMediumsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _memberMediumsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  MemberMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MemberMediumRepository memberMediumRepository})
+  MemberMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository})
       : assert(memberMediumRepository != null),
         _memberMediumRepository = memberMediumRepository,
         super(MemberMediumListLoading());
 
   Stream<MemberMediumListState> _mapLoadMemberMediumListToState() async* {
-    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values.length : 0;
+    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
     _memberMediumsListSubscription?.cancel();
     _memberMediumsListSubscription = _memberMediumRepository.listen(
           (list) => add(MemberMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _memberMediumLimit : null
+      limit: ((paged != null) && paged!) ? pages * _memberMediumLimit : null
     );
   }
 
   Stream<MemberMediumListState> _mapLoadMemberMediumListWithDetailsToState() async* {
-    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values.length : 0;
+    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
     _memberMediumsListSubscription?.cancel();
     _memberMediumsListSubscription = _memberMediumRepository.listenWithDetails(
             (list) => add(MemberMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _memberMediumLimit : null
+        limit: ((paged != null) && paged!) ? pages * _memberMediumLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   @override
   Stream<MemberMediumListState> mapEventToState(MemberMediumListEvent event) async* {
     if (event is LoadMemberMediumList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadMemberMediumListToState();
       } else {
         yield* _mapLoadMemberMediumListWithDetailsToState();

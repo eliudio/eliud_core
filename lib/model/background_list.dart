@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'background_form.dart';
 
 
-typedef BackgroundWidgetProvider(BackgroundModel value);
+typedef BackgroundWidgetProvider(BackgroundModel? value);
 
 class BackgroundListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  BackgroundWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  BackgroundListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  BackgroundWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  BackgroundListWidgetState? state;
+  bool? isEmbedded;
 
-  BackgroundListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  BackgroundListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   BackgroundListWidgetState createState() {
     state ??= BackgroundListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= BackgroundListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class BackgroundListWidgetState extends State<BackgroundListWidget> {
-  BackgroundListBloc bloc;
+  BackgroundListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
           );
         } else if (state is BackgroundListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return BackgroundListItem(
             value: value,
@@ -210,7 +210,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return BackgroundForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class BackgroundListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   BackgroundListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__Background_item_${value.documentID}'),
+      key: Key('__Background_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__BackgroundheroTag',
+          tag: '${value!.documentID}__BackgroundheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.comments != null) && (value.comments.isNotEmpty)
+        subtitle: (value!.comments != null) && (value!.comments!.isNotEmpty)
             ? Center( child: Text(
-          value.comments,
+          value!.comments!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

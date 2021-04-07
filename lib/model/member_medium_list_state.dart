@@ -20,19 +20,19 @@ abstract class MemberMediumListState extends Equatable {
   const MemberMediumListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class MemberMediumListLoading extends MemberMediumListState {}
 
 class MemberMediumListLoaded extends MemberMediumListState {
-  final List<MemberMediumModel> values;
-  final bool mightHaveMore;
+  final List<MemberMediumModel?>? values;
+  final bool? mightHaveMore;
 
   const MemberMediumListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'MemberMediumListLoaded { values: $values }';

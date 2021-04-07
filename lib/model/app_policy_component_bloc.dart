@@ -23,19 +23,19 @@ import 'package:eliud_core/model/app_policy_repository.dart';
 import 'package:flutter/services.dart';
 
 class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComponentState> {
-  final AppPolicyRepository appPolicyRepository;
+  final AppPolicyRepository? appPolicyRepository;
 
   AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized());
   @override
   Stream<AppPolicyComponentState> mapEventToState(AppPolicyComponentEvent event) async* {
-    final currentState = state;
+    final AppPolicyComponentState currentState = state;
     if (event is FetchAppPolicyComponent) {
       try {
         if (currentState is AppPolicyComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await appPolicyRepository.get(event.id, onError: (error) {
+          final model = await appPolicyRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -45,7 +45,7 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
             if (model != null) {
               yield AppPolicyComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield AppPolicyComponentError(
                   message: "AppPolicy with id = '$id' not found");
             }

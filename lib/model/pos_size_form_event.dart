@@ -30,7 +30,7 @@ abstract class PosSizeFormEvent extends Equatable {
   const PosSizeFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewPosSizeFormEvent extends PosSizeFormEvent {
@@ -38,210 +38,210 @@ class InitialiseNewPosSizeFormEvent extends PosSizeFormEvent {
 
 
 class InitialisePosSizeFormEvent extends PosSizeFormEvent {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialisePosSizeFormEvent({this.value});
 }
 
 class InitialisePosSizeFormNoLoadEvent extends PosSizeFormEvent {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialisePosSizeFormNoLoadEvent({this.value});
 }
 
 class ChangedPosSizeDocumentID extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeDocumentID{ value: $value }';
 }
 
 class ChangedPosSizeAppId extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeAppId{ value: $value }';
 }
 
 class ChangedPosSizeName extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeName{ value: $value }';
 }
 
 class ChangedPosSizeWidthPortrait extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeWidthPortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeWidthPortrait{ value: $value }';
 }
 
 class ChangedPosSizeWidthTypePortrait extends PosSizeFormEvent {
-  final WidthTypePortrait value;
+  final WidthTypePortrait? value;
 
   ChangedPosSizeWidthTypePortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeWidthTypePortrait{ value: $value }';
 }
 
 class ChangedPosSizeWidthLandscape extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeWidthLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeWidthLandscape{ value: $value }';
 }
 
 class ChangedPosSizeWidthTypeLandscape extends PosSizeFormEvent {
-  final WidthTypeLandscape value;
+  final WidthTypeLandscape? value;
 
   ChangedPosSizeWidthTypeLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeWidthTypeLandscape{ value: $value }';
 }
 
 class ChangedPosSizeHeightPortrait extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeHeightPortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeHeightPortrait{ value: $value }';
 }
 
 class ChangedPosSizeHeightTypePortrait extends PosSizeFormEvent {
-  final HeightTypePortrait value;
+  final HeightTypePortrait? value;
 
   ChangedPosSizeHeightTypePortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeHeightTypePortrait{ value: $value }';
 }
 
 class ChangedPosSizeHeightLandscape extends PosSizeFormEvent {
-  final String value;
+  final String? value;
 
   ChangedPosSizeHeightLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeHeightLandscape{ value: $value }';
 }
 
 class ChangedPosSizeHeightTypeLandscape extends PosSizeFormEvent {
-  final HeightTypeLandscape value;
+  final HeightTypeLandscape? value;
 
   ChangedPosSizeHeightTypeLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeHeightTypeLandscape{ value: $value }';
 }
 
 class ChangedPosSizeFitPortrait extends PosSizeFormEvent {
-  final PortraitFitType value;
+  final PortraitFitType? value;
 
   ChangedPosSizeFitPortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeFitPortrait{ value: $value }';
 }
 
 class ChangedPosSizeFitLandscape extends PosSizeFormEvent {
-  final LandscapeFitType value;
+  final LandscapeFitType? value;
 
   ChangedPosSizeFitLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeFitLandscape{ value: $value }';
 }
 
 class ChangedPosSizeAlignTypePortrait extends PosSizeFormEvent {
-  final PortraitAlignType value;
+  final PortraitAlignType? value;
 
   ChangedPosSizeAlignTypePortrait({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeAlignTypePortrait{ value: $value }';
 }
 
 class ChangedPosSizeAlignTypeLandscape extends PosSizeFormEvent {
-  final LandscapeAlignType value;
+  final LandscapeAlignType? value;
 
   ChangedPosSizeAlignTypeLandscape({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeAlignTypeLandscape{ value: $value }';
 }
 
 class ChangedPosSizeClip extends PosSizeFormEvent {
-  final ClipType value;
+  final ClipType? value;
 
   ChangedPosSizeClip({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedPosSizeClip{ value: $value }';

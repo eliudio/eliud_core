@@ -27,40 +27,40 @@ const _decorationColorLimit = 5;
 
 class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationColorListState> {
   final DecorationColorRepository _decorationColorRepository;
-  StreamSubscription _decorationColorsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _decorationColorsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required DecorationColorRepository decorationColorRepository})
+  DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DecorationColorRepository decorationColorRepository})
       : assert(decorationColorRepository != null),
         _decorationColorRepository = decorationColorRepository,
         super(DecorationColorListLoading());
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListToState() async* {
-    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values.length : 0;
+    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values!.length : 0;
     _decorationColorsListSubscription?.cancel();
     _decorationColorsListSubscription = _decorationColorRepository.listen(
           (list) => add(DecorationColorListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _decorationColorLimit : null
+      limit: ((paged != null) && paged!) ? pages * _decorationColorLimit : null
     );
   }
 
   Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
-    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values.length : 0;
+    int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values!.length : 0;
     _decorationColorsListSubscription?.cancel();
     _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails(
             (list) => add(DecorationColorListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _decorationColorLimit : null
+        limit: ((paged != null) && paged!) ? pages * _decorationColorLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   @override
   Stream<DecorationColorListState> mapEventToState(DecorationColorListEvent event) async* {
     if (event is LoadDecorationColorList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadDecorationColorListToState();
       } else {
         yield* _mapLoadDecorationColorListWithDetailsToState();

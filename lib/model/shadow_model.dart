@@ -32,28 +32,28 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ShadowModel {
-  String documentID;
-  String appId;
-  String comments;
-  RgbModel color;
+  String? documentID;
+  String? appId;
+  String? comments;
+  RgbModel? color;
 
   // The first argument sets [dx], the horizontal component of the offset
-  double offsetDX;
+  double? offsetDX;
 
   // The second argument sets [dy], the vertical component of the offset
-  double offsetDY;
+  double? offsetDY;
 
   // The amount the box should be inflated prior to applying the blur.
-  double spreadRadius;
+  double? spreadRadius;
 
   // The standard deviation of the Gaussian to convolve with the shadow's shape.
-  double blurRadius;
+  double? blurRadius;
 
   ShadowModel({this.documentID, this.appId, this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
     assert(documentID != null);
   }
 
-  ShadowModel copyWith({String documentID, String appId, String comments, RgbModel color, double offsetDX, double offsetDY, double spreadRadius, double blurRadius, }) {
+  ShadowModel copyWith({String? documentID, String? appId, String? comments, RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
     return ShadowModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
   }
 
@@ -79,11 +79,11 @@ class ShadowModel {
     return 'ShadowModel{documentID: $documentID, appId: $appId, comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity({String appId}) {
+  ShadowEntity toEntity({String? appId}) {
     return ShadowEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
-          color: (color != null) ? color.toEntity(appId: appId) : null, 
+          color: (color != null) ? color!.toEntity(appId: appId) : null, 
           offsetDX: (offsetDX != null) ? offsetDX : null, 
           offsetDY: (offsetDY != null) ? offsetDY : null, 
           spreadRadius: (spreadRadius != null) ? spreadRadius : null, 
@@ -91,7 +91,7 @@ class ShadowModel {
     );
   }
 
-  static ShadowModel fromEntity(String documentID, ShadowEntity entity) {
+  static ShadowModel? fromEntity(String documentID, ShadowEntity? entity) {
     if (entity == null) return null;
     return ShadowModel(
           documentID: documentID, 
@@ -106,7 +106,7 @@ class ShadowModel {
     );
   }
 
-  static Future<ShadowModel> fromEntityPlus(String documentID, ShadowEntity entity, { String appId}) async {
+  static Future<ShadowModel?> fromEntityPlus(String documentID, ShadowEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return ShadowModel(

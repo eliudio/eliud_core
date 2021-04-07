@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class DeleteSnackBar extends SnackBar {
   DeleteSnackBar({
-    Key key,
-    @required String message,
-    @required VoidCallback onUndo,
+    Key? key,
+    required String message,
+    required VoidCallback onUndo,
   }) : super(
     key: key,
     content: Text(

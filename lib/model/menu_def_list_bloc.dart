@@ -27,40 +27,40 @@ const _menuDefLimit = 5;
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final MenuDefRepository _menuDefRepository;
-  StreamSubscription _menuDefsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _menuDefsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MenuDefRepository menuDefRepository})
+  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository})
       : assert(menuDefRepository != null),
         _menuDefRepository = menuDefRepository,
         super(MenuDefListLoading());
 
   Stream<MenuDefListState> _mapLoadMenuDefListToState() async* {
-    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values.length : 0;
+    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listen(
           (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _menuDefLimit : null
+      limit: ((paged != null) && paged!) ? pages * _menuDefLimit : null
     );
   }
 
   Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState() async* {
-    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values.length : 0;
+    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
             (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _menuDefLimit : null
+        limit: ((paged != null) && paged!) ? pages * _menuDefLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   @override
   Stream<MenuDefListState> mapEventToState(MenuDefListEvent event) async* {
     if (event is LoadMenuDefList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadMenuDefListToState();
       } else {
         yield* _mapLoadMenuDefListWithDetailsToState();

@@ -25,7 +25,7 @@ import 'package:eliud_core/model/grid_view_component_state.dart';
 
 abstract class AbstractGridViewComponent extends StatelessWidget {
   static String componentName = "gridViews";
-  final String gridViewID;
+  final String? gridViewID;
 
   AbstractGridViewComponent({this.gridViewID});
 
@@ -63,7 +63,7 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, GridViewModel value);
+  Widget yourWidget(BuildContext context, GridViewModel? value);
   Widget alertWidget({ title: String, content: String});
   GridViewRepository getGridViewRepository(BuildContext context);
 }

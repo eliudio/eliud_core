@@ -21,20 +21,20 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppEntryPagesEntity {
-  final String entryPageId;
-  final int minPrivilege;
+  final String? entryPageId;
+  final int? minPrivilege;
 
   AppEntryPagesEntity({this.entryPageId, this.minPrivilege, });
 
 
-  List<Object> get props => [entryPageId, minPrivilege, ];
+  List<Object?> get props => [entryPageId, minPrivilege, ];
 
   @override
   String toString() {
     return 'AppEntryPagesEntity{entryPageId: $entryPageId, minPrivilege: $minPrivilege}';
   }
 
-  static AppEntryPagesEntity fromMap(Map map) {
+  static AppEntryPagesEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return AppEntryPagesEntity(
@@ -43,8 +43,8 @@ class AppEntryPagesEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (entryPageId != null) theDocument["entryPageId"] = entryPageId;
       else theDocument["entryPageId"] = null;
     if (minPrivilege != null) theDocument["minPrivilege"] = minPrivilege;
@@ -52,8 +52,8 @@ class AppEntryPagesEntity {
     return theDocument;
   }
 
-  static AppEntryPagesEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static AppEntryPagesEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

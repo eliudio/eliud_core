@@ -30,7 +30,7 @@ abstract class AppPolicyItemFormEvent extends Equatable {
   const AppPolicyItemFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewAppPolicyItemFormEvent extends AppPolicyItemFormEvent {
@@ -38,54 +38,54 @@ class InitialiseNewAppPolicyItemFormEvent extends AppPolicyItemFormEvent {
 
 
 class InitialiseAppPolicyItemFormEvent extends AppPolicyItemFormEvent {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppPolicyItemFormEvent({this.value});
 }
 
 class InitialiseAppPolicyItemFormNoLoadEvent extends AppPolicyItemFormEvent {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseAppPolicyItemFormNoLoadEvent({this.value});
 }
 
 class ChangedAppPolicyItemDocumentID extends AppPolicyItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyItemDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyItemDocumentID{ value: $value }';
 }
 
 class ChangedAppPolicyItemName extends AppPolicyItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyItemName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyItemName{ value: $value }';
 }
 
 class ChangedAppPolicyItemPolicy extends AppPolicyItemFormEvent {
-  final String value;
+  final String? value;
 
   ChangedAppPolicyItemPolicy({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedAppPolicyItemPolicy{ value: $value }';

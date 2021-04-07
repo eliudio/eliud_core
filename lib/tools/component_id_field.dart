@@ -3,12 +3,12 @@ import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef Changed = Function(String value);
+typedef Changed = Function(String? value);
 
 class ComponentIdField extends StatefulWidget {
-  final String componentName;
-  String value;
-  final Changed trigger;
+  final String? componentName;
+  String? value;
+  final Changed? trigger;
 
   ComponentIdField({this.componentName, this.value, this.trigger});
 
@@ -24,12 +24,12 @@ class ComponentIdFieldState extends State<ComponentIdField> {
 
   @override
   Widget build(BuildContext context) {
-    String componentName = widget.componentName;
+    String? componentName = widget.componentName;
     if ((componentName == null) || (componentName == ''))
       return Text("No componentName specified");
     if (componentName.endsWith('internalWidgets')) {
       var packageName = componentName.substring(0, componentName.length - 16);
-      var internalComponents = Registry.registry().allInternalComponents(packageName);
+      var internalComponents = Registry.registry()!.allInternalComponents(packageName);
       if ((internalComponents == null) || (internalComponents.length == 0)) {
         return Text("No internal components available for $packageName");
       } else {
@@ -38,7 +38,7 @@ class ComponentIdFieldState extends State<ComponentIdField> {
             DropdownMenuItem(value: widgetName, child: Text(widgetName)))
             .toList();
 
-        String choice;
+        String? choice;
         if (internalComponents.indexWhere((widgetName) =>
         (widgetName == widget.value)) >= 0) {
           choice = widget.value;
@@ -51,7 +51,7 @@ class ComponentIdFieldState extends State<ComponentIdField> {
             onChanged: widget.trigger));
       }
     } else {
-      var componentDropDown = Registry.registry().getSupportingDropDown(componentName);
+      var componentDropDown = Registry.registry()!.getSupportingDropDown(componentName);
       if (componentDropDown != null) {
         var selection = componentDropDown.createNew(
             id: componentName,
@@ -59,7 +59,7 @@ class ComponentIdFieldState extends State<ComponentIdField> {
             trigger: widget.trigger);
         if (selection == null) {
           widget.value = null;
-          widget.trigger(null);
+          widget.trigger!(null);
           return Text("No selection available");
         }
         else

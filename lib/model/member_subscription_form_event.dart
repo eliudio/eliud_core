@@ -30,7 +30,7 @@ abstract class MemberSubscriptionFormEvent extends Equatable {
   const MemberSubscriptionFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewMemberSubscriptionFormEvent extends MemberSubscriptionFormEvent {
@@ -38,42 +38,42 @@ class InitialiseNewMemberSubscriptionFormEvent extends MemberSubscriptionFormEve
 
 
 class InitialiseMemberSubscriptionFormEvent extends MemberSubscriptionFormEvent {
-  final MemberSubscriptionModel value;
+  final MemberSubscriptionModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberSubscriptionFormEvent({this.value});
 }
 
 class InitialiseMemberSubscriptionFormNoLoadEvent extends MemberSubscriptionFormEvent {
-  final MemberSubscriptionModel value;
+  final MemberSubscriptionModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberSubscriptionFormNoLoadEvent({this.value});
 }
 
 class ChangedMemberSubscriptionDocumentID extends MemberSubscriptionFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberSubscriptionDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberSubscriptionDocumentID{ value: $value }';
 }
 
 class ChangedMemberSubscriptionApp extends MemberSubscriptionFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberSubscriptionApp({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberSubscriptionApp{ value: $value }';

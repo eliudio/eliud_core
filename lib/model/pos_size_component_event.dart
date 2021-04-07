@@ -21,7 +21,7 @@ abstract class PosSizeComponentEvent extends Equatable {
 }
 
 class FetchPosSizeComponent extends PosSizeComponentEvent {
-  final String id;
+  final String? id;
 
   FetchPosSizeComponent({ this.id });
 }

@@ -26,7 +26,7 @@ class AcceptMembershipWidget extends StatefulWidget {
     this.app,
     this.member,
     this.usr, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -34,8 +34,8 @@ class AcceptMembershipWidget extends StatefulWidget {
 }
 
 class CheckboxHandler {
-  final MemberMediumModel item;
-  bool value;
+  final MemberMediumModel? item;
+  bool? value;
 
   CheckboxHandler(this.value, this.item);
 
@@ -46,13 +46,13 @@ class CheckboxHandler {
 
 class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     with SingleTickerProviderStateMixin {
-  List<CheckboxHandler> checked;
+  late List<CheckboxHandler> checked;
 
   @override
   void initState() {
     super.initState();
-    var app = AccessBloc.app(context);
-    checked = app.policies.policies.map((element) => CheckboxHandler(false, element.policy)).toList();
+    var app = AccessBloc.app(context)!;
+    checked = app.policies!.policies!.map((element) => CheckboxHandler(false, element.policy)).toList();
   }
 
   @override
@@ -61,24 +61,24 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   bool _allEnabled(AppModel app) {
-    for (var i = 0; i < app.policies.policies.length; i++) {
-      if (!checked[i].value) return false;
+    for (var i = 0; i < app.policies!.policies!.length; i++) {
+      if (!checked[i].value!) return false;
     }
     return true;
   }
 
-  void _openPolicy(String title, MemberMediumModel item) {
+  void _openPolicy(String? title, MemberMediumModel? item) {
     DialogStatefulWidgetHelper.openIt(context, MemberMediumDialog(width: 100, title: title, memberMediumModel: item, closeFunction: () => Navigator.of(context).pop()), );
   }
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AccessBloc.app(context)!;
     var accessState = AccessBloc.getState(context);
     var contents = <Widget>[];
 
     var i = 0;
-    app.policies.policies.forEach((policy) {
+    app.policies!.policies!.forEach((policy) {
       var handler = checked[i];
       contents.add(Row(
           children: [
@@ -98,7 +98,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
             Container(
                 height: 30, width: 200, child: Center(child: Text(policy.name))),
 */
-        Text(policy.name),
+        Text(policy.name!),
         Spacer(),
         Container(
             height: 30,

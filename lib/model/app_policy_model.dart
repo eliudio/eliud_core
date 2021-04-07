@@ -33,16 +33,16 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppPolicyModel {
-  String documentID;
-  String appId;
-  String comments;
-  List<AppPolicyItemModel> policies;
+  String? documentID;
+  String? appId;
+  String? comments;
+  List<AppPolicyItemModel>? policies;
 
   AppPolicyModel({this.documentID, this.appId, this.comments, this.policies, })  {
     assert(documentID != null);
   }
 
-  AppPolicyModel copyWith({String documentID, String appId, String comments, List<AppPolicyItemModel> policies, }) {
+  AppPolicyModel copyWith({String? documentID, String? appId, String? comments, List<AppPolicyItemModel>? policies, }) {
     return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, policies: policies ?? this.policies, );
   }
 
@@ -61,22 +61,22 @@ class AppPolicyModel {
 
   @override
   String toString() {
-    String policiesCsv = (policies == null) ? '' : policies.join(', ');
+    String policiesCsv = (policies == null) ? '' : policies!.join(', ');
 
     return 'AppPolicyModel{documentID: $documentID, appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
   }
 
-  AppPolicyEntity toEntity({String appId}) {
+  AppPolicyEntity toEntity({String? appId}) {
     return AppPolicyEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
-          policies: (policies != null) ? policies
+          policies: (policies != null) ? policies!
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }
 
-  static AppPolicyModel fromEntity(String documentID, AppPolicyEntity entity) {
+  static AppPolicyModel? fromEntity(String documentID, AppPolicyEntity? entity) {
     if (entity == null) return null;
     return AppPolicyModel(
           documentID: documentID, 
@@ -84,13 +84,13 @@ class AppPolicyModel {
           comments: entity.comments, 
           policies: 
             entity.policies == null ? null :
-            entity.policies
+            entity.policies!
             .map((item) => AppPolicyItemModel.fromEntity(newRandomKey(), item))
             .toList(), 
     );
   }
 
-  static Future<AppPolicyModel> fromEntityPlus(String documentID, AppPolicyEntity entity, { String appId}) async {
+  static Future<AppPolicyModel?> fromEntityPlus(String documentID, AppPolicyEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return AppPolicyModel(
@@ -98,7 +98,7 @@ class AppPolicyModel {
           appId: entity.appId, 
           comments: entity.comments, 
           policies: 
-            entity. policies == null ? null : new List<AppPolicyItemModel>.from(await Future.wait(entity. policies
+            entity. policies == null ? null : new List<AppPolicyItemModel>.from(await Future.wait(entity. policies!
             .map((item) => AppPolicyItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
     );

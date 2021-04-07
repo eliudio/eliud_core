@@ -22,27 +22,27 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class MemberDashboardEntity {
-  final String appId;
-  final String description;
-  final String updateProfileText;
-  final String retrieveDataText;
-  final String deleteDataText;
-  final String retrieveDataEmailSubject;
-  final String deleteDataEmailSubject;
-  final String deleteDataEmailMessage;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? description;
+  final String? updateProfileText;
+  final String? retrieveDataText;
+  final String? deleteDataText;
+  final String? retrieveDataEmailSubject;
+  final String? deleteDataEmailSubject;
+  final String? deleteDataEmailMessage;
+  final ConditionsSimpleEntity? conditions;
 
   MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
 
 
-  List<Object> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, deleteDataEmailMessage, conditions, ];
+  List<Object?> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, deleteDataEmailMessage, conditions, ];
 
   @override
   String toString() {
     return 'MemberDashboardEntity{appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  static MemberDashboardEntity fromMap(Map map) {
+  static MemberDashboardEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var conditionsFromMap;
@@ -63,12 +63,12 @@ class MemberDashboardEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (description != null) theDocument["description"] = description;
@@ -90,8 +90,8 @@ class MemberDashboardEntity {
     return theDocument;
   }
 
-  static MemberDashboardEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MemberDashboardEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

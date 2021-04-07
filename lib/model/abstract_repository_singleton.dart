@@ -42,48 +42,48 @@ import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/package/package.dart';
 
-AccessRepository accessRepository({ String appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
-AppBarRepository appBarRepository({ String appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
-AppPolicyRepository appPolicyRepository({ String appId }) => AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
-BackgroundRepository backgroundRepository({ String appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
-CountryRepository countryRepository({ String appId }) => AbstractRepositorySingleton.singleton.countryRepository();
-DialogRepository dialogRepository({ String appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
-DrawerRepository drawerRepository({ String appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
-FontRepository fontRepository({ String appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
-GridViewRepository gridViewRepository({ String appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
-HomeMenuRepository homeMenuRepository({ String appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
-MemberDashboardRepository memberDashboardRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
-MemberMediumRepository memberMediumRepository({ String appId }) => AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
-MenuDefRepository menuDefRepository({ String appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
-PageRepository pageRepository({ String appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
-PosSizeRepository posSizeRepository({ String appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
-ShadowRepository shadowRepository({ String appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
+AccessRepository? accessRepository({ String? appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
+AppBarRepository? appBarRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
+AppPolicyRepository? appPolicyRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
+BackgroundRepository? backgroundRepository({ String? appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
+CountryRepository countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
+DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
+DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
+FontRepository? fontRepository({ String? appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
+GridViewRepository? gridViewRepository({ String? appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
+HomeMenuRepository? homeMenuRepository({ String? appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
+MemberDashboardRepository? memberDashboardRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
+MemberMediumRepository? memberMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
+MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
+PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
+PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
+ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
     MemberCollectionInfo('access', 'documentID'),
     MemberCollectionInfo('membermedium', 'authorId'),
   ];
-  static AbstractRepositorySingleton singleton;
+  static late AbstractRepositorySingleton singleton;
 
-  AccessRepository accessRepository(String appId);
-  AppBarRepository appBarRepository(String appId);
-  AppPolicyRepository appPolicyRepository(String appId);
-  BackgroundRepository backgroundRepository(String appId);
+  AccessRepository? accessRepository(String? appId);
+  AppBarRepository? appBarRepository(String? appId);
+  AppPolicyRepository? appPolicyRepository(String? appId);
+  BackgroundRepository? backgroundRepository(String? appId);
   CountryRepository countryRepository();
-  DialogRepository dialogRepository(String appId);
-  DrawerRepository drawerRepository(String appId);
-  FontRepository fontRepository(String appId);
-  GridViewRepository gridViewRepository(String appId);
-  HomeMenuRepository homeMenuRepository(String appId);
-  MemberDashboardRepository memberDashboardRepository(String appId);
-  MemberMediumRepository memberMediumRepository(String appId);
-  MenuDefRepository menuDefRepository(String appId);
-  PageRepository pageRepository(String appId);
-  PosSizeRepository posSizeRepository(String appId);
-  ShadowRepository shadowRepository(String appId);
+  DialogRepository? dialogRepository(String? appId);
+  DrawerRepository? drawerRepository(String? appId);
+  FontRepository? fontRepository(String? appId);
+  GridViewRepository? gridViewRepository(String? appId);
+  HomeMenuRepository? homeMenuRepository(String? appId);
+  MemberDashboardRepository? memberDashboardRepository(String? appId);
+  MemberMediumRepository? memberMediumRepository(String? appId);
+  MenuDefRepository? menuDefRepository(String? appId);
+  PageRepository? pageRepository(String? appId);
+  PosSizeRepository? posSizeRepository(String? appId);
+  ShadowRepository? shadowRepository(String? appId);
 
-  void flush(String appId) {
+  void flush(String? appId) {
     countryRepository().flush();
   }
 }

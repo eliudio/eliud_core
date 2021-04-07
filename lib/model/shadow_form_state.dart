@@ -22,7 +22,7 @@ abstract class ShadowFormState extends Equatable {
   const ShadowFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class ShadowFormUninitialized extends ShadowFormState {
 
 // ShadowModel has been initialised and hence ShadowModel is available
 class ShadowFormInitialized extends ShadowFormState {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const ShadowFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class ShadowFormError extends ShadowFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const ShadowFormError({this.message, ShadowModel value }) : super(value: value);
+  const ShadowFormError({this.message, ShadowModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class ShadowFormError extends ShadowFormInitialized {
   }
 }
 class DocumentIDShadowFormError extends ShadowFormError { 
-  const DocumentIDShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const DocumentIDShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDShadowFormError extends ShadowFormError {
 
 
 class AppIdShadowFormError extends ShadowFormError { 
-  const AppIdShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const AppIdShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdShadowFormError extends ShadowFormError {
 
 
 class CommentsShadowFormError extends ShadowFormError { 
-  const CommentsShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const CommentsShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class CommentsShadowFormError extends ShadowFormError {
 
 
 class ColorShadowFormError extends ShadowFormError { 
-  const ColorShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const ColorShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class ColorShadowFormError extends ShadowFormError {
 
 
 class OffsetDXShadowFormError extends ShadowFormError { 
-  const OffsetDXShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const OffsetDXShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class OffsetDXShadowFormError extends ShadowFormError {
 
 
 class OffsetDYShadowFormError extends ShadowFormError { 
-  const OffsetDYShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const OffsetDYShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class OffsetDYShadowFormError extends ShadowFormError {
 
 
 class SpreadRadiusShadowFormError extends ShadowFormError { 
-  const SpreadRadiusShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const SpreadRadiusShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class SpreadRadiusShadowFormError extends ShadowFormError {
 
 
 class BlurRadiusShadowFormError extends ShadowFormError { 
-  const BlurRadiusShadowFormError({ String message, ShadowModel value }): super(message: message, value: value);
+  const BlurRadiusShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class BlurRadiusShadowFormError extends ShadowFormError {
 
 
 class ShadowFormLoaded extends ShadowFormInitialized { 
-  const ShadowFormLoaded({ ShadowModel value }): super(value: value);
+  const ShadowFormLoaded({ ShadowModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -207,10 +207,10 @@ class ShadowFormLoaded extends ShadowFormInitialized {
 
 
 class SubmittableShadowForm extends ShadowFormInitialized { 
-  const SubmittableShadowForm({ ShadowModel value }): super(value: value);
+  const SubmittableShadowForm({ ShadowModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

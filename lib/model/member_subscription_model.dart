@@ -32,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberSubscriptionModel {
-  String documentID;
-  AppModel app;
+  String? documentID;
+  AppModel? app;
 
   MemberSubscriptionModel({this.documentID, this.app, })  {
     assert(documentID != null);
   }
 
-  MemberSubscriptionModel copyWith({String documentID, AppModel app, }) {
+  MemberSubscriptionModel copyWith({String? documentID, AppModel? app, }) {
     return MemberSubscriptionModel(documentID: documentID ?? this.documentID, app: app ?? this.app, );
   }
 
@@ -59,9 +59,9 @@ class MemberSubscriptionModel {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
-  MemberSubscriptionEntity toEntity({String appId}) {
+  MemberSubscriptionEntity toEntity({String? appId}) {
     return MemberSubscriptionEntity(
-          appId: (app != null) ? app.documentID : null, 
+          appId: (app != null) ? app!.documentID : null, 
     );
   }
 
@@ -72,13 +72,13 @@ class MemberSubscriptionModel {
     );
   }
 
-  static Future<MemberSubscriptionModel> fromEntityPlus(String documentID, MemberSubscriptionEntity entity, { String appId}) async {
+  static Future<MemberSubscriptionModel> fromEntityPlus(String documentID, MemberSubscriptionEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
-    AppModel appHolder;
+    AppModel? appHolder;
     if (entity.appId != null) {
       try {
-        await appRepository(appId: appId).get(entity.appId).then((val) {
+        await appRepository(appId: appId)!.get(entity.appId).then((val) {
           appHolder = val;
         }).catchError((error) {});
       } catch (_) {}

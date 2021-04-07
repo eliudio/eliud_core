@@ -20,13 +20,13 @@ abstract class PageComponentState extends Equatable {
   const PageComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PageComponentUninitialized extends PageComponentState {}
 
 class PageComponentError extends PageComponentState {
-  final String message;
+  final String? message;
   PageComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class PageComponentPermissionDenied extends PageComponentState {
 }
 
 class PageComponentLoaded extends PageComponentState {
-  final PageModel value;
+  final PageModel? value;
 
   const PageComponentLoaded({ this.value });
 
-  PageComponentLoaded copyWith({ PageModel copyThis }) {
+  PageComponentLoaded copyWith({ PageModel? copyThis }) {
     return PageComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'PageComponentLoaded { value: $value }';

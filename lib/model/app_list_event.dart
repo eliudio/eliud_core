@@ -19,7 +19,7 @@ import 'package:eliud_core/model/app_model.dart';
 abstract class AppListEvent extends Equatable {
   const AppListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadAppList extends AppListEvent {}
@@ -27,49 +27,49 @@ class LoadAppList extends AppListEvent {}
 class NewPage extends AppListEvent {}
 
 class AddAppList extends AppListEvent {
-  final AppModel value;
+  final AppModel? value;
 
   const AddAppList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddAppList{ value: $value }';
 }
 
 class UpdateAppList extends AppListEvent {
-  final AppModel value;
+  final AppModel? value;
 
   const UpdateAppList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateAppList{ value: $value }';
 }
 
 class DeleteAppList extends AppListEvent {
-  final AppModel value;
+  final AppModel? value;
 
   const DeleteAppList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteAppList{ value: $value }';
 }
 
 class AppListUpdated extends AppListEvent {
-  final List<AppModel> value;
-  final bool mightHaveMore;
+  final List<AppModel?>? value;
+  final bool? mightHaveMore;
 
   const AppListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'AppListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

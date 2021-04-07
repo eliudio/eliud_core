@@ -42,7 +42,7 @@ abstract class Package {
    * In this method we also can extend the AccessBloc functionality, i.e. add an event mapper
    * accessBloc.addMapper();
    */
-  BlocProvider  createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc);
+  BlocProvider?  createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc);
 
   /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.
@@ -55,7 +55,7 @@ abstract class Package {
    * For example: for a shop the cart page is accessible only if items are in the basket. Only the Shop plugin should implement this
    * and return true / false depending on items in the basket.
    */
-  Future<bool> isConditionOk(String pluginCondition, AppModel app, MemberModel member, bool isOwner, bool isBlocked, PrivilegeLevel privilegeLevel);
+  Future<bool?> isConditionOk(String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 
   List<String> retrieveAllPackageConditions();
 

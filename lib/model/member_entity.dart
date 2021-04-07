@@ -21,42 +21,42 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class MemberEntity {
-  final String name;
-  final List<MemberSubscriptionEntity> subscriptions;
-  final List<String> subscriptionsAsString;
-  final String photoURL;
-  final String shipStreet1;
-  final String shipStreet2;
-  final String shipCity;
-  final String shipState;
-  final String postcode;
-  final String countryId;
-  final bool invoiceSame;
-  final String invoiceStreet1;
-  final String invoiceStreet2;
-  final String invoiceCity;
-  final String invoiceState;
-  final String invoicePostcode;
-  final String invoiceCountryId;
-  final List<String> readAccess;
-  final String email;
-  final bool isAnonymous;
+  final String? name;
+  final List<MemberSubscriptionEntity>? subscriptions;
+  final List<String?>? subscriptionsAsString;
+  final String? photoURL;
+  final String? shipStreet1;
+  final String? shipStreet2;
+  final String? shipCity;
+  final String? shipState;
+  final String? postcode;
+  final String? countryId;
+  final bool? invoiceSame;
+  final String? invoiceStreet1;
+  final String? invoiceStreet2;
+  final String? invoiceCity;
+  final String? invoiceState;
+  final String? invoicePostcode;
+  final String? invoiceCountryId;
+  final List<String?>? readAccess;
+  final String? email;
+  final bool? isAnonymous;
 
   MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, });
 
 
-  List<Object> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, ];
+  List<Object?> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, ];
 
   @override
   String toString() {
-    String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions.join(', ');
-    String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString.join(', ');
-    String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
+    String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
+    String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString!.join(', ');
+    String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
     return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  static MemberEntity fromMap(Map map) {
+  static MemberEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var subscriptionsFromMap;
@@ -92,17 +92,17 @@ class MemberEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> subscriptionsListMap = subscriptions != null 
-        ? subscriptions.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String, dynamic>>? subscriptionsListMap = subscriptions != null 
+        ? subscriptions!.map((item) => item.toDocument()).toList()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (name != null) theDocument["name"] = name;
       else theDocument["name"] = null;
     if (subscriptions != null) theDocument["subscriptions"] = subscriptionsListMap;
       else theDocument["subscriptions"] = null;
-    if (subscriptionsAsString != null) theDocument["subscriptionsAsString"] = subscriptionsAsString.toList();
+    if (subscriptionsAsString != null) theDocument["subscriptionsAsString"] = subscriptionsAsString!.toList();
       else theDocument["subscriptionsAsString"] = null;
     if (photoURL != null) theDocument["photoURL"] = photoURL;
       else theDocument["photoURL"] = null;
@@ -132,7 +132,7 @@ class MemberEntity {
       else theDocument["invoicePostcode"] = null;
     if (invoiceCountryId != null) theDocument["invoiceCountryId"] = invoiceCountryId;
       else theDocument["invoiceCountryId"] = null;
-    if (readAccess != null) theDocument["readAccess"] = readAccess.toList();
+    if (readAccess != null) theDocument["readAccess"] = readAccess!.toList();
       else theDocument["readAccess"] = null;
     if (email != null) theDocument["email"] = email;
       else theDocument["email"] = null;
@@ -141,8 +141,8 @@ class MemberEntity {
     return theDocument;
   }
 
-  static MemberEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MemberEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

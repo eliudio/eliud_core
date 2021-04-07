@@ -22,7 +22,7 @@ abstract class AppPolicyItemFormState extends Equatable {
   const AppPolicyItemFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class AppPolicyItemFormUninitialized extends AppPolicyItemFormState {
 
 // AppPolicyItemModel has been initialised and hence AppPolicyItemModel is available
 class AppPolicyItemFormInitialized extends AppPolicyItemFormState {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const AppPolicyItemFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class AppPolicyItemFormError extends AppPolicyItemFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const AppPolicyItemFormError({this.message, AppPolicyItemModel value }) : super(value: value);
+  const AppPolicyItemFormError({this.message, AppPolicyItemModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class AppPolicyItemFormError extends AppPolicyItemFormInitialized {
   }
 }
 class DocumentIDAppPolicyItemFormError extends AppPolicyItemFormError { 
-  const DocumentIDAppPolicyItemFormError({ String message, AppPolicyItemModel value }): super(message: message, value: value);
+  const DocumentIDAppPolicyItemFormError({ String? message, AppPolicyItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDAppPolicyItemFormError extends AppPolicyItemFormError {
 
 
 class NameAppPolicyItemFormError extends AppPolicyItemFormError { 
-  const NameAppPolicyItemFormError({ String message, AppPolicyItemModel value }): super(message: message, value: value);
+  const NameAppPolicyItemFormError({ String? message, AppPolicyItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class NameAppPolicyItemFormError extends AppPolicyItemFormError {
 
 
 class PolicyAppPolicyItemFormError extends AppPolicyItemFormError { 
-  const PolicyAppPolicyItemFormError({ String message, AppPolicyItemModel value }): super(message: message, value: value);
+  const PolicyAppPolicyItemFormError({ String? message, AppPolicyItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class PolicyAppPolicyItemFormError extends AppPolicyItemFormError {
 
 
 class AppPolicyItemFormLoaded extends AppPolicyItemFormInitialized { 
-  const AppPolicyItemFormLoaded({ AppPolicyItemModel value }): super(value: value);
+  const AppPolicyItemFormLoaded({ AppPolicyItemModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -127,10 +127,10 @@ class AppPolicyItemFormLoaded extends AppPolicyItemFormInitialized {
 
 
 class SubmittableAppPolicyItemForm extends AppPolicyItemFormInitialized { 
-  const SubmittableAppPolicyItemForm({ AppPolicyItemModel value }): super(value: value);
+  const SubmittableAppPolicyItemForm({ AppPolicyItemModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

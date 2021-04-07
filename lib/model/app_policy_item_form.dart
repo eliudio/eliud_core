@@ -58,10 +58,10 @@ import 'package:eliud_core/model/app_policy_item_form_state.dart';
 
 class AppPolicyItemForm extends StatelessWidget {
   FormAction formAction;
-  AppPolicyItemModel value;
-  ActionModel submitAction;
+  AppPolicyItemModel? value;
+  ActionModel? submitAction;
 
-  AppPolicyItemForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  AppPolicyItemForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class AppPolicyItemForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update AppPolicyItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update AppPolicyItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add AppPolicyItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add AppPolicyItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class AppPolicyItemForm extends StatelessWidget {
 
 
 class MyAppPolicyItemForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyAppPolicyItemForm({this.formAction, this.submitAction});
 
@@ -119,12 +119,12 @@ class MyAppPolicyItemForm extends StatefulWidget {
 
 
 class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
-  final FormAction formAction;
-  AppPolicyItemFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late AppPolicyItemFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String _policy;
+  String? _policy;
 
 
   _MyAppPolicyItemFormState(this.formAction);
@@ -147,27 +147,27 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
       );
 
       if (state is AppPolicyItemFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.policy != null)
-          _policy= state.value.policy.documentID;
+        if (state.value!.policy != null)
+          _policy= state.value!.policy!.documentID;
         else
           _policy= "";
       }
       if (state is AppPolicyItemFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -220,21 +220,21 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<AppPolicyItemListBloc>(context).add(
-                          UpdateAppPolicyItemList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              policy: state.value.policy, 
+                          UpdateAppPolicyItemList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              name: state.value!.name, 
+                              policy: state.value!.policy, 
                         )));
                       } else {
                         BlocProvider.of<AppPolicyItemListBloc>(context).add(
                           AddAppPolicyItemList(value: AppPolicyItemModel(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              policy: state.value.policy, 
+                              documentID: state.value!.documentID, 
+                              name: state.value!.name, 
+                              policy: state.value!.policy, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -254,7 +254,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

@@ -20,19 +20,19 @@ abstract class PosSizeListState extends Equatable {
   const PosSizeListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PosSizeListLoading extends PosSizeListState {}
 
 class PosSizeListLoaded extends PosSizeListState {
-  final List<PosSizeModel> values;
-  final bool mightHaveMore;
+  final List<PosSizeModel?>? values;
+  final bool? mightHaveMore;
 
   const PosSizeListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PosSizeListLoaded { values: $values }';

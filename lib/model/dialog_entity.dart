@@ -21,27 +21,27 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class DialogEntity {
-  final String appId;
-  final String title;
-  final List<BodyComponentEntity> bodyComponents;
-  final RgbEntity background;
-  final int layout;
-  final String gridViewId;
-  final ConditionsEntity conditions;
+  final String? appId;
+  final String? title;
+  final List<BodyComponentEntity>? bodyComponents;
+  final RgbEntity? background;
+  final int? layout;
+  final String? gridViewId;
+  final ConditionsEntity? conditions;
 
   DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object> get props => [appId, title, bodyComponents, background, layout, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, bodyComponents, background, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
-    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
+    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
     return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
-  static DialogEntity fromMap(Map map) {
+  static DialogEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var bodyComponentsFromMap;
@@ -72,18 +72,18 @@ class DialogEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> bodyComponentsListMap = bodyComponents != null 
-        ? bodyComponents.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String, dynamic>>? bodyComponentsListMap = bodyComponents != null 
+        ? bodyComponents!.map((item) => item.toDocument()).toList()
         : null;
-    final Map<String, dynamic> backgroundMap = background != null 
-        ? background.toDocument()
+    final Map<String, dynamic>? backgroundMap = background != null 
+        ? background!.toDocument()
         : null;
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -101,8 +101,8 @@ class DialogEntity {
     return theDocument;
   }
 
-  static DialogEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static DialogEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

@@ -9,17 +9,17 @@ class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  UserRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
+  UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
-  User currentSignedinUser() {
+  User? currentSignedinUser() {
     return _firebaseAuth.currentUser;
   }
 
-  Future<User> signInWithGoogle(NavigatorBloc navigatorBloc) async {
+  Future<User?> signInWithGoogle(NavigatorBloc? navigatorBloc) async {
     try {
-      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth = await googleUser
             .authentication;
@@ -41,7 +41,7 @@ class UserRepository {
     return null;
   }
 
-  Future<void> signOut() async {
+  Future<List<void>> signOut() async {
     return Future.wait([
       _firebaseAuth.signOut(),
       _googleSignIn.signOut()
@@ -53,11 +53,11 @@ class UserRepository {
     return currentUser != null;
   }
 
-  String getUser() {
-    return _firebaseAuth.currentUser.email;
+  String? getUser() {
+    return _firebaseAuth.currentUser!.email;
   }
 
-  String profilePhoto() {
-    return _firebaseAuth.currentUser.photoURL;
+  String? profilePhoto() {
+    return _firebaseAuth.currentUser!.photoURL;
   }
 }

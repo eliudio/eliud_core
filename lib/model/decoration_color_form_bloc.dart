@@ -38,12 +38,12 @@ import 'package:eliud_core/model/decoration_color_form_state.dart';
 import 'package:eliud_core/model/decoration_color_repository.dart';
 
 class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationColorFormState> {
-  final String appId;
+  final String? appId;
 
   DecorationColorFormBloc(this.appId, ): super(DecorationColorFormUninitialized());
   @override
   Stream<DecorationColorFormState> mapEventToState(DecorationColorFormEvent event) async* {
-    final currentState = state;
+    final DecorationColorFormState currentState = state;
     if (currentState is DecorationColorFormUninitialized) {
       if (event is InitialiseNewDecorationColorFormEvent) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: DecorationColorModel(
@@ -68,20 +68,20 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
         return;
       }
     } else if (currentState is DecorationColorFormInitialized) {
-      DecorationColorModel newValue = null;
+      DecorationColorModel? newValue = null;
       if (event is ChangedDecorationColorColor) {
-        newValue = currentState.value.copyWith(color: event.value);
+        newValue = currentState.value!.copyWith(color: event.value);
         yield SubmittableDecorationColorForm(value: newValue);
 
         return;
       }
       if (event is ChangedDecorationColorStop) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(stop: double.parse(event.value));
+          newValue = currentState.value!.copyWith(stop: double.parse(event.value!));
           yield SubmittableDecorationColorForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(stop: 0.0);
+          newValue = currentState.value!.copyWith(stop: 0.0);
           yield StopDecorationColorFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;

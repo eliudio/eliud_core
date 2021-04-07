@@ -22,7 +22,7 @@ abstract class BackgroundFormState extends Equatable {
   const BackgroundFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class BackgroundFormUninitialized extends BackgroundFormState {
 
 // BackgroundModel has been initialised and hence BackgroundModel is available
 class BackgroundFormInitialized extends BackgroundFormState {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const BackgroundFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class BackgroundFormError extends BackgroundFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const BackgroundFormError({this.message, BackgroundModel value }) : super(value: value);
+  const BackgroundFormError({this.message, BackgroundModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class BackgroundFormError extends BackgroundFormInitialized {
   }
 }
 class DocumentIDBackgroundFormError extends BackgroundFormError { 
-  const DocumentIDBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const DocumentIDBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDBackgroundFormError extends BackgroundFormError {
 
 
 class AppIdBackgroundFormError extends BackgroundFormError { 
-  const AppIdBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const AppIdBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdBackgroundFormError extends BackgroundFormError {
 
 
 class CommentsBackgroundFormError extends BackgroundFormError { 
-  const CommentsBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const CommentsBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class CommentsBackgroundFormError extends BackgroundFormError {
 
 
 class BackgroundImageBackgroundFormError extends BackgroundFormError { 
-  const BackgroundImageBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const BackgroundImageBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class BackgroundImageBackgroundFormError extends BackgroundFormError {
 
 
 class UseProfilePhotoAsBackgroundBackgroundFormError extends BackgroundFormError { 
-  const UseProfilePhotoAsBackgroundBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const UseProfilePhotoAsBackgroundBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class UseProfilePhotoAsBackgroundBackgroundFormError extends BackgroundFormError
 
 
 class BeginGradientPositionBackgroundFormError extends BackgroundFormError { 
-  const BeginGradientPositionBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const BeginGradientPositionBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class BeginGradientPositionBackgroundFormError extends BackgroundFormError {
 
 
 class EndGradientPositionBackgroundFormError extends BackgroundFormError { 
-  const EndGradientPositionBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const EndGradientPositionBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class EndGradientPositionBackgroundFormError extends BackgroundFormError {
 
 
 class ShadowBackgroundFormError extends BackgroundFormError { 
-  const ShadowBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const ShadowBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class ShadowBackgroundFormError extends BackgroundFormError {
 
 
 class DecorationColorsBackgroundFormError extends BackgroundFormError { 
-  const DecorationColorsBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const DecorationColorsBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class DecorationColorsBackgroundFormError extends BackgroundFormError {
 
 
 class BorderBackgroundFormError extends BackgroundFormError { 
-  const BorderBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const BorderBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class BorderBackgroundFormError extends BackgroundFormError {
 
 
 class AdminBackgroundFormError extends BackgroundFormError { 
-  const AdminBackgroundFormError({ String message, BackgroundModel value }): super(message: message, value: value);
+  const AdminBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class AdminBackgroundFormError extends BackgroundFormError {
 
 
 class BackgroundFormLoaded extends BackgroundFormInitialized { 
-  const BackgroundFormLoaded({ BackgroundModel value }): super(value: value);
+  const BackgroundFormLoaded({ BackgroundModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -255,10 +255,10 @@ class BackgroundFormLoaded extends BackgroundFormInitialized {
 
 
 class SubmittableBackgroundForm extends BackgroundFormInitialized { 
-  const SubmittableBackgroundForm({ BackgroundModel value }): super(value: value);
+  const SubmittableBackgroundForm({ BackgroundModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

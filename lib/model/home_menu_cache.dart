@@ -31,56 +31,56 @@ import 'package:eliud_core/model/entity_export.dart';
 class HomeMenuCache implements HomeMenuRepository {
 
   final HomeMenuRepository reference;
-  final Map<String, HomeMenuModel> fullCache = Map();
+  final Map<String?, HomeMenuModel?> fullCache = Map();
 
   HomeMenuCache(this.reference);
 
-  Future<HomeMenuModel> add(HomeMenuModel value) {
+  Future<HomeMenuModel> add(HomeMenuModel? value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(HomeMenuModel value){
-    fullCache.remove(value.documentID);
+  Future<void> delete(HomeMenuModel? value){
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<HomeMenuModel> get(String id, {Function(Exception) onError}) {
-    HomeMenuModel value = fullCache[id];
+  Future<HomeMenuModel> get(String? id, {Function(Exception)? onError}) {
+    HomeMenuModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<HomeMenuModel> update(HomeMenuModel value) {
+  Future<HomeMenuModel> update(HomeMenuModel? value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<HomeMenuModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<HomeMenuModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<HomeMenuModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<HomeMenuModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<HomeMenuModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<HomeMenuModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<HomeMenuModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<HomeMenuModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class HomeMenuCache implements HomeMenuRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class HomeMenuCache implements HomeMenuRepository {
   Future<HomeMenuModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,12 +108,12 @@ class HomeMenuCache implements HomeMenuRepository {
   }
 
   @override
-  StreamSubscription<List<HomeMenuModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<HomeMenuModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<HomeMenuModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -124,19 +124,19 @@ class HomeMenuCache implements HomeMenuRepository {
 
   static Future<HomeMenuModel> refreshRelations(HomeMenuModel model) async {
 
-    MenuDefModel menuHolder;
+    MenuDefModel? menuHolder;
     if (model.menu != null) {
       try {
-        await menuDefRepository(appId: model.menu.appId).get(model.menu.documentID).then((val) {
+        await menuDefRepository(appId: model.menu!.appId)!.get(model.menu!.documentID).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel backgroundHolder;
+    BackgroundModel? backgroundHolder;
     if (model.background != null) {
       try {
-        await backgroundRepository(appId: model.background.appId).get(model.background.documentID).then((val) {
+        await backgroundRepository(appId: model.background!.appId)!.get(model.background!.documentID).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

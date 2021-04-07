@@ -32,26 +32,26 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
-  Future<HomeMenuModel> add(HomeMenuModel value) {
-    return HomeMenuCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<HomeMenuModel> add(HomeMenuModel? value) {
+    return HomeMenuCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(HomeMenuModel value) {
-    return HomeMenuCollection.doc(value.documentID).delete();
+  Future<void> delete(HomeMenuModel? value) {
+    return HomeMenuCollection.doc(value!.documentID).delete();
   }
 
-  Future<HomeMenuModel> update(HomeMenuModel value) {
-    return HomeMenuCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<HomeMenuModel> update(HomeMenuModel? value) {
+    return HomeMenuCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  HomeMenuModel _populateDoc(DocumentSnapshot value) {
+  HomeMenuModel? _populateDoc(DocumentSnapshot value) {
     return HomeMenuModel.fromEntity(value.id, HomeMenuEntity.fromMap(value.data()));
   }
 
-  Future<HomeMenuModel> _populateDocPlus(DocumentSnapshot value) async {
+  Future<HomeMenuModel?> _populateDocPlus(DocumentSnapshot value) async {
     return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<HomeMenuModel> get(String id, {Function(Exception) onError}) {
+  Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) {
     return HomeMenuCollection.doc(id).get().then((doc) {
       if (doc.data() != null)
         return _populateDocPlus(doc);
@@ -59,35 +59,35 @@ class HomeMenuFirestore implements HomeMenuRepository {
         return null;
     }).catchError((Object e) {
       if (onError != null) {
-        onError(e);
+        onError(e as Exception);
       }
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listen(HomeMenuModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<HomeMenuModel>> stream;
+  StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+    Stream<List<HomeMenuModel?>> stream;
 //    stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
 //    In the meantime:
-      stream = getQuery(appRepository().getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
-      Iterable<HomeMenuModel> homeMenus  = data.docs.map((doc) {
-        HomeMenuModel value = _populateDoc(doc);
+      stream = getQuery(appRepository()!.getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      Iterable<HomeMenuModel?> homeMenus  = data.docs.map((doc) {
+        HomeMenuModel? value = _populateDoc(doc);
         return value;
       }).toList();
-      return homeMenus;
+      return homeMenus as List<HomeMenuModel?>;
     });
     return stream.listen((listOfHomeMenuModels) {
       trigger(listOfHomeMenuModels);
     });
   }
 
-  StreamSubscription<List<HomeMenuModel>> listenWithDetails(HomeMenuModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<HomeMenuModel>> stream;
+  StreamSubscription<List<HomeMenuModel?>> listenWithDetails(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+    Stream<List<HomeMenuModel?>> stream;
 //  stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
 //  see comment listen(...) above
-    stream = getQuery(appRepository().getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+    stream = getQuery(appRepository()!.getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
@@ -98,7 +98,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   @override
-  StreamSubscription<HomeMenuModel> listenTo(String documentId, HomeMenuChanged changed) {
+  StreamSubscription<HomeMenuModel?> listenTo(String documentId, HomeMenuChanged changed) {
     var stream = HomeMenuCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
@@ -109,9 +109,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
-  Stream<List<HomeMenuModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
+  Stream<List<HomeMenuModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    DocumentSnapshot? lastDoc;
+    Stream<List<HomeMenuModel?>> _values = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -120,9 +120,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Stream<List<HomeMenuModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    DocumentSnapshot lastDoc;
-    Stream<List<HomeMenuModel>> _values = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().asyncMap((snapshot) {
+  Stream<List<HomeMenuModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    DocumentSnapshot? lastDoc;
+    Stream<List<HomeMenuModel?>> _values = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -132,9 +132,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Future<List<HomeMenuModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+  Future<List<HomeMenuModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    DocumentSnapshot? lastDoc;
+    List<HomeMenuModel?> _values = await getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -145,9 +145,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return _values;
   }
 
-  Future<List<HomeMenuModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    DocumentSnapshot lastDoc;
-    List<HomeMenuModel> _values = await getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+  Future<List<HomeMenuModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    DocumentSnapshot? lastDoc;
+    List<HomeMenuModel?> _values = await getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,17 +172,17 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return HomeMenuCollection.doc(documentId).collection(name);
   }
 
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   } 
 
-  Future<HomeMenuModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+  Future<HomeMenuModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
     var change = FieldValue.increment(changeByThisValue);
     return HomeMenuCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
 
-  final String appId;
+  final String? appId;
   HomeMenuFirestore(this.HomeMenuCollection, this.appId);
 
   final CollectionReference HomeMenuCollection;

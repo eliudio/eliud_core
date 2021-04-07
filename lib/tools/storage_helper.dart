@@ -16,6 +16,7 @@ class StorageHelper {
     final UploadTask uploadTask = storageRef.putData(
       data,
     );
+    return uploadTask;
   }
 
   Future<void> delete(String collectionID, String documentID) {

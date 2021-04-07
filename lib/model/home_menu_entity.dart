@@ -21,24 +21,24 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class HomeMenuEntity {
-  final String appId;
-  final String name;
-  final String menuId;
-  final RgbEntity iconColor;
-  final String backgroundId;
-  final RgbEntity popupMenuBackgroundColor;
+  final String? appId;
+  final String? name;
+  final String? menuId;
+  final RgbEntity? iconColor;
+  final String? backgroundId;
+  final RgbEntity? popupMenuBackgroundColor;
 
   HomeMenuEntity({this.appId, this.name, this.menuId, this.iconColor, this.backgroundId, this.popupMenuBackgroundColor, });
 
 
-  List<Object> get props => [appId, name, menuId, iconColor, backgroundId, popupMenuBackgroundColor, ];
+  List<Object?> get props => [appId, name, menuId, iconColor, backgroundId, popupMenuBackgroundColor, ];
 
   @override
   String toString() {
     return 'HomeMenuEntity{appId: $appId, name: $name, menuId: $menuId, iconColor: $iconColor, backgroundId: $backgroundId, popupMenuBackgroundColor: $popupMenuBackgroundColor}';
   }
 
-  static HomeMenuEntity fromMap(Map map) {
+  static HomeMenuEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var iconColorFromMap;
@@ -60,15 +60,15 @@ class HomeMenuEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> iconColorMap = iconColor != null 
-        ? iconColor.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? iconColorMap = iconColor != null 
+        ? iconColor!.toDocument()
         : null;
-    final Map<String, dynamic> popupMenuBackgroundColorMap = popupMenuBackgroundColor != null 
-        ? popupMenuBackgroundColor.toDocument()
+    final Map<String, dynamic>? popupMenuBackgroundColorMap = popupMenuBackgroundColor != null 
+        ? popupMenuBackgroundColor!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (name != null) theDocument["name"] = name;
@@ -84,8 +84,8 @@ class HomeMenuEntity {
     return theDocument;
   }
 
-  static HomeMenuEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static HomeMenuEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

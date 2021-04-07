@@ -32,19 +32,19 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class BodyComponentModel {
-  String documentID;
+  String? documentID;
 
   // The component name, such as 'carousel' which is required on this body
-  String componentName;
+  String? componentName;
 
   // For that specific component, e.g. 'carousel', which Component ID, i.e. which carousel to include in the page
-  String componentId;
+  String? componentId;
 
   BodyComponentModel({this.documentID, this.componentName, this.componentId, })  {
     assert(documentID != null);
   }
 
-  BodyComponentModel copyWith({String documentID, String componentName, String componentId, }) {
+  BodyComponentModel copyWith({String? documentID, String? componentName, String? componentId, }) {
     return BodyComponentModel(documentID: documentID ?? this.documentID, componentName: componentName ?? this.componentName, componentId: componentId ?? this.componentId, );
   }
 
@@ -65,7 +65,7 @@ class BodyComponentModel {
     return 'BodyComponentModel{documentID: $documentID, componentName: $componentName, componentId: $componentId}';
   }
 
-  BodyComponentEntity toEntity({String appId}) {
+  BodyComponentEntity toEntity({String? appId}) {
     return BodyComponentEntity(
           componentName: (componentName != null) ? componentName : null, 
           componentId: (componentId != null) ? componentId : null, 
@@ -81,7 +81,7 @@ class BodyComponentModel {
     );
   }
 
-  static Future<BodyComponentModel> fromEntityPlus(String documentID, BodyComponentEntity entity, { String appId}) async {
+  static Future<BodyComponentModel> fromEntityPlus(String documentID, BodyComponentEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
     return BodyComponentModel(

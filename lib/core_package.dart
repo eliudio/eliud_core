@@ -16,9 +16,9 @@ import 'package/package_with_subscription.dart';
 class CorePackage extends PackageWithSubscription {
   static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
 
-  MemberModel stateMemberModel;
+  MemberModel? stateMemberModel;
 
-  void _setState(MemberModel currentMember) {
+  void _setState(MemberModel? currentMember) {
     if (stateMemberModel != currentMember) {
       stateMemberModel = currentMember;
       accessBloc.add(MemberUpdated(stateMemberModel));
@@ -28,10 +28,10 @@ class CorePackage extends PackageWithSubscription {
   @override
   // The member subscription is an extra luxury to make sure member data is up to date
   // But, I'm actually unsure this subscription should happen.
-  void resubscribe(AppModel app, MemberModel currentMember) {
+  void resubscribe(AppModel app, MemberModel? currentMember) {
     var appId = app.documentID;
     if (currentMember != null) {
-      subscription = memberRepository(appId: appId).listenWithDetails((list) {
+      subscription = memberRepository(appId: appId)!.listenWithDetails((list) {
         if (list.isNotEmpty) {
           _setState(list.first);
         } else {
@@ -49,7 +49,7 @@ class CorePackage extends PackageWithSubscription {
     _setState(null);
   }
 
-  static EliudQuery getMemberQuery(String appId, String memberId) {
+  static EliudQuery getMemberQuery(String? appId, String? memberId) {
     return EliudQuery(
         theConditions: [EliudQueryCondition(
             DocumentIdField(),
@@ -65,7 +65,7 @@ class CorePackage extends PackageWithSubscription {
   }
 
   @override
-  Future<bool> isConditionOk(String packageCondition, AppModel app, MemberModel member, bool isOwner, bool isBlocked, PrivilegeLevel privilegeLevel) async {
+  Future<bool?> isConditionOk(String packageCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) async {
     if (packageCondition == MUST_BE_LOGGED_ON) {
       return (member != null);
     }

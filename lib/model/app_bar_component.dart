@@ -25,7 +25,7 @@ import 'package:eliud_core/model/app_bar_component_state.dart';
 
 abstract class AbstractAppBarComponent extends StatelessWidget {
   static String componentName = "appBars";
-  final String appBarID;
+  final String? appBarID;
 
   AbstractAppBarComponent({this.appBarID});
 
@@ -63,7 +63,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, AppBarModel value);
+  Widget yourWidget(BuildContext context, AppBarModel? value);
   Widget alertWidget({ title: String, content: String});
   AppBarRepository getAppBarRepository(BuildContext context);
 }

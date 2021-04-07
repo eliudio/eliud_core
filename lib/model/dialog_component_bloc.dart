@@ -24,19 +24,19 @@ import 'package:flutter/services.dart';
 
 
 class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentState> {
-  final DialogRepository dialogRepository;
+  final DialogRepository? dialogRepository;
 
   DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized());
   @override
   Stream<DialogComponentState> mapEventToState(DialogComponentEvent event) async* {
-    final currentState = state;
+    final DialogComponentState currentState = state;
     if (event is FetchDialogComponent) {
       try {
         if (currentState is DialogComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await dialogRepository.get(event.id, onError: (error) {
+          final model = await dialogRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
             if (model != null) {
               yield DialogComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield DialogComponentError(
                   message: "Dialog with id = '$id' not found");
             }

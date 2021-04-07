@@ -12,9 +12,9 @@ class EliudQueryCondition {
   final dynamic isGreaterThan;
   final dynamic isGreaterThanOrEqualTo;
   final dynamic arrayContains;
-  final List<dynamic> arrayContainsAny;
-  final List<dynamic> whereIn;
-  final bool isNull;
+  final List<dynamic>? arrayContainsAny;
+  final List<dynamic>? whereIn;
+  final bool? isNull;
 
   EliudQueryCondition(this.field, {this.isEqualTo, this.isLessThan, this.isLessThanOrEqualTo, this.isGreaterThan, this.isGreaterThanOrEqualTo,
       this.arrayContains,
@@ -26,7 +26,7 @@ class EliudQueryCondition {
 class EliudQuery {
   final List<EliudQueryCondition> conditions = [];
 
-  EliudQuery({List<EliudQueryCondition> theConditions}) {
+  EliudQuery({List<EliudQueryCondition>? theConditions}) {
     withConditions(theConditions);
   }
 
@@ -37,7 +37,7 @@ class EliudQuery {
     return this;
   }
 
-  EliudQuery withConditions(List<EliudQueryCondition> theConditions) {
+  EliudQuery withConditions(List<EliudQueryCondition>? theConditions) {
     if (theConditions != null) {
       conditions.addAll(theConditions);
     }

@@ -7,11 +7,11 @@ class CsvHelper {
     return await rootBundle.loadString(path);
   }
 
-  static Future<String> loadTextFile(String url) async {
+  static Future<String?> loadTextFile(String url) async {
 //    String dir =  (await getApplicationDocumentsDirectory()).path;
     String dir = "";
     return FileTools.downloadFile(url, dir + "textfile.txt").then((f) {
-      return f.readAsString();
+      return f!.readAsString();
     });
     return null;
   }

@@ -58,10 +58,10 @@ import 'package:eliud_core/model/menu_def_form_state.dart';
 
 class MenuDefForm extends StatelessWidget {
   FormAction formAction;
-  MenuDefModel value;
-  ActionModel submitAction;
+  MenuDefModel? value;
+  ActionModel? submitAction;
 
-  MenuDefForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MenuDefForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class MenuDefForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MenuDef", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update MenuDef", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MenuDef", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add MenuDef", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class MenuDefForm extends StatelessWidget {
 
 
 class MyMenuDefForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMenuDefForm({this.formAction, this.submitAction});
 
@@ -122,13 +122,13 @@ class MyMenuDefForm extends StatefulWidget {
 
 
 class _MyMenuDefFormState extends State<MyMenuDefForm> {
-  final FormAction formAction;
-  MenuDefFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MenuDefFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  bool _adminSelection;
+  bool? _adminSelection;
 
 
   _MyMenuDefFormState(this.formAction);
@@ -153,20 +153,20 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
       );
 
       if (state is MenuDefFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.admin != null)
-        _adminSelection = state.value.admin;
+        if (state.value!.admin != null)
+        _adminSelection = state.value!.admin;
         else
         _adminSelection = false;
       }
@@ -177,7 +177,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -246,7 +246,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: menuItemsList(context, state.value.menuItems, _onMenuItemsChanged)
+                    child: menuItemsList(context, state.value!.menuItems, _onMenuItemsChanged)
                 )
           );
 
@@ -264,25 +264,25 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MenuDefListBloc>(context).add(
-                          UpdateMenuDefList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              menuItems: state.value.menuItems, 
-                              admin: state.value.admin, 
+                          UpdateMenuDefList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              menuItems: state.value!.menuItems, 
+                              admin: state.value!.admin, 
                         )));
                       } else {
                         BlocProvider.of<MenuDefListBloc>(context).add(
                           AddMenuDefList(value: MenuDefModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              menuItems: state.value.menuItems, 
-                              admin: state.value.admin, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              menuItems: state.value!.menuItems, 
+                              admin: state.value!.admin, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

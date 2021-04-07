@@ -14,7 +14,7 @@ import '../model/icon_model.dart';
 typedef ChangeIconField = Function(IconModel value);
 
 class IconField extends StatefulWidget {
-  final IconModel iconModel;
+  final IconModel? iconModel;
   final ChangeIconField trigger;
 
   IconField(this.iconModel, this.trigger);
@@ -26,14 +26,14 @@ class IconField extends StatefulWidget {
 }
 
 class IconFieldState extends State<IconField> {
-  Icon _icon;
+  Icon? _icon;
 
   @override
   void initState() {
     super.initState();
     if (widget.iconModel != null) {
-      _icon = Icon(IconData(widget.iconModel.codePoint,
-          fontFamily: widget.iconModel.fontFamily));
+      _icon = Icon(IconData(widget.iconModel!.codePoint!,
+          fontFamily: widget.iconModel!.fontFamily));
     }
   }
 
@@ -43,7 +43,7 @@ class IconFieldState extends State<IconField> {
     if ((appState is AppLoaded) && (_icon != null)) {
       return RaisedButton.icon(
           onPressed: !appState.memberIsOwner() ? null : _pickIcon,
-          icon: _icon,
+          icon: _icon!,
           label: Text('Select Icon'),
           color: RgbHelper.color(rgbo: appState.app.formSubmitButtonColor));
     } else {
@@ -55,7 +55,7 @@ class IconFieldState extends State<IconField> {
   }
 
   void _pickIcon() async {
-    var iconData = await FlutterIconPicker.showIconPicker(context,
+    var iconData = await (FlutterIconPicker.showIconPicker(context,
         iconSize: 40,
         iconPickerShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -66,11 +66,14 @@ class IconFieldState extends State<IconField> {
           textScaleFactor: 1.25,
         ),
         searchHintText: 'Search icon...',
-        noResultsText: 'No results for:');
+        noResultsText: 'No results for:')) ;
 
-    _icon = Icon(iconData);
-    widget.trigger(
-        IconModel(codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
-    setState(() {});
+    if (iconData != null) {
+      _icon = Icon(iconData);
+      widget.trigger(
+          IconModel(
+              codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
+      setState(() {});
+    }
   }
 }

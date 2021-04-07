@@ -32,15 +32,15 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppPolicyItemModel {
-  String documentID;
-  String name;
-  MemberMediumModel policy;
+  String? documentID;
+  String? name;
+  MemberMediumModel? policy;
 
   AppPolicyItemModel({this.documentID, this.name, this.policy, })  {
     assert(documentID != null);
   }
 
-  AppPolicyItemModel copyWith({String documentID, String name, MemberMediumModel policy, }) {
+  AppPolicyItemModel copyWith({String? documentID, String? name, MemberMediumModel? policy, }) {
     return AppPolicyItemModel(documentID: documentID ?? this.documentID, name: name ?? this.name, policy: policy ?? this.policy, );
   }
 
@@ -61,10 +61,10 @@ class AppPolicyItemModel {
     return 'AppPolicyItemModel{documentID: $documentID, name: $name, policy: $policy}';
   }
 
-  AppPolicyItemEntity toEntity({String appId}) {
+  AppPolicyItemEntity toEntity({String? appId}) {
     return AppPolicyItemEntity(
           name: (name != null) ? name : null, 
-          policyId: (policy != null) ? policy.documentID : null, 
+          policyId: (policy != null) ? policy!.documentID : null, 
     );
   }
 
@@ -76,13 +76,13 @@ class AppPolicyItemModel {
     );
   }
 
-  static Future<AppPolicyItemModel> fromEntityPlus(String documentID, AppPolicyItemEntity entity, { String appId}) async {
+  static Future<AppPolicyItemModel> fromEntityPlus(String documentID, AppPolicyItemEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel policyHolder;
+    MemberMediumModel? policyHolder;
     if (entity.policyId != null) {
       try {
-        await memberMediumRepository(appId: appId).get(entity.policyId).then((val) {
+        await memberMediumRepository(appId: appId)!.get(entity.policyId).then((val) {
           policyHolder = val;
         }).catchError((error) {});
       } catch (_) {}

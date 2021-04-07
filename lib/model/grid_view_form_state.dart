@@ -22,7 +22,7 @@ abstract class GridViewFormState extends Equatable {
   const GridViewFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class GridViewFormUninitialized extends GridViewFormState {
 
 // GridViewModel has been initialised and hence GridViewModel is available
 class GridViewFormInitialized extends GridViewFormState {
-  final GridViewModel value;
+  final GridViewModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const GridViewFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class GridViewFormError extends GridViewFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const GridViewFormError({this.message, GridViewModel value }) : super(value: value);
+  const GridViewFormError({this.message, GridViewModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class GridViewFormError extends GridViewFormInitialized {
   }
 }
 class DocumentIDGridViewFormError extends GridViewFormError { 
-  const DocumentIDGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const DocumentIDGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDGridViewFormError extends GridViewFormError {
 
 
 class AppIdGridViewFormError extends GridViewFormError { 
-  const AppIdGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const AppIdGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdGridViewFormError extends GridViewFormError {
 
 
 class NameGridViewFormError extends GridViewFormError { 
-  const NameGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const NameGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class NameGridViewFormError extends GridViewFormError {
 
 
 class ScrollDirectionGridViewFormError extends GridViewFormError { 
-  const ScrollDirectionGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const ScrollDirectionGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class ScrollDirectionGridViewFormError extends GridViewFormError {
 
 
 class TypeGridViewFormError extends GridViewFormError { 
-  const TypeGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const TypeGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class TypeGridViewFormError extends GridViewFormError {
 
 
 class CrossAxisCountGridViewFormError extends GridViewFormError { 
-  const CrossAxisCountGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const CrossAxisCountGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class CrossAxisCountGridViewFormError extends GridViewFormError {
 
 
 class MaxCrossAxisExtentTypeGridViewFormError extends GridViewFormError { 
-  const MaxCrossAxisExtentTypeGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const MaxCrossAxisExtentTypeGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class MaxCrossAxisExtentTypeGridViewFormError extends GridViewFormError {
 
 
 class AbsoluteMaxCrossAxisExtentGridViewFormError extends GridViewFormError { 
-  const AbsoluteMaxCrossAxisExtentGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const AbsoluteMaxCrossAxisExtentGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class AbsoluteMaxCrossAxisExtentGridViewFormError extends GridViewFormError {
 
 
 class RelativeMaxCrossAxisExtentGridViewFormError extends GridViewFormError { 
-  const RelativeMaxCrossAxisExtentGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const RelativeMaxCrossAxisExtentGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class RelativeMaxCrossAxisExtentGridViewFormError extends GridViewFormError {
 
 
 class ChildAspectRatioGridViewFormError extends GridViewFormError { 
-  const ChildAspectRatioGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const ChildAspectRatioGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class ChildAspectRatioGridViewFormError extends GridViewFormError {
 
 
 class PaddingGridViewFormError extends GridViewFormError { 
-  const PaddingGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const PaddingGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class PaddingGridViewFormError extends GridViewFormError {
 
 
 class MainAxisSpacingGridViewFormError extends GridViewFormError { 
-  const MainAxisSpacingGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const MainAxisSpacingGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class MainAxisSpacingGridViewFormError extends GridViewFormError {
 
 
 class CrossAxisSpacingGridViewFormError extends GridViewFormError { 
-  const CrossAxisSpacingGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const CrossAxisSpacingGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -272,10 +272,10 @@ class CrossAxisSpacingGridViewFormError extends GridViewFormError {
 
 
 class ConditionsGridViewFormError extends GridViewFormError { 
-  const ConditionsGridViewFormError({ String message, GridViewModel value }): super(message: message, value: value);
+  const ConditionsGridViewFormError({ String? message, GridViewModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -288,10 +288,10 @@ class ConditionsGridViewFormError extends GridViewFormError {
 
 
 class GridViewFormLoaded extends GridViewFormInitialized { 
-  const GridViewFormLoaded({ GridViewModel value }): super(value: value);
+  const GridViewFormLoaded({ GridViewModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -303,10 +303,10 @@ class GridViewFormLoaded extends GridViewFormInitialized {
 
 
 class SubmittableGridViewForm extends GridViewFormInitialized { 
-  const SubmittableGridViewForm({ GridViewModel value }): super(value: value);
+  const SubmittableGridViewForm({ GridViewModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

@@ -19,7 +19,7 @@ import 'package:eliud_core/model/menu_def_model.dart';
 abstract class MenuDefListEvent extends Equatable {
   const MenuDefListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadMenuDefList extends MenuDefListEvent {}
@@ -27,49 +27,49 @@ class LoadMenuDefList extends MenuDefListEvent {}
 class NewPage extends MenuDefListEvent {}
 
 class AddMenuDefList extends MenuDefListEvent {
-  final MenuDefModel value;
+  final MenuDefModel? value;
 
   const AddMenuDefList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddMenuDefList{ value: $value }';
 }
 
 class UpdateMenuDefList extends MenuDefListEvent {
-  final MenuDefModel value;
+  final MenuDefModel? value;
 
   const UpdateMenuDefList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateMenuDefList{ value: $value }';
 }
 
 class DeleteMenuDefList extends MenuDefListEvent {
-  final MenuDefModel value;
+  final MenuDefModel? value;
 
   const DeleteMenuDefList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteMenuDefList{ value: $value }';
 }
 
 class MenuDefListUpdated extends MenuDefListEvent {
-  final List<MenuDefModel> value;
-  final bool mightHaveMore;
+  final List<MenuDefModel?>? value;
+  final bool? mightHaveMore;
 
   const MenuDefListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'MenuDefListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

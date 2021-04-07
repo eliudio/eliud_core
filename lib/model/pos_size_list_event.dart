@@ -19,7 +19,7 @@ import 'package:eliud_core/model/pos_size_model.dart';
 abstract class PosSizeListEvent extends Equatable {
   const PosSizeListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadPosSizeList extends PosSizeListEvent {}
@@ -27,49 +27,49 @@ class LoadPosSizeList extends PosSizeListEvent {}
 class NewPage extends PosSizeListEvent {}
 
 class AddPosSizeList extends PosSizeListEvent {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   const AddPosSizeList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddPosSizeList{ value: $value }';
 }
 
 class UpdatePosSizeList extends PosSizeListEvent {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   const UpdatePosSizeList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdatePosSizeList{ value: $value }';
 }
 
 class DeletePosSizeList extends PosSizeListEvent {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   const DeletePosSizeList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeletePosSizeList{ value: $value }';
 }
 
 class PosSizeListUpdated extends PosSizeListEvent {
-  final List<PosSizeModel> value;
-  final bool mightHaveMore;
+  final List<PosSizeModel?>? value;
+  final bool? mightHaveMore;
 
   const PosSizeListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'PosSizeListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

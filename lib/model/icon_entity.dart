@@ -21,20 +21,20 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class IconEntity {
-  final int codePoint;
-  final String fontFamily;
+  final int? codePoint;
+  final String? fontFamily;
 
   IconEntity({this.codePoint, this.fontFamily, });
 
 
-  List<Object> get props => [codePoint, fontFamily, ];
+  List<Object?> get props => [codePoint, fontFamily, ];
 
   @override
   String toString() {
     return 'IconEntity{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  static IconEntity fromMap(Map map) {
+  static IconEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return IconEntity(
@@ -43,8 +43,8 @@ class IconEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (codePoint != null) theDocument["codePoint"] = codePoint;
       else theDocument["codePoint"] = null;
     if (fontFamily != null) theDocument["fontFamily"] = fontFamily;
@@ -52,8 +52,8 @@ class IconEntity {
     return theDocument;
   }
 
-  static IconEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static IconEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

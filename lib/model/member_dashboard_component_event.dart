@@ -21,7 +21,7 @@ abstract class MemberDashboardComponentEvent extends Equatable {
 }
 
 class FetchMemberDashboardComponent extends MemberDashboardComponentEvent {
-  final String id;
+  final String? id;
 
   FetchMemberDashboardComponent({ this.id });
 }

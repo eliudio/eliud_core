@@ -9,13 +9,13 @@ import 'package:transparent_image/transparent_image.dart';
 import 'dialog_helper.dart';
 
 class MemberMediumDialog extends StatefulWidget {
-  final double width;
-  final String title;
-  final MemberMediumModel memberMediumModel;
-  final Function closeFunction;
+  final double? width;
+  final String? title;
+  final MemberMediumModel? memberMediumModel;
+  final Function? closeFunction;
 
   MemberMediumDialog({
-    Key key,
+    Key? key,
     this.title,
     this.memberMediumModel,
     this.closeFunction,
@@ -32,7 +32,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
       MediaQuery.of(context).size.height * 1;
 
   Future<List<MediumInfo>> buildImagesList() async {
-    var memberMediumModel = widget.memberMediumModel;
+    var memberMediumModel = widget.memberMediumModel!;
     var appId = memberMediumModel.appId;
     return await ChainOfMediumModels.getChainOfMediumInfo(appId, memberMediumModel);
   }
@@ -41,13 +41,13 @@ class _MemberMediumState extends State<MemberMediumDialog> {
   Widget build(BuildContext context) {
     return dialogHelper.build(
       width: widget.width,
-        title: widget.title,
+        title: widget.title!,
         buttons: dialogHelper.getCloseButton(context, widget.closeFunction),
         contents: FutureBuilder<List<MediumInfo>>(
             future: buildImagesList(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Container(width: widget.width, height : height(context) - 130, child: getAllImages(context, snapshot.data));
+                return Container(width: widget.width, height : height(context) - 130, child: getAllImages(context, snapshot.data!));
               } else {
                 return Center(
                   child: DelayedCircularProgressIndicator(),
@@ -64,7 +64,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
       itemCount: infos.length,
       itemBuilder: (BuildContext context, int index) {
         return Image.network(
-            infos[index].url, width: infos[index].width.toDouble(), height: infos[index].height.toDouble()
+            infos[index].url!, width: infos[index].width!.toDouble(), height: infos[index].height!.toDouble()
             );
       },
     );

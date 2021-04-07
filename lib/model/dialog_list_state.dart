@@ -20,19 +20,19 @@ abstract class DialogListState extends Equatable {
   const DialogListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DialogListLoading extends DialogListState {}
 
 class DialogListLoaded extends DialogListState {
-  final List<DialogModel> values;
-  final bool mightHaveMore;
+  final List<DialogModel?>? values;
+  final bool? mightHaveMore;
 
   const DialogListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'DialogListLoaded { values: $values }';

@@ -22,7 +22,7 @@ abstract class MemberSubscriptionFormState extends Equatable {
   const MemberSubscriptionFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class MemberSubscriptionFormUninitialized extends MemberSubscriptionFormState {
 
 // MemberSubscriptionModel has been initialised and hence MemberSubscriptionModel is available
 class MemberSubscriptionFormInitialized extends MemberSubscriptionFormState {
-  final MemberSubscriptionModel value;
+  final MemberSubscriptionModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const MemberSubscriptionFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class MemberSubscriptionFormError extends MemberSubscriptionFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const MemberSubscriptionFormError({this.message, MemberSubscriptionModel value }) : super(value: value);
+  const MemberSubscriptionFormError({this.message, MemberSubscriptionModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class MemberSubscriptionFormError extends MemberSubscriptionFormInitial
   }
 }
 class DocumentIDMemberSubscriptionFormError extends MemberSubscriptionFormError { 
-  const DocumentIDMemberSubscriptionFormError({ String message, MemberSubscriptionModel value }): super(message: message, value: value);
+  const DocumentIDMemberSubscriptionFormError({ String? message, MemberSubscriptionModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDMemberSubscriptionFormError extends MemberSubscriptionFormError 
 
 
 class AppMemberSubscriptionFormError extends MemberSubscriptionFormError { 
-  const AppMemberSubscriptionFormError({ String message, MemberSubscriptionModel value }): super(message: message, value: value);
+  const AppMemberSubscriptionFormError({ String? message, MemberSubscriptionModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppMemberSubscriptionFormError extends MemberSubscriptionFormError {
 
 
 class MemberSubscriptionFormLoaded extends MemberSubscriptionFormInitialized { 
-  const MemberSubscriptionFormLoaded({ MemberSubscriptionModel value }): super(value: value);
+  const MemberSubscriptionFormLoaded({ MemberSubscriptionModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -111,10 +111,10 @@ class MemberSubscriptionFormLoaded extends MemberSubscriptionFormInitialized {
 
 
 class SubmittableMemberSubscriptionForm extends MemberSubscriptionFormInitialized { 
-  const SubmittableMemberSubscriptionForm({ MemberSubscriptionModel value }): super(value: value);
+  const SubmittableMemberSubscriptionForm({ MemberSubscriptionModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

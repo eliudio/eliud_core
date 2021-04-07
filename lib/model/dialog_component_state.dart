@@ -20,13 +20,13 @@ abstract class DialogComponentState extends Equatable {
   const DialogComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DialogComponentUninitialized extends DialogComponentState {}
 
 class DialogComponentError extends DialogComponentState {
-  final String message;
+  final String? message;
   DialogComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class DialogComponentPermissionDenied extends DialogComponentState {
 }
 
 class DialogComponentLoaded extends DialogComponentState {
-  final DialogModel value;
+  final DialogModel? value;
 
   const DialogComponentLoaded({ this.value });
 
-  DialogComponentLoaded copyWith({ DialogModel copyThis }) {
+  DialogComponentLoaded copyWith({ DialogModel? copyThis }) {
     return DialogComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DialogComponentLoaded { value: $value }';

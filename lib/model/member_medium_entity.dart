@@ -21,32 +21,32 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class MemberMediumEntity {
-  final String appId;
-  final String authorId;
-  final String url;
-  final String ref;
-  final String urlThumbnail;
-  final List<String> readAccess;
-  final int mediumType;
-  final int mediumWidth;
-  final int mediumHeight;
-  final int thumbnailWidth;
-  final int thumbnailHeight;
-  final String relatedMediumId;
+  final String? appId;
+  final String? authorId;
+  final String? url;
+  final String? ref;
+  final String? urlThumbnail;
+  final List<String>? readAccess;
+  final int? mediumType;
+  final int? mediumWidth;
+  final int? mediumHeight;
+  final int? thumbnailWidth;
+  final int? thumbnailHeight;
+  final String? relatedMediumId;
 
   MemberMediumEntity({this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object> get props => [appId, authorId, url, ref, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [appId, authorId, url, ref, urlThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
-    String readAccessCsv = (readAccess == null) ? '' : readAccess.join(', ');
+    String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
     return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  static MemberMediumEntity fromMap(Map map) {
+  static MemberMediumEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return MemberMediumEntity(
@@ -65,8 +65,8 @@ class MemberMediumEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (authorId != null) theDocument["authorId"] = authorId;
@@ -77,7 +77,7 @@ class MemberMediumEntity {
       else theDocument["ref"] = null;
     if (urlThumbnail != null) theDocument["urlThumbnail"] = urlThumbnail;
       else theDocument["urlThumbnail"] = null;
-    if (readAccess != null) theDocument["readAccess"] = readAccess.toList();
+    if (readAccess != null) theDocument["readAccess"] = readAccess!.toList();
       else theDocument["readAccess"] = null;
     if (mediumType != null) theDocument["mediumType"] = mediumType;
       else theDocument["mediumType"] = null;
@@ -94,8 +94,8 @@ class MemberMediumEntity {
     return theDocument;
   }
 
-  static MemberMediumEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MemberMediumEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

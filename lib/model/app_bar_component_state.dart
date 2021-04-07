@@ -20,13 +20,13 @@ abstract class AppBarComponentState extends Equatable {
   const AppBarComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AppBarComponentUninitialized extends AppBarComponentState {}
 
 class AppBarComponentError extends AppBarComponentState {
-  final String message;
+  final String? message;
   AppBarComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class AppBarComponentPermissionDenied extends AppBarComponentState {
 }
 
 class AppBarComponentLoaded extends AppBarComponentState {
-  final AppBarModel value;
+  final AppBarModel? value;
 
   const AppBarComponentLoaded({ this.value });
 
-  AppBarComponentLoaded copyWith({ AppBarModel copyThis }) {
+  AppBarComponentLoaded copyWith({ AppBarModel? copyThis }) {
     return AppBarComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AppBarComponentLoaded { value: $value }';

@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'app_entry_pages_form.dart';
 
 
-typedef AppEntryPagesWidgetProvider(AppEntryPagesModel value);
+typedef AppEntryPagesWidgetProvider(AppEntryPagesModel? value);
 
 class AppEntryPagesListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  AppEntryPagesWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  AppEntryPagesListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  AppEntryPagesWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  AppEntryPagesListWidgetState? state;
+  bool? isEmbedded;
 
-  AppEntryPagesListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  AppEntryPagesListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   AppEntryPagesListWidgetState createState() {
     state ??= AppEntryPagesListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= AppEntryPagesListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
-  AppEntryPagesListBloc bloc;
+  AppEntryPagesListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
           );
         } else if (state is AppEntryPagesListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return AppEntryPagesListItem(
             value: value,
@@ -210,7 +210,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return AppEntryPagesForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class AppEntryPagesListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final AppEntryPagesModel value;
+  final AppEntryPagesModel? value;
 
   AppEntryPagesListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__AppEntryPages_item_${value.documentID}'),
+      key: Key('__AppEntryPages_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__AppEntryPagesheroTag',
+          tag: '${value!.documentID}__AppEntryPagesheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.entryPage.documentID,
+              value!.entryPage!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.entryPage.title != null) && (value.entryPage.title.isNotEmpty)
+        subtitle: (value!.entryPage!.title != null) && (value!.entryPage!.title!.isNotEmpty)
             ? Center( child: Text(
-          value.entryPage.title,
+          value!.entryPage!.title!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

@@ -21,31 +21,31 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class GridViewEntity {
-  final String appId;
-  final String name;
-  final int scrollDirection;
-  final int type;
-  final int crossAxisCount;
-  final int maxCrossAxisExtentType;
-  final double absoluteMaxCrossAxisExtent;
-  final double relativeMaxCrossAxisExtent;
-  final double childAspectRatio;
-  final double padding;
-  final double mainAxisSpacing;
-  final double crossAxisSpacing;
-  final ConditionsSimpleEntity conditions;
+  final String? appId;
+  final String? name;
+  final int? scrollDirection;
+  final int? type;
+  final int? crossAxisCount;
+  final int? maxCrossAxisExtentType;
+  final double? absoluteMaxCrossAxisExtent;
+  final double? relativeMaxCrossAxisExtent;
+  final double? childAspectRatio;
+  final double? padding;
+  final double? mainAxisSpacing;
+  final double? crossAxisSpacing;
+  final ConditionsSimpleEntity? conditions;
 
   GridViewEntity({this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, });
 
 
-  List<Object> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, conditions, ];
+  List<Object?> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, conditions, ];
 
   @override
   String toString() {
     return 'GridViewEntity{appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
-  static GridViewEntity fromMap(Map map) {
+  static GridViewEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var conditionsFromMap;
@@ -70,12 +70,12 @@ class GridViewEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> conditionsMap = conditions != null 
-        ? conditions.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (name != null) theDocument["name"] = name;
@@ -105,8 +105,8 @@ class GridViewEntity {
     return theDocument;
   }
 
-  static GridViewEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static GridViewEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

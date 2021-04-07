@@ -23,19 +23,19 @@ import 'package:eliud_core/model/grid_view_repository.dart';
 import 'package:flutter/services.dart';
 
 class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewComponentState> {
-  final GridViewRepository gridViewRepository;
+  final GridViewRepository? gridViewRepository;
 
   GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized());
   @override
   Stream<GridViewComponentState> mapEventToState(GridViewComponentEvent event) async* {
-    final currentState = state;
+    final GridViewComponentState currentState = state;
     if (event is FetchGridViewComponent) {
       try {
         if (currentState is GridViewComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await gridViewRepository.get(event.id, onError: (error) {
+          final model = await gridViewRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -45,7 +45,7 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
             if (model != null) {
               yield GridViewComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield GridViewComponentError(
                   message: "GridView with id = '$id' not found");
             }

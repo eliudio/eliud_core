@@ -3,10 +3,10 @@ import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-typedef ExtensionTypeFieldTrigger = Function(String value);
+typedef ExtensionTypeFieldTrigger = Function(String? value);
 
 class ExtensionTypeField extends StatefulWidget {
-  final String value;
+  final String? value;
   final ExtensionTypeFieldTrigger trigger;
 
   ExtensionTypeField(this.value, this.trigger);
@@ -18,7 +18,7 @@ class ExtensionTypeField extends StatefulWidget {
 }
 
 class ExtensionTypeFieldState extends State<ExtensionTypeField> {
-  String value;
+  String? value;
 
   @override
   void initState() {
@@ -29,11 +29,11 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var extensions = <String>[];
-    Registry.registry().registryMap().forEach((key, value) { extensions.add(key); });
+    var extensions = <String?>[];
+    Registry.registry()!.registryMap().forEach((key, value) { extensions.add(key); });
     var dropDownItems = extensions
         .map((extension) =>
-            DropdownMenuItem(value: extension, child: Text(extension)))
+            DropdownMenuItem(value: extension, child: Text(extension!)))
         .toList();
 
     if (extensions.indexWhere((extension) => (extension == value)) == -1) {

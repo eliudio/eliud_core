@@ -9,12 +9,12 @@ import 'mobile/camera.dart';
 
 class CameraUtility {
 
-  static CameraUtility _instance;
+  static CameraUtility? _instance;
 
   CameraUtility._internal() {
   }
 
-  static CameraUtility utility() {
+  static CameraUtility? utility() {
     _instance ??= CameraUtility._internal();
 
     return _instance;

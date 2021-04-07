@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'body_component_form.dart';
 
 
-typedef BodyComponentWidgetProvider(BodyComponentModel value);
+typedef BodyComponentWidgetProvider(BodyComponentModel? value);
 
 class BodyComponentListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  BodyComponentWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  BodyComponentListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  BodyComponentWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  BodyComponentListWidgetState? state;
+  bool? isEmbedded;
 
-  BodyComponentListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  BodyComponentListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   BodyComponentListWidgetState createState() {
     state ??= BodyComponentListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= BodyComponentListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
-  BodyComponentListBloc bloc;
+  BodyComponentListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
           );
         } else if (state is BodyComponentListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return BodyComponentListItem(
             value: value,
@@ -210,7 +210,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return BodyComponentForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class BodyComponentListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   BodyComponentListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__BodyComponent_item_${value.documentID}'),
+      key: Key('__BodyComponent_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__BodyComponentheroTag',
+          tag: '${value!.documentID}__BodyComponentheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.componentName,
+              value!.componentName!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.componentId != null) && (value.componentId.isNotEmpty)
+        subtitle: (value!.componentId != null) && (value!.componentId!.isNotEmpty)
             ? Center( child: Text(
-          value.componentId,
+          value!.componentId!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

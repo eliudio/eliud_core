@@ -38,13 +38,13 @@ import 'package:eliud_core/model/app_bar_form_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 
 class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   AppBarFormBloc(this.appId, { this.formAction }): super(AppBarFormUninitialized());
   @override
   Stream<AppBarFormState> mapEventToState(AppBarFormEvent event) async* {
-    final currentState = state;
+    final AppBarFormState currentState = state;
     if (currentState is AppBarFormUninitialized) {
       if (event is InitialiseNewAppBarFormEvent) {
         AppBarFormLoaded loaded = AppBarFormLoaded(value: AppBarModel(
@@ -64,7 +64,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
 
       if (event is InitialiseAppBarFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appId: appId).get(event.value.documentID));
+        AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppBarFormNoLoadEvent) {
@@ -73,9 +73,9 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
         return;
       }
     } else if (currentState is AppBarFormInitialized) {
-      AppBarModel newValue = null;
+      AppBarModel? newValue = null;
       if (event is ChangedAppBarDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -85,39 +85,39 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
         return;
       }
       if (event is ChangedAppBarTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarHeader) {
-        newValue = currentState.value.copyWith(header: event.value);
+        newValue = currentState.value!.copyWith(header: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarIcon) {
-        newValue = currentState.value.copyWith(icon: event.value);
+        newValue = currentState.value!.copyWith(icon: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarImage) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(image: await memberMediumRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(image: await memberMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppBarModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 header: currentState.value.header,
-                                 icon: currentState.value.icon,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 header: currentState.value!.header,
+                                 icon: currentState.value!.icon,
                                  image: null,
-                                 iconMenu: currentState.value.iconMenu,
-                                 background: currentState.value.background,
-                                 iconColor: currentState.value.iconColor,
-                                 selectedIconColor: currentState.value.selectedIconColor,
-                                 menuBackgroundColor: currentState.value.menuBackgroundColor,
+                                 iconMenu: currentState.value!.iconMenu,
+                                 background: currentState.value!.background,
+                                 iconColor: currentState.value!.iconColor,
+                                 selectedIconColor: currentState.value!.selectedIconColor,
+                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
           );
         yield SubmittableAppBarForm(value: newValue);
 
@@ -125,20 +125,20 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarIconMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(iconMenu: await menuDefRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(iconMenu: await menuDefRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppBarModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 header: currentState.value.header,
-                                 icon: currentState.value.icon,
-                                 image: currentState.value.image,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 header: currentState.value!.header,
+                                 icon: currentState.value!.icon,
+                                 image: currentState.value!.image,
                                  iconMenu: null,
-                                 background: currentState.value.background,
-                                 iconColor: currentState.value.iconColor,
-                                 selectedIconColor: currentState.value.selectedIconColor,
-                                 menuBackgroundColor: currentState.value.menuBackgroundColor,
+                                 background: currentState.value!.background,
+                                 iconColor: currentState.value!.iconColor,
+                                 selectedIconColor: currentState.value!.selectedIconColor,
+                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
           );
         yield SubmittableAppBarForm(value: newValue);
 
@@ -146,39 +146,39 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
       }
       if (event is ChangedAppBarBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppBarModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 header: currentState.value.header,
-                                 icon: currentState.value.icon,
-                                 image: currentState.value.image,
-                                 iconMenu: currentState.value.iconMenu,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 header: currentState.value!.header,
+                                 icon: currentState.value!.icon,
+                                 image: currentState.value!.image,
+                                 iconMenu: currentState.value!.iconMenu,
                                  background: null,
-                                 iconColor: currentState.value.iconColor,
-                                 selectedIconColor: currentState.value.selectedIconColor,
-                                 menuBackgroundColor: currentState.value.menuBackgroundColor,
+                                 iconColor: currentState.value!.iconColor,
+                                 selectedIconColor: currentState.value!.selectedIconColor,
+                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
           );
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarIconColor) {
-        newValue = currentState.value.copyWith(iconColor: event.value);
+        newValue = currentState.value!.copyWith(iconColor: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarSelectedIconColor) {
-        newValue = currentState.value.copyWith(selectedIconColor: event.value);
+        newValue = currentState.value!.copyWith(selectedIconColor: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppBarMenuBackgroundColor) {
-        newValue = currentState.value.copyWith(menuBackgroundColor: event.value);
+        newValue = currentState.value!.copyWith(menuBackgroundColor: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
@@ -189,10 +189,10 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
 
   DocumentIDAppBarFormError error(String message, AppBarModel newValue) => DocumentIDAppBarFormError(message: message, value: newValue);
 
-  Future<AppBarFormState> _isDocumentIDValid(String value, AppBarModel newValue) async {
+  Future<AppBarFormState> _isDocumentIDValid(String? value, AppBarModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<AppBarModel> findDocument = appBarRepository(appId: appId).get(value);
+    Future<AppBarModel?> findDocument = appBarRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableAppBarForm(value: newValue);

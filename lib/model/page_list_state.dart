@@ -20,19 +20,19 @@ abstract class PageListState extends Equatable {
   const PageListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PageListLoading extends PageListState {}
 
 class PageListLoaded extends PageListState {
-  final List<PageModel> values;
-  final bool mightHaveMore;
+  final List<PageModel?>? values;
+  final bool? mightHaveMore;
 
   const PageListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'PageListLoaded { values: $values }';

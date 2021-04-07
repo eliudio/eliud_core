@@ -32,7 +32,7 @@ class Eliud {
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
   void run(String appId, bool asPlaystore) async {
-    runApp(Registry.registry().application(id: appId, asPlaystore: asPlaystore));
+    runApp(Registry.registry()!.application(id: appId, asPlaystore: asPlaystore));
   }
 
 }

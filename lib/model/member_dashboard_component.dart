@@ -25,7 +25,7 @@ import 'package:eliud_core/model/member_dashboard_component_state.dart';
 
 abstract class AbstractMemberDashboardComponent extends StatelessWidget {
   static String componentName = "memberDashboards";
-  final String memberDashboardID;
+  final String? memberDashboardID;
 
   AbstractMemberDashboardComponent({this.memberDashboardID});
 
@@ -63,8 +63,8 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, MemberDashboardModel value);
+  Widget yourWidget(BuildContext context, MemberDashboardModel? value);
   Widget alertWidget({ title: String, content: String});
-  MemberDashboardRepository getMemberDashboardRepository(BuildContext context);
+  MemberDashboardRepository? getMemberDashboardRepository(BuildContext context);
 }
 

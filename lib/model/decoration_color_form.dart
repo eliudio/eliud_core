@@ -58,10 +58,10 @@ import 'package:eliud_core/model/decoration_color_form_state.dart';
 
 class DecorationColorForm extends StatelessWidget {
   FormAction formAction;
-  DecorationColorModel value;
-  ActionModel submitAction;
+  DecorationColorModel? value;
+  ActionModel? submitAction;
 
-  DecorationColorForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  DecorationColorForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class DecorationColorForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class DecorationColorForm extends StatelessWidget {
 
 
 class MyDecorationColorForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyDecorationColorForm({this.formAction, this.submitAction});
 
@@ -119,8 +119,8 @@ class MyDecorationColorForm extends StatefulWidget {
 
 
 class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
-  final FormAction formAction;
-  DecorationColorFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late DecorationColorFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _stopController = TextEditingController();
@@ -146,12 +146,12 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
       );
 
       if (state is DecorationColorFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.stop != null)
-          _stopController.text = state.value.stop.toString();
+        if (state.value!.stop != null)
+          _stopController.text = state.value!.stop.toString();
         else
           _stopController.text = "";
       }
@@ -159,13 +159,13 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
         List<Widget> children = List();
         children.add(
 
-                RgbField("Background Color", state.value.color, _onColorChanged)
+                RgbField("Background Color", state.value!.color, _onColorChanged)
           );
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _stopController,
                   decoration: InputDecoration(
@@ -190,21 +190,21 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<DecorationColorListBloc>(context).add(
-                          UpdateDecorationColorList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              color: state.value.color, 
-                              stop: state.value.stop, 
+                          UpdateDecorationColorList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              color: state.value!.color, 
+                              stop: state.value!.stop, 
                         )));
                       } else {
                         BlocProvider.of<DecorationColorListBloc>(context).add(
                           AddDecorationColorList(value: DecorationColorModel(
-                              documentID: state.value.documentID, 
-                              color: state.value.color, 
-                              stop: state.value.stop, 
+                              documentID: state.value!.documentID, 
+                              color: state.value!.color, 
+                              stop: state.value!.stop, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

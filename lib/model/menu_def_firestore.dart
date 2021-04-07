@@ -32,26 +32,26 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MenuDefFirestore implements MenuDefRepository {
-  Future<MenuDefModel> add(MenuDefModel value) {
-    return MenuDefCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MenuDefModel> add(MenuDefModel? value) {
+    return MenuDefCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(MenuDefModel value) {
-    return MenuDefCollection.doc(value.documentID).delete();
+  Future<void> delete(MenuDefModel? value) {
+    return MenuDefCollection.doc(value!.documentID).delete();
   }
 
-  Future<MenuDefModel> update(MenuDefModel value) {
-    return MenuDefCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MenuDefModel> update(MenuDefModel? value) {
+    return MenuDefCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  MenuDefModel _populateDoc(DocumentSnapshot value) {
+  MenuDefModel? _populateDoc(DocumentSnapshot value) {
     return MenuDefModel.fromEntity(value.id, MenuDefEntity.fromMap(value.data()));
   }
 
-  Future<MenuDefModel> _populateDocPlus(DocumentSnapshot value) async {
+  Future<MenuDefModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<MenuDefModel> get(String id, {Function(Exception) onError}) {
+  Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) {
     return MenuDefCollection.doc(id).get().then((doc) {
       if (doc.data() != null)
         return _populateDocPlus(doc);
@@ -59,35 +59,35 @@ class MenuDefFirestore implements MenuDefRepository {
         return null;
     }).catchError((Object e) {
       if (onError != null) {
-        onError(e);
+        onError(e as Exception);
       }
     });
   }
 
-  StreamSubscription<List<MenuDefModel>> listen(MenuDefModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<MenuDefModel>> stream;
+  StreamSubscription<List<MenuDefModel?>> listen(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+    Stream<List<MenuDefModel?>> stream;
 //    stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
 //    In the meantime:
-      stream = getQuery(appRepository().getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
-      Iterable<MenuDefModel> menuDefs  = data.docs.map((doc) {
-        MenuDefModel value = _populateDoc(doc);
+      stream = getQuery(appRepository()!.getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      Iterable<MenuDefModel?> menuDefs  = data.docs.map((doc) {
+        MenuDefModel? value = _populateDoc(doc);
         return value;
       }).toList();
-      return menuDefs;
+      return menuDefs as List<MenuDefModel?>;
     });
     return stream.listen((listOfMenuDefModels) {
       trigger(listOfMenuDefModels);
     });
   }
 
-  StreamSubscription<List<MenuDefModel>> listenWithDetails(MenuDefModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<MenuDefModel>> stream;
+  StreamSubscription<List<MenuDefModel?>> listenWithDetails(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+    Stream<List<MenuDefModel?>> stream;
 //  stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
 //  see comment listen(...) above
-    stream = getQuery(appRepository().getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots()
+    stream = getQuery(appRepository()!.getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });
@@ -98,7 +98,7 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
   @override
-  StreamSubscription<MenuDefModel> listenTo(String documentId, MenuDefChanged changed) {
+  StreamSubscription<MenuDefModel?> listenTo(String documentId, MenuDefChanged changed) {
     var stream = MenuDefCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
@@ -109,9 +109,9 @@ class MenuDefFirestore implements MenuDefRepository {
     });
   }
 
-  Stream<List<MenuDefModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    DocumentSnapshot lastDoc;
-    Stream<List<MenuDefModel>> _values = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((snapshot) {
+  Stream<List<MenuDefModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    DocumentSnapshot? lastDoc;
+    Stream<List<MenuDefModel?>> _values = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
@@ -120,9 +120,9 @@ class MenuDefFirestore implements MenuDefRepository {
     return _values;
   }
 
-  Stream<List<MenuDefModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    DocumentSnapshot lastDoc;
-    Stream<List<MenuDefModel>> _values = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().asyncMap((snapshot) {
+  Stream<List<MenuDefModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    DocumentSnapshot? lastDoc;
+    Stream<List<MenuDefModel?>> _values = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
@@ -132,9 +132,9 @@ class MenuDefFirestore implements MenuDefRepository {
     return _values;
   }
 
-  Future<List<MenuDefModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    DocumentSnapshot lastDoc;
-    List<MenuDefModel> _values = await getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+  Future<List<MenuDefModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    DocumentSnapshot? lastDoc;
+    List<MenuDefModel?> _values = await getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
       return list.map((doc) { 
         lastDoc = doc;
@@ -145,9 +145,9 @@ class MenuDefFirestore implements MenuDefRepository {
     return _values;
   }
 
-  Future<List<MenuDefModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    DocumentSnapshot lastDoc;
-    List<MenuDefModel> _values = await getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).get().then((value) {
+  Future<List<MenuDefModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    DocumentSnapshot? lastDoc;
+    List<MenuDefModel?> _values = await getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,17 +172,17 @@ class MenuDefFirestore implements MenuDefRepository {
     return MenuDefCollection.doc(documentId).collection(name);
   }
 
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   } 
 
-  Future<MenuDefModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+  Future<MenuDefModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
     var change = FieldValue.increment(changeByThisValue);
     return MenuDefCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
 
-  final String appId;
+  final String? appId;
   MenuDefFirestore(this.MenuDefCollection, this.appId);
 
   final CollectionReference MenuDefCollection;

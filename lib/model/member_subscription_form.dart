@@ -58,10 +58,10 @@ import 'package:eliud_core/model/member_subscription_form_state.dart';
 
 class MemberSubscriptionForm extends StatelessWidget {
   FormAction formAction;
-  MemberSubscriptionModel value;
-  ActionModel submitAction;
+  MemberSubscriptionModel? value;
+  ActionModel? submitAction;
 
-  MemberSubscriptionForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberSubscriptionForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class MemberSubscriptionForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class MemberSubscriptionForm extends StatelessWidget {
 
 
 class MyMemberSubscriptionForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberSubscriptionForm({this.formAction, this.submitAction});
 
@@ -119,11 +119,11 @@ class MyMemberSubscriptionForm extends StatefulWidget {
 
 
 class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
-  final FormAction formAction;
-  MemberSubscriptionFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberSubscriptionFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
-  String _app;
+  String? _app;
 
 
   _MyMemberSubscriptionFormState(this.formAction);
@@ -145,23 +145,23 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
       );
 
       if (state is MemberSubscriptionFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.app != null)
-          _app= state.value.app.documentID;
+        if (state.value!.app != null)
+          _app= state.value!.app!.documentID;
         else
           _app= "";
       }
       if (state is MemberSubscriptionFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -196,19 +196,19 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberSubscriptionListBloc>(context).add(
-                          UpdateMemberSubscriptionList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              app: state.value.app, 
+                          UpdateMemberSubscriptionList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              app: state.value!.app, 
                         )));
                       } else {
                         BlocProvider.of<MemberSubscriptionListBloc>(context).add(
                           AddMemberSubscriptionList(value: MemberSubscriptionModel(
-                              documentID: state.value.documentID, 
-                              app: state.value.app, 
+                              documentID: state.value!.documentID, 
+                              app: state.value!.app, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -228,7 +228,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

@@ -27,40 +27,40 @@ const _menuItemLimit = 5;
 
 class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   final MenuItemRepository _menuItemRepository;
-  StreamSubscription _menuItemsListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _menuItemsListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  MenuItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required MenuItemRepository menuItemRepository})
+  MenuItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuItemRepository menuItemRepository})
       : assert(menuItemRepository != null),
         _menuItemRepository = menuItemRepository,
         super(MenuItemListLoading());
 
   Stream<MenuItemListState> _mapLoadMenuItemListToState() async* {
-    int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values.length : 0;
+    int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values!.length : 0;
     _menuItemsListSubscription?.cancel();
     _menuItemsListSubscription = _menuItemRepository.listen(
           (list) => add(MenuItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _menuItemLimit : null
+      limit: ((paged != null) && paged!) ? pages * _menuItemLimit : null
     );
   }
 
   Stream<MenuItemListState> _mapLoadMenuItemListWithDetailsToState() async* {
-    int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values.length : 0;
+    int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values!.length : 0;
     _menuItemsListSubscription?.cancel();
     _menuItemsListSubscription = _menuItemRepository.listenWithDetails(
             (list) => add(MenuItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _menuItemLimit : null
+        limit: ((paged != null) && paged!) ? pages * _menuItemLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   @override
   Stream<MenuItemListState> mapEventToState(MenuItemListEvent event) async* {
     if (event is LoadMenuItemList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadMenuItemListToState();
       } else {
         yield* _mapLoadMenuItemListWithDetailsToState();

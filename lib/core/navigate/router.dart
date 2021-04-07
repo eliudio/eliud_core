@@ -17,15 +17,15 @@ import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class Arguments {
-  final String mainArgument;
-  final Map<String, Object> parameters;
+  final String? mainArgument;
+  final Map<String, Object>? parameters;
 
   Arguments(this.mainArgument, this.parameters);
 }
 
 abstract class PackageActionHandler {
   void navigateTo(BuildContext context, ActionModel action,
-      {Map<String, Object> parameters});
+      {Map<String, Object>? parameters});
 }
 
 class Router {
@@ -44,74 +44,74 @@ class Router {
 
   Router(this.accessBloc);
 
-  String getHomepage(AppLoaded state) {
+  String? getHomepage(AppLoaded state) {
     var privilegeLevel;
     if (state is LoggedIn) {
       privilegeLevel = state.privilegeLevel;
     } else {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
-    if (state.isBlocked()) return state.app.homePages.homePageBlockedMemberId;
+    if (state.isBlocked()) return state.app.homePages!.homePageBlockedMemberId;
     if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
-        (state.app.homePages.homePageOwnerId != null)) {
-      return state.app.homePages.homePageOwnerId;
+        (state.app.homePages!.homePageOwnerId != null)) {
+      return state.app.homePages!.homePageOwnerId;
     }
     if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
-        (state.app.homePages.homePageLevel2MemberId != null)) {
-      return state.app.homePages.homePageLevel2MemberId;
+        (state.app.homePages!.homePageLevel2MemberId != null)) {
+      return state.app.homePages!.homePageLevel2MemberId;
     }
     if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
-        (state.app.homePages.homePageLevel1MemberId != null)) {
-      return state.app.homePages.homePageLevel1MemberId;
+        (state.app.homePages!.homePageLevel1MemberId != null)) {
+      return state.app.homePages!.homePageLevel1MemberId;
     }
     if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
-        (state.app.homePages.homePageSubscribedMemberId != null)) {
-      return state.app.homePages.homePageSubscribedMemberId;
+        (state.app.homePages!.homePageSubscribedMemberId != null)) {
+      return state.app.homePages!.homePageSubscribedMemberId;
     }
 
     print('Unknown privilegeLevel $privilegeLevel');
-    return state.app.homePages.homePageSubscribedMemberId;
+    return state.app.homePages!.homePageSubscribedMemberId;
   }
 
   Route<dynamic> generateRoute(RouteSettings settings) {
-    var theState = accessBloc.state;
+    AccessState theState = accessBloc.state;
     if (theState is AppLoaded) {
-      Arguments arguments;
+      Arguments? arguments;
       if (settings.arguments is Arguments) {
-        arguments = settings.arguments;
+        arguments = settings.arguments as Arguments?;
       }
       switch (settings.name) {
         case '':
           // in flutterweb, the initialRoute is "", not "/"
           var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId, page: Registry.registry().page(id: pageId));
+              pageId: pageId, page: Registry.registry()!.page(id: pageId));
         case homeRoute:
           var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId, page: Registry.registry().page(id: pageId));
+              pageId: pageId, page: Registry.registry()!.page(id: pageId));
         case justASecond:
           return pageRouteBuilder(theState.app,
               page: justASecondWidget(
-                  arguments == null ? '?' : arguments.mainArgument));
+                  arguments == null ? '?' : arguments.mainArgument!));
         case pageRoute:
           return pageRouteBuilder(theState.app,
-              pageId: arguments.mainArgument,
+              pageId: arguments!.mainArgument,
               parameters: arguments.parameters,
-              page: Registry.registry().page(
+              page: Registry.registry()!.page(
                   id: arguments == null ? null : arguments.mainArgument,
                   parameters: arguments == null ? null : arguments.parameters));
         case messageRoute:
           var value = settings.name;
           if (arguments != null) {
-            value = value + arguments.mainArgument;
-            for (var v in arguments.parameters.values) {
-              value = value + v;
+            value = value! + arguments.mainArgument!;
+            for (var v in arguments.parameters!.values) {
+              value = value! + (v as String);
             }
           }
-          return error(settings.arguments);
+          return error(settings.arguments as String);
         default:
-          final settingsUri = Uri.parse(settings.name);
+          final settingsUri = Uri.parse(settings.name!);
           final pagePath = settingsUri.path.split('/');
           if ((pagePath != null) && (pagePath.length == 2)) {
             final appId = pagePath[0];
@@ -130,7 +130,7 @@ class Router {
               if (pageId != null) print(pageId);
               if (parameters != null) print(parameters);
               var page =
-                  Registry.registry().page(id: pageId, parameters: parameters);
+                  Registry.registry()!.page(id: pageId, parameters: parameters);
               if (page != null) {
                 return pageRouteBuilder(theState.app,
                     pageId: pageId, parameters: parameters, page: page);
@@ -200,7 +200,7 @@ class Router {
   }
 
   static void navigateTo(BuildContext context, ActionModel action,
-      {Map<String, Object> parameters}) async {
+      {Map<String, Object>? parameters}) async {
     if (action.hasAccess(context)) {
       if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
@@ -211,7 +211,7 @@ class Router {
               SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
         }
       } else if (action is OpenDialog) {
-        await Registry.registry()
+        await Registry.registry()!
             .openDialog(context, id: action.dialogID, parameters: parameters);
       } else if (action is SwitchApp) {
         var appId = action.toAppID;
@@ -245,7 +245,7 @@ class Router {
   }
 
   static void navigateToPage(NavigatorBloc bloc, ActionModel action,
-      {Map<String, Object> parameters}) async {
+      {Map<String, Object>? parameters}) async {
     if (action is GotoPage) {
       bloc.add(GoToPageEvent(action.pageID, parameters: parameters));
     } else {
@@ -263,7 +263,7 @@ class Router {
   static void bruteRefreshPage(BuildContext context) {
     var appId = AccessBloc.appId(context);
     // force goto that page
-    var modalRoute = ModalRoute.of(context);
+    var modalRoute = ModalRoute.of(context) as ModalRoute<Object>;
     var settings = modalRoute.settings;
     var parentPageId = settings.name;
     var refreshPage = GotoPage(appId, pageID: parentPageId);

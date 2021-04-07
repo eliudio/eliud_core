@@ -30,7 +30,7 @@ abstract class BackgroundFormEvent extends Equatable {
   const BackgroundFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewBackgroundFormEvent extends BackgroundFormEvent {
@@ -38,150 +38,150 @@ class InitialiseNewBackgroundFormEvent extends BackgroundFormEvent {
 
 
 class InitialiseBackgroundFormEvent extends BackgroundFormEvent {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseBackgroundFormEvent({this.value});
 }
 
 class InitialiseBackgroundFormNoLoadEvent extends BackgroundFormEvent {
-  final BackgroundModel value;
+  final BackgroundModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseBackgroundFormNoLoadEvent({this.value});
 }
 
 class ChangedBackgroundDocumentID extends BackgroundFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBackgroundDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundDocumentID{ value: $value }';
 }
 
 class ChangedBackgroundAppId extends BackgroundFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBackgroundAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundAppId{ value: $value }';
 }
 
 class ChangedBackgroundComments extends BackgroundFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBackgroundComments({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundComments{ value: $value }';
 }
 
 class ChangedBackgroundBackgroundImage extends BackgroundFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBackgroundBackgroundImage({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundBackgroundImage{ value: $value }';
 }
 
 class ChangedBackgroundUseProfilePhotoAsBackground extends BackgroundFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedBackgroundUseProfilePhotoAsBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundUseProfilePhotoAsBackground{ value: $value }';
 }
 
 class ChangedBackgroundBeginGradientPosition extends BackgroundFormEvent {
-  final StartGradientPosition value;
+  final StartGradientPosition? value;
 
   ChangedBackgroundBeginGradientPosition({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundBeginGradientPosition{ value: $value }';
 }
 
 class ChangedBackgroundEndGradientPosition extends BackgroundFormEvent {
-  final EndGradientPosition value;
+  final EndGradientPosition? value;
 
   ChangedBackgroundEndGradientPosition({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundEndGradientPosition{ value: $value }';
 }
 
 class ChangedBackgroundShadow extends BackgroundFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBackgroundShadow({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundShadow{ value: $value }';
 }
 
 class ChangedBackgroundDecorationColors extends BackgroundFormEvent {
-  final List<DecorationColorModel> value;
+  final List<DecorationColorModel>? value;
 
   ChangedBackgroundDecorationColors({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundDecorationColors{ value: $value }';
 }
 
 class ChangedBackgroundBorder extends BackgroundFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedBackgroundBorder({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundBorder{ value: $value }';
 }
 
 class ChangedBackgroundAdmin extends BackgroundFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedBackgroundAdmin({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBackgroundAdmin{ value: $value }';

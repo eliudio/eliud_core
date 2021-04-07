@@ -23,19 +23,19 @@ import 'package:eliud_core/model/country_repository.dart';
 import 'package:flutter/services.dart';
 
 class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentState> {
-  final CountryRepository countryRepository;
+  final CountryRepository? countryRepository;
 
   CountryComponentBloc({ this.countryRepository }): super(CountryComponentUninitialized());
   @override
   Stream<CountryComponentState> mapEventToState(CountryComponentEvent event) async* {
-    final currentState = state;
+    final CountryComponentState currentState = state;
     if (event is FetchCountryComponent) {
       try {
         if (currentState is CountryComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await countryRepository.get(event.id, onError: (error) {
+          final model = await countryRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -45,7 +45,7 @@ class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentS
             if (model != null) {
               yield CountryComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield CountryComponentError(
                   message: "Country with id = '$id' not found");
             }

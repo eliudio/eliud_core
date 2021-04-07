@@ -30,7 +30,7 @@ abstract class CountryFormEvent extends Equatable {
   const CountryFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewCountryFormEvent extends CountryFormEvent {
@@ -38,54 +38,54 @@ class InitialiseNewCountryFormEvent extends CountryFormEvent {
 
 
 class InitialiseCountryFormEvent extends CountryFormEvent {
-  final CountryModel value;
+  final CountryModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseCountryFormEvent({this.value});
 }
 
 class InitialiseCountryFormNoLoadEvent extends CountryFormEvent {
-  final CountryModel value;
+  final CountryModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseCountryFormNoLoadEvent({this.value});
 }
 
 class ChangedCountryDocumentID extends CountryFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCountryDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCountryDocumentID{ value: $value }';
 }
 
 class ChangedCountryCountryCode extends CountryFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCountryCountryCode({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCountryCountryCode{ value: $value }';
 }
 
 class ChangedCountryCountryName extends CountryFormEvent {
-  final String value;
+  final String? value;
 
   ChangedCountryCountryName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedCountryCountryName{ value: $value }';

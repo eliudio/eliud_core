@@ -38,13 +38,13 @@ import 'package:eliud_core/model/menu_def_form_state.dart';
 import 'package:eliud_core/model/menu_def_repository.dart';
 
 class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   MenuDefFormBloc(this.appId, { this.formAction }): super(MenuDefFormUninitialized());
   @override
   Stream<MenuDefFormState> mapEventToState(MenuDefFormEvent event) async* {
-    final currentState = state;
+    final MenuDefFormState currentState = state;
     if (currentState is MenuDefFormUninitialized) {
       if (event is InitialiseNewMenuDefFormEvent) {
         MenuDefFormLoaded loaded = MenuDefFormLoaded(value: MenuDefModel(
@@ -62,7 +62,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
 
       if (event is InitialiseMenuDefFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId).get(event.value.documentID));
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMenuDefFormNoLoadEvent) {
@@ -71,9 +71,9 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
     } else if (currentState is MenuDefFormInitialized) {
-      MenuDefModel newValue = null;
+      MenuDefModel? newValue = null;
       if (event is ChangedMenuDefDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -83,8 +83,8 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefName) {
-        newValue = currentState.value.copyWith(name: event.value);
-        if (!_isNameValid(event.value)) {
+        newValue = currentState.value!.copyWith(name: event.value);
+        if (!_isNameValid(event.value!)) {
           yield NameMenuDefFormError(message: "Invalid value", value: newValue);
         } else {
           yield SubmittableMenuDefForm(value: newValue);
@@ -93,7 +93,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefMenuItems) {
-        newValue = currentState.value.copyWith(menuItems: event.value);
+        newValue = currentState.value!.copyWith(menuItems: event.value);
         yield SubmittableMenuDefForm(value: newValue);
 
         return;
@@ -113,10 +113,10 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
 
   DocumentIDMenuDefFormError error(String message, MenuDefModel newValue) => DocumentIDMenuDefFormError(message: message, value: newValue);
 
-  Future<MenuDefFormState> _isDocumentIDValid(String value, MenuDefModel newValue) async {
+  Future<MenuDefFormState> _isDocumentIDValid(String? value, MenuDefModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<MenuDefModel> findDocument = menuDefRepository(appId: appId).get(value);
+    Future<MenuDefModel?> findDocument = menuDefRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableMenuDefForm(value: newValue);

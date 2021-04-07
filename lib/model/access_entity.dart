@@ -21,22 +21,22 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AccessEntity {
-  final int privilegeLevel;
-  final int points;
-  final bool blocked;
-  final int privilegeLevelBeforeBlocked;
+  final int? privilegeLevel;
+  final int? points;
+  final bool? blocked;
+  final int? privilegeLevelBeforeBlocked;
 
   AccessEntity({this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
 
 
-  List<Object> get props => [privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
+  List<Object?> get props => [privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
 
   @override
   String toString() {
     return 'AccessEntity{privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  static AccessEntity fromMap(Map map) {
+  static AccessEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return AccessEntity(
@@ -47,8 +47,8 @@ class AccessEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (privilegeLevel != null) theDocument["privilegeLevel"] = privilegeLevel;
       else theDocument["privilegeLevel"] = null;
     if (points != null) theDocument["points"] = points;
@@ -60,8 +60,8 @@ class AccessEntity {
     return theDocument;
   }
 
-  static AccessEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static AccessEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

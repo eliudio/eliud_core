@@ -38,13 +38,13 @@ import 'package:eliud_core/model/font_form_state.dart';
 import 'package:eliud_core/model/font_repository.dart';
 
 class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   FontFormBloc(this.appId, { this.formAction }): super(FontFormUninitialized());
   @override
   Stream<FontFormState> mapEventToState(FontFormEvent event) async* {
-    final currentState = state;
+    final FontFormState currentState = state;
     if (currentState is FontFormUninitialized) {
       if (event is InitialiseNewFontFormEvent) {
         FontFormLoaded loaded = FontFormLoaded(value: FontModel(
@@ -63,7 +63,7 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
 
       if (event is InitialiseFontFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        FontFormLoaded loaded = FontFormLoaded(value: await fontRepository(appId: appId).get(event.value.documentID));
+        FontFormLoaded loaded = FontFormLoaded(value: await fontRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseFontFormNoLoadEvent) {
@@ -72,9 +72,9 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
         return;
       }
     } else if (currentState is FontFormInitialized) {
-      FontModel newValue = null;
+      FontModel? newValue = null;
       if (event is ChangedFontDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -84,42 +84,42 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
         return;
       }
       if (event is ChangedFontFontName) {
-        newValue = currentState.value.copyWith(fontName: event.value);
+        newValue = currentState.value!.copyWith(fontName: event.value);
         yield SubmittableFontForm(value: newValue);
 
         return;
       }
       if (event is ChangedFontSize) {
         if (isDouble(event.value)) {
-          newValue = currentState.value.copyWith(size: double.parse(event.value));
+          newValue = currentState.value!.copyWith(size: double.parse(event.value!));
           yield SubmittableFontForm(value: newValue);
 
         } else {
-          newValue = currentState.value.copyWith(size: 0.0);
+          newValue = currentState.value!.copyWith(size: 0.0);
           yield SizeFontFormError(message: "Value should be a number or decimal number", value: newValue);
         }
         return;
       }
       if (event is ChangedFontWeight) {
-        newValue = currentState.value.copyWith(weight: event.value);
+        newValue = currentState.value!.copyWith(weight: event.value);
         yield SubmittableFontForm(value: newValue);
 
         return;
       }
       if (event is ChangedFontStyle) {
-        newValue = currentState.value.copyWith(style: event.value);
+        newValue = currentState.value!.copyWith(style: event.value);
         yield SubmittableFontForm(value: newValue);
 
         return;
       }
       if (event is ChangedFontDecoration) {
-        newValue = currentState.value.copyWith(decoration: event.value);
+        newValue = currentState.value!.copyWith(decoration: event.value);
         yield SubmittableFontForm(value: newValue);
 
         return;
       }
       if (event is ChangedFontColor) {
-        newValue = currentState.value.copyWith(color: event.value);
+        newValue = currentState.value!.copyWith(color: event.value);
         yield SubmittableFontForm(value: newValue);
 
         return;
@@ -130,10 +130,10 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
 
   DocumentIDFontFormError error(String message, FontModel newValue) => DocumentIDFontFormError(message: message, value: newValue);
 
-  Future<FontFormState> _isDocumentIDValid(String value, FontModel newValue) async {
+  Future<FontFormState> _isDocumentIDValid(String? value, FontModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<FontModel> findDocument = fontRepository(appId: appId).get(value);
+    Future<FontModel?> findDocument = fontRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableFontForm(value: newValue);

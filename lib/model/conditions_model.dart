@@ -38,7 +38,7 @@ enum ConditionOverride {
 }
 
 
-PrivilegeLevelRequired toPrivilegeLevelRequired(int index) {
+PrivilegeLevelRequired toPrivilegeLevelRequired(int? index) {
   switch (index) {
     case 0: return PrivilegeLevelRequired.NoPrivilegeRequired;
     case 1: return PrivilegeLevelRequired.Level1PrivilegeRequired;
@@ -48,7 +48,7 @@ PrivilegeLevelRequired toPrivilegeLevelRequired(int index) {
   return PrivilegeLevelRequired.Unknown;
 }
 
-ConditionOverride toConditionOverride(int index) {
+ConditionOverride toConditionOverride(int? index) {
   switch (index) {
     case 0: return ConditionOverride.ExactPrivilege;
     case 1: return ConditionOverride.InclusiveForBlockedMembers;
@@ -61,18 +61,18 @@ ConditionOverride toConditionOverride(int index) {
 class ConditionsModel {
 
   // see firestore rules
-  PrivilegeLevelRequired privilegeLevelRequired;
+  PrivilegeLevelRequired? privilegeLevelRequired;
 
   // see firestore rules
-  String packageCondition;
+  String? packageCondition;
 
   // see firestore rules
-  ConditionOverride conditionOverride;
+  ConditionOverride? conditionOverride;
 
   ConditionsModel({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, })  {
   }
 
-  ConditionsModel copyWith({PrivilegeLevelRequired privilegeLevelRequired, String packageCondition, ConditionOverride conditionOverride, }) {
+  ConditionsModel copyWith({PrivilegeLevelRequired? privilegeLevelRequired, String? packageCondition, ConditionOverride? conditionOverride, }) {
     return ConditionsModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition: packageCondition ?? this.packageCondition, conditionOverride: conditionOverride ?? this.conditionOverride, );
   }
 
@@ -93,15 +93,15 @@ class ConditionsModel {
     return 'ConditionsModel{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  ConditionsEntity toEntity({String appId}) {
+  ConditionsEntity toEntity({String? appId}) {
     return ConditionsEntity(
-          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired.index : null, 
+          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
           packageCondition: (packageCondition != null) ? packageCondition : null, 
-          conditionOverride: (conditionOverride != null) ? conditionOverride.index : null, 
+          conditionOverride: (conditionOverride != null) ? conditionOverride!.index : null, 
     );
   }
 
-  static ConditionsModel fromEntity(ConditionsEntity entity) {
+  static ConditionsModel? fromEntity(ConditionsEntity? entity) {
     if (entity == null) return null;
     return ConditionsModel(
           privilegeLevelRequired: toPrivilegeLevelRequired(entity.privilegeLevelRequired), 
@@ -110,7 +110,7 @@ class ConditionsModel {
     );
   }
 
-  static Future<ConditionsModel> fromEntityPlus(ConditionsEntity entity, { String appId}) async {
+  static Future<ConditionsModel?> fromEntityPlus(ConditionsEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return ConditionsModel(

@@ -33,18 +33,18 @@ typedef AppEntryPagesModelTrigger(List<AppEntryPagesModel> list);
 typedef AppEntryPagesChanged(AppEntryPagesModel value);
 
 abstract class AppEntryPagesRepository {
-  Future<AppEntryPagesModel> add(AppEntryPagesModel value);
-  Future<void> delete(AppEntryPagesModel value);
-  Future<AppEntryPagesModel> get(String id, { Function(Exception) onError });
-  Future<AppEntryPagesModel> update(AppEntryPagesModel value);
+  Future<AppEntryPagesModel> add(AppEntryPagesModel? value);
+  Future<void> delete(AppEntryPagesModel? value);
+  Future<AppEntryPagesModel> get(String id, { Function(Exception)? onError });
+  Future<AppEntryPagesModel> update(AppEntryPagesModel? value);
 
-  Stream<List<AppEntryPagesModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Stream<List<AppEntryPagesModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<AppEntryPagesModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
-  Future<List<AppEntryPagesModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery });
+  Stream<List<AppEntryPagesModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<AppEntryPagesModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<AppEntryPagesModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Future<List<AppEntryPagesModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<AppEntryPagesModel>> listen(AppEntryPagesModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
-  StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(AppEntryPagesModelTrigger trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery });
+  StreamSubscription<List<AppEntryPagesModel?>?> listen(AppEntryPagesModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<AppEntryPagesModel?>?> listenWithDetails(AppEntryPagesModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<AppEntryPagesModel> listenTo(String documentId, AppEntryPagesChanged changed);
   void flush();
   

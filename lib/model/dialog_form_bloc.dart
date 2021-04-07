@@ -38,13 +38,13 @@ import 'package:eliud_core/model/dialog_form_state.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
 
 class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   DialogFormBloc(this.appId, { this.formAction }): super(DialogFormUninitialized());
   @override
   Stream<DialogFormState> mapEventToState(DialogFormEvent event) async* {
-    final currentState = state;
+    final DialogFormState currentState = state;
     if (currentState is DialogFormUninitialized) {
       if (event is InitialiseNewDialogFormEvent) {
         DialogFormLoaded loaded = DialogFormLoaded(value: DialogModel(
@@ -63,7 +63,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
 
       if (event is InitialiseDialogFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        DialogFormLoaded loaded = DialogFormLoaded(value: await dialogRepository(appId: appId).get(event.value.documentID));
+        DialogFormLoaded loaded = DialogFormLoaded(value: await dialogRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseDialogFormNoLoadEvent) {
@@ -72,9 +72,9 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
     } else if (currentState is DialogFormInitialized) {
-      DialogModel newValue = null;
+      DialogModel? newValue = null;
       if (event is ChangedDialogDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -84,49 +84,49 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
       if (event is ChangedDialogTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogBodyComponents) {
-        newValue = currentState.value.copyWith(bodyComponents: event.value);
+        newValue = currentState.value!.copyWith(bodyComponents: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogBackground) {
-        newValue = currentState.value.copyWith(background: event.value);
+        newValue = currentState.value!.copyWith(background: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogLayout) {
-        newValue = currentState.value.copyWith(layout: event.value);
+        newValue = currentState.value!.copyWith(layout: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogGridView) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(gridView: await gridViewRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
         else
           newValue = new DialogModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
                                  gridView: null,
-                                 conditions: currentState.value.conditions,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
@@ -137,10 +137,10 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
 
   DocumentIDDialogFormError error(String message, DialogModel newValue) => DocumentIDDialogFormError(message: message, value: newValue);
 
-  Future<DialogFormState> _isDocumentIDValid(String value, DialogModel newValue) async {
+  Future<DialogFormState> _isDocumentIDValid(String? value, DialogModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<DialogModel> findDocument = dialogRepository(appId: appId).get(value);
+    Future<DialogModel?> findDocument = dialogRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableDialogForm(value: newValue);

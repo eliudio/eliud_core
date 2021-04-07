@@ -23,19 +23,19 @@ import 'package:eliud_core/model/font_repository.dart';
 import 'package:flutter/services.dart';
 
 class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
-  final FontRepository fontRepository;
+  final FontRepository? fontRepository;
 
   FontComponentBloc({ this.fontRepository }): super(FontComponentUninitialized());
   @override
   Stream<FontComponentState> mapEventToState(FontComponentEvent event) async* {
-    final currentState = state;
+    final FontComponentState currentState = state;
     if (event is FetchFontComponent) {
       try {
         if (currentState is FontComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await fontRepository.get(event.id, onError: (error) {
+          final model = await fontRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -45,7 +45,7 @@ class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
             if (model != null) {
               yield FontComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield FontComponentError(
                   message: "Font with id = '$id' not found");
             }

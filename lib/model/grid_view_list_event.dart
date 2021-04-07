@@ -19,7 +19,7 @@ import 'package:eliud_core/model/grid_view_model.dart';
 abstract class GridViewListEvent extends Equatable {
   const GridViewListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadGridViewList extends GridViewListEvent {}
@@ -27,49 +27,49 @@ class LoadGridViewList extends GridViewListEvent {}
 class NewPage extends GridViewListEvent {}
 
 class AddGridViewList extends GridViewListEvent {
-  final GridViewModel value;
+  final GridViewModel? value;
 
   const AddGridViewList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddGridViewList{ value: $value }';
 }
 
 class UpdateGridViewList extends GridViewListEvent {
-  final GridViewModel value;
+  final GridViewModel? value;
 
   const UpdateGridViewList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateGridViewList{ value: $value }';
 }
 
 class DeleteGridViewList extends GridViewListEvent {
-  final GridViewModel value;
+  final GridViewModel? value;
 
   const DeleteGridViewList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteGridViewList{ value: $value }';
 }
 
 class GridViewListUpdated extends GridViewListEvent {
-  final List<GridViewModel> value;
-  final bool mightHaveMore;
+  final List<GridViewModel?>? value;
+  final bool? mightHaveMore;
 
   const GridViewListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'GridViewListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

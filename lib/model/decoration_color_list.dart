@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'decoration_color_form.dart';
 
 
-typedef DecorationColorWidgetProvider(DecorationColorModel value);
+typedef DecorationColorWidgetProvider(DecorationColorModel? value);
 
 class DecorationColorListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  DecorationColorWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  DecorationColorListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  DecorationColorWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  DecorationColorListWidgetState? state;
+  bool? isEmbedded;
 
-  DecorationColorListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  DecorationColorListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   DecorationColorListWidgetState createState() {
     state ??= DecorationColorListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= DecorationColorListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
-  DecorationColorListBloc bloc;
+  DecorationColorListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
           );
         } else if (state is DecorationColorListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return DecorationColorListItem(
             value: value,
@@ -210,7 +210,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return DecorationColorForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class DecorationColorListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   DecorationColorListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__DecorationColor_item_${value.documentID}'),
+      key: Key('__DecorationColor_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__DecorationColorheroTag',
+          tag: '${value!.documentID}__DecorationColorheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.documentID != null) && (value.documentID.isNotEmpty)
+        subtitle: (value!.documentID != null) && (value!.documentID!.isNotEmpty)
             ? Center( child: Text(
-          value.documentID,
+          value!.documentID!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

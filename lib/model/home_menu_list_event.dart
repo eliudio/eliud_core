@@ -19,7 +19,7 @@ import 'package:eliud_core/model/home_menu_model.dart';
 abstract class HomeMenuListEvent extends Equatable {
   const HomeMenuListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadHomeMenuList extends HomeMenuListEvent {}
@@ -27,49 +27,49 @@ class LoadHomeMenuList extends HomeMenuListEvent {}
 class NewPage extends HomeMenuListEvent {}
 
 class AddHomeMenuList extends HomeMenuListEvent {
-  final HomeMenuModel value;
+  final HomeMenuModel? value;
 
   const AddHomeMenuList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddHomeMenuList{ value: $value }';
 }
 
 class UpdateHomeMenuList extends HomeMenuListEvent {
-  final HomeMenuModel value;
+  final HomeMenuModel? value;
 
   const UpdateHomeMenuList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateHomeMenuList{ value: $value }';
 }
 
 class DeleteHomeMenuList extends HomeMenuListEvent {
-  final HomeMenuModel value;
+  final HomeMenuModel? value;
 
   const DeleteHomeMenuList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteHomeMenuList{ value: $value }';
 }
 
 class HomeMenuListUpdated extends HomeMenuListEvent {
-  final List<HomeMenuModel> value;
-  final bool mightHaveMore;
+  final List<HomeMenuModel?>? value;
+  final bool? mightHaveMore;
 
   const HomeMenuListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'HomeMenuListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

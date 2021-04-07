@@ -22,7 +22,7 @@ abstract class PosSizeFormState extends Equatable {
   const PosSizeFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class PosSizeFormUninitialized extends PosSizeFormState {
 
 // PosSizeModel has been initialised and hence PosSizeModel is available
 class PosSizeFormInitialized extends PosSizeFormState {
-  final PosSizeModel value;
+  final PosSizeModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const PosSizeFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class PosSizeFormError extends PosSizeFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const PosSizeFormError({this.message, PosSizeModel value }) : super(value: value);
+  const PosSizeFormError({this.message, PosSizeModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class PosSizeFormError extends PosSizeFormInitialized {
   }
 }
 class DocumentIDPosSizeFormError extends PosSizeFormError { 
-  const DocumentIDPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const DocumentIDPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDPosSizeFormError extends PosSizeFormError {
 
 
 class AppIdPosSizeFormError extends PosSizeFormError { 
-  const AppIdPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const AppIdPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdPosSizeFormError extends PosSizeFormError {
 
 
 class NamePosSizeFormError extends PosSizeFormError { 
-  const NamePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const NamePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class NamePosSizeFormError extends PosSizeFormError {
 
 
 class WidthPortraitPosSizeFormError extends PosSizeFormError { 
-  const WidthPortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const WidthPortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class WidthPortraitPosSizeFormError extends PosSizeFormError {
 
 
 class WidthTypePortraitPosSizeFormError extends PosSizeFormError { 
-  const WidthTypePortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const WidthTypePortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class WidthTypePortraitPosSizeFormError extends PosSizeFormError {
 
 
 class WidthLandscapePosSizeFormError extends PosSizeFormError { 
-  const WidthLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const WidthLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class WidthLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class WidthTypeLandscapePosSizeFormError extends PosSizeFormError { 
-  const WidthTypeLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const WidthTypeLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class WidthTypeLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class HeightPortraitPosSizeFormError extends PosSizeFormError { 
-  const HeightPortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const HeightPortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class HeightPortraitPosSizeFormError extends PosSizeFormError {
 
 
 class HeightTypePortraitPosSizeFormError extends PosSizeFormError { 
-  const HeightTypePortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const HeightTypePortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class HeightTypePortraitPosSizeFormError extends PosSizeFormError {
 
 
 class HeightLandscapePosSizeFormError extends PosSizeFormError { 
-  const HeightLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const HeightLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class HeightLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class HeightTypeLandscapePosSizeFormError extends PosSizeFormError { 
-  const HeightTypeLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const HeightTypeLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class HeightTypeLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class FitPortraitPosSizeFormError extends PosSizeFormError { 
-  const FitPortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const FitPortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class FitPortraitPosSizeFormError extends PosSizeFormError {
 
 
 class FitLandscapePosSizeFormError extends PosSizeFormError { 
-  const FitLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const FitLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -272,10 +272,10 @@ class FitLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class AlignTypePortraitPosSizeFormError extends PosSizeFormError { 
-  const AlignTypePortraitPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const AlignTypePortraitPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -288,10 +288,10 @@ class AlignTypePortraitPosSizeFormError extends PosSizeFormError {
 
 
 class AlignTypeLandscapePosSizeFormError extends PosSizeFormError { 
-  const AlignTypeLandscapePosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const AlignTypeLandscapePosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -304,10 +304,10 @@ class AlignTypeLandscapePosSizeFormError extends PosSizeFormError {
 
 
 class ClipPosSizeFormError extends PosSizeFormError { 
-  const ClipPosSizeFormError({ String message, PosSizeModel value }): super(message: message, value: value);
+  const ClipPosSizeFormError({ String? message, PosSizeModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -320,10 +320,10 @@ class ClipPosSizeFormError extends PosSizeFormError {
 
 
 class PosSizeFormLoaded extends PosSizeFormInitialized { 
-  const PosSizeFormLoaded({ PosSizeModel value }): super(value: value);
+  const PosSizeFormLoaded({ PosSizeModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -335,10 +335,10 @@ class PosSizeFormLoaded extends PosSizeFormInitialized {
 
 
 class SubmittablePosSizeForm extends PosSizeFormInitialized { 
-  const SubmittablePosSizeForm({ PosSizeModel value }): super(value: value);
+  const SubmittablePosSizeForm({ PosSizeModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

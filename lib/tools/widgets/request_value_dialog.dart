@@ -7,16 +7,16 @@ import 'dialog_field.dart';
 import 'dialog_helper.dart';
 
 class RequestValueDialog extends StatefulWidget {
-  final String title;
-  final String yesButtonText;
-  final String noButtonText;
-  final String hintText;
-  final Function(String response) yesFunction;
-  final Function noFunction;
-  final String initialValue;
+  final String? title;
+  final String? yesButtonText;
+  final String? noButtonText;
+  final String? hintText;
+  final Function(String? response)? yesFunction;
+  final Function? noFunction;
+  final String? initialValue;
 
   RequestValueDialog({
-    Key key,
+    Key? key,
     this.title,
     this.yesButtonText,
     this.noButtonText,
@@ -35,9 +35,9 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
 
   @override
   Widget build(BuildContext context) {
-    String feedback;
+    String? feedback;
     return dialogHelper.build(
-        title: widget.title,
+        title: widget.title!,
         contents: DialogStateHelper().getListTile(
             leading: Icon(Icons.message),
             title: DialogField(
@@ -50,10 +50,10 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
             )),
         buttons: <TextButton>[
           TextButton(
-              onPressed: widget.noFunction, child: Text(widget.noButtonText)),
+              onPressed: widget.noFunction as void Function()?, child: Text(widget.noButtonText!)),
           TextButton(
-              onPressed: () => widget.yesFunction(feedback),
-              child: Text(widget.yesButtonText)),
+              onPressed: () => widget.yesFunction!(feedback),
+              child: Text(widget.yesButtonText!)),
         ]);
   }
 }

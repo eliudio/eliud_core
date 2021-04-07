@@ -66,13 +66,13 @@ import '../model/menu_item_list_event.dart';
 import '../model/menu_item_model.dart';
 import '../model/menu_item_repository.dart';
 
-typedef AppEntryPagesListChanged(List<AppEntryPagesModel> values);
-typedef AppPolicyItemListChanged(List<AppPolicyItemModel> values);
-typedef BodyComponentListChanged(List<BodyComponentModel> values);
-typedef DecorationColorListChanged(List<DecorationColorModel> values);
-typedef MemberMediumListChanged(List<MemberMediumModel> values);
-typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
-typedef MenuItemListChanged(List<MenuItemModel> values);
+typedef AppEntryPagesListChanged(List<AppEntryPagesModel?>? values);
+typedef AppPolicyItemListChanged(List<AppPolicyItemModel?>? values);
+typedef BodyComponentListChanged(List<BodyComponentModel?>? values);
+typedef DecorationColorListChanged(List<DecorationColorModel?>? values);
+typedef MemberMediumListChanged(List<MemberMediumModel?>? values);
+typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel?>? values);
+typedef MenuItemListChanged(List<MenuItemModel?>? values);
 
 appEntryPagessList(context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(context, value, trigger);
 appPolicyItemsList(context, value, trigger) => EmbeddedComponentFactory.appPolicyItemsList(context, value, trigger);
@@ -101,7 +101,7 @@ static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> 
   );
 }
 
-static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
+static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel>? values, AppPolicyItemListChanged trigger) {
   AppPolicyItemInMemoryRepository inMemoryRepository = AppPolicyItemInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -118,7 +118,7 @@ static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel> 
   );
 }
 
-static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
+static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel>? values, BodyComponentListChanged trigger) {
   BodyComponentInMemoryRepository inMemoryRepository = BodyComponentInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -135,7 +135,7 @@ static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> 
   );
 }
 
-static Widget decorationColorsList(BuildContext context, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
+static Widget decorationColorsList(BuildContext context, List<DecorationColorModel>? values, DecorationColorListChanged trigger) {
   DecorationColorInMemoryRepository inMemoryRepository = DecorationColorInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -169,7 +169,7 @@ static Widget memberMediumsList(BuildContext context, List<MemberMediumModel> va
   );
 }
 
-static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
+static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscriptionModel>? values, MemberSubscriptionListChanged trigger) {
   MemberSubscriptionInMemoryRepository inMemoryRepository = MemberSubscriptionInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -186,7 +186,7 @@ static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscript
   );
 }
 
-static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
+static Widget menuItemsList(BuildContext context, List<MenuItemModel>? values, MenuItemListChanged trigger) {
   MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(
     trigger: trigger,
     items: values,
@@ -207,20 +207,20 @@ static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, Me
 }
 
 class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
-    final List<AppEntryPagesModel> items;
-    final AppEntryPagesListChanged trigger;
-    Stream<List<AppEntryPagesModel>> theValues;
+    final List<AppEntryPagesModel?>? items;
+    final AppEntryPagesListChanged? trigger;
+    Stream<List<AppEntryPagesModel?>?>? theValues;
 
     AppEntryPagesInMemoryRepository({this.trigger, this.items}) {
-        List<List<AppEntryPagesModel>> myList = new List<List<AppEntryPagesModel>>();
+        List<List<AppEntryPagesModel?>?> myList = new List<List<AppEntryPagesModel>?>();
         myList.add(items);
-        theValues = Stream<List<AppEntryPagesModel>>.fromIterable(myList);
+        theValues = Stream<List<AppEntryPagesModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -228,57 +228,57 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       return -1;
     }
 
-    Future<AppEntryPagesModel> add(AppEntryPagesModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<AppEntryPagesModel> add(AppEntryPagesModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(AppEntryPagesModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(AppEntryPagesModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<AppEntryPagesModel> update(AppEntryPagesModel value) {
-      int index = _index(value.documentID);
+    Future<AppEntryPagesModel> update(AppEntryPagesModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<AppEntryPagesModel> get(String id, { Function(Exception) onError }) {
+    Future<AppEntryPagesModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<AppEntryPagesModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<AppEntryPagesModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<AppEntryPagesModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<AppEntryPagesModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<AppEntryPagesModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<AppEntryPagesModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<AppEntryPagesModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<AppEntryPagesModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<AppEntryPagesModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<AppEntryPagesModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<AppEntryPagesModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<AppEntryPagesModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -307,20 +307,20 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
 }
 
 class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
-    final List<AppPolicyItemModel> items;
-    final AppPolicyItemListChanged trigger;
-    Stream<List<AppPolicyItemModel>> theValues;
+    final List<AppPolicyItemModel?>? items;
+    final AppPolicyItemListChanged? trigger;
+    Stream<List<AppPolicyItemModel?>?>? theValues;
 
     AppPolicyItemInMemoryRepository({this.trigger, this.items}) {
-        List<List<AppPolicyItemModel>> myList = new List<List<AppPolicyItemModel>>();
+        List<List<AppPolicyItemModel?>?> myList = new List<List<AppPolicyItemModel>?>();
         myList.add(items);
-        theValues = Stream<List<AppPolicyItemModel>>.fromIterable(myList);
+        theValues = Stream<List<AppPolicyItemModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -328,57 +328,57 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
       return -1;
     }
 
-    Future<AppPolicyItemModel> add(AppPolicyItemModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<AppPolicyItemModel> add(AppPolicyItemModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(AppPolicyItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(AppPolicyItemModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<AppPolicyItemModel> update(AppPolicyItemModel value) {
-      int index = _index(value.documentID);
+    Future<AppPolicyItemModel> update(AppPolicyItemModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<AppPolicyItemModel> get(String id, { Function(Exception) onError }) {
+    Future<AppPolicyItemModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<AppPolicyItemModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<AppPolicyItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<AppPolicyItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<AppPolicyItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<AppPolicyItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<AppPolicyItemModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<AppPolicyItemModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<AppPolicyItemModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<AppPolicyItemModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<AppPolicyItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<AppPolicyItemModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<AppPolicyItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<AppPolicyItemModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -407,20 +407,20 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
 }
 
 class BodyComponentInMemoryRepository implements BodyComponentRepository {
-    final List<BodyComponentModel> items;
-    final BodyComponentListChanged trigger;
-    Stream<List<BodyComponentModel>> theValues;
+    final List<BodyComponentModel?>? items;
+    final BodyComponentListChanged? trigger;
+    Stream<List<BodyComponentModel?>?>? theValues;
 
     BodyComponentInMemoryRepository({this.trigger, this.items}) {
-        List<List<BodyComponentModel>> myList = new List<List<BodyComponentModel>>();
+        List<List<BodyComponentModel?>?> myList = new List<List<BodyComponentModel>?>();
         myList.add(items);
-        theValues = Stream<List<BodyComponentModel>>.fromIterable(myList);
+        theValues = Stream<List<BodyComponentModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -428,57 +428,57 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       return -1;
     }
 
-    Future<BodyComponentModel> add(BodyComponentModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<BodyComponentModel> add(BodyComponentModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(BodyComponentModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(BodyComponentModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<BodyComponentModel> update(BodyComponentModel value) {
-      int index = _index(value.documentID);
+    Future<BodyComponentModel> update(BodyComponentModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<BodyComponentModel> get(String id, { Function(Exception) onError }) {
+    Future<BodyComponentModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<BodyComponentModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<BodyComponentModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<BodyComponentModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<BodyComponentModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<BodyComponentModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<BodyComponentModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<BodyComponentModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<BodyComponentModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<BodyComponentModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<BodyComponentModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<BodyComponentModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<BodyComponentModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -507,20 +507,20 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
 }
 
 class DecorationColorInMemoryRepository implements DecorationColorRepository {
-    final List<DecorationColorModel> items;
-    final DecorationColorListChanged trigger;
-    Stream<List<DecorationColorModel>> theValues;
+    final List<DecorationColorModel?>? items;
+    final DecorationColorListChanged? trigger;
+    Stream<List<DecorationColorModel?>?>? theValues;
 
     DecorationColorInMemoryRepository({this.trigger, this.items}) {
-        List<List<DecorationColorModel>> myList = new List<List<DecorationColorModel>>();
+        List<List<DecorationColorModel?>?> myList = new List<List<DecorationColorModel>?>();
         myList.add(items);
-        theValues = Stream<List<DecorationColorModel>>.fromIterable(myList);
+        theValues = Stream<List<DecorationColorModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -528,57 +528,57 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
       return -1;
     }
 
-    Future<DecorationColorModel> add(DecorationColorModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<DecorationColorModel> add(DecorationColorModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(DecorationColorModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(DecorationColorModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<DecorationColorModel> update(DecorationColorModel value) {
-      int index = _index(value.documentID);
+    Future<DecorationColorModel> update(DecorationColorModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<DecorationColorModel> get(String id, { Function(Exception) onError }) {
+    Future<DecorationColorModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<DecorationColorModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<DecorationColorModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<DecorationColorModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<DecorationColorModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<DecorationColorModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<DecorationColorModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<DecorationColorModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<DecorationColorModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<DecorationColorModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<DecorationColorModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<DecorationColorModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<DecorationColorModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -607,20 +607,20 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
 }
 
 class MemberMediumInMemoryRepository implements MemberMediumRepository {
-    final List<MemberMediumModel> items;
-    final MemberMediumListChanged trigger;
-    Stream<List<MemberMediumModel>> theValues;
+    final List<MemberMediumModel?>? items;
+    final MemberMediumListChanged? trigger;
+    Stream<List<MemberMediumModel?>?>? theValues;
 
     MemberMediumInMemoryRepository({this.trigger, this.items}) {
-        List<List<MemberMediumModel>> myList = new List<List<MemberMediumModel>>();
+        List<List<MemberMediumModel?>?> myList = new List<List<MemberMediumModel>?>();
         myList.add(items);
-        theValues = Stream<List<MemberMediumModel>>.fromIterable(myList);
+        theValues = Stream<List<MemberMediumModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -628,57 +628,57 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
       return -1;
     }
 
-    Future<MemberMediumModel> add(MemberMediumModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<MemberMediumModel> add(MemberMediumModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(MemberMediumModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(MemberMediumModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<MemberMediumModel> update(MemberMediumModel value) {
-      int index = _index(value.documentID);
+    Future<MemberMediumModel> update(MemberMediumModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<MemberMediumModel> get(String id, { Function(Exception) onError }) {
+    Future<MemberMediumModel> get(String? id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<MemberMediumModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<MemberMediumModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MemberMediumModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<MemberMediumModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MemberMediumModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MemberMediumModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MemberMediumModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MemberMediumModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MemberMediumModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MemberMediumModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MemberMediumModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<MemberMediumModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MemberMediumModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -707,20 +707,20 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
 }
 
 class MemberSubscriptionInMemoryRepository implements MemberSubscriptionRepository {
-    final List<MemberSubscriptionModel> items;
-    final MemberSubscriptionListChanged trigger;
-    Stream<List<MemberSubscriptionModel>> theValues;
+    final List<MemberSubscriptionModel?>? items;
+    final MemberSubscriptionListChanged? trigger;
+    Stream<List<MemberSubscriptionModel?>?>? theValues;
 
     MemberSubscriptionInMemoryRepository({this.trigger, this.items}) {
-        List<List<MemberSubscriptionModel>> myList = new List<List<MemberSubscriptionModel>>();
+        List<List<MemberSubscriptionModel?>?> myList = new List<List<MemberSubscriptionModel>?>();
         myList.add(items);
-        theValues = Stream<List<MemberSubscriptionModel>>.fromIterable(myList);
+        theValues = Stream<List<MemberSubscriptionModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -728,57 +728,57 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return -1;
     }
 
-    Future<MemberSubscriptionModel> add(MemberSubscriptionModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<MemberSubscriptionModel> add(MemberSubscriptionModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(MemberSubscriptionModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(MemberSubscriptionModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<MemberSubscriptionModel> update(MemberSubscriptionModel value) {
-      int index = _index(value.documentID);
+    Future<MemberSubscriptionModel> update(MemberSubscriptionModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<MemberSubscriptionModel> get(String id, { Function(Exception) onError }) {
+    Future<MemberSubscriptionModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<MemberSubscriptionModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<MemberSubscriptionModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MemberSubscriptionModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<MemberSubscriptionModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MemberSubscriptionModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MemberSubscriptionModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MemberSubscriptionModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MemberSubscriptionModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MemberSubscriptionModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<MemberSubscriptionModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MemberSubscriptionModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 
@@ -807,20 +807,20 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
 }
 
 class MenuItemInMemoryRepository implements MenuItemRepository {
-    final List<MenuItemModel> items;
-    final MenuItemListChanged trigger;
-    Stream<List<MenuItemModel>> theValues;
+    final List<MenuItemModel?>? items;
+    final MenuItemListChanged? trigger;
+    Stream<List<MenuItemModel?>?>? theValues;
 
     MenuItemInMemoryRepository({this.trigger, this.items}) {
-        List<List<MenuItemModel>> myList = new List<List<MenuItemModel>>();
+        List<List<MenuItemModel?>?> myList = new List<List<MenuItemModel>?>();
         myList.add(items);
-        theValues = Stream<List<MenuItemModel>>.fromIterable(myList);
+        theValues = Stream<List<MenuItemModel?>?>.fromIterable(myList);
     }
 
-    int _index(String documentID) {
+    int _index(String? documentID) {
       int i = 0;
-      for (final item in items) {
-        if (item.documentID == documentID) {
+      for (final item in items!) {
+        if (item!.documentID == documentID) {
           return i;
         }
         i++;
@@ -828,57 +828,57 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
       return -1;
     }
 
-    Future<MenuItemModel> add(MenuItemModel value) {
-        items.add(value.copyWith(documentID: newRandomKey()));
-        trigger(items);
+    Future<MenuItemModel> add(MenuItemModel? value) {
+        items!.add(value!.copyWith(documentID: newRandomKey()));
+        trigger!(items);
     }
 
-    Future<void> delete(MenuItemModel value) {
-      int index = _index(value.documentID);
-      if (index >= 0) items.removeAt(index);
-      trigger(items);
+    Future<void> delete(MenuItemModel? value) {
+      int index = _index(value!.documentID);
+      if (index >= 0) items!.removeAt(index);
+      trigger!(items);
     }
 
-    Future<MenuItemModel> update(MenuItemModel value) {
-      int index = _index(value.documentID);
+    Future<MenuItemModel> update(MenuItemModel? value) {
+      int index = _index(value!.documentID);
       if (index >= 0) {
-        items.replaceRange(index, index+1, [value]);
-        trigger(items);
+        items!.replaceRange(index, index+1, [value]);
+        trigger!(items);
       }
     }
 
-    Future<MenuItemModel> get(String id, { Function(Exception) onError }) {
+    Future<MenuItemModel> get(String id, { Function(Exception)? onError }) {
       int index = _index(id);
       var completer = new Completer<MenuItemModel>();
-      completer.complete(items[index]);
+      completer.complete(items![index]);
       return completer.future;
     }
 
-    Stream<List<MenuItemModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MenuItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
-    Stream<List<MenuItemModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Stream<List<MenuItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return theValues;
     }
     
     @override
-    StreamSubscription<List<MenuItemModel>> listen(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MenuItemModel?>?> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
   
     @override
-    StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger, { String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-      return theValues.listen((theList) => trigger(theList));
+    StreamSubscription<List<MenuItemModel?>?> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
     }
     
     void flush() {}
 
-    Future<List<MenuItemModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MenuItemModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
     
-    Future<List<MenuItemModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+    Future<List<MenuItemModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
       return Future.value(items);
     }
 

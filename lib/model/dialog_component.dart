@@ -25,7 +25,7 @@ import 'package:eliud_core/model/dialog_component_state.dart';
 
 abstract class AbstractDialogComponent extends StatelessWidget {
   static String componentName = "dialogs";
-  final String dialogID;
+  final String? dialogID;
 
   AbstractDialogComponent({this.dialogID});
 
@@ -63,7 +63,7 @@ abstract class AbstractDialogComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, DialogModel value);
+  Widget yourWidget(BuildContext context, DialogModel? value);
   Widget alertWidget({ title: String, content: String});
   DialogRepository getDialogRepository(BuildContext context);
 }

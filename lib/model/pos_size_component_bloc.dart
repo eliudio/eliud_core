@@ -23,19 +23,19 @@ import 'package:eliud_core/model/pos_size_repository.dart';
 import 'package:flutter/services.dart';
 
 class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentState> {
-  final PosSizeRepository posSizeRepository;
+  final PosSizeRepository? posSizeRepository;
 
   PosSizeComponentBloc({ this.posSizeRepository }): super(PosSizeComponentUninitialized());
   @override
   Stream<PosSizeComponentState> mapEventToState(PosSizeComponentEvent event) async* {
-    final currentState = state;
+    final PosSizeComponentState currentState = state;
     if (event is FetchPosSizeComponent) {
       try {
         if (currentState is PosSizeComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await posSizeRepository.get(event.id, onError: (error) {
+          final model = await posSizeRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -45,7 +45,7 @@ class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentS
             if (model != null) {
               yield PosSizeComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield PosSizeComponentError(
                   message: "PosSize with id = '$id' not found");
             }

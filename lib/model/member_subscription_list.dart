@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'member_subscription_form.dart';
 
 
-typedef MemberSubscriptionWidgetProvider(MemberSubscriptionModel value);
+typedef MemberSubscriptionWidgetProvider(MemberSubscriptionModel? value);
 
 class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  MemberSubscriptionWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  MemberSubscriptionListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  MemberSubscriptionWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  MemberSubscriptionListWidgetState? state;
+  bool? isEmbedded;
 
-  MemberSubscriptionListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  MemberSubscriptionListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   MemberSubscriptionListWidgetState createState() {
     state ??= MemberSubscriptionListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= MemberSubscriptionListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidget> {
-  MemberSubscriptionListBloc bloc;
+  MemberSubscriptionListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
           );
         } else if (state is MemberSubscriptionListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return MemberSubscriptionListItem(
             value: value,
@@ -210,7 +210,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return MemberSubscriptionForm(value: value, formAction: action);
     } else {
@@ -226,29 +226,29 @@ class MemberSubscriptionListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final MemberSubscriptionModel value;
+  final MemberSubscriptionModel? value;
 
   MemberSubscriptionListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__MemberSubscription_item_${value.documentID}'),
+      key: Key('__MemberSubscription_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__MemberSubscriptionheroTag',
+          tag: '${value!.documentID}__MemberSubscriptionheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.app.title,
+              value!.app!.title!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),

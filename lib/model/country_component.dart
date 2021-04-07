@@ -25,7 +25,7 @@ import 'package:eliud_core/model/country_component_state.dart';
 
 abstract class AbstractCountryComponent extends StatelessWidget {
   static String componentName = "countrys";
-  final String countryID;
+  final String? countryID;
 
   AbstractCountryComponent({this.countryID});
 
@@ -63,7 +63,7 @@ abstract class AbstractCountryComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, CountryModel value);
+  Widget yourWidget(BuildContext context, CountryModel? value);
   Widget alertWidget({ title: String, content: String});
   CountryRepository getCountryRepository(BuildContext context);
 }

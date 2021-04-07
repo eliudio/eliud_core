@@ -38,12 +38,12 @@ import 'package:eliud_core/model/body_component_form_state.dart';
 import 'package:eliud_core/model/body_component_repository.dart';
 
 class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFormState> {
-  final String appId;
+  final String? appId;
 
   BodyComponentFormBloc(this.appId, ): super(BodyComponentFormUninitialized());
   @override
   Stream<BodyComponentFormState> mapEventToState(BodyComponentFormEvent event) async* {
-    final currentState = state;
+    final BodyComponentFormState currentState = state;
     if (currentState is BodyComponentFormUninitialized) {
       if (event is InitialiseNewBodyComponentFormEvent) {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: BodyComponentModel(
@@ -68,15 +68,15 @@ class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFo
         return;
       }
     } else if (currentState is BodyComponentFormInitialized) {
-      BodyComponentModel newValue = null;
+      BodyComponentModel? newValue = null;
       if (event is ChangedBodyComponentComponentName) {
-        newValue = currentState.value.copyWith(componentName: event.value);
+        newValue = currentState.value!.copyWith(componentName: event.value);
         yield SubmittableBodyComponentForm(value: newValue);
 
         return;
       }
       if (event is ChangedBodyComponentComponentId) {
-        newValue = currentState.value.copyWith(componentId: event.value);
+        newValue = currentState.value!.copyWith(componentId: event.value);
         yield SubmittableBodyComponentForm(value: newValue);
 
         return;

@@ -10,9 +10,9 @@ import 'package:eliud_core/model/internal_component.dart';
 typedef SetActionValue = Function(ActionModel value);
 
 class ActionField extends StatefulWidget {
-  final ActionModel action;
+  final ActionModel? action;
   final SetActionValue setActionValue;
-  final String appID;
+  final String? appID;
 
   ActionField(this.appID, this.action, this.setActionValue);
 
@@ -23,12 +23,12 @@ class ActionField extends StatefulWidget {
 }
 
 class ActionFieldState extends State<ActionField> {
-  int _actionSelection;
+  int? _actionSelection;
   final List<String> _internalActions = ['Login', 'Logout', 'Login/Logout', 'Flush', 'OtherApps' ];
-  String _internalAction;
-  String _pageID;
-  String _dialogID;
-  String _menuDefID;
+  String? _internalAction;
+  String? _pageID;
+  String? _dialogID;
+  String? _menuDefID;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class ActionFieldState extends State<ActionField> {
       _dialogID = action.dialogID;
     } else if (action is PopupMenu) {
       _actionSelection = 2;
-      _menuDefID = action.menuDef.documentID;
+      _menuDefID = action.menuDef!.documentID;
     } else if (action is InternalAction) {
       _actionSelection = 1;
       if (action.internalActionEnum == InternalActionEnum.Login) {
@@ -66,7 +66,7 @@ class ActionFieldState extends State<ActionField> {
         groupValue: _actionSelection,
         title: Text('Goto Page'),
         subtitle: Text('This action results in moving to another page'),
-        onChanged: !state.memberIsOwner() ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -76,7 +76,7 @@ class ActionFieldState extends State<ActionField> {
         title: Text('Internal'),
         subtitle: Text(
             'This action results in one of the predefined internal actions'),
-        onChanged: !state.memberIsOwner() ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -85,7 +85,7 @@ class ActionFieldState extends State<ActionField> {
         groupValue: _actionSelection,
         title: Text('Popup Menu'),
         subtitle: Text('This menu item will open another popup menu'),
-        onChanged: !state.memberIsOwner() ? null : (val) {
+        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
           setSelectionDisplayMode(val);
         },
       ),
@@ -134,7 +134,7 @@ class ActionFieldState extends State<ActionField> {
             children: widgets));
   }
 
-  void setSelectionDisplayMode(int val) {
+  void setSelectionDisplayMode(int? val) {
     setState(() {
       _actionSelection = val;
     });
@@ -157,7 +157,7 @@ class ActionFieldState extends State<ActionField> {
       _menuDefID = value;
     });
     if (_actionSelection == 2) {
-      MenuDefModel menuDef = await menuDefRepository(appId: widget.appID).get(value);
+      MenuDefModel? menuDef = await menuDefRepository(appId: widget.appID)!.get(value);
       widget.setActionValue(new PopupMenu(widget.appID, menuDef: menuDef));
     }
   }
@@ -171,7 +171,7 @@ class ActionFieldState extends State<ActionField> {
     }
   }
 
-  void _changedDropDownItem(String val) {
+  void _changedDropDownItem(String? val) {
     setState(() {
       _internalAction = val;
     });

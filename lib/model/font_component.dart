@@ -25,7 +25,7 @@ import 'package:eliud_core/model/font_component_state.dart';
 
 abstract class AbstractFontComponent extends StatelessWidget {
   static String componentName = "fonts";
-  final String fontID;
+  final String? fontID;
 
   AbstractFontComponent({this.fontID});
 
@@ -63,7 +63,7 @@ abstract class AbstractFontComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, FontModel value);
+  Widget yourWidget(BuildContext context, FontModel? value);
   Widget alertWidget({ title: String, content: String});
   FontRepository getFontRepository(BuildContext context);
 }

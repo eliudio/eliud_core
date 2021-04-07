@@ -34,21 +34,21 @@ import 'package:eliud_core/tools/random.dart';
 class RgbModel {
 
   // r is red, from 0 to 255. An out of range value is brought into range using modulo 255.
-  int r;
+  int? r;
 
   // g is green, from 0 to 255. An out of range value is brought into range using modulo 255.
-  int g;
+  int? g;
 
   // b is blue, from 0 to 255. An out of range value is brought into range using modulo 255.
-  int b;
+  int? b;
 
   // opacity is alpha channel of this color as a double, with 0.0 being transparent and 1.0 being fully opaque.
-  double opacity;
+  double? opacity;
 
   RgbModel({this.r, this.g, this.b, this.opacity, })  {
   }
 
-  RgbModel copyWith({int r, int g, int b, double opacity, }) {
+  RgbModel copyWith({int? r, int? g, int? b, double? opacity, }) {
     return RgbModel(r: r ?? this.r, g: g ?? this.g, b: b ?? this.b, opacity: opacity ?? this.opacity, );
   }
 
@@ -70,7 +70,7 @@ class RgbModel {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  RgbEntity toEntity({String appId}) {
+  RgbEntity toEntity({String? appId}) {
     return RgbEntity(
           r: (r != null) ? r : null, 
           g: (g != null) ? g : null, 
@@ -79,7 +79,7 @@ class RgbModel {
     );
   }
 
-  static RgbModel fromEntity(RgbEntity entity) {
+  static RgbModel? fromEntity(RgbEntity? entity) {
     if (entity == null) return null;
     return RgbModel(
           r: entity.r, 
@@ -89,7 +89,7 @@ class RgbModel {
     );
   }
 
-  static Future<RgbModel> fromEntityPlus(RgbEntity entity, { String appId}) async {
+  static Future<RgbModel?> fromEntityPlus(RgbEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return RgbModel(

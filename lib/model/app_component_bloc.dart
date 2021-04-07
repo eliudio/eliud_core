@@ -24,19 +24,19 @@ import 'package:flutter/services.dart';
 
 
 class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
-  final AppRepository appRepository;
+  final AppRepository? appRepository;
 
   AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized());
   @override
   Stream<AppComponentState> mapEventToState(AppComponentEvent event) async* {
-    final currentState = state;
+    final AppComponentState currentState = state;
     if (event is FetchAppComponent) {
       try {
         if (currentState is AppComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await appRepository.get(event.id, onError: (error) {
+          final model = await appRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
             if (model != null) {
               yield AppComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield AppComponentError(
                   message: "App with id = '$id' not found");
             }

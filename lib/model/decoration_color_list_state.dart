@@ -20,19 +20,19 @@ abstract class DecorationColorListState extends Equatable {
   const DecorationColorListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DecorationColorListLoading extends DecorationColorListState {}
 
 class DecorationColorListLoaded extends DecorationColorListState {
-  final List<DecorationColorModel> values;
-  final bool mightHaveMore;
+  final List<DecorationColorModel>? values;
+  final bool? mightHaveMore;
 
   const DecorationColorListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'DecorationColorListLoaded { values: $values }';

@@ -21,19 +21,19 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class MemberSubscriptionEntity {
-  final String appId;
+  final String? appId;
 
   MemberSubscriptionEntity({this.appId, });
 
 
-  List<Object> get props => [appId, ];
+  List<Object?> get props => [appId, ];
 
   @override
   String toString() {
     return 'MemberSubscriptionEntity{appId: $appId}';
   }
 
-  static MemberSubscriptionEntity fromMap(Map map) {
+  static MemberSubscriptionEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return MemberSubscriptionEntity(
@@ -41,15 +41,15 @@ class MemberSubscriptionEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     return theDocument;
   }
 
-  static MemberSubscriptionEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MemberSubscriptionEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

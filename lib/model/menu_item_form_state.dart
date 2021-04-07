@@ -22,7 +22,7 @@ abstract class MenuItemFormState extends Equatable {
   const MenuItemFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class MenuItemFormUninitialized extends MenuItemFormState {
 
 // MenuItemModel has been initialised and hence MenuItemModel is available
 class MenuItemFormInitialized extends MenuItemFormState {
-  final MenuItemModel value;
+  final MenuItemModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const MenuItemFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class MenuItemFormError extends MenuItemFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const MenuItemFormError({this.message, MenuItemModel value }) : super(value: value);
+  const MenuItemFormError({this.message, MenuItemModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class MenuItemFormError extends MenuItemFormInitialized {
   }
 }
 class DocumentIDMenuItemFormError extends MenuItemFormError { 
-  const DocumentIDMenuItemFormError({ String message, MenuItemModel value }): super(message: message, value: value);
+  const DocumentIDMenuItemFormError({ String? message, MenuItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDMenuItemFormError extends MenuItemFormError {
 
 
 class TextMenuItemFormError extends MenuItemFormError { 
-  const TextMenuItemFormError({ String message, MenuItemModel value }): super(message: message, value: value);
+  const TextMenuItemFormError({ String? message, MenuItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class TextMenuItemFormError extends MenuItemFormError {
 
 
 class DescriptionMenuItemFormError extends MenuItemFormError { 
-  const DescriptionMenuItemFormError({ String message, MenuItemModel value }): super(message: message, value: value);
+  const DescriptionMenuItemFormError({ String? message, MenuItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class DescriptionMenuItemFormError extends MenuItemFormError {
 
 
 class IconMenuItemFormError extends MenuItemFormError { 
-  const IconMenuItemFormError({ String message, MenuItemModel value }): super(message: message, value: value);
+  const IconMenuItemFormError({ String? message, MenuItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class IconMenuItemFormError extends MenuItemFormError {
 
 
 class ActionMenuItemFormError extends MenuItemFormError { 
-  const ActionMenuItemFormError({ String message, MenuItemModel value }): super(message: message, value: value);
+  const ActionMenuItemFormError({ String? message, MenuItemModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class ActionMenuItemFormError extends MenuItemFormError {
 
 
 class MenuItemFormLoaded extends MenuItemFormInitialized { 
-  const MenuItemFormLoaded({ MenuItemModel value }): super(value: value);
+  const MenuItemFormLoaded({ MenuItemModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -159,10 +159,10 @@ class MenuItemFormLoaded extends MenuItemFormInitialized {
 
 
 class SubmittableMenuItemForm extends MenuItemFormInitialized { 
-  const SubmittableMenuItemForm({ MenuItemModel value }): super(value: value);
+  const SubmittableMenuItemForm({ MenuItemModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

@@ -22,7 +22,7 @@ abstract class DialogFormState extends Equatable {
   const DialogFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class DialogFormUninitialized extends DialogFormState {
 
 // DialogModel has been initialised and hence DialogModel is available
 class DialogFormInitialized extends DialogFormState {
-  final DialogModel value;
+  final DialogModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const DialogFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class DialogFormError extends DialogFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const DialogFormError({this.message, DialogModel value }) : super(value: value);
+  const DialogFormError({this.message, DialogModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class DialogFormError extends DialogFormInitialized {
   }
 }
 class DocumentIDDialogFormError extends DialogFormError { 
-  const DocumentIDDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const DocumentIDDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDDialogFormError extends DialogFormError {
 
 
 class AppIdDialogFormError extends DialogFormError { 
-  const AppIdDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const AppIdDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdDialogFormError extends DialogFormError {
 
 
 class TitleDialogFormError extends DialogFormError { 
-  const TitleDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const TitleDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitleDialogFormError extends DialogFormError {
 
 
 class BodyComponentsDialogFormError extends DialogFormError { 
-  const BodyComponentsDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const BodyComponentsDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class BodyComponentsDialogFormError extends DialogFormError {
 
 
 class BackgroundDialogFormError extends DialogFormError { 
-  const BackgroundDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const BackgroundDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class BackgroundDialogFormError extends DialogFormError {
 
 
 class LayoutDialogFormError extends DialogFormError { 
-  const LayoutDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const LayoutDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class LayoutDialogFormError extends DialogFormError {
 
 
 class GridViewDialogFormError extends DialogFormError { 
-  const GridViewDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const GridViewDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class GridViewDialogFormError extends DialogFormError {
 
 
 class ConditionsDialogFormError extends DialogFormError { 
-  const ConditionsDialogFormError({ String message, DialogModel value }): super(message: message, value: value);
+  const ConditionsDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class ConditionsDialogFormError extends DialogFormError {
 
 
 class DialogFormLoaded extends DialogFormInitialized { 
-  const DialogFormLoaded({ DialogModel value }): super(value: value);
+  const DialogFormLoaded({ DialogModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -207,10 +207,10 @@ class DialogFormLoaded extends DialogFormInitialized {
 
 
 class SubmittableDialogForm extends DialogFormInitialized { 
-  const SubmittableDialogForm({ DialogModel value }): super(value: value);
+  const SubmittableDialogForm({ DialogModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

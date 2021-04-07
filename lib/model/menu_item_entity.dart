@@ -21,22 +21,22 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class MenuItemEntity {
-  final String text;
-  final String description;
-  final IconEntity icon;
-  final ActionEntity action;
+  final String? text;
+  final String? description;
+  final IconEntity? icon;
+  final ActionEntity? action;
 
   MenuItemEntity({this.text, this.description, this.icon, this.action, });
 
 
-  List<Object> get props => [text, description, icon, action, ];
+  List<Object?> get props => [text, description, icon, action, ];
 
   @override
   String toString() {
     return 'MenuItemEntity{text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  static MenuItemEntity fromMap(Map map) {
+  static MenuItemEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var iconFromMap;
@@ -56,15 +56,15 @@ class MenuItemEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> iconMap = icon != null 
-        ? icon.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? iconMap = icon != null 
+        ? icon!.toDocument()
         : null;
-    final Map<String, dynamic> actionMap = action != null 
-        ? action.toDocument()
+    final Map<String, dynamic>? actionMap = action != null 
+        ? action!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (text != null) theDocument["text"] = text;
       else theDocument["text"] = null;
     if (description != null) theDocument["description"] = description;
@@ -76,8 +76,8 @@ class MenuItemEntity {
     return theDocument;
   }
 
-  static MenuItemEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static MenuItemEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

@@ -438,37 +438,37 @@ class AdminApp extends AdminAppInstallerBase {
 
   Future<void> _setupAdminPages() {
 
-    return pageRepository(appId: appId).add(_appsPages())
+    return pageRepository(appId: appId)!.add(_appsPages())
 
-        .then((_) => pageRepository(appId: appId).add(_appBarsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_appBarsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_appPolicysPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_appPolicysPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_backgroundsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_backgroundsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_countrysPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_countrysPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_dialogsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_dialogsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_drawersPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_drawersPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_fontsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_fontsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_gridViewsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_gridViewsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_homeMenusPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_homeMenusPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_membersPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_membersPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_memberDashboardsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_memberDashboardsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_menuDefsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_menuDefsPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_pagesPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_pagesPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_posSizesPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_posSizesPages()))
 
-        .then((_) => pageRepository(appId: appId).add(_shadowsPages()))
+        .then((_) => pageRepository(appId: appId)!.add(_shadowsPages()))
 
     ;
   }
@@ -653,7 +653,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
       name: "eliud_core",
       menuItems: menuItems
     );
-    await menuDefRepository(appId: appId).add(menu);
+    await menuDefRepository(appId: appId)!.add(menu);
     return menu;
   }
 }

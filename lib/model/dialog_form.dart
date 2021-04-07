@@ -58,10 +58,10 @@ import 'package:eliud_core/model/dialog_form_state.dart';
 
 class DialogForm extends StatelessWidget {
   FormAction formAction;
-  DialogModel value;
-  ActionModel submitAction;
+  DialogModel? value;
+  ActionModel? submitAction;
 
-  DialogForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  DialogForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class DialogForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Dialog", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Dialog", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Dialog", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Dialog", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class DialogForm extends StatelessWidget {
 
 
 class MyDialogForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyDialogForm({this.formAction, this.submitAction});
 
@@ -122,14 +122,14 @@ class MyDialogForm extends StatefulWidget {
 
 
 class _MyDialogFormState extends State<MyDialogForm> {
-  final FormAction formAction;
-  DialogFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late DialogFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  int _layoutSelectedRadioTile;
-  String _gridView;
+  int? _layoutSelectedRadioTile;
+  String? _gridView;
 
 
   _MyDialogFormState(this.formAction);
@@ -154,35 +154,35 @@ class _MyDialogFormState extends State<MyDialogForm> {
       );
 
       if (state is DialogFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.title != null)
-          _titleController.text = state.value.title.toString();
+        if (state.value!.title != null)
+          _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value.layout != null)
-          _layoutSelectedRadioTile = state.value.layout.index;
+        if (state.value!.layout != null)
+          _layoutSelectedRadioTile = state.value!.layout!.index;
         else
           _layoutSelectedRadioTile = 0;
-        if (state.value.gridView != null)
-          _gridView= state.value.gridView.documentID;
+        if (state.value!.gridView != null)
+          _gridView= state.value!.gridView!.documentID;
         else
           _gridView= "";
       }
       if (state is DialogFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -264,7 +264,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: bodyComponentsList(context, state.value.bodyComponents, _onBodyComponentsChanged)
+                    child: bodyComponentsList(context, state.value!.bodyComponents, _onBodyComponentsChanged)
                 )
           );
 
@@ -283,7 +283,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                RgbField("Background Color", state.value.background, _onBackgroundChanged)
+                RgbField("Background Color", state.value!.background, _onBackgroundChanged)
           );
 
 
@@ -307,7 +307,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -320,7 +320,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -333,7 +333,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -344,7 +344,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if (state.value.layout == PageLayout.GridView) children.add(Container(
+        if (state.value!.layout == PageLayout.GridView) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('GridView',
@@ -352,7 +352,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.layout == PageLayout.GridView)) children.add(
+        if ((state.value!.layout == PageLayout.GridView)) children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
           );
@@ -399,31 +399,31 @@ class _MyDialogFormState extends State<MyDialogForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<DialogListBloc>(context).add(
-                          UpdateDialogList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              bodyComponents: state.value.bodyComponents, 
-                              background: state.value.background, 
-                              layout: state.value.layout, 
-                              gridView: state.value.gridView, 
-                              conditions: state.value.conditions, 
+                          UpdateDialogList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              bodyComponents: state.value!.bodyComponents, 
+                              background: state.value!.background, 
+                              layout: state.value!.layout, 
+                              gridView: state.value!.gridView, 
+                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<DialogListBloc>(context).add(
                           AddDialogList(value: DialogModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              bodyComponents: state.value.bodyComponents, 
-                              background: state.value.background, 
-                              layout: state.value.layout, 
-                              gridView: state.value.gridView, 
-                              conditions: state.value.conditions, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              bodyComponents: state.value!.bodyComponents, 
+                              background: state.value!.background, 
+                              layout: state.value!.layout, 
+                              gridView: state.value!.gridView, 
+                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -443,7 +443,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -480,7 +480,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void setSelectionLayout(int val) {
+  void setSelectionLayout(int? val) {
     setState(() {
       _layoutSelectedRadioTile = val;
     });

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-typedef IsEqual<T> = bool Function(T value1, T value2);
+typedef IsEqual<T> = bool Function(T? value1, T? value2);
 
 List<T> merge<T>(List<T> list1, List<T> list2) {
   List<T> output = [];

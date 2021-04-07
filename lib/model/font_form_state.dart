@@ -22,7 +22,7 @@ abstract class FontFormState extends Equatable {
   const FontFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class FontFormUninitialized extends FontFormState {
 
 // FontModel has been initialised and hence FontModel is available
 class FontFormInitialized extends FontFormState {
-  final FontModel value;
+  final FontModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const FontFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class FontFormError extends FontFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const FontFormError({this.message, FontModel value }) : super(value: value);
+  const FontFormError({this.message, FontModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class FontFormError extends FontFormInitialized {
   }
 }
 class DocumentIDFontFormError extends FontFormError { 
-  const DocumentIDFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const DocumentIDFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDFontFormError extends FontFormError {
 
 
 class AppIdFontFormError extends FontFormError { 
-  const AppIdFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const AppIdFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class AppIdFontFormError extends FontFormError {
 
 
 class FontNameFontFormError extends FontFormError { 
-  const FontNameFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const FontNameFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class FontNameFontFormError extends FontFormError {
 
 
 class SizeFontFormError extends FontFormError { 
-  const SizeFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const SizeFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class SizeFontFormError extends FontFormError {
 
 
 class WeightFontFormError extends FontFormError { 
-  const WeightFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const WeightFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class WeightFontFormError extends FontFormError {
 
 
 class StyleFontFormError extends FontFormError { 
-  const StyleFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const StyleFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class StyleFontFormError extends FontFormError {
 
 
 class DecorationFontFormError extends FontFormError { 
-  const DecorationFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const DecorationFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class DecorationFontFormError extends FontFormError {
 
 
 class ColorFontFormError extends FontFormError { 
-  const ColorFontFormError({ String message, FontModel value }): super(message: message, value: value);
+  const ColorFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class ColorFontFormError extends FontFormError {
 
 
 class FontFormLoaded extends FontFormInitialized { 
-  const FontFormLoaded({ FontModel value }): super(value: value);
+  const FontFormLoaded({ FontModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -207,10 +207,10 @@ class FontFormLoaded extends FontFormInitialized {
 
 
 class SubmittableFontForm extends FontFormInitialized { 
-  const SubmittableFontForm({ FontModel value }): super(value: value);
+  const SubmittableFontForm({ FontModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

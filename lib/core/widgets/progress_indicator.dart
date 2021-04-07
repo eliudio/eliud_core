@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DelayedCircularProgressIndicator extends StatelessWidget {
-  final Animation<Color> valueColor;
+  final Animation<Color>? valueColor;
   DelayedCircularProgressIndicator({
     this.valueColor,
   });

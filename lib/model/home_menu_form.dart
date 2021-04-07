@@ -58,10 +58,10 @@ import 'package:eliud_core/model/home_menu_form_state.dart';
 
 class HomeMenuForm extends StatelessWidget {
   FormAction formAction;
-  HomeMenuModel value;
-  ActionModel submitAction;
+  HomeMenuModel? value;
+  ActionModel? submitAction;
 
-  HomeMenuForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  HomeMenuForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class HomeMenuForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update HomeMenu", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update HomeMenu", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add HomeMenu", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add HomeMenu", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class HomeMenuForm extends StatelessWidget {
 
 
 class MyHomeMenuForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyHomeMenuForm({this.formAction, this.submitAction});
 
@@ -122,14 +122,14 @@ class MyHomeMenuForm extends StatefulWidget {
 
 
 class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
-  final FormAction formAction;
-  HomeMenuFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late HomeMenuFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String _menu;
-  String _background;
+  String? _menu;
+  String? _background;
 
 
   _MyHomeMenuFormState(this.formAction);
@@ -153,35 +153,35 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
       );
 
       if (state is HomeMenuFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.menu != null)
-          _menu= state.value.menu.documentID;
+        if (state.value!.menu != null)
+          _menu= state.value!.menu!.documentID;
         else
           _menu= "";
-        if (state.value.background != null)
-          _background= state.value.background.documentID;
+        if (state.value!.background != null)
+          _background= state.value!.background!.documentID;
         else
           _background= "";
       }
       if (state is HomeMenuFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -235,7 +235,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                RgbField("Icon Color", state.value.iconColor, _onIconColorChanged)
+                RgbField("Icon Color", state.value!.iconColor, _onIconColorChanged)
           );
 
 
@@ -289,7 +289,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                RgbField("Popup Menu Background Color", state.value.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
+                RgbField("Popup Menu Background Color", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
           );
 
 
@@ -306,29 +306,29 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<HomeMenuListBloc>(context).add(
-                          UpdateHomeMenuList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              menu: state.value.menu, 
-                              iconColor: state.value.iconColor, 
-                              background: state.value.background, 
-                              popupMenuBackgroundColor: state.value.popupMenuBackgroundColor, 
+                          UpdateHomeMenuList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              menu: state.value!.menu, 
+                              iconColor: state.value!.iconColor, 
+                              background: state.value!.background, 
+                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
                         )));
                       } else {
                         BlocProvider.of<HomeMenuListBloc>(context).add(
                           AddHomeMenuList(value: HomeMenuModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              menu: state.value.menu, 
-                              iconColor: state.value.iconColor, 
-                              background: state.value.background, 
-                              popupMenuBackgroundColor: state.value.popupMenuBackgroundColor, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              menu: state.value!.menu, 
+                              iconColor: state.value!.iconColor, 
+                              background: state.value!.background, 
+                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -348,7 +348,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

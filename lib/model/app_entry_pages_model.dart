@@ -32,17 +32,17 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppEntryPagesModel {
-  String documentID;
-  PageModel entryPage;
+  String? documentID;
+  PageModel? entryPage;
 
   // Members with a privilege more or equal to this privilege have this homepage, unless a 
-  int minPrivilege;
+  int? minPrivilege;
 
   AppEntryPagesModel({this.documentID, this.entryPage, this.minPrivilege, })  {
     assert(documentID != null);
   }
 
-  AppEntryPagesModel copyWith({String documentID, PageModel entryPage, int minPrivilege, }) {
+  AppEntryPagesModel copyWith({String? documentID, PageModel? entryPage, int? minPrivilege, }) {
     return AppEntryPagesModel(documentID: documentID ?? this.documentID, entryPage: entryPage ?? this.entryPage, minPrivilege: minPrivilege ?? this.minPrivilege, );
   }
 
@@ -63,9 +63,9 @@ class AppEntryPagesModel {
     return 'AppEntryPagesModel{documentID: $documentID, entryPage: $entryPage, minPrivilege: $minPrivilege}';
   }
 
-  AppEntryPagesEntity toEntity({String appId}) {
+  AppEntryPagesEntity toEntity({String? appId}) {
     return AppEntryPagesEntity(
-          entryPageId: (entryPage != null) ? entryPage.documentID : null, 
+          entryPageId: (entryPage != null) ? entryPage!.documentID : null, 
           minPrivilege: (minPrivilege != null) ? minPrivilege : null, 
     );
   }
@@ -78,13 +78,13 @@ class AppEntryPagesModel {
     );
   }
 
-  static Future<AppEntryPagesModel> fromEntityPlus(String documentID, AppEntryPagesEntity entity, { String appId}) async {
+  static Future<AppEntryPagesModel> fromEntityPlus(String documentID, AppEntryPagesEntity entity, { String? appId}) async {
     if (entity == null) return null;
 
-    PageModel entryPageHolder;
+    PageModel? entryPageHolder;
     if (entity.entryPageId != null) {
       try {
-        await pageRepository(appId: appId).get(entity.entryPageId).then((val) {
+        await pageRepository(appId: appId)!.get(entity.entryPageId).then((val) {
           entryPageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

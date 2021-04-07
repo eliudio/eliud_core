@@ -16,14 +16,14 @@ class MainRepositorySingleton extends AbstractMainRepositorySingleton {
   }
 
   @override
-  AppRepository appRepository() => _appRepository;
-  AppRepository _appRepository;
+  AppRepository? appRepository() => _appRepository;
+  AppRepository? _appRepository;
 
   @override
-  UserRepository userRepository() => _userRepository;
-  UserRepository _userRepository;
+  UserRepository? userRepository() => _userRepository;
+  UserRepository? _userRepository;
 
   @override
-  MemberRepository memberRepository() => _memberRepository;
-  MemberRepository _memberRepository;
+  MemberRepository? memberRepository() => _memberRepository;
+  MemberRepository? _memberRepository;
 }

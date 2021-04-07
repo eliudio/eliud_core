@@ -27,40 +27,40 @@ const _countryLimit = 5;
 
 class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final CountryRepository _countryRepository;
-  StreamSubscription _countrysListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _countrysListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  CountryListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required CountryRepository countryRepository})
+  CountryListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CountryRepository countryRepository})
       : assert(countryRepository != null),
         _countryRepository = countryRepository,
         super(CountryListLoading());
 
   Stream<CountryListState> _mapLoadCountryListToState() async* {
-    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values.length : 0;
+    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values!.length : 0;
     _countrysListSubscription?.cancel();
     _countrysListSubscription = _countryRepository.listen(
           (list) => add(CountryListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _countryLimit : null
+      limit: ((paged != null) && paged!) ? pages * _countryLimit : null
     );
   }
 
   Stream<CountryListState> _mapLoadCountryListWithDetailsToState() async* {
-    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values.length : 0;
+    int amountNow =  (state is CountryListLoaded) ? (state as CountryListLoaded).values!.length : 0;
     _countrysListSubscription?.cancel();
     _countrysListSubscription = _countryRepository.listenWithDetails(
             (list) => add(CountryListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _countryLimit : null
+        limit: ((paged != null) && paged!) ? pages * _countryLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   @override
   Stream<CountryListState> mapEventToState(CountryListEvent event) async* {
     if (event is LoadCountryList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadCountryListToState();
       } else {
         yield* _mapLoadCountryListWithDetailsToState();

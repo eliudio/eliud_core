@@ -27,40 +27,40 @@ const _appPolicyLimit = 5;
 
 class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final AppPolicyRepository _appPolicyRepository;
-  StreamSubscription _appPolicysListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _appPolicysListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required AppPolicyRepository appPolicyRepository})
+  AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository})
       : assert(appPolicyRepository != null),
         _appPolicyRepository = appPolicyRepository,
         super(AppPolicyListLoading());
 
   Stream<AppPolicyListState> _mapLoadAppPolicyListToState() async* {
-    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values.length : 0;
+    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listen(
           (list) => add(AppPolicyListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _appPolicyLimit : null
+      limit: ((paged != null) && paged!) ? pages * _appPolicyLimit : null
     );
   }
 
   Stream<AppPolicyListState> _mapLoadAppPolicyListWithDetailsToState() async* {
-    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values.length : 0;
+    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listenWithDetails(
             (list) => add(AppPolicyListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _appPolicyLimit : null
+        limit: ((paged != null) && paged!) ? pages * _appPolicyLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   @override
   Stream<AppPolicyListState> mapEventToState(AppPolicyListEvent event) async* {
     if (event is LoadAppPolicyList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadAppPolicyListToState();
       } else {
         yield* _mapLoadAppPolicyListWithDetailsToState();

@@ -30,7 +30,7 @@ abstract class MenuDefFormEvent extends Equatable {
   const MenuDefFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewMenuDefFormEvent extends MenuDefFormEvent {
@@ -38,78 +38,78 @@ class InitialiseNewMenuDefFormEvent extends MenuDefFormEvent {
 
 
 class InitialiseMenuDefFormEvent extends MenuDefFormEvent {
-  final MenuDefModel value;
+  final MenuDefModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMenuDefFormEvent({this.value});
 }
 
 class InitialiseMenuDefFormNoLoadEvent extends MenuDefFormEvent {
-  final MenuDefModel value;
+  final MenuDefModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMenuDefFormNoLoadEvent({this.value});
 }
 
 class ChangedMenuDefDocumentID extends MenuDefFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuDefDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuDefDocumentID{ value: $value }';
 }
 
 class ChangedMenuDefAppId extends MenuDefFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuDefAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuDefAppId{ value: $value }';
 }
 
 class ChangedMenuDefName extends MenuDefFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMenuDefName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuDefName{ value: $value }';
 }
 
 class ChangedMenuDefMenuItems extends MenuDefFormEvent {
-  final List<MenuItemModel> value;
+  final List<MenuItemModel>? value;
 
   ChangedMenuDefMenuItems({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuDefMenuItems{ value: $value }';
 }
 
 class ChangedMenuDefAdmin extends MenuDefFormEvent {
-  final bool value;
+  final bool? value;
 
   ChangedMenuDefAdmin({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMenuDefAdmin{ value: $value }';

@@ -32,24 +32,24 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class DrawerModel {
-  String documentID;
-  String appId;
-  String name;
-  BackgroundModel background;
-  String headerText;
-  String secondHeaderText;
+  String? documentID;
+  String? appId;
+  String? name;
+  BackgroundModel? background;
+  String? headerText;
+  String? secondHeaderText;
 
   // Header height, 0 for default
-  double headerHeight;
-  RgbModel popupMenuBackgroundColor;
-  BackgroundModel headerBackground;
-  MenuDefModel menu;
+  double? headerHeight;
+  RgbModel? popupMenuBackgroundColor;
+  BackgroundModel? headerBackground;
+  MenuDefModel? menu;
 
   DrawerModel({this.documentID, this.appId, this.name, this.background, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackground, this.menu, })  {
     assert(documentID != null);
   }
 
-  DrawerModel copyWith({String documentID, String appId, String name, BackgroundModel background, String headerText, String secondHeaderText, double headerHeight, RgbModel popupMenuBackgroundColor, BackgroundModel headerBackground, MenuDefModel menu, }) {
+  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? background, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackground, MenuDefModel? menu, }) {
     return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, background: background ?? this.background, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackground: headerBackground ?? this.headerBackground, menu: menu ?? this.menu, );
   }
 
@@ -77,21 +77,21 @@ class DrawerModel {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, background: $background, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackground: $headerBackground, menu: $menu}';
   }
 
-  DrawerEntity toEntity({String appId}) {
+  DrawerEntity toEntity({String? appId}) {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          backgroundId: (background != null) ? background.documentID : null, 
+          backgroundId: (background != null) ? background!.documentID : null, 
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId: appId) : null, 
-          headerBackgroundId: (headerBackground != null) ? headerBackground.documentID : null, 
-          menuId: (menu != null) ? menu.documentID : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
+          headerBackgroundId: (headerBackground != null) ? headerBackground!.documentID : null, 
+          menuId: (menu != null) ? menu!.documentID : null, 
     );
   }
 
-  static DrawerModel fromEntity(String documentID, DrawerEntity entity) {
+  static DrawerModel? fromEntity(String documentID, DrawerEntity? entity) {
     if (entity == null) return null;
     return DrawerModel(
           documentID: documentID, 
@@ -105,31 +105,31 @@ class DrawerModel {
     );
   }
 
-  static Future<DrawerModel> fromEntityPlus(String documentID, DrawerEntity entity, { String appId}) async {
+  static Future<DrawerModel?> fromEntityPlus(String documentID, DrawerEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    BackgroundModel backgroundHolder;
+    BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel headerBackgroundHolder;
+    BackgroundModel? headerBackgroundHolder;
     if (entity.headerBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.headerBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.headerBackgroundId).then((val) {
           headerBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    MenuDefModel menuHolder;
+    MenuDefModel? menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository(appId: appId).get(entity.menuId).then((val) {
+        await menuDefRepository(appId: appId)!.get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}

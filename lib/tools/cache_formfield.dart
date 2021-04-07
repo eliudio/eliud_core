@@ -12,7 +12,7 @@ import 'action_model.dart';
 import 'internal_component.dart';
 */
 
-typedef ChangeCacheField(String value);
+typedef ChangeCacheField(String? value);
 
 class CacheField extends StatefulWidget {
   final String value;
@@ -28,7 +28,7 @@ class CacheField extends StatefulWidget {
 
 class CacheFieldState extends State<CacheField> {
   final Uuid uuid = Uuid();
-  String value;
+  String? value;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class CacheFieldState extends State<CacheField> {
 
   @override
   Widget build(BuildContext context) {
-    AppModel app = AccessBloc.app(context);
+    AppModel app = AccessBloc.app(context)!;
     return  RaisedButton(
       color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
       onPressed: () {

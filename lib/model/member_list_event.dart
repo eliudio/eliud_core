@@ -19,7 +19,7 @@ import 'package:eliud_core/model/member_model.dart';
 abstract class MemberListEvent extends Equatable {
   const MemberListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadMemberList extends MemberListEvent {}
@@ -27,49 +27,49 @@ class LoadMemberList extends MemberListEvent {}
 class NewPage extends MemberListEvent {}
 
 class AddMemberList extends MemberListEvent {
-  final MemberModel value;
+  final MemberModel? value;
 
   const AddMemberList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddMemberList{ value: $value }';
 }
 
 class UpdateMemberList extends MemberListEvent {
-  final MemberModel value;
+  final MemberModel? value;
 
   const UpdateMemberList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateMemberList{ value: $value }';
 }
 
 class DeleteMemberList extends MemberListEvent {
-  final MemberModel value;
+  final MemberModel? value;
 
   const DeleteMemberList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteMemberList{ value: $value }';
 }
 
 class MemberListUpdated extends MemberListEvent {
-  final List<MemberModel> value;
-  final bool mightHaveMore;
+  final List<MemberModel?>? value;
+  final bool? mightHaveMore;
 
   const MemberListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'MemberListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

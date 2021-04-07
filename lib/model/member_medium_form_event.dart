@@ -30,7 +30,7 @@ abstract class MemberMediumFormEvent extends Equatable {
   const MemberMediumFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewMemberMediumFormEvent extends MemberMediumFormEvent {
@@ -38,174 +38,174 @@ class InitialiseNewMemberMediumFormEvent extends MemberMediumFormEvent {
 
 
 class InitialiseMemberMediumFormEvent extends MemberMediumFormEvent {
-  final MemberMediumModel value;
+  final MemberMediumModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberMediumFormEvent({this.value});
 }
 
 class InitialiseMemberMediumFormNoLoadEvent extends MemberMediumFormEvent {
-  final MemberMediumModel value;
+  final MemberMediumModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseMemberMediumFormNoLoadEvent({this.value});
 }
 
 class ChangedMemberMediumDocumentID extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumDocumentID{ value: $value }';
 }
 
 class ChangedMemberMediumAppId extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumAppId{ value: $value }';
 }
 
 class ChangedMemberMediumAuthorId extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumAuthorId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumAuthorId{ value: $value }';
 }
 
 class ChangedMemberMediumUrl extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumUrl({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumUrl{ value: $value }';
 }
 
 class ChangedMemberMediumRef extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumRef({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumRef{ value: $value }';
 }
 
 class ChangedMemberMediumUrlThumbnail extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumUrlThumbnail({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumUrlThumbnail{ value: $value }';
 }
 
 class ChangedMemberMediumReadAccess extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumReadAccess({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumReadAccess{ value: $value }';
 }
 
 class ChangedMemberMediumMediumType extends MemberMediumFormEvent {
-  final MediumType value;
+  final MediumType? value;
 
   ChangedMemberMediumMediumType({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumMediumType{ value: $value }';
 }
 
 class ChangedMemberMediumMediumWidth extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumMediumWidth({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumMediumWidth{ value: $value }';
 }
 
 class ChangedMemberMediumMediumHeight extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumMediumHeight({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumMediumHeight{ value: $value }';
 }
 
 class ChangedMemberMediumThumbnailWidth extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumThumbnailWidth({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumThumbnailWidth{ value: $value }';
 }
 
 class ChangedMemberMediumThumbnailHeight extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumThumbnailHeight({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumThumbnailHeight{ value: $value }';
 }
 
 class ChangedMemberMediumRelatedMediumId extends MemberMediumFormEvent {
-  final String value;
+  final String? value;
 
   ChangedMemberMediumRelatedMediumId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedMemberMediumRelatedMediumId{ value: $value }';

@@ -12,6 +12,7 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
 
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
@@ -32,9 +33,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   AccessBloc(this.navigatorBloc) : super(UndeterminedAccessState());
 
-  Future<AppModel> _fetchApp(String id) async {
+  Future<AppModel?> _fetchApp(String? id) async {
     return await AbstractMainRepositorySingleton.singleton
-        .appRepository()
+        .appRepository()!
         .get(id);
   }
 
@@ -71,20 +72,20 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   @override
   Stream<AccessState> mapEventToState(AccessEvent event) async* {
     _invokeMappers(event, state);
-    var theState = state;
+    AccessState theState = state;
     if (event is InitApp) {
       _invokeStateChangeListenersBefore(event, theState);
       var usr = await AbstractMainRepositorySingleton.singleton
-          .userRepository()
+          .userRepository()!
           .currentSignedinUser();
       var app = await _fetchApp(event.appId);
       if (app == null) {
-        var toYield = AppError('App with ' + event.appId + ' does not exist');
+        var toYield = AppError('App with ' + event.appId! + ' does not exist');
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
       } else {
         var toYield =
-            await _mapUsrAndApp(usr, app, event.isPlaystore ? app : null, null);
+            await _mapUsrAndApp(usr, app, event.isPlaystore! ? app : null, null);
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
       }
@@ -97,7 +98,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               await theState.copyWith(event.member, theState.playStoreApp);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
-          if ((event.refresh != null) && (event.refresh)) {
+          if ((event.refresh != null) && event.refresh!) {
             navigatorBloc.add(GoHome());
           }
         } else {
@@ -107,7 +108,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
         if (app == null) {
-          var toYield = AppError('App with ' + event.appId + ' does not exist');
+          var toYield = AppError('App with ' + event.appId! + ' does not exist');
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
         } else {
@@ -122,7 +123,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
         if (app == null) {
-          var toYield = AppError('App with ' + event.appId + ' does not exist');
+          var toYield = AppError('App with ' + event.appId! + ' does not exist');
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
         } else {
@@ -135,7 +136,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
         await AbstractMainRepositorySingleton.singleton
-            .userRepository()
+            .userRepository()!
             .signOut();
         var toYield =
             await _mapUsrAndApp(null, app, theState.playStoreApp, null);
@@ -146,7 +147,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         _invokeStateChangeListenersBefore(event, theState);
         try {
           var usr = await AbstractMainRepositorySingleton.singleton
-              .userRepository()
+              .userRepository()!
               .signInWithGoogle(navigatorBloc);
           if (usr != null) {
             AccessState accessState = await _mapUsrAndApp(
@@ -158,7 +159,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               navigatorBloc.add(GoHome());
             } else {
               if (event.actions != null) {
-                event.actions.runTheAction();
+                event.actions!.runTheAction();
               } else {
                 navigatorBloc.add(GoHome());
               }
@@ -173,18 +174,23 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is AcceptedMembership) {
         _invokeStateChangeListenersBefore(event, theState);
         var member = await _acceptMembership(event.member, app);
-        var newState = await _mapMemberAndApp(
-            event.usr, member, app, theState.playStoreApp, null);
-        if (newState is LoggedInWithoutMembership) {
-          if (newState.postLoginAction != null) {
-            newState.postLoginAction.runTheAction();
+        if (member != null) {
+          var newState = await _mapMemberAndApp(
+              event.usr, member, app, theState.playStoreApp, null);
+          if (newState is LoggedInWithoutMembership) {
+            if (newState.postLoginAction != null) {
+              newState.postLoginAction!.runTheAction();
+            }
+          } else {
+            navigatorBloc.add(GoHome());
           }
+          var toYield = newState;
+          _invokeStateChangeListenersAfter(event, toYield);
+          yield toYield;
         } else {
-          navigatorBloc.add(GoHome());
+          eliud_router.Router.message(
+              navigatorBloc, "You must accept membership");
         }
-        var toYield = newState;
-        _invokeStateChangeListenersAfter(event, toYield);
-        yield toYield;
       }
     } else {
       throw 'Unexpected state';
@@ -195,8 +201,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       User usr,
       MemberModel member,
       AppModel app,
-      AppModel playstoreApp,
-      PostLoginAction postLoginAction) async {
+      AppModel? playstoreApp,
+      PostLoginAction? postLoginAction) async {
     if (!isSubscibred(member, app)) {
       return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
           usr, member, app, playstoreApp, postLoginAction);
@@ -207,7 +213,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessState> _mapOldStateToNewApp(AccessState state, AppModel app,
-      AppModel playstoreApp, PostLoginAction postLoginAction) async {
+      AppModel? playstoreApp, PostLoginAction? postLoginAction) async {
     if (state is LoggedIn) {
       if (!isSubscibred(state.member, app)) {
         return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
@@ -221,8 +227,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessState> _mapUsrAndApp(User usr, AppModel app,
-      AppModel playstoreApp, PostLoginAction postLoginAction) async {
+  Future<AccessState> _mapUsrAndApp(User? usr, AppModel app,
+      AppModel? playstoreApp, PostLoginAction? postLoginAction) async {
     if (usr == null) {
       return await LoggedOut.getLoggedOut(app, playstoreApp);
     } else {
@@ -238,7 +244,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   static Future<MemberModel> firebaseToMemberModel(User usr) async {
     var futureMemberModel =
-        await memberRepository().get(usr.uid).then((member) async {
+        await memberRepository()!.get(usr.uid).then((member) async {
       if (member == null) {
         member = MemberModel(
           documentID: usr.uid,
@@ -249,7 +255,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           subscriptions: [],
           /*items:[]*/
         );
-        return await memberRepository().add(member);
+        return await memberRepository()!.add(member);
       } else {
         return member;
       }
@@ -259,21 +265,21 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return futureMemberModel;
   }
 
-  Future<MemberModel> _acceptMembership(
+  Future<MemberModel?> _acceptMembership(
       MemberModel member, AppModel app) async {
     if (member == null) return null;
     if (isSubscibred(member, app)) return member;
 
-    var subscriptions = member.subscriptions;
+    var subscriptions = member.subscriptions!;
     subscriptions
         .add(MemberSubscriptionModel(documentID: newRandomKey(), app: app));
     member = member.copyWith(subscriptions: subscriptions);
-    var returnMe = await memberRepository().update(member);
+    var returnMe = await memberRepository()!.update(member);
 
-    var accessModel = await accessRepository(appId: app.documentID).get(member.documentID);
+    var accessModel = await accessRepository(appId: app.documentID)!.get(member.documentID);
     if (accessModel == null) {
       // create an access entry. creation with privilege level 0 is allowed
-      await accessRepository(appId: app.documentID).add(AccessModel(
+      await accessRepository(appId: app.documentID)!.add(AccessModel(
         documentID: member.documentID,
         privilegeLevel: PrivilegeLevel.NoPrivilege,
         points: 0,
@@ -293,19 +299,19 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return BlocProvider.of<AccessBloc>(context);
   }
 
-  static bool isSubscibred(MemberModel member, AppModel app) {
+  static bool isSubscibred(MemberModel? member, AppModel app) {
     if (member == null) return false;
     if (member.subscriptions == null) return false;
     // if (member.subscriptions.length == 0) return false;
 
-    var matches = member.subscriptions.where((subscription) =>
+    var matches = member.subscriptions!.where((subscription) =>
         subscription.app != null
-            ? subscription.app.documentID == app.documentID
+            ? subscription.app!.documentID == app.documentID
             : false);
     return matches.isNotEmpty;
   }
 
-  static MemberModel memberFor(AccessState state) {
+  static MemberModel? memberFor(AccessState state) {
     if (state is LoggedIn) {
       return state.member;
     }
@@ -313,12 +319,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static AccessState getState(BuildContext context) {
-    var state = BlocProvider.of<AccessBloc>(context).state;
+    AccessState state = BlocProvider.of<AccessBloc>(context).state;
     return state;
   }
 
-  static AppModel app(BuildContext context) {
-    var state = BlocProvider.of<AccessBloc>(context).state;
+  static AppModel? app(BuildContext context) {
+    AccessState state = BlocProvider.of<AccessBloc>(context).state;
     if (state is AppLoaded) {
       return state.app;
     } else {
@@ -326,35 +332,35 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  static String appId(BuildContext context) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
+  static String? appId(BuildContext context) {
+    AccessState appState = BlocProvider.of<AccessBloc>(context).state;
     if (appState is AppLoaded) {
       return appState.app.documentID;
     }
     return null;
   }
 
-  static String playStoreApp(AccessState appState) {
+  static String? playStoreApp(AccessState appState) {
     if (appState is AppLoaded) {
       if (appState.playStoreApp == null) return null;
-      if (appState.app.documentID == appState.playStoreApp.documentID) {
+      if (appState.app.documentID == appState.playStoreApp!.documentID) {
         return null;
       }
-      return appState.playStoreApp.documentID;
+      return appState.playStoreApp!.documentID;
     }
     return null;
   }
 
-  static String addPlayStoreApp(BuildContext context) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
+  static String? addPlayStoreApp(BuildContext context) {
+    AccessState appState = BlocProvider.of<AccessBloc>(context).state;
     return playStoreApp(appState);
   }
 
   static bool isPlayStoreApp(BuildContext context, String documentID) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
+    AccessState appState = BlocProvider.of<AccessBloc>(context).state;
     if (appState is AppLoaded) {
       if (appState.playStoreApp != null) {
-        return appState.playStoreApp.documentID == documentID;
+        return appState.playStoreApp!.documentID == documentID;
       }
     }
     return false;

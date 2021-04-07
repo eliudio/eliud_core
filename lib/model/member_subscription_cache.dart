@@ -31,25 +31,25 @@ import 'package:eliud_core/model/entity_export.dart';
 class MemberSubscriptionCache implements MemberSubscriptionRepository {
 
   final MemberSubscriptionRepository reference;
-  final Map<String, MemberSubscriptionModel> fullCache = Map();
+  final Map<String?, MemberSubscriptionModel> fullCache = Map();
 
   MemberSubscriptionCache(this.reference);
 
-  Future<MemberSubscriptionModel> add(MemberSubscriptionModel value) {
+  Future<MemberSubscriptionModel> add(MemberSubscriptionModel? value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MemberSubscriptionModel value){
-    fullCache.remove(value.documentID);
+  Future<void> delete(MemberSubscriptionModel? value){
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<MemberSubscriptionModel> get(String id, {Function(Exception) onError}) {
-    MemberSubscriptionModel value = fullCache[id];
+  Future<MemberSubscriptionModel> get(String id, {Function(Exception)? onError}) {
+    MemberSubscriptionModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
@@ -57,30 +57,30 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
     });
   }
 
-  Future<MemberSubscriptionModel> update(MemberSubscriptionModel value) {
+  Future<MemberSubscriptionModel> update(MemberSubscriptionModel? value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<MemberSubscriptionModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<MemberSubscriptionModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<MemberSubscriptionModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<MemberSubscriptionModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<MemberSubscriptionModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<MemberSubscriptionModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<MemberSubscriptionModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<MemberSubscriptionModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -108,12 +108,12 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
   }
 
   @override
-  StreamSubscription<List<MemberSubscriptionModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MemberSubscriptionModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<MemberSubscriptionModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -124,10 +124,10 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
 
   static Future<MemberSubscriptionModel> refreshRelations(MemberSubscriptionModel model) async {
 
-    AppModel appHolder;
+    AppModel? appHolder;
     if (model.app != null) {
       try {
-        await appRepository().get(model.app.documentID).then((val) {
+        await appRepository()!.get(model.app!.documentID).then((val) {
           appHolder = val;
         }).catchError((error) {});
       } catch (_) {}

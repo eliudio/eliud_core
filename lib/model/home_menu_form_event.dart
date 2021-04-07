@@ -30,7 +30,7 @@ abstract class HomeMenuFormEvent extends Equatable {
   const HomeMenuFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewHomeMenuFormEvent extends HomeMenuFormEvent {
@@ -38,102 +38,102 @@ class InitialiseNewHomeMenuFormEvent extends HomeMenuFormEvent {
 
 
 class InitialiseHomeMenuFormEvent extends HomeMenuFormEvent {
-  final HomeMenuModel value;
+  final HomeMenuModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseHomeMenuFormEvent({this.value});
 }
 
 class InitialiseHomeMenuFormNoLoadEvent extends HomeMenuFormEvent {
-  final HomeMenuModel value;
+  final HomeMenuModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseHomeMenuFormNoLoadEvent({this.value});
 }
 
 class ChangedHomeMenuDocumentID extends HomeMenuFormEvent {
-  final String value;
+  final String? value;
 
   ChangedHomeMenuDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuDocumentID{ value: $value }';
 }
 
 class ChangedHomeMenuAppId extends HomeMenuFormEvent {
-  final String value;
+  final String? value;
 
   ChangedHomeMenuAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuAppId{ value: $value }';
 }
 
 class ChangedHomeMenuName extends HomeMenuFormEvent {
-  final String value;
+  final String? value;
 
   ChangedHomeMenuName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuName{ value: $value }';
 }
 
 class ChangedHomeMenuMenu extends HomeMenuFormEvent {
-  final String value;
+  final String? value;
 
   ChangedHomeMenuMenu({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuMenu{ value: $value }';
 }
 
 class ChangedHomeMenuIconColor extends HomeMenuFormEvent {
-  final RgbModel value;
+  final RgbModel? value;
 
   ChangedHomeMenuIconColor({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuIconColor{ value: $value }';
 }
 
 class ChangedHomeMenuBackground extends HomeMenuFormEvent {
-  final String value;
+  final String? value;
 
   ChangedHomeMenuBackground({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuBackground{ value: $value }';
 }
 
 class ChangedHomeMenuPopupMenuBackgroundColor extends HomeMenuFormEvent {
-  final RgbModel value;
+  final RgbModel? value;
 
   ChangedHomeMenuPopupMenuBackgroundColor({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedHomeMenuPopupMenuBackgroundColor{ value: $value }';

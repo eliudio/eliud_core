@@ -10,7 +10,7 @@ class DialogStatefulWidgetHelper {
       MediaQuery.of(context).size.height * 0.9;
 
   static void openIt(BuildContext context, Widget dialog,
-      {double heightValue, double widthValue}) {
+      {double? heightValue, double? widthValue}) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -32,7 +32,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({String title, Widget contents, List<TextButton> buttons, double width}) {
+  Widget build({required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -45,7 +45,7 @@ class DialogStateHelper {
   }
 
   Widget _contentBox(
-      {String title, Widget contents, List<TextButton> buttons, double width}) {
+      {required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
     return Form(
         key: _formKey,
         child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width)
@@ -62,8 +62,8 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {String title, Widget contents, List<TextButton> buttons, double width}) {
-    var widgets = <Widget>[
+      {required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
+    var widgets = <Widget?>[
       Center(
           child: Text(title,
               style: TextStyle(
@@ -86,12 +86,12 @@ class DialogStateHelper {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         shrinkWrap: true,
         physics: ScrollPhysics(),
-        children: widgets));
+        children: widgets as List<Widget>));
   }
 
   /* Helper method to create a list tile */
   Widget getListTile(
-      {Widget leading, Widget title, Widget subtitle, bool isThreeLine}) {
+      {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine}) {
     return ListTile(
       isThreeLine: isThreeLine ?? false,
       leading: leading,
@@ -101,8 +101,8 @@ class DialogStateHelper {
   }
 
   /* Helper method to format the fields */
-  Widget fieldsWidget(BuildContext context, List<Widget> widgets,
-      {double height, double width}) {
+  Widget fieldsWidget(BuildContext context, List<Widget?> widgets,
+      {double? height, double? width}) {
     return Container(
         height: (height != null)
             ? height
@@ -112,14 +112,14 @@ class DialogStateHelper {
             (width != null) ? width : DialogStatefulWidgetHelper.width(context),
         child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: widgets));
+            children: widgets as List<Widget>));
   }
 
   /* Helper method to retrieve the button */
   List<TextButton> getCloseButton(
-      BuildContext context, Function closeFunction) {
+      BuildContext context, Function? closeFunction) {
     return <TextButton>[
-      TextButton(child: Text('Close'), onPressed: closeFunction),
+      TextButton(child: Text('Close'), onPressed: closeFunction as void Function()?),
     ];
   }
 
@@ -128,14 +128,14 @@ class DialogStateHelper {
   }
 
   List<TextButton> getYesNoButtons(
-      BuildContext context, Function yesFunction, Function noFunction,
-      {String yesButtonLabel, String noButtonLabel}) {
+      BuildContext context, Function? yesFunction, Function? noFunction,
+      {String? yesButtonLabel, String? noButtonLabel}) {
     return <TextButton>[
       TextButton(
-          onPressed: noFunction,
+          onPressed: noFunction as void Function()?,
           child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel)),
       TextButton(
-          onPressed: yesFunction,
+          onPressed: yesFunction as void Function()?,
           child: Text(yesButtonLabel == null ? 'Continue' : yesButtonLabel)),
     ];
   }
@@ -149,7 +149,7 @@ class DialogStateHelper {
     for (int i = 0; i < buttonLabels.length; i++) {
       String label = buttonLabels[i];
       Function function = functions[i];
-      buttons.add(TextButton(onPressed: function, child: Text(label)));
+      buttons.add(TextButton(onPressed: function as void Function()?, child: Text(label)));
     }
     return buttons;
   }

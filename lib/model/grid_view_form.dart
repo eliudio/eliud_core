@@ -58,10 +58,10 @@ import 'package:eliud_core/model/grid_view_form_state.dart';
 
 class GridViewForm extends StatelessWidget {
   FormAction formAction;
-  GridViewModel value;
-  ActionModel submitAction;
+  GridViewModel? value;
+  ActionModel? submitAction;
 
-  GridViewForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  GridViewForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class GridViewForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class GridViewForm extends StatelessWidget {
 
 
 class MyGridViewForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyGridViewForm({this.formAction, this.submitAction});
 
@@ -122,16 +122,16 @@ class MyGridViewForm extends StatefulWidget {
 
 
 class _MyGridViewFormState extends State<MyGridViewForm> {
-  final FormAction formAction;
-  GridViewFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late GridViewFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  int _scrollDirectionSelectedRadioTile;
-  int _typeSelectedRadioTile;
+  int? _scrollDirectionSelectedRadioTile;
+  int? _typeSelectedRadioTile;
   final TextEditingController _crossAxisCountController = TextEditingController();
-  int _maxCrossAxisExtentTypeSelectedRadioTile;
+  int? _maxCrossAxisExtentTypeSelectedRadioTile;
   final TextEditingController _absoluteMaxCrossAxisExtentController = TextEditingController();
   final TextEditingController _relativeMaxCrossAxisExtentController = TextEditingController();
   final TextEditingController _childAspectRatioController = TextEditingController();
@@ -171,56 +171,56 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
       );
 
       if (state is GridViewFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.scrollDirection != null)
-          _scrollDirectionSelectedRadioTile = state.value.scrollDirection.index;
+        if (state.value!.scrollDirection != null)
+          _scrollDirectionSelectedRadioTile = state.value!.scrollDirection!.index;
         else
           _scrollDirectionSelectedRadioTile = 0;
-        if (state.value.type != null)
-          _typeSelectedRadioTile = state.value.type.index;
+        if (state.value!.type != null)
+          _typeSelectedRadioTile = state.value!.type!.index;
         else
           _typeSelectedRadioTile = 0;
-        if (state.value.crossAxisCount != null)
-          _crossAxisCountController.text = state.value.crossAxisCount.toString();
+        if (state.value!.crossAxisCount != null)
+          _crossAxisCountController.text = state.value!.crossAxisCount.toString();
         else
           _crossAxisCountController.text = "";
-        if (state.value.maxCrossAxisExtentType != null)
-          _maxCrossAxisExtentTypeSelectedRadioTile = state.value.maxCrossAxisExtentType.index;
+        if (state.value!.maxCrossAxisExtentType != null)
+          _maxCrossAxisExtentTypeSelectedRadioTile = state.value!.maxCrossAxisExtentType!.index;
         else
           _maxCrossAxisExtentTypeSelectedRadioTile = 0;
-        if (state.value.absoluteMaxCrossAxisExtent != null)
-          _absoluteMaxCrossAxisExtentController.text = state.value.absoluteMaxCrossAxisExtent.toString();
+        if (state.value!.absoluteMaxCrossAxisExtent != null)
+          _absoluteMaxCrossAxisExtentController.text = state.value!.absoluteMaxCrossAxisExtent.toString();
         else
           _absoluteMaxCrossAxisExtentController.text = "";
-        if (state.value.relativeMaxCrossAxisExtent != null)
-          _relativeMaxCrossAxisExtentController.text = state.value.relativeMaxCrossAxisExtent.toString();
+        if (state.value!.relativeMaxCrossAxisExtent != null)
+          _relativeMaxCrossAxisExtentController.text = state.value!.relativeMaxCrossAxisExtent.toString();
         else
           _relativeMaxCrossAxisExtentController.text = "";
-        if (state.value.childAspectRatio != null)
-          _childAspectRatioController.text = state.value.childAspectRatio.toString();
+        if (state.value!.childAspectRatio != null)
+          _childAspectRatioController.text = state.value!.childAspectRatio.toString();
         else
           _childAspectRatioController.text = "";
-        if (state.value.padding != null)
-          _paddingController.text = state.value.padding.toString();
+        if (state.value!.padding != null)
+          _paddingController.text = state.value!.padding.toString();
         else
           _paddingController.text = "";
-        if (state.value.mainAxisSpacing != null)
-          _mainAxisSpacingController.text = state.value.mainAxisSpacing.toString();
+        if (state.value!.mainAxisSpacing != null)
+          _mainAxisSpacingController.text = state.value!.mainAxisSpacing.toString();
         else
           _mainAxisSpacingController.text = "";
-        if (state.value.crossAxisSpacing != null)
-          _crossAxisSpacingController.text = state.value.crossAxisSpacing.toString();
+        if (state.value!.crossAxisSpacing != null)
+          _crossAxisSpacingController.text = state.value!.crossAxisSpacing.toString();
         else
           _crossAxisSpacingController.text = "";
       }
@@ -231,7 +231,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -304,7 +304,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _scrollDirectionSelectedRadioTile,
                     title: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionScrollDirection(val);
                     },
                 ),
@@ -317,7 +317,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _scrollDirectionSelectedRadioTile,
                     title: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionScrollDirection(val);
                     },
                 ),
@@ -344,7 +344,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _typeSelectedRadioTile,
                     title: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionType(val);
                     },
                 ),
@@ -357,7 +357,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _typeSelectedRadioTile,
                     title: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionType(val);
                     },
                 ),
@@ -368,7 +368,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if (state.value.type == GridViewGridType.Count) children.add(Container(
+        if (state.value!.type == GridViewGridType.Count) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('crossAxisCount',
@@ -376,7 +376,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.type == GridViewGridType.Count)) children.add(
+        if ((state.value!.type == GridViewGridType.Count)) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -400,7 +400,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if (state.value.type == GridViewGridType.Extent) children.add(Container(
+        if (state.value!.type == GridViewGridType.Extent) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Max Cross Axis Extent Type',
@@ -408,7 +408,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.type == GridViewGridType.Extent)) children.add(
+        if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
                 RadioListTile(
                     value: 0,
@@ -416,12 +416,12 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _maxCrossAxisExtentTypeSelectedRadioTile,
                     title: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMaxCrossAxisExtentType(val);
                     },
                 ),
           );
-        if ((state.value.type == GridViewGridType.Extent)) children.add(
+        if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
                 RadioListTile(
                     value: 1,
@@ -429,7 +429,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     groupValue: _maxCrossAxisExtentTypeSelectedRadioTile,
                     title: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMaxCrossAxisExtentType(val);
                     },
                 ),
@@ -440,7 +440,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute)) children.add(Container(
+        if ((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Absolute Max Cross Axis Extent',
@@ -448,7 +448,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if (((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))) children.add(
+        if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -472,7 +472,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative)) children.add(Container(
+        if ((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Relative Max Cross Axis Extent',
@@ -480,7 +480,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if (((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))) children.add(
+        if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -612,43 +612,43 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<GridViewListBloc>(context).add(
-                          UpdateGridViewList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              scrollDirection: state.value.scrollDirection, 
-                              type: state.value.type, 
-                              crossAxisCount: state.value.crossAxisCount, 
-                              maxCrossAxisExtentType: state.value.maxCrossAxisExtentType, 
-                              absoluteMaxCrossAxisExtent: state.value.absoluteMaxCrossAxisExtent, 
-                              relativeMaxCrossAxisExtent: state.value.relativeMaxCrossAxisExtent, 
-                              childAspectRatio: state.value.childAspectRatio, 
-                              padding: state.value.padding, 
-                              mainAxisSpacing: state.value.mainAxisSpacing, 
-                              crossAxisSpacing: state.value.crossAxisSpacing, 
-                              conditions: state.value.conditions, 
+                          UpdateGridViewList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              scrollDirection: state.value!.scrollDirection, 
+                              type: state.value!.type, 
+                              crossAxisCount: state.value!.crossAxisCount, 
+                              maxCrossAxisExtentType: state.value!.maxCrossAxisExtentType, 
+                              absoluteMaxCrossAxisExtent: state.value!.absoluteMaxCrossAxisExtent, 
+                              relativeMaxCrossAxisExtent: state.value!.relativeMaxCrossAxisExtent, 
+                              childAspectRatio: state.value!.childAspectRatio, 
+                              padding: state.value!.padding, 
+                              mainAxisSpacing: state.value!.mainAxisSpacing, 
+                              crossAxisSpacing: state.value!.crossAxisSpacing, 
+                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<GridViewListBloc>(context).add(
                           AddGridViewList(value: GridViewModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              name: state.value.name, 
-                              scrollDirection: state.value.scrollDirection, 
-                              type: state.value.type, 
-                              crossAxisCount: state.value.crossAxisCount, 
-                              maxCrossAxisExtentType: state.value.maxCrossAxisExtentType, 
-                              absoluteMaxCrossAxisExtent: state.value.absoluteMaxCrossAxisExtent, 
-                              relativeMaxCrossAxisExtent: state.value.relativeMaxCrossAxisExtent, 
-                              childAspectRatio: state.value.childAspectRatio, 
-                              padding: state.value.padding, 
-                              mainAxisSpacing: state.value.mainAxisSpacing, 
-                              crossAxisSpacing: state.value.crossAxisSpacing, 
-                              conditions: state.value.conditions, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              name: state.value!.name, 
+                              scrollDirection: state.value!.scrollDirection, 
+                              type: state.value!.type, 
+                              crossAxisCount: state.value!.crossAxisCount, 
+                              maxCrossAxisExtentType: state.value!.maxCrossAxisExtentType, 
+                              absoluteMaxCrossAxisExtent: state.value!.absoluteMaxCrossAxisExtent, 
+                              relativeMaxCrossAxisExtent: state.value!.relativeMaxCrossAxisExtent, 
+                              childAspectRatio: state.value!.childAspectRatio, 
+                              padding: state.value!.padding, 
+                              mainAxisSpacing: state.value!.mainAxisSpacing, 
+                              crossAxisSpacing: state.value!.crossAxisSpacing, 
+                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -693,7 +693,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
   }
 
 
-  void setSelectionScrollDirection(int val) {
+  void setSelectionScrollDirection(int? val) {
     setState(() {
       _scrollDirectionSelectedRadioTile = val;
     });
@@ -701,7 +701,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
   }
 
 
-  void setSelectionType(int val) {
+  void setSelectionType(int? val) {
     setState(() {
       _typeSelectedRadioTile = val;
     });
@@ -714,7 +714,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
   }
 
 
-  void setSelectionMaxCrossAxisExtentType(int val) {
+  void setSelectionMaxCrossAxisExtentType(int? val) {
     setState(() {
       _maxCrossAxisExtentTypeSelectedRadioTile = val;
     });

@@ -21,28 +21,28 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppBarEntity {
-  final String appId;
-  final String title;
-  final int header;
-  final IconEntity icon;
-  final String imageId;
-  final String iconMenuId;
-  final String backgroundId;
-  final RgbEntity iconColor;
-  final RgbEntity selectedIconColor;
-  final RgbEntity menuBackgroundColor;
+  final String? appId;
+  final String? title;
+  final int? header;
+  final IconEntity? icon;
+  final String? imageId;
+  final String? iconMenuId;
+  final String? backgroundId;
+  final RgbEntity? iconColor;
+  final RgbEntity? selectedIconColor;
+  final RgbEntity? menuBackgroundColor;
 
   AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundId, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, });
 
 
-  List<Object> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundId, iconColor, selectedIconColor, menuBackgroundColor, ];
+  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundId, iconColor, selectedIconColor, menuBackgroundColor, ];
 
   @override
   String toString() {
     return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundId: $backgroundId, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
-  static AppBarEntity fromMap(Map map) {
+  static AppBarEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var iconFromMap;
@@ -76,21 +76,21 @@ class AppBarEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> iconMap = icon != null 
-        ? icon.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? iconMap = icon != null 
+        ? icon!.toDocument()
         : null;
-    final Map<String, dynamic> iconColorMap = iconColor != null 
-        ? iconColor.toDocument()
+    final Map<String, dynamic>? iconColorMap = iconColor != null 
+        ? iconColor!.toDocument()
         : null;
-    final Map<String, dynamic> selectedIconColorMap = selectedIconColor != null 
-        ? selectedIconColor.toDocument()
+    final Map<String, dynamic>? selectedIconColorMap = selectedIconColor != null 
+        ? selectedIconColor!.toDocument()
         : null;
-    final Map<String, dynamic> menuBackgroundColorMap = menuBackgroundColor != null 
-        ? menuBackgroundColor.toDocument()
+    final Map<String, dynamic>? menuBackgroundColorMap = menuBackgroundColor != null 
+        ? menuBackgroundColor!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
@@ -114,8 +114,8 @@ class AppBarEntity {
     return theDocument;
   }
 
-  static AppBarEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static AppBarEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

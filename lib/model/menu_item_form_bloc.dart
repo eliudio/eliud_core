@@ -38,12 +38,12 @@ import 'package:eliud_core/model/menu_item_form_state.dart';
 import 'package:eliud_core/model/menu_item_repository.dart';
 
 class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
-  final String appId;
+  final String? appId;
 
   MenuItemFormBloc(this.appId, ): super(MenuItemFormUninitialized());
   @override
   Stream<MenuItemFormState> mapEventToState(MenuItemFormEvent event) async* {
-    final currentState = state;
+    final MenuItemFormState currentState = state;
     if (currentState is MenuItemFormUninitialized) {
       if (event is InitialiseNewMenuItemFormEvent) {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: MenuItemModel(
@@ -68,27 +68,27 @@ class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
         return;
       }
     } else if (currentState is MenuItemFormInitialized) {
-      MenuItemModel newValue = null;
+      MenuItemModel? newValue = null;
       if (event is ChangedMenuItemText) {
-        newValue = currentState.value.copyWith(text: event.value);
+        newValue = currentState.value!.copyWith(text: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemDescription) {
-        newValue = currentState.value.copyWith(description: event.value);
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemIcon) {
-        newValue = currentState.value.copyWith(icon: event.value);
+        newValue = currentState.value!.copyWith(icon: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemAction) {
-        newValue = currentState.value.copyWith(action: event.value);
+        newValue = currentState.value!.copyWith(action: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;

@@ -23,7 +23,7 @@ class RichTextField extends StatefulWidget {
 }
 
 class RichTextFieldState extends State<RichTextField> {
-  String value;
+  String? value;
 
   @override
   void initState() {

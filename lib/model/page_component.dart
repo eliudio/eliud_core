@@ -25,7 +25,7 @@ import 'package:eliud_core/model/page_component_state.dart';
 
 abstract class AbstractPageComponent extends StatelessWidget {
   static String componentName = "pages";
-  final String pageID;
+  final String? pageID;
 
   AbstractPageComponent({this.pageID});
 
@@ -63,7 +63,7 @@ abstract class AbstractPageComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, PageModel value);
+  Widget yourWidget(BuildContext context, PageModel? value);
   Widget alertWidget({ title: String, content: String});
   PageRepository getPageRepository(BuildContext context);
 }

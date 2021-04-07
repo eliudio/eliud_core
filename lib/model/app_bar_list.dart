@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'app_bar_form.dart';
 
 
-typedef AppBarWidgetProvider(AppBarModel value);
+typedef AppBarWidgetProvider(AppBarModel? value);
 
 class AppBarListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  AppBarWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  AppBarListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  AppBarWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  AppBarListWidgetState? state;
+  bool? isEmbedded;
 
-  AppBarListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  AppBarListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   AppBarListWidgetState createState() {
     state ??= AppBarListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= AppBarListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class AppBarListWidgetState extends State<AppBarListWidget> {
-  AppBarListBloc bloc;
+  AppBarListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
           );
         } else if (state is AppBarListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return AppBarListItem(
             value: value,
@@ -210,7 +210,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return AppBarForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class AppBarListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final AppBarModel value;
+  final AppBarModel? value;
 
   AppBarListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__AppBar_item_${value.documentID}'),
+      key: Key('__AppBar_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__AppBarheroTag',
+          tag: '${value!.documentID}__AppBarheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.title != null) && (value.title.isNotEmpty)
+        subtitle: (value!.title != null) && (value!.title!.isNotEmpty)
             ? Center( child: Text(
-          value.title,
+          value!.title!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

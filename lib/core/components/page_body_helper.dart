@@ -19,7 +19,7 @@ enum Layout {
   GridView, ListView, OnlyTheFirstComponent, Unknown
 }
 
-Layout fromPageLayout(PageLayout pageLayout) {
+Layout fromPageLayout(PageLayout? pageLayout) {
   switch (pageLayout) {
     case PageLayout.GridView: return Layout.GridView;
     case PageLayout.ListView: return Layout.ListView;
@@ -29,7 +29,7 @@ Layout fromPageLayout(PageLayout pageLayout) {
   return Layout.Unknown;
 }
 
-Layout fromDialogLayout(DialogLayout dialogLayout) {
+Layout fromDialogLayout(DialogLayout? dialogLayout) {
   switch (dialogLayout) {
     case DialogLayout.GridView: return Layout.GridView;
     case DialogLayout.ListView: return Layout.ListView;
@@ -40,33 +40,31 @@ Layout fromDialogLayout(DialogLayout dialogLayout) {
 }
 
 class PageBodyHelper {
-  List<Widget> getComponents(List<BodyComponentModel> componentModels, Map<String, Object> parameters) {
+  List<Widget> getComponents(List<BodyComponentModel> componentModels, Map<String, Object>? parameters) {
     return componentModels
-        .map((model) => Registry.registry().component(
-        componentName: model.componentName, id: model.componentId, parameters: parameters))
+        .map((model) => Registry.registry()!.component(
+        model.componentName ?? "", model.componentId ?? "ID", parameters: parameters))
         .toList();
   }
 
-  Widget theBody(BuildContext context,
+  Widget? theBody(BuildContext context,
       AccessState accessState,
-      {BackgroundModel backgroundDecoration,
-        List<Widget> components,
-        Layout layout,
-        GridViewModel gridView
+      {BackgroundModel? backgroundDecoration,
+        required List<Widget> components,
+        Layout? layout,
+        GridViewModel? gridView
       }) {
     try {
       if (components.isNotEmpty) {
         if (backgroundDecoration == null) {
           return _container(context, components, layout, gridView);
         } else {
-          return Stack(
-            children: <Widget>[
+          return Stack(children: <Widget>[
               Container(
                 decoration: BoxDecorationHelper.boxDecoration(accessState, backgroundDecoration),
               ),
               _container(context, components, layout, gridView)
-            ],
-          );
+            ]);
         }
       }
       return Container(color: Colors.white);
@@ -76,7 +74,7 @@ class PageBodyHelper {
   }
 
   Widget _container(
-      BuildContext context, List<Widget> components, Layout layout, GridViewModel gridView) {
+      BuildContext context, List<Widget> components, Layout? layout, GridViewModel? gridView) {
     if (components.length == 1) return _justTheFirst(components);
     switch (layout) {
       case Layout.GridView:
@@ -92,13 +90,13 @@ class PageBodyHelper {
   }
 
   Widget _listView(
-      BuildContext context, List<Widget> components) {
+      BuildContext context, List<Widget?> components) {
     return ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),
       itemCount: components.length,
       itemBuilder: (BuildContext context, int index) {
-        return components[index];
+        return components[index]!;
       },
     );
   }
@@ -108,7 +106,7 @@ class PageBodyHelper {
   }
 
   Widget _gridView(
-      BuildContext context, List<Widget> components, GridViewModel model) {
+      BuildContext context, List<Widget> components, GridViewModel? model) {
     return GridViewHelper.container(context, components, model);
   }
 }

@@ -32,15 +32,15 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class CountryModel {
-  String documentID;
-  String countryCode;
-  String countryName;
+  String? documentID;
+  String? countryCode;
+  String? countryName;
 
   CountryModel({this.documentID, this.countryCode, this.countryName, })  {
     assert(documentID != null);
   }
 
-  CountryModel copyWith({String documentID, String countryCode, String countryName, }) {
+  CountryModel copyWith({String? documentID, String? countryCode, String? countryName, }) {
     return CountryModel(documentID: documentID ?? this.documentID, countryCode: countryCode ?? this.countryCode, countryName: countryName ?? this.countryName, );
   }
 
@@ -61,14 +61,14 @@ class CountryModel {
     return 'CountryModel{documentID: $documentID, countryCode: $countryCode, countryName: $countryName}';
   }
 
-  CountryEntity toEntity({String appId}) {
+  CountryEntity toEntity({String? appId}) {
     return CountryEntity(
           countryCode: (countryCode != null) ? countryCode : null, 
           countryName: (countryName != null) ? countryName : null, 
     );
   }
 
-  static CountryModel fromEntity(String documentID, CountryEntity entity) {
+  static CountryModel? fromEntity(String documentID, CountryEntity? entity) {
     if (entity == null) return null;
     return CountryModel(
           documentID: documentID, 
@@ -77,7 +77,7 @@ class CountryModel {
     );
   }
 
-  static Future<CountryModel> fromEntityPlus(String documentID, CountryEntity entity, { String appId}) async {
+  static Future<CountryModel?> fromEntityPlus(String documentID, CountryEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return CountryModel(

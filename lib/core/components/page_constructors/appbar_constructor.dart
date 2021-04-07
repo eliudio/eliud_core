@@ -19,23 +19,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AppBarConstructor {
-  final String currentPage;
+  final String? currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   AppBarConstructor(this.currentPage, this.scaffoldKey);
 
   Widget appBar(
-      BuildContext context, String theTitle, AppBarModel value) {
+      BuildContext context, String? theTitle, AppBarModel? value) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
         var app = theState.app;
         var member = (theState is LoggedIn) ? theState.member : null;
-        if ((value.iconMenu != null) &&
-            (value.iconMenu.menuItems != null) &&
-            value.iconMenu.menuItems.isNotEmpty) {
+        if ((value!.iconMenu != null) &&
+            (value.iconMenu!.menuItems != null) &&
+            value.iconMenu!.menuItems!.isNotEmpty) {
           var buttons = <Widget>[];
           if (value.iconMenu != null) {
-            value.iconMenu.menuItems.forEach((item) {
+            value.iconMenu!.menuItems!.forEach((item) {
               if (theState.menuItemHasAccess(item)) {
                 _addButton(context, theState, app, value, buttons, item, member);
               }
@@ -50,16 +50,16 @@ class AppBarConstructor {
           return _appBarWithButtons(context, theState, app, theTitle, value, buttons, member);
         }
       } else {
-        return null;
+        return Text("State is not AppLoaded");
       }});
   }
 
-  void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel value, List<Widget> buttons,
-      MenuItemModel item, MemberModel member) {
+  void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel? value, List<Widget> buttons,
+      MenuItemModel item, MemberModel? member) {
     var isActive = PageHelper.isActivePage(currentPage, item.action);
     var _color = isActive
-        ? RgbHelper.color(rgbo: value.selectedIconColor)
-        : RgbHelper.color(rgbo: value.iconColor);
+        ? RgbHelper.color(rgbo: value!.selectedIconColor)
+        : RgbHelper.color(rgbo: value!.iconColor);
 
 
     var _rgbcolor = isActive
@@ -71,7 +71,7 @@ class AppBarConstructor {
       var popupMenu = PopupHelper(app, state, currentPage, member).popupMenuButton(
           context,
           action.menuDef,
-          Text(item.text),
+          Text(item.text!),
           item.icon == null
               ? null
               : IconHelper.getIconFromModel(
@@ -87,11 +87,11 @@ class AppBarConstructor {
     } else {
       if (item.icon != null) {
         buttons.add(IconButton(
-          icon: IconHelper.getIconFromModel(iconModel: item.icon),
+          icon: IconHelper.getIconFromModel(iconModel: item.icon)!,
           color: _color,
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action)) {
-              eliudrouter.Router.navigateTo(context, item.action);
+              eliudrouter.Router.navigateTo(context, item.action!);
             }
           },
         ));
@@ -104,23 +104,23 @@ class AppBarConstructor {
               style: FontTools.textStyle(app.h5)),
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action)) {
-              eliudrouter.Router.navigateTo(context, item.action);
+              eliudrouter.Router.navigateTo(context, item.action!);
             }
           },
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0)),
           borderSide:
-              BorderSide(color: FontTools.textStyle(app.h4).color),
+              BorderSide(color: FontTools.textStyle(app.h4)!.color!),
         )));
       }
     }
   }
 
-  Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String theTitle, AppBarModel value, List<Widget> buttons, MemberModel member)  {
+  Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String? theTitle, AppBarModel value, List<Widget> buttons, MemberModel? member)  {
     Widget title;
-    Widget part1;
+    Widget? part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
-      part1 = Text(value.title,
+      part1 = Text(value.title!,
           style: FontTools.textStyle(app.h1));
     } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
       part1 = IconHelper.getIconFromModel(iconModel: value.icon);
@@ -129,13 +129,13 @@ class AppBarConstructor {
 
       part1 = FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,
-        image: value.image.url,
+        image: value.image!.url!,
         height: kToolbarHeight,
       );
     }
 
     if (part1 != null) {
-      title = Row(children: [part1, Container(width: 20), Text(theTitle)]);
+      title = Row(children: [part1, Container(width: 20), Text(theTitle!)]);
     } else if (theTitle != null) {
       title = Text(
         theTitle,
@@ -148,10 +148,10 @@ class AppBarConstructor {
 
     if (member != null) {
       var userPhotoUrl = member.photoURL;
-      Widget profilePhoto;
+      Widget? profilePhoto;
       if (userPhotoUrl != null) {
         profilePhoto =  Image.network(
-          member.photoURL
+          member.photoURL!
         );
       }
       profilePhoto ??= Icon(Icons.person_outline,
@@ -165,7 +165,7 @@ class AppBarConstructor {
             backgroundColor: Colors.transparent,
           ),
           onPressed: () {
-            scaffoldKey.currentState.openEndDrawer();
+            scaffoldKey.currentState!.openEndDrawer();
           },
         ),
       );
@@ -182,14 +182,14 @@ class AppBarConstructor {
             decoration: BoxDecorationHelper.boxDecoration(state, value.background)));
   }
 
-  void _addPlayStoreButton(String playStoreApp,
-      BuildContext context, List<Widget> buttons, AppBarModel value, AppModel app) {
+  void _addPlayStoreButton(String? playStoreApp,
+      BuildContext context, List<Widget> buttons, AppBarModel? value, AppModel app) {
     if (playStoreApp != null) {
       ActionModel action = SwitchApp(app.documentID, toAppID: playStoreApp);
       if (action.hasAccess(context)) {
-        buttons.add(FutureBuilder<AppModel>(
+        buttons.add(FutureBuilder<AppModel?>(
             future: AbstractMainRepositorySingleton.singleton
-                .appRepository()
+                .appRepository()!
                 .get(playStoreApp),
             builder: (BuildContext context2, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
@@ -198,7 +198,7 @@ class AppBarConstructor {
                         snapshot.data.logoURL
                     )/*AbstractPlatform.platform
                         .getImageFromURL(url: snapshot.data.logoURL)*/,
-                    color: RgbHelper.color(rgbo: value.iconColor),
+                    color: RgbHelper.color(rgbo: value!.iconColor),
                     onPressed: () {
                       eliudrouter.Router.navigateTo(context, action);
                     });

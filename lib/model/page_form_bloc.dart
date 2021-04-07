@@ -38,13 +38,13 @@ import 'package:eliud_core/model/page_form_state.dart';
 import 'package:eliud_core/model/page_repository.dart';
 
 class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
-  final FormAction formAction;
-  final String appId;
+  final FormAction? formAction;
+  final String? appId;
 
   PageFormBloc(this.appId, { this.formAction }): super(PageFormUninitialized());
   @override
   Stream<PageFormState> mapEventToState(PageFormEvent event) async* {
-    final currentState = state;
+    final PageFormState currentState = state;
     if (currentState is PageFormUninitialized) {
       if (event is InitialiseNewPageFormEvent) {
         PageFormLoaded loaded = PageFormLoaded(value: PageModel(
@@ -62,7 +62,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
 
       if (event is InitialisePageFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appId: appId).get(event.value.documentID));
+        PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePageFormNoLoadEvent) {
@@ -71,9 +71,9 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
         return;
       }
     } else if (currentState is PageFormInitialized) {
-      PageModel newValue = null;
+      PageModel? newValue = null;
       if (event is ChangedPageDocumentID) {
-        newValue = currentState.value.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
@@ -83,28 +83,28 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
         return;
       }
       if (event is ChangedPageTitle) {
-        newValue = currentState.value.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageAppBar) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(appBar: await appBarRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(appBar: await appBarRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
                                  appBar: null,
-                                 drawer: currentState.value.drawer,
-                                 endDrawer: currentState.value.endDrawer,
-                                 homeMenu: currentState.value.homeMenu,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditions: currentState.value.conditions,
+                                 drawer: currentState.value!.drawer,
+                                 endDrawer: currentState.value!.endDrawer,
+                                 homeMenu: currentState.value!.homeMenu,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -112,21 +112,21 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageDrawer) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(drawer: await drawerRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(drawer: await drawerRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 appBar: currentState.value.appBar,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 appBar: currentState.value!.appBar,
                                  drawer: null,
-                                 endDrawer: currentState.value.endDrawer,
-                                 homeMenu: currentState.value.homeMenu,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditions: currentState.value.conditions,
+                                 endDrawer: currentState.value!.endDrawer,
+                                 homeMenu: currentState.value!.homeMenu,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -134,21 +134,21 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageEndDrawer) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(endDrawer: await drawerRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(endDrawer: await drawerRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 appBar: currentState.value.appBar,
-                                 drawer: currentState.value.drawer,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 appBar: currentState.value!.appBar,
+                                 drawer: currentState.value!.drawer,
                                  endDrawer: null,
-                                 homeMenu: currentState.value.homeMenu,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditions: currentState.value.conditions,
+                                 homeMenu: currentState.value!.homeMenu,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
@@ -156,84 +156,84 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
       if (event is ChangedPageHomeMenu) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(homeMenu: await homeMenuRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(homeMenu: await homeMenuRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 appBar: currentState.value.appBar,
-                                 drawer: currentState.value.drawer,
-                                 endDrawer: currentState.value.endDrawer,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 appBar: currentState.value!.appBar,
+                                 drawer: currentState.value!.drawer,
+                                 endDrawer: currentState.value!.endDrawer,
                                  homeMenu: null,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditions: currentState.value.conditions,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageBodyComponents) {
-        newValue = currentState.value.copyWith(bodyComponents: event.value);
+        newValue = currentState.value!.copyWith(bodyComponents: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageBackground) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(background: await backgroundRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 appBar: currentState.value.appBar,
-                                 drawer: currentState.value.drawer,
-                                 endDrawer: currentState.value.endDrawer,
-                                 homeMenu: currentState.value.homeMenu,
-                                 bodyComponents: currentState.value.bodyComponents,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 appBar: currentState.value!.appBar,
+                                 drawer: currentState.value!.drawer,
+                                 endDrawer: currentState.value!.endDrawer,
+                                 homeMenu: currentState.value!.homeMenu,
+                                 bodyComponents: currentState.value!.bodyComponents,
                                  background: null,
-                                 layout: currentState.value.layout,
-                                 gridView: currentState.value.gridView,
-                                 conditions: currentState.value.conditions,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageLayout) {
-        newValue = currentState.value.copyWith(layout: event.value);
+        newValue = currentState.value!.copyWith(layout: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageGridView) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(gridView: await gridViewRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
-                                 documentID: currentState.value.documentID,
-                                 appId: currentState.value.appId,
-                                 title: currentState.value.title,
-                                 appBar: currentState.value.appBar,
-                                 drawer: currentState.value.drawer,
-                                 endDrawer: currentState.value.endDrawer,
-                                 homeMenu: currentState.value.homeMenu,
-                                 bodyComponents: currentState.value.bodyComponents,
-                                 background: currentState.value.background,
-                                 layout: currentState.value.layout,
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 appBar: currentState.value!.appBar,
+                                 drawer: currentState.value!.drawer,
+                                 endDrawer: currentState.value!.endDrawer,
+                                 homeMenu: currentState.value!.homeMenu,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 background: currentState.value!.background,
+                                 layout: currentState.value!.layout,
                                  gridView: null,
-                                 conditions: currentState.value.conditions,
+                                 conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
 
         return;
       }
       if (event is ChangedPageConditions) {
-        newValue = currentState.value.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;
@@ -244,10 +244,10 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
 
   DocumentIDPageFormError error(String message, PageModel newValue) => DocumentIDPageFormError(message: message, value: newValue);
 
-  Future<PageFormState> _isDocumentIDValid(String value, PageModel newValue) async {
+  Future<PageFormState> _isDocumentIDValid(String? value, PageModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<PageModel> findDocument = pageRepository(appId: appId).get(value);
+    Future<PageModel?> findDocument = pageRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittablePageForm(value: newValue);

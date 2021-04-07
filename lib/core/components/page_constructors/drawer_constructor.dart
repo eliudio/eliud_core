@@ -15,23 +15,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrawerConstructor {
-  final String currentPage;
+  final String? currentPage;
 
   const DrawerConstructor(this.currentPage);
 
   void _addWidget(BuildContext context, List<Widget> widgets, MenuItemModel item,
-      TextStyle style, MemberModel member) {
+      TextStyle? style, MemberModel? member) {
     var action = item.action;
     if ((action is InternalAction) && (action.internalActionEnum == InternalActionEnum.OtherApps)) {
       var i = 0;
       if ((member != null) && (member.subscriptions != null)) {
-        member.subscriptions.forEach((value) {
+        member.subscriptions!.forEach((value) {
           if (value.app != null) {
             i++;
             var menuItemModel = MenuItemModel(documentID: '${i}',
-                text: value.app.documentID,
-                description: value.app.title,
-                action: SwitchApp(value.app.documentID, toAppID: value.app.documentID));
+                text: value.app!.documentID,
+                description: value.app!.title,
+                action: SwitchApp(value.app!.documentID, toAppID: value.app!.documentID));
             _addWidget(context, widgets, menuItemModel, style, member);
           }
         });
@@ -42,10 +42,10 @@ class DrawerConstructor {
             leading: item.icon == null
                 ? null
                 : IconHelper.getIconFromModelWithFlutterColor(
-                iconModel: item.icon, color: style.color),
-            title: Text(item.text,
+                iconModel: item.icon, color: style!.color),
+            title: Text(item.text!,
                 textAlign: TextAlign.center, style: style)));
-        action.menuDef.menuItems.forEach((element) {
+        action.menuDef!.menuItems!.forEach((element) {
           _addWidget(context, widgets, element, style, member);
         });
       } else {
@@ -53,31 +53,31 @@ class DrawerConstructor {
             leading: item.icon == null
                 ? null
                 : IconHelper.getIconFromModelWithFlutterColor(
-                iconModel: item.icon, color: style.color),
-            title: Text(item.text,
+                iconModel: item.icon, color: style!.color),
+            title: Text(item.text!,
                 textAlign: TextAlign.center, style: style),
             onTap: () {
               if (!PageHelper.isActivePage(currentPage, action)) {
-                eliudrouter.Router.navigateTo(context, action);
+                eliudrouter.Router.navigateTo(context, action!);
               }
             }));
       }
     }
   }
 
-  Widget drawer(BuildContext context, DrawerModel drawer) {
+  Widget drawer(BuildContext context, DrawerModel? drawer) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
         var app = theState.app;
-        if (drawer == null) return null;
-        if (drawer.menu == null) return null;
+        if (drawer == null) return Text('Drawer is not defined');
+        if (drawer.menu == null) return Text('Drawer menu not defined');
         var widgets = <Widget>[];
         widgets.add(
           Container(
               height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
               child: DrawerHeader(
                   child: Center(child: Text(
-                    drawer.headerText, // description drawer
+                    drawer.headerText!, // description drawer
                     style: FontTools.textStyle(app.h3),
                   )),
                   decoration:
@@ -85,13 +85,13 @@ class DrawerConstructor {
                       theState, drawer.headerBackground))),
         );
         if ((drawer.secondHeaderText != null) &&
-            (drawer.secondHeaderText.isNotEmpty)) {
+            (drawer.secondHeaderText!.isNotEmpty)) {
           widgets.add(
               Container(
                 height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
                 child: DrawerHeader(
                     child: Center(child: Text(
-                      processDoc(context, drawer.secondHeaderText),
+                      processDoc(context, drawer.secondHeaderText!),
                       style: FontTools.textStyle(app.h4),
                     ))
                 ),
@@ -100,8 +100,8 @@ class DrawerConstructor {
 
         var member = theState is LoggedIn ? theState.member : null;
 
-        for (var i = 0; i < drawer.menu.menuItems.length; i++) {
-          var item = drawer.menu.menuItems[i];
+        for (var i = 0; i < drawer.menu!.menuItems!.length; i++) {
+          var item = drawer.menu!.menuItems![i];
           var style = PageHelper.isActivePage(currentPage, item.action)
               ? FontTools.textStyle(app.h3)
               : FontTools.textStyle(app.h4);

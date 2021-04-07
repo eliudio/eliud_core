@@ -42,7 +42,7 @@ enum PageTransitionAnimation {
 }
 
 
-AppStatus toAppStatus(int index) {
+AppStatus toAppStatus(int? index) {
   switch (index) {
     case 0: return AppStatus.Live;
     case 1: return AppStatus.Offline;
@@ -51,7 +51,7 @@ AppStatus toAppStatus(int index) {
   return AppStatus.Unknown;
 }
 
-DarkOrLight toDarkOrLight(int index) {
+DarkOrLight toDarkOrLight(int? index) {
   switch (index) {
     case 0: return DarkOrLight.Dark;
     case 1: return DarkOrLight.Light;
@@ -59,7 +59,7 @@ DarkOrLight toDarkOrLight(int index) {
   return DarkOrLight.Unknown;
 }
 
-PageTransitionAnimation toPageTransitionAnimation(int index) {
+PageTransitionAnimation toPageTransitionAnimation(int? index) {
   switch (index) {
     case 0: return PageTransitionAnimation.SlideRightToLeft;
     case 1: return PageTransitionAnimation.SlideBottomToTop;
@@ -72,51 +72,51 @@ PageTransitionAnimation toPageTransitionAnimation(int index) {
 
 
 class AppModel {
-  String documentID;
-  String ownerID;
-  String title;
-  String email;
-  String description;
-  AppStatus appStatus;
-  DarkOrLight darkOrLight;
-  AppHomePageReferencesModel homePages;
-  MemberMediumModel logo;
-  RgbModel formSubmitButtonColor;
-  BackgroundModel formBackground;
-  RgbModel formSubmitButtonTextColor;
-  RgbModel formGroupTitleColor;
-  RgbModel formFieldTextColor;
-  RgbModel formFieldHeaderColor;
-  RgbModel formFieldFocusColor;
-  BackgroundModel formAppBarBackground;
-  RgbModel formAppBarTextColor;
-  BackgroundModel listBackground;
-  RgbModel listTextItemColor;
-  RgbModel floatingButtonForegroundColor;
-  RgbModel floatingButtonBackgroundColor;
-  RgbModel dividerColor;
-  RgbModel iconColor;
-  PageTransitionAnimation routeBuilder;
-  int routeAnimationDuration;
+  String? documentID;
+  String? ownerID;
+  String? title;
+  String? email;
+  String? description;
+  AppStatus? appStatus;
+  DarkOrLight? darkOrLight;
+  AppHomePageReferencesModel? homePages;
+  MemberMediumModel? logo;
+  RgbModel? formSubmitButtonColor;
+  BackgroundModel? formBackground;
+  RgbModel? formSubmitButtonTextColor;
+  RgbModel? formGroupTitleColor;
+  RgbModel? formFieldTextColor;
+  RgbModel? formFieldHeaderColor;
+  RgbModel? formFieldFocusColor;
+  BackgroundModel? formAppBarBackground;
+  RgbModel? formAppBarTextColor;
+  BackgroundModel? listBackground;
+  RgbModel? listTextItemColor;
+  RgbModel? floatingButtonForegroundColor;
+  RgbModel? floatingButtonBackgroundColor;
+  RgbModel? dividerColor;
+  RgbModel? iconColor;
+  PageTransitionAnimation? routeBuilder;
+  int? routeAnimationDuration;
 
   // This is a copy of logo.url because logo.url is not accessible as a cross-app document. Hence we copy it into this field.
-  String logoURL;
-  FontModel h1;
-  FontModel h2;
-  FontModel h3;
-  FontModel h4;
-  FontModel h5;
-  FontModel fontText;
-  FontModel fontHighlight1;
-  FontModel fontHighlight2;
-  FontModel fontLink;
-  AppPolicyModel policies;
+  String? logoURL;
+  FontModel? h1;
+  FontModel? h2;
+  FontModel? h3;
+  FontModel? h4;
+  FontModel? h5;
+  FontModel? fontText;
+  FontModel? fontHighlight1;
+  FontModel? fontHighlight2;
+  FontModel? fontLink;
+  AppPolicyModel? policies;
 
   AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logo, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, this.policies, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String documentID, String ownerID, String title, String email, String description, AppStatus appStatus, DarkOrLight darkOrLight, AppHomePageReferencesModel homePages, MemberMediumModel logo, RgbModel formSubmitButtonColor, BackgroundModel formBackground, RgbModel formSubmitButtonTextColor, RgbModel formGroupTitleColor, RgbModel formFieldTextColor, RgbModel formFieldHeaderColor, RgbModel formFieldFocusColor, BackgroundModel formAppBarBackground, RgbModel formAppBarTextColor, BackgroundModel listBackground, RgbModel listTextItemColor, RgbModel floatingButtonForegroundColor, RgbModel floatingButtonBackgroundColor, RgbModel dividerColor, RgbModel iconColor, PageTransitionAnimation routeBuilder, int routeAnimationDuration, String logoURL, FontModel h1, FontModel h2, FontModel h3, FontModel h4, FontModel h5, FontModel fontText, FontModel fontHighlight1, FontModel fontHighlight2, FontModel fontLink, AppPolicyModel policies, }) {
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, DarkOrLight? darkOrLight, AppHomePageReferencesModel? homePages, MemberMediumModel? logo, RgbModel? formSubmitButtonColor, BackgroundModel? formBackground, RgbModel? formSubmitButtonTextColor, RgbModel? formGroupTitleColor, RgbModel? formFieldTextColor, RgbModel? formFieldHeaderColor, RgbModel? formFieldFocusColor, BackgroundModel? formAppBarBackground, RgbModel? formAppBarTextColor, BackgroundModel? listBackground, RgbModel? listTextItemColor, RgbModel? floatingButtonForegroundColor, RgbModel? floatingButtonBackgroundColor, RgbModel? dividerColor, RgbModel? iconColor, PageTransitionAnimation? routeBuilder, int? routeAnimationDuration, String? logoURL, FontModel? h1, FontModel? h2, FontModel? h3, FontModel? h4, FontModel? h5, FontModel? fontText, FontModel? fontHighlight1, FontModel? fontHighlight2, FontModel? fontLink, AppPolicyModel? policies, }) {
     return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, darkOrLight: darkOrLight ?? this.darkOrLight, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, iconColor: iconColor ?? this.iconColor, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, policies: policies ?? this.policies, );
   }
 
@@ -171,49 +171,49 @@ class AppModel {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logo: $logo, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink, policies: $policies}';
   }
 
-  AppEntity toEntity({String appId}) {
-    logoURL = logo != null ? logo.url : null;
+  AppEntity toEntity({String? appId}) {
+    logoURL = logo != null ? logo!.url : null;
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
           email: (email != null) ? email : null, 
           description: (description != null) ? description : null, 
-          appStatus: (appStatus != null) ? appStatus.index : null, 
-          darkOrLight: (darkOrLight != null) ? darkOrLight.index : null, 
-          homePages: (homePages != null) ? homePages.toEntity(appId: appId) : null, 
-          logoId: (logo != null) ? logo.documentID : null, 
-          formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor.toEntity(appId: appId) : null, 
-          formBackgroundId: (formBackground != null) ? formBackground.documentID : null, 
-          formSubmitButtonTextColor: (formSubmitButtonTextColor != null) ? formSubmitButtonTextColor.toEntity(appId: appId) : null, 
-          formGroupTitleColor: (formGroupTitleColor != null) ? formGroupTitleColor.toEntity(appId: appId) : null, 
-          formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor.toEntity(appId: appId) : null, 
-          formFieldHeaderColor: (formFieldHeaderColor != null) ? formFieldHeaderColor.toEntity(appId: appId) : null, 
-          formFieldFocusColor: (formFieldFocusColor != null) ? formFieldFocusColor.toEntity(appId: appId) : null, 
-          formAppBarBackgroundId: (formAppBarBackground != null) ? formAppBarBackground.documentID : null, 
-          formAppBarTextColor: (formAppBarTextColor != null) ? formAppBarTextColor.toEntity(appId: appId) : null, 
-          listBackgroundId: (listBackground != null) ? listBackground.documentID : null, 
-          listTextItemColor: (listTextItemColor != null) ? listTextItemColor.toEntity(appId: appId) : null, 
-          floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor.toEntity(appId: appId) : null, 
-          floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor.toEntity(appId: appId) : null, 
-          dividerColor: (dividerColor != null) ? dividerColor.toEntity(appId: appId) : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
-          routeBuilder: (routeBuilder != null) ? routeBuilder.index : null, 
+          appStatus: (appStatus != null) ? appStatus!.index : null, 
+          darkOrLight: (darkOrLight != null) ? darkOrLight!.index : null, 
+          homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
+          logoId: (logo != null) ? logo!.documentID : null, 
+          formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor!.toEntity(appId: appId) : null, 
+          formBackgroundId: (formBackground != null) ? formBackground!.documentID : null, 
+          formSubmitButtonTextColor: (formSubmitButtonTextColor != null) ? formSubmitButtonTextColor!.toEntity(appId: appId) : null, 
+          formGroupTitleColor: (formGroupTitleColor != null) ? formGroupTitleColor!.toEntity(appId: appId) : null, 
+          formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor!.toEntity(appId: appId) : null, 
+          formFieldHeaderColor: (formFieldHeaderColor != null) ? formFieldHeaderColor!.toEntity(appId: appId) : null, 
+          formFieldFocusColor: (formFieldFocusColor != null) ? formFieldFocusColor!.toEntity(appId: appId) : null, 
+          formAppBarBackgroundId: (formAppBarBackground != null) ? formAppBarBackground!.documentID : null, 
+          formAppBarTextColor: (formAppBarTextColor != null) ? formAppBarTextColor!.toEntity(appId: appId) : null, 
+          listBackgroundId: (listBackground != null) ? listBackground!.documentID : null, 
+          listTextItemColor: (listTextItemColor != null) ? listTextItemColor!.toEntity(appId: appId) : null, 
+          floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor!.toEntity(appId: appId) : null, 
+          floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor!.toEntity(appId: appId) : null, 
+          dividerColor: (dividerColor != null) ? dividerColor!.toEntity(appId: appId) : null, 
+          iconColor: (iconColor != null) ? iconColor!.toEntity(appId: appId) : null, 
+          routeBuilder: (routeBuilder != null) ? routeBuilder!.index : null, 
           routeAnimationDuration: (routeAnimationDuration != null) ? routeAnimationDuration : null, 
           logoURL: (logoURL != null) ? logoURL : null, 
-          h1Id: (h1 != null) ? h1.documentID : null, 
-          h2Id: (h2 != null) ? h2.documentID : null, 
-          h3Id: (h3 != null) ? h3.documentID : null, 
-          h4Id: (h4 != null) ? h4.documentID : null, 
-          h5Id: (h5 != null) ? h5.documentID : null, 
-          fontTextId: (fontText != null) ? fontText.documentID : null, 
-          fontHighlight1Id: (fontHighlight1 != null) ? fontHighlight1.documentID : null, 
-          fontHighlight2Id: (fontHighlight2 != null) ? fontHighlight2.documentID : null, 
-          fontLinkId: (fontLink != null) ? fontLink.documentID : null, 
-          policiesId: (policies != null) ? policies.documentID : null, 
+          h1Id: (h1 != null) ? h1!.documentID : null, 
+          h2Id: (h2 != null) ? h2!.documentID : null, 
+          h3Id: (h3 != null) ? h3!.documentID : null, 
+          h4Id: (h4 != null) ? h4!.documentID : null, 
+          h5Id: (h5 != null) ? h5!.documentID : null, 
+          fontTextId: (fontText != null) ? fontText!.documentID : null, 
+          fontHighlight1Id: (fontHighlight1 != null) ? fontHighlight1!.documentID : null, 
+          fontHighlight2Id: (fontHighlight2 != null) ? fontHighlight2!.documentID : null, 
+          fontLinkId: (fontLink != null) ? fontLink!.documentID : null, 
+          policiesId: (policies != null) ? policies!.documentID : null, 
     );
   }
 
-  static AppModel fromEntity(String documentID, AppEntity entity) {
+  static AppModel? fromEntity(String documentID, AppEntity? entity) {
     if (entity == null) return null;
     return AppModel(
           documentID: documentID, 
@@ -255,130 +255,130 @@ class AppModel {
     );
   }
 
-  static Future<AppModel> fromEntityPlus(String documentID, AppEntity entity, { String appId}) async {
+  static Future<AppModel?> fromEntityPlus(String documentID, AppEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel logoHolder;
+    MemberMediumModel? logoHolder;
     if (entity.logoId != null) {
       try {
-        await memberMediumRepository(appId: appId).get(entity.logoId).then((val) {
+        await memberMediumRepository(appId: appId)!.get(entity.logoId).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel formBackgroundHolder;
+    BackgroundModel? formBackgroundHolder;
     if (entity.formBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.formBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.formBackgroundId).then((val) {
           formBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel formAppBarBackgroundHolder;
+    BackgroundModel? formAppBarBackgroundHolder;
     if (entity.formAppBarBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.formAppBarBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId).then((val) {
           formAppBarBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel listBackgroundHolder;
+    BackgroundModel? listBackgroundHolder;
     if (entity.listBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.listBackgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.listBackgroundId).then((val) {
           listBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h1Holder;
+    FontModel? h1Holder;
     if (entity.h1Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.h1Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.h1Id).then((val) {
           h1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h2Holder;
+    FontModel? h2Holder;
     if (entity.h2Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.h2Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.h2Id).then((val) {
           h2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h3Holder;
+    FontModel? h3Holder;
     if (entity.h3Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.h3Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.h3Id).then((val) {
           h3Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h4Holder;
+    FontModel? h4Holder;
     if (entity.h4Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.h4Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.h4Id).then((val) {
           h4Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel h5Holder;
+    FontModel? h5Holder;
     if (entity.h5Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.h5Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.h5Id).then((val) {
           h5Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontTextHolder;
+    FontModel? fontTextHolder;
     if (entity.fontTextId != null) {
       try {
-        await fontRepository(appId: appId).get(entity.fontTextId).then((val) {
+        await fontRepository(appId: appId)!.get(entity.fontTextId).then((val) {
           fontTextHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontHighlight1Holder;
+    FontModel? fontHighlight1Holder;
     if (entity.fontHighlight1Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.fontHighlight1Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.fontHighlight1Id).then((val) {
           fontHighlight1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontHighlight2Holder;
+    FontModel? fontHighlight2Holder;
     if (entity.fontHighlight2Id != null) {
       try {
-        await fontRepository(appId: appId).get(entity.fontHighlight2Id).then((val) {
+        await fontRepository(appId: appId)!.get(entity.fontHighlight2Id).then((val) {
           fontHighlight2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    FontModel fontLinkHolder;
+    FontModel? fontLinkHolder;
     if (entity.fontLinkId != null) {
       try {
-        await fontRepository(appId: appId).get(entity.fontLinkId).then((val) {
+        await fontRepository(appId: appId)!.get(entity.fontLinkId).then((val) {
           fontLinkHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    AppPolicyModel policiesHolder;
+    AppPolicyModel? policiesHolder;
     if (entity.policiesId != null) {
       try {
-        await appPolicyRepository(appId: appId).get(entity.policiesId).then((val) {
+        await appPolicyRepository(appId: appId)!.get(entity.policiesId).then((val) {
           policiesHolder = val;
         }).catchError((error) {});
       } catch (_) {}

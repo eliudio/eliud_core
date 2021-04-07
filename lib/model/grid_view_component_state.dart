@@ -20,13 +20,13 @@ abstract class GridViewComponentState extends Equatable {
   const GridViewComponentState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class GridViewComponentUninitialized extends GridViewComponentState {}
 
 class GridViewComponentError extends GridViewComponentState {
-  final String message;
+  final String? message;
   GridViewComponentError({ this.message });
 }
 
@@ -35,16 +35,16 @@ class GridViewComponentPermissionDenied extends GridViewComponentState {
 }
 
 class GridViewComponentLoaded extends GridViewComponentState {
-  final GridViewModel value;
+  final GridViewModel? value;
 
   const GridViewComponentLoaded({ this.value });
 
-  GridViewComponentLoaded copyWith({ GridViewModel copyThis }) {
+  GridViewComponentLoaded copyWith({ GridViewModel? copyThis }) {
     return GridViewComponentLoaded(value: copyThis ?? this.value);
   }
 
   @override
-  List<Object> get props => [value];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'GridViewComponentLoaded { value: $value }';

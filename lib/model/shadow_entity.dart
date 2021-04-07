@@ -21,25 +21,25 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ShadowEntity {
-  final String appId;
-  final String comments;
-  final RgbEntity color;
-  final double offsetDX;
-  final double offsetDY;
-  final double spreadRadius;
-  final double blurRadius;
+  final String? appId;
+  final String? comments;
+  final RgbEntity? color;
+  final double? offsetDX;
+  final double? offsetDY;
+  final double? spreadRadius;
+  final double? blurRadius;
 
   ShadowEntity({this.appId, this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, });
 
 
-  List<Object> get props => [appId, comments, color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
+  List<Object?> get props => [appId, comments, color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
 
   @override
   String toString() {
     return 'ShadowEntity{appId: $appId, comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  static ShadowEntity fromMap(Map map) {
+  static ShadowEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var colorFromMap;
@@ -58,12 +58,12 @@ class ShadowEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> colorMap = color != null 
-        ? color.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? colorMap = color != null 
+        ? color!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (comments != null) theDocument["comments"] = comments;
@@ -81,8 +81,8 @@ class ShadowEntity {
     return theDocument;
   }
 
-  static ShadowEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static ShadowEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

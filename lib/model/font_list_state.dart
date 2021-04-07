@@ -20,19 +20,19 @@ abstract class FontListState extends Equatable {
   const FontListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FontListLoading extends FontListState {}
 
 class FontListLoaded extends FontListState {
-  final List<FontModel> values;
-  final bool mightHaveMore;
+  final List<FontModel?>? values;
+  final bool? mightHaveMore;
 
   const FontListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'FontListLoaded { values: $values }';

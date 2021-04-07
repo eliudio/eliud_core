@@ -21,22 +21,22 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class RgbEntity {
-  final int r;
-  final int g;
-  final int b;
-  final double opacity;
+  final int? r;
+  final int? g;
+  final int? b;
+  final double? opacity;
 
   RgbEntity({this.r, this.g, this.b, this.opacity, });
 
 
-  List<Object> get props => [r, g, b, opacity, ];
+  List<Object?> get props => [r, g, b, opacity, ];
 
   @override
   String toString() {
     return 'RgbEntity{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  static RgbEntity fromMap(Map map) {
+  static RgbEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return RgbEntity(
@@ -47,8 +47,8 @@ class RgbEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (r != null) theDocument["r"] = r;
       else theDocument["r"] = null;
     if (g != null) theDocument["g"] = g;
@@ -60,8 +60,8 @@ class RgbEntity {
     return theDocument;
   }
 
-  static RgbEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static RgbEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

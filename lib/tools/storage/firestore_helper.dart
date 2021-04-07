@@ -15,16 +15,16 @@ import 'package:image/image.dart' as imgpackage;
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 
 class MediumData {
-  final String filePath;
-  final int width;
-  final int height;
+  final String? filePath;
+  final int? width;
+  final int? height;
 
   MediumData({this.filePath, this.width, this.height});
 }
 
 class MediumAndItsThumbnailData {
-  final MediumData mediumData;
-  final MediumData thumbNailData;
+  final MediumData? mediumData;
+  final MediumData? thumbNailData;
 
   MediumAndItsThumbnailData({this.mediumData, this.thumbNailData});
 }
@@ -44,7 +44,7 @@ class ThumbnailHelper {
         , targetHeight: thumbnailSize, targetWidth: thumbnailSize);
     var frameInfo = await codec.getNextFrame();
     var thumbnailImage = frameInfo.image;
-    var thumbnailBytes = await thumbnailImage.toByteData();
+    var thumbnailBytes = await (thumbnailImage.toByteData() as FutureOr<ByteData>);
     await File(thumbNameFilePath).writeAsBytes(
         thumbnailBytes.buffer.asUint8List(thumbnailBytes.offsetInBytes, thumbnailBytes.lengthInBytes));
 
@@ -69,7 +69,7 @@ class ThumbnailHelper {
 
   Future<MediumAndItsThumbnailData> doOperation() {
     _startOperation();
-    return _completer.future; // Send future object back to client.
+    return _completer.future.then((value) => value as MediumAndItsThumbnailData); // Send future object back to client.
   }
 
   // Something calls this when the value is ready.
@@ -120,7 +120,7 @@ class UploadFile {
    * Create a thumbnail from a photo
    */
   static Future<MediumAndItsThumbnailData> _createThumbNailFromPhoto(String filePath) async {
-    var img = imgpackage.decodeImage(File(filePath).readAsBytesSync());
+    var img = imgpackage.decodeImage(File(filePath).readAsBytesSync())!;
     var thumbnailWidth;
     var thumbnailHeight;
     if (img.width > img.height) {
@@ -166,7 +166,7 @@ class UploadFile {
 */
   }
 
-  static Future<UploadInfo> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
+  static Future<UploadInfo?> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {
     File file = File(filePath);
     try {
       var baseName = context.basename(filePath);
@@ -186,6 +186,7 @@ class UploadFile {
       print(e);
       // e.g, e.code == 'canceled'
     }
+    return null;
   }
 
   /*
@@ -213,24 +214,24 @@ class UploadFile {
     var photoData = await _createThumbNailFromPhoto(filePath);
 
     // Third, upload the thumnail;
-    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
       documentID: newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      ref: fileInfo.ref,
-      url: fileInfo.url,
+      ref: fileInfo == null ? null : fileInfo.ref,
+      url: fileInfo == null ? null : fileInfo.url,
       readAccess: readAccess,
       mediumType: MediumType.Photo,
-      urlThumbnail: fileInfoThumbnail.url,
-      mediumWidth: photoData.mediumData.width,
-      mediumHeight: photoData.mediumData.height,
-      thumbnailWidth: photoData.thumbNailData.width,
-      thumbnailHeight: photoData.thumbNailData.height,
+      urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+      mediumWidth: photoData.mediumData!.width,
+      mediumHeight: photoData.mediumData!.height,
+      thumbnailWidth: photoData.thumbNailData!.width,
+      thumbnailHeight: photoData.thumbNailData!.height,
     );
-    return memberMediumRepository(appId: appId).add(memberImageModel);
+    return memberMediumRepository(appId: appId)!.add(memberImageModel);
   }
 
   /*
@@ -258,25 +259,25 @@ class UploadFile {
     var videoData = await _createThumbNailFromVideo(filePath);
 
     // Third, upload the thumbnail;
-    var fileInfoThumbnail = await _uploadFile(videoData.thumbNailData.filePath, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(videoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
       documentID: newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      ref: fileInfoThumbnail.ref,
-      url: fileInfoThumbnail.url,
+      ref: fileInfoThumbnail == null ? null : fileInfoThumbnail.ref,
+      url: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
       readAccess: readAccess,
       mediumType: MediumType.Video,
-      urlThumbnail: fileInfoThumbnail.url,
-      mediumWidth: videoData.mediumData.width,
-      mediumHeight: videoData.mediumData.height,
-      thumbnailWidth: videoData.thumbNailData.width,
-      thumbnailHeight: videoData.thumbNailData.height,
+      urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+      mediumWidth: videoData.mediumData!.width,
+      mediumHeight: videoData.mediumData!.height,
+      thumbnailWidth: videoData.thumbNailData!.width,
+      thumbnailHeight: videoData.thumbNailData!.height,
     );
 
-    return memberMediumRepository(appId: appId).add(memberImageModel);
+    return memberMediumRepository(appId: appId)!.add(memberImageModel);
   }
 
   /*
@@ -285,12 +286,12 @@ class UploadFile {
   static Future<MediumAndItsThumbnailData> _createImageFromPdfPage(String filePath, int pageNumber, bool thumbNail) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
-    final pageImage = await page.render(width: page.width, height: page.height);
-    imgpackage.Image img = imgpackage.decodeImage(pageImage.bytes);
+    final pageImage = await (page.render(width: page.width, height: page.height) as FutureOr<PdfPageImage>);
+    imgpackage.Image? img = imgpackage.decodeImage(pageImage.bytes);
     if (thumbNail) {
       var thumbnailWidth;
       var thumbnailHeight;
-      if (img.width > img.height) {
+      if (img!.width > img.height) {
         thumbnailWidth = thumbnailSize;
       } else {
         thumbnailHeight = thumbnailSize;
@@ -309,7 +310,7 @@ class UploadFile {
     } else {
       var imageFilePath = filePath + '.page' + pageNumber.toString() + '.png';
       File(imageFilePath)
-        ..writeAsBytesSync(imgpackage.encodePng(img));
+        ..writeAsBytesSync(imgpackage.encodePng(img!));
 
       return MediumAndItsThumbnailData(
           mediumData: MediumData(width: img.width,
@@ -332,7 +333,7 @@ class UploadFile {
    * ownerId is the memberId
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
-  static Future<MemberMediumModel> createThumbnailUploadPdfAsset(String appId, String assetPath, String ownerId, List<String> readAccess, {String documentID}) async {
+  static Future<MemberMediumModel> createThumbnailUploadPdfAsset(String appId, String assetPath, String ownerId, List<String> readAccess, {String? documentID}) async {
     var filePath = await _getFileFromAssets(assetPath);
 
     return createThumbnailUploadPdfFile(appId, filePath, ownerId, readAccess, documentID: documentID);
@@ -344,7 +345,7 @@ class UploadFile {
    * ownerId is the memberId
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
-  static Future<MemberMediumModel> createThumbnailUploadPdfFile(String appId, String filePath, String ownerId, List<String> readAccess, {String documentID}) async {
+  static Future<MemberMediumModel> createThumbnailUploadPdfFile(String appId, String filePath, String ownerId, List<String> readAccess, {String? documentID}) async {
     // First, upload the file
     var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
 
@@ -352,24 +353,24 @@ class UploadFile {
     var photoData = await _createThumbNailFromPdf(filePath);
 
     // Third, upload the thumbnail;
-    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData.filePath, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
     // Now create extra MemberImageModels for each page
     final document = await PdfDocument.openFile(filePath);
     final pageCount = await document.pagesCount;
-    var previousMediumId = null;
+    dynamic previousMediumId = null;
     for (var i = pageCount; i >= 1; i--) {
       // First, create the thumbnail
       var pageData = await _createImageFromPdfPage(filePath, i, true);
 
       // Second, upload the thumbnail;
-      var pageThumbnail = await _uploadFile(pageData.thumbNailData.filePath, appId, ownerId, readAccess);
+      var pageThumbnail = await _uploadFile(pageData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
       // Third, create image
       var imageFromPdf = await _createImageFromPdfPage(filePath, i, false);
 
       // Forth, upload the image
-      var pageImage = await _uploadFile(imageFromPdf.mediumData.filePath, appId, ownerId, readAccess);
+      var pageImage = await _uploadFile(imageFromPdf.mediumData!.filePath!, appId, ownerId, readAccess);
 
       var documentID = newRandomKey();
       // Forth, upload the file;
@@ -377,19 +378,19 @@ class UploadFile {
         documentID: documentID,
         appId: appId,
         authorId: ownerId,
-        url: pageImage.url,
-        ref: pageImage.ref,
-        urlThumbnail: pageThumbnail.url,
+        url: pageImage == null ? null : pageImage.url,
+        ref: pageImage == null ? null : pageImage.ref,
+        urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
         mediumType: MediumType.Photo,
-        mediumWidth: imageFromPdf.mediumData.width,
-        mediumHeight: imageFromPdf.mediumData.height,
+        mediumWidth: imageFromPdf.mediumData!.width,
+        mediumHeight: imageFromPdf.mediumData!.height,
         readAccess: readAccess,
-        thumbnailWidth: pageData.thumbNailData.width,
-        thumbnailHeight: pageData.thumbNailData.height,
+        thumbnailWidth: pageData.thumbNailData!.width,
+        thumbnailHeight: pageData.thumbNailData!.height,
         relatedMediumId: previousMediumId
       );
       previousMediumId = documentID;
-      await memberMediumRepository(appId: appId).add(pageImageModel);
+      await memberMediumRepository(appId: appId)!.add(pageImageModel);
     }
 
     // Create the MemberImageModel
@@ -397,21 +398,21 @@ class UploadFile {
       documentID: documentID != null ? documentID : newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      url: fileInfo.url,
-      ref: fileInfo.ref,
+      url: fileInfo == null ? null : fileInfo.url,
+      ref: fileInfo == null ? null : fileInfo.ref,
       readAccess: readAccess,
       mediumType: MediumType.Pdf,
-      urlThumbnail: fileInfoThumbnail.url,
-      thumbnailWidth: photoData.thumbNailData.width,
-      thumbnailHeight: photoData.thumbNailData.height,
+      urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+      thumbnailWidth: photoData.thumbNailData!.width,
+      thumbnailHeight: photoData.thumbNailData!.height,
       relatedMediumId: previousMediumId
     );
-    return await memberMediumRepository(appId: appId).add(memberImageModel);
+    return await memberMediumRepository(appId: appId)!.add(memberImageModel);
   }
 }
 
 class DownloadFile {
-  static Future<Uint8List> downloadFile(MemberMediumModel medium) async {
+  static Future<Uint8List?> downloadFile(MemberMediumModel medium) async {
     try {
       var downloadTask = await firebase_storage.FirebaseStorage.instance
           .ref(medium.ref);
@@ -426,15 +427,15 @@ class DownloadFile {
 }
 
 class MediumInfo {
-  final int width;
-  final int height;
-  final String url;
+  final int? width;
+  final int? height;
+  final String? url;
 
   MediumInfo(this.width, this.height, this.url);
 }
 
 class ChainOfMediumModels {
-  static void _addUrl(List<String> urls, MemberMediumModel currentPolicy) {
+  static void _addUrl(List<String?> urls, MemberMediumModel currentPolicy) {
     if (currentPolicy.mediumType == MediumType.Photo) {
       urls.add(currentPolicy.url);
     }
@@ -446,23 +447,23 @@ class ChainOfMediumModels {
     }
   }
 
-  static Future<List<String>> getChainOfUrls(String appId, MemberMediumModel memberMediumModel) async {
-    List<String> urls = [];
+  static Future<List<String?>> getChainOfUrls(String appId, MemberMediumModel memberMediumModel) async {
+    List<String?> urls = [];
     var currentPolicy = memberMediumModel;
     _addUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
-      currentPolicy = await memberMediumRepository(appId: appId).get(currentPolicy.relatedMediumId);
+      currentPolicy = await (memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId) as FutureOr<MemberMediumModel>);
       _addUrl(urls, currentPolicy);
     }
     return urls;
   }
 
-  static Future<List<MediumInfo>> getChainOfMediumInfo(String appId, MemberMediumModel memberMediumModel) async {
+  static Future<List<MediumInfo>> getChainOfMediumInfo(String? appId, MemberMediumModel memberMediumModel) async {
     List<MediumInfo> infos = [];
     var currentPolicy = memberMediumModel;
     _addInfo(infos, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
-      currentPolicy = await memberMediumRepository(appId: appId).get(currentPolicy.relatedMediumId);
+      currentPolicy = await (memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId) as FutureOr<MemberMediumModel>);
       _addInfo(infos, currentPolicy);
     }
     return infos;

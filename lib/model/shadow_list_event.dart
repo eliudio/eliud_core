@@ -19,7 +19,7 @@ import 'package:eliud_core/model/shadow_model.dart';
 abstract class ShadowListEvent extends Equatable {
   const ShadowListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadShadowList extends ShadowListEvent {}
@@ -27,49 +27,49 @@ class LoadShadowList extends ShadowListEvent {}
 class NewPage extends ShadowListEvent {}
 
 class AddShadowList extends ShadowListEvent {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   const AddShadowList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddShadowList{ value: $value }';
 }
 
 class UpdateShadowList extends ShadowListEvent {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   const UpdateShadowList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateShadowList{ value: $value }';
 }
 
 class DeleteShadowList extends ShadowListEvent {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   const DeleteShadowList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteShadowList{ value: $value }';
 }
 
 class ShadowListUpdated extends ShadowListEvent {
-  final List<ShadowModel> value;
-  final bool mightHaveMore;
+  final List<ShadowModel?>? value;
+  final bool? mightHaveMore;
 
   const ShadowListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'ShadowListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

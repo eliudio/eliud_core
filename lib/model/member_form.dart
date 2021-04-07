@@ -58,10 +58,10 @@ import 'package:eliud_core/model/member_form_state.dart';
 
 class MemberForm extends StatelessWidget {
   FormAction formAction;
-  MemberModel value;
-  ActionModel submitAction;
+  MemberModel? value;
+  ActionModel? submitAction;
 
-  MemberForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class MemberForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class MemberForm extends StatelessWidget {
 
 
 class MyMemberForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberForm({this.formAction, this.submitAction});
 
@@ -119,8 +119,8 @@ class MyMemberForm extends StatefulWidget {
 
 
 class _MyMemberFormState extends State<MyMemberForm> {
-  final FormAction formAction;
-  MemberFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -130,16 +130,16 @@ class _MyMemberFormState extends State<MyMemberForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String _country;
-  bool _invoiceSameSelection;
+  String? _country;
+  bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String _invoiceCountry;
+  String? _invoiceCountry;
   final TextEditingController _emailController = TextEditingController();
-  bool _isAnonymousSelection;
+  bool? _isAnonymousSelection;
 
 
   _MyMemberFormState(this.formAction);
@@ -176,87 +176,87 @@ class _MyMemberFormState extends State<MyMemberForm> {
       );
 
       if (state is MemberFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.photoURL != null)
-          _photoURLController.text = state.value.photoURL.toString();
+        if (state.value!.photoURL != null)
+          _photoURLController.text = state.value!.photoURL.toString();
         else
           _photoURLController.text = "";
-        if (state.value.shipStreet1 != null)
-          _shipStreet1Controller.text = state.value.shipStreet1.toString();
+        if (state.value!.shipStreet1 != null)
+          _shipStreet1Controller.text = state.value!.shipStreet1.toString();
         else
           _shipStreet1Controller.text = "";
-        if (state.value.shipStreet2 != null)
-          _shipStreet2Controller.text = state.value.shipStreet2.toString();
+        if (state.value!.shipStreet2 != null)
+          _shipStreet2Controller.text = state.value!.shipStreet2.toString();
         else
           _shipStreet2Controller.text = "";
-        if (state.value.shipCity != null)
-          _shipCityController.text = state.value.shipCity.toString();
+        if (state.value!.shipCity != null)
+          _shipCityController.text = state.value!.shipCity.toString();
         else
           _shipCityController.text = "";
-        if (state.value.shipState != null)
-          _shipStateController.text = state.value.shipState.toString();
+        if (state.value!.shipState != null)
+          _shipStateController.text = state.value!.shipState.toString();
         else
           _shipStateController.text = "";
-        if (state.value.postcode != null)
-          _postcodeController.text = state.value.postcode.toString();
+        if (state.value!.postcode != null)
+          _postcodeController.text = state.value!.postcode.toString();
         else
           _postcodeController.text = "";
-        if (state.value.country != null)
-          _country= state.value.country.documentID;
+        if (state.value!.country != null)
+          _country= state.value!.country!.documentID;
         else
           _country= "";
-        if (state.value.invoiceSame != null)
-        _invoiceSameSelection = state.value.invoiceSame;
+        if (state.value!.invoiceSame != null)
+        _invoiceSameSelection = state.value!.invoiceSame;
         else
         _invoiceSameSelection = false;
-        if (state.value.invoiceStreet1 != null)
-          _invoiceStreet1Controller.text = state.value.invoiceStreet1.toString();
+        if (state.value!.invoiceStreet1 != null)
+          _invoiceStreet1Controller.text = state.value!.invoiceStreet1.toString();
         else
           _invoiceStreet1Controller.text = "";
-        if (state.value.invoiceStreet2 != null)
-          _invoiceStreet2Controller.text = state.value.invoiceStreet2.toString();
+        if (state.value!.invoiceStreet2 != null)
+          _invoiceStreet2Controller.text = state.value!.invoiceStreet2.toString();
         else
           _invoiceStreet2Controller.text = "";
-        if (state.value.invoiceCity != null)
-          _invoiceCityController.text = state.value.invoiceCity.toString();
+        if (state.value!.invoiceCity != null)
+          _invoiceCityController.text = state.value!.invoiceCity.toString();
         else
           _invoiceCityController.text = "";
-        if (state.value.invoiceState != null)
-          _invoiceStateController.text = state.value.invoiceState.toString();
+        if (state.value!.invoiceState != null)
+          _invoiceStateController.text = state.value!.invoiceState.toString();
         else
           _invoiceStateController.text = "";
-        if (state.value.invoicePostcode != null)
-          _invoicePostcodeController.text = state.value.invoicePostcode.toString();
+        if (state.value!.invoicePostcode != null)
+          _invoicePostcodeController.text = state.value!.invoicePostcode.toString();
         else
           _invoicePostcodeController.text = "";
-        if (state.value.invoiceCountry != null)
-          _invoiceCountry= state.value.invoiceCountry.documentID;
+        if (state.value!.invoiceCountry != null)
+          _invoiceCountry= state.value!.invoiceCountry!.documentID;
         else
           _invoiceCountry= "";
-        if (state.value.email != null)
-          _emailController.text = state.value.email.toString();
+        if (state.value!.email != null)
+          _emailController.text = state.value!.email.toString();
         else
           _emailController.text = "";
-        if (state.value.isAnonymous != null)
-        _isAnonymousSelection = state.value.isAnonymous;
+        if (state.value!.isAnonymous != null)
+        _isAnonymousSelection = state.value!.isAnonymous;
         else
         _isAnonymousSelection = false;
       }
       if (state is MemberFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -354,7 +354,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(context, state.value.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(context, state.value!.subscriptions, _onSubscriptionsChanged)
                 )
           );
 
@@ -523,7 +523,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.invoiceSame == null) || (!state.value.invoiceSame)) children.add(Container(
+        if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Address',
@@ -541,7 +541,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                     }),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -559,7 +559,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -577,7 +577,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -595,7 +595,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -613,7 +613,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -636,7 +636,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.invoiceSame == null) || (!state.value.invoiceSame)) children.add(Container(
+        if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Country',
@@ -644,7 +644,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
           );
@@ -663,57 +663,57 @@ class _MyMemberFormState extends State<MyMemberForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
-                          UpdateMemberList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
-                              subscriptionsAsString: state.value.subscriptionsAsString, 
-                              photoURL: state.value.photoURL, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
-                              readAccess: state.value.readAccess, 
-                              email: state.value.email, 
-                              isAnonymous: state.value.isAnonymous, 
+                          UpdateMemberList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              name: state.value!.name, 
+                              subscriptions: state.value!.subscriptions, 
+                              subscriptionsAsString: state.value!.subscriptionsAsString, 
+                              photoURL: state.value!.photoURL, 
+                              shipStreet1: state.value!.shipStreet1, 
+                              shipStreet2: state.value!.shipStreet2, 
+                              shipCity: state.value!.shipCity, 
+                              shipState: state.value!.shipState, 
+                              postcode: state.value!.postcode, 
+                              country: state.value!.country, 
+                              invoiceSame: state.value!.invoiceSame, 
+                              invoiceStreet1: state.value!.invoiceStreet1, 
+                              invoiceStreet2: state.value!.invoiceStreet2, 
+                              invoiceCity: state.value!.invoiceCity, 
+                              invoiceState: state.value!.invoiceState, 
+                              invoicePostcode: state.value!.invoicePostcode, 
+                              invoiceCountry: state.value!.invoiceCountry, 
+                              readAccess: state.value!.readAccess, 
+                              email: state.value!.email, 
+                              isAnonymous: state.value!.isAnonymous, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              documentID: state.value.documentID, 
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
-                              subscriptionsAsString: state.value.subscriptionsAsString, 
-                              photoURL: state.value.photoURL, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
-                              readAccess: state.value.readAccess, 
-                              email: state.value.email, 
-                              isAnonymous: state.value.isAnonymous, 
+                              documentID: state.value!.documentID, 
+                              name: state.value!.name, 
+                              subscriptions: state.value!.subscriptions, 
+                              subscriptionsAsString: state.value!.subscriptionsAsString, 
+                              photoURL: state.value!.photoURL, 
+                              shipStreet1: state.value!.shipStreet1, 
+                              shipStreet2: state.value!.shipStreet2, 
+                              shipCity: state.value!.shipCity, 
+                              shipState: state.value!.shipState, 
+                              postcode: state.value!.postcode, 
+                              country: state.value!.country, 
+                              invoiceSame: state.value!.invoiceSame, 
+                              invoiceStreet1: state.value!.invoiceStreet1, 
+                              invoiceStreet2: state.value!.invoiceStreet2, 
+                              invoiceCity: state.value!.invoiceCity, 
+                              invoiceState: state.value!.invoiceState, 
+                              invoicePostcode: state.value!.invoicePostcode, 
+                              invoiceCountry: state.value!.invoiceCountry, 
+                              readAccess: state.value!.readAccess, 
+                              email: state.value!.email, 
+                              isAnonymous: state.value!.isAnonymous, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -733,7 +733,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -803,7 +803,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
   }
 
 
-  void setSelectionInvoiceSame(bool val) {
+  void setSelectionInvoiceSame(bool? val) {
     setState(() {
       _invoiceSameSelection = val;
     });
@@ -854,7 +854,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
   }
 
 
-  void setSelectionIsAnonymous(bool val) {
+  void setSelectionIsAnonymous(bool? val) {
     setState(() {
       _isAnonymousSelection = val;
     });
@@ -882,7 +882,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value!.documentID)));
   }
   
 
@@ -892,10 +892,10 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 class MemberSmallForm extends StatelessWidget {
   FormAction formAction;
-  MemberModel value;
-  ActionModel submitAction;
+  MemberModel? value;
+  ActionModel? submitAction;
 
-  MemberSmallForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberSmallForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -921,12 +921,12 @@ class MemberSmallForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -943,8 +943,8 @@ class MemberSmallForm extends StatelessWidget {
 
 
 class MyMemberSmallForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberSmallForm({this.formAction, this.submitAction});
 
@@ -953,8 +953,8 @@ class MyMemberSmallForm extends StatefulWidget {
 
 
 class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
-  final FormAction formAction;
-  MemberFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberFormBloc _myFormBloc;
 
   final TextEditingController _nameController = TextEditingController();
 
@@ -978,8 +978,8 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
       );
 
       if (state is MemberFormLoaded) {
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
       }
@@ -990,7 +990,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -1028,7 +1028,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(context, state.value.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(context, state.value!.subscriptions, _onSubscriptionsChanged)
                 )
           );
 
@@ -1046,19 +1046,19 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
-                          UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
+                          UpdateMemberList(value: state.value!.copyWith(
+                              name: state.value!.name, 
+                              subscriptions: state.value!.subscriptions, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name, 
-                              subscriptions: state.value.subscriptions, 
+                              name: state.value!.name, 
+                              subscriptions: state.value!.subscriptions, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -1107,7 +1107,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value!.documentID)));
   }
   
 
@@ -1117,10 +1117,10 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 class MemberAddressForm extends StatelessWidget {
   FormAction formAction;
-  MemberModel value;
-  ActionModel submitAction;
+  MemberModel? value;
+  ActionModel? submitAction;
 
-  MemberAddressForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberAddressForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1146,12 +1146,12 @@ class MemberAddressForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -1168,8 +1168,8 @@ class MemberAddressForm extends StatelessWidget {
 
 
 class MyMemberAddressForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberAddressForm({this.formAction, this.submitAction});
 
@@ -1178,8 +1178,8 @@ class MyMemberAddressForm extends StatefulWidget {
 
 
 class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
-  final FormAction formAction;
-  MemberFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberFormBloc _myFormBloc;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -1188,14 +1188,14 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String _country;
-  bool _invoiceSameSelection;
+  String? _country;
+  bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String _invoiceCountry;
+  String? _invoiceCountry;
 
 
   _MyMemberAddressFormState(this.formAction);
@@ -1229,75 +1229,75 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
       );
 
       if (state is MemberFormLoaded) {
-        if (state.value.name != null)
-          _nameController.text = state.value.name.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value.email != null)
-          _emailController.text = state.value.email.toString();
+        if (state.value!.email != null)
+          _emailController.text = state.value!.email.toString();
         else
           _emailController.text = "";
-        if (state.value.shipStreet1 != null)
-          _shipStreet1Controller.text = state.value.shipStreet1.toString();
+        if (state.value!.shipStreet1 != null)
+          _shipStreet1Controller.text = state.value!.shipStreet1.toString();
         else
           _shipStreet1Controller.text = "";
-        if (state.value.shipStreet2 != null)
-          _shipStreet2Controller.text = state.value.shipStreet2.toString();
+        if (state.value!.shipStreet2 != null)
+          _shipStreet2Controller.text = state.value!.shipStreet2.toString();
         else
           _shipStreet2Controller.text = "";
-        if (state.value.shipCity != null)
-          _shipCityController.text = state.value.shipCity.toString();
+        if (state.value!.shipCity != null)
+          _shipCityController.text = state.value!.shipCity.toString();
         else
           _shipCityController.text = "";
-        if (state.value.shipState != null)
-          _shipStateController.text = state.value.shipState.toString();
+        if (state.value!.shipState != null)
+          _shipStateController.text = state.value!.shipState.toString();
         else
           _shipStateController.text = "";
-        if (state.value.postcode != null)
-          _postcodeController.text = state.value.postcode.toString();
+        if (state.value!.postcode != null)
+          _postcodeController.text = state.value!.postcode.toString();
         else
           _postcodeController.text = "";
-        if (state.value.country != null)
-          _country= state.value.country.documentID;
+        if (state.value!.country != null)
+          _country= state.value!.country!.documentID;
         else
           _country= "";
-        if (state.value.invoiceSame != null)
-        _invoiceSameSelection = state.value.invoiceSame;
+        if (state.value!.invoiceSame != null)
+        _invoiceSameSelection = state.value!.invoiceSame;
         else
         _invoiceSameSelection = false;
-        if (state.value.invoiceStreet1 != null)
-          _invoiceStreet1Controller.text = state.value.invoiceStreet1.toString();
+        if (state.value!.invoiceStreet1 != null)
+          _invoiceStreet1Controller.text = state.value!.invoiceStreet1.toString();
         else
           _invoiceStreet1Controller.text = "";
-        if (state.value.invoiceStreet2 != null)
-          _invoiceStreet2Controller.text = state.value.invoiceStreet2.toString();
+        if (state.value!.invoiceStreet2 != null)
+          _invoiceStreet2Controller.text = state.value!.invoiceStreet2.toString();
         else
           _invoiceStreet2Controller.text = "";
-        if (state.value.invoiceCity != null)
-          _invoiceCityController.text = state.value.invoiceCity.toString();
+        if (state.value!.invoiceCity != null)
+          _invoiceCityController.text = state.value!.invoiceCity.toString();
         else
           _invoiceCityController.text = "";
-        if (state.value.invoiceState != null)
-          _invoiceStateController.text = state.value.invoiceState.toString();
+        if (state.value!.invoiceState != null)
+          _invoiceStateController.text = state.value!.invoiceState.toString();
         else
           _invoiceStateController.text = "";
-        if (state.value.invoicePostcode != null)
-          _invoicePostcodeController.text = state.value.invoicePostcode.toString();
+        if (state.value!.invoicePostcode != null)
+          _invoicePostcodeController.text = state.value!.invoicePostcode.toString();
         else
           _invoicePostcodeController.text = "";
-        if (state.value.invoiceCountry != null)
-          _invoiceCountry= state.value.invoiceCountry.documentID;
+        if (state.value!.invoiceCountry != null)
+          _invoiceCountry= state.value!.invoiceCountry!.documentID;
         else
           _invoiceCountry= "";
       }
       if (state is MemberFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -1462,7 +1462,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.invoiceSame == null) || (!state.value.invoiceSame)) children.add(Container(
+        if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Address',
@@ -1480,7 +1480,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                     }),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -1498,7 +1498,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -1516,7 +1516,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -1534,7 +1534,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -1552,7 +1552,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                 ),
           );
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
                 style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
@@ -1575,7 +1575,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if ((state.value.invoiceSame == null) || (!state.value.invoiceSame)) children.add(Container(
+        if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Country',
@@ -1583,7 +1583,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if (((state.value.invoiceSame == null) || (!state.value.invoiceSame))) children.add(
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
           );
@@ -1602,45 +1602,45 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
-                          UpdateMemberList(value: state.value.copyWith(
-                              name: state.value.name, 
-                              email: state.value.email, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
+                          UpdateMemberList(value: state.value!.copyWith(
+                              name: state.value!.name, 
+                              email: state.value!.email, 
+                              shipStreet1: state.value!.shipStreet1, 
+                              shipStreet2: state.value!.shipStreet2, 
+                              shipCity: state.value!.shipCity, 
+                              shipState: state.value!.shipState, 
+                              postcode: state.value!.postcode, 
+                              country: state.value!.country, 
+                              invoiceSame: state.value!.invoiceSame, 
+                              invoiceStreet1: state.value!.invoiceStreet1, 
+                              invoiceStreet2: state.value!.invoiceStreet2, 
+                              invoiceCity: state.value!.invoiceCity, 
+                              invoiceState: state.value!.invoiceState, 
+                              invoicePostcode: state.value!.invoicePostcode, 
+                              invoiceCountry: state.value!.invoiceCountry, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
-                              name: state.value.name, 
-                              email: state.value.email, 
-                              shipStreet1: state.value.shipStreet1, 
-                              shipStreet2: state.value.shipStreet2, 
-                              shipCity: state.value.shipCity, 
-                              shipState: state.value.shipState, 
-                              postcode: state.value.postcode, 
-                              country: state.value.country, 
-                              invoiceSame: state.value.invoiceSame, 
-                              invoiceStreet1: state.value.invoiceStreet1, 
-                              invoiceStreet2: state.value.invoiceStreet2, 
-                              invoiceCity: state.value.invoiceCity, 
-                              invoiceState: state.value.invoiceState, 
-                              invoicePostcode: state.value.invoicePostcode, 
-                              invoiceCountry: state.value.invoiceCountry, 
+                              name: state.value!.name, 
+                              email: state.value!.email, 
+                              shipStreet1: state.value!.shipStreet1, 
+                              shipStreet2: state.value!.shipStreet2, 
+                              shipCity: state.value!.shipCity, 
+                              shipState: state.value!.shipState, 
+                              postcode: state.value!.postcode, 
+                              country: state.value!.country, 
+                              invoiceSame: state.value!.invoiceSame, 
+                              invoiceStreet1: state.value!.invoiceStreet1, 
+                              invoiceStreet2: state.value!.invoiceStreet2, 
+                              invoiceCity: state.value!.invoiceCity, 
+                              invoiceState: state.value!.invoiceState, 
+                              invoicePostcode: state.value!.invoicePostcode, 
+                              invoiceCountry: state.value!.invoiceCountry, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -1660,7 +1660,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -1713,7 +1713,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   }
 
 
-  void setSelectionInvoiceSame(bool val) {
+  void setSelectionInvoiceSame(bool? val) {
     setState(() {
       _invoiceSameSelection = val;
     });
@@ -1772,7 +1772,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value.documentID)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!((accessState is LoggedIn) && (accessState.member.documentID == state.value!.documentID)));
   }
   
 

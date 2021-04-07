@@ -21,7 +21,7 @@ abstract class FontComponentEvent extends Equatable {
 }
 
 class FetchFontComponent extends FontComponentEvent {
-  final String id;
+  final String? id;
 
   FetchFontComponent({ this.id });
 }

@@ -58,10 +58,10 @@ import 'package:eliud_core/model/member_medium_form_state.dart';
 
 class MemberMediumForm extends StatelessWidget {
   FormAction formAction;
-  MemberMediumModel value;
-  ActionModel submitAction;
+  MemberMediumModel? value;
+  ActionModel? submitAction;
 
-  MemberMediumForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MemberMediumForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class MemberMediumForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class MemberMediumForm extends StatelessWidget {
 
 
 class MyMemberMediumForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMemberMediumForm({this.formAction, this.submitAction});
 
@@ -122,8 +122,8 @@ class MyMemberMediumForm extends StatefulWidget {
 
 
 class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
-  final FormAction formAction;
-  MemberMediumFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MemberMediumFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
@@ -131,7 +131,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
-  int _mediumTypeSelectedRadioTile;
+  int? _mediumTypeSelectedRadioTile;
   final TextEditingController _mediumWidthController = TextEditingController();
   final TextEditingController _mediumHeightController = TextEditingController();
   final TextEditingController _thumbnailWidthController = TextEditingController();
@@ -169,52 +169,52 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
       );
 
       if (state is MemberMediumFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.authorId != null)
-          _authorIdController.text = state.value.authorId.toString();
+        if (state.value!.authorId != null)
+          _authorIdController.text = state.value!.authorId.toString();
         else
           _authorIdController.text = "";
-        if (state.value.url != null)
-          _urlController.text = state.value.url.toString();
+        if (state.value!.url != null)
+          _urlController.text = state.value!.url.toString();
         else
           _urlController.text = "";
-        if (state.value.ref != null)
-          _refController.text = state.value.ref.toString();
+        if (state.value!.ref != null)
+          _refController.text = state.value!.ref.toString();
         else
           _refController.text = "";
-        if (state.value.urlThumbnail != null)
-          _urlThumbnailController.text = state.value.urlThumbnail.toString();
+        if (state.value!.urlThumbnail != null)
+          _urlThumbnailController.text = state.value!.urlThumbnail.toString();
         else
           _urlThumbnailController.text = "";
-        if (state.value.mediumType != null)
-          _mediumTypeSelectedRadioTile = state.value.mediumType.index;
+        if (state.value!.mediumType != null)
+          _mediumTypeSelectedRadioTile = state.value!.mediumType!.index;
         else
           _mediumTypeSelectedRadioTile = 0;
-        if (state.value.mediumWidth != null)
-          _mediumWidthController.text = state.value.mediumWidth.toString();
+        if (state.value!.mediumWidth != null)
+          _mediumWidthController.text = state.value!.mediumWidth.toString();
         else
           _mediumWidthController.text = "";
-        if (state.value.mediumHeight != null)
-          _mediumHeightController.text = state.value.mediumHeight.toString();
+        if (state.value!.mediumHeight != null)
+          _mediumHeightController.text = state.value!.mediumHeight.toString();
         else
           _mediumHeightController.text = "";
-        if (state.value.thumbnailWidth != null)
-          _thumbnailWidthController.text = state.value.thumbnailWidth.toString();
+        if (state.value!.thumbnailWidth != null)
+          _thumbnailWidthController.text = state.value!.thumbnailWidth.toString();
         else
           _thumbnailWidthController.text = "";
-        if (state.value.thumbnailHeight != null)
-          _thumbnailHeightController.text = state.value.thumbnailHeight.toString();
+        if (state.value!.thumbnailHeight != null)
+          _thumbnailHeightController.text = state.value!.thumbnailHeight.toString();
         else
           _thumbnailHeightController.text = "";
-        if (state.value.relatedMediumId != null)
-          _relatedMediumIdController.text = state.value.relatedMediumId.toString();
+        if (state.value!.relatedMediumId != null)
+          _relatedMediumIdController.text = state.value!.relatedMediumId.toString();
         else
           _relatedMediumIdController.text = "";
       }
@@ -225,7 +225,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -308,7 +308,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                     groupValue: _mediumTypeSelectedRadioTile,
                     title: Text("Photo", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Photo", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMediumType(val);
                     },
                 ),
@@ -321,7 +321,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                     groupValue: _mediumTypeSelectedRadioTile,
                     title: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMediumType(val);
                     },
                 ),
@@ -334,7 +334,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                     groupValue: _mediumTypeSelectedRadioTile,
                     title: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMediumType(val);
                     },
                 ),
@@ -502,41 +502,41 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberMediumListBloc>(context).add(
-                          UpdateMemberMediumList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              authorId: state.value.authorId, 
-                              url: state.value.url, 
-                              ref: state.value.ref, 
-                              urlThumbnail: state.value.urlThumbnail, 
-                              readAccess: state.value.readAccess, 
-                              mediumType: state.value.mediumType, 
-                              mediumWidth: state.value.mediumWidth, 
-                              mediumHeight: state.value.mediumHeight, 
-                              thumbnailWidth: state.value.thumbnailWidth, 
-                              thumbnailHeight: state.value.thumbnailHeight, 
-                              relatedMediumId: state.value.relatedMediumId, 
+                          UpdateMemberMediumList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              authorId: state.value!.authorId, 
+                              url: state.value!.url, 
+                              ref: state.value!.ref, 
+                              urlThumbnail: state.value!.urlThumbnail, 
+                              readAccess: state.value!.readAccess, 
+                              mediumType: state.value!.mediumType, 
+                              mediumWidth: state.value!.mediumWidth, 
+                              mediumHeight: state.value!.mediumHeight, 
+                              thumbnailWidth: state.value!.thumbnailWidth, 
+                              thumbnailHeight: state.value!.thumbnailHeight, 
+                              relatedMediumId: state.value!.relatedMediumId, 
                         )));
                       } else {
                         BlocProvider.of<MemberMediumListBloc>(context).add(
                           AddMemberMediumList(value: MemberMediumModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              authorId: state.value.authorId, 
-                              url: state.value.url, 
-                              ref: state.value.ref, 
-                              urlThumbnail: state.value.urlThumbnail, 
-                              readAccess: state.value.readAccess, 
-                              mediumType: state.value.mediumType, 
-                              mediumWidth: state.value.mediumWidth, 
-                              mediumHeight: state.value.mediumHeight, 
-                              thumbnailWidth: state.value.thumbnailWidth, 
-                              thumbnailHeight: state.value.thumbnailHeight, 
-                              relatedMediumId: state.value.relatedMediumId, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              authorId: state.value!.authorId, 
+                              url: state.value!.url, 
+                              ref: state.value!.ref, 
+                              urlThumbnail: state.value!.urlThumbnail, 
+                              readAccess: state.value!.readAccess, 
+                              mediumType: state.value!.mediumType, 
+                              mediumWidth: state.value!.mediumWidth, 
+                              mediumHeight: state.value!.mediumHeight, 
+                              thumbnailWidth: state.value!.thumbnailWidth, 
+                              thumbnailHeight: state.value!.thumbnailHeight, 
+                              relatedMediumId: state.value!.relatedMediumId, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -602,7 +602,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   }
 
 
-  void setSelectionMediumType(int val) {
+  void setSelectionMediumType(int? val) {
     setState(() {
       _mediumTypeSelectedRadioTile = val;
     });

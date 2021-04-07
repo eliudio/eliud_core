@@ -31,56 +31,56 @@ import 'package:eliud_core/model/entity_export.dart';
 class BackgroundCache implements BackgroundRepository {
 
   final BackgroundRepository reference;
-  final Map<String, BackgroundModel> fullCache = Map();
+  final Map<String?, BackgroundModel?> fullCache = Map();
 
   BackgroundCache(this.reference);
 
-  Future<BackgroundModel> add(BackgroundModel value) {
+  Future<BackgroundModel> add(BackgroundModel? value) {
     return reference.add(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(BackgroundModel value){
-    fullCache.remove(value.documentID);
+  Future<void> delete(BackgroundModel? value){
+    fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<BackgroundModel> get(String id, {Function(Exception) onError}) {
-    BackgroundModel value = fullCache[id];
+  Future<BackgroundModel> get(String? id, {Function(Exception)? onError}) {
+    BackgroundModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<BackgroundModel> update(BackgroundModel value) {
+  Future<BackgroundModel> update(BackgroundModel? value) {
     return reference.update(value).then((newValue) {
-      fullCache[value.documentID] = newValue;
+      fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
   @override
-  Stream<List<BackgroundModel>> values({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<BackgroundModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<BackgroundModel>> valuesWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
+  Stream<List<BackgroundModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<BackgroundModel>> valuesList({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<BackgroundModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
   
   @override
-  Future<List<BackgroundModel>> valuesListWithDetails({String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
+  Future<List<BackgroundModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
     return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class BackgroundCache implements BackgroundRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class BackgroundCache implements BackgroundRepository {
   Future<BackgroundModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,12 +108,12 @@ class BackgroundCache implements BackgroundRepository {
   }
 
   @override
-  StreamSubscription<List<BackgroundModel>> listen(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<BackgroundModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<BackgroundModel>> listenWithDetails(trigger, {String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
+  StreamSubscription<List<BackgroundModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -124,27 +124,27 @@ class BackgroundCache implements BackgroundRepository {
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {
 
-    MemberMediumModel backgroundImageHolder;
+    MemberMediumModel? backgroundImageHolder;
     if (model.backgroundImage != null) {
       try {
-        await memberMediumRepository(appId: model.backgroundImage.appId).get(model.backgroundImage.documentID).then((val) {
+        await memberMediumRepository(appId: model.backgroundImage!.appId)!.get(model.backgroundImage!.documentID).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    ShadowModel shadowHolder;
+    ShadowModel? shadowHolder;
     if (model.shadow != null) {
       try {
-        await shadowRepository(appId: model.shadow.appId).get(model.shadow.documentID).then((val) {
+        await shadowRepository(appId: model.shadow!.appId)!.get(model.shadow!.documentID).then((val) {
           shadowHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    List<DecorationColorModel> decorationColorsHolder;
+    List<DecorationColorModel>? decorationColorsHolder;
     if (model.decorationColors != null) {
-      decorationColorsHolder = List<DecorationColorModel>.from(await Future.wait(await model.decorationColors.map((element) async {
+      decorationColorsHolder = List<DecorationColorModel>.from(await Future.wait(await model.decorationColors!.map((element) async {
         return await DecorationColorCache.refreshRelations(element);
       }))).toList();
     }

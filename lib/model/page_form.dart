@@ -58,10 +58,10 @@ import 'package:eliud_core/model/page_form_state.dart';
 
 class PageForm extends StatelessWidget {
   FormAction formAction;
-  PageModel value;
-  ActionModel submitAction;
+  PageModel? value;
+  ActionModel? submitAction;
 
-  PageForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  PageForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class PageForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Page", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update Page", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Page", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add Page", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class PageForm extends StatelessWidget {
 
 
 class MyPageForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyPageForm({this.formAction, this.submitAction});
 
@@ -122,19 +122,19 @@ class MyPageForm extends StatefulWidget {
 
 
 class _MyPageFormState extends State<MyPageForm> {
-  final FormAction formAction;
-  PageFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late PageFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  String _appBar;
-  String _drawer;
-  String _endDrawer;
-  String _homeMenu;
-  String _background;
-  int _layoutSelectedRadioTile;
-  String _gridView;
+  String? _appBar;
+  String? _drawer;
+  String? _endDrawer;
+  String? _homeMenu;
+  String? _background;
+  int? _layoutSelectedRadioTile;
+  String? _gridView;
 
 
   _MyPageFormState(this.formAction);
@@ -159,55 +159,55 @@ class _MyPageFormState extends State<MyPageForm> {
       );
 
       if (state is PageFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.appId != null)
-          _appIdController.text = state.value.appId.toString();
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value.title != null)
-          _titleController.text = state.value.title.toString();
+        if (state.value!.title != null)
+          _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value.appBar != null)
-          _appBar= state.value.appBar.documentID;
+        if (state.value!.appBar != null)
+          _appBar= state.value!.appBar!.documentID;
         else
           _appBar= "";
-        if (state.value.drawer != null)
-          _drawer= state.value.drawer.documentID;
+        if (state.value!.drawer != null)
+          _drawer= state.value!.drawer!.documentID;
         else
           _drawer= "";
-        if (state.value.endDrawer != null)
-          _endDrawer= state.value.endDrawer.documentID;
+        if (state.value!.endDrawer != null)
+          _endDrawer= state.value!.endDrawer!.documentID;
         else
           _endDrawer= "";
-        if (state.value.homeMenu != null)
-          _homeMenu= state.value.homeMenu.documentID;
+        if (state.value!.homeMenu != null)
+          _homeMenu= state.value!.homeMenu!.documentID;
         else
           _homeMenu= "";
-        if (state.value.background != null)
-          _background= state.value.background.documentID;
+        if (state.value!.background != null)
+          _background= state.value!.background!.documentID;
         else
           _background= "";
-        if (state.value.layout != null)
-          _layoutSelectedRadioTile = state.value.layout.index;
+        if (state.value!.layout != null)
+          _layoutSelectedRadioTile = state.value!.layout!.index;
         else
           _layoutSelectedRadioTile = 0;
-        if (state.value.gridView != null)
-          _gridView= state.value.gridView.documentID;
+        if (state.value!.gridView != null)
+          _gridView= state.value!.gridView!.documentID;
         else
           _gridView= "";
       }
       if (state is PageFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
@@ -348,7 +348,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: bodyComponentsList(context, state.value.bodyComponents, _onBodyComponentsChanged)
+                    child: bodyComponentsList(context, state.value!.bodyComponents, _onBodyComponentsChanged)
                 )
           );
 
@@ -391,7 +391,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -404,7 +404,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -417,7 +417,7 @@ class _MyPageFormState extends State<MyPageForm> {
                     groupValue: _layoutSelectedRadioTile,
                     title: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
                 ),
@@ -428,7 +428,7 @@ class _MyPageFormState extends State<MyPageForm> {
         children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
-        if (state.value.layout == PageLayout.GridView) children.add(Container(
+        if (state.value!.layout == PageLayout.GridView) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('GridView',
@@ -436,7 +436,7 @@ class _MyPageFormState extends State<MyPageForm> {
                           color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
-        if ((state.value.layout == PageLayout.GridView)) children.add(
+        if ((state.value!.layout == PageLayout.GridView)) children.add(
 
                 DropdownButtonComponentFactory().createNew(id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
           );
@@ -469,39 +469,39 @@ class _MyPageFormState extends State<MyPageForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<PageListBloc>(context).add(
-                          UpdatePageList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              appBar: state.value.appBar, 
-                              drawer: state.value.drawer, 
-                              endDrawer: state.value.endDrawer, 
-                              homeMenu: state.value.homeMenu, 
-                              bodyComponents: state.value.bodyComponents, 
-                              background: state.value.background, 
-                              layout: state.value.layout, 
-                              gridView: state.value.gridView, 
-                              conditions: state.value.conditions, 
+                          UpdatePageList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              appBar: state.value!.appBar, 
+                              drawer: state.value!.drawer, 
+                              endDrawer: state.value!.endDrawer, 
+                              homeMenu: state.value!.homeMenu, 
+                              bodyComponents: state.value!.bodyComponents, 
+                              background: state.value!.background, 
+                              layout: state.value!.layout, 
+                              gridView: state.value!.gridView, 
+                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<PageListBloc>(context).add(
                           AddPageList(value: PageModel(
-                              documentID: state.value.documentID, 
-                              appId: state.value.appId, 
-                              title: state.value.title, 
-                              appBar: state.value.appBar, 
-                              drawer: state.value.drawer, 
-                              endDrawer: state.value.endDrawer, 
-                              homeMenu: state.value.homeMenu, 
-                              bodyComponents: state.value.bodyComponents, 
-                              background: state.value.background, 
-                              layout: state.value.layout, 
-                              gridView: state.value.gridView, 
-                              conditions: state.value.conditions, 
+                              documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
+                              title: state.value!.title, 
+                              appBar: state.value!.appBar, 
+                              drawer: state.value!.drawer, 
+                              endDrawer: state.value!.endDrawer, 
+                              homeMenu: state.value!.homeMenu, 
+                              bodyComponents: state.value!.bodyComponents, 
+                              background: state.value!.background, 
+                              layout: state.value!.layout, 
+                              gridView: state.value!.gridView, 
+                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -521,7 +521,7 @@ class _MyPageFormState extends State<MyPageForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -592,7 +592,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void setSelectionLayout(int val) {
+  void setSelectionLayout(int? val) {
     setState(() {
       _layoutSelectedRadioTile = val;
     });

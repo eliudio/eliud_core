@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'dialog_helper.dart';
 
 class YesNoDialog extends StatefulWidget {
-  final String title;
-  final String message;
-  final Function yesFunction;
-  final Function noFunction;
-  final String yesButtonLabel;
-  final String noButtonLabel;
+  final String? title;
+  final String? message;
+  final Function? yesFunction;
+  final Function? noFunction;
+  final String? yesButtonLabel;
+  final String? noButtonLabel;
 
   YesNoDialog({
-    Key key,
+    Key? key,
     this.title,
     this.message,
     this.yesFunction,
@@ -24,7 +24,7 @@ class YesNoDialog extends StatefulWidget {
   @override
   _YesNoState createState() => _YesNoState();
 
-  static YesNoDialog confirmDialog({ String title, String message, Function yesFunction, Function noFunction }) {
+  static YesNoDialog confirmDialog({ String? title, String? message, Function? yesFunction, Function? noFunction }) {
     return YesNoDialog(
       message: message,
       yesFunction: yesFunction,
@@ -42,8 +42,8 @@ class _YesNoState extends State<YesNoDialog> {
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
-        title: widget.title,
-        contents: Text(widget.message),
+        title: widget.title!,
+        contents: Text(widget.message!),
         buttons: dialogHelper.getYesNoButtons(
             context, widget.yesFunction, widget.noFunction,
             yesButtonLabel: widget.yesButtonLabel,

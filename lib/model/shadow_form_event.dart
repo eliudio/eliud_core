@@ -30,7 +30,7 @@ abstract class ShadowFormEvent extends Equatable {
   const ShadowFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewShadowFormEvent extends ShadowFormEvent {
@@ -38,114 +38,114 @@ class InitialiseNewShadowFormEvent extends ShadowFormEvent {
 
 
 class InitialiseShadowFormEvent extends ShadowFormEvent {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseShadowFormEvent({this.value});
 }
 
 class InitialiseShadowFormNoLoadEvent extends ShadowFormEvent {
-  final ShadowModel value;
+  final ShadowModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseShadowFormNoLoadEvent({this.value});
 }
 
 class ChangedShadowDocumentID extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowDocumentID{ value: $value }';
 }
 
 class ChangedShadowAppId extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowAppId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowAppId{ value: $value }';
 }
 
 class ChangedShadowComments extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowComments({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowComments{ value: $value }';
 }
 
 class ChangedShadowColor extends ShadowFormEvent {
-  final RgbModel value;
+  final RgbModel? value;
 
   ChangedShadowColor({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowColor{ value: $value }';
 }
 
 class ChangedShadowOffsetDX extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowOffsetDX({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowOffsetDX{ value: $value }';
 }
 
 class ChangedShadowOffsetDY extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowOffsetDY({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowOffsetDY{ value: $value }';
 }
 
 class ChangedShadowSpreadRadius extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowSpreadRadius({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowSpreadRadius{ value: $value }';
 }
 
 class ChangedShadowBlurRadius extends ShadowFormEvent {
-  final String value;
+  final String? value;
 
   ChangedShadowBlurRadius({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedShadowBlurRadius{ value: $value }';

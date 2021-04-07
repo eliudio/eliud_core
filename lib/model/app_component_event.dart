@@ -21,7 +21,7 @@ abstract class AppComponentEvent extends Equatable {
 }
 
 class FetchAppComponent extends AppComponentEvent {
-  final String id;
+  final String? id;
 
   FetchAppComponent({ this.id });
 }

@@ -19,7 +19,7 @@ import 'package:eliud_core/model/decoration_color_model.dart';
 abstract class DecorationColorListEvent extends Equatable {
   const DecorationColorListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadDecorationColorList extends DecorationColorListEvent {}
@@ -27,49 +27,49 @@ class LoadDecorationColorList extends DecorationColorListEvent {}
 class NewPage extends DecorationColorListEvent {}
 
 class AddDecorationColorList extends DecorationColorListEvent {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   const AddDecorationColorList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddDecorationColorList{ value: $value }';
 }
 
 class UpdateDecorationColorList extends DecorationColorListEvent {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   const UpdateDecorationColorList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateDecorationColorList{ value: $value }';
 }
 
 class DeleteDecorationColorList extends DecorationColorListEvent {
-  final DecorationColorModel value;
+  final DecorationColorModel? value;
 
   const DeleteDecorationColorList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteDecorationColorList{ value: $value }';
 }
 
 class DecorationColorListUpdated extends DecorationColorListEvent {
-  final List<DecorationColorModel> value;
-  final bool mightHaveMore;
+  final List<DecorationColorModel>? value;
+  final bool? mightHaveMore;
 
   const DecorationColorListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'DecorationColorListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

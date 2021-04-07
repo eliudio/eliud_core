@@ -27,40 +27,40 @@ const _posSizeLimit = 5;
 
 class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final PosSizeRepository _posSizeRepository;
-  StreamSubscription _posSizesListSubscription;
-  final EliudQuery eliudQuery;
+  StreamSubscription? _posSizesListSubscription;
+  final EliudQuery? eliudQuery;
   int pages = 1;
-  final bool paged;
-  final String orderBy;
-  final bool descending;
-  final bool detailed;
+  final bool? paged;
+  final String? orderBy;
+  final bool? descending;
+  final bool? detailed;
 
-  PosSizeListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, @required PosSizeRepository posSizeRepository})
+  PosSizeListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PosSizeRepository posSizeRepository})
       : assert(posSizeRepository != null),
         _posSizeRepository = posSizeRepository,
         super(PosSizeListLoading());
 
   Stream<PosSizeListState> _mapLoadPosSizeListToState() async* {
-    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values.length : 0;
+    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values!.length : 0;
     _posSizesListSubscription?.cancel();
     _posSizesListSubscription = _posSizeRepository.listen(
           (list) => add(PosSizeListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && (paged)) ? pages * _posSizeLimit : null
+      limit: ((paged != null) && paged!) ? pages * _posSizeLimit : null
     );
   }
 
   Stream<PosSizeListState> _mapLoadPosSizeListWithDetailsToState() async* {
-    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values.length : 0;
+    int amountNow =  (state is PosSizeListLoaded) ? (state as PosSizeListLoaded).values!.length : 0;
     _posSizesListSubscription?.cancel();
     _posSizesListSubscription = _posSizeRepository.listenWithDetails(
             (list) => add(PosSizeListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && (paged)) ? pages * _posSizeLimit : null
+        limit: ((paged != null) && paged!) ? pages * _posSizeLimit : null
     );
   }
 
@@ -84,7 +84,7 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   @override
   Stream<PosSizeListState> mapEventToState(PosSizeListEvent event) async* {
     if (event is LoadPosSizeList) {
-      if ((detailed == null) || (!detailed)) {
+      if ((detailed == null) || (!detailed!)) {
         yield* _mapLoadPosSizeListToState();
       } else {
         yield* _mapLoadPosSizeListWithDetailsToState();

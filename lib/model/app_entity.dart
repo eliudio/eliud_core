@@ -21,54 +21,54 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppEntity {
-  final String ownerID;
-  final String title;
-  final String email;
-  final String description;
-  final int appStatus;
-  final int darkOrLight;
-  final AppHomePageReferencesEntity homePages;
-  final String logoId;
-  final RgbEntity formSubmitButtonColor;
-  final String formBackgroundId;
-  final RgbEntity formSubmitButtonTextColor;
-  final RgbEntity formGroupTitleColor;
-  final RgbEntity formFieldTextColor;
-  final RgbEntity formFieldHeaderColor;
-  final RgbEntity formFieldFocusColor;
-  final String formAppBarBackgroundId;
-  final RgbEntity formAppBarTextColor;
-  final String listBackgroundId;
-  final RgbEntity listTextItemColor;
-  final RgbEntity floatingButtonForegroundColor;
-  final RgbEntity floatingButtonBackgroundColor;
-  final RgbEntity dividerColor;
-  final RgbEntity iconColor;
-  final int routeBuilder;
-  final int routeAnimationDuration;
-  final String logoURL;
-  final String h1Id;
-  final String h2Id;
-  final String h3Id;
-  final String h4Id;
-  final String h5Id;
-  final String fontTextId;
-  final String fontHighlight1Id;
-  final String fontHighlight2Id;
-  final String fontLinkId;
-  final String policiesId;
+  final String? ownerID;
+  final String? title;
+  final String? email;
+  final String? description;
+  final int? appStatus;
+  final int? darkOrLight;
+  final AppHomePageReferencesEntity? homePages;
+  final String? logoId;
+  final RgbEntity? formSubmitButtonColor;
+  final String? formBackgroundId;
+  final RgbEntity? formSubmitButtonTextColor;
+  final RgbEntity? formGroupTitleColor;
+  final RgbEntity? formFieldTextColor;
+  final RgbEntity? formFieldHeaderColor;
+  final RgbEntity? formFieldFocusColor;
+  final String? formAppBarBackgroundId;
+  final RgbEntity? formAppBarTextColor;
+  final String? listBackgroundId;
+  final RgbEntity? listTextItemColor;
+  final RgbEntity? floatingButtonForegroundColor;
+  final RgbEntity? floatingButtonBackgroundColor;
+  final RgbEntity? dividerColor;
+  final RgbEntity? iconColor;
+  final int? routeBuilder;
+  final int? routeAnimationDuration;
+  final String? logoURL;
+  final String? h1Id;
+  final String? h2Id;
+  final String? h3Id;
+  final String? h4Id;
+  final String? h5Id;
+  final String? fontTextId;
+  final String? fontHighlight1Id;
+  final String? fontHighlight2Id;
+  final String? fontLinkId;
+  final String? policiesId;
 
   AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.darkOrLight, this.homePages, this.logoId, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, this.policiesId, });
 
 
-  List<Object> get props => [ownerID, title, email, description, appStatus, darkOrLight, homePages, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, policiesId, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, darkOrLight, homePages, logoId, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, routeBuilder, routeAnimationDuration, logoURL, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, policiesId, ];
 
   @override
   String toString() {
     return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, darkOrLight: $darkOrLight, homePages: $homePages, logoId: $logoId, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId, policiesId: $policiesId}';
   }
 
-  static AppEntity fromMap(Map map) {
+  static AppEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var homePagesFromMap;
@@ -164,48 +164,48 @@ class AppEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> homePagesMap = homePages != null 
-        ? homePages.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? homePagesMap = homePages != null 
+        ? homePages!.toDocument()
         : null;
-    final Map<String, dynamic> formSubmitButtonColorMap = formSubmitButtonColor != null 
-        ? formSubmitButtonColor.toDocument()
+    final Map<String, dynamic>? formSubmitButtonColorMap = formSubmitButtonColor != null 
+        ? formSubmitButtonColor!.toDocument()
         : null;
-    final Map<String, dynamic> formSubmitButtonTextColorMap = formSubmitButtonTextColor != null 
-        ? formSubmitButtonTextColor.toDocument()
+    final Map<String, dynamic>? formSubmitButtonTextColorMap = formSubmitButtonTextColor != null 
+        ? formSubmitButtonTextColor!.toDocument()
         : null;
-    final Map<String, dynamic> formGroupTitleColorMap = formGroupTitleColor != null 
-        ? formGroupTitleColor.toDocument()
+    final Map<String, dynamic>? formGroupTitleColorMap = formGroupTitleColor != null 
+        ? formGroupTitleColor!.toDocument()
         : null;
-    final Map<String, dynamic> formFieldTextColorMap = formFieldTextColor != null 
-        ? formFieldTextColor.toDocument()
+    final Map<String, dynamic>? formFieldTextColorMap = formFieldTextColor != null 
+        ? formFieldTextColor!.toDocument()
         : null;
-    final Map<String, dynamic> formFieldHeaderColorMap = formFieldHeaderColor != null 
-        ? formFieldHeaderColor.toDocument()
+    final Map<String, dynamic>? formFieldHeaderColorMap = formFieldHeaderColor != null 
+        ? formFieldHeaderColor!.toDocument()
         : null;
-    final Map<String, dynamic> formFieldFocusColorMap = formFieldFocusColor != null 
-        ? formFieldFocusColor.toDocument()
+    final Map<String, dynamic>? formFieldFocusColorMap = formFieldFocusColor != null 
+        ? formFieldFocusColor!.toDocument()
         : null;
-    final Map<String, dynamic> formAppBarTextColorMap = formAppBarTextColor != null 
-        ? formAppBarTextColor.toDocument()
+    final Map<String, dynamic>? formAppBarTextColorMap = formAppBarTextColor != null 
+        ? formAppBarTextColor!.toDocument()
         : null;
-    final Map<String, dynamic> listTextItemColorMap = listTextItemColor != null 
-        ? listTextItemColor.toDocument()
+    final Map<String, dynamic>? listTextItemColorMap = listTextItemColor != null 
+        ? listTextItemColor!.toDocument()
         : null;
-    final Map<String, dynamic> floatingButtonForegroundColorMap = floatingButtonForegroundColor != null 
-        ? floatingButtonForegroundColor.toDocument()
+    final Map<String, dynamic>? floatingButtonForegroundColorMap = floatingButtonForegroundColor != null 
+        ? floatingButtonForegroundColor!.toDocument()
         : null;
-    final Map<String, dynamic> floatingButtonBackgroundColorMap = floatingButtonBackgroundColor != null 
-        ? floatingButtonBackgroundColor.toDocument()
+    final Map<String, dynamic>? floatingButtonBackgroundColorMap = floatingButtonBackgroundColor != null 
+        ? floatingButtonBackgroundColor!.toDocument()
         : null;
-    final Map<String, dynamic> dividerColorMap = dividerColor != null 
-        ? dividerColor.toDocument()
+    final Map<String, dynamic>? dividerColorMap = dividerColor != null 
+        ? dividerColor!.toDocument()
         : null;
-    final Map<String, dynamic> iconColorMap = iconColor != null 
-        ? iconColor.toDocument()
+    final Map<String, dynamic>? iconColorMap = iconColor != null 
+        ? iconColor!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (ownerID != null) theDocument["ownerID"] = ownerID;
       else theDocument["ownerID"] = null;
     if (title != null) theDocument["title"] = title;
@@ -281,8 +281,8 @@ class AppEntity {
     return theDocument;
   }
 
-  static AppEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static AppEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

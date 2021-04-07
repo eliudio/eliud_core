@@ -34,24 +34,24 @@ import 'package:eliud_core/tools/random.dart';
 class AppHomePageReferencesModel {
 
   // Entry page for blocked member
-  String homePageBlockedMemberId;
+  String? homePageBlockedMemberId;
 
   // Entry page for subscribed member
-  String homePageSubscribedMemberId;
+  String? homePageSubscribedMemberId;
 
   // Entry page for level 1 privileged member
-  String homePageLevel1MemberId;
+  String? homePageLevel1MemberId;
 
   // Entry page for level 2 privileged member
-  String homePageLevel2MemberId;
+  String? homePageLevel2MemberId;
 
   // Entry page for the owner
-  String homePageOwnerId;
+  String? homePageOwnerId;
 
   AppHomePageReferencesModel({this.homePageBlockedMemberId, this.homePageSubscribedMemberId, this.homePageLevel1MemberId, this.homePageLevel2MemberId, this.homePageOwnerId, })  {
   }
 
-  AppHomePageReferencesModel copyWith({String homePageBlockedMemberId, String homePageSubscribedMemberId, String homePageLevel1MemberId, String homePageLevel2MemberId, String homePageOwnerId, }) {
+  AppHomePageReferencesModel copyWith({String? homePageBlockedMemberId, String? homePageSubscribedMemberId, String? homePageLevel1MemberId, String? homePageLevel2MemberId, String? homePageOwnerId, }) {
     return AppHomePageReferencesModel(homePageBlockedMemberId: homePageBlockedMemberId ?? this.homePageBlockedMemberId, homePageSubscribedMemberId: homePageSubscribedMemberId ?? this.homePageSubscribedMemberId, homePageLevel1MemberId: homePageLevel1MemberId ?? this.homePageLevel1MemberId, homePageLevel2MemberId: homePageLevel2MemberId ?? this.homePageLevel2MemberId, homePageOwnerId: homePageOwnerId ?? this.homePageOwnerId, );
   }
 
@@ -74,7 +74,7 @@ class AppHomePageReferencesModel {
     return 'AppHomePageReferencesModel{homePageBlockedMemberId: $homePageBlockedMemberId, homePageSubscribedMemberId: $homePageSubscribedMemberId, homePageLevel1MemberId: $homePageLevel1MemberId, homePageLevel2MemberId: $homePageLevel2MemberId, homePageOwnerId: $homePageOwnerId}';
   }
 
-  AppHomePageReferencesEntity toEntity({String appId}) {
+  AppHomePageReferencesEntity toEntity({String? appId}) {
     return AppHomePageReferencesEntity(
           homePageBlockedMemberId: (homePageBlockedMemberId != null) ? homePageBlockedMemberId : null, 
           homePageSubscribedMemberId: (homePageSubscribedMemberId != null) ? homePageSubscribedMemberId : null, 
@@ -84,7 +84,7 @@ class AppHomePageReferencesModel {
     );
   }
 
-  static AppHomePageReferencesModel fromEntity(AppHomePageReferencesEntity entity) {
+  static AppHomePageReferencesModel? fromEntity(AppHomePageReferencesEntity? entity) {
     if (entity == null) return null;
     return AppHomePageReferencesModel(
           homePageBlockedMemberId: entity.homePageBlockedMemberId, 
@@ -95,7 +95,7 @@ class AppHomePageReferencesModel {
     );
   }
 
-  static Future<AppHomePageReferencesModel> fromEntityPlus(AppHomePageReferencesEntity entity, { String appId}) async {
+  static Future<AppHomePageReferencesModel?> fromEntityPlus(AppHomePageReferencesEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return AppHomePageReferencesModel(

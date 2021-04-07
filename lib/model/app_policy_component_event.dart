@@ -21,7 +21,7 @@ abstract class AppPolicyComponentEvent extends Equatable {
 }
 
 class FetchAppPolicyComponent extends AppPolicyComponentEvent {
-  final String id;
+  final String? id;
 
   FetchAppPolicyComponent({ this.id });
 }

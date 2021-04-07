@@ -39,7 +39,7 @@ enum EndGradientPosition {
 }
 
 
-StartGradientPosition toStartGradientPosition(int index) {
+StartGradientPosition toStartGradientPosition(int? index) {
   switch (index) {
     case 0: return StartGradientPosition.TopLeft;
     case 1: return StartGradientPosition.TopCenter;
@@ -54,7 +54,7 @@ StartGradientPosition toStartGradientPosition(int index) {
   return StartGradientPosition.Unknown;
 }
 
-EndGradientPosition toEndGradientPosition(int index) {
+EndGradientPosition toEndGradientPosition(int? index) {
   switch (index) {
     case 0: return EndGradientPosition.TopLeft;
     case 1: return EndGradientPosition.TopCenter;
@@ -71,29 +71,29 @@ EndGradientPosition toEndGradientPosition(int index) {
 
 
 class BackgroundModel {
-  String documentID;
-  String appId;
-  String comments;
-  MemberMediumModel backgroundImage;
+  String? documentID;
+  String? appId;
+  String? comments;
+  MemberMediumModel? backgroundImage;
 
   // When set, the profile photo will be used as background. This takes preference over backgroundImage.
-  bool useProfilePhotoAsBackground;
+  bool? useProfilePhotoAsBackground;
 
   // Start position of the gradient
-  StartGradientPosition beginGradientPosition;
+  StartGradientPosition? beginGradientPosition;
 
   // End position of the gradient
-  EndGradientPosition endGradientPosition;
-  ShadowModel shadow;
-  List<DecorationColorModel> decorationColors;
-  bool border;
-  bool admin;
+  EndGradientPosition? endGradientPosition;
+  ShadowModel? shadow;
+  List<DecorationColorModel>? decorationColors;
+  bool? border;
+  bool? admin;
 
   BackgroundModel({this.documentID, this.appId, this.comments, this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, this.admin, })  {
     assert(documentID != null);
   }
 
-  BackgroundModel copyWith({String documentID, String appId, String comments, MemberMediumModel backgroundImage, bool useProfilePhotoAsBackground, StartGradientPosition beginGradientPosition, EndGradientPosition endGradientPosition, ShadowModel shadow, List<DecorationColorModel> decorationColors, bool border, bool admin, }) {
+  BackgroundModel copyWith({String? documentID, String? appId, String? comments, MemberMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, bool? admin, }) {
     return BackgroundModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, admin: admin ?? this.admin, );
   }
 
@@ -119,21 +119,21 @@ class BackgroundModel {
 
   @override
   String toString() {
-    String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors.join(', ');
+    String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
     return 'BackgroundModel{documentID: $documentID, appId: $appId, comments: $comments, backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
   }
 
-  BackgroundEntity toEntity({String appId}) {
+  BackgroundEntity toEntity({String? appId}) {
     return BackgroundEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
-          backgroundImageId: (backgroundImage != null) ? backgroundImage.documentID : null, 
+          backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 
           useProfilePhotoAsBackground: (useProfilePhotoAsBackground != null) ? useProfilePhotoAsBackground : null, 
-          beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition.index : null, 
-          endGradientPosition: (endGradientPosition != null) ? endGradientPosition.index : null, 
-          shadowId: (shadow != null) ? shadow.documentID : null, 
-          decorationColors: (decorationColors != null) ? decorationColors
+          beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition!.index : null, 
+          endGradientPosition: (endGradientPosition != null) ? endGradientPosition!.index : null, 
+          shadowId: (shadow != null) ? shadow!.documentID : null, 
+          decorationColors: (decorationColors != null) ? decorationColors!
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           border: (border != null) ? border : null, 
@@ -141,7 +141,7 @@ class BackgroundModel {
     );
   }
 
-  static BackgroundModel fromEntity(String documentID, BackgroundEntity entity) {
+  static BackgroundModel? fromEntity(String documentID, BackgroundEntity? entity) {
     if (entity == null) return null;
     return BackgroundModel(
           documentID: documentID, 
@@ -152,7 +152,7 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           decorationColors: 
             entity.decorationColors == null ? null :
-            entity.decorationColors
+            entity.decorationColors!
             .map((item) => DecorationColorModel.fromEntity(newRandomKey(), item))
             .toList(), 
           border: entity.border, 
@@ -160,22 +160,22 @@ class BackgroundModel {
     );
   }
 
-  static Future<BackgroundModel> fromEntityPlus(String documentID, BackgroundEntity entity, { String appId}) async {
+  static Future<BackgroundModel?> fromEntityPlus(String documentID, BackgroundEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel backgroundImageHolder;
+    MemberMediumModel? backgroundImageHolder;
     if (entity.backgroundImageId != null) {
       try {
-        await memberMediumRepository(appId: appId).get(entity.backgroundImageId).then((val) {
+        await memberMediumRepository(appId: appId)!.get(entity.backgroundImageId).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    ShadowModel shadowHolder;
+    ShadowModel? shadowHolder;
     if (entity.shadowId != null) {
       try {
-        await shadowRepository(appId: appId).get(entity.shadowId).then((val) {
+        await shadowRepository(appId: appId)!.get(entity.shadowId).then((val) {
           shadowHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -191,7 +191,7 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           shadow: shadowHolder, 
           decorationColors: 
-            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
+            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors!
             .map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           border: entity.border, 

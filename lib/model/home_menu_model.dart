@@ -32,19 +32,19 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class HomeMenuModel {
-  String documentID;
-  String appId;
-  String name;
-  MenuDefModel menu;
-  RgbModel iconColor;
-  BackgroundModel background;
-  RgbModel popupMenuBackgroundColor;
+  String? documentID;
+  String? appId;
+  String? name;
+  MenuDefModel? menu;
+  RgbModel? iconColor;
+  BackgroundModel? background;
+  RgbModel? popupMenuBackgroundColor;
 
   HomeMenuModel({this.documentID, this.appId, this.name, this.menu, this.iconColor, this.background, this.popupMenuBackgroundColor, })  {
     assert(documentID != null);
   }
 
-  HomeMenuModel copyWith({String documentID, String appId, String name, MenuDefModel menu, RgbModel iconColor, BackgroundModel background, RgbModel popupMenuBackgroundColor, }) {
+  HomeMenuModel copyWith({String? documentID, String? appId, String? name, MenuDefModel? menu, RgbModel? iconColor, BackgroundModel? background, RgbModel? popupMenuBackgroundColor, }) {
     return HomeMenuModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, menu: menu ?? this.menu, iconColor: iconColor ?? this.iconColor, background: background ?? this.background, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, );
   }
 
@@ -69,18 +69,18 @@ class HomeMenuModel {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColor: $iconColor, background: $background, popupMenuBackgroundColor: $popupMenuBackgroundColor}';
   }
 
-  HomeMenuEntity toEntity({String appId}) {
+  HomeMenuEntity toEntity({String? appId}) {
     return HomeMenuEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          menuId: (menu != null) ? menu.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
-          backgroundId: (background != null) ? background.documentID : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor.toEntity(appId: appId) : null, 
+          menuId: (menu != null) ? menu!.documentID : null, 
+          iconColor: (iconColor != null) ? iconColor!.toEntity(appId: appId) : null, 
+          backgroundId: (background != null) ? background!.documentID : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
     );
   }
 
-  static HomeMenuModel fromEntity(String documentID, HomeMenuEntity entity) {
+  static HomeMenuModel? fromEntity(String documentID, HomeMenuEntity? entity) {
     if (entity == null) return null;
     return HomeMenuModel(
           documentID: documentID, 
@@ -93,22 +93,22 @@ class HomeMenuModel {
     );
   }
 
-  static Future<HomeMenuModel> fromEntityPlus(String documentID, HomeMenuEntity entity, { String appId}) async {
+  static Future<HomeMenuModel?> fromEntityPlus(String documentID, HomeMenuEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MenuDefModel menuHolder;
+    MenuDefModel? menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository(appId: appId).get(entity.menuId).then((val) {
+        await menuDefRepository(appId: appId)!.get(entity.menuId).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel backgroundHolder;
+    BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

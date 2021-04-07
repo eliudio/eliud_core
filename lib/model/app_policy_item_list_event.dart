@@ -19,7 +19,7 @@ import 'package:eliud_core/model/app_policy_item_model.dart';
 abstract class AppPolicyItemListEvent extends Equatable {
   const AppPolicyItemListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadAppPolicyItemList extends AppPolicyItemListEvent {}
@@ -27,49 +27,49 @@ class LoadAppPolicyItemList extends AppPolicyItemListEvent {}
 class NewPage extends AppPolicyItemListEvent {}
 
 class AddAppPolicyItemList extends AppPolicyItemListEvent {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   const AddAppPolicyItemList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddAppPolicyItemList{ value: $value }';
 }
 
 class UpdateAppPolicyItemList extends AppPolicyItemListEvent {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   const UpdateAppPolicyItemList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateAppPolicyItemList{ value: $value }';
 }
 
 class DeleteAppPolicyItemList extends AppPolicyItemListEvent {
-  final AppPolicyItemModel value;
+  final AppPolicyItemModel? value;
 
   const DeleteAppPolicyItemList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteAppPolicyItemList{ value: $value }';
 }
 
 class AppPolicyItemListUpdated extends AppPolicyItemListEvent {
-  final List<AppPolicyItemModel> value;
-  final bool mightHaveMore;
+  final List<AppPolicyItemModel>? value;
+  final bool? mightHaveMore;
 
   const AppPolicyItemListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'AppPolicyItemListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

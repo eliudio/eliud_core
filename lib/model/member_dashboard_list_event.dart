@@ -19,7 +19,7 @@ import 'package:eliud_core/model/member_dashboard_model.dart';
 abstract class MemberDashboardListEvent extends Equatable {
   const MemberDashboardListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadMemberDashboardList extends MemberDashboardListEvent {}
@@ -27,49 +27,49 @@ class LoadMemberDashboardList extends MemberDashboardListEvent {}
 class NewPage extends MemberDashboardListEvent {}
 
 class AddMemberDashboardList extends MemberDashboardListEvent {
-  final MemberDashboardModel value;
+  final MemberDashboardModel? value;
 
   const AddMemberDashboardList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddMemberDashboardList{ value: $value }';
 }
 
 class UpdateMemberDashboardList extends MemberDashboardListEvent {
-  final MemberDashboardModel value;
+  final MemberDashboardModel? value;
 
   const UpdateMemberDashboardList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateMemberDashboardList{ value: $value }';
 }
 
 class DeleteMemberDashboardList extends MemberDashboardListEvent {
-  final MemberDashboardModel value;
+  final MemberDashboardModel? value;
 
   const DeleteMemberDashboardList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteMemberDashboardList{ value: $value }';
 }
 
 class MemberDashboardListUpdated extends MemberDashboardListEvent {
-  final List<MemberDashboardModel> value;
-  final bool mightHaveMore;
+  final List<MemberDashboardModel?>? value;
+  final bool? mightHaveMore;
 
   const MemberDashboardListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'MemberDashboardListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

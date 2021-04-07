@@ -42,7 +42,7 @@ enum EliudFontDecoration {
 }
 
 
-EliudFontWeight toEliudFontWeight(int index) {
+EliudFontWeight toEliudFontWeight(int? index) {
   switch (index) {
     case 0: return EliudFontWeight.Thin;
     case 1: return EliudFontWeight.ExtraLight;
@@ -57,7 +57,7 @@ EliudFontWeight toEliudFontWeight(int index) {
   return EliudFontWeight.Unknown;
 }
 
-EliudFontStyle toEliudFontStyle(int index) {
+EliudFontStyle toEliudFontStyle(int? index) {
   switch (index) {
     case 0: return EliudFontStyle.Italic;
     case 1: return EliudFontStyle.Normal;
@@ -65,7 +65,7 @@ EliudFontStyle toEliudFontStyle(int index) {
   return EliudFontStyle.Unknown;
 }
 
-EliudFontDecoration toEliudFontDecoration(int index) {
+EliudFontDecoration toEliudFontDecoration(int? index) {
   switch (index) {
     case 0: return EliudFontDecoration.None;
     case 1: return EliudFontDecoration.Underline;
@@ -77,22 +77,22 @@ EliudFontDecoration toEliudFontDecoration(int index) {
 
 
 class FontModel {
-  String documentID;
-  String appId;
+  String? documentID;
+  String? appId;
 
   // See https://fonts.google.com/
-  String fontName;
-  double size;
-  EliudFontWeight weight;
-  EliudFontStyle style;
-  EliudFontDecoration decoration;
-  RgbModel color;
+  String? fontName;
+  double? size;
+  EliudFontWeight? weight;
+  EliudFontStyle? style;
+  EliudFontDecoration? decoration;
+  RgbModel? color;
 
   FontModel({this.documentID, this.appId, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, })  {
     assert(documentID != null);
   }
 
-  FontModel copyWith({String documentID, String appId, String fontName, double size, EliudFontWeight weight, EliudFontStyle style, EliudFontDecoration decoration, RgbModel color, }) {
+  FontModel copyWith({String? documentID, String? appId, String? fontName, double? size, EliudFontWeight? weight, EliudFontStyle? style, EliudFontDecoration? decoration, RgbModel? color, }) {
     return FontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, fontName: fontName ?? this.fontName, size: size ?? this.size, weight: weight ?? this.weight, style: style ?? this.style, decoration: decoration ?? this.decoration, color: color ?? this.color, );
   }
 
@@ -118,19 +118,19 @@ class FontModel {
     return 'FontModel{documentID: $documentID, appId: $appId, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
-  FontEntity toEntity({String appId}) {
+  FontEntity toEntity({String? appId}) {
     return FontEntity(
           appId: (appId != null) ? appId : null, 
           fontName: (fontName != null) ? fontName : null, 
           size: (size != null) ? size : null, 
-          weight: (weight != null) ? weight.index : null, 
-          style: (style != null) ? style.index : null, 
-          decoration: (decoration != null) ? decoration.index : null, 
-          color: (color != null) ? color.toEntity(appId: appId) : null, 
+          weight: (weight != null) ? weight!.index : null, 
+          style: (style != null) ? style!.index : null, 
+          decoration: (decoration != null) ? decoration!.index : null, 
+          color: (color != null) ? color!.toEntity(appId: appId) : null, 
     );
   }
 
-  static FontModel fromEntity(String documentID, FontEntity entity) {
+  static FontModel? fromEntity(String documentID, FontEntity? entity) {
     if (entity == null) return null;
     return FontModel(
           documentID: documentID, 
@@ -145,7 +145,7 @@ class FontModel {
     );
   }
 
-  static Future<FontModel> fromEntityPlus(String documentID, FontEntity entity, { String appId}) async {
+  static Future<FontModel?> fromEntityPlus(String documentID, FontEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return FontModel(

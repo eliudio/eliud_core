@@ -20,19 +20,19 @@ abstract class CountryListState extends Equatable {
   const CountryListState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class CountryListLoading extends CountryListState {}
 
 class CountryListLoaded extends CountryListState {
-  final List<CountryModel> values;
-  final bool mightHaveMore;
+  final List<CountryModel?>? values;
+  final bool? mightHaveMore;
 
   const CountryListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [ values, mightHaveMore ];
 
   @override
   String toString() => 'CountryListLoaded { values: $values }';

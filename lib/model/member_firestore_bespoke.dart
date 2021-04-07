@@ -14,36 +14,36 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 class MemberFirestore implements MemberRepository {
   @override
-  Future<MemberModel> add(MemberModel value) {
-    return MemberCollection.doc(value.documentID)
+  Future<MemberModel> add(MemberModel? value) {
+    return MemberCollection.doc(value!.documentID)
         .set(value.toEntity().toDocument())
         .then((_) => value);
   }
 
   @override
-  Future<void> delete(MemberModel value) {
-    return MemberCollection.doc(value.documentID).delete();
+  Future<void> delete(MemberModel? value) {
+    return MemberCollection.doc(value!.documentID).delete();
   }
 
   @override
-  Future<MemberModel> update(MemberModel value) {
-    return MemberCollection.doc(value.documentID)
+  Future<MemberModel> update(MemberModel? value) {
+    return MemberCollection.doc(value!.documentID)
         .update(value.toEntity().toDocument())
         .then((_) => value);
   }
 
-  MemberModel _populateDoc(DocumentSnapshot doc) {
+  MemberModel? _populateDoc(DocumentSnapshot doc) {
     return MemberModel.fromEntity(
         doc.id, MemberEntity.fromMap(doc.data()));
   }
 
-  Future<MemberModel> _populateDocPlus(DocumentSnapshot doc) async {
+  Future<MemberModel?> _populateDocPlus(DocumentSnapshot doc) async {
     return MemberModel.fromEntityPlus(
         doc.id, MemberEntity.fromMap(doc.data()));
   }
 
   @override
-  Future<MemberModel> get(String id, { Function(Exception) onError }) {
+  Future<MemberModel?> get(String? id, { Function(Exception)? onError }) {
     return MemberCollection.doc(id).get().then((doc) {
       if (doc.data != null) {
         return _populateDocPlus(doc);
@@ -52,24 +52,24 @@ class MemberFirestore implements MemberRepository {
       }
     }).catchError((Object e) {
       if (onError != null) {
-        onError(e);
+        onError(e as Exception);
       }
     });
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listen(
+  StreamSubscription<List<MemberModel?>> listen(
       MemberModelTrigger trigger,
-      {String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery}) {
-    Stream<List<MemberModel>>  stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+      {String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+    Stream<List<MemberModel?>>  stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
           .where('readAccess', arrayContains: currentMember)
               .snapshots()
               .map((data) {
-        Iterable<MemberModel> members = data.docs.map((doc) {
+        Iterable<MemberModel?> members = data.docs.map((doc) {
           var value = _populateDoc(doc);
           return value;
         }).toList();
-        return members;
+        return members as List<MemberModel?>;
       });
 
     return stream.listen((listOfMemberModels) {
@@ -78,9 +78,9 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<List<MemberModel>> listenWithDetails(
-      MemberModelTrigger trigger, { String currentMember, String orderBy, bool descending, Object startAfter, int limit, int privilegeLevel, EliudQuery eliudQuery }) {
-    var stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+  StreamSubscription<List<MemberModel?>> listenWithDetails(
+      MemberModelTrigger trigger, { String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    var stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .asyncMap((data) async {
@@ -93,8 +93,8 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> values({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+  Stream<List<MemberModel?>> values({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
           .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .map((snapshot) {
@@ -103,8 +103,8 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Stream<List<MemberModel>> valuesWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) {
-    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+  Stream<List<MemberModel?>> valuesWithDetails({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
           .where('readAccess', arrayContains: currentMember)
           .snapshots()
           .asyncMap((snapshot) {
@@ -114,8 +114,8 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesList({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+  Future<List<MemberModel?>> valuesList({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
           .where('readAccess', arrayContains: currentMember)
           .get()
           .then((value) {
@@ -125,8 +125,8 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<List<MemberModel>> valuesListWithDetails({String currentMember, String orderBy, bool descending, Object startAfter, int limit, SetLastDoc setLastDoc, int privilegeLevel, EliudQuery eliudQuery }) async {
-    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)
+  Future<List<MemberModel?>> valuesListWithDetails({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
           .get()
           .then((value) {
@@ -158,12 +158,12 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  String timeStampToString(timeStamp) {
+  String? timeStampToString(timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
   @override
-  StreamSubscription<MemberModel> listenTo(String documentId, MemberChanged changed) {
+  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed) {
     var stream = MemberCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
@@ -175,7 +175,7 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<MemberModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+  Future<MemberModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
     var change = FieldValue.increment(changeByThisValue);
     return MemberCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }

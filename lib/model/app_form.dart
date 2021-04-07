@@ -58,10 +58,10 @@ import 'package:eliud_core/model/app_form_state.dart';
 
 class AppForm extends StatelessWidget {
   FormAction formAction;
-  AppModel value;
-  ActionModel submitAction;
+  AppModel? value;
+  ActionModel? submitAction;
 
-  AppForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  AppForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +89,12 @@ class AppForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update App", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update App", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add App", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add App", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -112,8 +112,8 @@ class AppForm extends StatelessWidget {
 
 
 class MyAppForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyAppForm({this.formAction, this.submitAction});
 
@@ -122,33 +122,33 @@ class MyAppForm extends StatefulWidget {
 
 
 class _MyAppFormState extends State<MyAppForm> {
-  final FormAction formAction;
-  AppFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late AppFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _ownerIDController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  int _appStatusSelectedRadioTile;
-  int _darkOrLightSelectedRadioTile;
-  String _logo;
-  String _formBackground;
-  String _formAppBarBackground;
-  String _listBackground;
-  int _routeBuilderSelectedRadioTile;
+  int? _appStatusSelectedRadioTile;
+  int? _darkOrLightSelectedRadioTile;
+  String? _logo;
+  String? _formBackground;
+  String? _formAppBarBackground;
+  String? _listBackground;
+  int? _routeBuilderSelectedRadioTile;
   final TextEditingController _routeAnimationDurationController = TextEditingController();
   final TextEditingController _logoURLController = TextEditingController();
-  String _h1;
-  String _h2;
-  String _h3;
-  String _h4;
-  String _h5;
-  String _fontText;
-  String _fontHighlight1;
-  String _fontHighlight2;
-  String _fontLink;
-  String _policies;
+  String? _h1;
+  String? _h2;
+  String? _h3;
+  String? _h4;
+  String? _h5;
+  String? _fontText;
+  String? _fontHighlight1;
+  String? _fontHighlight2;
+  String? _fontLink;
+  String? _policies;
 
 
   _MyAppFormState(this.formAction);
@@ -179,111 +179,111 @@ class _MyAppFormState extends State<MyAppForm> {
       );
 
       if (state is AppFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.ownerID != null)
-          _ownerIDController.text = state.value.ownerID.toString();
+        if (state.value!.ownerID != null)
+          _ownerIDController.text = state.value!.ownerID.toString();
         else
           _ownerIDController.text = "";
-        if (state.value.title != null)
-          _titleController.text = state.value.title.toString();
+        if (state.value!.title != null)
+          _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value.email != null)
-          _emailController.text = state.value.email.toString();
+        if (state.value!.email != null)
+          _emailController.text = state.value!.email.toString();
         else
           _emailController.text = "";
-        if (state.value.description != null)
-          _descriptionController.text = state.value.description.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
           _descriptionController.text = "";
-        if (state.value.appStatus != null)
-          _appStatusSelectedRadioTile = state.value.appStatus.index;
+        if (state.value!.appStatus != null)
+          _appStatusSelectedRadioTile = state.value!.appStatus!.index;
         else
           _appStatusSelectedRadioTile = 0;
-        if (state.value.darkOrLight != null)
-          _darkOrLightSelectedRadioTile = state.value.darkOrLight.index;
+        if (state.value!.darkOrLight != null)
+          _darkOrLightSelectedRadioTile = state.value!.darkOrLight!.index;
         else
           _darkOrLightSelectedRadioTile = 0;
-        if (state.value.logo != null)
-          _logo= state.value.logo.documentID;
+        if (state.value!.logo != null)
+          _logo= state.value!.logo!.documentID;
         else
           _logo= "";
-        if (state.value.formBackground != null)
-          _formBackground= state.value.formBackground.documentID;
+        if (state.value!.formBackground != null)
+          _formBackground= state.value!.formBackground!.documentID;
         else
           _formBackground= "";
-        if (state.value.formAppBarBackground != null)
-          _formAppBarBackground= state.value.formAppBarBackground.documentID;
+        if (state.value!.formAppBarBackground != null)
+          _formAppBarBackground= state.value!.formAppBarBackground!.documentID;
         else
           _formAppBarBackground= "";
-        if (state.value.listBackground != null)
-          _listBackground= state.value.listBackground.documentID;
+        if (state.value!.listBackground != null)
+          _listBackground= state.value!.listBackground!.documentID;
         else
           _listBackground= "";
-        if (state.value.routeBuilder != null)
-          _routeBuilderSelectedRadioTile = state.value.routeBuilder.index;
+        if (state.value!.routeBuilder != null)
+          _routeBuilderSelectedRadioTile = state.value!.routeBuilder!.index;
         else
           _routeBuilderSelectedRadioTile = 0;
-        if (state.value.routeAnimationDuration != null)
-          _routeAnimationDurationController.text = state.value.routeAnimationDuration.toString();
+        if (state.value!.routeAnimationDuration != null)
+          _routeAnimationDurationController.text = state.value!.routeAnimationDuration.toString();
         else
           _routeAnimationDurationController.text = "";
-        if (state.value.logoURL != null)
-          _logoURLController.text = state.value.logoURL.toString();
+        if (state.value!.logoURL != null)
+          _logoURLController.text = state.value!.logoURL.toString();
         else
           _logoURLController.text = "";
-        if (state.value.h1 != null)
-          _h1= state.value.h1.documentID;
+        if (state.value!.h1 != null)
+          _h1= state.value!.h1!.documentID;
         else
           _h1= "";
-        if (state.value.h2 != null)
-          _h2= state.value.h2.documentID;
+        if (state.value!.h2 != null)
+          _h2= state.value!.h2!.documentID;
         else
           _h2= "";
-        if (state.value.h3 != null)
-          _h3= state.value.h3.documentID;
+        if (state.value!.h3 != null)
+          _h3= state.value!.h3!.documentID;
         else
           _h3= "";
-        if (state.value.h4 != null)
-          _h4= state.value.h4.documentID;
+        if (state.value!.h4 != null)
+          _h4= state.value!.h4!.documentID;
         else
           _h4= "";
-        if (state.value.h5 != null)
-          _h5= state.value.h5.documentID;
+        if (state.value!.h5 != null)
+          _h5= state.value!.h5!.documentID;
         else
           _h5= "";
-        if (state.value.fontText != null)
-          _fontText= state.value.fontText.documentID;
+        if (state.value!.fontText != null)
+          _fontText= state.value!.fontText!.documentID;
         else
           _fontText= "";
-        if (state.value.fontHighlight1 != null)
-          _fontHighlight1= state.value.fontHighlight1.documentID;
+        if (state.value!.fontHighlight1 != null)
+          _fontHighlight1= state.value!.fontHighlight1!.documentID;
         else
           _fontHighlight1= "";
-        if (state.value.fontHighlight2 != null)
-          _fontHighlight2= state.value.fontHighlight2.documentID;
+        if (state.value!.fontHighlight2 != null)
+          _fontHighlight2= state.value!.fontHighlight2!.documentID;
         else
           _fontHighlight2= "";
-        if (state.value.fontLink != null)
-          _fontLink= state.value.fontLink.documentID;
+        if (state.value!.fontLink != null)
+          _fontLink= state.value!.fontLink!.documentID;
         else
           _fontLink= "";
-        if (state.value.policies != null)
-          _policies= state.value.policies.documentID;
+        if (state.value!.policies != null)
+          _policies= state.value!.policies!.documentID;
         else
           _policies= "";
       }
       if (state is AppFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = List();
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -428,7 +428,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _darkOrLightSelectedRadioTile,
                     title: Text("Dark", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Dark", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDarkOrLight(val);
                     },
                 ),
@@ -441,7 +441,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _darkOrLightSelectedRadioTile,
                     title: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDarkOrLight(val);
                     },
                 ),
@@ -494,32 +494,32 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                RgbField("Form Submit Button Color", state.value.formSubmitButtonColor, _onFormSubmitButtonColorChanged)
+                RgbField("Form Submit Button Color", state.value!.formSubmitButtonColor, _onFormSubmitButtonColorChanged)
           );
 
         children.add(
 
-                RgbField("Form Submit Button Text Color", state.value.formSubmitButtonTextColor, _onFormSubmitButtonTextColorChanged)
+                RgbField("Form Submit Button Text Color", state.value!.formSubmitButtonTextColor, _onFormSubmitButtonTextColorChanged)
           );
 
         children.add(
 
-                RgbField("Form Group Title Color", state.value.formGroupTitleColor, _onFormGroupTitleColorChanged)
+                RgbField("Form Group Title Color", state.value!.formGroupTitleColor, _onFormGroupTitleColorChanged)
           );
 
         children.add(
 
-                RgbField("Form Field Text Color", state.value.formFieldTextColor, _onFormFieldTextColorChanged)
+                RgbField("Form Field Text Color", state.value!.formFieldTextColor, _onFormFieldTextColorChanged)
           );
 
         children.add(
 
-                RgbField("Form Field Focus Color", state.value.formFieldFocusColor, _onFormFieldFocusColorChanged)
+                RgbField("Form Field Focus Color", state.value!.formFieldFocusColor, _onFormFieldFocusColorChanged)
           );
 
         children.add(
 
-                RgbField("Form App Bar Text color", state.value.formAppBarTextColor, _onFormAppBarTextColorChanged)
+                RgbField("Form App Bar Text color", state.value!.formAppBarTextColor, _onFormAppBarTextColorChanged)
           );
 
 
@@ -537,7 +537,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                RgbField("List Item Text Color", state.value.listTextItemColor, _onListTextItemColorChanged)
+                RgbField("List Item Text Color", state.value!.listTextItemColor, _onListTextItemColorChanged)
           );
 
 
@@ -555,12 +555,12 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                RgbField("List Item Text Color", state.value.floatingButtonForegroundColor, _onFloatingButtonForegroundColorChanged)
+                RgbField("List Item Text Color", state.value!.floatingButtonForegroundColor, _onFloatingButtonForegroundColorChanged)
           );
 
         children.add(
 
-                RgbField("List Item Text Color", state.value.floatingButtonBackgroundColor, _onFloatingButtonBackgroundColorChanged)
+                RgbField("List Item Text Color", state.value!.floatingButtonBackgroundColor, _onFloatingButtonBackgroundColorChanged)
           );
 
 
@@ -578,17 +578,17 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                RgbField("Form Field Header Color", state.value.formFieldHeaderColor, _onFormFieldHeaderColorChanged)
+                RgbField("Form Field Header Color", state.value!.formFieldHeaderColor, _onFormFieldHeaderColorChanged)
           );
 
         children.add(
 
-                RgbField("Divider Color", state.value.dividerColor, _onDividerColorChanged)
+                RgbField("Divider Color", state.value!.dividerColor, _onDividerColorChanged)
           );
 
         children.add(
 
-                RgbField("Divider Color", state.value.dividerColor, _onDividerColorChanged)
+                RgbField("Divider Color", state.value!.dividerColor, _onDividerColorChanged)
           );
 
 
@@ -679,7 +679,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _routeBuilderSelectedRadioTile,
                     title: Text("SlideRightToLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("SlideRightToLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionRouteBuilder(val);
                     },
                 ),
@@ -692,7 +692,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _routeBuilderSelectedRadioTile,
                     title: Text("SlideBottomToTop", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("SlideBottomToTop", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionRouteBuilder(val);
                     },
                 ),
@@ -705,7 +705,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _routeBuilderSelectedRadioTile,
                     title: Text("ScaleRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("ScaleRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionRouteBuilder(val);
                     },
                 ),
@@ -718,7 +718,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _routeBuilderSelectedRadioTile,
                     title: Text("RotationRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("RotationRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionRouteBuilder(val);
                     },
                 ),
@@ -731,7 +731,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _routeBuilderSelectedRadioTile,
                     title: Text("FadeRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("FadeRoute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionRouteBuilder(val);
                     },
                 ),
@@ -776,7 +776,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _appStatusSelectedRadioTile,
                     title: Text("Live", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Live", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionAppStatus(val);
                     },
                 ),
@@ -789,7 +789,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _appStatusSelectedRadioTile,
                     title: Text("Offline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Offline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionAppStatus(val);
                     },
                 ),
@@ -802,7 +802,7 @@ class _MyAppFormState extends State<MyAppForm> {
                     groupValue: _appStatusSelectedRadioTile,
                     title: Text("Invisible", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     subtitle: Text("Invisible", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (val) {
+                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionAppStatus(val);
                     },
                 ),
@@ -979,89 +979,89 @@ class _MyAppFormState extends State<MyAppForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<AppListBloc>(context).add(
-                          UpdateAppList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              ownerID: state.value.ownerID, 
-                              title: state.value.title, 
-                              email: state.value.email, 
-                              description: state.value.description, 
-                              appStatus: state.value.appStatus, 
-                              darkOrLight: state.value.darkOrLight, 
-                              homePages: state.value.homePages, 
-                              logo: state.value.logo, 
-                              formSubmitButtonColor: state.value.formSubmitButtonColor, 
-                              formBackground: state.value.formBackground, 
-                              formSubmitButtonTextColor: state.value.formSubmitButtonTextColor, 
-                              formGroupTitleColor: state.value.formGroupTitleColor, 
-                              formFieldTextColor: state.value.formFieldTextColor, 
-                              formFieldHeaderColor: state.value.formFieldHeaderColor, 
-                              formFieldFocusColor: state.value.formFieldFocusColor, 
-                              formAppBarBackground: state.value.formAppBarBackground, 
-                              formAppBarTextColor: state.value.formAppBarTextColor, 
-                              listBackground: state.value.listBackground, 
-                              listTextItemColor: state.value.listTextItemColor, 
-                              floatingButtonForegroundColor: state.value.floatingButtonForegroundColor, 
-                              floatingButtonBackgroundColor: state.value.floatingButtonBackgroundColor, 
-                              dividerColor: state.value.dividerColor, 
-                              iconColor: state.value.iconColor, 
-                              routeBuilder: state.value.routeBuilder, 
-                              routeAnimationDuration: state.value.routeAnimationDuration, 
-                              logoURL: state.value.logoURL, 
-                              h1: state.value.h1, 
-                              h2: state.value.h2, 
-                              h3: state.value.h3, 
-                              h4: state.value.h4, 
-                              h5: state.value.h5, 
-                              fontText: state.value.fontText, 
-                              fontHighlight1: state.value.fontHighlight1, 
-                              fontHighlight2: state.value.fontHighlight2, 
-                              fontLink: state.value.fontLink, 
-                              policies: state.value.policies, 
+                          UpdateAppList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              ownerID: state.value!.ownerID, 
+                              title: state.value!.title, 
+                              email: state.value!.email, 
+                              description: state.value!.description, 
+                              appStatus: state.value!.appStatus, 
+                              darkOrLight: state.value!.darkOrLight, 
+                              homePages: state.value!.homePages, 
+                              logo: state.value!.logo, 
+                              formSubmitButtonColor: state.value!.formSubmitButtonColor, 
+                              formBackground: state.value!.formBackground, 
+                              formSubmitButtonTextColor: state.value!.formSubmitButtonTextColor, 
+                              formGroupTitleColor: state.value!.formGroupTitleColor, 
+                              formFieldTextColor: state.value!.formFieldTextColor, 
+                              formFieldHeaderColor: state.value!.formFieldHeaderColor, 
+                              formFieldFocusColor: state.value!.formFieldFocusColor, 
+                              formAppBarBackground: state.value!.formAppBarBackground, 
+                              formAppBarTextColor: state.value!.formAppBarTextColor, 
+                              listBackground: state.value!.listBackground, 
+                              listTextItemColor: state.value!.listTextItemColor, 
+                              floatingButtonForegroundColor: state.value!.floatingButtonForegroundColor, 
+                              floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
+                              dividerColor: state.value!.dividerColor, 
+                              iconColor: state.value!.iconColor, 
+                              routeBuilder: state.value!.routeBuilder, 
+                              routeAnimationDuration: state.value!.routeAnimationDuration, 
+                              logoURL: state.value!.logoURL, 
+                              h1: state.value!.h1, 
+                              h2: state.value!.h2, 
+                              h3: state.value!.h3, 
+                              h4: state.value!.h4, 
+                              h5: state.value!.h5, 
+                              fontText: state.value!.fontText, 
+                              fontHighlight1: state.value!.fontHighlight1, 
+                              fontHighlight2: state.value!.fontHighlight2, 
+                              fontLink: state.value!.fontLink, 
+                              policies: state.value!.policies, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
                           AddAppList(value: AppModel(
-                              documentID: state.value.documentID, 
-                              ownerID: state.value.ownerID, 
-                              title: state.value.title, 
-                              email: state.value.email, 
-                              description: state.value.description, 
-                              appStatus: state.value.appStatus, 
-                              darkOrLight: state.value.darkOrLight, 
-                              homePages: state.value.homePages, 
-                              logo: state.value.logo, 
-                              formSubmitButtonColor: state.value.formSubmitButtonColor, 
-                              formBackground: state.value.formBackground, 
-                              formSubmitButtonTextColor: state.value.formSubmitButtonTextColor, 
-                              formGroupTitleColor: state.value.formGroupTitleColor, 
-                              formFieldTextColor: state.value.formFieldTextColor, 
-                              formFieldHeaderColor: state.value.formFieldHeaderColor, 
-                              formFieldFocusColor: state.value.formFieldFocusColor, 
-                              formAppBarBackground: state.value.formAppBarBackground, 
-                              formAppBarTextColor: state.value.formAppBarTextColor, 
-                              listBackground: state.value.listBackground, 
-                              listTextItemColor: state.value.listTextItemColor, 
-                              floatingButtonForegroundColor: state.value.floatingButtonForegroundColor, 
-                              floatingButtonBackgroundColor: state.value.floatingButtonBackgroundColor, 
-                              dividerColor: state.value.dividerColor, 
-                              iconColor: state.value.iconColor, 
-                              routeBuilder: state.value.routeBuilder, 
-                              routeAnimationDuration: state.value.routeAnimationDuration, 
-                              logoURL: state.value.logoURL, 
-                              h1: state.value.h1, 
-                              h2: state.value.h2, 
-                              h3: state.value.h3, 
-                              h4: state.value.h4, 
-                              h5: state.value.h5, 
-                              fontText: state.value.fontText, 
-                              fontHighlight1: state.value.fontHighlight1, 
-                              fontHighlight2: state.value.fontHighlight2, 
-                              fontLink: state.value.fontLink, 
-                              policies: state.value.policies, 
+                              documentID: state.value!.documentID, 
+                              ownerID: state.value!.ownerID, 
+                              title: state.value!.title, 
+                              email: state.value!.email, 
+                              description: state.value!.description, 
+                              appStatus: state.value!.appStatus, 
+                              darkOrLight: state.value!.darkOrLight, 
+                              homePages: state.value!.homePages, 
+                              logo: state.value!.logo, 
+                              formSubmitButtonColor: state.value!.formSubmitButtonColor, 
+                              formBackground: state.value!.formBackground, 
+                              formSubmitButtonTextColor: state.value!.formSubmitButtonTextColor, 
+                              formGroupTitleColor: state.value!.formGroupTitleColor, 
+                              formFieldTextColor: state.value!.formFieldTextColor, 
+                              formFieldHeaderColor: state.value!.formFieldHeaderColor, 
+                              formFieldFocusColor: state.value!.formFieldFocusColor, 
+                              formAppBarBackground: state.value!.formAppBarBackground, 
+                              formAppBarTextColor: state.value!.formAppBarTextColor, 
+                              listBackground: state.value!.listBackground, 
+                              listTextItemColor: state.value!.listTextItemColor, 
+                              floatingButtonForegroundColor: state.value!.floatingButtonForegroundColor, 
+                              floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
+                              dividerColor: state.value!.dividerColor, 
+                              iconColor: state.value!.iconColor, 
+                              routeBuilder: state.value!.routeBuilder, 
+                              routeAnimationDuration: state.value!.routeAnimationDuration, 
+                              logoURL: state.value!.logoURL, 
+                              h1: state.value!.h1, 
+                              h2: state.value!.h2, 
+                              h3: state.value!.h3, 
+                              h4: state.value!.h4, 
+                              h5: state.value!.h5, 
+                              fontText: state.value!.fontText, 
+                              fontHighlight1: state.value!.fontHighlight1, 
+                              fontHighlight2: state.value!.fontHighlight2, 
+                              fontLink: state.value!.fontLink, 
+                              policies: state.value!.policies, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }
@@ -1081,7 +1081,7 @@ class _MyAppFormState extends State<MyAppForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );
@@ -1116,7 +1116,7 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
-  void setSelectionAppStatus(int val) {
+  void setSelectionAppStatus(int? val) {
     setState(() {
       _appStatusSelectedRadioTile = val;
     });
@@ -1124,7 +1124,7 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
-  void setSelectionDarkOrLight(int val) {
+  void setSelectionDarkOrLight(int? val) {
     setState(() {
       _darkOrLightSelectedRadioTile = val;
     });
@@ -1236,7 +1236,7 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
-  void setSelectionRouteBuilder(int val) {
+  void setSelectionRouteBuilder(int? val) {
     setState(() {
       _routeBuilderSelectedRadioTile = val;
     });

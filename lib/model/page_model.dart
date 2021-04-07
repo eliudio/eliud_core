@@ -35,7 +35,7 @@ enum PageLayout {
 }
 
 
-PageLayout toPageLayout(int index) {
+PageLayout toPageLayout(int? index) {
   switch (index) {
     case 0: return PageLayout.GridView;
     case 1: return PageLayout.ListView;
@@ -46,26 +46,26 @@ PageLayout toPageLayout(int index) {
 
 
 class PageModel {
-  String documentID;
-  String appId;
-  String title;
-  AppBarModel appBar;
-  DrawerModel drawer;
-  DrawerModel endDrawer;
-  HomeMenuModel homeMenu;
-  List<BodyComponentModel> bodyComponents;
-  BackgroundModel background;
-  PageLayout layout;
+  String? documentID;
+  String? appId;
+  String? title;
+  AppBarModel? appBar;
+  DrawerModel? drawer;
+  DrawerModel? endDrawer;
+  HomeMenuModel? homeMenu;
+  List<BodyComponentModel>? bodyComponents;
+  BackgroundModel? background;
+  PageLayout? layout;
 
   // Specific gridview
-  GridViewModel gridView;
-  ConditionsModel conditions;
+  GridViewModel? gridView;
+  ConditionsModel? conditions;
 
   PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.background, this.layout, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PageModel copyWith({String documentID, String appId, String title, AppBarModel appBar, DrawerModel drawer, DrawerModel endDrawer, HomeMenuModel homeMenu, List<BodyComponentModel> bodyComponents, BackgroundModel background, PageLayout layout, GridViewModel gridView, ConditionsModel conditions, }) {
+  PageModel copyWith({String? documentID, String? appId, String? title, AppBarModel? appBar, DrawerModel? drawer, DrawerModel? endDrawer, HomeMenuModel? homeMenu, List<BodyComponentModel>? bodyComponents, BackgroundModel? background, PageLayout? layout, GridViewModel? gridView, ConditionsModel? conditions, }) {
     return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
@@ -92,30 +92,30 @@ class PageModel {
 
   @override
   String toString() {
-    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents.join(', ');
+    String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
     return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
-  PageEntity toEntity({String appId}) {
+  PageEntity toEntity({String? appId}) {
     return PageEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          appBarId: (appBar != null) ? appBar.documentID : null, 
-          drawerId: (drawer != null) ? drawer.documentID : null, 
-          endDrawerId: (endDrawer != null) ? endDrawer.documentID : null, 
-          homeMenuId: (homeMenu != null) ? homeMenu.documentID : null, 
-          bodyComponents: (bodyComponents != null) ? bodyComponents
+          appBarId: (appBar != null) ? appBar!.documentID : null, 
+          drawerId: (drawer != null) ? drawer!.documentID : null, 
+          endDrawerId: (endDrawer != null) ? endDrawer!.documentID : null, 
+          homeMenuId: (homeMenu != null) ? homeMenu!.documentID : null, 
+          bodyComponents: (bodyComponents != null) ? bodyComponents!
             .map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundId: (background != null) ? background.documentID : null, 
-          layout: (layout != null) ? layout.index : null, 
-          gridViewId: (gridView != null) ? gridView.documentID : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          backgroundId: (background != null) ? background!.documentID : null, 
+          layout: (layout != null) ? layout!.index : null, 
+          gridViewId: (gridView != null) ? gridView!.documentID : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static PageModel fromEntity(String documentID, PageEntity entity) {
+  static PageModel? fromEntity(String documentID, PageEntity? entity) {
     if (entity == null) return null;
     return PageModel(
           documentID: documentID, 
@@ -123,7 +123,7 @@ class PageModel {
           title: entity.title, 
           bodyComponents: 
             entity.bodyComponents == null ? null :
-            entity.bodyComponents
+            entity.bodyComponents!
             .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
             .toList(), 
           layout: toPageLayout(entity.layout), 
@@ -132,58 +132,58 @@ class PageModel {
     );
   }
 
-  static Future<PageModel> fromEntityPlus(String documentID, PageEntity entity, { String appId}) async {
+  static Future<PageModel?> fromEntityPlus(String documentID, PageEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    AppBarModel appBarHolder;
+    AppBarModel? appBarHolder;
     if (entity.appBarId != null) {
       try {
-        await appBarRepository(appId: appId).get(entity.appBarId).then((val) {
+        await appBarRepository(appId: appId)!.get(entity.appBarId).then((val) {
           appBarHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    DrawerModel drawerHolder;
+    DrawerModel? drawerHolder;
     if (entity.drawerId != null) {
       try {
-        await drawerRepository(appId: appId).get(entity.drawerId).then((val) {
+        await drawerRepository(appId: appId)!.get(entity.drawerId).then((val) {
           drawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    DrawerModel endDrawerHolder;
+    DrawerModel? endDrawerHolder;
     if (entity.endDrawerId != null) {
       try {
-        await drawerRepository(appId: appId).get(entity.endDrawerId).then((val) {
+        await drawerRepository(appId: appId)!.get(entity.endDrawerId).then((val) {
           endDrawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    HomeMenuModel homeMenuHolder;
+    HomeMenuModel? homeMenuHolder;
     if (entity.homeMenuId != null) {
       try {
-        await homeMenuRepository(appId: appId).get(entity.homeMenuId).then((val) {
+        await homeMenuRepository(appId: appId)!.get(entity.homeMenuId).then((val) {
           homeMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel backgroundHolder;
+    BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    GridViewModel gridViewHolder;
+    GridViewModel? gridViewHolder;
     if (entity.gridViewId != null) {
       try {
-        await gridViewRepository(appId: appId).get(entity.gridViewId).then((val) {
+        await gridViewRepository(appId: appId)!.get(entity.gridViewId).then((val) {
           gridViewHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -198,7 +198,7 @@ class PageModel {
           endDrawer: endDrawerHolder, 
           homeMenu: homeMenuHolder, 
           bodyComponents: 
-            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
+            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents!
             .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           background: backgroundHolder, 

@@ -21,33 +21,33 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class PosSizeEntity {
-  final String appId;
-  final String name;
-  final double widthPortrait;
-  final int widthTypePortrait;
-  final double widthLandscape;
-  final int widthTypeLandscape;
-  final double heightPortrait;
-  final int heightTypePortrait;
-  final double heightLandscape;
-  final int heightTypeLandscape;
-  final int fitPortrait;
-  final int fitLandscape;
-  final int alignTypePortrait;
-  final int alignTypeLandscape;
-  final int clip;
+  final String? appId;
+  final String? name;
+  final double? widthPortrait;
+  final int? widthTypePortrait;
+  final double? widthLandscape;
+  final int? widthTypeLandscape;
+  final double? heightPortrait;
+  final int? heightTypePortrait;
+  final double? heightLandscape;
+  final int? heightTypeLandscape;
+  final int? fitPortrait;
+  final int? fitLandscape;
+  final int? alignTypePortrait;
+  final int? alignTypeLandscape;
+  final int? clip;
 
   PosSizeEntity({this.appId, this.name, this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, });
 
 
-  List<Object> get props => [appId, name, widthPortrait, widthTypePortrait, widthLandscape, widthTypeLandscape, heightPortrait, heightTypePortrait, heightLandscape, heightTypeLandscape, fitPortrait, fitLandscape, alignTypePortrait, alignTypeLandscape, clip, ];
+  List<Object?> get props => [appId, name, widthPortrait, widthTypePortrait, widthLandscape, widthTypeLandscape, heightPortrait, heightTypePortrait, heightLandscape, heightTypeLandscape, fitPortrait, fitLandscape, alignTypePortrait, alignTypeLandscape, clip, ];
 
   @override
   String toString() {
     return 'PosSizeEntity{appId: $appId, name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  static PosSizeEntity fromMap(Map map) {
+  static PosSizeEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return PosSizeEntity(
@@ -69,8 +69,8 @@ class PosSizeEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (name != null) theDocument["name"] = name;
@@ -104,8 +104,8 @@ class PosSizeEntity {
     return theDocument;
   }
 
-  static PosSizeEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static PosSizeEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

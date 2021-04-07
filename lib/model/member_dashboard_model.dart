@@ -36,36 +36,36 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberDashboardModel {
-  String documentID;
+  String? documentID;
 
   // This is the identifier of the app to which this belongs
-  String appId;
-  String description;
+  String? appId;
+  String? description;
 
   // This is the text on the member dashboard screen providing more information about what it means to update the member profile
-  String updateProfileText;
+  String? updateProfileText;
 
   // This is the text on the member dashboard screen providing more information about what it means to retrieve all data
-  String retrieveDataText;
+  String? retrieveDataText;
 
   // This is the text on the member dashboard screen providing more information about what it means to destroy the account, i.e. the member will loose all data
-  String deleteDataText;
+  String? deleteDataText;
 
   // This is the subject of the email providing the member his data stored in the app (after requesting it)
-  String retrieveDataEmailSubject;
+  String? retrieveDataEmailSubject;
 
   // This is the subject of the email informing the member that his account and all of his data has been destroyed (after requesting it)
-  String deleteDataEmailSubject;
+  String? deleteDataEmailSubject;
 
   // This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)
-  String deleteDataEmailMessage;
-  ConditionsSimpleModel conditions;
+  String? deleteDataEmailMessage;
+  ConditionsSimpleModel? conditions;
 
   MemberDashboardModel({this.documentID, this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
     assert(documentID != null);
   }
 
-  MemberDashboardModel copyWith({String documentID, String appId, String description, String updateProfileText, String retrieveDataText, String deleteDataText, String retrieveDataEmailSubject, String deleteDataEmailSubject, String deleteDataEmailMessage, ConditionsSimpleModel conditions, }) {
+  MemberDashboardModel copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, ConditionsSimpleModel? conditions, }) {
     return MemberDashboardModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, updateProfileText: updateProfileText ?? this.updateProfileText, retrieveDataText: retrieveDataText ?? this.retrieveDataText, deleteDataText: deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject: retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject: deleteDataEmailSubject ?? this.deleteDataEmailSubject, deleteDataEmailMessage: deleteDataEmailMessage ?? this.deleteDataEmailMessage, conditions: conditions ?? this.conditions, );
   }
 
@@ -93,7 +93,7 @@ class MemberDashboardModel {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  MemberDashboardEntity toEntity({String appId}) {
+  MemberDashboardEntity toEntity({String? appId}) {
     return MemberDashboardEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -103,11 +103,11 @@ class MemberDashboardModel {
           retrieveDataEmailSubject: (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null, 
           deleteDataEmailSubject: (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null, 
           deleteDataEmailMessage: (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null, 
-          conditions: (conditions != null) ? conditions.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
-  static MemberDashboardModel fromEntity(String documentID, MemberDashboardEntity entity) {
+  static MemberDashboardModel? fromEntity(String documentID, MemberDashboardEntity? entity) {
     if (entity == null) return null;
     return MemberDashboardModel(
           documentID: documentID, 
@@ -124,7 +124,7 @@ class MemberDashboardModel {
     );
   }
 
-  static Future<MemberDashboardModel> fromEntityPlus(String documentID, MemberDashboardEntity entity, { String appId}) async {
+  static Future<MemberDashboardModel?> fromEntityPlus(String documentID, MemberDashboardEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return MemberDashboardModel(

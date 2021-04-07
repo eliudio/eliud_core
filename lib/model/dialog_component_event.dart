@@ -21,7 +21,7 @@ abstract class DialogComponentEvent extends Equatable {
 }
 
 class FetchDialogComponent extends DialogComponentEvent {
-  final String id;
+  final String? id;
 
   FetchDialogComponent({ this.id });
 }

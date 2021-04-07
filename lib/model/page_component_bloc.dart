@@ -24,19 +24,19 @@ import 'package:flutter/services.dart';
 
 
 class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
-  final PageRepository pageRepository;
+  final PageRepository? pageRepository;
 
   PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized());
   @override
   Stream<PageComponentState> mapEventToState(PageComponentEvent event) async* {
-    final currentState = state;
+    final PageComponentState currentState = state;
     if (event is FetchPageComponent) {
       try {
         if (currentState is PageComponentUninitialized) {
           bool permissionDenied = false;
-          final model = await pageRepository.get(event.id, onError: (error) {
+          final model = await pageRepository!.get(event.id, onError: (error) {
             // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message.startsWith("PERMISSION_DENIED"))) {
+            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
               permissionDenied = true;
             }
           });
@@ -46,7 +46,7 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
             if (model != null) {
               yield PageComponentLoaded(value: model);
             } else {
-              String id = event.id;
+              String? id = event.id;
               yield PageComponentError(
                   message: "Page with id = '$id' not found");
             }

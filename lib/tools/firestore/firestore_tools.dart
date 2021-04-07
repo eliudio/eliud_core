@@ -18,7 +18,7 @@ dynamic getFirestoreField(dynamic conditionField) {
 //     query the pages with privilegeLevel = 0
 //
 // If not logged in, or if privilegeLevel <= 0, theh query the pages with privilegeLevel = 0
-Query getQuery(collection, {String orderBy, bool descending, DocumentSnapshot startAfter, int limit, int privilegeLevel, String appId, EliudQuery eliudQuery}) {
+Query? getQuery(collection, {String? orderBy, bool? descending, DocumentSnapshot? startAfter, int? limit, int? privilegeLevel, String? appId, EliudQuery? eliudQuery}) {
   var useThisCollection = collection;
   // Are we ordering?
   if (orderBy != null) {
@@ -84,13 +84,14 @@ Query getQuery(collection, {String orderBy, bool descending, DocumentSnapshot st
   return useThisCollection;
 }
 
-DateTime timeStampToDateTime(Timestamp timestamp) {
+DateTime? timeStampToDateTime(Timestamp timestamp) {
   if (timestamp is Timestamp) {
     return timestamp.toDate();
   }
+  return null;
 }
 
-String firestoreTimeStampToString(dynamic timestamp) {
+String? firestoreTimeStampToString(dynamic timestamp) {
   if (timestamp is Timestamp) {
     return DateFormat("dd MMM yyyy hh:mm").format(timestamp.toDate());
   } else {

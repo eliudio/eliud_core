@@ -30,7 +30,7 @@ abstract class BodyComponentFormEvent extends Equatable {
   const BodyComponentFormEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitialiseNewBodyComponentFormEvent extends BodyComponentFormEvent {
@@ -38,54 +38,54 @@ class InitialiseNewBodyComponentFormEvent extends BodyComponentFormEvent {
 
 
 class InitialiseBodyComponentFormEvent extends BodyComponentFormEvent {
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseBodyComponentFormEvent({this.value});
 }
 
 class InitialiseBodyComponentFormNoLoadEvent extends BodyComponentFormEvent {
-  final BodyComponentModel value;
+  final BodyComponentModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   InitialiseBodyComponentFormNoLoadEvent({this.value});
 }
 
 class ChangedBodyComponentDocumentID extends BodyComponentFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBodyComponentDocumentID({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBodyComponentDocumentID{ value: $value }';
 }
 
 class ChangedBodyComponentComponentName extends BodyComponentFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBodyComponentComponentName({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBodyComponentComponentName{ value: $value }';
 }
 
 class ChangedBodyComponentComponentId extends BodyComponentFormEvent {
-  final String value;
+  final String? value;
 
   ChangedBodyComponentComponentId({this.value});
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'ChangedBodyComponentComponentId{ value: $value }';

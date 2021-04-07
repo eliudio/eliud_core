@@ -21,20 +21,20 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class BodyComponentEntity {
-  final String componentName;
-  final String componentId;
+  final String? componentName;
+  final String? componentId;
 
   BodyComponentEntity({this.componentName, this.componentId, });
 
 
-  List<Object> get props => [componentName, componentId, ];
+  List<Object?> get props => [componentName, componentId, ];
 
   @override
   String toString() {
     return 'BodyComponentEntity{componentName: $componentName, componentId: $componentId}';
   }
 
-  static BodyComponentEntity fromMap(Map map) {
+  static BodyComponentEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return BodyComponentEntity(
@@ -43,8 +43,8 @@ class BodyComponentEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (componentName != null) theDocument["componentName"] = componentName;
       else theDocument["componentName"] = null;
     if (componentId != null) theDocument["componentId"] = componentId;
@@ -52,8 +52,8 @@ class BodyComponentEntity {
     return theDocument;
   }
 
-  static BodyComponentEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static BodyComponentEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

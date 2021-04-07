@@ -38,7 +38,7 @@ enum PrivilegeLevelBeforeBlocked {
 }
 
 
-PrivilegeLevel toPrivilegeLevel(int index) {
+PrivilegeLevel toPrivilegeLevel(int? index) {
   switch (index) {
     case 0: return PrivilegeLevel.NoPrivilege;
     case 1: return PrivilegeLevel.Level1Privilege;
@@ -48,7 +48,7 @@ PrivilegeLevel toPrivilegeLevel(int index) {
   return PrivilegeLevel.Unknown;
 }
 
-PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int index) {
+PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int? index) {
   switch (index) {
     case 0: return PrivilegeLevelBeforeBlocked.NoPrivilege;
     case 1: return PrivilegeLevelBeforeBlocked.Level1Privilege;
@@ -62,25 +62,25 @@ PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int index) {
 class AccessModel {
 
   // This is the member ID
-  String documentID;
+  String? documentID;
 
   // This is the privilege level and will determine the data accessible
-  PrivilegeLevel privilegeLevel;
+  PrivilegeLevel? privilegeLevel;
 
   // Points received for this app. Points accrued can result in increase of privilege
-  int points;
+  int? points;
 
   // Is this user blocked
-  bool blocked;
+  bool? blocked;
 
   // This is the privilege level before the member was blocked and allows to restore to this point
-  PrivilegeLevelBeforeBlocked privilegeLevelBeforeBlocked;
+  PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked;
 
   AccessModel({this.documentID, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, })  {
     assert(documentID != null);
   }
 
-  AccessModel copyWith({String documentID, PrivilegeLevel privilegeLevel, int points, bool blocked, PrivilegeLevelBeforeBlocked privilegeLevelBeforeBlocked, }) {
+  AccessModel copyWith({String? documentID, PrivilegeLevel? privilegeLevel, int? points, bool? blocked, PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked, }) {
     return AccessModel(documentID: documentID ?? this.documentID, privilegeLevel: privilegeLevel ?? this.privilegeLevel, points: points ?? this.points, blocked: blocked ?? this.blocked, privilegeLevelBeforeBlocked: privilegeLevelBeforeBlocked ?? this.privilegeLevelBeforeBlocked, );
   }
 
@@ -103,16 +103,16 @@ class AccessModel {
     return 'AccessModel{documentID: $documentID, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  AccessEntity toEntity({String appId}) {
+  AccessEntity toEntity({String? appId}) {
     return AccessEntity(
-          privilegeLevel: (privilegeLevel != null) ? privilegeLevel.index : null, 
+          privilegeLevel: (privilegeLevel != null) ? privilegeLevel!.index : null, 
           points: (points != null) ? points : null, 
           blocked: (blocked != null) ? blocked : null, 
-          privilegeLevelBeforeBlocked: (privilegeLevelBeforeBlocked != null) ? privilegeLevelBeforeBlocked.index : null, 
+          privilegeLevelBeforeBlocked: (privilegeLevelBeforeBlocked != null) ? privilegeLevelBeforeBlocked!.index : null, 
     );
   }
 
-  static AccessModel fromEntity(String documentID, AccessEntity entity) {
+  static AccessModel? fromEntity(String documentID, AccessEntity? entity) {
     if (entity == null) return null;
     return AccessModel(
           documentID: documentID, 
@@ -123,7 +123,7 @@ class AccessModel {
     );
   }
 
-  static Future<AccessModel> fromEntityPlus(String documentID, AccessEntity entity, { String appId}) async {
+  static Future<AccessModel?> fromEntityPlus(String documentID, AccessEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return AccessModel(

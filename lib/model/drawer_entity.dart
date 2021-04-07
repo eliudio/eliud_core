@@ -21,27 +21,27 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class DrawerEntity {
-  final String appId;
-  final String name;
-  final String backgroundId;
-  final String headerText;
-  final String secondHeaderText;
-  final double headerHeight;
-  final RgbEntity popupMenuBackgroundColor;
-  final String headerBackgroundId;
-  final String menuId;
+  final String? appId;
+  final String? name;
+  final String? backgroundId;
+  final String? headerText;
+  final String? secondHeaderText;
+  final double? headerHeight;
+  final RgbEntity? popupMenuBackgroundColor;
+  final String? headerBackgroundId;
+  final String? menuId;
 
   DrawerEntity({this.appId, this.name, this.backgroundId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundId, this.menuId, });
 
 
-  List<Object> get props => [appId, name, backgroundId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
+  List<Object?> get props => [appId, name, backgroundId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
 
   @override
   String toString() {
     return 'DrawerEntity{appId: $appId, name: $name, backgroundId: $backgroundId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundId: $headerBackgroundId, menuId: $menuId}';
   }
 
-  static DrawerEntity fromMap(Map map) {
+  static DrawerEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var popupMenuBackgroundColorFromMap;
@@ -62,12 +62,12 @@ class DrawerEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> popupMenuBackgroundColorMap = popupMenuBackgroundColor != null 
-        ? popupMenuBackgroundColor.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? popupMenuBackgroundColorMap = popupMenuBackgroundColor != null 
+        ? popupMenuBackgroundColor!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (name != null) theDocument["name"] = name;
@@ -89,8 +89,8 @@ class DrawerEntity {
     return theDocument;
   }
 
-  static DrawerEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static DrawerEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

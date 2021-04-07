@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'country_form.dart';
 
 
-typedef CountryWidgetProvider(CountryModel value);
+typedef CountryWidgetProvider(CountryModel? value);
 
 class CountryListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  CountryWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  CountryListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  CountryWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  CountryListWidgetState? state;
+  bool? isEmbedded;
 
-  CountryListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  CountryListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   CountryListWidgetState createState() {
     state ??= CountryListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= CountryListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class CountryListWidgetState extends State<CountryListWidget> {
-  CountryListBloc bloc;
+  CountryListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class CountryListWidgetState extends State<CountryListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
           );
         } else if (state is CountryListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return CountryListItem(
             value: value,
@@ -210,7 +210,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return CountryForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class CountryListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final CountryModel value;
+  final CountryModel? value;
 
   CountryListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__Country_item_${value.documentID}'),
+      key: Key('__Country_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__CountryheroTag',
+          tag: '${value!.documentID}__CountryheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.countryCode,
+              value!.countryCode!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.countryName != null) && (value.countryName.isNotEmpty)
+        subtitle: (value!.countryName != null) && (value!.countryName!.isNotEmpty)
             ? Center( child: Text(
-          value.countryName,
+          value!.countryName!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

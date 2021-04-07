@@ -22,7 +22,7 @@ abstract class AppFormState extends Equatable {
   const AppFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class AppFormUninitialized extends AppFormState {
 
 // AppModel has been initialised and hence AppModel is available
 class AppFormInitialized extends AppFormState {
-  final AppModel value;
+  final AppModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const AppFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class AppFormError extends AppFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const AppFormError({this.message, AppModel value }) : super(value: value);
+  const AppFormError({this.message, AppModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class AppFormError extends AppFormInitialized {
   }
 }
 class DocumentIDAppFormError extends AppFormError { 
-  const DocumentIDAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const DocumentIDAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDAppFormError extends AppFormError {
 
 
 class OwnerIDAppFormError extends AppFormError { 
-  const OwnerIDAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const OwnerIDAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class OwnerIDAppFormError extends AppFormError {
 
 
 class TitleAppFormError extends AppFormError { 
-  const TitleAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const TitleAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class TitleAppFormError extends AppFormError {
 
 
 class EmailAppFormError extends AppFormError { 
-  const EmailAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const EmailAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -128,10 +128,10 @@ class EmailAppFormError extends AppFormError {
 
 
 class DescriptionAppFormError extends AppFormError { 
-  const DescriptionAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const DescriptionAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -144,10 +144,10 @@ class DescriptionAppFormError extends AppFormError {
 
 
 class AppStatusAppFormError extends AppFormError { 
-  const AppStatusAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const AppStatusAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -160,10 +160,10 @@ class AppStatusAppFormError extends AppFormError {
 
 
 class DarkOrLightAppFormError extends AppFormError { 
-  const DarkOrLightAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const DarkOrLightAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -176,10 +176,10 @@ class DarkOrLightAppFormError extends AppFormError {
 
 
 class HomePagesAppFormError extends AppFormError { 
-  const HomePagesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const HomePagesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -192,10 +192,10 @@ class HomePagesAppFormError extends AppFormError {
 
 
 class LogoAppFormError extends AppFormError { 
-  const LogoAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const LogoAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -208,10 +208,10 @@ class LogoAppFormError extends AppFormError {
 
 
 class FormSubmitButtonColorAppFormError extends AppFormError { 
-  const FormSubmitButtonColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormSubmitButtonColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -224,10 +224,10 @@ class FormSubmitButtonColorAppFormError extends AppFormError {
 
 
 class FormBackgroundAppFormError extends AppFormError { 
-  const FormBackgroundAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -240,10 +240,10 @@ class FormBackgroundAppFormError extends AppFormError {
 
 
 class FormSubmitButtonTextColorAppFormError extends AppFormError { 
-  const FormSubmitButtonTextColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormSubmitButtonTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -256,10 +256,10 @@ class FormSubmitButtonTextColorAppFormError extends AppFormError {
 
 
 class FormGroupTitleColorAppFormError extends AppFormError { 
-  const FormGroupTitleColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormGroupTitleColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -272,10 +272,10 @@ class FormGroupTitleColorAppFormError extends AppFormError {
 
 
 class FormFieldTextColorAppFormError extends AppFormError { 
-  const FormFieldTextColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormFieldTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -288,10 +288,10 @@ class FormFieldTextColorAppFormError extends AppFormError {
 
 
 class FormFieldHeaderColorAppFormError extends AppFormError { 
-  const FormFieldHeaderColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormFieldHeaderColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -304,10 +304,10 @@ class FormFieldHeaderColorAppFormError extends AppFormError {
 
 
 class FormFieldFocusColorAppFormError extends AppFormError { 
-  const FormFieldFocusColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormFieldFocusColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -320,10 +320,10 @@ class FormFieldFocusColorAppFormError extends AppFormError {
 
 
 class FormAppBarBackgroundAppFormError extends AppFormError { 
-  const FormAppBarBackgroundAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormAppBarBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -336,10 +336,10 @@ class FormAppBarBackgroundAppFormError extends AppFormError {
 
 
 class FormAppBarTextColorAppFormError extends AppFormError { 
-  const FormAppBarTextColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FormAppBarTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -352,10 +352,10 @@ class FormAppBarTextColorAppFormError extends AppFormError {
 
 
 class ListBackgroundAppFormError extends AppFormError { 
-  const ListBackgroundAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const ListBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -368,10 +368,10 @@ class ListBackgroundAppFormError extends AppFormError {
 
 
 class ListTextItemColorAppFormError extends AppFormError { 
-  const ListTextItemColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const ListTextItemColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -384,10 +384,10 @@ class ListTextItemColorAppFormError extends AppFormError {
 
 
 class FloatingButtonForegroundColorAppFormError extends AppFormError { 
-  const FloatingButtonForegroundColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FloatingButtonForegroundColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -400,10 +400,10 @@ class FloatingButtonForegroundColorAppFormError extends AppFormError {
 
 
 class FloatingButtonBackgroundColorAppFormError extends AppFormError { 
-  const FloatingButtonBackgroundColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FloatingButtonBackgroundColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -416,10 +416,10 @@ class FloatingButtonBackgroundColorAppFormError extends AppFormError {
 
 
 class DividerColorAppFormError extends AppFormError { 
-  const DividerColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const DividerColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -432,10 +432,10 @@ class DividerColorAppFormError extends AppFormError {
 
 
 class IconColorAppFormError extends AppFormError { 
-  const IconColorAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const IconColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -448,10 +448,10 @@ class IconColorAppFormError extends AppFormError {
 
 
 class RouteBuilderAppFormError extends AppFormError { 
-  const RouteBuilderAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const RouteBuilderAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -464,10 +464,10 @@ class RouteBuilderAppFormError extends AppFormError {
 
 
 class RouteAnimationDurationAppFormError extends AppFormError { 
-  const RouteAnimationDurationAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const RouteAnimationDurationAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -480,10 +480,10 @@ class RouteAnimationDurationAppFormError extends AppFormError {
 
 
 class LogoURLAppFormError extends AppFormError { 
-  const LogoURLAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const LogoURLAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -496,10 +496,10 @@ class LogoURLAppFormError extends AppFormError {
 
 
 class H1AppFormError extends AppFormError { 
-  const H1AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const H1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -512,10 +512,10 @@ class H1AppFormError extends AppFormError {
 
 
 class H2AppFormError extends AppFormError { 
-  const H2AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const H2AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -528,10 +528,10 @@ class H2AppFormError extends AppFormError {
 
 
 class H3AppFormError extends AppFormError { 
-  const H3AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const H3AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -544,10 +544,10 @@ class H3AppFormError extends AppFormError {
 
 
 class H4AppFormError extends AppFormError { 
-  const H4AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const H4AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -560,10 +560,10 @@ class H4AppFormError extends AppFormError {
 
 
 class H5AppFormError extends AppFormError { 
-  const H5AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const H5AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -576,10 +576,10 @@ class H5AppFormError extends AppFormError {
 
 
 class FontTextAppFormError extends AppFormError { 
-  const FontTextAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FontTextAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -592,10 +592,10 @@ class FontTextAppFormError extends AppFormError {
 
 
 class FontHighlight1AppFormError extends AppFormError { 
-  const FontHighlight1AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FontHighlight1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -608,10 +608,10 @@ class FontHighlight1AppFormError extends AppFormError {
 
 
 class FontHighlight2AppFormError extends AppFormError { 
-  const FontHighlight2AppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FontHighlight2AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -624,10 +624,10 @@ class FontHighlight2AppFormError extends AppFormError {
 
 
 class FontLinkAppFormError extends AppFormError { 
-  const FontLinkAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const FontLinkAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -640,10 +640,10 @@ class FontLinkAppFormError extends AppFormError {
 
 
 class PoliciesAppFormError extends AppFormError { 
-  const PoliciesAppFormError({ String message, AppModel value }): super(message: message, value: value);
+  const PoliciesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -656,10 +656,10 @@ class PoliciesAppFormError extends AppFormError {
 
 
 class AppFormLoaded extends AppFormInitialized { 
-  const AppFormLoaded({ AppModel value }): super(value: value);
+  const AppFormLoaded({ AppModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -671,10 +671,10 @@ class AppFormLoaded extends AppFormInitialized {
 
 
 class SubmittableAppForm extends AppFormInitialized { 
-  const SubmittableAppForm({ AppModel value }): super(value: value);
+  const SubmittableAppForm({ AppModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

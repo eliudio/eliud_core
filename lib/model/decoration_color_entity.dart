@@ -21,20 +21,20 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class DecorationColorEntity {
-  final RgbEntity color;
-  final double stop;
+  final RgbEntity? color;
+  final double? stop;
 
   DecorationColorEntity({this.color, this.stop, });
 
 
-  List<Object> get props => [color, stop, ];
+  List<Object?> get props => [color, stop, ];
 
   @override
   String toString() {
     return 'DecorationColorEntity{color: $color, stop: $stop}';
   }
 
-  static DecorationColorEntity fromMap(Map map) {
+  static DecorationColorEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var colorFromMap;
@@ -48,12 +48,12 @@ class DecorationColorEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final Map<String, dynamic> colorMap = color != null 
-        ? color.toDocument()
+  Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? colorMap = color != null 
+        ? color!.toDocument()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (color != null) theDocument["color"] = colorMap;
       else theDocument["color"] = null;
     if (stop != null) theDocument["stop"] = stop;
@@ -61,8 +61,8 @@ class DecorationColorEntity {
     return theDocument;
   }
 
-  static DecorationColorEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static DecorationColorEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

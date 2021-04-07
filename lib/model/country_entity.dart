@@ -21,20 +21,20 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class CountryEntity {
-  final String countryCode;
-  final String countryName;
+  final String? countryCode;
+  final String? countryName;
 
   CountryEntity({this.countryCode, this.countryName, });
 
 
-  List<Object> get props => [countryCode, countryName, ];
+  List<Object?> get props => [countryCode, countryName, ];
 
   @override
   String toString() {
     return 'CountryEntity{countryCode: $countryCode, countryName: $countryName}';
   }
 
-  static CountryEntity fromMap(Map map) {
+  static CountryEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return CountryEntity(
@@ -43,8 +43,8 @@ class CountryEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    Map<String, Object> theDocument = HashMap();
+  Map<String, Object?> toDocument() {
+    Map<String, Object?> theDocument = HashMap();
     if (countryCode != null) theDocument["countryCode"] = countryCode;
       else theDocument["countryCode"] = null;
     if (countryName != null) theDocument["countryName"] = countryName;
@@ -52,8 +52,8 @@ class CountryEntity {
     return theDocument;
   }
 
-  static CountryEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static CountryEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 

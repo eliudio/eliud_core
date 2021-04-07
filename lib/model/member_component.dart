@@ -25,7 +25,7 @@ import 'package:eliud_core/model/member_component_state.dart';
 
 abstract class AbstractMemberComponent extends StatelessWidget {
   static String componentName = "members";
-  final String memberID;
+  final String? memberID;
 
   AbstractMemberComponent({this.memberID});
 
@@ -63,7 +63,7 @@ abstract class AbstractMemberComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, MemberModel value);
+  Widget yourWidget(BuildContext context, MemberModel? value);
   Widget alertWidget({ title: String, content: String});
   MemberRepository getMemberRepository(BuildContext context);
 }

@@ -45,35 +45,35 @@ import 'package:eliud_core/model/app_model.dart';
 import 'page_form.dart';
 
 
-typedef PageWidgetProvider(PageModel value);
+typedef PageWidgetProvider(PageModel? value);
 
 class PageListWidget extends StatefulWidget with HasFab {
-  BackgroundModel listBackground;
-  PageWidgetProvider widgetProvider;
-  bool readOnly;
-  String form;
-  PageListWidgetState state;
-  bool isEmbedded;
+  BackgroundModel? listBackground;
+  PageWidgetProvider? widgetProvider;
+  bool? readOnly;
+  String? form;
+  PageListWidgetState? state;
+  bool? isEmbedded;
 
-  PageListWidget({ Key key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  PageListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   PageListWidgetState createState() {
     state ??= PageListWidgetState();
-    return state;
+    return state!;
   }
 
   @override
-  Widget fab(BuildContext context) {
-    if ((readOnly != null) && readOnly) return null;
+  Widget? fab(BuildContext context) {
+    if ((readOnly != null) && readOnly!) return null;
     state ??= PageListWidgetState();
     var accessState = AccessBloc.getState(context);
-    return state.fab(context, accessState);
+    return state!.fab(context, accessState);
   }
 }
 
 class PageListWidgetState extends State<PageListWidget> {
-  PageListBloc bloc;
+  PageListBloc? bloc;
 
   @override
   void didChangeDependencies() {
@@ -83,12 +83,12 @@ class PageListWidgetState extends State<PageListWidget> {
 
   @override
   void dispose () {
-    if (bloc != null) bloc.close();
+    if (bloc != null) bloc!.close();
     super.dispose();
   }
 
   @override
-  Widget fab(BuildContext aContext, AccessState accessState) {
+  Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
       return !accessState.memberIsOwner() 
         ? null
@@ -124,7 +124,7 @@ class PageListWidgetState extends State<PageListWidget> {
           );
         } else if (state is PageListLoaded) {
           final values = state.values;
-          if ((widget.isEmbedded != null) && (widget.isEmbedded)) {
+          if ((widget.isEmbedded != null) && widget.isEmbedded!) {
             List<Widget> children = List();
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
@@ -174,7 +174,7 @@ class PageListWidgetState extends State<PageListWidget> {
         itemBuilder: (context, index) {
           final value = values[index];
           
-          if (widget.widgetProvider != null) return widget.widgetProvider(value);
+          if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
           return PageListItem(
             value: value,
@@ -210,7 +210,7 @@ class PageListWidgetState extends State<PageListWidget> {
   }
   
   
-  Widget getForm(value, action) {
+  Widget? getForm(value, action) {
     if (widget.form == null) {
       return PageForm(value: value, formAction: action);
     } else {
@@ -226,36 +226,36 @@ class PageListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppModel app;
-  final PageModel value;
+  final PageModel? value;
 
   PageListItem({
-    Key key,
-    @required this.onDismissed,
-    @required this.onTap,
-    @required this.value,
-    @required this.app,
+    Key? key,
+    required this.onDismissed,
+    required this.onTap,
+    required this.value,
+    required this.app,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__Page_item_${value.documentID}'),
+      key: Key('__Page_item_${value!.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: '${value.documentID}__PageheroTag',
+          tag: '${value!.documentID}__PageheroTag',
           child: Container(
             width: fullScreenWidth(context),
             child: Center(child: Text(
-              value.documentID,
+              value!.documentID!,
               style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),
             )),
           ),
         ),
-        subtitle: (value.title != null) && (value.title.isNotEmpty)
+        subtitle: (value!.title != null) && (value!.title!.isNotEmpty)
             ? Center( child: Text(
-          value.title,
+          value!.title!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: RgbHelper.color(rgbo: app.listTextItemColor)),

@@ -22,7 +22,7 @@ abstract class CountryFormState extends Equatable {
   const CountryFormState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
@@ -38,22 +38,22 @@ class CountryFormUninitialized extends CountryFormState {
 
 // CountryModel has been initialised and hence CountryModel is available
 class CountryFormInitialized extends CountryFormState {
-  final CountryModel value;
+  final CountryModel? value;
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   const CountryFormInitialized({ this.value });
 }
 
 // Menu has been initialised and hence a menu is available
 abstract class CountryFormError extends CountryFormInitialized {
-  final String message;
+  final String? message;
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
-  const CountryFormError({this.message, CountryModel value }) : super(value: value);
+  const CountryFormError({this.message, CountryModel? value }) : super(value: value);
 
   @override
   String toString() {
@@ -64,10 +64,10 @@ abstract class CountryFormError extends CountryFormInitialized {
   }
 }
 class DocumentIDCountryFormError extends CountryFormError { 
-  const DocumentIDCountryFormError({ String message, CountryModel value }): super(message: message, value: value);
+  const DocumentIDCountryFormError({ String? message, CountryModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -80,10 +80,10 @@ class DocumentIDCountryFormError extends CountryFormError {
 
 
 class CountryCodeCountryFormError extends CountryFormError { 
-  const CountryCodeCountryFormError({ String message, CountryModel value }): super(message: message, value: value);
+  const CountryCodeCountryFormError({ String? message, CountryModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -96,10 +96,10 @@ class CountryCodeCountryFormError extends CountryFormError {
 
 
 class CountryNameCountryFormError extends CountryFormError { 
-  const CountryNameCountryFormError({ String message, CountryModel value }): super(message: message, value: value);
+  const CountryNameCountryFormError({ String? message, CountryModel? value }): super(message: message, value: value);
 
   @override
-  List<Object> get props => [ message, value ];
+  List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
@@ -112,10 +112,10 @@ class CountryNameCountryFormError extends CountryFormError {
 
 
 class CountryFormLoaded extends CountryFormInitialized { 
-  const CountryFormLoaded({ CountryModel value }): super(value: value);
+  const CountryFormLoaded({ CountryModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {
@@ -127,10 +127,10 @@ class CountryFormLoaded extends CountryFormInitialized {
 
 
 class SubmittableCountryForm extends CountryFormInitialized { 
-  const SubmittableCountryForm({ CountryModel value }): super(value: value);
+  const SubmittableCountryForm({ CountryModel? value }): super(value: value);
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() {

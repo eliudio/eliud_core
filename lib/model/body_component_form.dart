@@ -58,10 +58,10 @@ import 'package:eliud_core/model/body_component_form_state.dart';
 
 class BodyComponentForm extends StatelessWidget {
   FormAction formAction;
-  BodyComponentModel value;
-  ActionModel submitAction;
+  BodyComponentModel? value;
+  ActionModel? submitAction;
 
-  BodyComponentForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  BodyComponentForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class BodyComponentForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class BodyComponentForm extends StatelessWidget {
 
 
 class MyBodyComponentForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyBodyComponentForm({this.formAction, this.submitAction});
 
@@ -119,8 +119,8 @@ class MyBodyComponentForm extends StatefulWidget {
 
 
 class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
-  final FormAction formAction;
-  BodyComponentFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late BodyComponentFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
 
@@ -144,8 +144,8 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
       );
 
       if (state is BodyComponentFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
       }
@@ -156,12 +156,12 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Component',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
-                ExtensionTypeField(state.value.componentName, _onComponentNameChanged)
+                ExtensionTypeField(state.value!.componentName, _onComponentNameChanged)
           );
 
 
@@ -179,7 +179,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
         children.add(
 
-                ComponentIdField(componentName: state.value.componentName, value: state.value.componentId, trigger: _onComponentIdChanged)
+                ComponentIdField(componentName: state.value!.componentName, value: state.value!.componentId, trigger: _onComponentIdChanged)
           );
 
 
@@ -196,21 +196,21 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<BodyComponentListBloc>(context).add(
-                          UpdateBodyComponentList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              componentName: state.value.componentName, 
-                              componentId: state.value.componentId, 
+                          UpdateBodyComponentList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              componentName: state.value!.componentName, 
+                              componentId: state.value!.componentId, 
                         )));
                       } else {
                         BlocProvider.of<BodyComponentListBloc>(context).add(
                           AddBodyComponentList(value: BodyComponentModel(
-                              documentID: state.value.documentID, 
-                              componentName: state.value.componentName, 
-                              componentId: state.value.componentId, 
+                              documentID: state.value!.documentID, 
+                              componentName: state.value!.componentName, 
+                              componentId: state.value!.componentId, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

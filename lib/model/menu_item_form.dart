@@ -58,10 +58,10 @@ import 'package:eliud_core/model/menu_item_form_state.dart';
 
 class MenuItemForm extends StatelessWidget {
   FormAction formAction;
-  MenuItemModel value;
-  ActionModel submitAction;
+  MenuItemModel? value;
+  ActionModel? submitAction;
 
-  MenuItemForm({Key key, @required this.formAction, @required this.value, this.submitAction}) : super(key: key);
+  MenuItemForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +87,12 @@ class MenuItemForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Update MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
+                    title: Text("Add MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
                         decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
@@ -109,8 +109,8 @@ class MenuItemForm extends StatelessWidget {
 
 
 class MyMenuItemForm extends StatefulWidget {
-  final FormAction formAction;
-  final ActionModel submitAction;
+  final FormAction? formAction;
+  final ActionModel? submitAction;
 
   MyMenuItemForm({this.formAction, this.submitAction});
 
@@ -119,8 +119,8 @@ class MyMenuItemForm extends StatefulWidget {
 
 
 class _MyMenuItemFormState extends State<MyMenuItemForm> {
-  final FormAction formAction;
-  MenuItemFormBloc _myFormBloc;
+  final FormAction? formAction;
+  late MenuItemFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
@@ -148,16 +148,16 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
       );
 
       if (state is MenuItemFormLoaded) {
-        if (state.value.documentID != null)
-          _documentIDController.text = state.value.documentID.toString();
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value.text != null)
-          _textController.text = state.value.text.toString();
+        if (state.value!.text != null)
+          _textController.text = state.value!.text.toString();
         else
           _textController.text = "";
-        if (state.value.description != null)
-          _descriptionController.text = state.value.description.toString();
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
         else
           _descriptionController.text = "";
       }
@@ -168,7 +168,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -222,7 +222,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
         children.add(
 
-                ActionField(AccessBloc.appId(context), state.value.action, _onActionChanged)
+                ActionField(AccessBloc.appId(context), state.value!.action, _onActionChanged)
           );
 
 
@@ -240,7 +240,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
         children.add(
 
-                IconField(state.value.icon, _onIconChanged)
+                IconField(state.value!.icon, _onIconChanged)
           );
 
 
@@ -257,25 +257,25 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
                     } else {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MenuItemListBloc>(context).add(
-                          UpdateMenuItemList(value: state.value.copyWith(
-                              documentID: state.value.documentID, 
-                              text: state.value.text, 
-                              description: state.value.description, 
-                              icon: state.value.icon, 
-                              action: state.value.action, 
+                          UpdateMenuItemList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
+                              text: state.value!.text, 
+                              description: state.value!.description, 
+                              icon: state.value!.icon, 
+                              action: state.value!.action, 
                         )));
                       } else {
                         BlocProvider.of<MenuItemListBloc>(context).add(
                           AddMenuItemList(value: MenuItemModel(
-                              documentID: state.value.documentID, 
-                              text: state.value.text, 
-                              description: state.value.description, 
-                              icon: state.value.icon, 
-                              action: state.value.action, 
+                              documentID: state.value!.documentID, 
+                              text: state.value!.text, 
+                              description: state.value!.description, 
+                              icon: state.value!.icon, 
+                              action: state.value!.action, 
                           )));
                       }
                       if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction);
+                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
                       } else {
                         Navigator.pop(context);
                       }

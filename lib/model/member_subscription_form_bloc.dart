@@ -38,12 +38,12 @@ import 'package:eliud_core/model/member_subscription_form_state.dart';
 import 'package:eliud_core/model/member_subscription_repository.dart';
 
 class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, MemberSubscriptionFormState> {
-  final String appId;
+  final String? appId;
 
   MemberSubscriptionFormBloc(this.appId, ): super(MemberSubscriptionFormUninitialized());
   @override
   Stream<MemberSubscriptionFormState> mapEventToState(MemberSubscriptionFormEvent event) async* {
-    final currentState = state;
+    final MemberSubscriptionFormState currentState = state;
     if (currentState is MemberSubscriptionFormUninitialized) {
       if (event is InitialiseNewMemberSubscriptionFormEvent) {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: MemberSubscriptionModel(
@@ -66,13 +66,13 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
         return;
       }
     } else if (currentState is MemberSubscriptionFormInitialized) {
-      MemberSubscriptionModel newValue = null;
+      MemberSubscriptionModel? newValue = null;
       if (event is ChangedMemberSubscriptionApp) {
         if (event.value != null)
-          newValue = currentState.value.copyWith(app: await appRepository(appId: appId).get(event.value));
+          newValue = currentState.value!.copyWith(app: await appRepository(appId: appId)!.get(event.value));
         else
           newValue = new MemberSubscriptionModel(
-                                 documentID: currentState.value.documentID,
+                                 documentID: currentState.value!.documentID,
                                  app: null,
           );
         yield SubmittableMemberSubscriptionForm(value: newValue);

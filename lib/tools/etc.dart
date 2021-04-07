@@ -13,9 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class RgbHelper {
-  static Color color({RgbModel rgbo}) {
+  static Color color({RgbModel? rgbo}) {
     if (rgbo != null) {
-      return Color.fromRGBO(rgbo.r, rgbo.g, rgbo.b, rgbo.opacity);
+      return Color.fromRGBO(rgbo.r!, rgbo.g!, rgbo.b!, rgbo.opacity!);
     } else {
       return Color.fromRGBO(0, 0, 0, 1);
     }
@@ -23,7 +23,7 @@ class RgbHelper {
 }
 
 class BoxDecorationHelper {
-  static Alignment startAlignment(StartGradientPosition start) {
+  static Alignment startAlignment(StartGradientPosition? start) {
     switch (start) {
       case StartGradientPosition.TopLeft:
         return Alignment.topLeft;
@@ -49,7 +49,7 @@ class BoxDecorationHelper {
     return Alignment.topCenter;
   }
 
-  static Alignment endAlignment(EndGradientPosition endPos) {
+  static Alignment endAlignment(EndGradientPosition? endPos) {
     switch (endPos) {
       case EndGradientPosition.TopLeft:
         return Alignment.topLeft;
@@ -75,30 +75,30 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration boxDecoration(AccessState state, BackgroundModel bdm) {
+  static BoxDecoration? boxDecoration(AccessState state, BackgroundModel? bdm) {
     if (bdm == null) return null;
-    var border = bdm.border != null && bdm.border ? Border.all() : null;
+    var border = bdm.border != null && bdm.border! ? Border.all() : null;
     var image;
     if ((bdm.useProfilePhotoAsBackground != null) &&
-        (bdm.useProfilePhotoAsBackground)) {
+        bdm.useProfilePhotoAsBackground!) {
       var member = state.getMember();
       if (member != null) {
         image = DecorationImage(
             image: NetworkImage(
-                member.photoURL
+                member.photoURL!
             ),
             fit: BoxFit.scaleDown);
       }
     }
     if (image == null) {
       var imageProvider = (bdm.backgroundImage != null) ? NetworkImage(
-          bdm.backgroundImage.url) : null;
+          bdm.backgroundImage!.url!) : null;
       image = (imageProvider != null) ? DecorationImage(
           image: imageProvider,
           fit: BoxFit.scaleDown)
           : null;
     }
-    if ((bdm.decorationColors == null) || (bdm.decorationColors.isEmpty)) {
+    if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
       if (image == null) {
         return null;
       } else {
@@ -106,16 +106,16 @@ class BoxDecorationHelper {
           image: image,
         );
       }
-    } else if (bdm.decorationColors.length == 1) {
+    } else if (bdm.decorationColors!.length == 1) {
       return BoxDecoration(
-        color: RgbHelper.color(rgbo: bdm.decorationColors[0].color),
+        color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
         image: image,
       );
     } else {
-      var colors = bdm.decorationColors
+      var colors = bdm.decorationColors!
           .map((color) => RgbHelper.color(rgbo: color.color))
           .toList();
-      var stops = bdm.decorationColors
+      var stops = bdm.decorationColors!
           .map((stop) => stop.stop)
           .toList();
       var noStops = stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
@@ -123,16 +123,16 @@ class BoxDecorationHelper {
         begin: startAlignment(bdm.beginGradientPosition),
         end: endAlignment(bdm.endGradientPosition),
         colors: colors,
-        stops: noStops ? null : stops);
+        stops: noStops ? null : stops as List<double>?);
 
-      List<BoxShadow> boxShadows;
+      List<BoxShadow>? boxShadows;
       if (bdm.shadow != null) {
         boxShadows = [];
         boxShadows.add(BoxShadow(
-          color: RgbHelper.color(rgbo: bdm.shadow.color),
-          spreadRadius: bdm.shadow.spreadRadius,
-          blurRadius: bdm.shadow.blurRadius,
-          offset: Offset(bdm.shadow.offsetDX, bdm.shadow.offsetDY),
+          color: RgbHelper.color(rgbo: bdm.shadow!.color),
+          spreadRadius: bdm.shadow!.spreadRadius!,
+          blurRadius: bdm.shadow!.blurRadius!,
+          offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
         ));
       }
       return BoxDecoration(
@@ -147,21 +147,21 @@ class BoxDecorationHelper {
 
 class ImageHelper {
   static Widget getImageFromMediumModel(
-      {MemberMediumModel memberMediumModel, double height, double width, BoxFit fit, Alignment alignment}) {
+      {MemberMediumModel? memberMediumModel, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
         image: AssetImage('assets/images/image_not_available.png'),
         height: height,
         width: width,
-        alignment: alignment,);
+        alignment: alignment!,);
     } else {
       return getImageFromURL(
-          url: memberMediumModel.url, height: height, width: width);
+          url: memberMediumModel.url!, height: height, width: width);
     }
   }
 
   static Widget getThumbnailFromMembereMediumModel(
-      {MemberMediumModel memberMediumModel, double height, double width, BoxFit fit, Alignment alignment}) {
+      {MemberMediumModel? memberMediumModel, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
           image: AssetImage('assets/images/image_not_available.png'),
@@ -169,12 +169,12 @@ class ImageHelper {
           width: width);
     } else {
       return getImageFromURL(
-          url: memberMediumModel.url, height: height, width: width);
+          url: memberMediumModel.url!, height: height, width: width);
     }
   }
 
   static Widget getImageFromURL(
-      {String url, double height, double width, BoxFit fit, Alignment alignment}) {
+      {required String url, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
     try {
       return FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,
@@ -203,32 +203,32 @@ class ImageTool {
 }
 
 class IconHelper {
-  static Icon getIconFromModel({IconModel iconModel, RgbModel color}) {
+  static Icon? getIconFromModel({IconModel? iconModel, RgbModel? color}) {
     if (iconModel == null) {
       return null;
     }
     if (iconModel.fontFamily == null) {
-      return Icon(IconData(iconModel.codePoint, fontFamily: 'MaterialIcons'),
+      return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
           color: color != null ? RgbHelper.color(rgbo: color) : null);
     }
-    return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
+    return Icon(IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
         color: color != null ? RgbHelper.color(rgbo: color) : null);
   }
 
   static Icon getIconFromModelWithFlutterColor(
-      {IconModel iconModel, Color color}) {
+      {IconModel? iconModel, Color? color}) {
     if (iconModel == null) return Icon(Icons.touch_app, color: color);
     if (iconModel.fontFamily == null) {
-      return Icon(IconData(iconModel.codePoint, fontFamily: 'MaterialIcons'),
+      return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
           color: color);
     }
-    return Icon(IconData(iconModel.codePoint, fontFamily: iconModel.fontFamily),
+    return Icon(IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
         color: color);
   }
 }
 
 class BoxFitHelper {
-  static BoxFit toBoxFit(PosSizeModel posSizeModel, Orientation orientation) {
+  static BoxFit? toBoxFit(PosSizeModel posSizeModel, Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.fitLandscape) {
@@ -272,7 +272,7 @@ class BoxFitHelper {
     return null;
   }
 
-  static double toWidth(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+  static double? toWidth(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       if (posSizeModel.widthLandscape == 0) return null;
@@ -280,18 +280,18 @@ class BoxFitHelper {
       if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.AbsoluteWidth) {
         return posSizeModel.widthLandscape;
       }
-      return fullScreenWidth(context) * posSizeModel.widthLandscape;
+      return fullScreenWidth(context) * posSizeModel.widthLandscape!;
     } else {
       if (posSizeModel.widthPortrait == 0) return null;
       if (posSizeModel.widthPortrait == null) return null;
       if (posSizeModel.widthTypePortrait == WidthTypePortrait.AbsoluteWidth) {
         return posSizeModel.widthPortrait;
       }
-      return fullScreenWidth(context) * posSizeModel.widthPortrait;
+      return fullScreenWidth(context) * posSizeModel.widthPortrait!;
     }
   }
 
-  static double toHeight(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+  static double? toHeight(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       if (posSizeModel.heightLandscape == null) return null;
@@ -300,7 +300,7 @@ class BoxFitHelper {
           HeightTypeLandscape.AbsoluteHeight) {
         return posSizeModel.heightLandscape;
       }
-      return fullScreenHeight(context) * posSizeModel.heightLandscape;
+      return fullScreenHeight(context) * posSizeModel.heightLandscape!;
     } else {
       if (posSizeModel.heightPortrait == 0) return null;
       if (posSizeModel.heightPortrait == null) return null;
@@ -308,11 +308,11 @@ class BoxFitHelper {
           HeightTypePortrait.AbsoluteHeight) {
         return posSizeModel.heightPortrait;
       }
-      return fullScreenHeight(context) * posSizeModel.heightPortrait;
+      return fullScreenHeight(context) * posSizeModel.heightPortrait!;
     }
   }
 
-  static Alignment toAlignment(PosSizeModel posSizeModel, Orientation orientation) {
+  static Alignment? toAlignment(PosSizeModel posSizeModel, Orientation orientation) {
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.alignTypeLandscape) {
         case LandscapeAlignType.LandscapeAlignTopLeft:
@@ -365,7 +365,7 @@ class BoxFitHelper {
 }
 
 class FontTools {
-  static FontWeight toFontWeight(EliudFontWeight eliudFontWeight) {
+  static FontWeight toFontWeight(EliudFontWeight? eliudFontWeight) {
     if (eliudFontWeight == null) return FontWeight.w400;
     switch (eliudFontWeight) {
       case EliudFontWeight.Thin: return FontWeight.w100;
@@ -382,9 +382,9 @@ class FontTools {
     return FontWeight.w400;
   }
 
-  static TextStyle textStyle(FontModel fontModel) {
+  static TextStyle? textStyle(FontModel? fontModel) {
     if (fontModel == null) return null;
-    return GoogleFonts.getFont(fontModel.fontName,
+    return GoogleFonts.getFont(fontModel.fontName!,
         fontSize: fontModel.size,
         fontWeight: FontTools.toFontWeight(fontModel.weight),
         color: RgbHelper.color(rgbo: fontModel.color),

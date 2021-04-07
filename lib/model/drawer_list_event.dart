@@ -19,7 +19,7 @@ import 'package:eliud_core/model/drawer_model.dart';
 abstract class DrawerListEvent extends Equatable {
   const DrawerListEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadDrawerList extends DrawerListEvent {}
@@ -27,49 +27,49 @@ class LoadDrawerList extends DrawerListEvent {}
 class NewPage extends DrawerListEvent {}
 
 class AddDrawerList extends DrawerListEvent {
-  final DrawerModel value;
+  final DrawerModel? value;
 
   const AddDrawerList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'AddDrawerList{ value: $value }';
 }
 
 class UpdateDrawerList extends DrawerListEvent {
-  final DrawerModel value;
+  final DrawerModel? value;
 
   const UpdateDrawerList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'UpdateDrawerList{ value: $value }';
 }
 
 class DeleteDrawerList extends DrawerListEvent {
-  final DrawerModel value;
+  final DrawerModel? value;
 
   const DeleteDrawerList({ this.value });
 
   @override
-  List<Object> get props => [ value ];
+  List<Object?> get props => [ value ];
 
   @override
   String toString() => 'DeleteDrawerList{ value: $value }';
 }
 
 class DrawerListUpdated extends DrawerListEvent {
-  final List<DrawerModel> value;
-  final bool mightHaveMore;
+  final List<DrawerModel?>? value;
+  final bool? mightHaveMore;
 
   const DrawerListUpdated({ this.value, this.mightHaveMore });
 
   @override
-  List<Object> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [ value, mightHaveMore ];
 
   @override
   String toString() => 'DrawerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';

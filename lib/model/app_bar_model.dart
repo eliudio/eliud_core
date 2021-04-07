@@ -34,7 +34,7 @@ enum HeaderSelection {
 }
 
 
-HeaderSelection toHeaderSelection(int index) {
+HeaderSelection toHeaderSelection(int? index) {
   switch (index) {
     case 0: return HeaderSelection.Title;
     case 1: return HeaderSelection.Image;
@@ -46,25 +46,25 @@ HeaderSelection toHeaderSelection(int index) {
 
 
 class AppBarModel {
-  String documentID;
-  String appId;
-  String title;
+  String? documentID;
+  String? appId;
+  String? title;
 
   // Enum indicating which header to use, and hence which field to use: title, icon or image
-  HeaderSelection header;
-  IconModel icon;
-  MemberMediumModel image;
-  MenuDefModel iconMenu;
-  BackgroundModel background;
-  RgbModel iconColor;
-  RgbModel selectedIconColor;
-  RgbModel menuBackgroundColor;
+  HeaderSelection? header;
+  IconModel? icon;
+  MemberMediumModel? image;
+  MenuDefModel? iconMenu;
+  BackgroundModel? background;
+  RgbModel? iconColor;
+  RgbModel? selectedIconColor;
+  RgbModel? menuBackgroundColor;
 
   AppBarModel({this.documentID, this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.background, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, })  {
     assert(documentID != null);
   }
 
-  AppBarModel copyWith({String documentID, String appId, String title, HeaderSelection header, IconModel icon, MemberMediumModel image, MenuDefModel iconMenu, BackgroundModel background, RgbModel iconColor, RgbModel selectedIconColor, RgbModel menuBackgroundColor, }) {
+  AppBarModel copyWith({String? documentID, String? appId, String? title, HeaderSelection? header, IconModel? icon, MemberMediumModel? image, MenuDefModel? iconMenu, BackgroundModel? background, RgbModel? iconColor, RgbModel? selectedIconColor, RgbModel? menuBackgroundColor, }) {
     return AppBarModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, header: header ?? this.header, icon: icon ?? this.icon, image: image ?? this.image, iconMenu: iconMenu ?? this.iconMenu, background: background ?? this.background, iconColor: iconColor ?? this.iconColor, selectedIconColor: selectedIconColor ?? this.selectedIconColor, menuBackgroundColor: menuBackgroundColor ?? this.menuBackgroundColor, );
   }
 
@@ -93,22 +93,22 @@ class AppBarModel {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, background: $background, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
-  AppBarEntity toEntity({String appId}) {
+  AppBarEntity toEntity({String? appId}) {
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          header: (header != null) ? header.index : null, 
-          icon: (icon != null) ? icon.toEntity(appId: appId) : null, 
-          imageId: (image != null) ? image.documentID : null, 
-          iconMenuId: (iconMenu != null) ? iconMenu.documentID : null, 
-          backgroundId: (background != null) ? background.documentID : null, 
-          iconColor: (iconColor != null) ? iconColor.toEntity(appId: appId) : null, 
-          selectedIconColor: (selectedIconColor != null) ? selectedIconColor.toEntity(appId: appId) : null, 
-          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor.toEntity(appId: appId) : null, 
+          header: (header != null) ? header!.index : null, 
+          icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
+          imageId: (image != null) ? image!.documentID : null, 
+          iconMenuId: (iconMenu != null) ? iconMenu!.documentID : null, 
+          backgroundId: (background != null) ? background!.documentID : null, 
+          iconColor: (iconColor != null) ? iconColor!.toEntity(appId: appId) : null, 
+          selectedIconColor: (selectedIconColor != null) ? selectedIconColor!.toEntity(appId: appId) : null, 
+          menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor!.toEntity(appId: appId) : null, 
     );
   }
 
-  static AppBarModel fromEntity(String documentID, AppBarEntity entity) {
+  static AppBarModel? fromEntity(String documentID, AppBarEntity? entity) {
     if (entity == null) return null;
     return AppBarModel(
           documentID: documentID, 
@@ -126,31 +126,31 @@ class AppBarModel {
     );
   }
 
-  static Future<AppBarModel> fromEntityPlus(String documentID, AppBarEntity entity, { String appId}) async {
+  static Future<AppBarModel?> fromEntityPlus(String documentID, AppBarEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel imageHolder;
+    MemberMediumModel? imageHolder;
     if (entity.imageId != null) {
       try {
-        await memberMediumRepository(appId: appId).get(entity.imageId).then((val) {
+        await memberMediumRepository(appId: appId)!.get(entity.imageId).then((val) {
           imageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    MenuDefModel iconMenuHolder;
+    MenuDefModel? iconMenuHolder;
     if (entity.iconMenuId != null) {
       try {
-        await menuDefRepository(appId: appId).get(entity.iconMenuId).then((val) {
+        await menuDefRepository(appId: appId)!.get(entity.iconMenuId).then((val) {
           iconMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
 
-    BackgroundModel backgroundHolder;
+    BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId).get(entity.backgroundId).then((val) {
+        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

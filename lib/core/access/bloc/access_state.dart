@@ -20,15 +20,15 @@ abstract class AccessState extends Equatable {
   const AccessState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   bool isLoggedIn();
   bool hasAccessToOtherApps();
   bool forceAcceptMembership();
   bool memberIsOwner();
-  MemberModel getMember();
+  MemberModel? getMember();
 
-  List<MemberCollectionInfo> getMemberCollectionInfo();
+  List<MemberCollectionInfo>? getMemberCollectionInfo();
 }
 
 class AppError extends AccessState {
@@ -51,10 +51,10 @@ class AppError extends AccessState {
   bool memberIsOwner() => false;
 
   @override
-  MemberModel getMember() => null;
+  MemberModel? getMember() => null;
 
   @override
-  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
+  List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 }
 
 class UndeterminedAccessState extends AccessState {
@@ -76,36 +76,36 @@ class UndeterminedAccessState extends AccessState {
   bool memberIsOwner() => false;
 
   @override
-  MemberModel getMember() => null;
+  MemberModel? getMember() => null;
 
   @override
-  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
+  List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 }
 
 class PackageCondition extends Equatable {
-  final Package pkg;
-  final String condition;
-  final bool access;
+  final Package? pkg;
+  final String? condition;
+  final bool? access;
 
   @override
-  List<Object> get props => [condition, access];
+  List<Object?> get props => [condition, access];
 
   PackageCondition({this.pkg, this.condition, this.access});
 }
 
 class PagesAndDialogAccesss {
   // Map between page-id and access
-  final Map<String, bool> pagesAccess;
+  final Map<String?, bool> pagesAccess;
 
   // Map between dialog-id and access
-  final Map<String, bool> dialogsAccess;
+  final Map<String?, bool> dialogsAccess;
 
   // Map between packageCondition and access
-  final Map<String, PackageCondition> packageConditionsAccess;
+  final Map<String, PackageCondition?> packageConditionsAccess;
 
-  final PrivilegeLevel privilegeLevel;
+  final PrivilegeLevel? privilegeLevel;
 
-  final bool blocked;
+  final bool? blocked;
 
   PagesAndDialogAccesss(this.pagesAccess, this.dialogsAccess,
       this.packageConditionsAccess, this.privilegeLevel, this.blocked);
@@ -124,13 +124,13 @@ class AccessHelper {
     return packageConditions;
   }
 
-  static Future<PackageCondition> conditionOkForPackage(
+  static Future<PackageCondition?> conditionOkForPackage(
       String packageCondition,
       AppModel app,
-      MemberModel member,
+      MemberModel? member,
       bool isOwner,
-      bool isBlocked,
-      PrivilegeLevel privilegeLevel) async {
+      bool? isBlocked,
+      PrivilegeLevel? privilegeLevel) async {
     for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
       var plg = GlobalData.registeredPackages[i];
       var plgOk = await plg.isConditionOk(
@@ -147,29 +147,29 @@ class AccessHelper {
   }
 
   static bool conditionOk(
-      Map<String, PackageCondition> packagesConditions,
+      Map<String, PackageCondition?> packagesConditions,
       ConditionsModel conditions,
       PrivilegeLevel privilegedLevel,
       bool isOwner,
-      bool isBlocked,
+      bool? isBlocked,
       bool isLoggedIn) {
     var privilegedLevelRequired = conditions.privilegeLevelRequired;
 
-    if (privilegedLevel.index < conditions.privilegeLevelRequired.index) {
+    if (privilegedLevel.index < conditions.privilegeLevelRequired!.index) {
       return false;
     }
 
     if (conditions == null) return true;
 
     var packageCondition = conditions.packageCondition;
-    if ((packageCondition != null) && (!packagesConditions[packageCondition].access)) {
+    if ((packageCondition != null) && (!packagesConditions[packageCondition]!.access!)) {
       return false;
     }
 
     if (conditions.conditionOverride != null) {
       switch (conditions.conditionOverride) {
         case ConditionOverride.ExactPrivilege:
-          if (privilegedLevel.index != conditions.privilegeLevelRequired.index) return false;
+          if (privilegedLevel.index != conditions.privilegeLevelRequired!.index) return false;
           break;
         case ConditionOverride.InclusiveForBlockedMembers:
           if ((isBlocked != null) && (isBlocked)) return true;
@@ -185,26 +185,26 @@ class AccessHelper {
     return true;
   }
 
-  static Future<PrivilegeLevel> getPrivilegeLevel(
+  static Future<PrivilegeLevel?> getPrivilegeLevel(
       AppModel app, MemberModel member, bool isOwner) async {
     if (isOwner) return PrivilegeLevel.OwnerPrivilege;
     if (member != null) {
       var access =
-          await accessRepository(appId: app.documentID).get(member.documentID);
+          await accessRepository(appId: app.documentID)!.get(member.documentID);
       var privilegeLevel = access == null ? 0 : access.privilegeLevel;
-      return privilegeLevel;
+      return privilegeLevel as Future<PrivilegeLevel?>;
     }
     return PrivilegeLevel.NoPrivilege;
   }
 
   static Future<PagesAndDialogAccesss> _getAccess(
-      MemberModel member, AppModel app, bool isLoggedIn) async {
-    var pagesAccess = <String, bool>{};
+      MemberModel? member, AppModel app, bool isLoggedIn) async {
+    var pagesAccess = <String?, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
 
     var accessModel;
     if (member != null) {
-      accessModel = await accessRepository(appId: app.documentID).get(member.documentID);
+      accessModel = await accessRepository(appId: app.documentID)!.get(member.documentID);
     }
     var privilegeLevel;
     var isBlocked;
@@ -215,7 +215,7 @@ class AccessHelper {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
 
-    var packageConditionsAccess = <String, PackageCondition>{};
+    var packageConditionsAccess = <String, PackageCondition?>{};
     {
       var packageConditions = getAllPackageConditions();
       for (var i = 0; i < packageConditions.length; i++) {
@@ -227,10 +227,10 @@ class AccessHelper {
     {
       var repo = pageRepository(appId: app.documentID);
 
-      var pages = <PageModel>[];
+      var pages = <PageModel?>[];
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
-        pages.addAll(await repo.valuesList(privilegeLevel: countDown));
+        pages.addAll(await repo!.valuesList(privilegeLevel: countDown));
         countDown--;
       }
 
@@ -238,18 +238,18 @@ class AccessHelper {
           pages, (page1, page2) => page1.documentID == page2.documentID);
 
       for (var i = 0; i < theList.length; i++) {
-        var page = theList[i];
+        var page = theList[i]!;
         pagesAccess[page.documentID] = conditionOk(packageConditionsAccess,
-            page.conditions, privilegeLevel, isOwner, isBlocked, isLoggedIn);
+            page.conditions!, privilegeLevel, isOwner, isBlocked, isLoggedIn);
       }
     }
-    var dialogsAccess = <String, bool>{};
+    var dialogsAccess = <String?, bool>{};
     {
       var repo = dialogRepository(appId: app.documentID);
-      var dialogs = <DialogModel>[];
+      var dialogs = <DialogModel?>[];
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
-        dialogs.addAll(await repo.valuesList(privilegeLevel: countDown));
+        dialogs.addAll(await repo!.valuesList(privilegeLevel: countDown));
         countDown--;
       }
 
@@ -257,9 +257,9 @@ class AccessHelper {
           (dialog1, dialog2) => dialog1.documentID == dialog2.documentID);
 
       for (var i = 0; i < theList.length; i++) {
-        var dialog = theList[i];
+        var dialog = theList[i]!;
         dialogsAccess[dialog.documentID] = conditionOk(packageConditionsAccess,
-            dialog.conditions, privilegeLevel, isOwner, isBlocked, isLoggedIn);
+            dialog.conditions!, privilegeLevel, isOwner, isBlocked, isLoggedIn);
       }
     }
 
@@ -270,14 +270,14 @@ class AccessHelper {
 
 abstract class AppLoaded extends AccessState {
   final AppModel app;
-  final AppModel
+  final AppModel?
       playStoreApp; // The playstore app. If null, then no playstore app available.
-  final Map<String, bool> pagesAccess;
-  final Map<String, bool> dialogAccess;
-  final Map<String, PackageCondition> packageConditionsAccess;
+  final Map<String?, bool> pagesAccess;
+  final Map<String?, bool> dialogAccess;
+  final Map<String, PackageCondition?> packageConditionsAccess;
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
 
   AppLoaded(this.app, this.playStoreApp, this.pagesAccess, this.dialogAccess,
@@ -287,8 +287,8 @@ abstract class AppLoaded extends AccessState {
     if (action.conditions != null) {
       if (!AccessHelper.conditionOk(
           packageConditionsAccess,
-          action.conditions,
-          getPrivilegeLevel(),
+          action.conditions!,
+          getPrivilegeLevel()!,
           memberIsOwner(),
           isBlocked(),
           isLoggedIn())) return false;
@@ -305,7 +305,7 @@ abstract class AppLoaded extends AccessState {
       return access;
     } else if (action is PopupMenu) {
       var access = false;
-      action.menuDef.menuItems.forEach((item) {
+      action.menuDef!.menuItems!.forEach((item) {
         if (menuItemHasAccess(item)) access = true;
       });
       return access;
@@ -326,7 +326,7 @@ abstract class AppLoaded extends AccessState {
 
   bool menuItemHasAccess(MenuItemModel item) {
     try {
-      var action = item.action;
+      var action = item.action!;
       return actionHasAccess(action);
     } catch (_) {
       return false;
@@ -337,14 +337,14 @@ abstract class AppLoaded extends AccessState {
     return items.map((e) => menuItemHasAccess(e)).toList();
   }
 
-  MemberModel getMember();
-  PrivilegeLevel getPrivilegeLevel();
+  MemberModel? getMember();
+  PrivilegeLevel? getPrivilegeLevel();
   bool isBlocked();
 }
 
 class LoggedOut extends AppLoaded {
   static Future<LoggedOut> getLoggedOut(
-      AppModel app, AppModel playstoreApp) async {
+      AppModel app, AppModel? playstoreApp) async {
     var access = await AccessHelper._getAccess(null, app, false);
     var loggedOut = LoggedOut._(app, playstoreApp, access.pagesAccess,
         access.dialogsAccess, access.packageConditionsAccess);
@@ -353,10 +353,10 @@ class LoggedOut extends AppLoaded {
 
   LoggedOut._(
       AppModel app,
-      AppModel playstoreApp,
-      Map<String, bool> pagesAccess,
-      Map<String, bool> dialogAccess,
-      Map<String, PackageCondition> packageConditionsAccess)
+      AppModel? playstoreApp,
+      Map<String?, bool> pagesAccess,
+      Map<String?, bool> dialogAccess,
+      Map<String, PackageCondition?> packageConditionsAccess)
       : super(app, playstoreApp, pagesAccess, dialogAccess,
             packageConditionsAccess);
 
@@ -373,7 +373,7 @@ class LoggedOut extends AppLoaded {
   bool memberIsOwner() => false;
 
   @override
-  MemberModel getMember() => null;
+  MemberModel? getMember() => null;
 
   @override
   PrivilegeLevel getPrivilegeLevel() => PrivilegeLevel.NoPrivilege;
@@ -382,7 +382,7 @@ class LoggedOut extends AppLoaded {
   bool isBlocked() => false;
 
   @override
-  List<MemberCollectionInfo> getMemberCollectionInfo() => null;
+  List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 }
 
 abstract class LoggedIn extends AppLoaded {
@@ -392,7 +392,7 @@ abstract class LoggedIn extends AppLoaded {
   final bool blocked;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         app,
         playStoreApp,
         pagesAccess,
@@ -407,42 +407,44 @@ abstract class LoggedIn extends AppLoaded {
       this.usr,
       this.member,
       AppModel app,
-      AppModel playstoreApp,
-      Map<String, bool> pagesAccess,
-      Map<String, bool> dialogAccess,
+      AppModel? playstoreApp,
+      Map<String?, bool> pagesAccess,
+      Map<String?, bool> dialogAccess,
       this.privilegeLevel,
-      Map<String, PackageCondition> packageConditionsAccess,
+      Map<String, PackageCondition?> packageConditionsAccess,
       this.blocked)
       : super(app, playstoreApp, pagesAccess, dialogAccess,
             packageConditionsAccess);
 
   @override
   bool hasAccessToOtherApps() {
-    return member.subscriptions.length > 1;
+    if (member != null) return false;
+    if (member!.subscriptions != null) return false;
+    return member!.subscriptions!.length > 1;
   }
 
   @override
   bool isLoggedIn() => true;
 
-  String memberProfilePhoto() {
-    return member.photoURL;
+  String? memberProfilePhoto() {
+    return member!.photoURL;
   }
 
   @override
   bool memberIsOwner() {
-    return member.documentID == app.ownerID;
+    return member!.documentID == app.ownerID;
   }
 
-  Future<LoggedIn> copyWith(MemberModel member, AppModel playstoreApp);
+  Future<LoggedIn> copyWith(MemberModel? member, AppModel? playstoreApp);
 
   @override
-  MemberModel getMember() => member;
+  MemberModel? getMember() => member;
 
   @override
-  PrivilegeLevel getPrivilegeLevel() => privilegeLevel;
+  PrivilegeLevel? getPrivilegeLevel() => privilegeLevel;
 
   @override
-  bool isBlocked() => (blocked != null) && blocked;
+  bool isBlocked() => (blocked != null) && blocked!;
 
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() {
@@ -462,8 +464,8 @@ class LoggedInWithoutMembership extends LoggedIn {
       User usr,
       MemberModel member,
       AppModel app,
-      AppModel playstoreApp,
-      PostLoginAction postLoginAction) async {
+      AppModel? playstoreApp,
+      PostLoginAction? postLoginAction) async {
     var access = await AccessHelper._getAccess(member, app, false);
     var loggedInWithoutMembership = LoggedInWithoutMembership._(
         usr,
@@ -473,14 +475,14 @@ class LoggedInWithoutMembership extends LoggedIn {
         postLoginAction,
         access.pagesAccess,
         access.dialogsAccess,
-        access.privilegeLevel,
+        access.privilegeLevel ?? PrivilegeLevel.NoPrivilege,
         access.packageConditionsAccess,
         access.blocked);
     return loggedInWithoutMembership;
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         usr,
         member,
         app,
@@ -493,24 +495,24 @@ class LoggedInWithoutMembership extends LoggedIn {
       ];
 
   // What is the event that should be triggered after the membership will be accepted...
-  final PostLoginAction postLoginAction;
+  final PostLoginAction? postLoginAction;
   LoggedInWithoutMembership._(
       User usr,
       MemberModel member,
       AppModel app,
-      AppModel playstoreApp,
+      AppModel? playstoreApp,
       this.postLoginAction,
-      Map<String, bool> pagesAccess,
-      Map<String, bool> dialogAccess,
+      Map<String?, bool> pagesAccess,
+      Map<String?, bool> dialogAccess,
       PrivilegeLevel privilegeLevel,
-      Map<String, PackageCondition> packageConditionsAccess,
-      bool blocked)
+      Map<String, PackageCondition?> packageConditionsAccess,
+      bool? blocked)
       : super._(usr, member, app, playstoreApp, pagesAccess, dialogAccess,
-            privilegeLevel, packageConditionsAccess, blocked);
+            privilegeLevel, packageConditionsAccess, blocked == null ? false : blocked);
 
   @override
   Future<LoggedInWithoutMembership> copyWith(
-      MemberModel member, AppModel playstoreApp) async {
+      MemberModel? member, AppModel? playstoreApp) async {
     return getLoggedInWithoutMembership(
         usr, member ?? this.member, app, playstoreApp, postLoginAction);
   }
@@ -524,7 +526,7 @@ class LoggedInWithMembership extends LoggedIn {
     User usr,
     MemberModel member,
     AppModel app,
-    AppModel playstoreApp,
+    AppModel? playstoreApp,
   ) async {
     var access = await AccessHelper._getAccess(member, app, false);
     var loggedInWithMembership = LoggedInWithMembership._(
@@ -534,14 +536,14 @@ class LoggedInWithMembership extends LoggedIn {
         playstoreApp,
         access.pagesAccess,
         access.dialogsAccess,
-        access.privilegeLevel,
+        access.privilegeLevel ?? PrivilegeLevel.NoPrivilege,
         access.packageConditionsAccess,
-        access.blocked);
+        access.blocked ?? false);
     return loggedInWithMembership;
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         usr,
         member,
         app,
@@ -557,18 +559,18 @@ class LoggedInWithMembership extends LoggedIn {
       User usr,
       MemberModel member,
       AppModel app,
-      AppModel playstoreApp,
-      Map<String, bool> pagesAccess,
-      Map<String, bool> dialogsAccess,
+      AppModel? playstoreApp,
+      Map<String?, bool> pagesAccess,
+      Map<String?, bool> dialogsAccess,
       PrivilegeLevel privilegeLevel,
-      Map<String, PackageCondition> packageConditionsAccess,
+      Map<String, PackageCondition?> packageConditionsAccess,
       bool blocked)
       : super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess,
             privilegeLevel, packageConditionsAccess, blocked);
 
   @override
   Future<LoggedInWithMembership> copyWith(
-      MemberModel member, AppModel playstoreApp) {
+      MemberModel? member, AppModel? playstoreApp) {
     return getLoggedInWithMembership(
         usr, member ?? this.member, app, playstoreApp);
   }

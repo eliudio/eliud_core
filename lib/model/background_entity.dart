@@ -21,30 +21,30 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class BackgroundEntity {
-  final String appId;
-  final String comments;
-  final String backgroundImageId;
-  final bool useProfilePhotoAsBackground;
-  final int beginGradientPosition;
-  final int endGradientPosition;
-  final String shadowId;
-  final List<DecorationColorEntity> decorationColors;
-  final bool border;
-  final bool admin;
+  final String? appId;
+  final String? comments;
+  final String? backgroundImageId;
+  final bool? useProfilePhotoAsBackground;
+  final int? beginGradientPosition;
+  final int? endGradientPosition;
+  final String? shadowId;
+  final List<DecorationColorEntity>? decorationColors;
+  final bool? border;
+  final bool? admin;
 
   BackgroundEntity({this.appId, this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, this.admin, });
 
 
-  List<Object> get props => [appId, comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
+  List<Object?> get props => [appId, comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
 
   @override
   String toString() {
-    String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors.join(', ');
+    String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
     return 'BackgroundEntity{appId: $appId, comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
   }
 
-  static BackgroundEntity fromMap(Map map) {
+  static BackgroundEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     var decorationColorsFromMap;
@@ -70,12 +70,12 @@ class BackgroundEntity {
     );
   }
 
-  Map<String, Object> toDocument() {
-    final List<Map<String, dynamic>> decorationColorsListMap = decorationColors != null 
-        ? decorationColors.map((item) => item.toDocument()).toList()
+  Map<String, Object?> toDocument() {
+    final List<Map<String, dynamic>>? decorationColorsListMap = decorationColors != null 
+        ? decorationColors!.map((item) => item.toDocument()).toList()
         : null;
 
-    Map<String, Object> theDocument = HashMap();
+    Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     if (comments != null) theDocument["comments"] = comments;
@@ -99,8 +99,8 @@ class BackgroundEntity {
     return theDocument;
   }
 
-  static BackgroundEntity fromJsonString(String json) {
-    Map<String, dynamic> generationSpecificationMap = jsonDecode(json);
+  static BackgroundEntity? fromJsonString(String json) {
+    Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }
 
