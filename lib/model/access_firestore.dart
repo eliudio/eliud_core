@@ -183,7 +183,7 @@ class AccessFirestore implements AccessRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   AccessFirestore(this.AccessCollection, this.appId);
 
   final CollectionReference AccessCollection;

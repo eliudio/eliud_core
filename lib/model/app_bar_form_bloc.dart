@@ -44,7 +44,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
   AppBarFormBloc(this.appId, { this.formAction }): super(AppBarFormUninitialized());
   @override
   Stream<AppBarFormState> mapEventToState(AppBarFormEvent event) async* {
-    final AppBarFormState currentState = state;
+    final currentState = state;
     if (currentState is AppBarFormUninitialized) {
       if (event is InitialiseNewAppBarFormEvent) {
         AppBarFormLoaded loaded = AppBarFormLoaded(value: AppBarModel(

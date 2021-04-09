@@ -29,7 +29,7 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
   AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized());
   @override
   Stream<AppBarComponentState> mapEventToState(AppBarComponentEvent event) async* {
-    final AppBarComponentState currentState = state;
+    final currentState = state;
     if (event is FetchAppBarComponent) {
       try {
         if (currentState is AppBarComponentUninitialized) {
