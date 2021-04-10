@@ -80,6 +80,9 @@ import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/member_public_info_firestore.dart';
+import '../model/member_public_info_repository.dart';
+import '../model/member_public_info_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -110,6 +113,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = HashMap<String, ShadowRepository>();
+    var _memberPublicInfoRepository = MemberPublicInfoCache(MemberPublicInfoFirestore());
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -173,6 +177,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     ShadowRepository? shadowRepository(String? appId) {
       if ((appId != null) && (_shadowRepository[appId] == null)) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appRepository()!.getSubCollection(appId, 'shadow'), appId));
       return _shadowRepository[appId];
+    }
+    MemberPublicInfoRepository? memberPublicInfoRepository() {
+      return _memberPublicInfoRepository;
     }
 
 }

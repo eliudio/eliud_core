@@ -37,6 +37,7 @@ import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
+import '../model/member_public_info_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -58,6 +59,7 @@ MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySin
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
+MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -82,8 +84,10 @@ abstract class AbstractRepositorySingleton {
   PageRepository? pageRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
   ShadowRepository? shadowRepository(String? appId);
+  MemberPublicInfoRepository? memberPublicInfoRepository();
 
   void flush(String? appId) {
     countryRepository()!.flush();
+    memberPublicInfoRepository()!.flush();
   }
 }
