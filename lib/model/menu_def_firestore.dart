@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MenuDefFirestore implements MenuDefRepository {
-  Future<MenuDefModel> add(MenuDefModel? value) {
-    return MenuDefCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MenuDefModel> add(MenuDefModel value) {
+    return MenuDefCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(MenuDefModel? value) {
-    return MenuDefCollection.doc(value!.documentID).delete();
+  Future<void> delete(MenuDefModel value) {
+    return MenuDefCollection.doc(value.documentID).delete();
   }
 
-  Future<MenuDefModel> update(MenuDefModel? value) {
-    return MenuDefCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MenuDefModel> update(MenuDefModel value) {
+    return MenuDefCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   MenuDefModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class MenuDefFirestore implements MenuDefRepository {
     return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) {
-    return MenuDefCollection.doc(id).get().then((doc) {
+    return MenuDefCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class MenuDefFirestore implements MenuDefRepository {
 
   StreamSubscription<List<MenuDefModel?>> listen(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MenuDefModel?>> stream;
-//    stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   MenuDefFirestore(this.MenuDefCollection, this.appId);
 
   final CollectionReference MenuDefCollection;

@@ -28,7 +28,7 @@ class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
   FontComponentBloc({ this.fontRepository }): super(FontComponentUninitialized());
   @override
   Stream<FontComponentState> mapEventToState(FontComponentEvent event) async* {
-    final FontComponentState currentState = state;
+    final currentState = state;
     if (event is FetchFontComponent) {
       try {
         if (currentState is FontComponentUninitialized) {

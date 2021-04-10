@@ -35,14 +35,14 @@ class MemberMediumCache implements MemberMediumRepository {
 
   MemberMediumCache(this.reference);
 
-  Future<MemberMediumModel> add(MemberMediumModel? value) {
+  Future<MemberMediumModel> add(MemberMediumModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MemberMediumModel? value){
+  Future<void> delete(MemberMediumModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class MemberMediumCache implements MemberMediumRepository {
     });
   }
 
-  Future<MemberMediumModel> update(MemberMediumModel? value) {
+  Future<MemberMediumModel> update(MemberMediumModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -65,12 +65,12 @@ class MemberMediumCache implements MemberMediumRepository {
   }
 
   @override
-  Stream<List<MemberMediumModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<MemberMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<MemberMediumModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<MemberMediumModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -108,18 +108,18 @@ class MemberMediumCache implements MemberMediumRepository {
   }
 
   @override
-  StreamSubscription<List<MemberMediumModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<MemberMediumModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<MemberMediumModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<MemberMediumModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<MemberMediumModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MemberMediumModel?> listenTo(String documentId, MemberMediumChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MemberMediumModel> refreshRelations(MemberMediumModel model) async {

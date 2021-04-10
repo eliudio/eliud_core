@@ -73,20 +73,6 @@ class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
 }
 
 class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidget> {
-  MemberSubscriptionListBloc? bloc;
-
-  @override
-  void didChangeDependencies() {
-    bloc = BlocProvider.of<MemberSubscriptionListBloc>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose () {
-    if (bloc != null) bloc!.close();
-    super.dispose();
-  }
-
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
@@ -100,7 +86,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
         onPressed: () {
           Navigator.of(context).push(
             pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                value: bloc,
+                value: BlocProvider.of<MemberSubscriptionListBloc>(context),
                 child: MemberSubscriptionForm(
                     value: null,
                     formAction: FormAction.AddAction)
@@ -125,14 +111,14 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
         } else if (state is MemberSubscriptionListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
-            List<Widget> children = List();
+            var children = <Widget>[];
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
                       Navigator.of(context).push(
                                 pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                                    value: bloc,
+                                    value: BlocProvider.of<MemberSubscriptionListBloc>(context),
                                     child: MemberSubscriptionForm(
                                         value: null,
                                         formAction: FormAction.AddAction)

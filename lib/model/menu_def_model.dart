@@ -72,8 +72,8 @@ class MenuDefModel {
     return MenuDefEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          menuItems: (menuItems != null) ? menuItems!
-            .map((item) => item.toEntity(appId: appId))
+          menuItems: (menuItems != null) ? menuItems
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           admin: (admin != null) ? admin : null, 
     );
@@ -87,8 +87,8 @@ class MenuDefModel {
           name: entity.name, 
           menuItems: 
             entity.menuItems == null ? null :
-            entity.menuItems!
-            .map((item) => MenuItemModel.fromEntity(newRandomKey(), item))
+            entity.menuItems
+            !.map((item) => MenuItemModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
           admin: entity.admin, 
     );
@@ -102,8 +102,8 @@ class MenuDefModel {
           appId: entity.appId, 
           name: entity.name, 
           menuItems: 
-            entity. menuItems == null ? null : new List<MenuItemModel>.from(await Future.wait(entity. menuItems!
-            .map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. menuItems == null ? null : new List<MenuItemModel>.from(await Future.wait(entity. menuItems
+            !.map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           admin: entity.admin, 
     );

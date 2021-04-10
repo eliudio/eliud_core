@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PosSizeFirestore implements PosSizeRepository {
-  Future<PosSizeModel> add(PosSizeModel? value) {
-    return PosSizeCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<PosSizeModel> add(PosSizeModel value) {
+    return PosSizeCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(PosSizeModel? value) {
-    return PosSizeCollection.doc(value!.documentID).delete();
+  Future<void> delete(PosSizeModel value) {
+    return PosSizeCollection.doc(value.documentID).delete();
   }
 
-  Future<PosSizeModel> update(PosSizeModel? value) {
-    return PosSizeCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<PosSizeModel> update(PosSizeModel value) {
+    return PosSizeCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   PosSizeModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class PosSizeFirestore implements PosSizeRepository {
     return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data()), appId: appId);  }
 
   Future<PosSizeModel?> get(String? id, {Function(Exception)? onError}) {
-    return PosSizeCollection.doc(id).get().then((doc) {
+    return PosSizeCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class PosSizeFirestore implements PosSizeRepository {
 
   StreamSubscription<List<PosSizeModel?>> listen(PosSizeModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<PosSizeModel?>> stream;
-//    stream = getQuery(PosSizeCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(PosSizeCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   PosSizeFirestore(this.PosSizeCollection, this.appId);
 
   final CollectionReference PosSizeCollection;

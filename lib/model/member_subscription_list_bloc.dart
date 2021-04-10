@@ -65,15 +65,21 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
   }
 
   Stream<MemberSubscriptionListState> _mapAddMemberSubscriptionListToState(AddMemberSubscriptionList event) async* {
-    _memberSubscriptionRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberSubscriptionRepository.add(value);
   }
 
   Stream<MemberSubscriptionListState> _mapUpdateMemberSubscriptionListToState(UpdateMemberSubscriptionList event) async* {
-    _memberSubscriptionRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberSubscriptionRepository.update(value);
   }
 
   Stream<MemberSubscriptionListState> _mapDeleteMemberSubscriptionListToState(DeleteMemberSubscriptionList event) async* {
-    _memberSubscriptionRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberSubscriptionRepository.delete(value);
   }
 
   Stream<MemberSubscriptionListState> _mapMemberSubscriptionListUpdatedToState(

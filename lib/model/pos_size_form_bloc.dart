@@ -44,7 +44,7 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
   PosSizeFormBloc(this.appId, { this.formAction }): super(PosSizeFormUninitialized());
   @override
   Stream<PosSizeFormState> mapEventToState(PosSizeFormEvent event) async* {
-    final PosSizeFormState currentState = state;
+    final currentState = state;
     if (currentState is PosSizeFormUninitialized) {
       if (event is InitialiseNewPosSizeFormEvent) {
         PosSizeFormLoaded loaded = PosSizeFormLoaded(value: PosSizeModel(
@@ -65,20 +65,20 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
 
       if (event is InitialisePosSizeFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        PosSizeFormLoaded loaded = PosSizeFormLoaded(value: await posSizeRepository(appId: appId)!.get(event.value!.documentID));
+        PosSizeFormLoaded loaded = PosSizeFormLoaded(value: await posSizeRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialisePosSizeFormNoLoadEvent) {
-        PosSizeFormLoaded loaded = PosSizeFormLoaded(value: event.value);
+        PosSizeFormLoaded loaded = PosSizeFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is PosSizeFormInitialized) {
       PosSizeModel? newValue = null;
       if (event is ChangedPosSizeDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittablePosSizeForm(value: newValue);
         }
@@ -86,14 +86,14 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
         return;
       }
       if (event is ChangedPosSizeName) {
-        newValue = currentState.value!.copyWith(name: event.value);
+        newValue = currentState.value!.copyWith(name: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeWidthPortrait) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value!.copyWith(widthPortrait: double.parse(event.value!));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(widthPortrait: double.parse(event!.value!));
           yield SubmittablePosSizeForm(value: newValue);
 
         } else {
@@ -103,14 +103,14 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
         return;
       }
       if (event is ChangedPosSizeWidthTypePortrait) {
-        newValue = currentState.value!.copyWith(widthTypePortrait: event.value);
+        newValue = currentState.value!.copyWith(widthTypePortrait: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeWidthLandscape) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value!.copyWith(widthLandscape: double.parse(event.value!));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(widthLandscape: double.parse(event!.value!));
           yield SubmittablePosSizeForm(value: newValue);
 
         } else {
@@ -120,14 +120,14 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
         return;
       }
       if (event is ChangedPosSizeWidthTypeLandscape) {
-        newValue = currentState.value!.copyWith(widthTypeLandscape: event.value);
+        newValue = currentState.value!.copyWith(widthTypeLandscape: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeHeightPortrait) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value!.copyWith(heightPortrait: double.parse(event.value!));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(heightPortrait: double.parse(event!.value!));
           yield SubmittablePosSizeForm(value: newValue);
 
         } else {
@@ -137,14 +137,14 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
         return;
       }
       if (event is ChangedPosSizeHeightTypePortrait) {
-        newValue = currentState.value!.copyWith(heightTypePortrait: event.value);
+        newValue = currentState.value!.copyWith(heightTypePortrait: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeHeightLandscape) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value!.copyWith(heightLandscape: double.parse(event.value!));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(heightLandscape: double.parse(event!.value!));
           yield SubmittablePosSizeForm(value: newValue);
 
         } else {
@@ -154,37 +154,37 @@ class PosSizeFormBloc extends Bloc<PosSizeFormEvent, PosSizeFormState> {
         return;
       }
       if (event is ChangedPosSizeHeightTypeLandscape) {
-        newValue = currentState.value!.copyWith(heightTypeLandscape: event.value);
+        newValue = currentState.value!.copyWith(heightTypeLandscape: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeFitPortrait) {
-        newValue = currentState.value!.copyWith(fitPortrait: event.value);
+        newValue = currentState.value!.copyWith(fitPortrait: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeFitLandscape) {
-        newValue = currentState.value!.copyWith(fitLandscape: event.value);
+        newValue = currentState.value!.copyWith(fitLandscape: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeAlignTypePortrait) {
-        newValue = currentState.value!.copyWith(alignTypePortrait: event.value);
+        newValue = currentState.value!.copyWith(alignTypePortrait: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeAlignTypeLandscape) {
-        newValue = currentState.value!.copyWith(alignTypeLandscape: event.value);
+        newValue = currentState.value!.copyWith(alignTypeLandscape: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;
       }
       if (event is ChangedPosSizeClip) {
-        newValue = currentState.value!.copyWith(clip: event.value);
+        newValue = currentState.value!.copyWith(clip: event!.value);
         yield SubmittablePosSizeForm(value: newValue);
 
         return;

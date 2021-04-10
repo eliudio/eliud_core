@@ -91,12 +91,12 @@ class DrawerForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add Drawer", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<DrawerFormBloc >(
             create: (context) => DrawerFormBloc(AccessBloc.appId(context),
@@ -198,7 +198,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           _menu= "";
       }
       if (state is DrawerFormInitialized) {
-        List<Widget?> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -214,7 +214,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -222,17 +222,17 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -246,11 +246,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Name',
                   ),
                   keyboardType: TextInputType.text,
@@ -264,11 +264,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _headerTextController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Header Text',
                   ),
                   keyboardType: TextInputType.text,
@@ -282,11 +282,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _secondHeaderTextController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Header Description',
                   ),
                   keyboardType: TextInputType.text,
@@ -299,7 +299,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -307,17 +307,17 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Header',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _headerHeightController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.photo_size_select_large, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.photo_size_select_large, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Header Height (0 for default)',
                     hintText: "Header height, 0 for default",
                   ),
@@ -331,7 +331,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -339,7 +339,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Header Background',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -349,7 +349,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -357,12 +357,12 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Menu Item Colors',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -370,7 +370,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Background',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -380,7 +380,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -388,7 +388,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Menu',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -398,12 +398,12 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is DrawerFormError) {
                       return null;
@@ -442,15 +442,14 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -483,7 +482,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onBackgroundSelected(String val) {
+  void _onBackgroundSelected(String? val) {
     setState(() {
       _background = val;
     });
@@ -512,7 +511,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onHeaderBackgroundSelected(String val) {
+  void _onHeaderBackgroundSelected(String? val) {
     setState(() {
       _headerBackground = val;
     });
@@ -520,7 +519,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onMenuSelected(String val) {
+  void _onMenuSelected(String? val) {
     setState(() {
       _menu = val;
     });

@@ -35,14 +35,14 @@ class ShadowCache implements ShadowRepository {
 
   ShadowCache(this.reference);
 
-  Future<ShadowModel> add(ShadowModel? value) {
+  Future<ShadowModel> add(ShadowModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(ShadowModel? value){
+  Future<void> delete(ShadowModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class ShadowCache implements ShadowRepository {
     });
   }
 
-  Future<ShadowModel> update(ShadowModel? value) {
+  Future<ShadowModel> update(ShadowModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class ShadowCache implements ShadowRepository {
   }
 
   @override
-  StreamSubscription<ShadowModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<ShadowModel?> listenTo(String documentId, ShadowChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<ShadowModel> refreshRelations(ShadowModel model) async {

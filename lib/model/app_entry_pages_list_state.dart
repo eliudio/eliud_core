@@ -26,7 +26,7 @@ abstract class AppEntryPagesListState extends Equatable {
 class AppEntryPagesListLoading extends AppEntryPagesListState {}
 
 class AppEntryPagesListLoaded extends AppEntryPagesListState {
-  final List<AppEntryPagesModel>? values;
+  final List<AppEntryPagesModel?>? values;
   final bool? mightHaveMore;
 
   const AppEntryPagesListLoaded({this.mightHaveMore, this.values = const []});

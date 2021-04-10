@@ -29,7 +29,7 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
   DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized());
   @override
   Stream<DialogComponentState> mapEventToState(DialogComponentEvent event) async* {
-    final DialogComponentState currentState = state;
+    final currentState = state;
     if (event is FetchDialogComponent) {
       try {
         if (currentState is DialogComponentUninitialized) {

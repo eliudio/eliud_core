@@ -31,33 +31,33 @@ import 'package:eliud_core/model/entity_export.dart';
 class MenuItemCache implements MenuItemRepository {
 
   final MenuItemRepository reference;
-  final Map<String?, MenuItemModel> fullCache = Map();
+  final Map<String?, MenuItemModel?> fullCache = Map();
 
   MenuItemCache(this.reference);
 
-  Future<MenuItemModel> add(MenuItemModel? value) {
+  Future<MenuItemModel> add(MenuItemModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MenuItemModel? value){
+  Future<void> delete(MenuItemModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<MenuItemModel> get(String id, {Function(Exception)? onError}) {
+  Future<MenuItemModel> get(String? id, {Function(Exception)? onError}) {
     MenuItemModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<MenuItemModel> update(MenuItemModel? value) {
+  Future<MenuItemModel> update(MenuItemModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -65,12 +65,12 @@ class MenuItemCache implements MenuItemRepository {
   }
 
   @override
-  Stream<List<MenuItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<MenuItemModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<MenuItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<MenuItemModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class MenuItemCache implements MenuItemRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class MenuItemCache implements MenuItemRepository {
   Future<MenuItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,18 +108,18 @@ class MenuItemCache implements MenuItemRepository {
   }
 
   @override
-  StreamSubscription<List<MenuItemModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<MenuItemModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<MenuItemModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<MenuItemModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<MenuItemModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MenuItemModel> refreshRelations(MenuItemModel model) async {

@@ -65,15 +65,21 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
   }
 
   Stream<FontListState> _mapAddFontListToState(AddFontList event) async* {
-    _fontRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _fontRepository.add(value);
   }
 
   Stream<FontListState> _mapUpdateFontListToState(UpdateFontList event) async* {
-    _fontRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _fontRepository.update(value);
   }
 
   Stream<FontListState> _mapDeleteFontListToState(DeleteFontList event) async* {
-    _fontRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _fontRepository.delete(value);
   }
 
   Stream<FontListState> _mapFontListUpdatedToState(

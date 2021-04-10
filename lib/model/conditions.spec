@@ -35,7 +35,7 @@
       "remark": "see firestore rules",
       "fieldType": "String",
       "iconName": "text_format",
-      "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)",
+      "conditional": "(state.value!.packageCondition == ReadCondition.PackageDecides)",
       "group": "conditional2"
     },
     {
@@ -56,7 +56,7 @@
     {
         "group": "conditional2",
         "description": "Plugin Condition",
-        "conditional": "(state.value.packageCondition == ReadCondition.PackageDecides)"
+        "conditional": "(state.value!.packageCondition == ReadCondition.PackageDecides)"
     },
     {
         "group": "conditional3",

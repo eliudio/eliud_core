@@ -33,10 +33,10 @@ typedef DialogModelTrigger(List<DialogModel?> list);
 typedef DialogChanged(DialogModel? value);
 
 abstract class DialogRepository {
-  Future<DialogModel> add(DialogModel? value);
-  Future<void> delete(DialogModel? value);
+  Future<DialogModel> add(DialogModel value);
+  Future<void> delete(DialogModel value);
   Future<DialogModel?> get(String? id, { Function(Exception)? onError });
-  Future<DialogModel> update(DialogModel? value);
+  Future<DialogModel> update(DialogModel value);
 
   Stream<List<DialogModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<DialogModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

@@ -29,29 +29,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef DecorationColorModelTrigger(List<DecorationColorModel> list);
-typedef DecorationColorChanged(DecorationColorModel value);
+typedef DecorationColorModelTrigger(List<DecorationColorModel?> list);
+typedef DecorationColorChanged(DecorationColorModel? value);
 
 abstract class DecorationColorRepository {
-  Future<DecorationColorModel> add(DecorationColorModel? value);
-  Future<void> delete(DecorationColorModel? value);
-  Future<DecorationColorModel> get(String id, { Function(Exception)? onError });
-  Future<DecorationColorModel> update(DecorationColorModel? value);
+  Future<DecorationColorModel> add(DecorationColorModel value);
+  Future<void> delete(DecorationColorModel value);
+  Future<DecorationColorModel?> get(String? id, { Function(Exception)? onError });
+  Future<DecorationColorModel> update(DecorationColorModel value);
 
-  Stream<List<DecorationColorModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<DecorationColorModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<DecorationColorModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<DecorationColorModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<DecorationColorModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<DecorationColorModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<DecorationColorModel?>?> listen(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<DecorationColorModel?>?> listenWithDetails(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed);
+  StreamSubscription<List<DecorationColorModel?>> listen(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<DecorationColorModel?>> listenWithDetails(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<DecorationColorModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<DecorationColorModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

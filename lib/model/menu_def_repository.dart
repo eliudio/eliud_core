@@ -33,10 +33,10 @@ typedef MenuDefModelTrigger(List<MenuDefModel?> list);
 typedef MenuDefChanged(MenuDefModel? value);
 
 abstract class MenuDefRepository {
-  Future<MenuDefModel> add(MenuDefModel? value);
-  Future<void> delete(MenuDefModel? value);
+  Future<MenuDefModel> add(MenuDefModel value);
+  Future<void> delete(MenuDefModel value);
   Future<MenuDefModel?> get(String? id, { Function(Exception)? onError });
-  Future<MenuDefModel> update(MenuDefModel? value);
+  Future<MenuDefModel> update(MenuDefModel value);
 
   Stream<List<MenuDefModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<MenuDefModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

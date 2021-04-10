@@ -65,15 +65,21 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   }
 
   Stream<ShadowListState> _mapAddShadowListToState(AddShadowList event) async* {
-    _shadowRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shadowRepository.add(value);
   }
 
   Stream<ShadowListState> _mapUpdateShadowListToState(UpdateShadowList event) async* {
-    _shadowRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shadowRepository.update(value);
   }
 
   Stream<ShadowListState> _mapDeleteShadowListToState(DeleteShadowList event) async* {
-    _shadowRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _shadowRepository.delete(value);
   }
 
   Stream<ShadowListState> _mapShadowListUpdatedToState(

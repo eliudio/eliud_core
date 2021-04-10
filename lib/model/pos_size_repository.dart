@@ -33,10 +33,10 @@ typedef PosSizeModelTrigger(List<PosSizeModel?> list);
 typedef PosSizeChanged(PosSizeModel? value);
 
 abstract class PosSizeRepository {
-  Future<PosSizeModel> add(PosSizeModel? value);
-  Future<void> delete(PosSizeModel? value);
+  Future<PosSizeModel> add(PosSizeModel value);
+  Future<void> delete(PosSizeModel value);
   Future<PosSizeModel?> get(String? id, { Function(Exception)? onError });
-  Future<PosSizeModel> update(PosSizeModel? value);
+  Future<PosSizeModel> update(PosSizeModel value);
 
   Stream<List<PosSizeModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<PosSizeModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

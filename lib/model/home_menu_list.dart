@@ -73,20 +73,6 @@ class HomeMenuListWidget extends StatefulWidget with HasFab {
 }
 
 class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
-  HomeMenuListBloc? bloc;
-
-  @override
-  void didChangeDependencies() {
-    bloc = BlocProvider.of<HomeMenuListBloc>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose () {
-    if (bloc != null) bloc!.close();
-    super.dispose();
-  }
-
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
@@ -100,7 +86,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
         onPressed: () {
           Navigator.of(context).push(
             pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                value: bloc,
+                value: BlocProvider.of<HomeMenuListBloc>(context),
                 child: HomeMenuForm(
                     value: null,
                     formAction: FormAction.AddAction)
@@ -125,14 +111,14 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
         } else if (state is HomeMenuListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
-            List<Widget> children = List();
+            var children = <Widget>[];
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
                       Navigator.of(context).push(
                                 pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                                    value: bloc,
+                                    value: BlocProvider.of<HomeMenuListBloc>(context),
                                     child: HomeMenuForm(
                                         value: null,
                                         formAction: FormAction.AddAction)

@@ -44,7 +44,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
   MenuDefFormBloc(this.appId, { this.formAction }): super(MenuDefFormUninitialized());
   @override
   Stream<MenuDefFormState> mapEventToState(MenuDefFormEvent event) async* {
-    final MenuDefFormState currentState = state;
+    final currentState = state;
     if (currentState is MenuDefFormUninitialized) {
       if (event is InitialiseNewMenuDefFormEvent) {
         MenuDefFormLoaded loaded = MenuDefFormLoaded(value: MenuDefModel(
@@ -62,20 +62,20 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
 
       if (event is InitialiseMenuDefFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event.value!.documentID));
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMenuDefFormNoLoadEvent) {
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: event.value);
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is MenuDefFormInitialized) {
       MenuDefModel? newValue = null;
       if (event is ChangedMenuDefDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableMenuDefForm(value: newValue);
         }
@@ -83,8 +83,8 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefName) {
-        newValue = currentState.value!.copyWith(name: event.value);
-        if (!_isNameValid(event.value!)) {
+        newValue = currentState.value!.copyWith(name: event!.value);
+        if (!_isNameValid(event!.value)) {
           yield NameMenuDefFormError(message: "Invalid value", value: newValue);
         } else {
           yield SubmittableMenuDefForm(value: newValue);
@@ -93,7 +93,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefMenuItems) {
-        newValue = currentState.value!.copyWith(menuItems: event.value);
+        newValue = currentState.value!.copyWith(menuItems: event!.value);
         yield SubmittableMenuDefForm(value: newValue);
 
         return;
@@ -101,9 +101,9 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
     }
   }
 
-  bool _isNameValid(String value) {
+  bool _isNameValid(String? value) {
     // This could be written in 1 line. However, this is to illustrate how to write multiple lines of code
-    if (value.length == 0) {
+    if (value!.length == 0) {
       return false;
     } else {
       return true;

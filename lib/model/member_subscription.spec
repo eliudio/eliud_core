@@ -41,7 +41,7 @@
     }
   ],
   "listFields": {
-    "title": "app.documentID",
-    "title": "app.title"
+    "title": "app!.documentID",
+    "title": "app!.title"
   }
 }

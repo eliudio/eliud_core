@@ -74,7 +74,7 @@ class MenuItemModel {
     );
   }
 
-  static MenuItemModel fromEntity(String documentID, MenuItemEntity entity) {
+  static MenuItemModel? fromEntity(String documentID, MenuItemEntity? entity) {
     if (entity == null) return null;
     return MenuItemModel(
           documentID: documentID, 
@@ -87,7 +87,7 @@ class MenuItemModel {
     );
   }
 
-  static Future<MenuItemModel> fromEntityPlus(String documentID, MenuItemEntity entity, { String? appId}) async {
+  static Future<MenuItemModel?> fromEntityPlus(String documentID, MenuItemEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return MenuItemModel(

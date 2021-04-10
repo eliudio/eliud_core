@@ -70,8 +70,8 @@ class AppPolicyModel {
     return AppPolicyEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
-          policies: (policies != null) ? policies!
-            .map((item) => item.toEntity(appId: appId))
+          policies: (policies != null) ? policies
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }
@@ -84,8 +84,8 @@ class AppPolicyModel {
           comments: entity.comments, 
           policies: 
             entity.policies == null ? null :
-            entity.policies!
-            .map((item) => AppPolicyItemModel.fromEntity(newRandomKey(), item))
+            entity.policies
+            !.map((item) => AppPolicyItemModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
     );
   }
@@ -98,8 +98,8 @@ class AppPolicyModel {
           appId: entity.appId, 
           comments: entity.comments, 
           policies: 
-            entity. policies == null ? null : new List<AppPolicyItemModel>.from(await Future.wait(entity. policies!
-            .map((item) => AppPolicyItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. policies == null ? null : new List<AppPolicyItemModel>.from(await Future.wait(entity. policies
+            !.map((item) => AppPolicyItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
     );
   }

@@ -28,7 +28,7 @@ class MemberDashboardComponentBloc extends Bloc<MemberDashboardComponentEvent, M
   MemberDashboardComponentBloc({ this.memberDashboardRepository }): super(MemberDashboardComponentUninitialized());
   @override
   Stream<MemberDashboardComponentState> mapEventToState(MemberDashboardComponentEvent event) async* {
-    final MemberDashboardComponentState currentState = state;
+    final currentState = state;
     if (event is FetchMemberDashboardComponent) {
       try {
         if (currentState is MemberDashboardComponentUninitialized) {

@@ -72,7 +72,7 @@ class BodyComponentModel {
     );
   }
 
-  static BodyComponentModel fromEntity(String documentID, BodyComponentEntity entity) {
+  static BodyComponentModel? fromEntity(String documentID, BodyComponentEntity? entity) {
     if (entity == null) return null;
     return BodyComponentModel(
           documentID: documentID, 
@@ -81,7 +81,7 @@ class BodyComponentModel {
     );
   }
 
-  static Future<BodyComponentModel> fromEntityPlus(String documentID, BodyComponentEntity entity, { String? appId}) async {
+  static Future<BodyComponentModel?> fromEntityPlus(String documentID, BodyComponentEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     return BodyComponentModel(

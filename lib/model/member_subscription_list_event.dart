@@ -63,7 +63,7 @@ class DeleteMemberSubscriptionList extends MemberSubscriptionListEvent {
 }
 
 class MemberSubscriptionListUpdated extends MemberSubscriptionListEvent {
-  final List<MemberSubscriptionModel>? value;
+  final List<MemberSubscriptionModel?>? value;
   final bool? mightHaveMore;
 
   const MemberSubscriptionListUpdated({ this.value, this.mightHaveMore });

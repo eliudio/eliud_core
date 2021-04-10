@@ -29,29 +29,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef MenuItemModelTrigger(List<MenuItemModel> list);
-typedef MenuItemChanged(MenuItemModel value);
+typedef MenuItemModelTrigger(List<MenuItemModel?> list);
+typedef MenuItemChanged(MenuItemModel? value);
 
 abstract class MenuItemRepository {
-  Future<MenuItemModel> add(MenuItemModel? value);
-  Future<void> delete(MenuItemModel? value);
-  Future<MenuItemModel> get(String id, { Function(Exception)? onError });
-  Future<MenuItemModel> update(MenuItemModel? value);
+  Future<MenuItemModel> add(MenuItemModel value);
+  Future<void> delete(MenuItemModel value);
+  Future<MenuItemModel?> get(String? id, { Function(Exception)? onError });
+  Future<MenuItemModel> update(MenuItemModel value);
 
-  Stream<List<MenuItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<MenuItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MenuItemModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MenuItemModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MenuItemModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MenuItemModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<MenuItemModel?>?> listen(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<MenuItemModel?>?> listenWithDetails(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed);
+  StreamSubscription<List<MenuItemModel?>> listen(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<MenuItemModel?>> listenWithDetails(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<MenuItemModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<MenuItemModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

@@ -91,12 +91,12 @@ class AppBarForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add AppBar", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<AppBarFormBloc >(
             create: (context) => AppBarFormBloc(AccessBloc.appId(context),
@@ -198,11 +198,11 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -216,11 +216,11 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Title',
                   ),
                   keyboardType: TextInputType.text,
@@ -233,7 +233,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -241,17 +241,17 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Header type',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _headerSelectedRadioTile,
-                    title: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Title", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
@@ -261,10 +261,10 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _headerSelectedRadioTile,
-                    title: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Image", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
@@ -274,10 +274,10 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _headerSelectedRadioTile,
-                    title: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Icon", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
@@ -287,10 +287,10 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _headerSelectedRadioTile,
-                    title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionHeader(val);
                     },
@@ -299,7 +299,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -307,7 +307,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Image',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -317,7 +317,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -325,7 +325,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Icon',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -335,7 +335,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -343,7 +343,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Icon Menu',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -353,7 +353,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -361,12 +361,12 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('AppBar Colors',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -374,7 +374,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Icon Colors',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -389,7 +389,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -397,7 +397,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Menu Colors',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -407,7 +407,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -415,7 +415,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Header Background',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -425,12 +425,12 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is AppBarFormError) {
                       return null;
@@ -473,12 +473,12 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -525,7 +525,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void _onImageSelected(String val) {
+  void _onImageSelected(String? val) {
     setState(() {
       _image = val;
     });
@@ -533,7 +533,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void _onIconMenuSelected(String val) {
+  void _onIconMenuSelected(String? val) {
     setState(() {
       _iconMenu = val;
     });
@@ -541,7 +541,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void _onBackgroundSelected(String val) {
+  void _onBackgroundSelected(String? val) {
     setState(() {
       _background = val;
     });

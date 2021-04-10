@@ -88,7 +88,7 @@
       "fieldType": "Rgb",
       "group": "iconColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Text color\", state.value.iconColor, _onIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColor, _onIconColorChanged)"
     },
     {
       "fieldName": "selectedIconColor",
@@ -97,7 +97,7 @@
       "group": "iconColors",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value.selectedIconColor, _onSelectedIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value!.selectedIconColor, _onSelectedIconColorChanged)"
     },
     {
       "fieldName": "menuBackgroundColor",
@@ -106,7 +106,7 @@
       "fieldType": "Rgb",
       "group": "menuColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Background Color\", state.value.menuBackgroundColor, _onMenuBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(\"Background Color\", state.value!.menuBackgroundColor, _onMenuBackgroundColorChanged)"
     }
   ],
   "groups": [

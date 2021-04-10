@@ -63,7 +63,7 @@ class DeleteBodyComponentList extends BodyComponentListEvent {
 }
 
 class BodyComponentListUpdated extends BodyComponentListEvent {
-  final List<BodyComponentModel>? value;
+  final List<BodyComponentModel?>? value;
   final bool? mightHaveMore;
 
   const BodyComponentListUpdated({ this.value, this.mightHaveMore });

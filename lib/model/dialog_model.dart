@@ -93,8 +93,8 @@ class DialogModel {
     return DialogEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
-          bodyComponents: (bodyComponents != null) ? bodyComponents!
-            .map((item) => item.toEntity(appId: appId))
+          bodyComponents: (bodyComponents != null) ? bodyComponents
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           background: (background != null) ? background!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
@@ -111,8 +111,8 @@ class DialogModel {
           title: entity.title, 
           bodyComponents: 
             entity.bodyComponents == null ? null :
-            entity.bodyComponents!
-            .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
+            entity.bodyComponents
+            !.map((item) => BodyComponentModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
           background: 
             RgbModel.fromEntity(entity.background), 
@@ -139,8 +139,8 @@ class DialogModel {
           appId: entity.appId, 
           title: entity.title, 
           bodyComponents: 
-            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents!
-            .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
+            !.map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           background: 
             await RgbModel.fromEntityPlus(entity.background, appId: appId), 

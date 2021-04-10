@@ -35,14 +35,14 @@ class DialogCache implements DialogRepository {
 
   DialogCache(this.reference);
 
-  Future<DialogModel> add(DialogModel? value) {
+  Future<DialogModel> add(DialogModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(DialogModel? value){
+  Future<void> delete(DialogModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class DialogCache implements DialogRepository {
     });
   }
 
-  Future<DialogModel> update(DialogModel? value) {
+  Future<DialogModel> update(DialogModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class DialogCache implements DialogRepository {
   }
 
   @override
-  StreamSubscription<DialogModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<DialogModel> refreshRelations(DialogModel model) async {

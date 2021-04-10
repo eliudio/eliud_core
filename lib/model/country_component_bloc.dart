@@ -28,7 +28,7 @@ class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentS
   CountryComponentBloc({ this.countryRepository }): super(CountryComponentUninitialized());
   @override
   Stream<CountryComponentState> mapEventToState(CountryComponentEvent event) async* {
-    final CountryComponentState currentState = state;
+    final currentState = state;
     if (event is FetchCountryComponent) {
       try {
         if (currentState is CountryComponentUninitialized) {

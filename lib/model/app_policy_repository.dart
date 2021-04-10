@@ -33,10 +33,10 @@ typedef AppPolicyModelTrigger(List<AppPolicyModel?> list);
 typedef AppPolicyChanged(AppPolicyModel? value);
 
 abstract class AppPolicyRepository {
-  Future<AppPolicyModel> add(AppPolicyModel? value);
-  Future<void> delete(AppPolicyModel? value);
+  Future<AppPolicyModel> add(AppPolicyModel value);
+  Future<void> delete(AppPolicyModel value);
   Future<AppPolicyModel?> get(String? id, { Function(Exception)? onError });
-  Future<AppPolicyModel> update(AppPolicyModel? value);
+  Future<AppPolicyModel> update(AppPolicyModel value);
 
   Stream<List<AppPolicyModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<AppPolicyModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

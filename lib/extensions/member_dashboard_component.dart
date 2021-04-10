@@ -186,7 +186,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   @override
-  MemberDashboardRepository? getMemberDashboardRepository(BuildContext context) {
-    return memberDashboardRepository(appId: AccessBloc.appId(context));
+  MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
+    return memberDashboardRepository(appId: AccessBloc.appId(context))!;
   }
 }

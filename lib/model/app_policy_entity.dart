@@ -57,7 +57,7 @@ class AppPolicyEntity {
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String, dynamic>>? policiesListMap = policies != null 
+    final List<Map<String?, dynamic>>? policiesListMap = policies != null 
         ? policies!.map((item) => item.toDocument()).toList()
         : null;
 

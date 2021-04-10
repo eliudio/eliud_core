@@ -33,10 +33,10 @@ typedef GridViewModelTrigger(List<GridViewModel?> list);
 typedef GridViewChanged(GridViewModel? value);
 
 abstract class GridViewRepository {
-  Future<GridViewModel> add(GridViewModel? value);
-  Future<void> delete(GridViewModel? value);
+  Future<GridViewModel> add(GridViewModel value);
+  Future<void> delete(GridViewModel value);
   Future<GridViewModel?> get(String? id, { Function(Exception)? onError });
-  Future<GridViewModel> update(GridViewModel? value);
+  Future<GridViewModel> update(GridViewModel value);
 
   Stream<List<GridViewModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<GridViewModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

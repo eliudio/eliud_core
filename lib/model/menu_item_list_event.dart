@@ -63,7 +63,7 @@ class DeleteMenuItemList extends MenuItemListEvent {
 }
 
 class MenuItemListUpdated extends MenuItemListEvent {
-  final List<MenuItemModel>? value;
+  final List<MenuItemModel?>? value;
   final bool? mightHaveMore;
 
   const MenuItemListUpdated({ this.value, this.mightHaveMore });

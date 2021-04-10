@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class DialogFirestore implements DialogRepository {
-  Future<DialogModel> add(DialogModel? value) {
-    return DialogCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<DialogModel> add(DialogModel value) {
+    return DialogCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(DialogModel? value) {
-    return DialogCollection.doc(value!.documentID).delete();
+  Future<void> delete(DialogModel value) {
+    return DialogCollection.doc(value.documentID).delete();
   }
 
-  Future<DialogModel> update(DialogModel? value) {
-    return DialogCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<DialogModel> update(DialogModel value) {
+    return DialogCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   DialogModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class DialogFirestore implements DialogRepository {
     return DialogModel.fromEntityPlus(value.id, DialogEntity.fromMap(value.data()), appId: appId);  }
 
   Future<DialogModel?> get(String? id, {Function(Exception)? onError}) {
-    return DialogCollection.doc(id).get().then((doc) {
+    return DialogCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class DialogFirestore implements DialogRepository {
 
   StreamSubscription<List<DialogModel?>> listen(DialogModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<DialogModel?>> stream;
-//    stream = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class DialogFirestore implements DialogRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   DialogFirestore(this.DialogCollection, this.appId);
 
   final CollectionReference DialogCollection;

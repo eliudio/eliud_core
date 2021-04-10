@@ -65,15 +65,21 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   }
 
   Stream<MenuItemListState> _mapAddMenuItemListToState(AddMenuItemList event) async* {
-    _menuItemRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuItemRepository.add(value);
   }
 
   Stream<MenuItemListState> _mapUpdateMenuItemListToState(UpdateMenuItemList event) async* {
-    _menuItemRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuItemRepository.update(value);
   }
 
   Stream<MenuItemListState> _mapDeleteMenuItemListToState(DeleteMenuItemList event) async* {
-    _menuItemRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuItemRepository.delete(value);
   }
 
   Stream<MenuItemListState> _mapMenuItemListUpdatedToState(

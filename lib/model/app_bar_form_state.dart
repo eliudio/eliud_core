@@ -28,7 +28,7 @@ abstract class AppBarFormState extends Equatable {
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class AppBarFormUninitialized extends AppBarFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {

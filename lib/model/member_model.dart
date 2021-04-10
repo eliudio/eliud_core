@@ -38,7 +38,7 @@ class MemberModel {
   String? documentID;
   String? name;
   List<MemberSubscriptionModel>? subscriptions;
-  List<String?>? subscriptionsAsString;
+  List<String>? subscriptionsAsString;
   String? photoURL;
   String? shipStreet1;
   String? shipStreet2;
@@ -53,7 +53,7 @@ class MemberModel {
   String? invoiceState;
   String? invoicePostcode;
   CountryModel? invoiceCountry;
-  List<String?>? readAccess;
+  List<String>? readAccess;
   String? email;
   bool? isAnonymous;
 
@@ -61,7 +61,7 @@ class MemberModel {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String?>? subscriptionsAsString, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, List<String?>? readAccess, String? email, bool? isAnonymous, }) {
+  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsString, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, List<String>? readAccess, String? email, bool? isAnonymous, }) {
     return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsString: subscriptionsAsString ?? this.subscriptionsAsString, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
@@ -105,12 +105,13 @@ class MemberModel {
   }
 
   MemberEntity toEntity({String? appId}) {
-    readAccess = subscriptions!.map((subscription) => subscription.app != null ? subscription.app!.ownerID : null).toList();
-    subscriptionsAsString = subscriptions!.map((subscription) => subscription.app != null ? subscription.app!.documentID : null).toList();
+       readAccess = subscriptions!.map((subscription) => subscription.app!.ownerID!).toList();
+    subscriptionsAsString = subscriptions!.map((subscription) => subscription.app!.documentID!).toList();
+
     return MemberEntity(
           name: (name != null) ? name : null, 
-          subscriptions: (subscriptions != null) ? subscriptions!
-            .map((item) => item.toEntity(appId: appId))
+          subscriptions: (subscriptions != null) ? subscriptions
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           subscriptionsAsString: (subscriptionsAsString != null) ? subscriptionsAsString : null, 
           photoURL: (photoURL != null) ? photoURL : null, 
@@ -140,8 +141,8 @@ class MemberModel {
           name: entity.name, 
           subscriptions: 
             entity.subscriptions == null ? null :
-            entity.subscriptions!
-            .map((item) => MemberSubscriptionModel.fromEntity(newRandomKey(), item))
+            entity.subscriptions
+            !.map((item) => MemberSubscriptionModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
           subscriptionsAsString: entity.subscriptionsAsString, 
           photoURL: entity.photoURL, 
@@ -168,7 +169,7 @@ class MemberModel {
     CountryModel? countryHolder;
     if (entity.countryId != null) {
       try {
-        await countryRepository(appId: appId).get(entity.countryId).then((val) {
+        await countryRepository(appId: appId)!.get(entity.countryId).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -177,7 +178,7 @@ class MemberModel {
     CountryModel? invoiceCountryHolder;
     if (entity.invoiceCountryId != null) {
       try {
-        await countryRepository(appId: appId).get(entity.invoiceCountryId).then((val) {
+        await countryRepository(appId: appId)!.get(entity.invoiceCountryId).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -187,8 +188,8 @@ class MemberModel {
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
-            entity. subscriptions == null ? null : new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions!
-            .map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. subscriptions == null ? null : new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
+            !.map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           subscriptionsAsString: entity.subscriptionsAsString, 
           photoURL: entity.photoURL, 

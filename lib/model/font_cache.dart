@@ -35,14 +35,14 @@ class FontCache implements FontRepository {
 
   FontCache(this.reference);
 
-  Future<FontModel> add(FontModel? value) {
+  Future<FontModel> add(FontModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(FontModel? value){
+  Future<void> delete(FontModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class FontCache implements FontRepository {
     });
   }
 
-  Future<FontModel> update(FontModel? value) {
+  Future<FontModel> update(FontModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class FontCache implements FontRepository {
   }
 
   @override
-  StreamSubscription<FontModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<FontModel?> listenTo(String documentId, FontChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<FontModel> refreshRelations(FontModel model) async {

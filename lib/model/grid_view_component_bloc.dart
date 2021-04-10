@@ -28,7 +28,7 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
   GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized());
   @override
   Stream<GridViewComponentState> mapEventToState(GridViewComponentEvent event) async* {
-    final GridViewComponentState currentState = state;
+    final currentState = state;
     if (event is FetchGridViewComponent) {
       try {
         if (currentState is GridViewComponentUninitialized) {

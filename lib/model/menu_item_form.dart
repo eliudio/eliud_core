@@ -89,12 +89,12 @@ class MenuItemForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add MenuItem", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<MenuItemFormBloc >(
             create: (context) => MenuItemFormBloc(AccessBloc.appId(context),
@@ -162,7 +162,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
           _descriptionController.text = "";
       }
       if (state is MenuItemFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -174,11 +174,11 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _textController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'text',
                   ),
                   keyboardType: TextInputType.text,
@@ -192,11 +192,11 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _descriptionController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'description',
                   ),
                   keyboardType: TextInputType.text,
@@ -209,7 +209,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -217,7 +217,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Action',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -227,7 +227,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -235,7 +235,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Icon',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -245,12 +245,12 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MenuItemFormError) {
                       return null;
@@ -279,15 +279,14 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -295,7 +294,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

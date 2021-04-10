@@ -63,7 +63,7 @@ class DeleteAppPolicyItemList extends AppPolicyItemListEvent {
 }
 
 class AppPolicyItemListUpdated extends AppPolicyItemListEvent {
-  final List<AppPolicyItemModel>? value;
+  final List<AppPolicyItemModel?>? value;
   final bool? mightHaveMore;
 
   const AppPolicyItemListUpdated({ this.value, this.mightHaveMore });

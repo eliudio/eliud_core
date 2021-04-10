@@ -35,14 +35,14 @@ class AppBarCache implements AppBarRepository {
 
   AppBarCache(this.reference);
 
-  Future<AppBarModel> add(AppBarModel? value) {
+  Future<AppBarModel> add(AppBarModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppBarModel? value){
+  Future<void> delete(AppBarModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class AppBarCache implements AppBarRepository {
     });
   }
 
-  Future<AppBarModel> update(AppBarModel? value) {
+  Future<AppBarModel> update(AppBarModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;

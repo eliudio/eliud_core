@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AppBarFirestore implements AppBarRepository {
-  Future<AppBarModel> add(AppBarModel? value) {
-    return AppBarCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<AppBarModel> add(AppBarModel value) {
+    return AppBarCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(AppBarModel? value) {
-    return AppBarCollection.doc(value!.documentID).delete();
+  Future<void> delete(AppBarModel value) {
+    return AppBarCollection.doc(value.documentID).delete();
   }
 
-  Future<AppBarModel> update(AppBarModel? value) {
-    return AppBarCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<AppBarModel> update(AppBarModel value) {
+    return AppBarCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   AppBarModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class AppBarFirestore implements AppBarRepository {
     return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);  }
 
   Future<AppBarModel?> get(String? id, {Function(Exception)? onError}) {
-    return AppBarCollection.doc(id).get().then((doc) {
+    return AppBarCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class AppBarFirestore implements AppBarRepository {
 
   StreamSubscription<List<AppBarModel?>> listen(AppBarModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AppBarModel?>> stream;
-//    stream = getQuery(AppBarCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(AppBarCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class AppBarFirestore implements AppBarRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   AppBarFirestore(this.AppBarCollection, this.appId);
 
   final CollectionReference AppBarCollection;

@@ -28,7 +28,7 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
   AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized());
   @override
   Stream<AppPolicyComponentState> mapEventToState(AppPolicyComponentEvent event) async* {
-    final AppPolicyComponentState currentState = state;
+    final currentState = state;
     if (event is FetchAppPolicyComponent) {
       try {
         if (currentState is AppPolicyComponentUninitialized) {

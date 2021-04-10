@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class FontFirestore implements FontRepository {
-  Future<FontModel> add(FontModel? value) {
-    return FontCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<FontModel> add(FontModel value) {
+    return FontCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(FontModel? value) {
-    return FontCollection.doc(value!.documentID).delete();
+  Future<void> delete(FontModel value) {
+    return FontCollection.doc(value.documentID).delete();
   }
 
-  Future<FontModel> update(FontModel? value) {
-    return FontCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<FontModel> update(FontModel value) {
+    return FontCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   FontModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class FontFirestore implements FontRepository {
     return FontModel.fromEntityPlus(value.id, FontEntity.fromMap(value.data()), appId: appId);  }
 
   Future<FontModel?> get(String? id, {Function(Exception)? onError}) {
-    return FontCollection.doc(id).get().then((doc) {
+    return FontCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class FontFirestore implements FontRepository {
 
   StreamSubscription<List<FontModel?>> listen(FontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<FontModel?>> stream;
-//    stream = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class FontFirestore implements FontRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   FontFirestore(this.FontCollection, this.appId);
 
   final CollectionReference FontCollection;

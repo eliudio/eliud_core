@@ -26,7 +26,7 @@ abstract class BodyComponentListState extends Equatable {
 class BodyComponentListLoading extends BodyComponentListState {}
 
 class BodyComponentListLoaded extends BodyComponentListState {
-  final List<BodyComponentModel>? values;
+  final List<BodyComponentModel?>? values;
   final bool? mightHaveMore;
 
   const BodyComponentListLoaded({this.mightHaveMore, this.values = const []});

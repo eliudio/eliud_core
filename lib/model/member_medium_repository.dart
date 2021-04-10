@@ -33,18 +33,18 @@ typedef MemberMediumModelTrigger(List<MemberMediumModel?> list);
 typedef MemberMediumChanged(MemberMediumModel? value);
 
 abstract class MemberMediumRepository {
-  Future<MemberMediumModel> add(MemberMediumModel? value);
-  Future<void> delete(MemberMediumModel? value);
+  Future<MemberMediumModel> add(MemberMediumModel value);
+  Future<void> delete(MemberMediumModel value);
   Future<MemberMediumModel?> get(String? id, { Function(Exception)? onError });
-  Future<MemberMediumModel> update(MemberMediumModel? value);
+  Future<MemberMediumModel> update(MemberMediumModel value);
 
-  Stream<List<MemberMediumModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<MemberMediumModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MemberMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MemberMediumModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MemberMediumModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MemberMediumModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<MemberMediumModel?>?> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<MemberMediumModel?>?> listenWithDetails(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<MemberMediumModel?>> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<MemberMediumModel?>> listenWithDetails(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<MemberMediumModel?> listenTo(String documentId, MemberMediumChanged changed);
   void flush();
   

@@ -35,14 +35,14 @@ class MemberCache implements MemberRepository {
 
   MemberCache(this.reference);
 
-  Future<MemberModel> add(MemberModel? value) {
+  Future<MemberModel> add(MemberModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MemberModel? value){
+  Future<void> delete(MemberModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class MemberCache implements MemberRepository {
     });
   }
 
-  Future<MemberModel> update(MemberModel? value) {
+  Future<MemberModel> update(MemberModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  StreamSubscription<MemberModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MemberModel> refreshRelations(MemberModel model) async {
@@ -127,7 +127,7 @@ class MemberCache implements MemberRepository {
     CountryModel? countryHolder;
     if (model.country != null) {
       try {
-        await countryRepository().get(model.country!.documentID).then((val) {
+        await countryRepository()!.get(model.country!.documentID).then((val) {
           countryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -136,7 +136,7 @@ class MemberCache implements MemberRepository {
     CountryModel? invoiceCountryHolder;
     if (model.invoiceCountry != null) {
       try {
-        await countryRepository().get(model.invoiceCountry!.documentID).then((val) {
+        await countryRepository()!.get(model.invoiceCountry!.documentID).then((val) {
           invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}

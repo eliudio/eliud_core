@@ -65,15 +65,21 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   }
 
   Stream<BodyComponentListState> _mapAddBodyComponentListToState(AddBodyComponentList event) async* {
-    _bodyComponentRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _bodyComponentRepository.add(value);
   }
 
   Stream<BodyComponentListState> _mapUpdateBodyComponentListToState(UpdateBodyComponentList event) async* {
-    _bodyComponentRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _bodyComponentRepository.update(value);
   }
 
   Stream<BodyComponentListState> _mapDeleteBodyComponentListToState(DeleteBodyComponentList event) async* {
-    _bodyComponentRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _bodyComponentRepository.delete(value);
   }
 
   Stream<BodyComponentListState> _mapBodyComponentListUpdatedToState(

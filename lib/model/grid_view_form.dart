@@ -91,12 +91,12 @@ class GridViewForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<GridViewFormBloc >(
             create: (context) => GridViewFormBloc(AccessBloc.appId(context),
@@ -225,7 +225,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
           _crossAxisSpacingController.text = "";
       }
       if (state is GridViewFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -236,7 +236,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -244,17 +244,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -268,11 +268,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'name',
                   ),
                   keyboardType: TextInputType.text,
@@ -285,7 +285,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -293,17 +293,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Scroll Direction',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _scrollDirectionSelectedRadioTile,
-                    title: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Horizontal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionScrollDirection(val);
                     },
@@ -313,10 +313,10 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _scrollDirectionSelectedRadioTile,
-                    title: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Vertical", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionScrollDirection(val);
                     },
@@ -325,7 +325,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -333,17 +333,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('gridType',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _typeSelectedRadioTile,
-                    title: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Count", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionType(val);
                     },
@@ -353,10 +353,10 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _typeSelectedRadioTile,
-                    title: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Extent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionType(val);
                     },
@@ -365,7 +365,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if (state.value!.type == GridViewGridType.Count) children.add(Container(
@@ -373,17 +373,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('crossAxisCount',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if ((state.value!.type == GridViewGridType.Count)) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _crossAxisCountController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Cross Axis Count',
                     hintText: "Amount of components cross axis",
                   ),
@@ -397,7 +397,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if (state.value!.type == GridViewGridType.Extent) children.add(Container(
@@ -405,17 +405,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Max Cross Axis Extent Type',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _maxCrossAxisExtentTypeSelectedRadioTile,
-                    title: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Absolute", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMaxCrossAxisExtentType(val);
                     },
@@ -425,10 +425,10 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _maxCrossAxisExtentTypeSelectedRadioTile,
-                    title: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Relative", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionMaxCrossAxisExtentType(val);
                     },
@@ -437,7 +437,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute)) children.add(Container(
@@ -445,17 +445,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Absolute Max Cross Axis Extent',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _absoluteMaxCrossAxisExtentController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Absolute Max Cross Axis Extent',
                     hintText: "Absolute Max Cross Axis Extent",
                   ),
@@ -469,7 +469,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative)) children.add(Container(
@@ -477,17 +477,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Relative Max Cross Axis Extent',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _relativeMaxCrossAxisExtentController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Relative Max Cross Axis Extent',
                     hintText: "Relative Max Cross Axis Extent",
                   ),
@@ -501,7 +501,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -509,17 +509,17 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Spec',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _childAspectRatioController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'ChildAspectRatio',
                   ),
                   keyboardType: TextInputType.number,
@@ -533,11 +533,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _paddingController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Padding',
                   ),
                   keyboardType: TextInputType.number,
@@ -551,11 +551,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _mainAxisSpacingController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'MainAxisSpacing',
                   ),
                   keyboardType: TextInputType.number,
@@ -569,11 +569,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _crossAxisSpacingController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'CrossAxisSpacing',
                   ),
                   keyboardType: TextInputType.number,
@@ -586,7 +586,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -594,18 +594,18 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Conditions',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is GridViewFormError) {
                       return null;
@@ -652,15 +652,14 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -668,7 +667,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

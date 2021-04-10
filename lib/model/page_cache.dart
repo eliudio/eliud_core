@@ -35,14 +35,14 @@ class PageCache implements PageRepository {
 
   PageCache(this.reference);
 
-  Future<PageModel> add(PageModel? value) {
+  Future<PageModel> add(PageModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(PageModel? value){
+  Future<void> delete(PageModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class PageCache implements PageRepository {
     });
   }
 
-  Future<PageModel> update(PageModel? value) {
+  Future<PageModel> update(PageModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class PageCache implements PageRepository {
   }
 
   @override
-  StreamSubscription<PageModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<PageModel> refreshRelations(PageModel model) async {

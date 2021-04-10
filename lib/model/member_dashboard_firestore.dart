@@ -36,16 +36,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberDashboardFirestore implements MemberDashboardRepository {
-  Future<MemberDashboardModel> add(MemberDashboardModel? value) {
-    return MemberDashboardCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MemberDashboardModel> add(MemberDashboardModel value) {
+    return MemberDashboardCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(MemberDashboardModel? value) {
-    return MemberDashboardCollection.doc(value!.documentID).delete();
+  Future<void> delete(MemberDashboardModel value) {
+    return MemberDashboardCollection.doc(value.documentID).delete();
   }
 
-  Future<MemberDashboardModel> update(MemberDashboardModel? value) {
-    return MemberDashboardCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MemberDashboardModel> update(MemberDashboardModel value) {
+    return MemberDashboardCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   MemberDashboardModel? _populateDoc(DocumentSnapshot value) {
@@ -56,9 +56,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) {
-    return MemberDashboardCollection.doc(id).get().then((doc) {
+    return MemberDashboardCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -70,7 +70,7 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
 
   StreamSubscription<List<MemberDashboardModel?>> listen(MemberDashboardModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MemberDashboardModel?>> stream;
-//    stream = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -186,7 +186,7 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   MemberDashboardFirestore(this.MemberDashboardCollection, this.appId);
 
   final CollectionReference MemberDashboardCollection;

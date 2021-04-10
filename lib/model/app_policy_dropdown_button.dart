@@ -65,7 +65,7 @@ class AppPolicyDropdownButtonWidgetState extends State<AppPolicyDropdownButtonWi
   }
 
 List<Widget> widgets(AppPolicyModel pm) {
-List<Widget> widgets = List();
+var widgets = <Widget>[];
 if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
 if (pm.comments != null) widgets.add(new Text(pm.comments!));
 return widgets;
@@ -88,7 +88,7 @@ return widgets;
           if (widget.optional != null && widget.optional!) valueChosen = null;
           
         final values = state.values;
-        final List<DropdownMenuItem<String>> items = List();
+        final items = <DropdownMenuItem<String>>[];
         if (state.values!.isNotEmpty) {
           if (widget.optional != null && widget.optional!) {
             items.add(new DropdownMenuItem<String>(

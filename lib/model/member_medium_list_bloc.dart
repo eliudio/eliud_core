@@ -65,15 +65,21 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   }
 
   Stream<MemberMediumListState> _mapAddMemberMediumListToState(AddMemberMediumList event) async* {
-    _memberMediumRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberMediumRepository.add(value);
   }
 
   Stream<MemberMediumListState> _mapUpdateMemberMediumListToState(UpdateMemberMediumList event) async* {
-    _memberMediumRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberMediumRepository.update(value);
   }
 
   Stream<MemberMediumListState> _mapDeleteMemberMediumListToState(DeleteMemberMediumList event) async* {
-    _memberMediumRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberMediumRepository.delete(value);
   }
 
   Stream<MemberMediumListState> _mapMemberMediumListUpdatedToState(

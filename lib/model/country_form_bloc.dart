@@ -44,7 +44,7 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
   CountryFormBloc(this.appId, { this.formAction }): super(CountryFormUninitialized());
   @override
   Stream<CountryFormState> mapEventToState(CountryFormEvent event) async* {
-    final CountryFormState currentState = state;
+    final currentState = state;
     if (currentState is CountryFormUninitialized) {
       if (event is InitialiseNewCountryFormEvent) {
         CountryFormLoaded loaded = CountryFormLoaded(value: CountryModel(
@@ -61,20 +61,20 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
 
       if (event is InitialiseCountryFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        CountryFormLoaded loaded = CountryFormLoaded(value: await countryRepository(appId: appId).get(event.value!.documentID));
+        CountryFormLoaded loaded = CountryFormLoaded(value: await countryRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseCountryFormNoLoadEvent) {
-        CountryFormLoaded loaded = CountryFormLoaded(value: event.value);
+        CountryFormLoaded loaded = CountryFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is CountryFormInitialized) {
       CountryModel? newValue = null;
       if (event is ChangedCountryDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableCountryForm(value: newValue);
         }
@@ -82,13 +82,13 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
         return;
       }
       if (event is ChangedCountryCountryCode) {
-        newValue = currentState.value!.copyWith(countryCode: event.value);
+        newValue = currentState.value!.copyWith(countryCode: event!.value);
         yield SubmittableCountryForm(value: newValue);
 
         return;
       }
       if (event is ChangedCountryCountryName) {
-        newValue = currentState.value!.copyWith(countryName: event.value);
+        newValue = currentState.value!.copyWith(countryName: event!.value);
         yield SubmittableCountryForm(value: newValue);
 
         return;
@@ -102,7 +102,7 @@ class CountryFormBloc extends Bloc<CountryFormEvent, CountryFormState> {
   Future<CountryFormState> _isDocumentIDValid(String? value, CountryModel newValue) async {
     if (value == null) return Future.value(error("Provide value for documentID", newValue));
     if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<CountryModel?> findDocument = countryRepository(appId: appId).get(value);
+    Future<CountryModel?> findDocument = countryRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableCountryForm(value: newValue);

@@ -90,7 +90,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Submit Button Color\", state.value.formSubmitButtonColor, _onFormSubmitButtonColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Submit Button Color\", state.value!.formSubmitButtonColor, _onFormSubmitButtonColorChanged)"
     },
     {
       "fieldName": "formBackground",
@@ -107,7 +107,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Submit Button Text Color\", state.value.formSubmitButtonTextColor, _onFormSubmitButtonTextColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Submit Button Text Color\", state.value!.formSubmitButtonTextColor, _onFormSubmitButtonTextColorChanged)"
     },
     {
       "fieldName": "formGroupTitleColor",
@@ -116,7 +116,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Group Title Color\", state.value.formGroupTitleColor, _onFormGroupTitleColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Group Title Color\", state.value!.formGroupTitleColor, _onFormGroupTitleColorChanged)"
     },
     {
       "fieldName": "formFieldTextColor",
@@ -125,7 +125,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Field Text Color\", state.value.formFieldTextColor, _onFormFieldTextColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Field Text Color\", state.value!.formFieldTextColor, _onFormFieldTextColorChanged)"
     },
     {
       "fieldName": "formFieldHeaderColor",
@@ -134,7 +134,7 @@
       "fieldType": "Rgb",
       "group": "otherColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Field Header Color\", state.value.formFieldHeaderColor, _onFormFieldHeaderColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Field Header Color\", state.value!.formFieldHeaderColor, _onFormFieldHeaderColorChanged)"
     },
     {
       "fieldName": "formFieldFocusColor",
@@ -143,7 +143,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form Field Focus Color\", state.value.formFieldFocusColor, _onFormFieldFocusColorChanged)"
+      "bespokeFormField": "RgbField(\"Form Field Focus Color\", state.value!.formFieldFocusColor, _onFormFieldFocusColorChanged)"
     },
     {
       "fieldName": "formAppBarBackground",
@@ -160,7 +160,7 @@
       "fieldType": "Rgb",
       "group": "formColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form App Bar Text color\", state.value.formAppBarTextColor, _onFormAppBarTextColorChanged)"
+      "bespokeFormField": "RgbField(\"Form App Bar Text color\", state.value!.formAppBarTextColor, _onFormAppBarTextColorChanged)"
     },
     {
       "fieldName": "listBackground",
@@ -177,7 +177,7 @@
       "fieldType": "Rgb",
       "group": "listColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value.listTextItemColor, _onListTextItemColorChanged)"
+      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value!.listTextItemColor, _onListTextItemColorChanged)"
     },
     {
       "fieldName": "floatingButtonForegroundColor",
@@ -186,7 +186,7 @@
       "fieldType": "Rgb",
       "group": "floatingbuttonColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value.floatingButtonForegroundColor, _onFloatingButtonForegroundColorChanged)"
+      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value!.floatingButtonForegroundColor, _onFloatingButtonForegroundColorChanged)"
     },
     {
       "fieldName": "floatingButtonBackgroundColor",
@@ -195,7 +195,7 @@
       "fieldType": "Rgb",
       "group": "floatingbuttonColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value.floatingButtonBackgroundColor, _onFloatingButtonBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(\"List Item Text Color\", state.value!.floatingButtonBackgroundColor, _onFloatingButtonBackgroundColorChanged)"
     },
     {
       "fieldName": "dividerColor",
@@ -204,7 +204,7 @@
       "fieldType": "Rgb",
       "group": "otherColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Divider Color\", state.value.dividerColor, _onDividerColorChanged)"
+      "bespokeFormField": "RgbField(\"Divider Color\", state.value!.dividerColor, _onDividerColorChanged)"
     },
     {
       "fieldName": "iconColor",
@@ -213,7 +213,7 @@
       "fieldType": "Rgb",
       "group": "otherColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Divider Color\", state.value.dividerColor, _onDividerColorChanged)"
+      "bespokeFormField": "RgbField(\"Divider Color\", state.value!.dividerColor, _onDividerColorChanged)"
     },
     {
       "fieldName": "routeBuilder",
@@ -423,5 +423,5 @@
     "title": "documentID",
     "subTitle": "title"
   },
-  "preToEntityCode": "logoURL = logo != null ? logo.url : null;"
+  "preToEntityCode": "logoURL = logo != null ? logo!.url : null;"
 }

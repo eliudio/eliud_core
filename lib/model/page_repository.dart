@@ -33,10 +33,10 @@ typedef PageModelTrigger(List<PageModel?> list);
 typedef PageChanged(PageModel? value);
 
 abstract class PageRepository {
-  Future<PageModel> add(PageModel? value);
-  Future<void> delete(PageModel? value);
+  Future<PageModel> add(PageModel value);
+  Future<void> delete(PageModel value);
   Future<PageModel?> get(String? id, { Function(Exception)? onError });
-  Future<PageModel> update(PageModel? value);
+  Future<PageModel> update(PageModel value);
 
   Stream<List<PageModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<PageModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

@@ -31,33 +31,33 @@ import 'package:eliud_core/model/entity_export.dart';
 class DecorationColorCache implements DecorationColorRepository {
 
   final DecorationColorRepository reference;
-  final Map<String?, DecorationColorModel> fullCache = Map();
+  final Map<String?, DecorationColorModel?> fullCache = Map();
 
   DecorationColorCache(this.reference);
 
-  Future<DecorationColorModel> add(DecorationColorModel? value) {
+  Future<DecorationColorModel> add(DecorationColorModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(DecorationColorModel? value){
+  Future<void> delete(DecorationColorModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<DecorationColorModel> get(String id, {Function(Exception)? onError}) {
+  Future<DecorationColorModel> get(String? id, {Function(Exception)? onError}) {
     DecorationColorModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<DecorationColorModel> update(DecorationColorModel? value) {
+  Future<DecorationColorModel> update(DecorationColorModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -65,12 +65,12 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  Stream<List<DecorationColorModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<DecorationColorModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<DecorationColorModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<DecorationColorModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class DecorationColorCache implements DecorationColorRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class DecorationColorCache implements DecorationColorRepository {
   Future<DecorationColorModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,18 +108,18 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  StreamSubscription<List<DecorationColorModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<DecorationColorModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<DecorationColorModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<DecorationColorModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<DecorationColorModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<DecorationColorModel> refreshRelations(DecorationColorModel model) async {

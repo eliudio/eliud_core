@@ -29,7 +29,7 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized());
   @override
   Stream<PageComponentState> mapEventToState(PageComponentEvent event) async* {
-    final PageComponentState currentState = state;
+    final currentState = state;
     if (event is FetchPageComponent) {
       try {
         if (currentState is PageComponentUninitialized) {

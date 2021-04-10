@@ -65,15 +65,21 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   }
 
   Stream<AppPolicyListState> _mapAddAppPolicyListToState(AddAppPolicyList event) async* {
-    _appPolicyRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appPolicyRepository.add(value);
   }
 
   Stream<AppPolicyListState> _mapUpdateAppPolicyListToState(UpdateAppPolicyList event) async* {
-    _appPolicyRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appPolicyRepository.update(value);
   }
 
   Stream<AppPolicyListState> _mapDeleteAppPolicyListToState(DeleteAppPolicyList event) async* {
-    _appPolicyRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appPolicyRepository.delete(value);
   }
 
   Stream<AppPolicyListState> _mapAppPolicyListUpdatedToState(

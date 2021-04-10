@@ -35,14 +35,14 @@ class AppPolicyCache implements AppPolicyRepository {
 
   AppPolicyCache(this.reference);
 
-  Future<AppPolicyModel> add(AppPolicyModel? value) {
+  Future<AppPolicyModel> add(AppPolicyModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppPolicyModel? value){
+  Future<void> delete(AppPolicyModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class AppPolicyCache implements AppPolicyRepository {
     });
   }
 
-  Future<AppPolicyModel> update(AppPolicyModel? value) {
+  Future<AppPolicyModel> update(AppPolicyModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class AppPolicyCache implements AppPolicyRepository {
   }
 
   @override
-  StreamSubscription<AppPolicyModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<AppPolicyModel?> listenTo(String documentId, AppPolicyChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<AppPolicyModel> refreshRelations(AppPolicyModel model) async {

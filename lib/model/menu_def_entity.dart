@@ -59,7 +59,7 @@ class MenuDefEntity {
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String, dynamic>>? menuItemsListMap = menuItems != null 
+    final List<Map<String?, dynamic>>? menuItemsListMap = menuItems != null 
         ? menuItems!.map((item) => item.toDocument()).toList()
         : null;
 

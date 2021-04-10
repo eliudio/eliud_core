@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
-  Future<HomeMenuModel> add(HomeMenuModel? value) {
-    return HomeMenuCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<HomeMenuModel> add(HomeMenuModel value) {
+    return HomeMenuCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(HomeMenuModel? value) {
-    return HomeMenuCollection.doc(value!.documentID).delete();
+  Future<void> delete(HomeMenuModel value) {
+    return HomeMenuCollection.doc(value.documentID).delete();
   }
 
-  Future<HomeMenuModel> update(HomeMenuModel? value) {
-    return HomeMenuCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<HomeMenuModel> update(HomeMenuModel value) {
+    return HomeMenuCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   HomeMenuModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);  }
 
   Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) {
-    return HomeMenuCollection.doc(id).get().then((doc) {
+    return HomeMenuCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<HomeMenuModel?>> stream;
-//    stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   HomeMenuFirestore(this.HomeMenuCollection, this.appId);
 
   final CollectionReference HomeMenuCollection;

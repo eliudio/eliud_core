@@ -65,15 +65,21 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   }
 
   Stream<GridViewListState> _mapAddGridViewListToState(AddGridViewList event) async* {
-    _gridViewRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _gridViewRepository.add(value);
   }
 
   Stream<GridViewListState> _mapUpdateGridViewListToState(UpdateGridViewList event) async* {
-    _gridViewRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _gridViewRepository.update(value);
   }
 
   Stream<GridViewListState> _mapDeleteGridViewListToState(DeleteGridViewList event) async* {
-    _gridViewRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _gridViewRepository.delete(value);
   }
 
   Stream<GridViewListState> _mapGridViewListUpdatedToState(

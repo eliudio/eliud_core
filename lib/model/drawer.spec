@@ -76,7 +76,7 @@
       "group": "popupMenuBackgroundColor",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Popup Menu Background Color\", state.value.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(\"Popup Menu Background Color\", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
     },
     {
       "fieldName": "headerBackground",

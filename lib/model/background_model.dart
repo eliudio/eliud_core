@@ -133,8 +133,8 @@ class BackgroundModel {
           beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition!.index : null, 
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition!.index : null, 
           shadowId: (shadow != null) ? shadow!.documentID : null, 
-          decorationColors: (decorationColors != null) ? decorationColors!
-            .map((item) => item.toEntity(appId: appId))
+          decorationColors: (decorationColors != null) ? decorationColors
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           border: (border != null) ? border : null, 
           admin: (admin != null) ? admin : null, 
@@ -152,8 +152,8 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           decorationColors: 
             entity.decorationColors == null ? null :
-            entity.decorationColors!
-            .map((item) => DecorationColorModel.fromEntity(newRandomKey(), item))
+            entity.decorationColors
+            !.map((item) => DecorationColorModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
           border: entity.border, 
           admin: entity.admin, 
@@ -191,8 +191,8 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           shadow: shadowHolder, 
           decorationColors: 
-            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors!
-            .map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
+            !.map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           border: entity.border, 
           admin: entity.admin, 

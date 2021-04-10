@@ -35,14 +35,14 @@ class HomeMenuCache implements HomeMenuRepository {
 
   HomeMenuCache(this.reference);
 
-  Future<HomeMenuModel> add(HomeMenuModel? value) {
+  Future<HomeMenuModel> add(HomeMenuModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(HomeMenuModel? value){
+  Future<void> delete(HomeMenuModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class HomeMenuCache implements HomeMenuRepository {
     });
   }
 
-  Future<HomeMenuModel> update(HomeMenuModel? value) {
+  Future<HomeMenuModel> update(HomeMenuModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class HomeMenuCache implements HomeMenuRepository {
   }
 
   @override
-  StreamSubscription<HomeMenuModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<HomeMenuModel?> listenTo(String documentId, HomeMenuChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<HomeMenuModel> refreshRelations(HomeMenuModel model) async {

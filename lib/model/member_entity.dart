@@ -23,7 +23,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class MemberEntity {
   final String? name;
   final List<MemberSubscriptionEntity>? subscriptions;
-  final List<String?>? subscriptionsAsString;
+  final List<String>? subscriptionsAsString;
   final String? photoURL;
   final String? shipStreet1;
   final String? shipStreet2;
@@ -38,7 +38,7 @@ class MemberEntity {
   final String? invoiceState;
   final String? invoicePostcode;
   final String? invoiceCountryId;
-  final List<String?>? readAccess;
+  final List<String>? readAccess;
   final String? email;
   final bool? isAnonymous;
 
@@ -93,7 +93,7 @@ class MemberEntity {
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String, dynamic>>? subscriptionsListMap = subscriptions != null 
+    final List<Map<String?, dynamic>>? subscriptionsListMap = subscriptions != null 
         ? subscriptions!.map((item) => item.toDocument()).toList()
         : null;
 

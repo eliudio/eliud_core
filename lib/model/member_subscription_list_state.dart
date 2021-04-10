@@ -26,7 +26,7 @@ abstract class MemberSubscriptionListState extends Equatable {
 class MemberSubscriptionListLoading extends MemberSubscriptionListState {}
 
 class MemberSubscriptionListLoaded extends MemberSubscriptionListState {
-  final List<MemberSubscriptionModel>? values;
+  final List<MemberSubscriptionModel?>? values;
   final bool? mightHaveMore;
 
   const MemberSubscriptionListLoaded({this.mightHaveMore, this.values = const []});

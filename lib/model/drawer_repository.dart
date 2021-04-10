@@ -33,10 +33,10 @@ typedef DrawerModelTrigger(List<DrawerModel?> list);
 typedef DrawerChanged(DrawerModel? value);
 
 abstract class DrawerRepository {
-  Future<DrawerModel> add(DrawerModel? value);
-  Future<void> delete(DrawerModel? value);
+  Future<DrawerModel> add(DrawerModel value);
+  Future<void> delete(DrawerModel value);
   Future<DrawerModel?> get(String? id, { Function(Exception)? onError });
-  Future<DrawerModel> update(DrawerModel? value);
+  Future<DrawerModel> update(DrawerModel value);
 
   Stream<List<DrawerModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<DrawerModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

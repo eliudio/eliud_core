@@ -44,7 +44,7 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
   AppPolicyFormBloc(this.appId, { this.formAction }): super(AppPolicyFormUninitialized());
   @override
   Stream<AppPolicyFormState> mapEventToState(AppPolicyFormEvent event) async* {
-    final AppPolicyFormState currentState = state;
+    final currentState = state;
     if (currentState is AppPolicyFormUninitialized) {
       if (event is InitialiseNewAppPolicyFormEvent) {
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: AppPolicyModel(
@@ -62,20 +62,20 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
 
       if (event is InitialiseAppPolicyFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: await appPolicyRepository(appId: appId)!.get(event.value!.documentID));
+        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: await appPolicyRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppPolicyFormNoLoadEvent) {
-        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: event.value);
+        AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is AppPolicyFormInitialized) {
       AppPolicyModel? newValue = null;
       if (event is ChangedAppPolicyDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableAppPolicyForm(value: newValue);
         }
@@ -83,13 +83,13 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
         return;
       }
       if (event is ChangedAppPolicyComments) {
-        newValue = currentState.value!.copyWith(comments: event.value);
+        newValue = currentState.value!.copyWith(comments: event!.value);
         yield SubmittableAppPolicyForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppPolicyPolicies) {
-        newValue = currentState.value!.copyWith(policies: event.value);
+        newValue = currentState.value!.copyWith(policies: event!.value);
         yield SubmittableAppPolicyForm(value: newValue);
 
         return;

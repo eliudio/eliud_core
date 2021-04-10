@@ -65,15 +65,21 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   }
 
   Stream<AppBarListState> _mapAddAppBarListToState(AddAppBarList event) async* {
-    _appBarRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appBarRepository.add(value);
   }
 
   Stream<AppBarListState> _mapUpdateAppBarListToState(UpdateAppBarList event) async* {
-    _appBarRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appBarRepository.update(value);
   }
 
   Stream<AppBarListState> _mapDeleteAppBarListToState(DeleteAppBarList event) async* {
-    _appBarRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appBarRepository.delete(value);
   }
 
   Stream<AppBarListState> _mapAppBarListUpdatedToState(

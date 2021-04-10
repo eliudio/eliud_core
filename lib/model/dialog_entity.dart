@@ -73,7 +73,7 @@ class DialogEntity {
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String, dynamic>>? bodyComponentsListMap = bodyComponents != null 
+    final List<Map<String?, dynamic>>? bodyComponentsListMap = bodyComponents != null 
         ? bodyComponents!.map((item) => item.toDocument()).toList()
         : null;
     final Map<String, dynamic>? backgroundMap = background != null 

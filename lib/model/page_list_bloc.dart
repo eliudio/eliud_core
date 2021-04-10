@@ -65,15 +65,21 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   }
 
   Stream<PageListState> _mapAddPageListToState(AddPageList event) async* {
-    _pageRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _pageRepository.add(value);
   }
 
   Stream<PageListState> _mapUpdatePageListToState(UpdatePageList event) async* {
-    _pageRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _pageRepository.update(value);
   }
 
   Stream<PageListState> _mapDeletePageListToState(DeletePageList event) async* {
-    _pageRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _pageRepository.delete(value);
   }
 
   Stream<PageListState> _mapPageListUpdatedToState(

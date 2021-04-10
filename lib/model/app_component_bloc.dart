@@ -29,7 +29,7 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized());
   @override
   Stream<AppComponentState> mapEventToState(AppComponentEvent event) async* {
-    final AppComponentState currentState = state;
+    final currentState = state;
     if (event is FetchAppComponent) {
       try {
         if (currentState is AppComponentUninitialized) {

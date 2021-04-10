@@ -65,15 +65,21 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   }
 
   Stream<CountryListState> _mapAddCountryListToState(AddCountryList event) async* {
-    _countryRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _countryRepository.add(value);
   }
 
   Stream<CountryListState> _mapUpdateCountryListToState(UpdateCountryList event) async* {
-    _countryRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _countryRepository.update(value);
   }
 
   Stream<CountryListState> _mapDeleteCountryListToState(DeleteCountryList event) async* {
-    _countryRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _countryRepository.delete(value);
   }
 
   Stream<CountryListState> _mapCountryListUpdatedToState(

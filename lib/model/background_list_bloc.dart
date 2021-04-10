@@ -65,15 +65,21 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
   }
 
   Stream<BackgroundListState> _mapAddBackgroundListToState(AddBackgroundList event) async* {
-    _backgroundRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _backgroundRepository.add(value);
   }
 
   Stream<BackgroundListState> _mapUpdateBackgroundListToState(UpdateBackgroundList event) async* {
-    _backgroundRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _backgroundRepository.update(value);
   }
 
   Stream<BackgroundListState> _mapDeleteBackgroundListToState(DeleteBackgroundList event) async* {
-    _backgroundRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _backgroundRepository.delete(value);
   }
 
   Stream<BackgroundListState> _mapBackgroundListUpdatedToState(

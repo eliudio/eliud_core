@@ -65,6 +65,6 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, MemberDashboardModel? value);
   Widget alertWidget({ title: String, content: String});
-  MemberDashboardRepository? getMemberDashboardRepository(BuildContext context);
+  MemberDashboardRepository getMemberDashboardRepository(BuildContext context);
 }
 

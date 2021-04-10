@@ -35,14 +35,14 @@ class AppCache implements AppRepository {
 
   AppCache(this.reference);
 
-  Future<AppModel> add(AppModel? value) {
+  Future<AppModel> add(AppModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppModel? value){
+  Future<void> delete(AppModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class AppCache implements AppRepository {
     });
   }
 
-  Future<AppModel> update(AppModel? value) {
+  Future<AppModel> update(AppModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -92,7 +92,7 @@ class AppCache implements AppRepository {
     return reference.timeStampToString(timeStamp);
   } 
 
-  dynamic getSubCollection(String? documentId, String name) {
+  dynamic getSubCollection(String documentId, String name) {
     return reference.getSubCollection(documentId, name);
   }
 
@@ -118,8 +118,8 @@ class AppCache implements AppRepository {
   }
 
   @override
-  StreamSubscription<AppModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<AppModel> refreshRelations(AppModel model) async {

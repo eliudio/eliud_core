@@ -65,15 +65,21 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   }
 
   Stream<DecorationColorListState> _mapAddDecorationColorListToState(AddDecorationColorList event) async* {
-    _decorationColorRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _decorationColorRepository.add(value);
   }
 
   Stream<DecorationColorListState> _mapUpdateDecorationColorListToState(UpdateDecorationColorList event) async* {
-    _decorationColorRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _decorationColorRepository.update(value);
   }
 
   Stream<DecorationColorListState> _mapDeleteDecorationColorListToState(DeleteDecorationColorList event) async* {
-    _decorationColorRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _decorationColorRepository.delete(value);
   }
 
   Stream<DecorationColorListState> _mapDecorationColorListUpdatedToState(

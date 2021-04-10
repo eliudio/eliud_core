@@ -35,14 +35,14 @@ class MenuDefCache implements MenuDefRepository {
 
   MenuDefCache(this.reference);
 
-  Future<MenuDefModel> add(MenuDefModel? value) {
+  Future<MenuDefModel> add(MenuDefModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MenuDefModel? value){
+  Future<void> delete(MenuDefModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class MenuDefCache implements MenuDefRepository {
     });
   }
 
-  Future<MenuDefModel> update(MenuDefModel? value) {
+  Future<MenuDefModel> update(MenuDefModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  StreamSubscription<MenuDefModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MenuDefModel?> listenTo(String documentId, MenuDefChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MenuDefModel> refreshRelations(MenuDefModel model) async {

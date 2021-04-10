@@ -73,20 +73,6 @@ class PosSizeListWidget extends StatefulWidget with HasFab {
 }
 
 class PosSizeListWidgetState extends State<PosSizeListWidget> {
-  PosSizeListBloc? bloc;
-
-  @override
-  void didChangeDependencies() {
-    bloc = BlocProvider.of<PosSizeListBloc>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose () {
-    if (bloc != null) bloc!.close();
-    super.dispose();
-  }
-
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
@@ -100,7 +86,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
         onPressed: () {
           Navigator.of(context).push(
             pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                value: bloc,
+                value: BlocProvider.of<PosSizeListBloc>(context),
                 child: PosSizeForm(
                     value: null,
                     formAction: FormAction.AddAction)
@@ -125,14 +111,14 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
         } else if (state is PosSizeListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
-            List<Widget> children = List();
+            var children = <Widget>[];
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
                       Navigator.of(context).push(
                                 pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                                    value: bloc,
+                                    value: BlocProvider.of<PosSizeListBloc>(context),
                                     child: PosSizeForm(
                                         value: null,
                                         formAction: FormAction.AddAction)

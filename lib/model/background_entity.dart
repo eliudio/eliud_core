@@ -71,7 +71,7 @@ class BackgroundEntity {
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String, dynamic>>? decorationColorsListMap = decorationColors != null 
+    final List<Map<String?, dynamic>>? decorationColorsListMap = decorationColors != null 
         ? decorationColors!.map((item) => item.toDocument()).toList()
         : null;
 

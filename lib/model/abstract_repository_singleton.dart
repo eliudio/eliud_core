@@ -46,7 +46,7 @@ AccessRepository? accessRepository({ String? appId }) => AbstractRepositorySingl
 AppBarRepository? appBarRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
 AppPolicyRepository? appPolicyRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
 BackgroundRepository? backgroundRepository({ String? appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
-CountryRepository countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
+CountryRepository? countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
 DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
 FontRepository? fontRepository({ String? appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
@@ -70,7 +70,7 @@ abstract class AbstractRepositorySingleton {
   AppBarRepository? appBarRepository(String? appId);
   AppPolicyRepository? appPolicyRepository(String? appId);
   BackgroundRepository? backgroundRepository(String? appId);
-  CountryRepository countryRepository();
+  CountryRepository? countryRepository();
   DialogRepository? dialogRepository(String? appId);
   DrawerRepository? drawerRepository(String? appId);
   FontRepository? fontRepository(String? appId);
@@ -84,6 +84,6 @@ abstract class AbstractRepositorySingleton {
   ShadowRepository? shadowRepository(String? appId);
 
   void flush(String? appId) {
-    countryRepository().flush();
+    countryRepository()!.flush();
   }
 }

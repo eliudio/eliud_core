@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class BackgroundFirestore implements BackgroundRepository {
-  Future<BackgroundModel> add(BackgroundModel? value) {
-    return BackgroundCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<BackgroundModel> add(BackgroundModel value) {
+    return BackgroundCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(BackgroundModel? value) {
-    return BackgroundCollection.doc(value!.documentID).delete();
+  Future<void> delete(BackgroundModel value) {
+    return BackgroundCollection.doc(value.documentID).delete();
   }
 
-  Future<BackgroundModel> update(BackgroundModel? value) {
-    return BackgroundCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<BackgroundModel> update(BackgroundModel value) {
+    return BackgroundCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   BackgroundModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class BackgroundFirestore implements BackgroundRepository {
     return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), appId: appId);  }
 
   Future<BackgroundModel?> get(String? id, {Function(Exception)? onError}) {
-    return BackgroundCollection.doc(id).get().then((doc) {
+    return BackgroundCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class BackgroundFirestore implements BackgroundRepository {
 
   StreamSubscription<List<BackgroundModel?>> listen(BackgroundModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<BackgroundModel?>> stream;
-//    stream = getQuery(BackgroundCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(BackgroundCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   BackgroundFirestore(this.BackgroundCollection, this.appId);
 
   final CollectionReference BackgroundCollection;

@@ -65,15 +65,21 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   }
 
   Stream<PosSizeListState> _mapAddPosSizeListToState(AddPosSizeList event) async* {
-    _posSizeRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _posSizeRepository.add(value);
   }
 
   Stream<PosSizeListState> _mapUpdatePosSizeListToState(UpdatePosSizeList event) async* {
-    _posSizeRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _posSizeRepository.update(value);
   }
 
   Stream<PosSizeListState> _mapDeletePosSizeListToState(DeletePosSizeList event) async* {
-    _posSizeRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _posSizeRepository.delete(value);
   }
 
   Stream<PosSizeListState> _mapPosSizeListUpdatedToState(

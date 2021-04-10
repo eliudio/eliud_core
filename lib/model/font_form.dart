@@ -91,12 +91,12 @@ class FontForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update Font", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add Font", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<FontFormBloc >(
             create: (context) => FontFormBloc(AccessBloc.appId(context),
@@ -189,7 +189,7 @@ class _MyFontFormState extends State<MyFontForm> {
           _decorationSelectedRadioTile = 0;
       }
       if (state is FontFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -201,11 +201,11 @@ class _MyFontFormState extends State<MyFontForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -219,11 +219,11 @@ class _MyFontFormState extends State<MyFontForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _fontNameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Font Family Name (currently supported family is Google Fonts)',
                     hintText: "See https://fonts.google.com/",
                   ),
@@ -238,11 +238,11 @@ class _MyFontFormState extends State<MyFontForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _sizeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Size',
                   ),
                   keyboardType: TextInputType.number,
@@ -255,7 +255,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -263,17 +263,17 @@ class _MyFontFormState extends State<MyFontForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Weight',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Thin", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -283,10 +283,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("ExtraLight", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -296,10 +296,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Light", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -309,10 +309,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -322,10 +322,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Medium", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -335,10 +335,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("SemiBold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -348,10 +348,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Bold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -361,10 +361,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("ExtraBold", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -374,10 +374,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 8,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _weightSelectedRadioTile,
-                    title: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("MostThick", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionWeight(val);
                     },
@@ -386,7 +386,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -394,17 +394,17 @@ class _MyFontFormState extends State<MyFontForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Style',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _styleSelectedRadioTile,
-                    title: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Italic", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionStyle(val);
                     },
@@ -414,10 +414,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _styleSelectedRadioTile,
-                    title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Normal", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionStyle(val);
                     },
@@ -426,7 +426,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -434,17 +434,17 @@ class _MyFontFormState extends State<MyFontForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Decoration',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _decorationSelectedRadioTile,
-                    title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("None", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
@@ -454,10 +454,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _decorationSelectedRadioTile,
-                    title: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Underline", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
@@ -467,10 +467,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _decorationSelectedRadioTile,
-                    title: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("Overline", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
@@ -480,10 +480,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
                 RadioListTile(
                     value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _decorationSelectedRadioTile,
-                    title: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("LineThrough", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionDecoration(val);
                     },
@@ -492,7 +492,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -500,7 +500,7 @@ class _MyFontFormState extends State<MyFontForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Font Color',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -510,12 +510,12 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is FontFormError) {
                       return null;
@@ -550,15 +550,14 @@ class _MyFontFormState extends State<MyFontForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -566,7 +565,7 @@ class _MyFontFormState extends State<MyFontForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

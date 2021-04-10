@@ -65,15 +65,21 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   }
 
   Stream<AppEntryPagesListState> _mapAddAppEntryPagesListToState(AddAppEntryPagesList event) async* {
-    _appEntryPagesRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appEntryPagesRepository.add(value);
   }
 
   Stream<AppEntryPagesListState> _mapUpdateAppEntryPagesListToState(UpdateAppEntryPagesList event) async* {
-    _appEntryPagesRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appEntryPagesRepository.update(value);
   }
 
   Stream<AppEntryPagesListState> _mapDeleteAppEntryPagesListToState(DeleteAppEntryPagesList event) async* {
-    _appEntryPagesRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _appEntryPagesRepository.delete(value);
   }
 
   Stream<AppEntryPagesListState> _mapAppEntryPagesListUpdatedToState(

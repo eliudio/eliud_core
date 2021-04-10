@@ -44,7 +44,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
   DialogFormBloc(this.appId, { this.formAction }): super(DialogFormUninitialized());
   @override
   Stream<DialogFormState> mapEventToState(DialogFormEvent event) async* {
-    final DialogFormState currentState = state;
+    final currentState = state;
     if (currentState is DialogFormUninitialized) {
       if (event is InitialiseNewDialogFormEvent) {
         DialogFormLoaded loaded = DialogFormLoaded(value: DialogModel(
@@ -63,20 +63,20 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
 
       if (event is InitialiseDialogFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        DialogFormLoaded loaded = DialogFormLoaded(value: await dialogRepository(appId: appId)!.get(event.value!.documentID));
+        DialogFormLoaded loaded = DialogFormLoaded(value: await dialogRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseDialogFormNoLoadEvent) {
-        DialogFormLoaded loaded = DialogFormLoaded(value: event.value);
+        DialogFormLoaded loaded = DialogFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is DialogFormInitialized) {
       DialogModel? newValue = null;
       if (event is ChangedDialogDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableDialogForm(value: newValue);
         }
@@ -84,32 +84,32 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
       if (event is ChangedDialogTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogBodyComponents) {
-        newValue = currentState.value!.copyWith(bodyComponents: event.value);
+        newValue = currentState.value!.copyWith(bodyComponents: event!.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogBackground) {
-        newValue = currentState.value!.copyWith(background: event.value);
+        newValue = currentState.value!.copyWith(background: event!.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogLayout) {
-        newValue = currentState.value!.copyWith(layout: event.value);
+        newValue = currentState.value!.copyWith(layout: event!.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
       }
       if (event is ChangedDialogGridView) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event!.value));
         else
           newValue = new DialogModel(
                                  documentID: currentState.value!.documentID,
@@ -126,7 +126,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
       if (event is ChangedDialogConditions) {
-        newValue = currentState.value!.copyWith(conditions: event.value);
+        newValue = currentState.value!.copyWith(conditions: event!.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;

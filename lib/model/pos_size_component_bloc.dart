@@ -28,7 +28,7 @@ class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentS
   PosSizeComponentBloc({ this.posSizeRepository }): super(PosSizeComponentUninitialized());
   @override
   Stream<PosSizeComponentState> mapEventToState(PosSizeComponentEvent event) async* {
-    final PosSizeComponentState currentState = state;
+    final currentState = state;
     if (event is FetchPosSizeComponent) {
       try {
         if (currentState is PosSizeComponentUninitialized) {

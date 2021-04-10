@@ -37,10 +37,10 @@ typedef MemberDashboardModelTrigger(List<MemberDashboardModel?> list);
 typedef MemberDashboardChanged(MemberDashboardModel? value);
 
 abstract class MemberDashboardRepository {
-  Future<MemberDashboardModel> add(MemberDashboardModel? value);
-  Future<void> delete(MemberDashboardModel? value);
+  Future<MemberDashboardModel> add(MemberDashboardModel value);
+  Future<void> delete(MemberDashboardModel value);
   Future<MemberDashboardModel?> get(String? id, { Function(Exception)? onError });
-  Future<MemberDashboardModel> update(MemberDashboardModel? value);
+  Future<MemberDashboardModel> update(MemberDashboardModel value);
 
   Stream<List<MemberDashboardModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<MemberDashboardModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

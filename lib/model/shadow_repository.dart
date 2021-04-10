@@ -33,10 +33,10 @@ typedef ShadowModelTrigger(List<ShadowModel?> list);
 typedef ShadowChanged(ShadowModel? value);
 
 abstract class ShadowRepository {
-  Future<ShadowModel> add(ShadowModel? value);
-  Future<void> delete(ShadowModel? value);
+  Future<ShadowModel> add(ShadowModel value);
+  Future<void> delete(ShadowModel value);
   Future<ShadowModel?> get(String? id, { Function(Exception)? onError });
-  Future<ShadowModel> update(ShadowModel? value);
+  Future<ShadowModel> update(ShadowModel value);
 
   Stream<List<ShadowModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<ShadowModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

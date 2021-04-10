@@ -29,29 +29,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef BodyComponentModelTrigger(List<BodyComponentModel> list);
-typedef BodyComponentChanged(BodyComponentModel value);
+typedef BodyComponentModelTrigger(List<BodyComponentModel?> list);
+typedef BodyComponentChanged(BodyComponentModel? value);
 
 abstract class BodyComponentRepository {
-  Future<BodyComponentModel> add(BodyComponentModel? value);
-  Future<void> delete(BodyComponentModel? value);
-  Future<BodyComponentModel> get(String id, { Function(Exception)? onError });
-  Future<BodyComponentModel> update(BodyComponentModel? value);
+  Future<BodyComponentModel> add(BodyComponentModel value);
+  Future<void> delete(BodyComponentModel value);
+  Future<BodyComponentModel?> get(String? id, { Function(Exception)? onError });
+  Future<BodyComponentModel> update(BodyComponentModel value);
 
-  Stream<List<BodyComponentModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<BodyComponentModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<BodyComponentModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<BodyComponentModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<BodyComponentModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<BodyComponentModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<BodyComponentModel?>?> listen(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<BodyComponentModel?>?> listenWithDetails(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed);
+  StreamSubscription<List<BodyComponentModel?>> listen(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<BodyComponentModel?>> listenWithDetails(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<BodyComponentModel?> listenTo(String documentId, BodyComponentChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<BodyComponentModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<BodyComponentModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

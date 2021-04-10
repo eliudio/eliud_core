@@ -33,10 +33,10 @@ typedef CountryModelTrigger(List<CountryModel?> list);
 typedef CountryChanged(CountryModel? value);
 
 abstract class CountryRepository {
-  Future<CountryModel> add(CountryModel? value);
-  Future<void> delete(CountryModel? value);
+  Future<CountryModel> add(CountryModel value);
+  Future<void> delete(CountryModel value);
   Future<CountryModel?> get(String? id, { Function(Exception)? onError });
-  Future<CountryModel> update(CountryModel? value);
+  Future<CountryModel> update(CountryModel value);
 
   Stream<List<CountryModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<CountryModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

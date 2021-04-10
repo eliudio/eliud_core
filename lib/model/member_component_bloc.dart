@@ -29,7 +29,7 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
   MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized());
   @override
   Stream<MemberComponentState> mapEventToState(MemberComponentEvent event) async* {
-    final MemberComponentState currentState = state;
+    final currentState = state;
     if (event is FetchMemberComponent) {
       try {
         if (currentState is MemberComponentUninitialized) {

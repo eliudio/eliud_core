@@ -35,14 +35,14 @@ class CountryCache implements CountryRepository {
 
   CountryCache(this.reference);
 
-  Future<CountryModel> add(CountryModel? value) {
+  Future<CountryModel> add(CountryModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(CountryModel? value){
+  Future<void> delete(CountryModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class CountryCache implements CountryRepository {
     });
   }
 
-  Future<CountryModel> update(CountryModel? value) {
+  Future<CountryModel> update(CountryModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class CountryCache implements CountryRepository {
   }
 
   @override
-  StreamSubscription<CountryModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<CountryModel?> listenTo(String documentId, CountryChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<CountryModel> refreshRelations(CountryModel model) async {

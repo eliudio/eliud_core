@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class ShadowFirestore implements ShadowRepository {
-  Future<ShadowModel> add(ShadowModel? value) {
-    return ShadowCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<ShadowModel> add(ShadowModel value) {
+    return ShadowCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(ShadowModel? value) {
-    return ShadowCollection.doc(value!.documentID).delete();
+  Future<void> delete(ShadowModel value) {
+    return ShadowCollection.doc(value.documentID).delete();
   }
 
-  Future<ShadowModel> update(ShadowModel? value) {
-    return ShadowCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<ShadowModel> update(ShadowModel value) {
+    return ShadowCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   ShadowModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class ShadowFirestore implements ShadowRepository {
     return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), appId: appId);  }
 
   Future<ShadowModel?> get(String? id, {Function(Exception)? onError}) {
-    return ShadowCollection.doc(id).get().then((doc) {
+    return ShadowCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class ShadowFirestore implements ShadowRepository {
 
   StreamSubscription<List<ShadowModel?>> listen(ShadowModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<ShadowModel?>> stream;
-//    stream = getQuery(ShadowCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(ShadowCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class ShadowFirestore implements ShadowRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   ShadowFirestore(this.ShadowCollection, this.appId);
 
   final CollectionReference ShadowCollection;

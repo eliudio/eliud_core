@@ -44,7 +44,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
   MemberMediumFormBloc(this.appId, { this.formAction }): super(MemberMediumFormUninitialized());
   @override
   Stream<MemberMediumFormState> mapEventToState(MemberMediumFormEvent event) async* {
-    final MemberMediumFormState currentState = state;
+    final currentState = state;
     if (currentState is MemberMediumFormUninitialized) {
       if (event is InitialiseNewMemberMediumFormEvent) {
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: MemberMediumModel(
@@ -70,20 +70,20 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
 
       if (event is InitialiseMemberMediumFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: await memberMediumRepository(appId: appId)!.get(event.value!.documentID));
+        MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: await memberMediumRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMemberMediumFormNoLoadEvent) {
-        MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: event.value);
+        MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is MemberMediumFormInitialized) {
       MemberMediumModel? newValue = null;
       if (event is ChangedMemberMediumDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableMemberMediumForm(value: newValue);
         }
@@ -91,38 +91,38 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         return;
       }
       if (event is ChangedMemberMediumAuthorId) {
-        newValue = currentState.value!.copyWith(authorId: event.value);
+        newValue = currentState.value!.copyWith(authorId: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberMediumUrl) {
-        newValue = currentState.value!.copyWith(url: event.value);
+        newValue = currentState.value!.copyWith(url: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberMediumRef) {
-        newValue = currentState.value!.copyWith(ref: event.value);
+        newValue = currentState.value!.copyWith(ref: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberMediumUrlThumbnail) {
-        newValue = currentState.value!.copyWith(urlThumbnail: event.value);
+        newValue = currentState.value!.copyWith(urlThumbnail: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberMediumMediumType) {
-        newValue = currentState.value!.copyWith(mediumType: event.value);
+        newValue = currentState.value!.copyWith(mediumType: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberMediumMediumWidth) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(mediumWidth: int.parse(event!.value!));
           yield SubmittableMemberMediumForm(value: newValue);
 
         } else {
@@ -132,8 +132,8 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         return;
       }
       if (event is ChangedMemberMediumMediumHeight) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(mediumHeight: int.parse(event!.value!));
           yield SubmittableMemberMediumForm(value: newValue);
 
         } else {
@@ -143,8 +143,8 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         return;
       }
       if (event is ChangedMemberMediumThumbnailWidth) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event!.value!));
           yield SubmittableMemberMediumForm(value: newValue);
 
         } else {
@@ -154,8 +154,8 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         return;
       }
       if (event is ChangedMemberMediumThumbnailHeight) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event!.value!));
           yield SubmittableMemberMediumForm(value: newValue);
 
         } else {
@@ -165,7 +165,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         return;
       }
       if (event is ChangedMemberMediumRelatedMediumId) {
-        newValue = currentState.value!.copyWith(relatedMediumId: event.value);
+        newValue = currentState.value!.copyWith(relatedMediumId: event!.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;

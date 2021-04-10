@@ -65,14 +65,14 @@ class MemberSubscriptionModel {
     );
   }
 
-  static MemberSubscriptionModel fromEntity(String documentID, MemberSubscriptionEntity entity) {
+  static MemberSubscriptionModel? fromEntity(String documentID, MemberSubscriptionEntity? entity) {
     if (entity == null) return null;
     return MemberSubscriptionModel(
           documentID: documentID, 
     );
   }
 
-  static Future<MemberSubscriptionModel> fromEntityPlus(String documentID, MemberSubscriptionEntity entity, { String? appId}) async {
+  static Future<MemberSubscriptionModel?> fromEntityPlus(String documentID, MemberSubscriptionEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     AppModel? appHolder;

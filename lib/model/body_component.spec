@@ -38,7 +38,7 @@
       "group": "componentId",
       "remark": "For that specific component, e.g. 'carousel', which Component ID, i.e. which carousel to include in the page",
       "fieldType": "String",
-      "bespokeFormField": "ComponentIdField(componentName: state.value.componentName, value: state.value.componentId, trigger: _onComponentIdChanged)"
+      "bespokeFormField": "ComponentIdField(componentName: state.value!.componentName, value: state.value!.componentId, trigger: _onComponentIdChanged)"
     }
   ],
   "groups": [

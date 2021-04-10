@@ -91,12 +91,12 @@ class PageForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update Page", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add Page", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<PageFormBloc >(
             create: (context) => PageFormBloc(AccessBloc.appId(context),
@@ -201,7 +201,7 @@ class _MyPageFormState extends State<MyPageForm> {
           _gridView= "";
       }
       if (state is PageFormInitialized) {
-        List<Widget?> children = List();
+        List<Widget?> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -212,7 +212,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -220,17 +220,17 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: (formAction == FormAction.UpdateAction),
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Document ID',
                   ),
                   keyboardType: TextInputType.text,
@@ -244,11 +244,11 @@ class _MyPageFormState extends State<MyPageForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _titleController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Title',
                   ),
                   keyboardType: TextInputType.text,
@@ -261,7 +261,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -269,7 +269,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Home menu',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -279,7 +279,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -287,7 +287,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Drawer',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -297,7 +297,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -305,7 +305,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('End Drawer',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -315,7 +315,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -323,7 +323,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('App Bar',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -333,7 +333,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -341,7 +341,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Components',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -354,7 +354,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -362,7 +362,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Background',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -372,7 +372,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -380,17 +380,17 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Layout',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 RadioListTile(
                     value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _layoutSelectedRadioTile,
-                    title: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("GridView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
@@ -400,10 +400,10 @@ class _MyPageFormState extends State<MyPageForm> {
 
                 RadioListTile(
                     value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _layoutSelectedRadioTile,
-                    title: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("ListView", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
@@ -413,10 +413,10 @@ class _MyPageFormState extends State<MyPageForm> {
 
                 RadioListTile(
                     value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
+                    activeColor: RgbHelper.color(rgbo: app!.formFieldTextColor),
                     groupValue: _layoutSelectedRadioTile,
-                    title: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
+                    title: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    subtitle: Text("OnlyTheFirstComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
                     onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
                       setSelectionLayout(val);
                     },
@@ -425,7 +425,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if (state.value!.layout == PageLayout.GridView) children.add(Container(
@@ -433,7 +433,7 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('GridView',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if ((state.value!.layout == PageLayout.GridView)) children.add(
@@ -443,7 +443,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
          children.add(Container(
@@ -451,18 +451,18 @@ class _MyPageFormState extends State<MyPageForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Conditional',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PageFormError) {
                       return null;
@@ -505,15 +505,14 @@ class _MyPageFormState extends State<MyPageForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -546,7 +545,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onAppBarSelected(String val) {
+  void _onAppBarSelected(String? val) {
     setState(() {
       _appBar = val;
     });
@@ -554,7 +553,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onDrawerSelected(String val) {
+  void _onDrawerSelected(String? val) {
     setState(() {
       _drawer = val;
     });
@@ -562,7 +561,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onEndDrawerSelected(String val) {
+  void _onEndDrawerSelected(String? val) {
     setState(() {
       _endDrawer = val;
     });
@@ -570,7 +569,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onHomeMenuSelected(String val) {
+  void _onHomeMenuSelected(String? val) {
     setState(() {
       _homeMenu = val;
     });
@@ -584,7 +583,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onBackgroundSelected(String val) {
+  void _onBackgroundSelected(String? val) {
     setState(() {
       _background = val;
     });
@@ -600,7 +599,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onGridViewSelected(String val) {
+  void _onGridViewSelected(String? val) {
     setState(() {
       _gridView = val;
     });

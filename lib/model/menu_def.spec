@@ -40,7 +40,7 @@
       "displayName": "Name",
       "fieldType": "String",
       "group": "general",
-      "fieldValidation": "    // This could be written in 1 line. However, this is to illustrate how to write multiple lines of code\n    if (value.length == 0) {\n      return false;\n    } else {\n      return true;\n    }\n",
+      "fieldValidation": "    // This could be written in 1 line. However, this is to illustrate how to write multiple lines of code\n    if (value!.length == 0) {\n      return false;\n    } else {\n      return true;\n    }\n",
       "defaultValue": "Name",
       "iconName": "text_format"
     },

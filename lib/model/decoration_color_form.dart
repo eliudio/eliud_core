@@ -89,12 +89,12 @@ class DecorationColorForm extends StatelessWidget {
                 AppBar(
                     title: Text("Update DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                   ) :
                 AppBar(
                     title: Text("Add DecorationColor", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
                 ),
         body: BlocProvider<DecorationColorFormBloc >(
             create: (context) => DecorationColorFormBloc(AccessBloc.appId(context),
@@ -156,7 +156,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
           _stopController.text = "";
       }
       if (state is DecorationColorFormInitialized) {
-        List<Widget> children = List();
+        List<Widget?> children = [];
         children.add(
 
                 RgbField("Background Color", state.value!.color, _onColorChanged)
@@ -169,7 +169,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                   readOnly: _readOnly(accessState, state),
                   controller: _stopController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.color_lens, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.color_lens, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
                     labelText: 'Stop (-1 = no stop)',
                   ),
                   keyboardType: TextInputType.number,
@@ -183,7 +183,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is DecorationColorFormError) {
                       return null;
@@ -208,15 +208,14 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                       } else {
                         Navigator.pop(context);
                       }
-                      return true;
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -224,7 +223,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
+              children: children as List<Widget>
             ),
           )
         );

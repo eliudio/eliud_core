@@ -44,7 +44,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
   AppFormBloc(this.appId, { this.formAction }): super(AppFormUninitialized());
   @override
   Stream<AppFormState> mapEventToState(AppFormEvent event) async* {
-    final AppFormState currentState = state;
+    final currentState = state;
     if (currentState is AppFormUninitialized) {
       if (event is InitialiseNewAppFormEvent) {
         AppFormLoaded loaded = AppFormLoaded(value: AppModel(
@@ -77,20 +77,20 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
 
       if (event is InitialiseAppFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        AppFormLoaded loaded = AppFormLoaded(value: await appRepository(appId: appId)!.get(event.value!.documentID));
+        AppFormLoaded loaded = AppFormLoaded(value: await appRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseAppFormNoLoadEvent) {
-        AppFormLoaded loaded = AppFormLoaded(value: event.value);
+        AppFormLoaded loaded = AppFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is AppFormInitialized) {
       AppModel? newValue = null;
       if (event is ChangedAppDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableAppForm(value: newValue);
         }
@@ -98,44 +98,44 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppTitle) {
-        newValue = currentState.value!.copyWith(title: event.value);
+        newValue = currentState.value!.copyWith(title: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppEmail) {
-        newValue = currentState.value!.copyWith(email: event.value);
+        newValue = currentState.value!.copyWith(email: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppDescription) {
-        newValue = currentState.value!.copyWith(description: event.value);
+        newValue = currentState.value!.copyWith(description: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppAppStatus) {
-        newValue = currentState.value!.copyWith(appStatus: event.value);
+        newValue = currentState.value!.copyWith(appStatus: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppDarkOrLight) {
-        newValue = currentState.value!.copyWith(darkOrLight: event.value);
+        newValue = currentState.value!.copyWith(darkOrLight: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppHomePages) {
-        newValue = currentState.value!.copyWith(homePages: event.value);
+        newValue = currentState.value!.copyWith(homePages: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppLogo) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(logo: await memberMediumRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(logo: await memberMediumRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -181,14 +181,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFormSubmitButtonColor) {
-        newValue = currentState.value!.copyWith(formSubmitButtonColor: event.value);
+        newValue = currentState.value!.copyWith(formSubmitButtonColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(formBackground: await backgroundRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(formBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -234,38 +234,38 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFormSubmitButtonTextColor) {
-        newValue = currentState.value!.copyWith(formSubmitButtonTextColor: event.value);
+        newValue = currentState.value!.copyWith(formSubmitButtonTextColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormGroupTitleColor) {
-        newValue = currentState.value!.copyWith(formGroupTitleColor: event.value);
+        newValue = currentState.value!.copyWith(formGroupTitleColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormFieldTextColor) {
-        newValue = currentState.value!.copyWith(formFieldTextColor: event.value);
+        newValue = currentState.value!.copyWith(formFieldTextColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormFieldHeaderColor) {
-        newValue = currentState.value!.copyWith(formFieldHeaderColor: event.value);
+        newValue = currentState.value!.copyWith(formFieldHeaderColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormFieldFocusColor) {
-        newValue = currentState.value!.copyWith(formFieldFocusColor: event.value);
+        newValue = currentState.value!.copyWith(formFieldFocusColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFormAppBarBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(formAppBarBackground: await backgroundRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(formAppBarBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -311,14 +311,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFormAppBarTextColor) {
-        newValue = currentState.value!.copyWith(formAppBarTextColor: event.value);
+        newValue = currentState.value!.copyWith(formAppBarTextColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppListBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(listBackground: await backgroundRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(listBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -364,44 +364,44 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppListTextItemColor) {
-        newValue = currentState.value!.copyWith(listTextItemColor: event.value);
+        newValue = currentState.value!.copyWith(listTextItemColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFloatingButtonForegroundColor) {
-        newValue = currentState.value!.copyWith(floatingButtonForegroundColor: event.value);
+        newValue = currentState.value!.copyWith(floatingButtonForegroundColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppFloatingButtonBackgroundColor) {
-        newValue = currentState.value!.copyWith(floatingButtonBackgroundColor: event.value);
+        newValue = currentState.value!.copyWith(floatingButtonBackgroundColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppDividerColor) {
-        newValue = currentState.value!.copyWith(dividerColor: event.value);
+        newValue = currentState.value!.copyWith(dividerColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppIconColor) {
-        newValue = currentState.value!.copyWith(iconColor: event.value);
+        newValue = currentState.value!.copyWith(iconColor: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppRouteBuilder) {
-        newValue = currentState.value!.copyWith(routeBuilder: event.value);
+        newValue = currentState.value!.copyWith(routeBuilder: event!.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppRouteAnimationDuration) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(routeAnimationDuration: int.parse(event.value!));
+        if (isInt(event!.value)) {
+          newValue = currentState.value!.copyWith(routeAnimationDuration: int.parse(event!.value!));
           yield SubmittableAppForm(value: newValue);
 
         } else {
@@ -411,8 +411,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppH1) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(h1: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(h1: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -458,8 +458,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppH2) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(h2: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(h2: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -505,8 +505,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppH3) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(h3: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(h3: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -552,8 +552,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppH4) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(h4: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(h4: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -599,8 +599,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppH5) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(h5: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(h5: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -646,8 +646,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFontText) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(fontText: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(fontText: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -693,8 +693,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFontHighlight1) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(fontHighlight1: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(fontHighlight1: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -740,8 +740,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFontHighlight2) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(fontHighlight2: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(fontHighlight2: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -787,8 +787,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppFontLink) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(fontLink: await fontRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(fontLink: await fontRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -834,8 +834,8 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
         return;
       }
       if (event is ChangedAppPolicies) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(policies: await appPolicyRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(policies: await appPolicyRepository(appId: appId)!.get(event!.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,

@@ -28,7 +28,7 @@ abstract class AppEntryPagesFormState extends Equatable {
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class AppEntryPagesFormUninitialized extends AppEntryPagesFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {

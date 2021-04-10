@@ -73,20 +73,6 @@ class AppEntryPagesListWidget extends StatefulWidget with HasFab {
 }
 
 class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
-  AppEntryPagesListBloc? bloc;
-
-  @override
-  void didChangeDependencies() {
-    bloc = BlocProvider.of<AppEntryPagesListBloc>(context);
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose () {
-    if (bloc != null) bloc!.close();
-    super.dispose();
-  }
-
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
     if (accessState is AppLoaded) {
@@ -100,7 +86,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
         onPressed: () {
           Navigator.of(context).push(
             pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                value: bloc,
+                value: BlocProvider.of<AppEntryPagesListBloc>(context),
                 child: AppEntryPagesForm(
                     value: null,
                     formAction: FormAction.AddAction)
@@ -125,14 +111,14 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
         } else if (state is AppEntryPagesListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
-            List<Widget> children = List();
+            var children = <Widget>[];
             children.add(theList(context, values, accessState));
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
                       Navigator.of(context).push(
                                 pageRouteBuilder(accessState.app, page: BlocProvider.value(
-                                    value: bloc,
+                                    value: BlocProvider.of<AppEntryPagesListBloc>(context),
                                     child: AppEntryPagesForm(
                                         value: null,
                                         formAction: FormAction.AddAction)

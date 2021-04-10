@@ -29,29 +29,29 @@ import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
-typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel> list);
-typedef MemberSubscriptionChanged(MemberSubscriptionModel value);
+typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel?> list);
+typedef MemberSubscriptionChanged(MemberSubscriptionModel? value);
 
 abstract class MemberSubscriptionRepository {
-  Future<MemberSubscriptionModel> add(MemberSubscriptionModel? value);
-  Future<void> delete(MemberSubscriptionModel? value);
-  Future<MemberSubscriptionModel> get(String id, { Function(Exception)? onError });
-  Future<MemberSubscriptionModel> update(MemberSubscriptionModel? value);
+  Future<MemberSubscriptionModel> add(MemberSubscriptionModel value);
+  Future<void> delete(MemberSubscriptionModel value);
+  Future<MemberSubscriptionModel?> get(String? id, { Function(Exception)? onError });
+  Future<MemberSubscriptionModel> update(MemberSubscriptionModel value);
 
-  Stream<List<MemberSubscriptionModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<MemberSubscriptionModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MemberSubscriptionModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  Stream<List<MemberSubscriptionModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MemberSubscriptionModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Future<List<MemberSubscriptionModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
 
-  StreamSubscription<List<MemberSubscriptionModel?>?> listen(MemberSubscriptionModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<MemberSubscriptionModel?>?> listenWithDetails(MemberSubscriptionModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed);
+  StreamSubscription<List<MemberSubscriptionModel?>> listen(MemberSubscriptionModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<List<MemberSubscriptionModel?>> listenWithDetails(MemberSubscriptionModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
+  StreamSubscription<MemberSubscriptionModel?> listenTo(String documentId, MemberSubscriptionChanged changed);
   void flush();
   
-  String timeStampToString(dynamic timeStamp);
+  String? timeStampToString(dynamic timeStamp);
 
   dynamic getSubCollection(String documentId, String name);
-  Future<MemberSubscriptionModel> changeValue(String documentId, String fieldName, num changeByThisValue);
+  Future<MemberSubscriptionModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
 
   Future<void> deleteAll();
 }

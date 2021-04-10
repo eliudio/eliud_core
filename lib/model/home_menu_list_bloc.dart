@@ -65,15 +65,21 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   }
 
   Stream<HomeMenuListState> _mapAddHomeMenuListToState(AddHomeMenuList event) async* {
-    _homeMenuRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _homeMenuRepository.add(value);
   }
 
   Stream<HomeMenuListState> _mapUpdateHomeMenuListToState(UpdateHomeMenuList event) async* {
-    _homeMenuRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _homeMenuRepository.update(value);
   }
 
   Stream<HomeMenuListState> _mapDeleteHomeMenuListToState(DeleteHomeMenuList event) async* {
-    _homeMenuRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _homeMenuRepository.delete(value);
   }
 
   Stream<HomeMenuListState> _mapHomeMenuListUpdatedToState(

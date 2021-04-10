@@ -26,7 +26,7 @@ abstract class DecorationColorListState extends Equatable {
 class DecorationColorListLoading extends DecorationColorListState {}
 
 class DecorationColorListLoaded extends DecorationColorListState {
-  final List<DecorationColorModel>? values;
+  final List<DecorationColorModel?>? values;
   final bool? mightHaveMore;
 
   const DecorationColorListLoaded({this.mightHaveMore, this.values = const []});

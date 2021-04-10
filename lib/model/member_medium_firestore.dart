@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberMediumFirestore implements MemberMediumRepository {
-  Future<MemberMediumModel> add(MemberMediumModel? value) {
-    return MemberMediumCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MemberMediumModel> add(MemberMediumModel value) {
+    return MemberMediumCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(MemberMediumModel? value) {
-    return MemberMediumCollection.doc(value!.documentID).delete();
+  Future<void> delete(MemberMediumModel value) {
+    return MemberMediumCollection.doc(value.documentID).delete();
   }
 
-  Future<MemberMediumModel> update(MemberMediumModel? value) {
-    return MemberMediumCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<MemberMediumModel> update(MemberMediumModel value) {
+    return MemberMediumCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   MemberMediumModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return MemberMediumModel.fromEntityPlus(value.id, MemberMediumEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberMediumModel?> get(String? id, {Function(Exception)? onError}) {
-    return MemberMediumCollection.doc(id).get().then((doc) {
+    return MemberMediumCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class MemberMediumFirestore implements MemberMediumRepository {
 
   StreamSubscription<List<MemberMediumModel?>> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MemberMediumModel?>> stream;
-//    stream = getQuery(MemberMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(MemberMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class MemberMediumFirestore implements MemberMediumRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   MemberMediumFirestore(this.MemberMediumCollection, this.appId);
 
   final CollectionReference MemberMediumCollection;

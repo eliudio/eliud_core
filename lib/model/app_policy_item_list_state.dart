@@ -26,7 +26,7 @@ abstract class AppPolicyItemListState extends Equatable {
 class AppPolicyItemListLoading extends AppPolicyItemListState {}
 
 class AppPolicyItemListLoaded extends AppPolicyItemListState {
-  final List<AppPolicyItemModel>? values;
+  final List<AppPolicyItemModel?>? values;
   final bool? mightHaveMore;
 
   const AppPolicyItemListLoaded({this.mightHaveMore, this.values = const []});

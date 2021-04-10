@@ -35,14 +35,14 @@ class BackgroundCache implements BackgroundRepository {
 
   BackgroundCache(this.reference);
 
-  Future<BackgroundModel> add(BackgroundModel? value) {
+  Future<BackgroundModel> add(BackgroundModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(BackgroundModel? value){
+  Future<void> delete(BackgroundModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class BackgroundCache implements BackgroundRepository {
     });
   }
 
-  Future<BackgroundModel> update(BackgroundModel? value) {
+  Future<BackgroundModel> update(BackgroundModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class BackgroundCache implements BackgroundRepository {
   }
 
   @override
-  StreamSubscription<BackgroundModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<BackgroundModel?> listenTo(String documentId, BackgroundChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {

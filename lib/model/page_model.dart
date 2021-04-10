@@ -105,8 +105,8 @@ class PageModel {
           drawerId: (drawer != null) ? drawer!.documentID : null, 
           endDrawerId: (endDrawer != null) ? endDrawer!.documentID : null, 
           homeMenuId: (homeMenu != null) ? homeMenu!.documentID : null, 
-          bodyComponents: (bodyComponents != null) ? bodyComponents!
-            .map((item) => item.toEntity(appId: appId))
+          bodyComponents: (bodyComponents != null) ? bodyComponents
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           backgroundId: (background != null) ? background!.documentID : null, 
           layout: (layout != null) ? layout!.index : null, 
@@ -123,8 +123,8 @@ class PageModel {
           title: entity.title, 
           bodyComponents: 
             entity.bodyComponents == null ? null :
-            entity.bodyComponents!
-            .map((item) => BodyComponentModel.fromEntity(newRandomKey(), item))
+            entity.bodyComponents
+            !.map((item) => BodyComponentModel.fromEntity(newRandomKey(), item)!)
             .toList(), 
           layout: toPageLayout(entity.layout), 
           conditions: 
@@ -198,8 +198,8 @@ class PageModel {
           endDrawer: endDrawerHolder, 
           homeMenu: homeMenuHolder, 
           bodyComponents: 
-            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents!
-            .map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
+            !.map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
             .toList())), 
           background: backgroundHolder, 
           layout: toPageLayout(entity.layout), 

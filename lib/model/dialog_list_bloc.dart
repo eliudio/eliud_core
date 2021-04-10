@@ -65,15 +65,21 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   }
 
   Stream<DialogListState> _mapAddDialogListToState(AddDialogList event) async* {
-    _dialogRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _dialogRepository.add(value);
   }
 
   Stream<DialogListState> _mapUpdateDialogListToState(UpdateDialogList event) async* {
-    _dialogRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _dialogRepository.update(value);
   }
 
   Stream<DialogListState> _mapDeleteDialogListToState(DeleteDialogList event) async* {
-    _dialogRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _dialogRepository.delete(value);
   }
 
   Stream<DialogListState> _mapDialogListUpdatedToState(

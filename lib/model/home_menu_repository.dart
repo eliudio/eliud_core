@@ -33,10 +33,10 @@ typedef HomeMenuModelTrigger(List<HomeMenuModel?> list);
 typedef HomeMenuChanged(HomeMenuModel? value);
 
 abstract class HomeMenuRepository {
-  Future<HomeMenuModel> add(HomeMenuModel? value);
-  Future<void> delete(HomeMenuModel? value);
+  Future<HomeMenuModel> add(HomeMenuModel value);
+  Future<void> delete(HomeMenuModel value);
   Future<HomeMenuModel?> get(String? id, { Function(Exception)? onError });
-  Future<HomeMenuModel> update(HomeMenuModel? value);
+  Future<HomeMenuModel> update(HomeMenuModel value);
 
   Stream<List<HomeMenuModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
   Stream<List<HomeMenuModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });

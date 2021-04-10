@@ -35,14 +35,14 @@ class DrawerCache implements DrawerRepository {
 
   DrawerCache(this.reference);
 
-  Future<DrawerModel> add(DrawerModel? value) {
+  Future<DrawerModel> add(DrawerModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(DrawerModel? value){
+  Future<void> delete(DrawerModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -57,7 +57,7 @@ class DrawerCache implements DrawerRepository {
     });
   }
 
-  Future<DrawerModel> update(DrawerModel? value) {
+  Future<DrawerModel> update(DrawerModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -118,8 +118,8 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  StreamSubscription<DrawerModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<DrawerModel?> listenTo(String documentId, DrawerChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<DrawerModel> refreshRelations(DrawerModel model) async {

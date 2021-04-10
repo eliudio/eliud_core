@@ -31,33 +31,33 @@ import 'package:eliud_core/model/entity_export.dart';
 class BodyComponentCache implements BodyComponentRepository {
 
   final BodyComponentRepository reference;
-  final Map<String?, BodyComponentModel> fullCache = Map();
+  final Map<String?, BodyComponentModel?> fullCache = Map();
 
   BodyComponentCache(this.reference);
 
-  Future<BodyComponentModel> add(BodyComponentModel? value) {
+  Future<BodyComponentModel> add(BodyComponentModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(BodyComponentModel? value){
+  Future<void> delete(BodyComponentModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<BodyComponentModel> get(String id, {Function(Exception)? onError}) {
+  Future<BodyComponentModel> get(String? id, {Function(Exception)? onError}) {
     BodyComponentModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<BodyComponentModel> update(BodyComponentModel? value) {
+  Future<BodyComponentModel> update(BodyComponentModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -65,12 +65,12 @@ class BodyComponentCache implements BodyComponentRepository {
   }
 
   @override
-  Stream<List<BodyComponentModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<BodyComponentModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<BodyComponentModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<BodyComponentModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class BodyComponentCache implements BodyComponentRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class BodyComponentCache implements BodyComponentRepository {
   Future<BodyComponentModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,18 +108,18 @@ class BodyComponentCache implements BodyComponentRepository {
   }
 
   @override
-  StreamSubscription<List<BodyComponentModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<BodyComponentModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<BodyComponentModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<BodyComponentModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<BodyComponentModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<BodyComponentModel?> listenTo(String documentId, BodyComponentChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<BodyComponentModel> refreshRelations(BodyComponentModel model) async {

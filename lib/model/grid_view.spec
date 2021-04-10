@@ -61,7 +61,7 @@
       "displayName": "Cross Axis Count",
       "remark": "Amount of components cross axis",
       "fieldType": "int",
-      "conditional": "(state.value.type == GridViewGridType.Count)",
+      "conditional": "(state.value!.type == GridViewGridType.Count)",
       "group": "crossAxisCount"
     },
     {
@@ -69,7 +69,7 @@
       "displayName": "Type of determining the size of 'Max Cross Axis'",
       "remark": "Is this absolute amount of pixels or % of full width of the screen",
       "fieldType": "enum",
-      "conditional": "(state.value.type == GridViewGridType.Extent)",
+      "conditional": "(state.value!.type == GridViewGridType.Extent)",
       "enumName": "MaxCrossAxisExtentType",
       "enumValues" : [ "Absolute", "Relative" ],
       "group": "maxCrossAxisExtentType"
@@ -79,7 +79,7 @@
       "displayName": "Absolute Max Cross Axis Extent",
       "remark": "Absolute Max Cross Axis Extent",
       "fieldType": "double",
-      "conditional": "((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))",
+      "conditional": "((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))",
       "group": "absoluteMaxCrossAxisExtent"
     },
     {
@@ -87,7 +87,7 @@
       "displayName": "Relative Max Cross Axis Extent",
       "remark": "Relative Max Cross Axis Extent",
       "fieldType": "double",
-      "conditional": "((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))",
+      "conditional": "((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))",
       "group": "relativeMaxCrossAxisExtent"
     },
     {
@@ -137,22 +137,22 @@
     {
         "group": "crossAxisCount",
         "description": "crossAxisCount",
-        "conditional": "(state.value.type == GridViewGridType.Count)"
+        "conditional": "(state.value!.type == GridViewGridType.Count)"
     },
     {
         "group": "maxCrossAxisExtentType",
         "description": "Max Cross Axis Extent Type",
-        "conditional": "(state.value.type == GridViewGridType.Extent)"
+        "conditional": "(state.value!.type == GridViewGridType.Extent)"
     },
     {
         "group": "absoluteMaxCrossAxisExtent",
         "description": "Absolute Max Cross Axis Extent",
-        "conditional": "((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))"
+        "conditional": "((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))"
     },
     {
         "group": "relativeMaxCrossAxisExtent",
         "description": "Relative Max Cross Axis Extent",
-         "conditional": "((state.value.type == GridViewGridType.Extent) && (state.value.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))"
+         "conditional": "((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))"
     },
     {
         "group": "spec",

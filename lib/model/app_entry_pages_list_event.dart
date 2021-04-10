@@ -63,7 +63,7 @@ class DeleteAppEntryPagesList extends AppEntryPagesListEvent {
 }
 
 class AppEntryPagesListUpdated extends AppEntryPagesListEvent {
-  final List<AppEntryPagesModel>? value;
+  final List<AppEntryPagesModel?>? value;
   final bool? mightHaveMore;
 
   const AppEntryPagesListUpdated({ this.value, this.mightHaveMore });

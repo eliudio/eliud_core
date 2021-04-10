@@ -81,7 +81,7 @@
       "fieldType": "Rgb",
       "group": "fontColor",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Font Color\", state.value.color, _onColorChanged)"
+      "bespokeFormField": "RgbField(\"Font Color\", state.value!.color, _onColorChanged)"
     }
   ],
   "groups": [

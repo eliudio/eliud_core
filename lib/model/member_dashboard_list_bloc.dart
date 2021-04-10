@@ -65,15 +65,21 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
   }
 
   Stream<MemberDashboardListState> _mapAddMemberDashboardListToState(AddMemberDashboardList event) async* {
-    _memberDashboardRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberDashboardRepository.add(value);
   }
 
   Stream<MemberDashboardListState> _mapUpdateMemberDashboardListToState(UpdateMemberDashboardList event) async* {
-    _memberDashboardRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberDashboardRepository.update(value);
   }
 
   Stream<MemberDashboardListState> _mapDeleteMemberDashboardListToState(DeleteMemberDashboardList event) async* {
-    _memberDashboardRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberDashboardRepository.delete(value);
   }
 
   Stream<MemberDashboardListState> _mapMemberDashboardListUpdatedToState(

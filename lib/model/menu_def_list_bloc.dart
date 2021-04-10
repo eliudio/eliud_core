@@ -65,15 +65,21 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   }
 
   Stream<MenuDefListState> _mapAddMenuDefListToState(AddMenuDefList event) async* {
-    _menuDefRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuDefRepository.add(value);
   }
 
   Stream<MenuDefListState> _mapUpdateMenuDefListToState(UpdateMenuDefList event) async* {
-    _menuDefRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuDefRepository.update(value);
   }
 
   Stream<MenuDefListState> _mapDeleteMenuDefListToState(DeleteMenuDefList event) async* {
-    _menuDefRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _menuDefRepository.delete(value);
   }
 
   Stream<MenuDefListState> _mapMenuDefListUpdatedToState(

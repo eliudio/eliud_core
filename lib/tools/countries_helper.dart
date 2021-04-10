@@ -257,7 +257,7 @@ class CountriesHelper {
         .userRepository()!
         .signInWithGoogle(null)
         .then((value) async {
-      AbstractRepositorySingleton.singleton.countryRepository().deleteAll().then((_) async {
+      AbstractRepositorySingleton.singleton.countryRepository()!.deleteAll().then((_) async {
         LineSplitter ls = new LineSplitter();
         List<String> lines = ls.convert(countries);
 
@@ -268,7 +268,7 @@ class CountriesHelper {
               countryCode: properties[0],
               countryName: properties[1]
           );
-          await AbstractRepositorySingleton.singleton.countryRepository().add(
+          await AbstractRepositorySingleton.singleton.countryRepository()!.add(
               countryModel);
         }
       });

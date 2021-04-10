@@ -65,7 +65,7 @@ class BodyComponentDropdownButtonWidgetState extends State<BodyComponentDropdown
   }
 
 List<Widget> widgets(BodyComponentModel pm) {
-List<Widget> widgets = List();
+var widgets = <Widget>[];
 if (pm.componentName != null) widgets.add(new Text(pm.componentName!));
 if (pm.componentId != null) widgets.add(new Text(pm.componentId!));
 return widgets;
@@ -82,13 +82,13 @@ return widgets;
         );
       } else if (state is BodyComponentListLoaded) {
         String? valueChosen;
-        if (state.values!.indexWhere((v) => (v.documentID == widget.value)) >= 0)
+        if (state.values!.indexWhere((v) => (v!.documentID == widget.value)) >= 0)
           valueChosen = widget.value;
         else
           if (widget.optional != null && widget.optional!) valueChosen = null;
           
         final values = state.values;
-        final List<DropdownMenuItem<String>> items = List();
+        final items = <DropdownMenuItem<String>>[];
         if (state.values!.isNotEmpty) {
           if (widget.optional != null && widget.optional!) {
             items.add(new DropdownMenuItem<String>(
@@ -104,7 +104,7 @@ return widgets;
           }
           state.values!.forEach((element) {
             items.add(new DropdownMenuItem<String>(
-                value: element.documentID,
+                value: element!.documentID,
                 child: new Container(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   height: 100.0,

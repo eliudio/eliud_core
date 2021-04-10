@@ -31,33 +31,33 @@ import 'package:eliud_core/model/entity_export.dart';
 class AppPolicyItemCache implements AppPolicyItemRepository {
 
   final AppPolicyItemRepository reference;
-  final Map<String?, AppPolicyItemModel> fullCache = Map();
+  final Map<String?, AppPolicyItemModel?> fullCache = Map();
 
   AppPolicyItemCache(this.reference);
 
-  Future<AppPolicyItemModel> add(AppPolicyItemModel? value) {
+  Future<AppPolicyItemModel> add(AppPolicyItemModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(AppPolicyItemModel? value){
+  Future<void> delete(AppPolicyItemModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<AppPolicyItemModel> get(String id, {Function(Exception)? onError}) {
+  Future<AppPolicyItemModel> get(String? id, {Function(Exception)? onError}) {
     AppPolicyItemModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
     return reference.get(id, onError: onError).then((value) {
       fullCache[id] = value;
-      return value;
+      return value!;
     });
   }
 
-  Future<AppPolicyItemModel> update(AppPolicyItemModel? value) {
+  Future<AppPolicyItemModel> update(AppPolicyItemModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -65,12 +65,12 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
   }
 
   @override
-  Stream<List<AppPolicyItemModel?>?>? values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<AppPolicyItemModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<AppPolicyItemModel?>?>? valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  Stream<List<AppPolicyItemModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
@@ -88,7 +88,7 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
     fullCache.clear();
   }
   
-  String timeStampToString(dynamic timeStamp) {
+  String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
   } 
 
@@ -99,7 +99,7 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
   Future<AppPolicyItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
       fullCache[documentId] = newValue;
-      return newValue;
+      return newValue!;
     });
   }
 
@@ -108,18 +108,18 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
   }
 
   @override
-  StreamSubscription<List<AppPolicyItemModel?>?> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<AppPolicyItemModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<AppPolicyItemModel?>?> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  StreamSubscription<List<AppPolicyItemModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<AppPolicyItemModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<AppPolicyItemModel?> listenTo(String documentId, AppPolicyItemChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<AppPolicyItemModel> refreshRelations(AppPolicyItemModel model) async {

@@ -65,15 +65,21 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   }
 
   Stream<DrawerListState> _mapAddDrawerListToState(AddDrawerList event) async* {
-    _drawerRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _drawerRepository.add(value);
   }
 
   Stream<DrawerListState> _mapUpdateDrawerListToState(UpdateDrawerList event) async* {
-    _drawerRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _drawerRepository.update(value);
   }
 
   Stream<DrawerListState> _mapDeleteDrawerListToState(DeleteDrawerList event) async* {
-    _drawerRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _drawerRepository.delete(value);
   }
 
   Stream<DrawerListState> _mapDrawerListUpdatedToState(

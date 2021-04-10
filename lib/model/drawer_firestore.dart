@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class DrawerFirestore implements DrawerRepository {
-  Future<DrawerModel> add(DrawerModel? value) {
-    return DrawerCollection.doc(value!.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<DrawerModel> add(DrawerModel value) {
+    return DrawerCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(DrawerModel? value) {
-    return DrawerCollection.doc(value!.documentID).delete();
+  Future<void> delete(DrawerModel value) {
+    return DrawerCollection.doc(value.documentID).delete();
   }
 
-  Future<DrawerModel> update(DrawerModel? value) {
-    return DrawerCollection.doc(value!.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+  Future<DrawerModel> update(DrawerModel value) {
+    return DrawerCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
   DrawerModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class DrawerFirestore implements DrawerRepository {
     return DrawerModel.fromEntityPlus(value.id, DrawerEntity.fromMap(value.data()), appId: appId);  }
 
   Future<DrawerModel?> get(String? id, {Function(Exception)? onError}) {
-    return DrawerCollection.doc(id).get().then((doc) {
+    return DrawerCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class DrawerFirestore implements DrawerRepository {
 
   StreamSubscription<List<DrawerModel?>> listen(DrawerModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<DrawerModel?>> stream;
-//    stream = getQuery(DrawerCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId).snapshots().map((data) {
+//    stream = getQuery(DrawerCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -182,7 +182,7 @@ class DrawerFirestore implements DrawerRepository {
   }
 
 
-  final String? appId;
+  final String appId;
   DrawerFirestore(this.DrawerCollection, this.appId);
 
   final CollectionReference DrawerCollection;

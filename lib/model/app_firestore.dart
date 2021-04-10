@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AppFirestore implements AppRepository {
-  Future<AppModel> add(AppModel? value) {
-    return AppCollection.doc(value!.documentID).set(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
+  Future<AppModel> add(AppModel value) {
+    return AppCollection.doc(value.documentID).set(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
   }
 
-  Future<void> delete(AppModel? value) {
-    return AppCollection.doc(value!.documentID).delete();
+  Future<void> delete(AppModel value) {
+    return AppCollection.doc(value.documentID).delete();
   }
 
-  Future<AppModel> update(AppModel? value) {
-    return AppCollection.doc(value!.documentID).update(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
+  Future<AppModel> update(AppModel value) {
+    return AppCollection.doc(value.documentID).update(value.toEntity(appId: value.documentID).toDocument()).then((_) => value);
   }
 
   AppModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class AppFirestore implements AppRepository {
     return AppModel.fromEntityPlus(value.id, AppEntity.fromMap(value.data()), appId: value.id);  }
 
   Future<AppModel?> get(String? id, {Function(Exception)? onError}) {
-    return AppCollection.doc(id).get().then((doc) {
+    return AppCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class AppFirestore implements AppRepository {
 
   StreamSubscription<List<AppModel?>> listen(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AppModel?>> stream;
-//    stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots().map((data) {
+//    stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.
@@ -168,7 +168,7 @@ class AppFirestore implements AppRepository {
     });
   }
 
-  dynamic getSubCollection(String? documentId, String name) {
+  dynamic getSubCollection(String documentId, String name) {
     return AppCollection.doc(documentId).collection(name);
   }
 

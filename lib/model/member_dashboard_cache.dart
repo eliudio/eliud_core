@@ -40,14 +40,14 @@ class MemberDashboardCache implements MemberDashboardRepository {
 
   MemberDashboardCache(this.reference);
 
-  Future<MemberDashboardModel> add(MemberDashboardModel? value) {
+  Future<MemberDashboardModel> add(MemberDashboardModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
     });
   }
 
-  Future<void> delete(MemberDashboardModel? value){
+  Future<void> delete(MemberDashboardModel value){
     fullCache.remove(value!.documentID);
     reference.delete(value);
     return Future.value();
@@ -62,7 +62,7 @@ class MemberDashboardCache implements MemberDashboardRepository {
     });
   }
 
-  Future<MemberDashboardModel> update(MemberDashboardModel? value) {
+  Future<MemberDashboardModel> update(MemberDashboardModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value!.documentID] = newValue;
       return newValue;
@@ -123,8 +123,8 @@ class MemberDashboardCache implements MemberDashboardRepository {
   }
 
   @override
-  StreamSubscription<MemberDashboardModel> listenTo(String documentId, changed) {
-    reference.listenTo(documentId, changed);
+  StreamSubscription<MemberDashboardModel?> listenTo(String documentId, MemberDashboardChanged changed) {
+    return reference.listenTo(documentId, changed);
   }
 
   static Future<MemberDashboardModel> refreshRelations(MemberDashboardModel model) async {

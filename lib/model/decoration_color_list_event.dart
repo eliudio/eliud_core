@@ -63,7 +63,7 @@ class DeleteDecorationColorList extends DecorationColorListEvent {
 }
 
 class DecorationColorListUpdated extends DecorationColorListEvent {
-  final List<DecorationColorModel>? value;
+  final List<DecorationColorModel?>? value;
   final bool? mightHaveMore;
 
   const DecorationColorListUpdated({ this.value, this.mightHaveMore });

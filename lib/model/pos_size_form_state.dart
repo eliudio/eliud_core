@@ -28,7 +28,7 @@ abstract class PosSizeFormState extends Equatable {
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
 class PosSizeFormUninitialized extends PosSizeFormState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 
   @override
   String toString() {

@@ -32,16 +32,16 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class CountryFirestore implements CountryRepository {
-  Future<CountryModel> add(CountryModel? value) {
-    return CountryCollection.doc(value!.documentID).set(value.toEntity().toDocument()).then((_) => value);
+  Future<CountryModel> add(CountryModel value) {
+    return CountryCollection.doc(value.documentID).set(value.toEntity().toDocument()).then((_) => value);
   }
 
-  Future<void> delete(CountryModel? value) {
-    return CountryCollection.doc(value!.documentID).delete();
+  Future<void> delete(CountryModel value) {
+    return CountryCollection.doc(value.documentID).delete();
   }
 
-  Future<CountryModel> update(CountryModel? value) {
-    return CountryCollection.doc(value!.documentID).update(value.toEntity().toDocument()).then((_) => value);
+  Future<CountryModel> update(CountryModel value) {
+    return CountryCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
   }
 
   CountryModel? _populateDoc(DocumentSnapshot value) {
@@ -52,9 +52,9 @@ class CountryFirestore implements CountryRepository {
     return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );  }
 
   Future<CountryModel?> get(String? id, {Function(Exception)? onError}) {
-    return CountryCollection.doc(id).get().then((doc) {
+    return CountryCollection.doc(id).get().then((doc) async {
       if (doc.data() != null)
-        return _populateDocPlus(doc);
+        return await _populateDocPlus(doc);
       else
         return null;
     }).catchError((Object e) {
@@ -66,7 +66,7 @@ class CountryFirestore implements CountryRepository {
 
   StreamSubscription<List<CountryModel?>> listen(CountryModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<CountryModel?>> stream;
-//    stream = getQuery(CountryCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, ).snapshots().map((data) {
+//    stream = getQuery(CountryCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
 //    The above line is replaced by the below line. The reason is because the same collection can not be subscribed to twice
 //    The reason we're subscribing twice to the same list, is because the close on bloc isn't called. This needs to be fixed.
 //    See https://github.com/felangel/bloc/issues/2073.

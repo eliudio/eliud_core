@@ -65,15 +65,21 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   }
 
   Stream<MemberListState> _mapAddMemberListToState(AddMemberList event) async* {
-    _memberRepository.add(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberRepository.add(value);
   }
 
   Stream<MemberListState> _mapUpdateMemberListToState(UpdateMemberList event) async* {
-    _memberRepository.update(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberRepository.update(value);
   }
 
   Stream<MemberListState> _mapDeleteMemberListToState(DeleteMemberList event) async* {
-    _memberRepository.delete(event.value);
+    var value = event.value;
+    if (value != null) 
+      _memberRepository.delete(value);
   }
 
   Stream<MemberListState> _mapMemberListUpdatedToState(

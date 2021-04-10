@@ -70,7 +70,7 @@ class AppEntryPagesModel {
     );
   }
 
-  static AppEntryPagesModel fromEntity(String documentID, AppEntryPagesEntity entity) {
+  static AppEntryPagesModel? fromEntity(String documentID, AppEntryPagesEntity? entity) {
     if (entity == null) return null;
     return AppEntryPagesModel(
           documentID: documentID, 
@@ -78,7 +78,7 @@ class AppEntryPagesModel {
     );
   }
 
-  static Future<AppEntryPagesModel> fromEntityPlus(String documentID, AppEntryPagesEntity entity, { String? appId}) async {
+  static Future<AppEntryPagesModel?> fromEntityPlus(String documentID, AppEntryPagesEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     PageModel? entryPageHolder;

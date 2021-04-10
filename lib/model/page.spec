@@ -101,7 +101,7 @@
       "remark": "Specific gridview",
       "fieldType": "GridView",
       "association": true,
-      "conditional": "(state.value.layout == PageLayout.GridView)",
+      "conditional": "(state.value!.layout == PageLayout.GridView)",
       "group": "gridView"
     },
     {
@@ -147,7 +147,7 @@
     {
         "group": "gridView",
         "description": "GridView",
-        "conditional": "(state.value.layout == PageLayout.GridView)"
+        "conditional": "(state.value!.layout == PageLayout.GridView)"
     },
     {
         "group": "conditional",

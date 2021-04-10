@@ -235,13 +235,13 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget createNew({String? id, Map<String, Object>? parameters}) {
+  Widget? createNew({String? id, Map<String, Object>? parameters}) {
     return ListComponent(componentId: id);
   }
 }
 
 
-typedef DropdownButtonChanged(String value);
+typedef DropdownButtonChanged(String? value);
 
 class DropdownButtonComponentFactory implements ComponentDropDown {
 
@@ -266,7 +266,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget? createNew({String? id, Map<String, Object>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({String? id, Map<String, Object>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "apps")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
@@ -316,7 +316,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "shadows")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
-    return null;
+    return Text("Id $id not found");
   }
 }
 
@@ -360,7 +360,7 @@ class ListComponent extends StatelessWidget with HasFab {
     return Text('Component with componentId == $componentId not found');
   }
 
-  Widget initWidget() {
+  void initWidget() {
     if (componentId == 'apps') widget = AppListWidget();
     if (componentId == 'appBars') widget = AppBarListWidget();
     if (componentId == 'appPolicys') widget = AppPolicyListWidget();
@@ -436,7 +436,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
-            countryRepository: countryRepository(),
+            countryRepository: countryRepository()!,
           )..add(LoadCountryList()),
         )
       ],
@@ -590,7 +590,7 @@ class ListComponent extends StatelessWidget with HasFab {
 }
 
 
-typedef Changed(String value);
+typedef Changed(String? value);
 
 class DropdownButtonComponent extends StatelessWidget {
   final String? componentId;
@@ -680,7 +680,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
-            countryRepository: countryRepository(),
+            countryRepository: countryRepository()!,
           )..add(LoadCountryList()),
         )
       ],

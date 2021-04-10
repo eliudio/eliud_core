@@ -68,7 +68,7 @@ class AppPolicyItemModel {
     );
   }
 
-  static AppPolicyItemModel fromEntity(String documentID, AppPolicyItemEntity entity) {
+  static AppPolicyItemModel? fromEntity(String documentID, AppPolicyItemEntity? entity) {
     if (entity == null) return null;
     return AppPolicyItemModel(
           documentID: documentID, 
@@ -76,7 +76,7 @@ class AppPolicyItemModel {
     );
   }
 
-  static Future<AppPolicyItemModel> fromEntityPlus(String documentID, AppPolicyItemEntity entity, { String? appId}) async {
+  static Future<AppPolicyItemModel?> fromEntityPlus(String documentID, AppPolicyItemEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     MemberMediumModel? policyHolder;

@@ -44,7 +44,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
   DrawerFormBloc(this.appId, { this.formAction }): super(DrawerFormUninitialized());
   @override
   Stream<DrawerFormState> mapEventToState(DrawerFormEvent event) async* {
-    final DrawerFormState currentState = state;
+    final currentState = state;
     if (currentState is DrawerFormUninitialized) {
       if (event is InitialiseNewDrawerFormEvent) {
         DrawerFormLoaded loaded = DrawerFormLoaded(value: DrawerModel(
@@ -65,20 +65,20 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
 
       if (event is InitialiseDrawerFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appId: appId)!.get(event.value!.documentID));
+        DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseDrawerFormNoLoadEvent) {
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: event.value);
+        DrawerFormLoaded loaded = DrawerFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is DrawerFormInitialized) {
       DrawerModel? newValue = null;
       if (event is ChangedDrawerDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableDrawerForm(value: newValue);
         }
@@ -86,14 +86,14 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerName) {
-        newValue = currentState.value!.copyWith(name: event.value);
+        newValue = currentState.value!.copyWith(name: event!.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
       }
       if (event is ChangedDrawerBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value!.documentID,
@@ -112,20 +112,20 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerHeaderText) {
-        newValue = currentState.value!.copyWith(headerText: event.value);
+        newValue = currentState.value!.copyWith(headerText: event!.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
       }
       if (event is ChangedDrawerSecondHeaderText) {
-        newValue = currentState.value!.copyWith(secondHeaderText: event.value);
+        newValue = currentState.value!.copyWith(secondHeaderText: event!.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
       }
       if (event is ChangedDrawerHeaderHeight) {
-        if (isDouble(event.value)) {
-          newValue = currentState.value!.copyWith(headerHeight: double.parse(event.value!));
+        if (isDouble(event!.value!)) {
+          newValue = currentState.value!.copyWith(headerHeight: double.parse(event!.value!));
           yield SubmittableDrawerForm(value: newValue);
 
         } else {
@@ -135,14 +135,14 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerPopupMenuBackgroundColor) {
-        newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event.value);
+        newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event!.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
       }
       if (event is ChangedDrawerHeaderBackground) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(headerBackground: await backgroundRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(headerBackground: await backgroundRepository(appId: appId)!.get(event!.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value!.documentID,
@@ -161,8 +161,8 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerMenu) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event!.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value!.documentID,

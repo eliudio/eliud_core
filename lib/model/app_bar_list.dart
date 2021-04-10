@@ -116,15 +116,13 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
             children.add(RaisedButton(
                     color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonColor),
                     onPressed: () {
-                      var value = BlocProvider.value(
-                          value: BlocProvider.of<AppBarListBloc>(context),
-                          child: AppBarForm(
-                              value: null,
-                              formAction: FormAction.AddAction)
-                      );
-
                       Navigator.of(context).push(
-                                pageRouteBuilder(accessState.app, page: value),
+                                pageRouteBuilder(accessState.app, page: BlocProvider.value(
+                                    value: BlocProvider.of<AppBarListBloc>(context),
+                                    child: AppBarForm(
+                                        value: null,
+                                        formAction: FormAction.AddAction)
+                                )),
                               );
                     },
                     child: Text('Add', style: TextStyle(color: RgbHelper.color(rgbo: accessState.app.formSubmitButtonTextColor))),

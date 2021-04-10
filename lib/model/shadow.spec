@@ -47,7 +47,7 @@
       "defaultValue": "RgbModel(r: 211, g: 211, b: 211, opacity: 0.50)",
       "fieldType": "Rgb",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Color\", state.value.color, _onColorChanged)"
+      "bespokeFormField": "RgbField(\"Color\", state.value!.color, _onColorChanged)"
     },
     {
       "fieldName": "offsetDX",

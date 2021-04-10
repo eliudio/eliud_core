@@ -44,7 +44,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
   BackgroundFormBloc(this.appId, { this.formAction }): super(BackgroundFormUninitialized());
   @override
   Stream<BackgroundFormState> mapEventToState(BackgroundFormEvent event) async* {
-    final BackgroundFormState currentState = state;
+    final currentState = state;
     if (currentState is BackgroundFormUninitialized) {
       if (event is InitialiseNewBackgroundFormEvent) {
         BackgroundFormLoaded loaded = BackgroundFormLoaded(value: BackgroundModel(
@@ -62,20 +62,20 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
 
       if (event is InitialiseBackgroundFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        BackgroundFormLoaded loaded = BackgroundFormLoaded(value: await backgroundRepository(appId: appId)!.get(event.value!.documentID));
+        BackgroundFormLoaded loaded = BackgroundFormLoaded(value: await backgroundRepository(appId: appId)!.get(event!.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseBackgroundFormNoLoadEvent) {
-        BackgroundFormLoaded loaded = BackgroundFormLoaded(value: event.value);
+        BackgroundFormLoaded loaded = BackgroundFormLoaded(value: event!.value);
         yield loaded;
         return;
       }
     } else if (currentState is BackgroundFormInitialized) {
       BackgroundModel? newValue = null;
       if (event is ChangedBackgroundDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event.value);
+        newValue = currentState.value!.copyWith(documentID: event!.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          yield* _isDocumentIDValid(event!.value, newValue).asStream();
         } else {
           yield SubmittableBackgroundForm(value: newValue);
         }
@@ -83,14 +83,14 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         return;
       }
       if (event is ChangedBackgroundComments) {
-        newValue = currentState.value!.copyWith(comments: event.value);
+        newValue = currentState.value!.copyWith(comments: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
       }
       if (event is ChangedBackgroundBackgroundImage) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundImage: await memberMediumRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(backgroundImage: await memberMediumRepository(appId: appId)!.get(event!.value));
         else
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
@@ -110,26 +110,26 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         return;
       }
       if (event is ChangedBackgroundUseProfilePhotoAsBackground) {
-        newValue = currentState.value!.copyWith(useProfilePhotoAsBackground: event.value);
+        newValue = currentState.value!.copyWith(useProfilePhotoAsBackground: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
       }
       if (event is ChangedBackgroundBeginGradientPosition) {
-        newValue = currentState.value!.copyWith(beginGradientPosition: event.value);
+        newValue = currentState.value!.copyWith(beginGradientPosition: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
       }
       if (event is ChangedBackgroundEndGradientPosition) {
-        newValue = currentState.value!.copyWith(endGradientPosition: event.value);
+        newValue = currentState.value!.copyWith(endGradientPosition: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
       }
       if (event is ChangedBackgroundShadow) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(shadow: await shadowRepository(appId: appId)!.get(event.value));
+        if (event!.value != null)
+          newValue = currentState.value!.copyWith(shadow: await shadowRepository(appId: appId)!.get(event!.value));
         else
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
@@ -149,13 +149,13 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         return;
       }
       if (event is ChangedBackgroundDecorationColors) {
-        newValue = currentState.value!.copyWith(decorationColors: event.value);
+        newValue = currentState.value!.copyWith(decorationColors: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
       }
       if (event is ChangedBackgroundBorder) {
-        newValue = currentState.value!.copyWith(border: event.value);
+        newValue = currentState.value!.copyWith(border: event!.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;

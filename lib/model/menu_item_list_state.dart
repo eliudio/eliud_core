@@ -26,7 +26,7 @@ abstract class MenuItemListState extends Equatable {
 class MenuItemListLoading extends MenuItemListState {}
 
 class MenuItemListLoaded extends MenuItemListState {
-  final List<MenuItemModel>? values;
+  final List<MenuItemModel?>? values;
   final bool? mightHaveMore;
 
   const MenuItemListLoaded({this.mightHaveMore, this.values = const []});
