@@ -31,13 +31,13 @@ import '../model/home_menu_repository.dart';
 import '../model/member_repository.dart';
 import '../model/member_dashboard_repository.dart';
 import '../model/member_medium_repository.dart';
+import '../model/member_public_info_repository.dart';
 import '../model/member_subscription_repository.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
-import '../model/member_public_info_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -55,11 +55,11 @@ GridViewRepository? gridViewRepository({ String? appId }) => AbstractRepositoryS
 HomeMenuRepository? homeMenuRepository({ String? appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
 MemberDashboardRepository? memberDashboardRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
 MemberMediumRepository? memberMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
+MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
 MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
-MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -80,11 +80,11 @@ abstract class AbstractRepositorySingleton {
   HomeMenuRepository? homeMenuRepository(String? appId);
   MemberDashboardRepository? memberDashboardRepository(String? appId);
   MemberMediumRepository? memberMediumRepository(String? appId);
+  MemberPublicInfoRepository? memberPublicInfoRepository();
   MenuDefRepository? menuDefRepository(String? appId);
   PageRepository? pageRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
   ShadowRepository? shadowRepository(String? appId);
-  MemberPublicInfoRepository? memberPublicInfoRepository();
 
   void flush(String? appId) {
     countryRepository()!.flush();

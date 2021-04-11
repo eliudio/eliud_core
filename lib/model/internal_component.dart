@@ -182,6 +182,19 @@ import 'package:eliud_core/model/entity_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+import 'package:eliud_core/model/member_public_info_list_bloc.dart';
+import 'package:eliud_core/model/member_public_info_list.dart';
+import 'package:eliud_core/model/member_public_info_dropdown_button.dart';
+import 'package:eliud_core/model/member_public_info_list_event.dart';
+
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import '../tools/bespoke_models.dart';
+import 'package:eliud_core/model/model_export.dart';
+import '../tools/bespoke_entities.dart';
+import 'package:eliud_core/model/entity_export.dart';
+
 import 'package:eliud_core/model/menu_def_list_bloc.dart';
 import 'package:eliud_core/model/menu_def_list.dart';
 import 'package:eliud_core/model/menu_def_dropdown_button.dart';
@@ -234,19 +247,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/member_public_info_list_bloc.dart';
-import 'package:eliud_core/model/member_public_info_list.dart';
-import 'package:eliud_core/model/member_public_info_dropdown_button.dart';
-import 'package:eliud_core/model/member_public_info_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 class ListComponentFactory implements ComponentConstructor {
   Widget? createNew({String? id, Map<String, Object>? parameters}) {
     return ListComponent(componentId: id);
@@ -272,11 +272,11 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "homeMenus") return true;
     if (id == "members") return true;
     if (id == "memberDashboards") return true;
+    if (id == "memberPublicInfos") return true;
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
     if (id == "posSizes") return true;
     if (id == "shadows") return true;
-    if (id == "memberPublicInfos") return true;
     return false;
   }
 
@@ -318,6 +318,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "memberDashboards")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
+    if (id == "memberPublicInfos")
+      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+
     if (id == "menuDefs")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
@@ -328,9 +331,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shadows")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
-
-    if (id == "memberPublicInfos")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
@@ -370,11 +370,11 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
     if (componentId == 'members') return _memberBuild(context);
     if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
+    if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
-    if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -391,11 +391,11 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'homeMenus') widget = HomeMenuListWidget();
     if (componentId == 'members') widget = MemberListWidget();
     if (componentId == 'memberDashboards') widget = MemberDashboardListWidget();
+    if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget();
     if (componentId == 'menuDefs') widget = MenuDefListWidget();
     if (componentId == 'pages') widget = PageListWidget();
     if (componentId == 'posSizes') widget = PosSizeListWidget();
     if (componentId == 'shadows') widget = ShadowListWidget();
-    if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget();
   }
 
   Widget _appBuild(BuildContext context) {
@@ -554,6 +554,19 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
+  Widget _memberPublicInfoBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MemberPublicInfoListBloc>(
+          create: (context) => MemberPublicInfoListBloc(
+            memberPublicInfoRepository: memberPublicInfoRepository()!,
+          )..add(LoadMemberPublicInfoList()),
+        )
+      ],
+      child: widget!,
+    );
+  }
+
   Widget _menuDefBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -606,19 +619,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _memberPublicInfoBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MemberPublicInfoListBloc>(
-          create: (context) => MemberPublicInfoListBloc(
-            memberPublicInfoRepository: memberPublicInfoRepository()!,
-          )..add(LoadMemberPublicInfoList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
 }
 
 
@@ -647,11 +647,11 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
     if (componentId == 'members') return _memberBuild(context);
     if (componentId == 'memberDashboards') return _memberDashboardBuild(context);
+    if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
     if (componentId == 'shadows') return _shadowBuild(context);
-    if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -812,6 +812,19 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
+  Widget _memberPublicInfoBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MemberPublicInfoListBloc>(
+          create: (context) => MemberPublicInfoListBloc(
+            memberPublicInfoRepository: memberPublicInfoRepository()!,
+          )..add(LoadMemberPublicInfoList()),
+        )
+      ],
+      child: MemberPublicInfoDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+    );
+  }
+
   Widget _menuDefBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -861,19 +874,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: ShadowDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _memberPublicInfoBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MemberPublicInfoListBloc>(
-          create: (context) => MemberPublicInfoListBloc(
-            memberPublicInfoRepository: memberPublicInfoRepository()!,
-          )..add(LoadMemberPublicInfoList()),
-        )
-      ],
-      child: MemberPublicInfoDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
     );
   }
 
