@@ -88,7 +88,7 @@ abstract class ActionModel {
 }
 
 abstract class ActionModelMapper {
-  ActionModel fromEntity(ActionEntity entity);
+  ActionModel? fromEntity(ActionEntity entity);
   Future<ActionModel?> fromEntityPlus(ActionEntity entity);
   ActionEntity fromMap(Map snap);
 }

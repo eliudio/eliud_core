@@ -57,10 +57,10 @@ abstract class Package {
    */
   Future<bool?> isConditionOk(String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 
-  List<String> retrieveAllPackageConditions();
+  List<String>? retrieveAllPackageConditions();
 
   /*
    * Retrieve the list of MemberCollections. This is required for GDPR functionality, i.e. the ability to retrieve and delete member data
    */
-  List<MemberCollectionInfo> getMemberCollectionInfo();
+  List<MemberCollectionInfo>? getMemberCollectionInfo();
 }
