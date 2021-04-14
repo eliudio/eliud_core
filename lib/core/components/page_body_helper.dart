@@ -40,14 +40,15 @@ Layout fromDialogLayout(DialogLayout? dialogLayout) {
 }
 
 class PageBodyHelper {
-  List<Widget> getComponents(List<BodyComponentModel> componentModels, Map<String, Object>? parameters) {
+  List<Widget> getComponents(List<BodyComponentModel>? componentModels, Map<String, Object>? parameters) {
+    if (componentModels == null) return [ Text("No components to include") ];
     return componentModels
         .map((model) => Registry.registry()!.component(
         model.componentName ?? "", model.componentId ?? "ID", parameters: parameters))
         .toList();
   }
 
-  Widget? theBody(BuildContext context,
+  Widget theBody(BuildContext context,
       AccessState accessState,
       {BackgroundModel? backgroundDecoration,
         required List<Widget> components,
@@ -69,7 +70,7 @@ class PageBodyHelper {
       }
       return Container(color: Colors.white);
     } catch (_) {
-      return null;
+      return Text("Error whilst constructing the body");
     }
   }
 

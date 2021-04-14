@@ -253,8 +253,9 @@ class Router {
     }
   }
 
-  static void message(NavigatorBloc bloc, String message) {
-    bloc.add(MessageEvent(message));
+  static void message(NavigatorBloc? bloc, String message) {
+    if (bloc != null)
+      bloc.add(MessageEvent(message));
   }
 
   /*

@@ -29,7 +29,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final List<MapAccessState> extraStateMappersBefore = [];
   final List<MapAccessState> extraStateMappersAfter = [];
 
-  final NavigatorBloc navigatorBloc;
+  final NavigatorBloc? navigatorBloc;
 
   AccessBloc(this.navigatorBloc) : super(UndeterminedAccessState());
 
@@ -99,7 +99,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
           if ((event.refresh != null) && event.refresh!) {
-            navigatorBloc.add(GoHome());
+            if (navigatorBloc != null)
+              navigatorBloc!.add(GoHome());
           }
         } else {
           // Assumed the result of having logged out, which has been processed seperatly by the bloc already
@@ -116,7 +117,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               state, app, theState.playStoreApp, null);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
-          navigatorBloc
+          if (navigatorBloc != null)
+            navigatorBloc!
               .add(GoToPageEvent(event.pageId, parameters: event.parameters));
         }
       } else if (event is SwitchAppEvent) {
@@ -131,7 +133,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               state, app, theState.playStoreApp, null);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
-          navigatorBloc.add(GoHome());
+          if (navigatorBloc != null)
+            navigatorBloc!.add(GoHome());
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
@@ -142,7 +145,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             await _mapUsrAndApp(null, app, theState.playStoreApp, null);
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
-        navigatorBloc.add(GoHome());
+        if (navigatorBloc != null)
+          navigatorBloc!.add(GoHome());
       } else if (event is LoginEvent) {
         _invokeStateChangeListenersBefore(event, theState);
         try {
@@ -156,12 +160,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             _invokeStateChangeListenersAfter(event, toYield);
             yield toYield;
             if (accessState is LoggedInWithoutMembership) {
-              navigatorBloc.add(GoHome());
+              if (navigatorBloc != null)
+                navigatorBloc!.add(GoHome());
             } else {
               if (event.actions != null) {
                 event.actions!.runTheAction();
               } else {
-                navigatorBloc.add(GoHome());
+                if (navigatorBloc != null)
+                  navigatorBloc!.add(GoHome());
               }
             }
           } else {
@@ -182,7 +188,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               newState.postLoginAction!.runTheAction();
             }
           } else {
-            navigatorBloc.add(GoHome());
+            if (navigatorBloc != null)
+              navigatorBloc!.add(GoHome());
           }
           var toYield = newState;
           _invokeStateChangeListenersAfter(event, toYield);

@@ -9,11 +9,11 @@ import 'package:video_player/video_player.dart';
 import '../storage_platform.dart';
 
 class CameraExampleHome extends StatefulWidget {
-  final String appId;
-  final List<CameraDescription> cameras;
-  final MediumAvailable feedbackFunction;
-  final String memberId;
-  final List<String> readAccess;
+  final String? appId;
+  final List<CameraDescription>? cameras;
+  final MediumAvailable? feedbackFunction;
+  final String? memberId;
+  final List<String>? readAccess;
 
   CameraExampleHome(this.appId, this.cameras, this.feedbackFunction, this.memberId, this.readAccess);
 
@@ -121,6 +121,11 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.appId == null) return Text("No app");
+    if (widget.memberId == null) return Text("No member");
+    if (widget.readAccess == null) return Text("No read access");
+    if (widget.feedbackFunction == null) return Text("No feedback function");
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -525,10 +530,10 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   Widget _cameraTogglesRowWidget() {
     final List<Widget> toggles = <Widget>[];
 
-    if (widget.cameras.isEmpty) {
+    if ((widget.cameras == null) || (widget.cameras!.isEmpty)) {
       return const Text('No camera found');
     } else {
-      for (CameraDescription cameraDescription in widget.cameras) {
+      for (CameraDescription cameraDescription in widget.cameras!) {
         toggles.add(
           SizedBox(
             width: 90.0,
@@ -611,8 +616,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
 //        _startVideoPlayer();
-        var memberImageModel = await UploadFile.createThumbnailUploadVideoFile(widget.appId, file.path, widget.memberId, widget.readAccess);
-        widget.feedbackFunction(memberImageModel);
+        var memberImageModel = await UploadFile.createThumbnailUploadVideoFile(widget.appId!, file.path, widget.memberId!, widget.readAccess!);
+        widget.feedbackFunction!(memberImageModel);
         Navigator.pop(context);
       }
     });
@@ -627,8 +632,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           videoController = null;
         });
         }
-      var memberImageModel = await UploadFile.createThumbnailUploadPhotoFile(widget.appId, file!.path, widget.memberId, widget.readAccess);
-      widget.feedbackFunction(memberImageModel);
+      var memberImageModel = await UploadFile.createThumbnailUploadPhotoFile(widget.appId!, file!.path, widget.memberId!, widget.readAccess!);
+      widget.feedbackFunction!(memberImageModel);
       Navigator.pop(context);
     });
   }
