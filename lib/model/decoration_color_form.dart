@@ -156,7 +156,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
           _stopController.text = "";
       }
       if (state is DecorationColorFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
         children.add(
 
                 RgbField("Background Color", state.value!.color, _onColorChanged)

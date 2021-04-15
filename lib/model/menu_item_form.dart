@@ -162,7 +162,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
           _descriptionController.text = "";
       }
       if (state is MenuItemFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

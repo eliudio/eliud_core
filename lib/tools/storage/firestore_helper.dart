@@ -44,17 +44,22 @@ class ThumbnailHelper {
         , targetHeight: thumbnailSize, targetWidth: thumbnailSize);
     var frameInfo = await codec.getNextFrame();
     var thumbnailImage = frameInfo.image;
-    var thumbnailBytes = await (thumbnailImage.toByteData() as FutureOr<ByteData>);
-    await File(thumbNameFilePath).writeAsBytes(
-        thumbnailBytes.buffer.asUint8List(thumbnailBytes.offsetInBytes, thumbnailBytes.lengthInBytes));
+    var thumbnailBytes = await thumbnailImage.toByteData();
+    if (thumbnailBytes == null) {
+      print("Can not retrieve bytes for thumbnail");
+      return Future.value(null);
+    } else {
+      await File(thumbNameFilePath).writeAsBytes(
+          thumbnailBytes.buffer.asUint8List(thumbnailBytes.offsetInBytes, thumbnailBytes.lengthInBytes));
 
-    return MediumAndItsThumbnailData(
-        mediumData: MediumData(
-            width: img.width, height: img.height, filePath: filePath),
-        thumbNailData: MediumData(width: thumbnailSize,
-            height: thumbnailSize,
-            filePath: thumbNameFilePath)
-    );
+      return MediumAndItsThumbnailData(
+          mediumData: MediumData(
+              width: img.width, height: img.height, filePath: filePath),
+          thumbNailData: MediumData(width: thumbnailSize,
+              height: thumbnailSize,
+              filePath: thumbNameFilePath)
+      );
+    }
   }
 
   void _startOperation() {
@@ -62,7 +67,8 @@ class ThumbnailHelper {
     var extension = context.extension(filePath);
     var thumbNameFilePath = filePath + '.thumbnail' + extension;
     ui.decodeImageFromList(list, ((ui.Image img) async {
-      var mediumAndItsThumbnailData = await imageToMediumAndItsThumbnailData(list, thumbNameFilePath, img);
+      var mediumAndItsThumbnailData = await imageToMediumAndItsThumbnailData(
+          list, thumbNameFilePath, img);
       _finishOperation(mediumAndItsThumbnailData);
     }));
   }
@@ -286,37 +292,43 @@ class UploadFile {
   static Future<MediumAndItsThumbnailData> _createImageFromPdfPage(String filePath, int pageNumber, bool thumbNail) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
-    final pageImage = await (page.render(width: page.width, height: page.height) as FutureOr<PdfPageImage>);
-    imgpackage.Image? img = imgpackage.decodeImage(pageImage.bytes);
-    if (thumbNail) {
-      var thumbnailWidth;
-      var thumbnailHeight;
-      if (img!.width > img.height) {
-        thumbnailWidth = thumbnailSize;
-      } else {
-        thumbnailHeight = thumbnailSize;
-      }
-      var thumbnail = imgpackage.copyResize(
-          img, width: thumbnailWidth, height: thumbnailHeight);
-      var thumbNameFilePath = filePath + '.page' + pageNumber.toString() + '.tumbnail.png';
-      File(thumbNameFilePath)
-        ..writeAsBytesSync(imgpackage.encodePng(thumbnail));
-
-      return MediumAndItsThumbnailData(
-          thumbNailData: MediumData(width: thumbnailSize,
-              height: thumbnailSize,
-              filePath: thumbNameFilePath)
-      );
+    final pageImage = await page.render(width: page.width, height: page.height);
+    if (pageImage == null) {
+      print("Can't find render image $filePath");
+      return Future.value(null);
     } else {
-      var imageFilePath = filePath + '.page' + pageNumber.toString() + '.png';
-      File(imageFilePath)
-        ..writeAsBytesSync(imgpackage.encodePng(img!));
+      imgpackage.Image? img = imgpackage.decodeImage(pageImage.bytes);
+      if (thumbNail) {
+        var thumbnailWidth;
+        var thumbnailHeight;
+        if (img!.width > img.height) {
+          thumbnailWidth = thumbnailSize;
+        } else {
+          thumbnailHeight = thumbnailSize;
+        }
+        var thumbnail = imgpackage.copyResize(
+            img, width: thumbnailWidth, height: thumbnailHeight);
+        var thumbNameFilePath = filePath + '.page' + pageNumber.toString() +
+            '.tumbnail.png';
+        File(thumbNameFilePath)
+          ..writeAsBytesSync(imgpackage.encodePng(thumbnail));
 
-      return MediumAndItsThumbnailData(
-          mediumData: MediumData(width: img.width,
-              height: img.height,
-              filePath: imageFilePath)
-      );
+        return MediumAndItsThumbnailData(
+            thumbNailData: MediumData(width: thumbnailSize,
+                height: thumbnailSize,
+                filePath: thumbNameFilePath)
+        );
+      } else {
+        var imageFilePath = filePath + '.page' + pageNumber.toString() + '.png';
+        File(imageFilePath)
+          ..writeAsBytesSync(imgpackage.encodePng(img!));
+
+        return MediumAndItsThumbnailData(
+            mediumData: MediumData(width: img.width,
+                height: img.height,
+                filePath: imageFilePath)
+        );
+      }
     }
   }
 
@@ -452,8 +464,13 @@ class ChainOfMediumModels {
     var currentPolicy = memberMediumModel;
     _addUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
-      currentPolicy = await (memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId) as FutureOr<MemberMediumModel>);
-      _addUrl(urls, currentPolicy);
+      var newPolicy = await memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        _addUrl(urls, currentPolicy);
+      }
     }
     return urls;
   }
@@ -463,8 +480,13 @@ class ChainOfMediumModels {
     var currentPolicy = memberMediumModel;
     _addInfo(infos, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
-      currentPolicy = await (memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId) as FutureOr<MemberMediumModel>);
-      _addInfo(infos, currentPolicy);
+      var newPolicy = await memberMediumRepository(appId: appId)!.get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        _addInfo(infos, currentPolicy);
+      }
     }
     return infos;
   }

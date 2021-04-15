@@ -171,7 +171,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
         _adminSelection = false;
       }
       if (state is MenuDefFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

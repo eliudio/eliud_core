@@ -205,7 +205,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
         _adminSelection = false;
       }
       if (state is BackgroundFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

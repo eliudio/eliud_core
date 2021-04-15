@@ -155,7 +155,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
           _app= "";
       }
       if (state is MemberSubscriptionFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

@@ -161,7 +161,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
           _minPrivilegeController.text = "";
       }
       if (state is AppEntryPagesFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),

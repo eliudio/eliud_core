@@ -176,7 +176,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _gridView= "";
       }
       if (state is DialogFormInitialized) {
-        List<Widget?> children = [];
+        List<Widget> children = [];
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
