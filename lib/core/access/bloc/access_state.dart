@@ -419,15 +419,15 @@ abstract class LoggedIn extends AppLoaded {
   @override
   bool hasAccessToOtherApps() {
     if (member != null) return false;
-    if (member!.subscriptions != null) return false;
-    return member!.subscriptions!.length > 1;
+    if (member.subscriptions != null) return false;
+    return member.subscriptions!.length > 1;
   }
 
   @override
   bool isLoggedIn() => true;
 
   String? memberProfilePhoto() {
-    return member!.photoURL;
+    return member.photoURL;
   }
 
   @override

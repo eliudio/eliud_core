@@ -48,13 +48,12 @@ class MemberMediumCache implements MemberMediumRepository {
     return Future.value();
   }
 
-  Future<MemberMediumModel> get(String? id, {Function(Exception)? onError}) {
+  Future<MemberMediumModel> get(String? id, {Function(Exception)? onError}) async {
     MemberMediumModel? value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id, onError: onError).then((value) {
-      fullCache[id] = value;
-      return value!;
-    });
+    value = await reference.get(id);
+    fullCache[id] = value;
+    return Future.value(value);
   }
 
   Future<MemberMediumModel> update(MemberMediumModel value) {

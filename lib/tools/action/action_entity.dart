@@ -16,7 +16,11 @@ abstract class ActionEntity {
 
   Map<String, Object?> toDocument();
 
-  static ActionEntity fromMap(Map snap) => ActionModelRegistry.registry()!.getMapper(snap['actionType'])!.fromMap(snap);
+  static ActionEntity fromMap(Map snap) {
+    var fromSnap = ActionModelRegistry.registry()!.getMapper(snap['actionType'])!.fromMap(snap);
+    if (fromSnap != null) return fromSnap;
+    throw Exception("fromSnap is null");
+  }
 }
 
 class GotoPageEntity extends ActionEntity {

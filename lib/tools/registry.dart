@@ -103,7 +103,7 @@ class Registry {
         .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
     print("application 4");
     blocProviders
-        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc) as BlocProvider<BlocBase<Object>>);
+        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
     print("application 5");
     GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);

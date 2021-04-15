@@ -51,17 +51,10 @@ class AppFirestore implements AppRepository {
   Future<AppModel?> _populateDocPlus(DocumentSnapshot value) async {
     return AppModel.fromEntityPlus(value.id, AppEntity.fromMap(value.data()), appId: value.id);  }
 
-  Future<AppModel?> get(String? id, {Function(Exception)? onError}) {
-    return AppCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
-      if (onError != null) {
-        onError(e as Exception);
-      }
-    });
+  Future<AppModel?> get(String? id, {Function(Exception)? onError}) async {
+    var collection = AppCollection.doc(id);
+    var doc = await collection.get();
+    return await _populateDocPlus(doc);
   }
 
   StreamSubscription<List<AppModel?>> listen(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

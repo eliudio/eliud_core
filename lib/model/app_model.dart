@@ -260,129 +260,34 @@ class AppModel {
 
     MemberMediumModel? logoHolder;
     if (entity.logoId != null) {
-      try {
-        await memberMediumRepository(appId: appId)!.get(entity.logoId).then((val) {
-          logoHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+      logoHolder = await memberMediumRepository(appId: appId)!.get(entity.logoId);
     }
 
     BackgroundModel? formBackgroundHolder;
     if (entity.formBackgroundId != null) {
-      try {
-        await backgroundRepository(appId: appId)!.get(entity.formBackgroundId).then((val) {
-          formBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+      formBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formBackgroundId);
     }
 
     BackgroundModel? formAppBarBackgroundHolder;
     if (entity.formAppBarBackgroundId != null) {
-      try {
-        await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId).then((val) {
-          formAppBarBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+      formAppBarBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId);
     }
 
     BackgroundModel? listBackgroundHolder;
     if (entity.listBackgroundId != null) {
-      try {
-        await backgroundRepository(appId: appId)!.get(entity.listBackgroundId).then((val) {
-          listBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+      listBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.listBackgroundId);
     }
 
     FontModel? h1Holder;
-    if (entity.h1Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.h1Id).then((val) {
-          h1Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? h2Holder;
-    if (entity.h2Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.h2Id).then((val) {
-          h2Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? h3Holder;
-    if (entity.h3Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.h3Id).then((val) {
-          h3Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? h4Holder;
-    if (entity.h4Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.h4Id).then((val) {
-          h4Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? h5Holder;
-    if (entity.h5Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.h5Id).then((val) {
-          h5Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? fontTextHolder;
-    if (entity.fontTextId != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.fontTextId).then((val) {
-          fontTextHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? fontHighlight1Holder;
-    if (entity.fontHighlight1Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.fontHighlight1Id).then((val) {
-          fontHighlight1Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? fontHighlight2Holder;
-    if (entity.fontHighlight2Id != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.fontHighlight2Id).then((val) {
-          fontHighlight2Holder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     FontModel? fontLinkHolder;
-    if (entity.fontLinkId != null) {
-      try {
-        await fontRepository(appId: appId)!.get(entity.fontLinkId).then((val) {
-          fontLinkHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     AppPolicyModel? policiesHolder;
-    if (entity.policiesId != null) {
-      try {
-        await appPolicyRepository(appId: appId)!.get(entity.policiesId).then((val) {
-          policiesHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
 
     return AppModel(
           documentID: documentID, 
