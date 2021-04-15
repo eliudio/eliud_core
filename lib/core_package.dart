@@ -21,7 +21,7 @@ class CorePackage extends PackageWithSubscription {
   void _setState(MemberModel? currentMember) {
     if (stateMemberModel != currentMember) {
       stateMemberModel = currentMember;
-      accessBloc.add(MemberUpdated(stateMemberModel));
+      accessBloc!.add(MemberUpdated(stateMemberModel));
     }
   }
 

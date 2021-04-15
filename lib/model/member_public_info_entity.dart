@@ -46,7 +46,7 @@ class MemberPublicInfoEntity {
     if (subscriptionsFromMap != null)
       subscriptionsList = (map['subscriptions'] as List<dynamic>)
         .map((dynamic item) =>
-        MemberSubscriptionEntity.fromMap(item as Map))
+        MemberSubscriptionEntity.fromMap(item as Map)!)
         .toList();
 
     return MemberPublicInfoEntity(

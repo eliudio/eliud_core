@@ -53,7 +53,7 @@ class BackgroundEntity {
     if (decorationColorsFromMap != null)
       decorationColorsList = (map['decorationColors'] as List<dynamic>)
         .map((dynamic item) =>
-        DecorationColorEntity.fromMap(item as Map))
+        DecorationColorEntity.fromMap(item as Map)!)
         .toList();
 
     return BackgroundEntity(

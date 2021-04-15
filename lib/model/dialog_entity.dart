@@ -50,7 +50,7 @@ class DialogEntity {
     if (bodyComponentsFromMap != null)
       bodyComponentsList = (map['bodyComponents'] as List<dynamic>)
         .map((dynamic item) =>
-        BodyComponentEntity.fromMap(item as Map))
+        BodyComponentEntity.fromMap(item as Map)!)
         .toList();
     var backgroundFromMap;
     backgroundFromMap = map['background'];

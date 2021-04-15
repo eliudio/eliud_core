@@ -46,7 +46,7 @@ class AppPolicyEntity {
     if (policiesFromMap != null)
       policiesList = (map['policies'] as List<dynamic>)
         .map((dynamic item) =>
-        AppPolicyItemEntity.fromMap(item as Map))
+        AppPolicyItemEntity.fromMap(item as Map)!)
         .toList();
 
     return AppPolicyEntity(
