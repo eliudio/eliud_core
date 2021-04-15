@@ -53,12 +53,12 @@ class MemberDashboardCache implements MemberDashboardRepository {
     return Future.value();
   }
 
-  Future<MemberDashboardModel> get(String? id, {Function(Exception)? onError}) async {
+  Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
     var value = fullCache[id];
     if (value != null) return refreshRelations(value);
     value = await reference.get(id, onError: onError);
     fullCache[id] = value;
-    return Future.value(value);
+    return value;
   }
 
   Future<MemberDashboardModel> update(MemberDashboardModel value) {

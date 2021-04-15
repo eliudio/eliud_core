@@ -18,14 +18,14 @@ import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class Arguments {
   final String? mainArgument;
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
 
   Arguments(this.mainArgument, this.parameters);
 }
 
 abstract class PackageActionHandler {
   void navigateTo(BuildContext context, ActionModel action,
-      {Map<String, Object>? parameters});
+      {Map<String, dynamic>? parameters});
 }
 
 class Router {
@@ -200,7 +200,7 @@ class Router {
   }
 
   static void navigateTo(BuildContext context, ActionModel action,
-      {Map<String, Object>? parameters}) async {
+      {Map<String, dynamic>? parameters}) async {
     if (action.hasAccess(context)) {
       if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
@@ -245,7 +245,7 @@ class Router {
   }
 
   static void navigateToPage(NavigatorBloc bloc, ActionModel action,
-      {Map<String, Object>? parameters}) async {
+      {Map<String, dynamic>? parameters}) async {
     if (action is GotoPage) {
       bloc.add(GoToPageEvent(action.pageID, parameters: parameters));
     } else {

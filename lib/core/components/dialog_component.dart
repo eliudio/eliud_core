@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 
 class DialogComponent extends StatefulWidget {
   final DialogModel? dialog;
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
   DialogComponent({
     Key? key,
     this.dialog,

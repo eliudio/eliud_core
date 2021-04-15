@@ -48,12 +48,12 @@ class GridViewCache implements GridViewRepository {
     return Future.value();
   }
 
-  Future<GridViewModel> get(String? id, {Function(Exception)? onError}) async {
+  Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) async {
     var value = fullCache[id];
     if (value != null) return refreshRelations(value);
     value = await reference.get(id, onError: onError);
     fullCache[id] = value;
-    return Future.value(value);
+    return value;
   }
 
   Future<GridViewModel> update(GridViewModel value) {

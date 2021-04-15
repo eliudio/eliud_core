@@ -26,7 +26,7 @@ class PageComponent extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
 
   PageComponent({this.navigatorKey, this.pageID, this.parameters});
 

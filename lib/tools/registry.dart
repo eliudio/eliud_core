@@ -51,7 +51,7 @@ class Registry {
     return _instance;
   }
 
-  Widget? page({String? id, Map<String, Object>? parameters}) {
+  Widget? page({String? id, Map<String, dynamic>? parameters}) {
     PageComponent? returnThis;
     try {
       returnThis = PageComponent(
@@ -65,7 +65,7 @@ class Registry {
   }
 
   Future<void> openDialog(BuildContext context,
-      {String? id, Map<String, Object>? parameters}) async {
+      {String? id, Map<String, dynamic>? parameters}) async {
     var appId = AccessBloc.appId(context);
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
@@ -169,7 +169,7 @@ class Registry {
         }));
   }
 
-  Widget component(String componentName, String id, {Map<String, Object>? parameters}) {
+  Widget component(String componentName, String id, {Map<String, dynamic>? parameters}) {
     Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];

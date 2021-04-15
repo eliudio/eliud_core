@@ -10,7 +10,7 @@ abstract class SlideRoute extends PageRouteBuilder {
   final Offset? begin;
   final Offset? end;
 
-  SlideRoute({String? name, Map<String, Object>? parameters, this.page, required this.milliseconds, this.begin, this.end})
+  SlideRoute({String? name, Map<String, dynamic>? parameters, this.page, required this.milliseconds, this.begin, this.end})
       : super(
           settings: RouteSettings(name: name, arguments: parameters),
           pageBuilder: (BuildContext context, Animation<double> animation,
@@ -34,7 +34,7 @@ abstract class SlideRoute extends PageRouteBuilder {
 }
 
 class RightToLeftRoute extends SlideRoute {
-  RightToLeftRoute({String? name, Map<String, Object>? parameters, Widget? page, required int milliseconds})
+  RightToLeftRoute({String? name, Map<String, dynamic>? parameters, Widget? page, required int milliseconds})
       : super(
             name: name,
             parameters: parameters,
@@ -45,7 +45,7 @@ class RightToLeftRoute extends SlideRoute {
 }
 
 class BottomToTopRoute extends SlideRoute {
-  BottomToTopRoute({String? name, Map<String, Object>? parameters, Widget? page, required int milliseconds})
+  BottomToTopRoute({String? name, Map<String, dynamic>? parameters, Widget? page, required int milliseconds})
       : super(
             name: name,
             parameters: parameters,
@@ -59,7 +59,7 @@ class ScaleRoute extends PageRouteBuilder {
   final Widget? page;
   final int milliseconds;
 
-  ScaleRoute({String? name, Map<String, Object>? parameters, this.page, required this.milliseconds})
+  ScaleRoute({String? name, Map<String, dynamic>? parameters, this.page, required this.milliseconds})
       : super(
         settings: RouteSettings(name: name, arguments: parameters),
           pageBuilder: (
@@ -94,7 +94,7 @@ class RotationRoute extends PageRouteBuilder {
   final Widget? page;
   final int milliseconds;
 
-  RotationRoute({String? name, Map<String, Object>? parameters, this.page, required this.milliseconds})
+  RotationRoute({String? name, Map<String, dynamic>? parameters, this.page, required this.milliseconds})
       : super(
           settings: RouteSettings(name: name, arguments: parameters),
           pageBuilder: (
@@ -129,7 +129,7 @@ class FadeRoute extends PageRouteBuilder {
   final Widget? page;
   final int milliseconds;
 
-  FadeRoute({String? name, Map<String, Object>? parameters, this.page, required this.milliseconds})
+  FadeRoute({String? name, Map<String, dynamic>? parameters, this.page, required this.milliseconds})
       : super(
           settings: RouteSettings(name: name, arguments: parameters),
           pageBuilder: (
@@ -152,7 +152,7 @@ class FadeRoute extends PageRouteBuilder {
         );
 }
 
-PageRouteBuilder pageRouteBuilder(AppModel? app, {String? pageId, Map<String, Object>? parameters, Widget? page}) {
+PageRouteBuilder pageRouteBuilder(AppModel? app, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
   var milliseconds = app != null ? app.routeAnimationDuration : 1000;
   if (app != null) {
     switch (app.routeBuilder) {

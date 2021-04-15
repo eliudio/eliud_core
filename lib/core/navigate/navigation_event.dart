@@ -17,7 +17,7 @@ class JustASecondWait extends NavigatorEvent {
 
 class GoToPageEvent extends NavigatorEvent {
   final String? ID;
-  final Map<String, Object>? parameters;
+  final Map<String, dynamic>? parameters;
 
   GoToPageEvent(this.ID, { this.parameters });
 }

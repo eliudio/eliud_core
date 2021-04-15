@@ -40,7 +40,7 @@ Layout fromDialogLayout(DialogLayout? dialogLayout) {
 }
 
 class PageBodyHelper {
-  List<Widget> getComponents(List<BodyComponentModel>? componentModels, Map<String, Object>? parameters) {
+  List<Widget> getComponents(List<BodyComponentModel>? componentModels, Map<String, dynamic>? parameters) {
     if (componentModels == null) return [ Text("No components to include") ];
     return componentModels
         .map((model) => Registry.registry()!.component(
