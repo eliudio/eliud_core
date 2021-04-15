@@ -43,17 +43,18 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<MemberModel?> get(String? id, { Function(Exception)? onError }) {
-    return MemberCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<MemberModel?> get(String? id, { Function(Exception)? onError }) async {
+    try {
+      var collection = MemberCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving App with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   @override

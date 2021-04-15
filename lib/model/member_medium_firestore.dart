@@ -52,8 +52,17 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return MemberMediumModel.fromEntityPlus(value.id, MemberMediumEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberMediumModel?> get(String? id, {Function(Exception)? onError}) async {
-    var doc = await MemberMediumCollection.doc(id).get();
-    return await _populateDocPlus(doc);
+    try {
+      var collection = MemberMediumCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving MemberMedium with id $id");
+      print("Exceptoin: $e");
+      if (onError != null) {
+        onError(e);
+      }
+    };
   }
 
   StreamSubscription<List<MemberMediumModel?>> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

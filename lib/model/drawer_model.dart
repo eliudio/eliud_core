@@ -111,28 +111,34 @@ class DrawerModel {
     BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
-          backgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          backgroundHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise background');
+        print('Error whilst retrieving background with id ${entity.backgroundId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? headerBackgroundHolder;
     if (entity.headerBackgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.headerBackgroundId).then((val) {
-          headerBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          headerBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.headerBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise headerBackground');
+        print('Error whilst retrieving background with id ${entity.headerBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     MenuDefModel? menuHolder;
     if (entity.menuId != null) {
       try {
-        await menuDefRepository(appId: appId)!.get(entity.menuId).then((val) {
-          menuHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          menuHolder = await menuDefRepository(appId: appId)!.get(entity.menuId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise menu');
+        print('Error whilst retrieving menuDef with id ${entity.menuId}');
+        print('Exception: $e');
+      }
     }
 
     return DrawerModel(

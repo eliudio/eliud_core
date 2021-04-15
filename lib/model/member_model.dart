@@ -169,19 +169,23 @@ class MemberModel {
     CountryModel? countryHolder;
     if (entity.countryId != null) {
       try {
-        await countryRepository(appId: appId)!.get(entity.countryId).then((val) {
-          countryHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          countryHolder = await countryRepository(appId: appId)!.get(entity.countryId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise country');
+        print('Error whilst retrieving country with id ${entity.countryId}');
+        print('Exception: $e');
+      }
     }
 
     CountryModel? invoiceCountryHolder;
     if (entity.invoiceCountryId != null) {
       try {
-        await countryRepository(appId: appId)!.get(entity.invoiceCountryId).then((val) {
-          invoiceCountryHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          invoiceCountryHolder = await countryRepository(appId: appId)!.get(entity.invoiceCountryId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise invoiceCountry');
+        print('Error whilst retrieving country with id ${entity.invoiceCountryId}');
+        print('Exception: $e');
+      }
     }
 
     return MemberModel(

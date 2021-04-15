@@ -55,17 +55,18 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
   Future<MemberDashboardModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) {
-    return MemberDashboardCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberDashboardCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving MemberDashboard with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<MemberDashboardModel?>> listen(MemberDashboardModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

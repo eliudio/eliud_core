@@ -138,55 +138,67 @@ class PageModel {
     AppBarModel? appBarHolder;
     if (entity.appBarId != null) {
       try {
-        await appBarRepository(appId: appId)!.get(entity.appBarId).then((val) {
-          appBarHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          appBarHolder = await appBarRepository(appId: appId)!.get(entity.appBarId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise appBar');
+        print('Error whilst retrieving appBar with id ${entity.appBarId}');
+        print('Exception: $e');
+      }
     }
 
     DrawerModel? drawerHolder;
     if (entity.drawerId != null) {
       try {
-        await drawerRepository(appId: appId)!.get(entity.drawerId).then((val) {
-          drawerHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          drawerHolder = await drawerRepository(appId: appId)!.get(entity.drawerId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise drawer');
+        print('Error whilst retrieving drawer with id ${entity.drawerId}');
+        print('Exception: $e');
+      }
     }
 
     DrawerModel? endDrawerHolder;
     if (entity.endDrawerId != null) {
       try {
-        await drawerRepository(appId: appId)!.get(entity.endDrawerId).then((val) {
-          endDrawerHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          endDrawerHolder = await drawerRepository(appId: appId)!.get(entity.endDrawerId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise endDrawer');
+        print('Error whilst retrieving drawer with id ${entity.endDrawerId}');
+        print('Exception: $e');
+      }
     }
 
     HomeMenuModel? homeMenuHolder;
     if (entity.homeMenuId != null) {
       try {
-        await homeMenuRepository(appId: appId)!.get(entity.homeMenuId).then((val) {
-          homeMenuHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          homeMenuHolder = await homeMenuRepository(appId: appId)!.get(entity.homeMenuId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise homeMenu');
+        print('Error whilst retrieving homeMenu with id ${entity.homeMenuId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
-          backgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          backgroundHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise background');
+        print('Error whilst retrieving background with id ${entity.backgroundId}');
+        print('Exception: $e');
+      }
     }
 
     GridViewModel? gridViewHolder;
     if (entity.gridViewId != null) {
       try {
-        await gridViewRepository(appId: appId)!.get(entity.gridViewId).then((val) {
-          gridViewHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          gridViewHolder = await gridViewRepository(appId: appId)!.get(entity.gridViewId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise gridView');
+        print('Error whilst retrieving gridView with id ${entity.gridViewId}');
+        print('Exception: $e');
+      }
     }
 
     return PageModel(

@@ -51,17 +51,18 @@ class CountryFirestore implements CountryRepository {
   Future<CountryModel?> _populateDocPlus(DocumentSnapshot value) async {
     return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );  }
 
-  Future<CountryModel?> get(String? id, {Function(Exception)? onError}) {
-    return CountryCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<CountryModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = CountryCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving Country with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<CountryModel?>> listen(CountryModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

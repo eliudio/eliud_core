@@ -78,10 +78,12 @@ class MemberSubscriptionModel {
     AppModel? appHolder;
     if (entity.appId != null) {
       try {
-        await appRepository(appId: appId)!.get(entity.appId).then((val) {
-          appHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          appHolder = await appRepository(appId: appId)!.get(entity.appId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise app');
+        print('Error whilst retrieving app with id ${entity.appId}');
+        print('Exception: $e');
+      }
     }
 
     return MemberSubscriptionModel(

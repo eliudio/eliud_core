@@ -51,17 +51,18 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
   Future<MemberPublicInfoModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberPublicInfoModel.fromEntityPlus(value.id, MemberPublicInfoEntity.fromMap(value.data()), );  }
 
-  Future<MemberPublicInfoModel?> get(String? id, {Function(Exception)? onError}) {
-    return MemberPublicInfoCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<MemberPublicInfoModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberPublicInfoCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving MemberPublicInfo with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<MemberPublicInfoModel?>> listen(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

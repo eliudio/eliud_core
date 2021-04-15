@@ -84,10 +84,12 @@ class AppEntryPagesModel {
     PageModel? entryPageHolder;
     if (entity.entryPageId != null) {
       try {
-        await pageRepository(appId: appId)!.get(entity.entryPageId).then((val) {
-          entryPageHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          entryPageHolder = await pageRepository(appId: appId)!.get(entity.entryPageId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise entryPage');
+        print('Error whilst retrieving page with id ${entity.entryPageId}');
+        print('Exception: $e');
+      }
     }
 
     return AppEntryPagesModel(

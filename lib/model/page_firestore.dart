@@ -51,17 +51,18 @@ class PageFirestore implements PageRepository {
   Future<PageModel?> _populateDocPlus(DocumentSnapshot value) async {
     return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<PageModel?> get(String? id, {Function(Exception)? onError}) {
-    return PageCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<PageModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = PageCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving Page with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<PageModel?>> listen(PageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

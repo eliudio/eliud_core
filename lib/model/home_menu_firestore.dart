@@ -51,17 +51,18 @@ class HomeMenuFirestore implements HomeMenuRepository {
   Future<HomeMenuModel?> _populateDocPlus(DocumentSnapshot value) async {
     return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) {
-    return HomeMenuCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = HomeMenuCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving HomeMenu with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

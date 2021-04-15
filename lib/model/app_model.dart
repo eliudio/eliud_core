@@ -260,34 +260,157 @@ class AppModel {
 
     MemberMediumModel? logoHolder;
     if (entity.logoId != null) {
-      logoHolder = await memberMediumRepository(appId: appId)!.get(entity.logoId);
+      try {
+          logoHolder = await memberMediumRepository(appId: appId)!.get(entity.logoId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise logo');
+        print('Error whilst retrieving memberMedium with id ${entity.logoId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? formBackgroundHolder;
     if (entity.formBackgroundId != null) {
-      formBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formBackgroundId);
+      try {
+          formBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise formBackground');
+        print('Error whilst retrieving background with id ${entity.formBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? formAppBarBackgroundHolder;
     if (entity.formAppBarBackgroundId != null) {
-      formAppBarBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId);
+      try {
+          formAppBarBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise formAppBarBackground');
+        print('Error whilst retrieving background with id ${entity.formAppBarBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? listBackgroundHolder;
     if (entity.listBackgroundId != null) {
-      listBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.listBackgroundId);
+      try {
+          listBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.listBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise listBackground');
+        print('Error whilst retrieving background with id ${entity.listBackgroundId}');
+        print('Exception: $e');
+      }
     }
 
     FontModel? h1Holder;
+    if (entity.h1Id != null) {
+      try {
+          h1Holder = await fontRepository(appId: appId)!.get(entity.h1Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise h1');
+        print('Error whilst retrieving font with id ${entity.h1Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? h2Holder;
+    if (entity.h2Id != null) {
+      try {
+          h2Holder = await fontRepository(appId: appId)!.get(entity.h2Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise h2');
+        print('Error whilst retrieving font with id ${entity.h2Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? h3Holder;
+    if (entity.h3Id != null) {
+      try {
+          h3Holder = await fontRepository(appId: appId)!.get(entity.h3Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise h3');
+        print('Error whilst retrieving font with id ${entity.h3Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? h4Holder;
+    if (entity.h4Id != null) {
+      try {
+          h4Holder = await fontRepository(appId: appId)!.get(entity.h4Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise h4');
+        print('Error whilst retrieving font with id ${entity.h4Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? h5Holder;
+    if (entity.h5Id != null) {
+      try {
+          h5Holder = await fontRepository(appId: appId)!.get(entity.h5Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise h5');
+        print('Error whilst retrieving font with id ${entity.h5Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? fontTextHolder;
+    if (entity.fontTextId != null) {
+      try {
+          fontTextHolder = await fontRepository(appId: appId)!.get(entity.fontTextId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise fontText');
+        print('Error whilst retrieving font with id ${entity.fontTextId}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? fontHighlight1Holder;
+    if (entity.fontHighlight1Id != null) {
+      try {
+          fontHighlight1Holder = await fontRepository(appId: appId)!.get(entity.fontHighlight1Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise fontHighlight1');
+        print('Error whilst retrieving font with id ${entity.fontHighlight1Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? fontHighlight2Holder;
+    if (entity.fontHighlight2Id != null) {
+      try {
+          fontHighlight2Holder = await fontRepository(appId: appId)!.get(entity.fontHighlight2Id);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise fontHighlight2');
+        print('Error whilst retrieving font with id ${entity.fontHighlight2Id}');
+        print('Exception: $e');
+      }
+    }
+
     FontModel? fontLinkHolder;
+    if (entity.fontLinkId != null) {
+      try {
+          fontLinkHolder = await fontRepository(appId: appId)!.get(entity.fontLinkId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise fontLink');
+        print('Error whilst retrieving font with id ${entity.fontLinkId}');
+        print('Exception: $e');
+      }
+    }
+
     AppPolicyModel? policiesHolder;
+    if (entity.policiesId != null) {
+      try {
+          policiesHolder = await appPolicyRepository(appId: appId)!.get(entity.policiesId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise policies');
+        print('Error whilst retrieving appPolicy with id ${entity.policiesId}');
+        print('Exception: $e');
+      }
+    }
 
     return AppModel(
           documentID: documentID, 

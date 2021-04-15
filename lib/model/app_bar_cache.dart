@@ -48,13 +48,12 @@ class AppBarCache implements AppBarRepository {
     return Future.value();
   }
 
-  Future<AppBarModel> get(String? id, {Function(Exception)? onError}) {
-    AppBarModel? value = fullCache[id];
+  Future<AppBarModel> get(String? id, {Function(Exception)? onError}) async {
+    var value = fullCache[id];
     if (value != null) return refreshRelations(value);
-    return reference.get(id, onError: onError).then((value) {
-      fullCache[id] = value;
-      return value!;
-    });
+    value = await reference.get(id, onError: onError);
+    fullCache[id] = value;
+    return Future.value(value);
   }
 
   Future<AppBarModel> update(AppBarModel value) {

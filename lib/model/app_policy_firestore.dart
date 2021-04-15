@@ -51,17 +51,18 @@ class AppPolicyFirestore implements AppPolicyRepository {
   Future<AppPolicyModel?> _populateDocPlus(DocumentSnapshot value) async {
     return AppPolicyModel.fromEntityPlus(value.id, AppPolicyEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<AppPolicyModel?> get(String? id, {Function(Exception)? onError}) {
-    return AppPolicyCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<AppPolicyModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = AppPolicyCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving AppPolicy with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<AppPolicyModel?>> listen(AppPolicyModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

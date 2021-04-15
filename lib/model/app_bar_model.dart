@@ -132,28 +132,34 @@ class AppBarModel {
     MemberMediumModel? imageHolder;
     if (entity.imageId != null) {
       try {
-        await memberMediumRepository(appId: appId)!.get(entity.imageId).then((val) {
-          imageHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          imageHolder = await memberMediumRepository(appId: appId)!.get(entity.imageId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise image');
+        print('Error whilst retrieving memberMedium with id ${entity.imageId}');
+        print('Exception: $e');
+      }
     }
 
     MenuDefModel? iconMenuHolder;
     if (entity.iconMenuId != null) {
       try {
-        await menuDefRepository(appId: appId)!.get(entity.iconMenuId).then((val) {
-          iconMenuHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          iconMenuHolder = await menuDefRepository(appId: appId)!.get(entity.iconMenuId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise iconMenu');
+        print('Error whilst retrieving menuDef with id ${entity.iconMenuId}');
+        print('Exception: $e');
+      }
     }
 
     BackgroundModel? backgroundHolder;
     if (entity.backgroundId != null) {
       try {
-        await backgroundRepository(appId: appId)!.get(entity.backgroundId).then((val) {
-          backgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          backgroundHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise background');
+        print('Error whilst retrieving background with id ${entity.backgroundId}');
+        print('Exception: $e');
+      }
     }
 
     return AppBarModel(

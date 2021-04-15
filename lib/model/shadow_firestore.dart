@@ -51,17 +51,18 @@ class ShadowFirestore implements ShadowRepository {
   Future<ShadowModel?> _populateDocPlus(DocumentSnapshot value) async {
     return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<ShadowModel?> get(String? id, {Function(Exception)? onError}) {
-    return ShadowCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<ShadowModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = ShadowCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving Shadow with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<ShadowModel?>> listen(ShadowModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

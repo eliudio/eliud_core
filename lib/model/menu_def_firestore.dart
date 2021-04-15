@@ -51,17 +51,18 @@ class MenuDefFirestore implements MenuDefRepository {
   Future<MenuDefModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) {
-    return MenuDefCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MenuDefCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving MenuDef with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<MenuDefModel?>> listen(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

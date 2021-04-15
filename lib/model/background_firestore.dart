@@ -51,17 +51,18 @@ class BackgroundFirestore implements BackgroundRepository {
   Future<BackgroundModel?> _populateDocPlus(DocumentSnapshot value) async {
     return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<BackgroundModel?> get(String? id, {Function(Exception)? onError}) {
-    return BackgroundCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<BackgroundModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = BackgroundCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving Background with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<BackgroundModel?>> listen(BackgroundModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

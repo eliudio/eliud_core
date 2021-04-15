@@ -166,19 +166,23 @@ class BackgroundModel {
     MemberMediumModel? backgroundImageHolder;
     if (entity.backgroundImageId != null) {
       try {
-        await memberMediumRepository(appId: appId)!.get(entity.backgroundImageId).then((val) {
-          backgroundImageHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          backgroundImageHolder = await memberMediumRepository(appId: appId)!.get(entity.backgroundImageId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise backgroundImage');
+        print('Error whilst retrieving memberMedium with id ${entity.backgroundImageId}');
+        print('Exception: $e');
+      }
     }
 
     ShadowModel? shadowHolder;
     if (entity.shadowId != null) {
       try {
-        await shadowRepository(appId: appId)!.get(entity.shadowId).then((val) {
-          shadowHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
+          shadowHolder = await shadowRepository(appId: appId)!.get(entity.shadowId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise shadow');
+        print('Error whilst retrieving shadow with id ${entity.shadowId}');
+        print('Exception: $e');
+      }
     }
 
     return BackgroundModel(

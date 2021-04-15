@@ -51,17 +51,18 @@ class GridViewFirestore implements GridViewRepository {
   Future<GridViewModel?> _populateDocPlus(DocumentSnapshot value) async {
     return GridViewModel.fromEntityPlus(value.id, GridViewEntity.fromMap(value.data()), appId: appId);  }
 
-  Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) {
-    return GridViewCollection.doc(id).get().then((doc) async {
-      if (doc.data() != null)
-        return await _populateDocPlus(doc);
-      else
-        return null;
-    }).catchError((Object e) {
+  Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = GridViewCollection.doc(id);
+      var doc = await collection.get();
+      return await _populateDocPlus(doc);
+    } on Exception catch(e) {
+      print("Error whilst retrieving GridView with id $id");
+      print("Exceptoin: $e");
       if (onError != null) {
-        onError(e as Exception);
+        onError(e);
       }
-    });
+    };
   }
 
   StreamSubscription<List<GridViewModel?>> listen(GridViewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
