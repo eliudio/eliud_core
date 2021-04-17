@@ -13,6 +13,7 @@ import 'dart:ui' as ui;
 import 'package:image/image.dart' as imgpackage;
 //import 'package:thumbnails/thumbnails.dart';
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MediumData {
   final String? filePath;
@@ -153,23 +154,20 @@ class UploadFile {
    * Create a thumbnail from a video
    */
   static Future<MediumAndItsThumbnailData> _createThumbNailFromVideo(String filePath) async {
-    throw "Thumbnails is not available as null safe, so excluded now";
-/*
-    var thumnailFromVideo = await Thumbnails.getThumbnail(
-        thumbnailFolder: Directory.systemTemp.path ,
-        videoFile: filePath,
-        imageType: ThumbFormat.PNG,//this image will store in created folderpath
-        quality: 30);
-
-    // the thumnailFromVideo is too big, it's 512 x something, so we make a thumbnail from the thumbnail
-    var photoData = await _createThumbNailFromPhoto(thumnailFromVideo);
+    var thumbNameFilePath = filePath + '.thumbnail' + '.png';
+    await VideoThumbnail.thumbnailFile(
+      video: filePath,
+      thumbnailPath: thumbNameFilePath,
+      imageFormat: ImageFormat.PNG,
+      maxWidth: thumbnailSize, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+      quality: 30,
+    );
 
     // return the data
     return MediumAndItsThumbnailData(
         mediumData: MediumData(width: null, height: null, filePath: filePath),  // we don't know the size of the video... todo
-        thumbNailData: MediumData(width: photoData.thumbNailData.width, height: photoData.thumbNailData.height, filePath: photoData.thumbNailData.filePath)
+        thumbNailData: MediumData(width: thumbnailSize, height: thumbnailSize, filePath: thumbNameFilePath)
     );
-*/
   }
 
   static Future<UploadInfo?> _uploadFile(String filePath, String appId, String ownerId, List<String> readAccess) async {

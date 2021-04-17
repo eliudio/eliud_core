@@ -10,16 +10,12 @@ environment:
 dependencies:
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
-  #firebase_crashlytics: ^0.4.0+1
-  #firebase_messaging: ^7.0.3
   firebase_core: ^1.0.2
   firebase_auth: ^1.0.1
   google_sign_in: ^5.0.1
   google_sign_in_web: ^0.10.0
-  #flutter_widget_from_html: 0.5.2
   firebase_storage: ^8.0.1
   google_fonts: ^2.0.0
-  #image: 2.1.19
   cloud_firestore: ^1.0.3
   datetime_picker_formfield: ^2.0.0
   expandable: ^5.0.1
@@ -28,21 +24,19 @@ dependencies:
   image_cropper: ^1.4.0
   image_picker: ^0.7.4
   equatable: ^2.0.0
-  #equatable: ^1.1.1
   delayed_display: ^2.0.0
   transparent_image: ^2.0.0
   camera: ^0.8.1
-  #thumbnails: 1.0.1
   video_player: ^2.1.0
   uuid: ^3.0.3
   image: ^3.0.2
   flutter_markdown: ^0.6.1 
   cloud_functions: ^1.0.2
-  #native_pdf_view: 4.0.1
   native_pdf_renderer: ^3.0.0
   path: ^1.8.0
   pdf_render: ^1.0.8
   photo_view: ^0.11.1
+  video_thumbnail: 0.3.3
 
   flutter:
     sdk: flutter

@@ -5,13 +5,13 @@ import 'dialog_helper.dart';
 
 class WidgetDialog extends StatefulWidget {
   final String? title;
-  final Widget? widget;
+  final Widget widget;
   final Function? yesFunction;
 
   WidgetDialog({
     Key? key,
     this.title,
-    this.widget,
+    required this.widget,
     this.yesFunction,
   }) : super(key: key);
 

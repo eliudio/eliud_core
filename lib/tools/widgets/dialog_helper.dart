@@ -32,7 +32,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
+  Widget build({required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -45,7 +45,7 @@ class DialogStateHelper {
   }
 
   Widget _contentBox(
-      {required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
+      {required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
     return Form(
         key: _formKey,
         child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width)
@@ -62,8 +62,8 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {required String title, Widget? contents, required List<TextButton> buttons, double? width}) {
-    var widgets = <Widget?>[
+      {required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
+    var widgets = <Widget>[
       Center(
           child: Text(title,
               style: TextStyle(
@@ -86,7 +86,7 @@ class DialogStateHelper {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         shrinkWrap: true,
         physics: ScrollPhysics(),
-        children: widgets as List<Widget>));
+        children: widgets));
   }
 
   /* Helper method to create a list tile */
@@ -101,7 +101,7 @@ class DialogStateHelper {
   }
 
   /* Helper method to format the fields */
-  Widget fieldsWidget(BuildContext context, List<Widget?> widgets,
+  Widget fieldsWidget(BuildContext context, List<Widget> widgets,
       {double? height, double? width}) {
     return Container(
         height: (height != null)
@@ -112,7 +112,7 @@ class DialogStateHelper {
             (width != null) ? width : DialogStatefulWidgetHelper.width(context),
         child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: widgets as List<Widget>));
+            children: widgets));
   }
 
   /* Helper method to retrieve the button */

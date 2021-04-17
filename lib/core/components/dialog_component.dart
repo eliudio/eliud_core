@@ -1,6 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/components/page_body_helper.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
@@ -41,7 +40,7 @@ class _DialogComponentState extends State<DialogComponent> {
 
   Widget getContents(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return dialogHelper.fieldsWidget(context, <Widget?>[
+    return dialogHelper.fieldsWidget(context, <Widget>[
       pageHelper.theBody(context, accessState,
           backgroundDecoration: null,
           components: pageHelper.getComponents(
