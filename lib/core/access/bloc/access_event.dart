@@ -57,6 +57,24 @@ class LoginEvent extends AccessEvent {
   List<Object?> get props => [ actions ];
 }
 
+class LoginProcessEvent extends AccessEvent {
+  PostLoginAction? actions;
+
+  LoginProcessEvent(this.actions);
+
+  @override
+  List<Object?> get props => [ actions ];
+}
+
+class GoogleLoginProcessEvent extends LoginProcessEvent {
+  final User usr;
+
+  GoogleLoginProcessEvent(PostLoginAction? actions, this.usr): super(actions);
+
+  @override
+  List<Object?> get props => [ actions, usr ];
+}
+
 class AcceptedMembership extends AccessEvent{
   final MemberModel member;
   final User usr;

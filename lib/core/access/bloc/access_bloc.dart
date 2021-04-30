@@ -154,28 +154,34 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               .userRepository()!
               .signInWithGoogle(navigatorBloc);
           if (usr != null) {
-            AccessState accessState = await _mapUsrAndApp(
-                usr, app, theState.playStoreApp, event.actions);
-            var toYield = accessState;
-            _invokeStateChangeListenersAfter(event, toYield);
-            yield toYield;
-            if (accessState is LoggedInWithoutMembership) {
-              if (navigatorBloc != null)
-                navigatorBloc!.add(GoHome());
-            } else {
-              if (event.actions != null) {
-                event.actions!.runTheAction();
-              } else {
-                if (navigatorBloc != null)
-                  navigatorBloc!.add(GoHome());
-              }
-            }
+            add(GoogleLoginProcessEvent(
+                event.actions,
+                usr));
+            yield await GoogleLoginProcessing.getGoogleLoginProcessing(usr, event.actions, app, theState.playStoreApp);
           } else {
             // yield current state
             yield state;
           }
         } catch (all) {
           debugPrint(all.toString());
+        }
+      } else if (event is GoogleLoginProcessEvent) {
+        var usr = event.usr;
+        AccessState accessState = await _mapUsrAndApp(
+            usr, app, theState.playStoreApp, event.actions);
+        var toYield = accessState;
+        _invokeStateChangeListenersAfter(event, toYield);
+        yield toYield;
+        if (accessState is LoggedInWithoutMembership) {
+          if (navigatorBloc != null)
+            navigatorBloc!.add(GoHome());
+        } else {
+          if (event.actions != null) {
+            event.actions!.runTheAction();
+          } else {
+            if (navigatorBloc != null)
+              navigatorBloc!.add(GoHome());
+          }
         }
       } else if (event is AcceptedMembership) {
         _invokeStateChangeListenersBefore(event, theState);

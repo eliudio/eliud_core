@@ -219,6 +219,10 @@ class Router {
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
+/*
+            await Registry.registry()!
+                .openDialog(context, id: action.dialogID, parameters: parameters);
+*/
             BlocProvider.of<AccessBloc>(context).add(LoginEvent());
             break;
           case InternalActionEnum.Logout:
