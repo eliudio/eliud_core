@@ -342,10 +342,15 @@ abstract class AppLoaded extends AccessState {
   bool isBlocked();
 }
 
-abstract class LoginProcessing extends AppLoaded {
-  PostLoginAction? actions;
-  LoginProcessing._(
-      this.actions,
+enum ProcessingType {
+  LoginProcess, LogoutProcess, SwitchApp, SwitchAppAndPage
+}
+
+class AppProcessingState extends AppLoaded {
+  ProcessingType processingType;
+
+  AppProcessingState._(
+      this.processingType,
       AppModel app,
       AppModel? playstoreApp,
       Map<String?, bool> pagesAccess,
@@ -380,45 +385,14 @@ abstract class LoginProcessing extends AppLoaded {
 
   @override
   List<Object?> get props =>
-      [actions, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
-}
+      [processingType, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
 
-/*
-class LogoutProcessing extends LoginProcessing {
-
-}
-*/
-
-class GoogleLoginProcessing extends LoginProcessing {
-  final User usr;
-
-  static Future<GoogleLoginProcessing> getGoogleLoginProcessing(User usr,PostLoginAction? actions,
-      AppModel app, AppModel? playstoreApp) async {
+  static Future<AppProcessingState> getAppProcessingState(ProcessingType processingType, AppModel app, AppModel? playstoreApp) async {
     var access = await AccessHelper._getAccess(null, app, false);
-    var googleLoginProcessing = GoogleLoginProcessing._(usr, actions, app, playstoreApp, access.pagesAccess,
+    var appProcessingState = AppProcessingState._(processingType, app, playstoreApp, access.pagesAccess,
         access.dialogsAccess, access.packageConditionsAccess);
-    return googleLoginProcessing;
+    return appProcessingState;
   }
-
-  GoogleLoginProcessing._(
-      this.usr,
-      PostLoginAction? actions,
-      AppModel app,
-      AppModel? playstoreApp,
-      Map<String?, bool> pagesAccess,
-      Map<String?, bool> dialogAccess,
-      Map<String, PackageCondition?> packageConditionsAccess)
-      : super._(actions, app, playstoreApp, pagesAccess, dialogAccess,
-      packageConditionsAccess);
-
-/*
-  @override
-  List<Object> get props {
-   List<Object> _props = super.props;
-   _props.add(usr);
-   return _props;
-  }
-*/
 }
 
 class LoggedOut extends AppLoaded {

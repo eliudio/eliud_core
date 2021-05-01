@@ -17,11 +17,30 @@ class SwitchAppEvent extends AccessEvent {
   List<Object?> get props => [ appId ];
 }
 
+class SwitchAppProcessingEvent extends AccessEvent {
+  final String? appId;
+
+  SwitchAppProcessingEvent(this.appId);
+
+  @override
+  List<Object?> get props => [ appId ];
+}
+
 class SwitchAppAndPageEvent extends SwitchAppEvent {
   final String? pageId;
   final Map<String, dynamic>? parameters;
 
   SwitchAppAndPageEvent(String? appId, this.pageId, this.parameters) : super(appId);
+
+  @override
+  List<Object?> get props => [ appId, pageId, parameters ];
+}
+
+class SwitchAppAndPageProcessingEvent extends SwitchAppEvent {
+  final String? pageId;
+  final Map<String, dynamic>? parameters;
+
+  SwitchAppAndPageProcessingEvent(String? appId, this.pageId, this.parameters) : super(appId);
 
   @override
   List<Object?> get props => [ appId, pageId, parameters ];
@@ -39,6 +58,10 @@ class InitApp extends AccessEvent {
 
 class LogoutEvent extends AccessEvent {
   LogoutEvent();
+}
+
+class LogoutProcessingEvent extends AccessEvent {
+  LogoutProcessingEvent();
 }
 
 abstract class PostLoginAction {

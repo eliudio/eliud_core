@@ -107,6 +107,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+        add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, app, theState.playStoreApp);
+      } else if (event is SwitchAppAndPageProcessingEvent) {
         var app = await _fetchApp(event.appId);
         if (app == null) {
           var toYield = AppError('App with ' + event.appId! + ' does not exist');
@@ -119,9 +122,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           yield toYield;
           if (navigatorBloc != null)
             navigatorBloc!
-              .add(GoToPageEvent(event.pageId, parameters: event.parameters));
+                .add(GoToPageEvent(event.pageId, parameters: event.parameters));
         }
       } else if (event is SwitchAppEvent) {
+        _invokeStateChangeListenersBefore(event, theState);
+        add(SwitchAppProcessingEvent(event.appId));
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, app, theState.playStoreApp);
+      } else if (event is SwitchAppProcessingEvent) {
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
         if (app == null) {
@@ -138,11 +145,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+        add(LogoutProcessingEvent());
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, app, theState.playStoreApp);
+      } else if (event is LogoutProcessingEvent) {
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!
             .signOut();
         var toYield =
-            await _mapUsrAndApp(null, app, theState.playStoreApp, null);
+        await _mapUsrAndApp(null, app, theState.playStoreApp, null);
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
         if (navigatorBloc != null)
@@ -157,7 +167,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             add(GoogleLoginProcessEvent(
                 event.actions,
                 usr));
-            yield await GoogleLoginProcessing.getGoogleLoginProcessing(usr, event.actions, app, theState.playStoreApp);
+            yield await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, app, theState.playStoreApp);
           } else {
             // yield current state
             yield state;

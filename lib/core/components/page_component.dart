@@ -54,7 +54,7 @@ class PageComponent extends StatelessWidget {
                 } else {
                   Widget? theBody;
                   var hasFab;
-                  if (accessState is LoginProcessing)
+                  if (accessState is AppProcessingState)
                     theBody =  Center(child: DelayedCircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),));
                   else if ((accessState is LoggedIn) &&
                       (accessState.forceAcceptMembership())) {
@@ -78,7 +78,7 @@ class PageComponent extends StatelessWidget {
                       .drawer(context, state.value!.endDrawer);
                   var appBar = AppBarConstructor(pageID, scaffoldKey)
                       .appBar(context, state.value!.title, state.value!.appBar);
-                  return ScaffoldMessenger(
+                  var scaffoldMessenger = ScaffoldMessenger(
                       key: scaffoldMessengerKey,
                       child: Scaffold(
                         key: scaffoldKey,
@@ -98,6 +98,7 @@ class PageComponent extends StatelessWidget {
                                 .bottomNavigationBar(app, state.value!.homeMenu,
                                     state.value!.background),
                       ));
+                  return scaffoldMessenger;
                 }
               } else if (state is PageComponentError) {
                 return AlertWidget(title: 'Error', content: state.message);
