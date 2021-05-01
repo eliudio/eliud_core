@@ -37,13 +37,13 @@ class DecorationColorCache implements DecorationColorRepository {
 
   Future<DecorationColorModel> add(DecorationColorModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(DecorationColorModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class DecorationColorCache implements DecorationColorRepository {
 
   Future<DecorationColorModel> update(DecorationColorModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

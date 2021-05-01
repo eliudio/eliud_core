@@ -157,18 +157,18 @@ PageRouteBuilder pageRouteBuilder(AppModel? app, {String? pageId, Map<String, dy
   if (app != null) {
     switch (app.routeBuilder) {
       case PageTransitionAnimation.SlideRightToLeft:
-        return RightToLeftRoute(name: app.documentID! + ((pageId == null) ? '' : ((pageId == null) ? '' : '/' + pageId!)), parameters: parameters, page: page, milliseconds: milliseconds!);
+        return RightToLeftRoute(name: app.documentID! + ((pageId == null) ? '' : ((pageId == null) ? '' : '/' + pageId)), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.SlideBottomToTop:
-        return BottomToTopRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: milliseconds!);
+        return BottomToTopRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.ScaleRoute:
-        return ScaleRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: milliseconds!);
+        return ScaleRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.RotationRoute:
-        return RotationRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: milliseconds!);
+        return RotationRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.FadeRoute:
-        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: milliseconds!);
+        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       default:
-        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: 1000);
+        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
     }
   }
-  return FadeRoute(name: app!.documentID! + ((pageId == null) ? '' : '/' + pageId!), parameters: parameters, page: page, milliseconds: 1000);
+  return FadeRoute(name: app!.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
 }

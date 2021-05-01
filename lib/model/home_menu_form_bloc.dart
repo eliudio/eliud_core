@@ -63,20 +63,20 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
 
       if (event is InitialiseHomeMenuFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appId: appId)!.get(event!.value!.documentID));
+        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseHomeMenuFormNoLoadEvent) {
-        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: event!.value);
+        HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is HomeMenuFormInitialized) {
       HomeMenuModel? newValue = null;
       if (event is ChangedHomeMenuDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableHomeMenuForm(value: newValue);
         }
@@ -84,8 +84,8 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
         return;
       }
       if (event is ChangedHomeMenuName) {
-        newValue = currentState.value!.copyWith(name: event!.value);
-        if (!_isNameValid(event!.value)) {
+        newValue = currentState.value!.copyWith(name: event.value);
+        if (!_isNameValid(event.value)) {
           yield NameHomeMenuFormError(message: "Invalid value", value: newValue);
         } else {
           yield SubmittableHomeMenuForm(value: newValue);
@@ -94,8 +94,8 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
         return;
       }
       if (event is ChangedHomeMenuMenu) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value!.documentID,
@@ -111,14 +111,14 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
         return;
       }
       if (event is ChangedHomeMenuIconColor) {
-        newValue = currentState.value!.copyWith(iconColor: event!.value);
+        newValue = currentState.value!.copyWith(iconColor: event.value);
         yield SubmittableHomeMenuForm(value: newValue);
 
         return;
       }
       if (event is ChangedHomeMenuBackground) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new HomeMenuModel(
                                  documentID: currentState.value!.documentID,
@@ -134,7 +134,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
         return;
       }
       if (event is ChangedHomeMenuPopupMenuBackgroundColor) {
-        newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event!.value);
+        newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event.value);
         yield SubmittableHomeMenuForm(value: newValue);
 
         return;

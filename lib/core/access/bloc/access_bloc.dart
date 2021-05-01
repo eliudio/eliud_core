@@ -107,8 +107,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
         yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, app, theState.playStoreApp);
+        add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
       } else if (event is SwitchAppAndPageProcessingEvent) {
         var app = await _fetchApp(event.appId);
         if (app == null) {
@@ -126,8 +126,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        add(SwitchAppProcessingEvent(event.appId));
         yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, app, theState.playStoreApp);
+        add(SwitchAppProcessingEvent(event.appId));
       } else if (event is SwitchAppProcessingEvent) {
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
@@ -145,8 +145,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        add(LogoutProcessingEvent());
         yield await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, app, theState.playStoreApp);
+        add(LogoutProcessingEvent());
       } else if (event is LogoutProcessingEvent) {
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!

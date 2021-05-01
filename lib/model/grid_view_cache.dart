@@ -37,13 +37,13 @@ class GridViewCache implements GridViewRepository {
 
   Future<GridViewModel> add(GridViewModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(GridViewModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class GridViewCache implements GridViewRepository {
 
   Future<GridViewModel> update(GridViewModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

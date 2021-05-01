@@ -37,13 +37,13 @@ class HomeMenuCache implements HomeMenuRepository {
 
   Future<HomeMenuModel> add(HomeMenuModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(HomeMenuModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class HomeMenuCache implements HomeMenuRepository {
 
   Future<HomeMenuModel> update(HomeMenuModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

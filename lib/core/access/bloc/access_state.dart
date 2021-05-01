@@ -485,7 +485,7 @@ abstract class LoggedIn extends AppLoaded {
 
   @override
   bool memberIsOwner() {
-    return member!.documentID == app.ownerID;
+    return member.documentID == app.ownerID;
   }
 
   Future<LoggedIn> copyWith(MemberModel? member, AppModel? playstoreApp);
@@ -497,7 +497,7 @@ abstract class LoggedIn extends AppLoaded {
   PrivilegeLevel? getPrivilegeLevel() => privilegeLevel;
 
   @override
-  bool isBlocked() => (blocked != null) && blocked!;
+  bool isBlocked() => (blocked != null) && blocked;
 
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() {

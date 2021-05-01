@@ -67,6 +67,7 @@ class BodyComponentForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BodyComponentFormBloc >(
             create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
@@ -87,14 +88,14 @@ class BodyComponentForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Update BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Add BodyComponent", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<BodyComponentFormBloc >(
             create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
@@ -137,6 +138,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
   @override
   Widget build(BuildContext context) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BodyComponentFormBloc, BodyComponentFormState>(builder: (context, state) {
       if (state is BodyComponentFormUninitialized) return Center(
@@ -156,7 +158,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Component',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -166,7 +168,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -174,7 +176,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Component spec',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -184,12 +186,12 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BodyComponentFormError) {
                       return null;
@@ -216,12 +218,12 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(

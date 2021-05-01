@@ -8,6 +8,7 @@ import 'package:eliud_core/tools/grid_view_helper.dart';
 
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/tools/has_fab.dart';
 import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/material.dart';
@@ -39,13 +40,32 @@ Layout fromDialogLayout(DialogLayout? dialogLayout) {
   return Layout.Unknown;
 }
 
+class ComponentInfo {
+  final List<Widget> widgets;
+  final HasFab? hasFab;
+
+  ComponentInfo(this.widgets, this.hasFab);
+}
+
 class PageBodyHelper {
-  List<Widget> getComponents(List<BodyComponentModel>? componentModels, Map<String, dynamic>? parameters) {
-    if (componentModels == null) return [ Text("No components to include") ];
-    return componentModels
+  HasFab? _getFab(List<Widget?> components) {
+    HasFab? hasFab;
+    components.forEach((element) {
+      if (element is HasFab) {
+        hasFab = element as HasFab?;
+      }
+    });
+    return hasFab;
+  }
+
+  ComponentInfo getComponentInfo(List<BodyComponentModel>? componentModels, Map<String, dynamic>? parameters) {
+    if (componentModels == null) return ComponentInfo([ Text("No components to include") ], null);
+    var widgets = componentModels
         .map((model) => Registry.registry()!.component(
         model.componentName ?? "", model.componentId ?? "ID", parameters: parameters))
         .toList();
+    var hasFab = _getFab(widgets);
+    return ComponentInfo(widgets, hasFab);
   }
 
   Widget theBody(BuildContext context,

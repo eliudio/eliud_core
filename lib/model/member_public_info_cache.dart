@@ -37,13 +37,13 @@ class MemberPublicInfoCache implements MemberPublicInfoRepository {
 
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(MemberPublicInfoModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class MemberPublicInfoCache implements MemberPublicInfoRepository {
 
   Future<MemberPublicInfoModel> update(MemberPublicInfoModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

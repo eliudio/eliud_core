@@ -67,6 +67,7 @@ class MemberForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -87,14 +88,14 @@ class MemberForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -169,6 +170,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
   @override
   Widget build(BuildContext context) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
@@ -256,12 +258,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -269,17 +271,17 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: true,
                   controller: _documentIDController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'User UUID',
                     hintText: "User UUID",
                   ),
@@ -294,11 +296,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Name',
                   ),
                   keyboardType: TextInputType.text,
@@ -312,11 +314,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _emailController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Email address',
                   ),
                   keyboardType: TextInputType.text,
@@ -330,7 +332,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 CheckboxListTile(
-                    title: Text('Is Anonymous', style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    title: Text('Is Anonymous', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _isAnonymousSelection,
                     onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
                       setSelectionIsAnonymous(val);
@@ -339,7 +341,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -347,7 +349,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Subscriptions',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -360,7 +362,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -368,12 +370,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Cart',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -381,12 +383,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('User Group',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -394,12 +396,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Access',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -407,17 +409,17 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Shipping Address',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStreet1Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address',
                   ),
                   keyboardType: TextInputType.text,
@@ -431,11 +433,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStreet2Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address Line 2',
                   ),
                   keyboardType: TextInputType.text,
@@ -449,11 +451,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipCityController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'City',
                   ),
                   keyboardType: TextInputType.text,
@@ -467,11 +469,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStateController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'State/Province',
                   ),
                   keyboardType: TextInputType.text,
@@ -485,11 +487,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _postcodeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Postal / Zip Code',
                   ),
                   keyboardType: TextInputType.text,
@@ -502,7 +504,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -510,7 +512,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Shipping Country',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -520,7 +522,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
@@ -528,13 +530,13 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Address',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 CheckboxListTile(
-                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _invoiceSameSelection,
                     onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
                       setSelectionInvoiceSame(val);
@@ -544,11 +546,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet1Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address',
                   ),
                   keyboardType: TextInputType.text,
@@ -562,11 +564,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet2Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address Line 2',
                   ),
                   keyboardType: TextInputType.text,
@@ -580,11 +582,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceCityController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'City',
                   ),
                   keyboardType: TextInputType.text,
@@ -598,11 +600,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStateController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'State/Province',
                   ),
                   keyboardType: TextInputType.text,
@@ -616,11 +618,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoicePostcodeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Postal / Zip Code',
                   ),
                   keyboardType: TextInputType.text,
@@ -633,7 +635,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
@@ -641,7 +643,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Country',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
@@ -651,12 +653,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -719,12 +721,12 @@ class _MyMemberFormState extends State<MyMemberForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -900,6 +902,7 @@ class MemberSmallForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -920,14 +923,14 @@ class MemberSmallForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -970,6 +973,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
   @override
   Widget build(BuildContext context) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
@@ -989,17 +993,17 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Name',
                   ),
                   keyboardType: TextInputType.text,
@@ -1012,7 +1016,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -1020,7 +1024,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Subscriptions',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -1033,12 +1037,12 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -1063,12 +1067,12 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(
@@ -1124,6 +1128,7 @@ class MemberAddressForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -1144,14 +1149,14 @@ class MemberAddressForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
@@ -1220,6 +1225,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   @override
   Widget build(BuildContext context) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
@@ -1295,17 +1301,17 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _nameController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Name',
                   ),
                   keyboardType: TextInputType.text,
@@ -1319,11 +1325,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _emailController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Email address',
                   ),
                   keyboardType: TextInputType.text,
@@ -1336,7 +1342,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -1344,17 +1350,17 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Shipping Address',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStreet1Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address',
                   ),
                   keyboardType: TextInputType.text,
@@ -1368,11 +1374,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStreet2Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address Line 2',
                   ),
                   keyboardType: TextInputType.text,
@@ -1386,11 +1392,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipCityController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'City',
                   ),
                   keyboardType: TextInputType.text,
@@ -1404,11 +1410,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _shipStateController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'State/Province',
                   ),
                   keyboardType: TextInputType.text,
@@ -1422,11 +1428,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _postcodeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Postal / Zip Code',
                   ),
                   keyboardType: TextInputType.text,
@@ -1439,7 +1445,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -1447,7 +1453,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Shipping Country',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -1457,7 +1463,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
@@ -1465,13 +1471,13 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Address',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
 
                 CheckboxListTile(
-                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),
+                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
                     value: _invoiceSameSelection,
                     onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
                       setSelectionInvoiceSame(val);
@@ -1481,11 +1487,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet1Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address',
                   ),
                   keyboardType: TextInputType.text,
@@ -1499,11 +1505,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStreet2Controller,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Street Address Line 2',
                   ),
                   keyboardType: TextInputType.text,
@@ -1517,11 +1523,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceCityController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'City',
                   ),
                   keyboardType: TextInputType.text,
@@ -1535,11 +1541,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoiceStateController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'State/Province',
                   ),
                   keyboardType: TextInputType.text,
@@ -1553,11 +1559,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
                 TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app!.formFieldTextColor)),
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
                   readOnly: _readOnly(accessState, state),
                   controller: _invoicePostcodeController,
                   decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app!.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app!.formFieldHeaderColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
                     labelText: 'Postal / Zip Code',
                   ),
                   keyboardType: TextInputType.text,
@@ -1570,7 +1576,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
@@ -1578,7 +1584,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('Invoice Country',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
@@ -1588,12 +1594,12 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -1644,12 +1650,12 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                       }
                     }
                   },
-                  child: Text('Finish Order', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
+                  child: Text('Finish Order', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(

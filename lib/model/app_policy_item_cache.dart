@@ -37,13 +37,13 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
 
   Future<AppPolicyItemModel> add(AppPolicyItemModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(AppPolicyItemModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
 
   Future<AppPolicyItemModel> update(AppPolicyItemModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

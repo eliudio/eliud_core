@@ -57,19 +57,19 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
 
 
       if (event is InitialiseMemberSubscriptionFormEvent) {
-        MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event!.value);
+        MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseMemberSubscriptionFormNoLoadEvent) {
-        MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event!.value);
+        MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is MemberSubscriptionFormInitialized) {
       MemberSubscriptionModel? newValue = null;
       if (event is ChangedMemberSubscriptionApp) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(app: await appRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(app: await appRepository(appId: appId)!.get(event.value));
         else
           newValue = new MemberSubscriptionModel(
                                  documentID: currentState.value!.documentID,

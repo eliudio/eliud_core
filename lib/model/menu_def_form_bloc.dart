@@ -62,20 +62,20 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
 
       if (event is InitialiseMenuDefFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event!.value!.documentID));
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMenuDefFormNoLoadEvent) {
-        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: event!.value);
+        MenuDefFormLoaded loaded = MenuDefFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is MenuDefFormInitialized) {
       MenuDefModel? newValue = null;
       if (event is ChangedMenuDefDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableMenuDefForm(value: newValue);
         }
@@ -83,8 +83,8 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefName) {
-        newValue = currentState.value!.copyWith(name: event!.value);
-        if (!_isNameValid(event!.value)) {
+        newValue = currentState.value!.copyWith(name: event.value);
+        if (!_isNameValid(event.value)) {
           yield NameMenuDefFormError(message: "Invalid value", value: newValue);
         } else {
           yield SubmittableMenuDefForm(value: newValue);
@@ -93,7 +93,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
         return;
       }
       if (event is ChangedMenuDefMenuItems) {
-        newValue = currentState.value!.copyWith(menuItems: event!.value);
+        newValue = currentState.value!.copyWith(menuItems: event.value);
         yield SubmittableMenuDefForm(value: newValue);
 
         return;

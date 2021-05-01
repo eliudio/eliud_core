@@ -37,13 +37,13 @@ class BodyComponentCache implements BodyComponentRepository {
 
   Future<BodyComponentModel> add(BodyComponentModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(BodyComponentModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class BodyComponentCache implements BodyComponentRepository {
 
   Future<BodyComponentModel> update(BodyComponentModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

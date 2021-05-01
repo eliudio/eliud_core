@@ -68,20 +68,20 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
 
       if (event is InitialiseGridViewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appId: appId)!.get(event!.value!.documentID));
+        GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseGridViewFormNoLoadEvent) {
-        GridViewFormLoaded loaded = GridViewFormLoaded(value: event!.value);
+        GridViewFormLoaded loaded = GridViewFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is GridViewFormInitialized) {
       GridViewModel? newValue = null;
       if (event is ChangedGridViewDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableGridViewForm(value: newValue);
         }
@@ -89,26 +89,26 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewName) {
-        newValue = currentState.value!.copyWith(name: event!.value);
+        newValue = currentState.value!.copyWith(name: event.value);
         yield SubmittableGridViewForm(value: newValue);
 
         return;
       }
       if (event is ChangedGridViewScrollDirection) {
-        newValue = currentState.value!.copyWith(scrollDirection: event!.value);
+        newValue = currentState.value!.copyWith(scrollDirection: event.value);
         yield SubmittableGridViewForm(value: newValue);
 
         return;
       }
       if (event is ChangedGridViewType) {
-        newValue = currentState.value!.copyWith(type: event!.value);
+        newValue = currentState.value!.copyWith(type: event.value);
         yield SubmittableGridViewForm(value: newValue);
 
         return;
       }
       if (event is ChangedGridViewCrossAxisCount) {
-        if (isInt(event!.value)) {
-          newValue = currentState.value!.copyWith(crossAxisCount: int.parse(event!.value!));
+        if (isInt(event.value)) {
+          newValue = currentState.value!.copyWith(crossAxisCount: int.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -118,14 +118,14 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewMaxCrossAxisExtentType) {
-        newValue = currentState.value!.copyWith(maxCrossAxisExtentType: event!.value);
+        newValue = currentState.value!.copyWith(maxCrossAxisExtentType: event.value);
         yield SubmittableGridViewForm(value: newValue);
 
         return;
       }
       if (event is ChangedGridViewAbsoluteMaxCrossAxisExtent) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(absoluteMaxCrossAxisExtent: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(absoluteMaxCrossAxisExtent: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -135,8 +135,8 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewRelativeMaxCrossAxisExtent) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(relativeMaxCrossAxisExtent: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(relativeMaxCrossAxisExtent: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -146,8 +146,8 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewChildAspectRatio) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(childAspectRatio: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(childAspectRatio: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -157,8 +157,8 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewPadding) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(padding: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(padding: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -168,8 +168,8 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewMainAxisSpacing) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(mainAxisSpacing: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(mainAxisSpacing: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -179,8 +179,8 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewCrossAxisSpacing) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(crossAxisSpacing: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(crossAxisSpacing: double.parse(event.value!));
           yield SubmittableGridViewForm(value: newValue);
 
         } else {
@@ -190,7 +190,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
         return;
       }
       if (event is ChangedGridViewConditions) {
-        newValue = currentState.value!.copyWith(conditions: event!.value);
+        newValue = currentState.value!.copyWith(conditions: event.value);
         yield SubmittableGridViewForm(value: newValue);
 
         return;

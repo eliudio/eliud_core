@@ -66,20 +66,20 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
 
       if (event is InitialiseShadowFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appId: appId)!.get(event!.value!.documentID));
+        ShadowFormLoaded loaded = ShadowFormLoaded(value: await shadowRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseShadowFormNoLoadEvent) {
-        ShadowFormLoaded loaded = ShadowFormLoaded(value: event!.value);
+        ShadowFormLoaded loaded = ShadowFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is ShadowFormInitialized) {
       ShadowModel? newValue = null;
       if (event is ChangedShadowDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableShadowForm(value: newValue);
         }
@@ -87,20 +87,20 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
       if (event is ChangedShadowComments) {
-        newValue = currentState.value!.copyWith(comments: event!.value);
+        newValue = currentState.value!.copyWith(comments: event.value);
         yield SubmittableShadowForm(value: newValue);
 
         return;
       }
       if (event is ChangedShadowColor) {
-        newValue = currentState.value!.copyWith(color: event!.value);
+        newValue = currentState.value!.copyWith(color: event.value);
         yield SubmittableShadowForm(value: newValue);
 
         return;
       }
       if (event is ChangedShadowOffsetDX) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(offsetDX: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(offsetDX: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
@@ -110,8 +110,8 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
       if (event is ChangedShadowOffsetDY) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(offsetDY: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(offsetDY: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
@@ -121,8 +121,8 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
       if (event is ChangedShadowSpreadRadius) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(spreadRadius: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(spreadRadius: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {
@@ -132,8 +132,8 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
         return;
       }
       if (event is ChangedShadowBlurRadius) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(blurRadius: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(blurRadius: double.parse(event.value!));
           yield SubmittableShadowForm(value: newValue);
 
         } else {

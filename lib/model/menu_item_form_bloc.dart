@@ -59,36 +59,36 @@ class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
 
 
       if (event is InitialiseMenuItemFormEvent) {
-        MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event!.value);
+        MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseMenuItemFormNoLoadEvent) {
-        MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event!.value);
+        MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is MenuItemFormInitialized) {
       MenuItemModel? newValue = null;
       if (event is ChangedMenuItemText) {
-        newValue = currentState.value!.copyWith(text: event!.value);
+        newValue = currentState.value!.copyWith(text: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemDescription) {
-        newValue = currentState.value!.copyWith(description: event!.value);
+        newValue = currentState.value!.copyWith(description: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemIcon) {
-        newValue = currentState.value!.copyWith(icon: event!.value);
+        newValue = currentState.value!.copyWith(icon: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedMenuItemAction) {
-        newValue = currentState.value!.copyWith(action: event!.value);
+        newValue = currentState.value!.copyWith(action: event.value);
         yield SubmittableMenuItemForm(value: newValue);
 
         return;

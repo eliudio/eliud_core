@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
+  final helper = PageBodyHelper();
   final GlobalKey<NavigatorState>? navigatorKey;
   final String? pageID;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -61,13 +62,12 @@ class PageComponent extends StatelessWidget {
                     theBody = AcceptMembershipWidget(
                         app, accessState.member, accessState.usr);
                   } else {
-                    var helper = PageBodyHelper();
-                    var components = helper.getComponents(
+                    var componentInfo = helper.getComponentInfo(
                         state.value!.bodyComponents!, parameters);
-                    hasFab = getFab(components);
+                    hasFab = componentInfo.hasFab;
                     theBody = helper.theBody(context, accessState,
                         backgroundDecoration: state.value!.background,
-                        components: components,
+                        components: componentInfo.widgets,
                         layout: fromPageLayout(state.value!.layout),
                         gridView: state.value!.gridView);
                   }
@@ -112,15 +112,5 @@ class PageComponent extends StatelessWidget {
         return DelayedCircularProgressIndicator();
       }
     });
-  }
-
-  HasFab? getFab(List<Widget?> components) {
-    HasFab? hasFab;
-    components.forEach((element) {
-      if (element is HasFab) {
-        hasFab = element as HasFab?;
-      }
-    });
-    return hasFab;
   }
 }

@@ -37,13 +37,13 @@ class MenuDefCache implements MenuDefRepository {
 
   Future<MenuDefModel> add(MenuDefModel value) {
     return reference.add(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }
 
   Future<void> delete(MenuDefModel value){
-    fullCache.remove(value!.documentID);
+    fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
@@ -58,7 +58,7 @@ class MenuDefCache implements MenuDefRepository {
 
   Future<MenuDefModel> update(MenuDefModel value) {
     return reference.update(value).then((newValue) {
-      fullCache[value!.documentID] = newValue;
+      fullCache[value.documentID] = newValue;
       return newValue;
     });
   }

@@ -58,25 +58,25 @@ class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFo
 
 
       if (event is InitialiseAppPolicyItemFormEvent) {
-        AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event!.value);
+        AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseAppPolicyItemFormNoLoadEvent) {
-        AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event!.value);
+        AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is AppPolicyItemFormInitialized) {
       AppPolicyItemModel? newValue = null;
       if (event is ChangedAppPolicyItemName) {
-        newValue = currentState.value!.copyWith(name: event!.value);
+        newValue = currentState.value!.copyWith(name: event.value);
         yield SubmittableAppPolicyItemForm(value: newValue);
 
         return;
       }
       if (event is ChangedAppPolicyItemPolicy) {
-        if (event!.value != null)
-          newValue = currentState.value!.copyWith(policy: await memberMediumRepository(appId: appId)!.get(event!.value));
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(policy: await memberMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppPolicyItemModel(
                                  documentID: currentState.value!.documentID,

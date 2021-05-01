@@ -43,8 +43,8 @@ class _DialogComponentState extends State<DialogComponent> {
     return dialogHelper.fieldsWidget(context, <Widget>[
       pageHelper.theBody(context, accessState,
           backgroundDecoration: null,
-          components: pageHelper.getComponents(
-              widget.dialog!.bodyComponents!, widget.parameters),
+          components: pageHelper.getComponentInfo(
+              widget.dialog!.bodyComponents!, widget.parameters).widgets,
           layout: fromDialogLayout(widget.dialog!.layout),
           gridView: widget.dialog!.gridView)
       ]);

@@ -59,25 +59,25 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
 
 
       if (event is InitialiseDecorationColorFormEvent) {
-        DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event!.value);
+        DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseDecorationColorFormNoLoadEvent) {
-        DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event!.value);
+        DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is DecorationColorFormInitialized) {
       DecorationColorModel? newValue = null;
       if (event is ChangedDecorationColorColor) {
-        newValue = currentState.value!.copyWith(color: event!.value);
+        newValue = currentState.value!.copyWith(color: event.value);
         yield SubmittableDecorationColorForm(value: newValue);
 
         return;
       }
       if (event is ChangedDecorationColorStop) {
-        if (isDouble(event!.value!)) {
-          newValue = currentState.value!.copyWith(stop: double.parse(event!.value!));
+        if (isDouble(event.value!)) {
+          newValue = currentState.value!.copyWith(stop: double.parse(event.value!));
           yield SubmittableDecorationColorForm(value: newValue);
 
         } else {

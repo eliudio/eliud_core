@@ -59,24 +59,24 @@ class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFo
 
 
       if (event is InitialiseBodyComponentFormEvent) {
-        BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event!.value);
+        BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
         yield loaded;
         return;
       } else if (event is InitialiseBodyComponentFormNoLoadEvent) {
-        BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event!.value);
+        BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is BodyComponentFormInitialized) {
       BodyComponentModel? newValue = null;
       if (event is ChangedBodyComponentComponentName) {
-        newValue = currentState.value!.copyWith(componentName: event!.value);
+        newValue = currentState.value!.copyWith(componentName: event.value);
         yield SubmittableBodyComponentForm(value: newValue);
 
         return;
       }
       if (event is ChangedBodyComponentComponentId) {
-        newValue = currentState.value!.copyWith(componentId: event!.value);
+        newValue = currentState.value!.copyWith(componentId: event.value);
         yield SubmittableBodyComponentForm(value: newValue);
 
         return;

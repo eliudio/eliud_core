@@ -67,6 +67,7 @@ class MemberSubscriptionForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.app(context);
+    if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
             create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
@@ -87,14 +88,14 @@ class MemberSubscriptionForm extends StatelessWidget {
       return Scaffold(
         appBar: formAction == FormAction.UpdateAction ?
                 AppBar(
-                    title: Text("Update MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Update MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                   ) :
                 AppBar(
-                    title: Text("Add MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app!.formAppBarTextColor))),
+                    title: Text("Add MemberSubscription", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
                     flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app!.formAppBarBackground)),
+                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
                 ),
         body: BlocProvider<MemberSubscriptionFormBloc >(
             create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
@@ -138,6 +139,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
   @override
   Widget build(BuildContext context) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberSubscriptionFormBloc, MemberSubscriptionFormState>(builder: (context, state) {
       if (state is MemberSubscriptionFormUninitialized) return Center(
@@ -161,12 +163,12 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('General',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
          children.add(Container(
@@ -174,7 +176,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Text('App',
                       style: TextStyle(
-                          color: RgbHelper.color(rgbo: app!.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
                 ));
 
         children.add(
@@ -184,12 +186,12 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app!.dividerColor)));
+        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
           children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app!.formSubmitButtonColor),
+                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberSubscriptionFormError) {
                       return null;
@@ -214,12 +216,12 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app!.formSubmitButtonTextColor))),
+                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
         return Container(
           color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app!.formBackground),
+          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
           padding:
           const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
             child: Form(

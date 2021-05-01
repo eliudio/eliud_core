@@ -36,7 +36,7 @@ String privilegeLevelToPrivilegeStringInt(int privilegeLevelInt, bool blocked) {
 
 String privilegeLevelToMemberRoleString(PrivilegeLevel? privilegeLevel, bool? blocked) {
   if (privilegeLevel == null) return 'Unprivileged member';
-  return privilegeLevelIntToMemberRoleString(privilegeLevel!.index, blocked);
+  return privilegeLevelIntToMemberRoleString(privilegeLevel.index, blocked);
 }
 
 String privilegeLevelIntToMemberRoleString(int privilegeLevelInt, bool? blocked) {

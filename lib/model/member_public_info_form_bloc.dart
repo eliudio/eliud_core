@@ -62,20 +62,20 @@ class MemberPublicInfoFormBloc extends Bloc<MemberPublicInfoFormEvent, MemberPub
 
       if (event is InitialiseMemberPublicInfoFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
-        MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: await memberPublicInfoRepository(appId: appId)!.get(event!.value!.documentID));
+        MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: await memberPublicInfoRepository(appId: appId)!.get(event.value!.documentID));
         yield loaded;
         return;
       } else if (event is InitialiseMemberPublicInfoFormNoLoadEvent) {
-        MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: event!.value);
+        MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: event.value);
         yield loaded;
         return;
       }
     } else if (currentState is MemberPublicInfoFormInitialized) {
       MemberPublicInfoModel? newValue = null;
       if (event is ChangedMemberPublicInfoDocumentID) {
-        newValue = currentState.value!.copyWith(documentID: event!.value);
+        newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event!.value, newValue).asStream();
+          yield* _isDocumentIDValid(event.value, newValue).asStream();
         } else {
           yield SubmittableMemberPublicInfoForm(value: newValue);
         }
@@ -83,13 +83,13 @@ class MemberPublicInfoFormBloc extends Bloc<MemberPublicInfoFormEvent, MemberPub
         return;
       }
       if (event is ChangedMemberPublicInfoName) {
-        newValue = currentState.value!.copyWith(name: event!.value);
+        newValue = currentState.value!.copyWith(name: event.value);
         yield SubmittableMemberPublicInfoForm(value: newValue);
 
         return;
       }
       if (event is ChangedMemberPublicInfoSubscriptions) {
-        newValue = currentState.value!.copyWith(subscriptions: event!.value);
+        newValue = currentState.value!.copyWith(subscriptions: event.value);
         yield SubmittableMemberPublicInfoForm(value: newValue);
 
         return;
