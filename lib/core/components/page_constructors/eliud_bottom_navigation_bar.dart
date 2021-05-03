@@ -15,36 +15,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BottomNavigationBarConstructor {
-  final String? currentPage;
-
-  BottomNavigationBarConstructor(this.currentPage);
-
-  Widget bottomNavigationBar(
-          AppModel app, HomeMenuModel? homeMenu, BackgroundModel? bg) =>
-      BottomNavigationBarWidget(
-          app: app, homeMenu: homeMenu, bg: bg, currentPage: currentPage);
-}
-
-class BottomNavigationBarWidget extends StatefulWidget {
+class EliudBottomNavigationBar extends StatefulWidget {
   final String? currentPage;
   final HomeMenuModel? homeMenu;
   final BackgroundModel? bg;
   final AppModel? app;
 
-  const BottomNavigationBarWidget(
+  const EliudBottomNavigationBar(
       {Key? key, this.app, this.homeMenu, this.bg, this.currentPage})
       : super(key: key);
 
   @override
-  _BottomNavigationBarWidgetState createState() =>
-      _BottomNavigationBarWidgetState();
+  _EliudBottomNavigationBarState createState() =>
+      _EliudBottomNavigationBarState();
 }
 
-class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    if (widget.homeMenu == null) return Text("Home menu not defined"); // does this actually work?
+    if (widget.homeMenu == null)
+      return Text("Home menu not defined"); // does this actually work?
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
         var menuItems = [];
@@ -92,16 +82,14 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     var action = item.action!;
     if (action.hasAccess(context)) {
       if (action is PopupMenu) {
-        PopupMenuWidget(widget.app, widget.currentPage)
-            .openMenu(
+        PopupMenuWidget(widget.app, widget.currentPage).openMenu(
           context,
           action,
           widget.homeMenu!.popupMenuBackgroundColor,
           RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
         );
       } else {
-        if (!PageHelper.isActivePage(
-            widget.currentPage, action))
+        if (!PageHelper.isActivePage(widget.currentPage, action))
           eliudrouter.Router.navigateTo(context, action);
       }
     }

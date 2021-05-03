@@ -99,10 +99,12 @@ class DocumentParameterProcessor {
       if (theState is LoggedIn) {
         var member = theState.member;
         if (member == null) {
-          return 'Error. Member logged in without object';
+          return 'Error: No member object';
         } else {
           return member.name;
         }
+      } else {
+        return "Not logged in";
       }
     } catch (_) {
     }

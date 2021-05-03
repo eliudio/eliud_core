@@ -13,23 +13,35 @@ import 'package:flutter/material.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/core/components/page_helper.dart';
 
-class PopupHelper {
-  final String? currentPage;
+class EliudPopupMenu extends StatefulWidget {
+  final String currentPage;
   final MemberModel? member;
   final AppModel app;
   final AccessState state;
+  final MenuDefModel menu;
+  final Widget text;
+  final Icon? icon;
+  final RgbModel? menuBackgroundColor;
 
-  PopupHelper(this.app, this.state, this.currentPage, this.member);
+  const EliudPopupMenu({Key? key, required this.currentPage, this.member, required this.app, required this.state, required this.menu, required this.text, this.icon, this.menuBackgroundColor})
+      : super(key: key);
 
-  Widget? popupMenuButton(
-      BuildContext context,
-      MenuDefModel? menu,
-      Widget text,
-      Icon? icon,
-      RgbModel? menuBackgroundColor) {
-    var theState = state;
+  @override
+  _EliudPopupMenuState createState() => _EliudPopupMenuState();
+}
+
+class _EliudPopupMenuState extends State<EliudPopupMenu> {
+  @override
+  Widget build(BuildContext context) {
+    var theState = widget.state;
+    var icon = widget.icon;
+    var app = widget.app;
+    var currentPage = widget.currentPage;
+    var menuBackgroundColor = widget.menuBackgroundColor;
+    var text = widget.text;
+    var menu = widget.menu;
     if (theState is AppLoaded) {
-      if (menu!.menuItems!.isEmpty) return null;
+      if (menu!.menuItems!.isEmpty) return Text("No menuitems");
       var menuItems = <MenuItemModel>[];
       for (var i = 0; i < menu.menuItems!.length; i++) {
         var item = menu.menuItems![i];
@@ -75,7 +87,7 @@ class PopupHelper {
             return entries;
           });
     } else {
-      return null;
+      return Text("App not loaded");
     }
   }
 }

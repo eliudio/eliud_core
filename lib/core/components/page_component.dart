@@ -1,20 +1,20 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_body_helper.dart';
+import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
+import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
+import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/has_fab.dart';
+import 'package:eliud_core/model/page_model.dart';
 
-import 'package:eliud_core/core/components/page_constructors/appbar_constructor.dart';
-import 'package:eliud_core/core/components/page_constructors/bottom_navigation_bar_constructor.dart';
-import 'package:eliud_core/core/components/page_constructors/drawer_constructor.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 
 import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/tools/has_fab.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +22,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
-  final helper = PageBodyHelper();
   final GlobalKey<NavigatorState>? navigatorKey;
   final String? pageID;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -53,52 +52,14 @@ class PageComponent extends StatelessWidget {
                   return AlertWidget(
                       title: 'Error', content: 'No page defined');
                 } else {
-                  Widget? theBody;
-                  var hasFab;
-                  if (accessState is AppProcessingState)
-                    theBody =  Center(child: DelayedCircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),));
-                  else if ((accessState is LoggedIn) &&
-                      (accessState.forceAcceptMembership())) {
-                    theBody = AcceptMembershipWidget(
-                        app, accessState.member, accessState.usr);
-                  } else {
-                    var componentInfo = helper.getComponentInfo(
-                        state.value!.bodyComponents!, parameters);
-                    hasFab = componentInfo.hasFab;
-                    theBody = helper.theBody(context, accessState,
-                        backgroundDecoration: state.value!.background,
-                        components: componentInfo.widgets,
-                        layout: fromPageLayout(state.value!.layout),
-                        gridView: state.value!.gridView);
-                  }
-
-                  var drawer = DrawerConstructor(pageID)
-                      .drawer(context, state.value!.drawer);
-                  var endDrawer = DrawerConstructor(pageID)
-                      .drawer(context, state.value!.endDrawer);
-                  var appBar = AppBarConstructor(pageID, scaffoldKey)
-                      .appBar(context, state.value!.title, state.value!.appBar);
-                  var scaffoldMessenger = ScaffoldMessenger(
-                      key: scaffoldMessengerKey,
-                      child: Scaffold(
-                        key: scaffoldKey,
-                        endDrawer: endDrawer,
-                        appBar: PreferredSize(
-                            preferredSize:
-                                const Size(double.infinity, kToolbarHeight),
-                            child: appBar),
-                        body: theBody,
-                        drawer: drawer,
-                        floatingActionButton:
-                            hasFab != null ? hasFab.fab(context) : null,
-                        floatingActionButtonLocation:
-                            FloatingActionButtonLocation.centerFloat,
-                        bottomNavigationBar:
-                            BottomNavigationBarConstructor(pageID)
-                                .bottomNavigationBar(app, state.value!.homeMenu,
-                                    state.value!.background),
-                      ));
-                  return scaffoldMessenger;
+                  return PageContentsWidget(
+                    state: accessState,
+                    pageID: pageID!,
+                    pageModel: state.value!,
+                    parameters: parameters,
+                    scaffoldKey: scaffoldKey,
+                    scaffoldMessengerKey: scaffoldMessengerKey,
+                  );
                 }
               } else if (state is PageComponentError) {
                 return AlertWidget(title: 'Error', content: state.message);
@@ -112,5 +73,100 @@ class PageComponent extends StatelessWidget {
         return DelayedCircularProgressIndicator();
       }
     });
+  }
+}
+
+class PageContentsWidget extends StatefulWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+  final helper = PageBodyHelper();
+  final AppLoaded state;
+  final PageModel pageModel;
+  final String pageID;
+  final Map<String, dynamic>? parameters;
+
+  PageContentsWidget({
+    Key? key,
+    required this.state,
+    required this.pageModel,
+    required this.pageID,
+    required this.parameters,
+    required this.scaffoldKey,
+    required this.scaffoldMessengerKey,
+  }) : super(key: key);
+
+  @override
+  _PageContentsWidgetState createState() {
+    return _PageContentsWidgetState();
+  }
+}
+
+class _PageContentsWidgetState extends State<PageContentsWidget> {
+  Widget? theBody;
+  HasFab? hasFab;
+
+  @override
+  Widget build(BuildContext context) {
+    hasFab = null;
+    var accessState = widget.state;
+    var app = accessState.app;
+    var value = widget.pageModel;
+    var pageID = widget.pageID;
+    var parameters = widget.parameters;
+    if (accessState is AppProcessingState) {
+      theBody = Center(
+          child: DelayedCircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+      ));
+    } else if ((accessState is LoggedIn) &&
+        (accessState.forceAcceptMembership())) {
+      theBody =
+          AcceptMembershipWidget(app, accessState.member, accessState.usr);
+    } else {
+      var componentInfo =
+          widget.helper.getComponentInfo(value.bodyComponents!, parameters);
+      hasFab = componentInfo.hasFab;
+      theBody = widget.helper.theBody(context, accessState,
+          backgroundDecoration: value.background,
+          components: componentInfo.widgets,
+          layout: fromPageLayout(value.layout),
+          gridView: value.gridView);
+    }
+
+    var drawer = value.drawer == null
+        ? null
+        : EliudDrawer(drawer: value.drawer!, currentPage: pageID);
+    var endDrawer = value.endDrawer == null
+        ? null
+        : EliudDrawer(drawer: value.endDrawer!, currentPage: pageID);
+    var bottomNavigationBar = EliudBottomNavigationBar(
+        app: app,
+        homeMenu: value.homeMenu,
+        bg: value.background,
+        currentPage: pageID);
+    var appBar = value.appBar == null
+        ? null
+        : PreferredSize(
+            preferredSize: const Size(double.infinity, kToolbarHeight),
+            child: EliudAppBar(
+                currentPage: pageID,
+                scaffoldKey: widget.scaffoldKey,
+                theTitle: value.title == null ? "" : value.title!,
+                value: value.appBar!));
+    var fab = hasFab != null ? hasFab!.fab(context) : null;
+    var scaffoldMessenger = ScaffoldMessenger(
+        key: widget.scaffoldMessengerKey,
+        child: Scaffold(
+          key: widget.scaffoldKey,
+          endDrawer: endDrawer,
+          appBar: appBar,
+          body: theBody,
+          drawer: drawer,
+          floatingActionButton: fab,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          bottomNavigationBar: bottomNavigationBar,
+        ));
+    return scaffoldMessenger;
   }
 }

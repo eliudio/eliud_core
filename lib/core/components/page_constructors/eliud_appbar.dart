@@ -5,7 +5,6 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
 import 'package:eliud_core/core/components/page_helper.dart';
-import 'package:eliud_core/core/components/page_constructors/popup_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -18,19 +17,31 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class AppBarConstructor {
-  final String? currentPage;
+import 'eliud_popup_menu.dart';
+
+class EliudAppBar extends StatefulWidget {
+  final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final String theTitle;
+  final AppBarModel value;
 
-  AppBarConstructor(this.currentPage, this.scaffoldKey);
+  const EliudAppBar({Key? key, required this.currentPage, required this.scaffoldKey, required this.theTitle, required this.value})
+      : super(key: key);
 
-  Widget appBar(
-      BuildContext context, String? theTitle, AppBarModel? value) {
+  @override
+  _EliudAppBarState createState() => _EliudAppBarState();
+}
+
+class _EliudAppBarState extends State<EliudAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    var theTitle = widget.theTitle;
+    var value = widget.value;
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
         var app = theState.app;
         var member = (theState is LoggedIn) ? theState.member : null;
-        if ((value!.iconMenu != null) &&
+        if ((value.iconMenu != null) &&
             (value.iconMenu!.menuItems != null) &&
             value.iconMenu!.menuItems!.isNotEmpty) {
           var buttons = <Widget>[];
@@ -56,41 +67,36 @@ class AppBarConstructor {
 
   void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel? value, List<Widget> buttons,
       MenuItemModel item, MemberModel? member) {
-    var isActive = PageHelper.isActivePage(currentPage, item.action);
+    var isActive = PageHelper.isActivePage(widget.currentPage, item.action);
     var _color = isActive
         ? RgbHelper.color(rgbo: value!.selectedIconColor)
         : RgbHelper.color(rgbo: value!.iconColor);
 
 
     var _rgbcolor = isActive
-            ? value.selectedIconColor
-            : value.iconColor;
+        ? value.selectedIconColor
+        : value.iconColor;
 
     var action = item.action;
-    if (action is PopupMenu) {
-      var popupMenu = PopupHelper(app, state, currentPage, member).popupMenuButton(
-          context,
-          action.menuDef,
-          Text(item.text!),
-          item.icon == null
-              ? null
-              : IconHelper.getIconFromModel(
-                  iconModel: item.icon, color: _rgbcolor),
-          value.menuBackgroundColor);
-      if (popupMenu != null) {
+    if ((action is PopupMenu) && (action.menuDef != null) && (action.menuDef!.menuItems != null) && (action.menuDef!.menuItems!.length > 0)) {
+        var popupMenu = EliudPopupMenu(app:app, state: state, currentPage: widget.currentPage, member: member, menu: action.menuDef!, text: Text(item.text!),
+            icon: item.icon == null
+                ? null
+                : IconHelper.getIconFromModel(
+                iconModel: item.icon, color: _rgbcolor),
+            menuBackgroundColor: value.menuBackgroundColor);
         buttons.add(Theme(
             data: Theme.of(context).copyWith(
               cardColor: RgbHelper.color(rgbo: value.menuBackgroundColor),
             ),
             child: popupMenu));
-      }
     } else {
       if (item.icon != null) {
         buttons.add(IconButton(
           icon: IconHelper.getIconFromModel(iconModel: item.icon)!,
           color: _color,
           onPressed: () {
-            if (!PageHelper.isActivePage(currentPage, item.action)) {
+            if (!PageHelper.isActivePage(widget.currentPage, item.action)) {
               eliudrouter.Router.navigateTo(context, item.action!);
             }
           },
@@ -99,19 +105,19 @@ class AppBarConstructor {
 
         buttons.add(Center(
             child: OutlineButton(
-          padding: EdgeInsets.all(10.0),
-          child: Text('${item.text}',
-              style: FontTools.textStyle(app.h5)),
-          onPressed: () {
-            if (!PageHelper.isActivePage(currentPage, item.action)) {
-              eliudrouter.Router.navigateTo(context, item.action!);
-            }
-          },
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0)),
-          borderSide:
+              padding: EdgeInsets.all(10.0),
+              child: Text('${item.text}',
+                  style: FontTools.textStyle(app.h5)),
+              onPressed: () {
+                if (!PageHelper.isActivePage(widget.currentPage, item.action)) {
+                  eliudrouter.Router.navigateTo(context, item.action!);
+                }
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
+              borderSide:
               BorderSide(color: FontTools.textStyle(app.h4)!.color!),
-        )));
+            )));
       }
     }
   }
@@ -151,7 +157,7 @@ class AppBarConstructor {
       Widget? profilePhoto;
       if (userPhotoUrl != null) {
         profilePhoto =  Image.network(
-          member.photoURL!
+            member.photoURL!
         );
       }
       profilePhoto ??= Icon(Icons.person_outline,
@@ -165,7 +171,7 @@ class AppBarConstructor {
             backgroundColor: Colors.transparent,
           ),
           onPressed: () {
-            scaffoldKey.currentState!.openEndDrawer();
+            widget.scaffoldKey.currentState!.openEndDrawer();
           },
         ),
       );

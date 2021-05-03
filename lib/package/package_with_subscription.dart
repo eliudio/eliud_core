@@ -38,9 +38,9 @@ abstract class PackageWithSubscription extends Package {
     if (state is AppLoaded) {
       if (event is InitApp) {
         _listenForChanges(state.app, state.getMember());
-      } else if (event is SwitchAppEvent) {
+      } else if (event is SwitchAppProcessingEvent) {
         _listenForChanges(state.app, state.getMember());
-      } else if (event is LoginEvent) {
+      } else if (event is LoginProcessEvent) {
         _listenForChanges(state.app, state.getMember());
       }
     }
