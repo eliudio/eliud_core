@@ -7,6 +7,7 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -95,7 +96,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (event is MemberUpdated) {
         if ((event.member != null) && (theState is LoggedIn)) {
           var toYield =
-              await theState.copyWith(event.member, theState.playStoreApp);
+              await theState.copyWith(event.member, await getMemberPublicInfoModel(event.member!), theState.playStoreApp);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
           if ((event.refresh != null) && event.refresh!) {
@@ -107,7 +108,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, app, theState.playStoreApp);
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, theState, app, theState.playStoreApp);
         add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
       } else if (event is SwitchAppAndPageProcessingEvent) {
         var app = await _fetchApp(event.appId);
@@ -126,7 +127,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, app, theState.playStoreApp);
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
         add(SwitchAppProcessingEvent(event.appId));
       } else if (event is SwitchAppProcessingEvent) {
         _invokeStateChangeListenersBefore(event, theState);
@@ -145,7 +146,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, app, theState.playStoreApp);
+        yield await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
         add(LogoutProcessingEvent());
       } else if (event is LogoutProcessingEvent) {
         await AbstractMainRepositorySingleton.singleton
@@ -167,7 +168,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             add(GoogleLoginProcessEvent(
                 event.actions,
                 usr));
-            yield await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, app, theState.playStoreApp);
+            yield await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, theState, app, theState.playStoreApp);
           } else {
             // yield current state
             yield state;
@@ -220,6 +221,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
+  Future<MemberPublicInfoModel> getMemberPublicInfoModel(MemberModel member) async {
+    var memberPublicInfoModel = await memberPublicInfoRepository()!.get(member.documentID);
+    if (memberPublicInfoModel == null) return throw Exception("Can't find public member instance for member " + member.documentID!);
+    return memberPublicInfoModel;
+  }
+
   Future<AccessState> _mapMemberAndApp(
       User usr,
       MemberModel member,
@@ -228,26 +235,28 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       PostLoginAction? postLoginAction) async {
     if (!isSubscibred(member, app)) {
       return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
-          usr, member, app, playstoreApp, postLoginAction);
+          usr, member, await getMemberPublicInfoModel(member), app, playstoreApp, postLoginAction);
     } else {
       return await LoggedInWithMembership.getLoggedInWithMembership(
-          usr, member, app, playstoreApp);
+          usr, member, await getMemberPublicInfoModel(member), app, playstoreApp);
     }
   }
 
   Future<AccessState> _mapOldStateToNewApp(AccessState state, AppModel app,
       AppModel? playstoreApp, PostLoginAction? postLoginAction) async {
-    if (state is LoggedIn) {
-      if (!isSubscibred(state.member, app)) {
-        return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
-            state.usr, state.member, app, playstoreApp, postLoginAction);
-      } else {
-        return await LoggedInWithMembership.getLoggedInWithMembership(
-            state.usr, state.member, app, playstoreApp);
+    if (state is AppProcessingState) {
+      state = state.stateBeforeProcessing;
+      if (state is LoggedIn) {
+        if (!isSubscibred(state.member, app)) {
+          return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
+              state.usr, state.member, await getMemberPublicInfoModel(state.member), app, playstoreApp, postLoginAction);
+        } else {
+          return await LoggedInWithMembership.getLoggedInWithMembership(
+              state.usr, state.member, await getMemberPublicInfoModel(state.member), app, playstoreApp);
+        }
       }
-    } else {
-      return await LoggedOut.getLoggedOut(app, playstoreApp);
     }
+    return await LoggedOut.getLoggedOut(app, playstoreApp);
   }
 
   Future<AccessState> _mapUsrAndApp(User? usr, AppModel app,
@@ -337,6 +346,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static MemberModel? memberFor(AccessState state) {
     if (state is LoggedIn) {
       return state.member;
+    }
+    return null;
+  }
+
+  static MemberPublicInfoModel? memberPublicInfoModel(AccessState state) {
+    if (state is LoggedIn) {
+      return state.memberPublicInfoModel;
     }
     return null;
   }

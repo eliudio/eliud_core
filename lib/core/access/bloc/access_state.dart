@@ -4,6 +4,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
@@ -348,9 +349,11 @@ enum ProcessingType {
 
 class AppProcessingState extends AppLoaded {
   ProcessingType processingType;
+  AccessState stateBeforeProcessing;
 
   AppProcessingState._(
       this.processingType,
+      this.stateBeforeProcessing,
       AppModel app,
       AppModel? playstoreApp,
       Map<String?, bool> pagesAccess,
@@ -387,9 +390,9 @@ class AppProcessingState extends AppLoaded {
   List<Object?> get props =>
       [processingType, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
 
-  static Future<AppProcessingState> getAppProcessingState(ProcessingType processingType, AppModel app, AppModel? playstoreApp) async {
+  static Future<AppProcessingState> getAppProcessingState(ProcessingType processingType, AccessState stateBeforeProcessing, AppModel app, AppModel? playstoreApp) async {
     var access = await AccessHelper._getAccess(null, app, false);
-    var appProcessingState = AppProcessingState._(processingType, app, playstoreApp, access.pagesAccess,
+    var appProcessingState = AppProcessingState._(processingType, stateBeforeProcessing, app, playstoreApp, access.pagesAccess,
         access.dialogsAccess, access.packageConditionsAccess);
     return appProcessingState;
   }
@@ -441,6 +444,7 @@ class LoggedOut extends AppLoaded {
 abstract class LoggedIn extends AppLoaded {
   final User usr;
   final MemberModel member;
+  final MemberPublicInfoModel memberPublicInfoModel;
   final PrivilegeLevel privilegeLevel;
   final bool blocked;
 
@@ -459,6 +463,7 @@ abstract class LoggedIn extends AppLoaded {
   LoggedIn._(
       this.usr,
       this.member,
+      this.memberPublicInfoModel,
       AppModel app,
       AppModel? playstoreApp,
       Map<String?, bool> pagesAccess,
@@ -488,7 +493,7 @@ abstract class LoggedIn extends AppLoaded {
     return member.documentID == app.ownerID;
   }
 
-  Future<LoggedIn> copyWith(MemberModel? member, AppModel? playstoreApp);
+  Future<LoggedIn> copyWith(MemberModel? member, MemberPublicInfoModel memberPublicInfoModel, AppModel? playstoreApp);
 
   @override
   MemberModel? getMember() => member;
@@ -516,6 +521,7 @@ class LoggedInWithoutMembership extends LoggedIn {
   static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(
       User usr,
       MemberModel member,
+      MemberPublicInfoModel memberPublicInfoModel,
       AppModel app,
       AppModel? playstoreApp,
       PostLoginAction? postLoginAction) async {
@@ -523,6 +529,7 @@ class LoggedInWithoutMembership extends LoggedIn {
     var loggedInWithoutMembership = LoggedInWithoutMembership._(
         usr,
         member,
+        memberPublicInfoModel,
         app,
         playstoreApp,
         postLoginAction,
@@ -552,6 +559,7 @@ class LoggedInWithoutMembership extends LoggedIn {
   LoggedInWithoutMembership._(
       User usr,
       MemberModel member,
+      MemberPublicInfoModel memberPublicInfoModel,
       AppModel app,
       AppModel? playstoreApp,
       this.postLoginAction,
@@ -560,14 +568,14 @@ class LoggedInWithoutMembership extends LoggedIn {
       PrivilegeLevel privilegeLevel,
       Map<String, PackageCondition?> packageConditionsAccess,
       bool? blocked)
-      : super._(usr, member, app, playstoreApp, pagesAccess, dialogAccess,
+      : super._(usr, member, memberPublicInfoModel, app, playstoreApp, pagesAccess, dialogAccess,
             privilegeLevel, packageConditionsAccess, blocked == null ? false : blocked);
 
   @override
   Future<LoggedInWithoutMembership> copyWith(
-      MemberModel? member, AppModel? playstoreApp) async {
+      MemberModel? member, MemberPublicInfoModel memberPublicInfoModel, AppModel? playstoreApp) async {
     return getLoggedInWithoutMembership(
-        usr, member ?? this.member, app, playstoreApp, postLoginAction);
+        usr, member ?? this.member, memberPublicInfoModel ?? this.memberPublicInfoModel, app, playstoreApp, postLoginAction);
   }
 
   @override
@@ -578,6 +586,7 @@ class LoggedInWithMembership extends LoggedIn {
   static Future<LoggedInWithMembership> getLoggedInWithMembership(
     User usr,
     MemberModel member,
+    MemberPublicInfoModel memberPublicInfoModel,
     AppModel app,
     AppModel? playstoreApp,
   ) async {
@@ -585,6 +594,7 @@ class LoggedInWithMembership extends LoggedIn {
     var loggedInWithMembership = LoggedInWithMembership._(
         usr,
         member,
+        memberPublicInfoModel,
         app,
         playstoreApp,
         access.pagesAccess,
@@ -611,6 +621,7 @@ class LoggedInWithMembership extends LoggedIn {
   LoggedInWithMembership._(
       User usr,
       MemberModel member,
+      MemberPublicInfoModel memberPublicInfoModel,
       AppModel app,
       AppModel? playstoreApp,
       Map<String?, bool> pagesAccess,
@@ -618,14 +629,14 @@ class LoggedInWithMembership extends LoggedIn {
       PrivilegeLevel privilegeLevel,
       Map<String, PackageCondition?> packageConditionsAccess,
       bool blocked)
-      : super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess,
+      : super._(usr, member, memberPublicInfoModel, app, playstoreApp, pagesAccess, dialogsAccess,
             privilegeLevel, packageConditionsAccess, blocked);
 
   @override
   Future<LoggedInWithMembership> copyWith(
-      MemberModel? member, AppModel? playstoreApp) {
+      MemberModel? member, MemberPublicInfoModel memberPublicInfoModel, AppModel? playstoreApp) {
     return getLoggedInWithMembership(
-        usr, member ?? this.member, app, playstoreApp);
+        usr, member ?? this.member, memberPublicInfoModel ?? this.memberPublicInfoModel, app, playstoreApp);
   }
 
   @override
