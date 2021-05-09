@@ -616,8 +616,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
 //        _startVideoPlayer();
-        var memberImageModel = await UploadFile.createThumbnailUploadVideoFile(widget.appId!, file.path, widget.memberId!, widget.readAccess!);
-        widget.feedbackFunction!(memberImageModel);
+        widget.feedbackFunction!(file.path);
         Navigator.pop(context);
       }
     });
@@ -632,8 +631,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           videoController = null;
         });
         }
-      var memberImageModel = await UploadFile.createThumbnailUploadPhotoFile(widget.appId!, file!.path, widget.memberId!, widget.readAccess!);
-      widget.feedbackFunction!(memberImageModel);
+      widget.feedbackFunction!(file!.path);
       Navigator.pop(context);
     });
   }

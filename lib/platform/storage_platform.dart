@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
  * I assume these photos are stored in /appId/memberId/...
  * I assume we might want to have a ui to allow to organise photos in a user image repository
  */
-typedef void MediumAvailable(MemberMediumModel model);
+typedef void MediumAvailable(String path);
 
 abstract class AbstractStoragePlatform {
   static AbstractStoragePlatform? platform;
