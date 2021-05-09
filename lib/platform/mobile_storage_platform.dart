@@ -31,11 +31,11 @@ class MobileStoragePlatform extends AbstractStoragePlatform {
   }
 
   @override
-  void takeMedium(BuildContext context, String? appId, feedbackFunction, String? memberId, List<String>? readAccess) {
+  void takeMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
     // todo: don't initialise the cameras like this, but do it lazy. create the camerexamplehome after it has been initialised lazy or imediatly when available
     if (cameras != null) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) =>  CameraExampleHome(appId, cameras, feedbackFunction, memberId, readAccess)),
+        MaterialPageRoute(builder: (_) =>  CameraExampleHome(appId, cameras, feedbackFunction, memberId)),
       );
     } else {
       // alert
@@ -43,7 +43,7 @@ class MobileStoragePlatform extends AbstractStoragePlatform {
   }
 
   @override
-  void uploadMedium(BuildContext context, String? appId, feedbackFunction, String? memberId, List<String>? readAccess) {
+  void uploadMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
     // TODO: implement uploadMedium
   }
 }

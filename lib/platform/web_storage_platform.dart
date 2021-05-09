@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class WebStoragePlatform extends AbstractStoragePlatform {
   @override
-  void takeMedium(BuildContext context, String? appId, feedbackFunction, String? memberId, List<String>? readAccess) {
+  void takeMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
     // TODO: implement takeMedium
   }
 
   @override
-  void uploadMedium(BuildContext context, String? appId, feedbackFunction, String? memberId, List<String>? readAccess) {
+  void uploadMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
     // TODO: implement uploadMedium
   }
 }

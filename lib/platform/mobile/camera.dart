@@ -13,9 +13,8 @@ class CameraExampleHome extends StatefulWidget {
   final List<CameraDescription>? cameras;
   final MediumAvailable? feedbackFunction;
   final String? memberId;
-  final List<String>? readAccess;
 
-  CameraExampleHome(this.appId, this.cameras, this.feedbackFunction, this.memberId, this.readAccess);
+  CameraExampleHome(this.appId, this.cameras, this.feedbackFunction, this.memberId);
 
   @override
   _CameraExampleHomeState createState() {
@@ -123,7 +122,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   Widget build(BuildContext context) {
     if (widget.appId == null) return Text("No app");
     if (widget.memberId == null) return Text("No member");
-    if (widget.readAccess == null) return Text("No read access");
     if (widget.feedbackFunction == null) return Text("No feedback function");
 
     return Scaffold(
