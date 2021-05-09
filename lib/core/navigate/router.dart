@@ -265,6 +265,7 @@ class Router {
   /*
    * Sometimes we need to brute refresh the current page and do this by (re)navigating to it
    */
+/*
   static void bruteRefreshPage(BuildContext context) {
     var appId = AccessBloc.appId(context);
     // force goto that page
@@ -274,4 +275,5 @@ class Router {
     var refreshPage = GotoPage(appId, pageID: parentPageId);
     navigateTo(context, refreshPage);
   }
+*/
 }
