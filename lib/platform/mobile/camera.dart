@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/tools/storage/firestore_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -14,7 +15,8 @@ class CameraExampleHome extends StatefulWidget {
   final MediumAvailable? feedbackFunction;
   final String? memberId;
 
-  CameraExampleHome(this.appId, this.cameras, this.feedbackFunction, this.memberId);
+  CameraExampleHome(
+      this.appId, this.cameras, this.feedbackFunction, this.memberId);
 
   @override
   _CameraExampleHomeState createState() {
@@ -142,9 +144,10 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               decoration: BoxDecoration(
                 color: Colors.black,
                 border: Border.all(
-                  color: controller != null && controller!.value.isRecordingVideo
-                      ? Colors.redAccent
-                      : Colors.grey,
+                  color:
+                      controller != null && controller!.value.isRecordingVideo
+                          ? Colors.redAccent
+                          : Colors.grey,
                   width: 3.0,
                 ),
               ),
@@ -186,13 +189,13 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           controller!,
           child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onScaleStart: _handleScaleStart,
-                  onScaleUpdate: _handleScaleUpdate,
-                  onTapDown: (details) => onViewFinderTap(details, constraints),
-                );
-              }),
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onScaleStart: _handleScaleStart,
+              onScaleUpdate: _handleScaleUpdate,
+              onTapDown: (details) => onViewFinderTap(details, constraints),
+            );
+          }),
         ),
       );
     }
@@ -225,23 +228,23 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
             videoController == null && imageFile == null
                 ? Container()
                 : SizedBox(
-              child: (videoController == null)
-                  ? Image.file(File(imageFile!.path))
-                  : Container(
-                child: Center(
-                  child: AspectRatio(
-                      aspectRatio:
-                      videoController!.value.size != null
-                          ? videoController!.value.aspectRatio
-                          : 1.0,
-                      child: VideoPlayer(videoController!)),
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pink)),
-              ),
-              width: 64.0,
-              height: 64.0,
-            ),
+                    child: (videoController == null)
+                        ? Image.file(File(imageFile!.path))
+                        : Container(
+                            child: Center(
+                              child: AspectRatio(
+                                  aspectRatio:
+                                      videoController!.value.size != null
+                                          ? videoController!.value.aspectRatio
+                                          : 1.0,
+                                  child: VideoPlayer(videoController!)),
+                            ),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.pink)),
+                          ),
+                    width: 64.0,
+                    height: 64.0,
+                  ),
           ],
         ),
       ),
@@ -265,7 +268,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               icon: Icon(Icons.exposure),
               color: Colors.blue,
               onPressed:
-              controller != null ? onExposureModeButtonPressed : null,
+                  controller != null ? onExposureModeButtonPressed : null,
             ),
             IconButton(
               icon: Icon(Icons.filter_center_focus),
@@ -376,10 +379,11 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                     style: styleAuto,
                     onPressed: controller != null
                         ? () =>
-                        onSetExposureModeButtonPressed(ExposureMode.auto)
+                            onSetExposureModeButtonPressed(ExposureMode.auto)
                         : null,
                     onLongPress: () {
-                      if (controller != null) controller!.setExposurePoint(null);
+                      if (controller != null)
+                        controller!.setExposurePoint(null);
                       showInSnackBar('Resetting exposure point');
                     },
                   ),
@@ -388,7 +392,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                     style: styleLocked,
                     onPressed: controller != null
                         ? () =>
-                        onSetExposureModeButtonPressed(ExposureMode.locked)
+                            onSetExposureModeButtonPressed(ExposureMode.locked)
                         : null,
                   ),
                 ],
@@ -407,7 +411,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                     max: _maxAvailableExposureOffset,
                     label: _currentExposureOffset.toString(),
                     onChanged: _minAvailableExposureOffset ==
-                        _maxAvailableExposureOffset
+                            _maxAvailableExposureOffset
                         ? null
                         : setExposureOffset,
                   ),
@@ -484,8 +488,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           icon: const Icon(Icons.camera_alt),
           color: Colors.blue,
           onPressed: controller != null &&
-              controller!.value.isInitialized &&
-              !controller!.value.isRecordingVideo
+                  controller!.value.isInitialized &&
+                  !controller!.value.isRecordingVideo
               ? onTakePictureButtonPressed
               : null,
         ),
@@ -493,8 +497,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           icon: const Icon(Icons.videocam),
           color: Colors.blue,
           onPressed: controller != null &&
-              controller!.value.isInitialized &&
-              !controller!.value.isRecordingVideo
+                  controller!.value.isInitialized &&
+                  !controller!.value.isRecordingVideo
               ? onVideoRecordButtonPressed
               : null,
         ),
@@ -504,19 +508,19 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               : Icon(Icons.pause),
           color: Colors.blue,
           onPressed: controller != null &&
-              controller!.value.isInitialized &&
-              controller!.value.isRecordingVideo
+                  controller!.value.isInitialized &&
+                  controller!.value.isRecordingVideo
               ? (controller != null && controller!.value.isRecordingPaused
-              ? onResumeButtonPressed
-              : onPauseButtonPressed)
+                  ? onResumeButtonPressed
+                  : onPauseButtonPressed)
               : null,
         ),
         IconButton(
           icon: const Icon(Icons.stop),
           color: Colors.red,
           onPressed: controller != null &&
-              controller!.value.isInitialized &&
-              controller!.value.isRecordingVideo
+                  controller!.value.isInitialized &&
+                  controller!.value.isRecordingVideo
               ? onStopButtonPressed
               : null,
         )
@@ -539,9 +543,10 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
               groupValue: controller?.description,
               value: cameraDescription,
-              onChanged: controller != null && controller!.value.isRecordingVideo
-                  ? null
-                  : onNewCameraSelected,
+              onChanged:
+                  controller != null && controller!.value.isRecordingVideo
+                      ? null
+                      : onNewCameraSelected,
             ),
           ),
         );
@@ -595,8 +600,12 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
         controller!
             .getMaxExposureOffset()
             .then((value) => _maxAvailableExposureOffset = value),
-        controller!.getMaxZoomLevel().then((value) => _maxAvailableZoom = value),
-        controller!.getMinZoomLevel().then((value) => _minAvailableZoom = value),
+        controller!
+            .getMaxZoomLevel()
+            .then((value) => _maxAvailableZoom = value),
+        controller!
+            .getMinZoomLevel()
+            .then((value) => _minAvailableZoom = value),
       ]);
     } on CameraException catch (e) {
       _showCameraException(e);
@@ -614,7 +623,13 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
 //        _startVideoPlayer();
-        widget.feedbackFunction!(file.path);
+        var thumbnailInfo =
+            await UploadFile.createThumbNailFromVideo(file.path);
+        if (thumbnailInfo.thumbNailData != null) {
+          widget.feedbackFunction!(thumbnailInfo);
+        } else {
+          print("Could't create thumbnail");
+        }
         Navigator.pop(context);
       }
     });
@@ -628,8 +643,18 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           videoController?.dispose();
           videoController = null;
         });
+      }
+      var thumbnailInfo = await UploadFile.createThumbNailFromPhoto(file!.path);
+      if (file != null) {
+        if ((thumbnailInfo.thumbNailData != null) &&
+            (thumbnailInfo.thumbNailData!.filePath != null)) {
+          widget.feedbackFunction!(thumbnailInfo);
+        } else {
+          print("Could't create thumbnail");
         }
-      widget.feedbackFunction!(file!.path);
+      } else {
+        print("Couldn't create the file");
+      }
       Navigator.pop(context);
     });
   }
@@ -824,7 +849,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
 
   Future<void> _startVideoPlayer() async {
     final VideoPlayerController vController =
-    VideoPlayerController.file(File(videoFile.path));
+        VideoPlayerController.file(File(videoFile.path));
     videoPlayerListener = () {
       if (videoController != null && videoController!.value.size != null) {
         // Refreshing the state to update video player with the correct ratio.
@@ -870,4 +895,3 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 }
-

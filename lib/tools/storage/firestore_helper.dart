@@ -8,10 +8,8 @@ import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:path/path.dart';
-//import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 import 'package:image/image.dart' as imgpackage;
-//import 'package:thumbnails/thumbnails.dart';
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -24,10 +22,11 @@ class MediumData {
 }
 
 class MediumAndItsThumbnailData {
+  final MediumType mediumType;
   final MediumData? mediumData;
   final MediumData? thumbNailData;
 
-  MediumAndItsThumbnailData({this.mediumData, this.thumbNailData});
+  MediumAndItsThumbnailData({required this.mediumType, this.mediumData, this.thumbNailData});
 }
 
 /* This helper is used to translate the callback for method decodeImageFromList to be translated into a future
@@ -54,6 +53,7 @@ class ThumbnailHelper {
           thumbnailBytes.buffer.asUint8List(thumbnailBytes.offsetInBytes, thumbnailBytes.lengthInBytes));
 
       return MediumAndItsThumbnailData(
+        mediumType: MediumType.Photo,
           mediumData: MediumData(
               width: img.width, height: img.height, filePath: filePath),
           thumbNailData: MediumData(width: thumbnailSize,
@@ -126,7 +126,7 @@ class UploadFile {
   /*
    * Create a thumbnail from a photo
    */
-  static Future<MediumAndItsThumbnailData> _createThumbNailFromPhoto(String filePath) async {
+  static Future<MediumAndItsThumbnailData> createThumbNailFromPhoto(String filePath) async {
     var img = imgpackage.decodeImage(File(filePath).readAsBytesSync())!;
     var thumbnailWidth;
     var thumbnailHeight;
@@ -140,6 +140,7 @@ class UploadFile {
     File(thumbNameFilePath)..writeAsBytesSync(imgpackage.encodePng(thumbnail));
 
     return MediumAndItsThumbnailData(
+        mediumType: MediumType.Photo,
         mediumData: MediumData(
             width: img.width, height: img.height, filePath: filePath),
         thumbNailData: MediumData(width: thumbnailSize,
@@ -153,7 +154,7 @@ class UploadFile {
   /*
    * Create a thumbnail from a video
    */
-  static Future<MediumAndItsThumbnailData> _createThumbNailFromVideo(String filePath) async {
+  static Future<MediumAndItsThumbnailData> createThumbNailFromVideo(String filePath) async {
     var thumbNameFilePath = filePath + '.thumbnail' + '.png';
     await VideoThumbnail.thumbnailFile(
       video: filePath,
@@ -165,6 +166,7 @@ class UploadFile {
 
     // return the data
     return MediumAndItsThumbnailData(
+        mediumType: MediumType.Video,
         mediumData: MediumData(width: null, height: null, filePath: filePath),  // we don't know the size of the video... todo
         thumbNailData: MediumData(width: thumbnailSize, height: thumbnailSize, filePath: thumbNameFilePath)
     );
@@ -205,6 +207,48 @@ class UploadFile {
   }
 
   /*
+   * Add MemberMedium representation entry for photo/video and it's thumbnail to repository
+   */
+  static Future<MemberMediumModel> mediumAndItsThumbnailDataToMemberMediumModel(String appId, UploadInfo? fileInfo, UploadInfo fileInfoThumbnail, MediumAndItsThumbnailData mediumAndItsThumbnailData, String ownerId, List<String> readAccess) {
+    // Create the MemberImageModel
+    var memberImageModel;
+
+    if (mediumAndItsThumbnailData.mediumData == MediumType.Photo) {
+      memberImageModel = MemberMediumModel(
+        documentID: newRandomKey(),
+        appId: appId,
+        authorId: ownerId,
+        ref: fileInfo == null ? null : fileInfo.ref,
+        url: fileInfo == null ? null : fileInfo.url,
+        readAccess: readAccess,
+        mediumType: MediumType.Photo,
+        urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+        mediumWidth: mediumAndItsThumbnailData.mediumData!.width,
+        mediumHeight: mediumAndItsThumbnailData.mediumData!.height,
+        thumbnailWidth: mediumAndItsThumbnailData.thumbNailData!.width,
+        thumbnailHeight: mediumAndItsThumbnailData.thumbNailData!.height,
+      );
+    } else {
+      // Create the MemberImageModel
+      memberImageModel = MemberMediumModel(
+        documentID: newRandomKey(),
+        appId: appId,
+        authorId: ownerId,
+        ref: fileInfoThumbnail == null ? null : fileInfoThumbnail.ref,
+        url: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+        readAccess: readAccess,
+        mediumType: MediumType.Video,
+        urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
+        mediumWidth: mediumAndItsThumbnailData.mediumData!.width,
+        mediumHeight: mediumAndItsThumbnailData.mediumData!.height,
+        thumbnailWidth: mediumAndItsThumbnailData.thumbNailData!.width,
+        thumbnailHeight: mediumAndItsThumbnailData.thumbNailData!.height,
+      );
+    }
+    return memberMediumRepository(appId: appId)!.add(memberImageModel);
+  }
+
+  /*
    * Upload a photo from a file for a given app with appId
    * filePath is the path to the file
    * ownerId is the memberId
@@ -215,27 +259,77 @@ class UploadFile {
     var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
-    var photoData = await _createThumbNailFromPhoto(filePath);
+    var photoData = await createThumbNailFromPhoto(filePath);
+
+    if (photoData.thumbNailData == null)
+      throw Exception('photoData.thumbNailData is null');
+
+    if (photoData.thumbNailData!.filePath == null)
+      throw Exception('photoData.thumbNailData.filePath is null');
 
     // Third, upload the thumnail;
     var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
-    // Create the MemberImageModel
-    var memberImageModel = MemberMediumModel(
-      documentID: newRandomKey(),
-      appId: appId,
-      authorId: ownerId,
-      ref: fileInfo == null ? null : fileInfo.ref,
-      url: fileInfo == null ? null : fileInfo.url,
-      readAccess: readAccess,
-      mediumType: MediumType.Photo,
-      urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
-      mediumWidth: photoData.mediumData!.width,
-      mediumHeight: photoData.mediumData!.height,
-      thumbnailWidth: photoData.thumbNailData!.width,
-      thumbnailHeight: photoData.thumbNailData!.height,
-    );
-    return memberMediumRepository(appId: appId)!.add(memberImageModel);
+    if (fileInfo == null)
+      throw Exception('Unable to upload file ' + filePath);
+
+    if (fileInfoThumbnail == null)
+      throw Exception('Unable to upload file ' + photoData.thumbNailData!.filePath!);
+
+    return mediumAndItsThumbnailDataToMemberMediumModel(
+        appId, fileInfo, fileInfoThumbnail, photoData, ownerId, readAccess);
+  }
+
+  static Future<MemberMediumModel> uploadMediumAndItsThumbnailData(String appId, MediumAndItsThumbnailData mediumAndItsThumbnailData, String ownerId, List<String> readAccess) async {
+    if (mediumAndItsThumbnailData.mediumData == null)
+      throw Exception('mediumAndItsThumbnailData.mediumData is null');
+
+    if (mediumAndItsThumbnailData.mediumData!.filePath == null)
+      throw Exception('mediumAndItsThumbnailData.mediumData.filePath is null');
+
+    if (mediumAndItsThumbnailData.thumbNailData == null)
+      throw Exception('mediumAndItsThumbnailData.thumbNailData is null');
+
+    if (mediumAndItsThumbnailData.thumbNailData!.filePath == null)
+      throw Exception('mediumAndItsThumbnailData.thumbNailData.filePath is null');
+
+    var fileInfo = await _uploadFile(mediumAndItsThumbnailData.mediumData!.filePath!, appId, ownerId, readAccess);
+    var fileInfoThumbnail = await _uploadFile(mediumAndItsThumbnailData.thumbNailData!.filePath!, appId, ownerId, readAccess);
+
+    if (fileInfo == null)
+      throw Exception('Unable to upload file ' + mediumAndItsThumbnailData.mediumData!.filePath!);
+
+    if (fileInfoThumbnail == null)
+      throw Exception('Unable to upload file ' + mediumAndItsThumbnailData.thumbNailData!.filePath!);
+
+    return mediumAndItsThumbnailDataToMemberMediumModel(
+        appId, fileInfo, fileInfoThumbnail, mediumAndItsThumbnailData, ownerId, readAccess);
+  }
+
+  /*
+   * Upload a photo from a file for a given app with appId
+   * filePath is the path to the file
+   * ownerId is the memberId
+   * readAccess is the list of member IDs, or 'PUBLIC'
+   */
+  static Future<MemberMediumModel> uploadThumbnailAndPhoto(String appId, String filePath, String thumbnailPath, String ownerId, List<String> readAccess) async {
+    // First, upload the file
+    var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
+
+    // Second, create the thumbnail
+    var photoData = await createThumbNailFromPhoto(filePath);
+
+    // Third, upload the thumnail;
+    var fileInfoThumbnail = await _uploadFile(photoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
+
+    if (fileInfo == null)
+      throw Exception('Unable to upload file ' + filePath);
+
+    if (fileInfoThumbnail == null)
+      throw Exception('Unable to upload file ' + photoData.thumbNailData!.filePath!);
+
+    return mediumAndItsThumbnailDataToMemberMediumModel(
+        appId, fileInfo, fileInfoThumbnail, photoData, ownerId, readAccess);
   }
 
   /*
@@ -260,28 +354,19 @@ class UploadFile {
     var fileInfo = await _uploadFile(filePath, appId, ownerId, readAccess);
 
     // Second, create the thumbnail
-    var videoData = await _createThumbNailFromVideo(filePath);
+    var videoData = await createThumbNailFromVideo(filePath);
 
     // Third, upload the thumbnail;
     var fileInfoThumbnail = await _uploadFile(videoData.thumbNailData!.filePath!, appId, ownerId, readAccess);
 
-    // Create the MemberImageModel
-    var memberImageModel = MemberMediumModel(
-      documentID: newRandomKey(),
-      appId: appId,
-      authorId: ownerId,
-      ref: fileInfoThumbnail == null ? null : fileInfoThumbnail.ref,
-      url: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
-      readAccess: readAccess,
-      mediumType: MediumType.Video,
-      urlThumbnail: fileInfoThumbnail == null ? null : fileInfoThumbnail.url,
-      mediumWidth: videoData.mediumData!.width,
-      mediumHeight: videoData.mediumData!.height,
-      thumbnailWidth: videoData.thumbNailData!.width,
-      thumbnailHeight: videoData.thumbNailData!.height,
-    );
+    if (fileInfo == null)
+      throw Exception('Unable to upload file ' + filePath);
 
-    return memberMediumRepository(appId: appId)!.add(memberImageModel);
+    if (fileInfoThumbnail == null)
+      throw Exception('Unable to upload file ' + videoData.thumbNailData!.filePath!);
+
+    return mediumAndItsThumbnailDataToMemberMediumModel(
+        appId, fileInfo, fileInfoThumbnail, videoData, ownerId, readAccess);
   }
 
   /*
@@ -312,6 +397,7 @@ class UploadFile {
           ..writeAsBytesSync(imgpackage.encodePng(thumbnail));
 
         return MediumAndItsThumbnailData(
+            mediumType: MediumType.Photo,
             thumbNailData: MediumData(width: thumbnailSize,
                 height: thumbnailSize,
                 filePath: thumbNameFilePath)
@@ -322,6 +408,7 @@ class UploadFile {
           ..writeAsBytesSync(imgpackage.encodePng(img!));
 
         return MediumAndItsThumbnailData(
+            mediumType: MediumType.Photo,
             mediumData: MediumData(width: img.width,
                 height: img.height,
                 filePath: imageFilePath)

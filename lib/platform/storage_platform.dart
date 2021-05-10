@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/tools/storage/firestore_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 /*
@@ -8,7 +9,7 @@ import 'package:flutter/cupertino.dart';
  * I assume these photos are stored in /appId/memberId/...
  * I assume we might want to have a ui to allow to organise photos in a user image repository
  */
-typedef void MediumAvailable(String path);
+typedef void MediumAvailable(MediumAndItsThumbnailData mediumAndItsThumbnailData);
 
 abstract class AbstractStoragePlatform {
   static AbstractStoragePlatform? platform;
