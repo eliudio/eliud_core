@@ -15,14 +15,26 @@ abstract class AbstractStoragePlatform {
   static AbstractStoragePlatform? platform;
 
   /*
-   * Allows the user to take a photo or record a video.
-   * The picture is stored onto firestore, together with a thumbnail
+   * Allows the user to take a photo
+   * When photo is selected feedbackFunction is triggered
    */
-  void takeMedium(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void takePhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
 
   /*
-   * Allows the user to upload a medium
-   * The picture is stored onto firestore, together with a thumbnail
+   * Allows the user to select a photo from library
+   * When photo is selected feedbackFunction is triggered
    */
-  void uploadMedium(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void uploadPhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+
+  /*
+   * Allows the user to take a photo
+   * When photo is selected feedbackFunction is triggered
+   */
+  void takeVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+
+  /*
+   * Allows the user to select a photo from library
+   * When photo is selected feedbackFunction is triggered
+   */
+  void uploadVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
 }

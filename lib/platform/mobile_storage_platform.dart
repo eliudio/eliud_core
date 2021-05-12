@@ -1,49 +1,54 @@
-import 'dart:convert';
-
-import 'package:camera/camera.dart';
 import 'package:eliud_core/platform/storage_platform.dart';
+import 'package:eliud_core/tools/storage/firestore_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'mobile/camera.dart';
-
-class CameraUtility {
-
-  static CameraUtility? _instance;
-
-  CameraUtility._internal() {
-  }
-
-  static CameraUtility? utility() {
-    _instance ??= CameraUtility._internal();
-
-    return _instance;
-  }
-}
+import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 
 class MobileStoragePlatform extends AbstractStoragePlatform {
-  List<CameraDescription> cameras = [];
-
   MobileStoragePlatform() {
     WidgetsFlutterBinding.ensureInitialized();
-    // retrieve cameras but don't wait... it'll be there in time
-    availableCameras().then((values) => cameras = values);
   }
 
-  @override
-  void takeMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
-    // todo: don't initialise the cameras like this, but do it lazy. create the camerexamplehome after it has been initialised lazy or imediatly when available
-    if (cameras != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) =>  CameraExampleHome(appId, cameras, feedbackFunction, memberId)),
-      );
+  Future<void> pickImage(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId, ImgSource source) async {
+    var _image = await ImagePickerGC.pickImage(
+      enableCloseButton: true,
+      closeIcon: Icon(
+        Icons.close,
+        color: Colors.red,
+        size: 12,
+      ),
+      context: context,
+      source: source,
+      barrierDismissible: true,
+      cameraIcon: Icon(
+        Icons.camera_alt,
+        color: Colors.red,
+      ),
+    );
+    var thumbnailInfo = await UploadFile.createThumbNailFromPhoto(_image.path);
+    if (thumbnailInfo.thumbNailData != null) {
+      feedbackFunction!(thumbnailInfo);
     } else {
-      // alert
+      print("Could't create thumbnail");
     }
   }
 
   @override
-  void uploadMedium(BuildContext context, String? appId, feedbackFunction, String? memberId) {
-    // TODO: implement uploadMedium
+  void takePhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+    pickImage(context, appId, feedbackFunction, memberId, ImgSource.Camera);
   }
+
+  @override
+  void takeVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  }
+
+  @override
+  void uploadPhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+    pickImage(context, appId, feedbackFunction, memberId, ImgSource.Gallery);
+  }
+
+  @override
+  void uploadVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  }
+
 }
