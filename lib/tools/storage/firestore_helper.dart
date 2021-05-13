@@ -127,24 +127,18 @@ class UploadFile {
    * Create a thumbnail from a photo
    */
   static Future<MediumAndItsThumbnailData> createThumbNailFromPhoto(String filePath) async {
-    print("1");
     var img = imgpackage.decodeImage(File(filePath).readAsBytesSync())!;
-    print("2");
     var thumbnailWidth;
     var thumbnailHeight;
-    print("3");
     if (img.width > img.height) {
       thumbnailWidth = thumbnailSize;
     } else {
       thumbnailHeight = thumbnailSize;
     }
-    print("4");
     var thumbnail = imgpackage.copyResize(img, width: thumbnailWidth, height: thumbnailHeight);
     var thumbNameFilePath = filePath + '.thumbnail' + '.png';
-    print("5");
     File(thumbNameFilePath)..writeAsBytesSync(imgpackage.encodePng(thumbnail));
 
-    print("6");
     return MediumAndItsThumbnailData(
         mediumType: MediumType.Photo,
         mediumData: MediumData(
