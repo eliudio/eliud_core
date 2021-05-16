@@ -9,7 +9,7 @@ class MobileStoragePlatform extends AbstractStoragePlatform {
     WidgetsFlutterBinding.ensureInitialized();
   }
 
-  Future<void> pickImage(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId, ImgSource source) async {
+  Future<void> pickImage(BuildContext context, String? appId, PhotoWithThumbnailAvailable feedbackFunction, String? memberId, ImgSource source) async {
     var _image = await ImagePickerGC.pickImage(
       enableCloseButton: true,
       closeIcon: Icon(
@@ -25,30 +25,28 @@ class MobileStoragePlatform extends AbstractStoragePlatform {
         color: Colors.red,
       ),
     );
-    var thumbnailInfo = await UploadFile.createThumbNailFromPhoto(_image.path);
-    if (thumbnailInfo.thumbNailData != null) {
-      feedbackFunction!(thumbnailInfo);
-    } else {
-      print("Could't create thumbnail");
-    }
+    var baseName = BaseNameHelper.baseName(_image.path);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(_image.path);
+    var thumbnailInfo = await ThumbnailHelper.enrichPhoto(baseName, thumbnailBaseName, _image.readAsBytes());
+    feedbackFunction!(thumbnailInfo);
   }
 
   @override
-  void takePhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  void takePhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId) {
     pickImage(context, appId, feedbackFunction, memberId, ImgSource.Camera);
   }
 
   @override
-  void takeVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  void takeVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String memberId) {
   }
 
   @override
-  void uploadPhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  void uploadPhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId) {
     pickImage(context, appId, feedbackFunction, memberId, ImgSource.Gallery);
   }
 
   @override
-  void uploadVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId) {
+  void uploadVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String? memberId) {
   }
 
 }

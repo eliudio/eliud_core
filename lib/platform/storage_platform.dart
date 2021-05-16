@@ -9,7 +9,8 @@ import 'package:flutter/cupertino.dart';
  * I assume these photos are stored in /appId/memberId/...
  * I assume we might want to have a ui to allow to organise photos in a user image repository
  */
-typedef void MediumAvailable(MediumAndItsThumbnailData mediumAndItsThumbnailData);
+typedef void PhotoWithThumbnailAvailable(PhotoWithThumbnail photoWithThumbnail);
+typedef void VideoWithThumbnailAvailable(VideoWithThumbnail videoWithThumbnail);
 
 abstract class AbstractStoragePlatform {
   static AbstractStoragePlatform? platform;
@@ -18,23 +19,23 @@ abstract class AbstractStoragePlatform {
    * Allows the user to take a photo
    * When photo is selected feedbackFunction is triggered
    */
-  void takePhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void takePhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId);
 
   /*
    * Allows the user to select a photo from library
    * When photo is selected feedbackFunction is triggered
    */
-  void uploadPhoto(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void uploadPhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId);
 
   /*
    * Allows the user to take a photo
    * When photo is selected feedbackFunction is triggered
    */
-  void takeVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void takeVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String memberId);
 
   /*
    * Allows the user to select a photo from library
    * When photo is selected feedbackFunction is triggered
    */
-  void uploadVideo(BuildContext context, String? appId, MediumAvailable? feedbackFunction, String? memberId);
+  void uploadVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String memberId);
 }
