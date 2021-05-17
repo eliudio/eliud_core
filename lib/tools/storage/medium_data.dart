@@ -54,9 +54,9 @@ abstract class MediumData {
    * Create thumbnail from asset
    */
   static Future<Uint8List> getThumbnailFromAsset(String assetPath) async {
-    var filePath = await AssetHelper.getFileFromAssets(assetPath);
-    var imgData = File(filePath).readAsBytesSync();
-    var img = imgpackage.decodeImage(imgData);
+    final imgData = await rootBundle.load(assetPath);
+    var uint8List = imgData.buffer.asUint8List();
+    var img = imgpackage.decodeImage(uint8List);
     if (img == null) {
       throw Exception('Can not decode image from asset $assetPath');
     }
@@ -76,10 +76,6 @@ abstract class MediumData {
       throw Exception('Can not decode image with baseName $baseName');
     }
     var thumbNailData = getThumbnail(img);
-
-    // for testing this method, start delete me!!!
-    // thumbNailData = await getThumbnailFromAsset(videoImage);
-    // end delete me!!!
 
     return PhotoWithThumbnail(
       photoData: ImageData(
