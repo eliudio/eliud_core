@@ -78,7 +78,7 @@ abstract class MediumData {
     var thumbNailData = getThumbnail(img);
 
     // for testing this method, start delete me!!!
-    thumbNailData = await getThumbnailFromAsset(videoImage);
+    // thumbNailData = await getThumbnailFromAsset(videoImage);
     // end delete me!!!
 
     return PhotoWithThumbnail(

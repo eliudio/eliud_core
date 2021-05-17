@@ -52,8 +52,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.svg
     - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png
-    - packages/eliud_core/assets/undraw_co/iphone.jpg
-    - packages/eliud_core/assets/eliud_app/devices/iphone.jpg
-    - packages/eliud_core/assets/minkey_app/devices/iphone.jpg
