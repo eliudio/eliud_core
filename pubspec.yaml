@@ -37,7 +37,7 @@ dependencies:
   photo_view: ^0.11.1
   video_thumbnail: 0.3.3
   image_picker_gallery_camera: 0.2.2
-  image_picker_web: 2.0.2
+  file_picker: 3.0.1
 
   flutter:
     sdk: flutter
@@ -50,3 +50,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.svg
+    - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png
+    - packages/eliud_core/assets/undraw_co/iphone.jpg
+    - packages/eliud_core/assets/eliud_app/devices/iphone.jpg
+    - packages/eliud_core/assets/minkey_app/devices/iphone.jpg

@@ -1,51 +1,67 @@
-import 'dart:io';
-
 import 'package:eliud_core/platform/storage_platform.dart';
-import 'package:eliud_core/tools/storage/firestore_helper.dart';
+import 'package:eliud_core/tools/storage/basename_helper.dart';
+import 'package:eliud_core/tools/storage/medium_data.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
-import 'package:image_picker_web/image_picker_web.dart';
-import 'dart:html' as html;
 
 class WebStoragePlatform extends AbstractStoragePlatform {
-  Future<void> pickImage(BuildContext context, String? appId, PhotoWithThumbnailAvailable feedbackFunction, String? memberId, ImgSource source) async {
-    var _image = await ImagePickerGC.pickImage(
-      enableCloseButton: true,
-      closeIcon: Icon(
-        Icons.close,
-        color: Colors.red,
-        size: 12,
-      ),
-      context: context,
-      source: source,
-      barrierDismissible: true,
-      cameraIcon: Icon(
-        Icons.camera_alt,
-        color: Colors.red,
-      ),
-    );
-    var baseName = BaseNameHelper.baseName(_image.path);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(_image.path);
-    var thumbnailInfo = await ThumbnailHelper.enrichPhoto(baseName, thumbnailBaseName, _image.readAsBytes());
-    feedbackFunction!(thumbnailInfo);
+
+  @override
+  void takePhoto(BuildContext context, PhotoWithThumbnailAvailable feedbackFunction) {
   }
 
   @override
-  void takePhoto(BuildContext context, String? appId, PhotoWithThumbnailAvailable feedbackFunction, String? memberId) {
-    pickImage(context, appId, feedbackFunction, memberId, ImgSource.Camera);
+  void takeVideo(BuildContext context, VideoWithThumbnailAvailable feedbackFunction) {
   }
 
   @override
-  void takeVideo(BuildContext context, String? appId, VideoWithThumbnailAvailable feedbackFunction, String? memberId) {
+  bool hasCamera() => false;
+
+  Future<void> uploadPhoto(BuildContext context, PhotoWithThumbnailAvailable feedbackFunction) async {
+    var _result = await FilePicker.platform.pickFiles(type: FileType.image);
+    return processPhotos(_result, feedbackFunction);
   }
 
-  @override
-  void uploadPhoto(BuildContext context, String? appId, PhotoWithThumbnailAvailable feedbackFunction, String? memberId) {
-    pickImage(context, appId, feedbackFunction, memberId, ImgSource.Gallery);
+  Future<void> uploadVideo(BuildContext context, VideoWithThumbnailAvailable feedbackFunction) async {
+    var _result = await FilePicker.platform.pickFiles(type: FileType.video);
+    return processVideos(_result, feedbackFunction);
   }
 
-  @override
-  void uploadVideo(BuildContext context, String? appId, VideoWithThumbnailAvailable feedbackFunction, String? memberId) {
+  Future<void> processPhotos(FilePickerResult? result, PhotoWithThumbnailAvailable feedbackFunction,) async {
+    if (result != null) {
+      for (var aFile in result.files) {
+        var baseName = aFile.name!;
+        var thumbnailBaseName = aFile.extension!;
+        var bytes = await aFile.bytes;
+        if (bytes != null) {
+          var thumbnailInfo = await MediumData.enrichPhoto(
+              baseName, thumbnailBaseName, bytes);
+
+          feedbackFunction(thumbnailInfo);
+        } else {
+          print('bytes is null!');
+        }
+      }
+    }
+  }
+
+  Future<void> processVideos(FilePickerResult? result, VideoWithThumbnailAvailable feedbackFunction,) async {
+    if (result != null) {
+      for (var aFile in result.files) {
+        var bytes = aFile.bytes;
+        if (bytes == null) throw Exception('Could not process video. Bytes is null');
+        var name = aFile.name;
+        if (name == null) throw Exception('Could not process video. Name is null');
+        var ext = aFile.extension;
+        if (ext == null) throw Exception('Could not process video. Ext is null');
+
+        var baseName = BaseNameHelper.baseNameExt(name, ext);
+        var thumbnailBaseName = BaseNameHelper.thumbnailBaseNameExt(name, ext);
+        var thumbnailInfo = await MediumData.enrichVideo(baseName, thumbnailBaseName, aFile.bytes!);
+
+        feedbackFunction(thumbnailInfo);
+      }
+    }
   }
 }

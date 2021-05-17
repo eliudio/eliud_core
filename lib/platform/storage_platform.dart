@@ -1,5 +1,8 @@
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/tools/storage/firestore_helper.dart';
+import 'package:eliud_core/tools/storage/basename_helper.dart';
+import 'package:eliud_core/tools/storage/medium_base.dart';
+import 'package:eliud_core/tools/storage/medium_data.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 /*
@@ -19,23 +22,21 @@ abstract class AbstractStoragePlatform {
    * Allows the user to take a photo
    * When photo is selected feedbackFunction is triggered
    */
-  void takePhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId);
-
-  /*
-   * Allows the user to select a photo from library
-   * When photo is selected feedbackFunction is triggered
-   */
-  void uploadPhoto(BuildContext context, String appId, PhotoWithThumbnailAvailable feedbackFunction, String memberId);
+  void takePhoto(BuildContext context, PhotoWithThumbnailAvailable feedbackFunction);
 
   /*
    * Allows the user to take a photo
    * When photo is selected feedbackFunction is triggered
    */
-  void takeVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String memberId);
+  void takeVideo(BuildContext context, VideoWithThumbnailAvailable feedbackFunction);
+
+  void uploadPhoto(BuildContext context, PhotoWithThumbnailAvailable feedbackFunction);
 
   /*
    * Allows the user to select a photo from library
    * When photo is selected feedbackFunction is triggered
    */
-  void uploadVideo(BuildContext context, String appId, VideoWithThumbnailAvailable feedbackFunction, String memberId);
+  void uploadVideo(BuildContext context, VideoWithThumbnailAvailable feedbackFunction);
+
+  bool hasCamera();
 }

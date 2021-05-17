@@ -1,10 +1,8 @@
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/tools/storage/firestore_helper.dart';
+import 'package:eliud_core/tools/storage/medium_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import 'dialog_helper.dart';
 
