@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:eliud_core/platform/storage_platform.dart';
 import 'package:eliud_core/tools/storage/basename_helper.dart';
 import 'package:eliud_core/tools/storage/medium_data.dart';
@@ -5,6 +6,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
+
+import 'mobile/eliud_camera.dart';
 
 class MobileStoragePlatform extends AbstractStoragePlatform {
   MobileStoragePlatform() {
@@ -39,8 +42,18 @@ class MobileStoragePlatform extends AbstractStoragePlatform {
     pickImage(context, feedbackFunction, ImgSource.Camera);
   }
 
+  Future<void> _videoSaved(XFile file, VideoWithThumbnailAvailable feedbackFunction) async {
+    var thumbnailInfo = await MediumData.enrichVideoWithPath(file.path);
+    feedbackFunction(thumbnailInfo);
+  }
+
+  void _videoError(String message) {
+    print('video error: ' + message);
+  }
+
   @override
   void takeVideo(BuildContext context, VideoWithThumbnailAvailable feedbackFunction) {
+    EliudCamera.openVideoRecorder(context, (video) => (_videoSaved(video, feedbackFunction)), _videoError);
   }
 
   @override
