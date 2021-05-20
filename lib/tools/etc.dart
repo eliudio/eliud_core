@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -11,6 +13,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+class ListHelper {
+  static List<String> getStringList(List<String?> list) {
+    List<String> newList = [];
+    list.forEach((element) {
+      if (element != null) newList.add(element);
+    });
+    return newList;
+  }
+
+  static List<Uint8List> getUint8List(List<Uint8List?> list) {
+    List<Uint8List> newList = [];
+    list.forEach((element) {
+      if (element != null) newList.add(element);
+    });
+    return newList;
+  }
+}
 
 class RgbHelper {
   static Color color({RgbModel? rgbo}) {
