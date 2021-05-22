@@ -64,8 +64,8 @@ class MemberMediumHelper {
       documentID: newRandomKey(),
       appId: appId,
       authorId: ownerId,
-      ref: fileInfoThumbnail.ref,
-      url: fileInfoThumbnail.url,
+      ref: fileInfo.ref,
+      url: fileInfo.url,
       readAccess: readAccess,
       mediumType: MediumType.Video,
       urlThumbnail: fileInfoThumbnail.url,
@@ -99,7 +99,7 @@ class MemberMediumHelper {
 
     // Third, upload the thumbnail
     var fileInfoThumbnail = await UploadInfo.uploadData(
-        baseName, enrichedPhoto.thumbNailData.data, appId, ownerId, readAccess);
+        thumbnailBaseName, enrichedPhoto.thumbNailData.data, appId, ownerId, readAccess);
 
     if (fileInfoThumbnail == null) {
       throw Exception('fileInfoThumbnail is null');
@@ -217,7 +217,7 @@ class MemberMediumHelper {
 
     // Third, upload the thumbnail;
     var fileInfoThumbnail = await UploadInfo.uploadData(
-        baseName, enrichedPhoto.thumbNailData.data, appId, ownerId, readAccess);
+        thumbnailBaseName, enrichedPhoto.thumbNailData.data, appId, ownerId, readAccess);
 
     if (fileInfoThumbnail == null) {
       throw Exception(
@@ -259,7 +259,7 @@ class MemberMediumHelper {
 
     // Third, upload the thumbnail;
     var fileInfoThumbnail = await UploadInfo.uploadData(
-        baseName, enrichedVideo.thumbNailData.data, appId, ownerId, readAccess);
+        thumbnailBaseName, enrichedVideo.thumbNailData.data, appId, ownerId, readAccess);
 
     if (fileInfoThumbnail == null) {
       throw Exception(

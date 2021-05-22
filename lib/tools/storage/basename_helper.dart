@@ -19,16 +19,11 @@ class BaseNameHelper {
 
   static String thumbnailBaseName(String filePath) {
     return context.basenameWithoutExtension(filePath) +
-        '.thumbnail.' +
-        context.extension(filePath);
+        '.thumbnail.png';
   }
 
   static String baseNameExt(String name, String ext) {
     return name + '.' + ext;
-  }
-
-  static String thumbnailBaseNameExt(String name, String ext) {
-    return name + '.thumbnail.' + ext;
   }
 
   static String baseNameWithPage(String filePath, int page) {
@@ -39,7 +34,6 @@ class BaseNameHelper {
 
   static String thumbnailBaseNameWithPage(String filePath, int page) {
     return context.basenameWithoutExtension(filePath) +
-        '.$page.thumbnail.' +
-        context.extension(filePath);
+        '.$page.thumbnail.png';
   }
 }
