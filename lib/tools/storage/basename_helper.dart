@@ -22,14 +22,14 @@ class BaseNameHelper {
         '.thumbnail.png';
   }
 
-  static String baseNameExt(String name, String ext) {
-    return name + '.' + ext;
+  static String baseNameExt(String filePath, String ext) {
+    return context.basenameWithoutExtension(filePath) + '.' + ext;
   }
 
-  static String baseNameWithPage(String filePath, int page) {
+  static String baseNameWithPageExt(String filePath, int page, String ext) {
     return context.basenameWithoutExtension(filePath) +
         '.$page.' +
-        context.extension(filePath);
+        ext;
   }
 
   static String thumbnailBaseNameWithPage(String filePath, int page) {

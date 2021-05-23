@@ -144,7 +144,7 @@ abstract class MediumData {
    * Before: _createImageFromPdfPage(with thumbnail TRUE)
    */
   static Future<PhotoWithThumbnail> createPhotoWithThumbnailFromPdfPage(
-      String filePath, int pageNumber) async {
+      String filePath, String name, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
     final pageImage = await page.render(width: page.width, height: page.height);
@@ -164,9 +164,10 @@ abstract class MediumData {
     }
     var thumbnail = imgpackage.copyResize(img,
         width: thumbnailWidth, height: thumbnailHeight);
+    var thumbNailData = Uint8List.fromList(imgpackage.encodePng(thumbnail));
 
-    var baseName = BaseNameHelper.baseName(filePath);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(filePath);
+    var baseName = name + '.png';
+    var thumbnailBaseName = name + '.thumbnail.png';
     return PhotoWithThumbnail(
         photoData: ImageData(
             baseName: baseName,
@@ -177,7 +178,7 @@ abstract class MediumData {
             baseName: thumbnailBaseName,
             width: thumbnailSize,
             height: thumbnailSize,
-            data: thumbnail.getBytes()));
+            data: thumbNailData));
   }
 
   /*

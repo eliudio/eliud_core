@@ -278,11 +278,11 @@ class MemberMediumHelper {
    */
   static Future<MemberMediumModel> createThumbnailUploadPdfAsset(
       String appId, String assetPath, String ownerId, List<String> readAccess,
-      {String? documentID}) async {
+      String documentID) async {
     var filePath = await AssetHelper.getFileFromAssets(assetPath);
 
     return createThumbnailUploadPdfFile(appId, filePath, ownerId, readAccess,
-        documentID: documentID);
+        documentID);
   }
 
   /*
@@ -293,18 +293,21 @@ class MemberMediumHelper {
    */
   static Future<MemberMediumModel> createThumbnailUploadPdfFile(
       String appId, String filePath, String ownerId, List<String> readAccess,
-      {String? documentID}) async {
+      String documentID) async {
     // First, upload the file
     var fileInfo =
         await UploadInfo.uploadFile(filePath, appId, ownerId, readAccess);
 
+    var baseName = context.basenameWithoutExtension(filePath);
+
     // Second, create the thumbnail
     var photoData =
-        await MediumData.createPhotoWithThumbnailFromPdfPage(filePath, 1);
+        await MediumData.createPhotoWithThumbnailFromPdfPage(filePath, documentID, 1);
 
     // Third, upload the thumbnail;
+    var thumbNailName = context.basenameWithoutExtension(filePath) + '.thumbnail.png';
     var fileInfoThumbnail = await UploadInfo.uploadData(
-        BaseNameHelper.thumbnailBaseNameWithPage(filePath, 1),
+        thumbNailName,
         photoData.thumbNailData.data,
         appId,
         ownerId,
@@ -314,54 +317,54 @@ class MemberMediumHelper {
     final document = await PdfDocument.openFile(filePath);
     final pageCount = await document.pagesCount;
     dynamic previousMediumId;
+    var newDocumentID;
     for (var i = pageCount; i >= 1; i--) {
-      // First, create the thumbnail
+      newDocumentID = documentID + '-' + i.toString();
+      var newBaseName = baseName + '-' + i.toString();
+
+      // First, create the image and thumbnail
       var pageData = await MediumData.createPhotoWithThumbnailFromPdfPage(
-          filePath, i);
+          filePath, newBaseName, i);
 
       // Second, upload the thumbnail;
       var pageThumbnail = await UploadInfo.uploadData(
-          BaseNameHelper.thumbnailBaseNameWithPage(filePath, 1),
+          pageData.thumbNailData.baseName,
           pageData.thumbNailData.data,
           appId,
           ownerId,
           readAccess);
 
-      // Third, create image
-      var imageFromPdf =
-          await MediumData.createPhotoFromPdfPage(filePath, i);
-
-      // Forth, upload the image
+      // Third, upload the image
       var pageImage = await UploadInfo.uploadData(
-          BaseNameHelper.baseNameWithPage(filePath, 1),
-          imageFromPdf.data,
+          pageData.photoData.baseName,
+          pageData.photoData.data,
           appId,
           ownerId,
           readAccess);
 
-      var documentID = newRandomKey();
-      // Forth, upload the file;
+      // Create the MemberMediumModel representation
       var pageImageModel = MemberMediumModel(
-          documentID: documentID,
+          documentID: newDocumentID,
           appId: appId,
           authorId: ownerId,
           url: pageImage == null ? null : pageImage.url,
           ref: pageImage == null ? null : pageImage.ref,
           urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
           mediumType: MediumType.Photo,
-          mediumWidth: imageFromPdf.width,
-          mediumHeight: imageFromPdf.height,
+          mediumWidth: pageData.photoData.width,
+          mediumHeight: pageData.photoData.height,
           readAccess: readAccess,
           thumbnailWidth: pageData.thumbNailData.width,
           thumbnailHeight: pageData.thumbNailData.height,
           relatedMediumId: previousMediumId);
-      previousMediumId = documentID;
+
+      previousMediumId = newDocumentID;
       await memberMediumRepository(appId: appId)!.add(pageImageModel);
     }
 
     // Create the MemberImageModel
     var memberImageModel = MemberMediumModel(
-        documentID: documentID ?? newRandomKey(),
+        documentID: documentID,
         appId: appId,
         authorId: ownerId,
         url: fileInfo.url,
