@@ -2,15 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:native_pdf_renderer/native_pdf_renderer.dart';
-import 'package:path/path.dart';
-import 'package:image/image.dart' as imgpackage;
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'basename_helper.dart';
 
@@ -54,7 +46,7 @@ class UploadInfo {
           fileData,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await uploadTask.ref.getDownloadURL();
+      var url = await _getUrl(uploadTask);
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(
@@ -81,12 +73,29 @@ class UploadInfo {
           file,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await uploadTask.ref.getDownloadURL();
+      var url = await _getUrl(uploadTask);
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(
           'Exception during file upload. code = $e.code,  message = $e.message');
     }
+  }
+
+  /*
+   * When we retrieve the download url using getDownloadURL then this include security token
+   * This makes the URL accessible for everybody without security rules.
+   * I'm assuming that by removing the token this url becomes a URL only accessible for
+   * those who have access rights through the storage rules.
+   *
+   * See https://stackoverflow.com/questions/67664805/in-flutter-after-uploading-a-file-to-firebase-storage-how-do-i-get-the-public
+   */
+  static Future<String> _getUrl(firebase_storage.TaskSnapshot uploadTask) async {
+    var url = await uploadTask.ref.getDownloadURL();
+    var uri = Uri.parse(url);
+    var newMap = Map<String, dynamic>.from(uri.queryParameters)..removeWhere((k, v) => k == 'token');
+    var newUri = uri.replace(queryParameters: newMap);
+    var newUrl = newUri.toString();
+    return newUrl;
   }
 }
 
