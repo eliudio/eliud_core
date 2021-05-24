@@ -46,7 +46,7 @@ class UploadInfo {
           fileData,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await _getUrl(uploadTask);
+      var url = await uploadTask.ref.getDownloadURL();
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(
@@ -73,7 +73,7 @@ class UploadInfo {
           file,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await _getUrl(uploadTask);
+      var url = await uploadTask.ref.getDownloadURL();
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(
@@ -81,21 +81,5 @@ class UploadInfo {
     }
   }
 
-  /*
-   * When we retrieve the download url using getDownloadURL then this include security token
-   * This makes the URL accessible for everybody without security rules.
-   * I'm assuming that by removing the token this url becomes a URL only accessible for
-   * those who have access rights through the storage rules.
-   *
-   * See https://stackoverflow.com/questions/67664805/in-flutter-after-uploading-a-file-to-firebase-storage-how-do-i-get-the-public
-   */
-  static Future<String> _getUrl(firebase_storage.TaskSnapshot uploadTask) async {
-    var url = await uploadTask.ref.getDownloadURL();
-    var uri = Uri.parse(url);
-    var newMap = Map<String, dynamic>.from(uri.queryParameters)..removeWhere((k, v) => k == 'token');
-    var newUri = uri.replace(queryParameters: newMap);
-    var newUrl = newUri.toString();
-    return newUrl;
-  }
 }
 
