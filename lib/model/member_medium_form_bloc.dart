@@ -54,6 +54,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
+                                 refThumbnail: "",
                                  readAccess: [],
                                  mediumWidth: 0,
                                  mediumHeight: 0,
@@ -110,6 +111,12 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
       }
       if (event is ChangedMemberMediumUrlThumbnail) {
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
+        yield SubmittableMemberMediumForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberMediumRefThumbnail) {
+        newValue = currentState.value!.copyWith(refThumbnail: event.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;
