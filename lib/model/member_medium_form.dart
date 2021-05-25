@@ -132,6 +132,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
+  final TextEditingController _refThumbnailController = TextEditingController();
   int? _mediumTypeSelectedRadioTile;
   final TextEditingController _mediumWidthController = TextEditingController();
   final TextEditingController _mediumHeightController = TextEditingController();
@@ -152,6 +153,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _urlController.addListener(_onUrlChanged);
     _refController.addListener(_onRefChanged);
     _urlThumbnailController.addListener(_onUrlThumbnailChanged);
+    _refThumbnailController.addListener(_onRefThumbnailChanged);
     _mediumTypeSelectedRadioTile = 0;
     _mediumWidthController.addListener(_onMediumWidthChanged);
     _mediumHeightController.addListener(_onMediumHeightChanged);
@@ -195,6 +197,10 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
           _urlThumbnailController.text = state.value!.urlThumbnail.toString();
         else
           _urlThumbnailController.text = "";
+        if (state.value!.refThumbnail != null)
+          _refThumbnailController.text = state.value!.refThumbnail.toString();
+        else
+          _refThumbnailController.text = "";
         if (state.value!.mediumType != null)
           _mediumTypeSelectedRadioTile = state.value!.mediumType!.index;
         else
@@ -298,6 +304,24 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                   autovalidate: true,
                   validator: (_) {
                     return state is UrlThumbnailMemberMediumFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _refThumbnailController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Image Ref on Firebase Storage',
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is RefThumbnailMemberMediumFormError ? state.message : null;
                   },
                 ),
           );
@@ -511,6 +535,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
+                              refThumbnail: state.value!.refThumbnail, 
                               readAccess: state.value!.readAccess, 
                               mediumType: state.value!.mediumType, 
                               mediumWidth: state.value!.mediumWidth, 
@@ -528,6 +553,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
+                              refThumbnail: state.value!.refThumbnail, 
                               readAccess: state.value!.readAccess, 
                               mediumType: state.value!.mediumType, 
                               mediumWidth: state.value!.mediumWidth, 
@@ -597,6 +623,11 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   }
 
 
+  void _onRefThumbnailChanged() {
+    _myFormBloc.add(ChangedMemberMediumRefThumbnail(value: _refThumbnailController.text));
+  }
+
+
   void _onReadAccessChanged(value) {
     _myFormBloc.add(ChangedMemberMediumReadAccess(value: value));
     setState(() {});
@@ -645,6 +676,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _urlController.dispose();
     _refController.dispose();
     _urlThumbnailController.dispose();
+    _refThumbnailController.dispose();
     _mediumWidthController.dispose();
     _mediumHeightController.dispose();
     _thumbnailWidthController.dispose();

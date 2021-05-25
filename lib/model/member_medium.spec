@@ -56,6 +56,11 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "refThumbnail",
+      "displayName": "Image Ref on Firebase Storage",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "readAccess",
       "displayName": "Members that can read this post. Array can contain 'public'",
       "fieldType": "String",
