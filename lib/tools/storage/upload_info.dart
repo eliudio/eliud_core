@@ -38,16 +38,30 @@ class UploadInfo {
   }
 
   /*
-   * Upload data to firebase storage
-   *
-   * Usage: When you need to upload data (Uint8List) to firebase storage
-   *
-   * Before: _uploadData
+   * Upload member data to firebase storage
    */
   static Future<UploadInfo?> uploadData(String baseName, Uint8List fileData,
       String appId, String ownerId, List<String> readAccess) async {
+    return _uploadData(baseName, fileData, appId, ownerId, ownerId, readAccess);
+  }
+
+  /*
+   * Upload temp data to firebase storage
+   */
+  static Future<UploadInfo?> uploadTempData(Uint8List fileData,
+      String appId, String ownerId, List<String> readAccess) async {
+    return _uploadData(newRandomKey(), fileData, appId, 'temp', ownerId, readAccess);
+  }
+
+  /*
+   * Upload data to firebase storage
+   *
+   * Usage: When you need to upload data (Uint8List) to firebase storage
+   */
+  static Future<UploadInfo?> _uploadData(String baseName, Uint8List fileData,
+      String appId, String directory, String ownerId, List<String> readAccess) async {
     try {
-      var ref = '$appId/$ownerId/$baseName';
+      var ref = '$appId/$directory/$baseName';
       var uploadTask = await firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putData(
@@ -66,8 +80,6 @@ class UploadInfo {
    * Upload a file to firebase storage
    *
    * Usage: When you need to upload a file to firebase storage
-   *
-   * Before: _uploadFile
    */
   static Future<UploadInfo> uploadFile(String filePath, String appId,
       String ownerId, List<String> readAccess) async {
