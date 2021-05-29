@@ -14,7 +14,7 @@ dependencies:
   firebase_auth: ^1.0.1
   google_sign_in: ^5.0.1
   google_sign_in_web: ^0.10.0
-  firebase_storage: ^8.0.1
+  firebase_storage: ^8.1.0
   google_fonts: ^2.0.0
   cloud_firestore: ^1.0.3
   datetime_picker_formfield: ^2.0.0

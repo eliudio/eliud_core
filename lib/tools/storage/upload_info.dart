@@ -14,6 +14,8 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'basename_helper.dart';
 
+typedef FeedbackProgress(double progress);
+
 class UploadInfo {
   final String url;
   final String ref;
@@ -41,16 +43,16 @@ class UploadInfo {
    * Upload member data to firebase storage
    */
   static Future<UploadInfo?> uploadData(String baseName, Uint8List fileData,
-      String appId, String ownerId, List<String> readAccess) async {
-    return _uploadData(baseName, fileData, appId, ownerId, ownerId, readAccess);
+      String appId, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
+    return _uploadData(baseName, fileData, appId, ownerId, ownerId, readAccess, feedbackProgress: feedbackProgress);
   }
 
   /*
    * Upload temp data to firebase storage
    */
   static Future<UploadInfo?> uploadTempData(Uint8List fileData,
-      String appId, String ownerId, List<String> readAccess) async {
-    return _uploadData(newRandomKey(), fileData, appId, 'temp', ownerId, readAccess);
+      String appId, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
+    return _uploadData(newRandomKey(), fileData, appId, 'temp', ownerId, readAccess, feedbackProgress: feedbackProgress);
   }
 
   /*
@@ -59,16 +61,22 @@ class UploadInfo {
    * Usage: When you need to upload data (Uint8List) to firebase storage
    */
   static Future<UploadInfo?> _uploadData(String baseName, Uint8List fileData,
-      String appId, String directory, String ownerId, List<String> readAccess) async {
+      String appId, String directory, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
     try {
       var ref = '$appId/$directory/$baseName';
-      var uploadTask = await firebase_storage.FirebaseStorage.instance
+      var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putData(
           fileData,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await uploadTask.ref.getDownloadURL();
+      uploadTask.snapshotEvents.listen((event) {
+        if (feedbackProgress != null) {
+          feedbackProgress(event.bytesTransferred / event.totalBytes);
+        }
+      });
+      var uploadedTask = await uploadTask;
+      var url = await uploadedTask.ref.getDownloadURL();
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(
@@ -82,18 +90,24 @@ class UploadInfo {
    * Usage: When you need to upload a file to firebase storage
    */
   static Future<UploadInfo> uploadFile(String filePath, String appId,
-      String ownerId, List<String> readAccess) async {
+      String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
     var file = File(filePath);
     try {
       var baseName = BaseNameHelper.baseName(filePath);
       var ref = '$appId/$ownerId/$baseName';
-      var uploadTask = await firebase_storage.FirebaseStorage.instance
+      var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putFile(
           file,
           firebase_storage.SettableMetadata(
               customMetadata: _customMetaData(ownerId, readAccess)));
-      var url = await uploadTask.ref.getDownloadURL();
+      uploadTask.snapshotEvents.listen((event) {
+        if (feedbackProgress != null) {
+          feedbackProgress(event.bytesTransferred / event.totalBytes);
+        }
+      });
+      var uploadedTask = await uploadTask;
+      var url = await uploadedTask.ref.getDownloadURL();
       return UploadInfo(url, ref);
     } on firebase_storage.FirebaseException catch (e) {
       throw Exception(

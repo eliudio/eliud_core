@@ -16,7 +16,15 @@ import 'package:transparent_image/transparent_image.dart';
 
 class ListHelper {
   static List<String> getStringList(List<String?> list) {
-    List<String> newList = [];
+    var newList = <String>[];
+    list.forEach((element) {
+      if (element != null) newList.add(element);
+    });
+    return newList;
+  }
+
+  static List<MemberMediumModel> getMemberMediumModelList(List<MemberMediumModel?> list) {
+    var newList = <MemberMediumModel>[];
     list.forEach((element) {
       if (element != null) newList.add(element);
     });
@@ -24,7 +32,7 @@ class ListHelper {
   }
 
   static List<Uint8List> getUint8List(List<Uint8List?> list) {
-    List<Uint8List> newList = [];
+    var newList = <Uint8List>[];
     list.forEach((element) {
       if (element != null) newList.add(element);
     });
