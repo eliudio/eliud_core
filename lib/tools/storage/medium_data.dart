@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -10,6 +11,8 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'basename_helper.dart';
 import 'medium_base.dart';
+
+import 'package:http/http.dart' as http;
 
 abstract class MediumData {
   static int thumbnailSize = 200;
@@ -116,14 +119,55 @@ abstract class MediumData {
             data: thumbNailData));
   }
 
+  static Future<Uint8List> getThumbnailUsingHerokuapp(String videoUrl) async {
+    var input = '{"videoUrl" : "$videoUrl"}';
+    var url =
+        'https://video-thumbnail-generator-pub.herokuapp.com/generate/thumbnail';
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-type': 'application/json'},
+        body: input,
+      );
+      if (response.statusCode == 200) {
+        var data = response.body;
+        return base64Decode(data);
+      } else {
+        throw 'Could not fetch data from api | Error Code: ${response.statusCode}';
+      }
+    } on Exception catch (e) {
+      throw 'Error : $e';
+    }
+  }
+
+  static Future<VideoWithThumbnail> enrichVideoUsngHerokuapp(
+      String baseName, String thumbnailBaseName, Uint8List imgBytes, String url) async {
+    print('url: ' + url);
+    var thumbNailData = await getThumbnailUsingHerokuapp(url);
+
+    // return the data
+    return VideoWithThumbnail(
+        videoData: VideoData(
+            baseName: baseName,
+            data: imgBytes), // we don't know the size of the video... todo
+        thumbNailData: ImageData(
+            baseName: thumbnailBaseName,
+            width: thumbnailSize,
+            height: thumbnailSize,
+            data: thumbNailData));
+  }
+
   /*
-   * Enrich a video with a thumbnail. Because in this situation we do not have access to the file but only to the Uint8List representation
-   * we can't create a thumbnail (at least not to our knowledge). So hence we have a hardcoded thumbnail instead.
+   * Enrich a video with a hardcoded thumbnail fom assets.
    *
-   * Usage: When you need a thumbnail of a video and information about the video
+   * VideoThumbnail does not support flutterweb. So as a consequence we use getThumbnailUsingHerokuapp to generate a thumbnail
+   * However, this is not ideal. It's an external service, which means a dependency.
+   * For now, we stick with it, until production. Then we should reconsider: does VideoThumbnail support flutterweb?
+   * If yes, then use it. If no, perhaps consider using a hardcoded thumbnail and replace the calls to getThumbnailUsingHerokuapp into calls to
+   * enrichVideoWithHardcodedThumbnail
    *
    */
-  static Future<VideoWithThumbnail> enrichVideo(
+  static Future<VideoWithThumbnail> enrichVideoWithHardcodedThumbnail(
       String baseName, String thumbnailBaseName, Uint8List imgBytes) async {
     var thumbNailData = await getThumbnailFromAsset(videoImage);
 
