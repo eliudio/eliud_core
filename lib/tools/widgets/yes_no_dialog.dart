@@ -50,3 +50,4 @@ class _YesNoState extends State<YesNoDialog> {
             noButtonLabel: widget.noButtonLabel));
   }
 }
+

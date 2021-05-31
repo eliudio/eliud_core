@@ -32,7 +32,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
+  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -45,14 +45,14 @@ class DialogStateHelper {
   }
 
   Widget _contentBox(
-      {required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
+      {required String title, required Widget contents, required List<Widget> buttons, double? width}) {
     return Form(
         key: _formKey,
         child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width)
     );
   }
 
-  Widget _getRowWithButtons(List<TextButton> buttons) {
+  Widget _getRowWithButtons(List<Widget> buttons) {
     var widgets = <Widget>[
       Spacer(),
     ];
@@ -62,7 +62,7 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {required String title, required Widget contents, required List<TextButton> buttons, double? width}) {
+      {required String title, required Widget contents, required List<Widget> buttons, double? width}) {
     var widgets = <Widget>[
       Center(
           child: Text(title,
@@ -130,10 +130,10 @@ class DialogStateHelper {
   List<TextButton> getYesNoButtons(
       BuildContext context, Function? yesFunction, Function? noFunction,
       {String? yesButtonLabel, String? noButtonLabel}) {
-    return <TextButton>[
+    return <TextButton> [
       TextButton(
           onPressed: noFunction as void Function()?,
-          child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel)),
+          child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel),),
       TextButton(
           onPressed: yesFunction as void Function()?,
           child: Text(yesButtonLabel == null ? 'Continue' : yesButtonLabel)),
