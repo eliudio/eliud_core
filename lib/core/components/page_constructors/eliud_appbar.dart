@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/tools/menu_helper.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -67,59 +68,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
   void _addButton(BuildContext context, AccessState state, AppModel app, AppBarModel? value, List<Widget> buttons,
       MenuItemModel item, MemberModel? member) {
-    var isActive = PageHelper.isActivePage(widget.currentPage, item.action);
-    var _color = isActive
-        ? RgbHelper.color(rgbo: value!.selectedIconColor)
-        : RgbHelper.color(rgbo: value!.iconColor);
-
-
-    var _rgbcolor = isActive
-        ? value.selectedIconColor
-        : value.iconColor;
-
-    var action = item.action;
-    if ((action is PopupMenu) && (action.menuDef != null) && (action.menuDef!.menuItems != null) && (action.menuDef!.menuItems!.length > 0)) {
-        var popupMenu = EliudPopupMenu(app:app, state: state, currentPage: widget.currentPage, member: member, menu: action.menuDef!, text: Text(item.text!),
-            icon: item.icon == null
-                ? null
-                : IconHelper.getIconFromModel(
-                iconModel: item.icon, color: _rgbcolor),
-            menuBackgroundColor: value.menuBackgroundColor);
-        buttons.add(Theme(
-            data: Theme.of(context).copyWith(
-              cardColor: RgbHelper.color(rgbo: value.menuBackgroundColor),
-            ),
-            child: popupMenu));
-    } else {
-      if (item.icon != null) {
-        buttons.add(IconButton(
-          icon: IconHelper.getIconFromModel(iconModel: item.icon)!,
-          color: _color,
-          onPressed: () {
-            if (!PageHelper.isActivePage(widget.currentPage, item.action)) {
-              eliudrouter.Router.navigateTo(context, item.action!);
-            }
-          },
-        ));
-      } else {
-
-        buttons.add(Center(
-            child: OutlineButton(
-              padding: EdgeInsets.all(10.0),
-              child: Text('${item.text}',
-                  style: FontTools.textStyle(app.h5)),
-              onPressed: () {
-                if (!PageHelper.isActivePage(widget.currentPage, item.action)) {
-                  eliudrouter.Router.navigateTo(context, item.action!);
-                }
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0)),
-              borderSide:
-              BorderSide(color: FontTools.textStyle(app.h4)!.color!),
-            )));
-      }
-    }
+    MenuHelper.addButton(context, state, app, buttons, item, member, widget.currentPage, value!.selectedIconColor!, value!.iconColor!, value!.menuBackgroundColor!);
   }
 
   Widget _appBarWithButtons(BuildContext context, AccessState state, AppModel app, String? theTitle, AppBarModel value, List<Widget> buttons, MemberModel? member)  {
