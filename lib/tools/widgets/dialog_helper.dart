@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum DialogButtonPosition { BottomRight, TopRight }
+
 class DialogStatefulWidgetHelper {
   static double width(BuildContext context) =>
       MediaQuery.of(context).size.width * 0.9;
@@ -11,19 +13,21 @@ class DialogStatefulWidgetHelper {
 
   static void openIt(BuildContext context, Widget dialog,
       {double? heightValue, double? widthValue}) {
+    var _width = widthValue == null
+        ? width(context)
+        : min(width(context), widthValue);
+    var _height = heightValue == null
+        ? height(context)
+        : min(height(context), heightValue);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                  width: widthValue == null
-                      ? width(context)
-                      : min(width(context), widthValue),
-                  height: heightValue == null
-                      ? height(context)
-                      : min(height(context), heightValue),
-                  child: dialog));
+          child: Align(alignment: Alignment.center, child: SizedBox(
+              width: _width,
+              height: _height,
+              child: dialog)));
         });
   }
 }
@@ -32,7 +36,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width}) {
+  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -40,47 +44,55 @@ class DialogStateHelper {
       ),
       elevation: 0,
       backgroundColor: Colors.white,
-      child: _contentBox(title: title, contents: contents, buttons: buttons),
+      child: _contentBox(title: title, contents: contents, buttons: buttons, dialogButtonPosition: dialogButtonPosition),
     );
   }
 
   Widget _contentBox(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width}) {
+      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
     return Form(
         key: _formKey,
-        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width)
+        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width, dialogButtonPosition: dialogButtonPosition)
     );
   }
 
-  Widget _getRowWithButtons(List<Widget> buttons) {
-    var widgets = <Widget>[
-      Spacer(),
-    ];
+  Widget _getRowWithButtons(List<Widget> buttons, {Widget? title}) {
+    var widgets = <Widget>[];
+    if (title != null) {
+      widgets.add(title);
+    }
+    widgets.add(Spacer());
     widgets.addAll(buttons);
     return Row(
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
   Widget _titleAndFields(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width}) {
-    var widgets = <Widget>[
-      Center(
-          child: Text(title,
-              style: TextStyle(
-                  color: Colors.grey[800],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20))),
-      Divider(
+      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
+    var widgets = <Widget>[];
+    Widget _title = Text(title,
+        style: TextStyle(
+            color: Colors.grey[800],
+            fontWeight: FontWeight.bold,
+            fontSize: 20));
+    if ((dialogButtonPosition != null) && (dialogButtonPosition == DialogButtonPosition.TopRight)) {
+      widgets.add(_getRowWithButtons(buttons, title: _title));
+    } else {
+      widgets.add(
+          Center(child: _title));
+    }
+    widgets.add(Divider(
         height: 10,
         color: Colors.red,
-      ),
-      contents,
-      Divider(
-        height: 10,
-        color: Colors.red,
-      ),
-      _getRowWithButtons(buttons),
-    ];
+      ));
+    widgets.add(contents);
+    if (!((dialogButtonPosition != null) && (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+      widgets.add(Divider(
+          height: 10,
+          color: Colors.red,
+      ));
+      widgets.add(_getRowWithButtons(buttons));
+    }
 
     return Container(width: width, child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
