@@ -23,7 +23,7 @@ class DialogStatefulWidgetHelper {
         context: context,
         builder: (BuildContext context) {
           return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
           child: Align(alignment: Alignment.center, child: SizedBox(
               width: _width,
               height: _height,
