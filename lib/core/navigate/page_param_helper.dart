@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class PageContextInfo {
@@ -13,6 +14,10 @@ class PageParamHelper {
   static PageContextInfo getPagaContextInfo(BuildContext context) {
     var modalRoute = ModalRoute.of(context) as ModalRoute;
     var app = AccessBloc.app(context);
+    return getPagaContextInfoWithRoutAndApp(modalRoute, app);
+  }
+
+  static PageContextInfo getPagaContextInfoWithRoutAndApp(ModalRoute modalRoute, AppModel? app) {
     if (app == null) {
       throw Exception('No app selected');
     }
