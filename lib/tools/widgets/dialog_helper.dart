@@ -36,7 +36,7 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
+  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -44,15 +44,15 @@ class DialogStateHelper {
       ),
       elevation: 0,
       backgroundColor: Colors.white,
-      child: _contentBox(title: title, contents: contents, buttons: buttons, dialogButtonPosition: dialogButtonPosition),
+      child: _contentBox(title: title, contents: contents, buttons: buttons, dialogButtonPosition: dialogButtonPosition, seperator: seperator),
     );
   }
 
   Widget _contentBox(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
+      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
     return Form(
         key: _formKey,
-        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width, dialogButtonPosition: dialogButtonPosition)
+        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width, dialogButtonPosition: dialogButtonPosition, seperator: seperator)
     );
   }
 
@@ -68,7 +68,7 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition}) {
+      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
     var widgets = <Widget>[];
     Widget _title = Text(title,
         style: TextStyle(
@@ -81,10 +81,14 @@ class DialogStateHelper {
       widgets.add(
           Center(child: _title));
     }
-    widgets.add(Divider(
+    if (seperator == null) {
+      widgets.add(Divider(
         height: 10,
         color: Colors.red,
       ));
+    } else {
+      widgets.add(seperator);
+    }
     widgets.add(contents);
     if (!((dialogButtonPosition != null) && (dialogButtonPosition == DialogButtonPosition.TopRight))) {
       widgets.add(Divider(
