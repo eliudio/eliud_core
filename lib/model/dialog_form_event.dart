@@ -139,6 +139,18 @@ class ChangedDialogGridView extends DialogFormEvent {
   String toString() => 'ChangedDialogGridView{ value: $value }';
 }
 
+class ChangedDialogWidgetWrapper extends DialogFormEvent {
+  final String? value;
+
+  ChangedDialogWidgetWrapper({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedDialogWidgetWrapper{ value: $value }';
+}
+
 class ChangedDialogConditions extends DialogFormEvent {
   final ConditionsModel? value;
 

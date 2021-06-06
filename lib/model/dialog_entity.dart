@@ -27,18 +27,19 @@ class DialogEntity {
   final RgbEntity? background;
   final int? layout;
   final String? gridViewId;
+  final String? widgetWrapper;
   final ConditionsEntity? conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.conditions, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridViewId, this.widgetWrapper, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, bodyComponents, background, layout, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, bodyComponents, background, layout, gridViewId, widgetWrapper, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
   static DialogEntity? fromMap(Map? map) {
@@ -68,6 +69,7 @@ class DialogEntity {
       background: backgroundFromMap, 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
+      widgetWrapper: map['widgetWrapper'], 
       conditions: conditionsFromMap, 
     );
   }
@@ -96,6 +98,8 @@ class DialogEntity {
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
+    if (widgetWrapper != null) theDocument["widgetWrapper"] = widgetWrapper;
+      else theDocument["widgetWrapper"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

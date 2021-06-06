@@ -131,6 +131,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _titleController = TextEditingController();
   int? _layoutSelectedRadioTile;
   String? _gridView;
+  final TextEditingController _widgetWrapperController = TextEditingController();
 
 
   _MyDialogFormState(this.formAction);
@@ -143,6 +144,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
+    _widgetWrapperController.addListener(_onWidgetWrapperChanged);
   }
 
   @override
@@ -176,6 +178,10 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _gridView= state.value!.gridView!.documentID;
         else
           _gridView= "";
+        if (state.value!.widgetWrapper != null)
+          _widgetWrapperController.text = state.value!.widgetWrapper.toString();
+        else
+          _widgetWrapperController.text = "";
       }
       if (state is DialogFormInitialized) {
         List<Widget> children = [];
@@ -232,6 +238,25 @@ class _MyDialogFormState extends State<MyDialogForm> {
                   autovalidate: true,
                   validator: (_) {
                     return state is TitleDialogFormError ? state.message : null;
+                  },
+                ),
+          );
+
+        children.add(
+
+                TextFormField(
+                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
+                  readOnly: _readOnly(accessState, state),
+                  controller: _widgetWrapperController,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
+                    labelText: 'Shared Widget Wrapper',
+                    hintText: "This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all components of this page. The page will wrap all it's components inside this widget. This can for example be of use when you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component",
+                  ),
+                  keyboardType: TextInputType.text,
+                  autovalidate: true,
+                  validator: (_) {
+                    return state is WidgetWrapperDialogFormError ? state.message : null;
                   },
                 ),
           );
@@ -409,6 +434,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value!.background, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
+                              widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
                         )));
                       } else {
@@ -421,6 +447,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               background: state.value!.background, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
+                              widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
                           )));
                       }
@@ -497,12 +524,18 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
+  void _onWidgetWrapperChanged() {
+    _myFormBloc.add(ChangedDialogWidgetWrapper(value: _widgetWrapperController.text));
+  }
+
+
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
+    _widgetWrapperController.dispose();
     super.dispose();
   }
 

@@ -5,7 +5,7 @@ import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
-import 'package:eliud_core/core/components/page_helper.dart';
+import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';

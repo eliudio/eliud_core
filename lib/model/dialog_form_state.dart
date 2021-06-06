@@ -175,6 +175,22 @@ class GridViewDialogFormError extends DialogFormError {
 }
 
 
+class WidgetWrapperDialogFormError extends DialogFormError { 
+  const WidgetWrapperDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''WidgetWrapperDialogFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ConditionsDialogFormError extends DialogFormError { 
   const ConditionsDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 

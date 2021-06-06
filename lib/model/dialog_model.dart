@@ -55,18 +55,21 @@ class DialogModel {
 
   // Specific gridview
   GridViewModel? gridView;
+
+  // This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all components of this page. The page will wrap all it's components inside this widget. This can for example be of use when you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component
+  String? widgetWrapper;
   ConditionsModel? conditions;
 
-  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.conditions, })  {
+  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.background, this.layout, this.gridView, this.widgetWrapper, this.conditions, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, RgbModel? background, DialogLayout? layout, GridViewModel? gridView, ConditionsModel? conditions, }) {
-    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
+  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, RgbModel? background, DialogLayout? layout, GridViewModel? gridView, String? widgetWrapper, ConditionsModel? conditions, }) {
+    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, background: background ?? this.background, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, widgetWrapper: widgetWrapper ?? this.widgetWrapper, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ background.hashCode ^ layout.hashCode ^ gridView.hashCode ^ widgetWrapper.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -80,13 +83,14 @@ class DialogModel {
           background == other.background &&
           layout == other.layout &&
           gridView == other.gridView &&
+          widgetWrapper == other.widgetWrapper &&
           conditions == other.conditions;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, conditions: $conditions}';
+    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, background: $background, layout: $layout, gridView: $gridView, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
   DialogEntity toEntity({String? appId}) {
@@ -99,6 +103,7 @@ class DialogModel {
           background: (background != null) ? background!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
+          widgetWrapper: (widgetWrapper != null) ? widgetWrapper : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
@@ -117,6 +122,7 @@ class DialogModel {
           background: 
             RgbModel.fromEntity(entity.background), 
           layout: toDialogLayout(entity.layout), 
+          widgetWrapper: entity.widgetWrapper, 
           conditions: 
             ConditionsModel.fromEntity(entity.conditions), 
     );
@@ -148,6 +154,7 @@ class DialogModel {
             await RgbModel.fromEntityPlus(entity.background, appId: appId), 
           layout: toDialogLayout(entity.layout), 
           gridView: gridViewHolder, 
+          widgetWrapper: entity.widgetWrapper, 
           conditions: 
             await ConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );

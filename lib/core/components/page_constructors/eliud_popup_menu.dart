@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/core/components/page_helper.dart';
+import 'package:eliud_core/core/components/util/page_helper.dart';
 
 class EliudPopupMenu extends StatefulWidget {
   final String currentPage;

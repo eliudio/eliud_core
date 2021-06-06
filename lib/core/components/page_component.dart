@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/components/page_body_helper.dart';
+import 'package:eliud_core/core/components/util/component_info.dart';
+import 'package:eliud_core/core/components/util/page_body.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
@@ -15,6 +16,7 @@ import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/tools/has_fab.dart';
+import 'package:eliud_core/tools/registry.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -79,7 +81,6 @@ class PageComponent extends StatelessWidget {
 class PageContentsWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
-  final helper = PageBodyHelper();
   final AppLoaded state;
   final PageModel pageModel;
   final String pageID;
@@ -123,14 +124,12 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
-      var componentInfo =
-          widget.helper.getComponentInfo(value.bodyComponents!, parameters);
-      hasFab = componentInfo.hasFab;
-      theBody = widget.helper.theBody(context, accessState,
-          backgroundDecoration: value.background,
-          components: componentInfo.widgets,
-          layout: fromPageLayout(value.layout),
-          gridView: value.gridView);
+      var componentInfo = ComponentInfo.getComponentInfo(value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.background, value.gridView);
+      if (value.widgetWrapper != null) {
+        theBody = Registry.registry()!.wrapWidgetInBloc(value.widgetWrapper!, context, componentInfo);
+      } else {
+        theBody = PageBody(componentInfo: componentInfo,);
+      }
     }
 
     var drawer = value.drawer == null

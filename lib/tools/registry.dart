@@ -3,6 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/dialog_component.dart';
+import 'package:eliud_core/core/components/util/component_info.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
@@ -37,6 +38,7 @@ class Registry {
   }
 
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();
+  final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers = HashMap();
 
   static Registry? _instance;
 
@@ -197,6 +199,20 @@ class Registry {
   void register(
       {String? componentName, ComponentConstructor? componentConstructor}) {
     _registryMap[componentName] = componentConstructor;
+  }
+
+  void registerPageComponentsBloc(String blocName, ComponentWidgetWrapper wrapper) {
+    _componentWidgetWrappers[blocName] = wrapper;
+  }
+
+  Widget? wrapWidgetInBloc(String wrapperName, BuildContext context, ComponentInfo componentInfo) {
+    var wrapper = _componentWidgetWrappers[wrapperName];
+    if (wrapper != null) {
+      return wrapper!.wrapWidget(context, componentInfo);
+    } else {
+      print("Can't find the wrapper with wrapperName $wrapperName. Did you register it from your package using registerPageComponentsBloc?");
+      return null;
+    }
   }
 
   void addDropDownSupporter(String componentId, ComponentDropDown support) {

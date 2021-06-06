@@ -53,6 +53,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  title: "",
                                  bodyComponents: [],
                                  background: RgbModel(r: 211, g: 211, b: 211, opacity: 0.50), 
+                                 widgetWrapper: "",
 
         ));
         yield loaded;
@@ -119,8 +120,15 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  background: currentState.value!.background,
                                  layout: currentState.value!.layout,
                                  gridView: null,
+                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
+        yield SubmittableDialogForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedDialogWidgetWrapper) {
+        newValue = currentState.value!.copyWith(widgetWrapper: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
