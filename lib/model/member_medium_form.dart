@@ -90,7 +90,7 @@ class MemberMediumForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update MemberMedium' : 'Add MemberMedium'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberMedium' : 'Add MemberMedium'),
         body: BlocProvider<MemberMediumFormBloc >(
             create: (context) => MemberMediumFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -228,27 +228,27 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Author ID', Icons.text_format, _readOnly(accessState, state), _authorIdController, FieldType.String, validator: (_) => state is AuthorIdMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Author ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _authorIdController, keyboardType: TextInputType.text, validator: (_) => state is AuthorIdMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image URL', Icons.text_format, _readOnly(accessState, state), _urlController, FieldType.String, validator: (_) => state is UrlMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlController, keyboardType: TextInputType.text, validator: (_) => state is UrlMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Ref on Firebase Storage', Icons.text_format, _readOnly(accessState, state), _refController, FieldType.String, validator: (_) => state is RefMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refController, keyboardType: TextInputType.text, validator: (_) => state is RefMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Thumbnail URL', Icons.text_format, _readOnly(accessState, state), _urlThumbnailController, FieldType.String, validator: (_) => state is UrlThumbnailMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Thumbnail URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is UrlThumbnailMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Ref on Firebase Storage', Icons.text_format, _readOnly(accessState, state), _refThumbnailController, FieldType.String, validator: (_) => state is RefThumbnailMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is RefThumbnailMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -266,27 +266,27 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'mediumWidth', Icons.text_format, _readOnly(accessState, state), _mediumWidthController, FieldType.Int, validator: (_) => state is MediumWidthMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'mediumWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumWidthController, keyboardType: TextInputType.number, validator: (_) => state is MediumWidthMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'mediumHeight', Icons.text_format, _readOnly(accessState, state), _mediumHeightController, FieldType.Int, validator: (_) => state is MediumHeightMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'mediumHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumHeightController, keyboardType: TextInputType.number, validator: (_) => state is MediumHeightMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'thumbnailWidth', Icons.text_format, _readOnly(accessState, state), _thumbnailWidthController, FieldType.Int, validator: (_) => state is ThumbnailWidthMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'thumbnailWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailWidthController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailWidthMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'thumbnailHeight', Icons.text_format, _readOnly(accessState, state), _thumbnailHeightController, FieldType.Int, validator: (_) => state is ThumbnailHeightMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'thumbnailHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailHeightController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailHeightMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'relatedMediumId', Icons.text_format, _readOnly(accessState, state), _relatedMediumIdController, FieldType.String, validator: (_) => state is RelatedMediumIdMemberMediumFormError ? state.message : null, hintText: 'In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'relatedMediumId', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _relatedMediumIdController, keyboardType: TextInputType.text, validator: (_) => state is RelatedMediumIdMemberMediumFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -302,7 +302,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDMemberMediumFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberMediumFormError ? state.message : null, hintText: null)
           );
 
 
@@ -333,7 +333,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberMediumFormError) {
                       return null;

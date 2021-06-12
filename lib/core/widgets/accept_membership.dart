@@ -3,10 +3,9 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 import 'package:eliud_core/tools/widgets/member_medium_dialog.dart';
-import 'package:eliud_core/tools/widgets/message_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -111,11 +110,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
       i++;
     });
 
-    return Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecorationHelper.boxDecoration(
-            accessState, app.formAppBarBackground),
+    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().container(context,
         child: Center(
             child: Container(
           width: AcceptMembershipWidget.width(context),
@@ -167,28 +162,18 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     ];
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
-      ElevatedButton(
-        onPressed: _allEnabled(app)
+      StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().button(context, label: 'Accept', onPressed: _allEnabled(app)
             ? () async {
                 BlocProvider.of<AccessBloc>(context)
                     .add(AcceptedMembership(widget.member, widget.usr));
               }
             : null,
-        child: Text('Accept',
-            style: TextStyle(
-                color: RgbHelper.color(
-                    rgbo: widget.app.formSubmitButtonTextColor))),
       ),
       Spacer(),
-      ElevatedButton(
+      StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().button(context, label: 'Cancel',
         onPressed: () async {
           BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
-        },
-        child: Text('Cancel',
-            style: TextStyle(
-                color: RgbHelper.color(
-                    rgbo: widget.app.formSubmitButtonTextColor))),
-      ),
+        },)
     ]));
 
     return ListView(

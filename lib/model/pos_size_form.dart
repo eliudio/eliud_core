@@ -90,7 +90,7 @@ class PosSizeForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
         body: BlocProvider<PosSizeFormBloc >(
             create: (context) => PosSizeFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -246,12 +246,12 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDPosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPosSizeFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NamePosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NamePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
@@ -322,7 +322,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'widthLandscape', Icons.text_format, _readOnly(accessState, state), _widthLandscapeController, FieldType.Double, validator: (_) => state is WidthLandscapePosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'widthLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is WidthLandscapePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
@@ -338,7 +338,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'widthPortrait', Icons.text_format, _readOnly(accessState, state), _widthPortraitController, FieldType.Double, validator: (_) => state is WidthPortraitPosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'widthPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthPortraitController, keyboardType: TextInputType.number, validator: (_) => state is WidthPortraitPosSizeFormError ? state.message : null, hintText: null)
           );
 
 
@@ -394,7 +394,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'heightLandscape', Icons.text_format, _readOnly(accessState, state), _heightLandscapeController, FieldType.Double, validator: (_) => state is HeightLandscapePosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'heightLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is HeightLandscapePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
@@ -410,7 +410,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'heightPortrait', Icons.text_format, _readOnly(accessState, state), _heightPortraitController, FieldType.Double, validator: (_) => state is HeightPortraitPosSizeFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'heightPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightPortraitController, keyboardType: TextInputType.number, validator: (_) => state is HeightPortraitPosSizeFormError ? state.message : null, hintText: null)
           );
 
 
@@ -635,7 +635,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PosSizeFormError) {
                       return null;

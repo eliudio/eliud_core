@@ -3,6 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/menu_helper.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 
 import 'package:eliud_core/core/components/util/page_helper.dart';
@@ -75,8 +76,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
     Widget title;
     Widget? part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
-      part1 = Text(value.title!,
-          style: FontTools.textStyle(app.h1));
+      part1 = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, value.title!);
     } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
       part1 = IconHelper.getIconFromModel(iconModel: value.icon);
     } else if ((value.header == HeaderSelection.Image) &&
@@ -92,13 +92,9 @@ class _EliudAppBarState extends State<EliudAppBar> {
     if (part1 != null) {
       title = Row(children: [part1, Container(width: 20), Text(theTitle!)]);
     } else if (theTitle != null) {
-      title = Text(
-        theTitle,
-        style:  FontTools.textStyle(app.h1),
-      );
+      title = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, theTitle);
     } else {
-      title = Text('No title provided',
-          style:  FontTools.textStyle(app.h1));
+      title = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, 'No title');
     }
 
     if (member != null) {
@@ -126,15 +122,9 @@ class _EliudAppBarState extends State<EliudAppBar> {
       );
     }
 
-    var iconThemeData =
-    IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
+    var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
 
-    return AppBar(
-        iconTheme: iconThemeData,
-        title: title,
-        actions: buttons,
-        flexibleSpace: Container(
-            decoration: BoxDecorationHelper.boxDecoration(state, value.background)));
+    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().appBarWithWidget(context, title: title, buttons: buttons, background: value.background);
   }
 
   void _addPlayStoreButton(String? playStoreApp,

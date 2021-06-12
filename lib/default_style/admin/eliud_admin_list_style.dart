@@ -2,7 +2,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/style/admin/admin_list_style.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
-import 'eliud_style.dart';
+import '../eliud_style.dart';
 
 class EliudAdminListStyle extends AdminListStyle {
   final EliudStyle _eliudStyle;

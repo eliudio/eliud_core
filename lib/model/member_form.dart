@@ -88,7 +88,7 @@ class MemberForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -264,17 +264,17 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'User UUID', Icons.vpn_key, true, _documentIDController, FieldType.String, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'User UUID')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'User UUID', icon: Icons.vpn_key, readOnly: true, textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Email address', Icons.text_format, _readOnly(accessState, state), _emailController, FieldType.String, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -347,27 +347,27 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _shipStreet1Controller, FieldType.String, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _shipStreet2Controller, FieldType.String, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _shipCityController, FieldType.String, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _shipStateController, FieldType.String, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _postcodeController, FieldType.String, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -404,27 +404,27 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _invoiceStreet1Controller, FieldType.String, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _invoiceStreet2Controller, FieldType.String, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _invoiceCityController, FieldType.String, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _invoiceStateController, FieldType.String, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _invoicePostcodeController, FieldType.String, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -449,7 +449,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -706,7 +706,7 @@ class MemberSmallForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -771,7 +771,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -799,7 +799,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -898,7 +898,7 @@ class MemberAddressForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -1045,12 +1045,12 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Email address', Icons.text_format, _readOnly(accessState, state), _emailController, FieldType.String, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -1066,27 +1066,27 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _shipStreet1Controller, FieldType.String, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _shipStreet2Controller, FieldType.String, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _shipCityController, FieldType.String, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _shipStateController, FieldType.String, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _postcodeController, FieldType.String, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -1123,27 +1123,27 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _invoiceStreet1Controller, FieldType.String, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _invoiceStreet2Controller, FieldType.String, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _invoiceCityController, FieldType.String, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _invoiceStateController, FieldType.String, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _invoicePostcodeController, FieldType.String, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
@@ -1168,7 +1168,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;

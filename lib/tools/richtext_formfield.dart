@@ -1,5 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,29 +36,12 @@ class RichTextFieldState extends State<RichTextField> {
   @override
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
-    return TextFormField(
-      readOnly: !appState.memberIsOwner(),
-      initialValue: value,
-      style: appState is AppLoaded ? TextStyle(
-          color: RgbHelper.color(rgbo: appState.app.formFieldTextColor)) : null,
-      decoration: appState is AppLoaded ? InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-                color:
-                    RgbHelper.color(rgbo: appState.app.formFieldTextColor))),
-        focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-                color:
-                    RgbHelper.color(rgbo: appState.app.formFieldFocusColor)) ),
-        icon: Icon(Icons.folder,
-            color: RgbHelper.color(rgbo: appState.app.formFieldHeaderColor)),
-        labelText: widget.label,
-        hintText: widget.hint,
-      ) : null,
-      onChanged: _onChanged,
-      keyboardType: TextInputType.multiline,
-      maxLines: widget.rows,
-      autovalidate: true,
+    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().textFormField(context,
+    readOnly: !appState.memberIsOwner(),
+    initialValue: value,
+    onChanged: _onChanged,
+    keyboardType: TextInputType.multiline,
+    maxLines: widget.rows,
     );
   }
 

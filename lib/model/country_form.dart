@@ -90,7 +90,7 @@ class CountryForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Country' : 'Add Country'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Country' : 'Add Country'),
         body: BlocProvider<CountryFormBloc >(
             create: (context) => CountryFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -168,17 +168,17 @@ class _MyCountryFormState extends State<MyCountryForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDCountryFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDCountryFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Country Code', Icons.text_format, _readOnly(accessState, state), _countryCodeController, FieldType.String, validator: (_) => state is CountryCodeCountryFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Country Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryCodeController, keyboardType: TextInputType.text, validator: (_) => state is CountryCodeCountryFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Country Name', Icons.text_format, _readOnly(accessState, state), _countryNameController, FieldType.String, validator: (_) => state is CountryNameCountryFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Country Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryNameController, keyboardType: TextInputType.text, validator: (_) => state is CountryNameCountryFormError ? state.message : null, hintText: null)
           );
 
 
@@ -187,7 +187,7 @@ class _MyCountryFormState extends State<MyCountryForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is CountryFormError) {
                       return null;

@@ -126,7 +126,7 @@ class BackgroundCache implements BackgroundRepository {
     MemberMediumModel? backgroundImageHolder;
     if (model.backgroundImage != null) {
       try {
-        await memberMediumRepository(appId: model.backgroundImage!.appId)!.get(model.backgroundImage!.documentID).then((val) {
+        await memberMediumRepository()!.get(model.backgroundImage!.documentID).then((val) {
           backgroundImageHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -135,7 +135,7 @@ class BackgroundCache implements BackgroundRepository {
     ShadowModel? shadowHolder;
     if (model.shadow != null) {
       try {
-        await shadowRepository(appId: model.shadow!.appId)!.get(model.shadow!.documentID).then((val) {
+        await shadowRepository()!.get(model.shadow!.documentID).then((val) {
           shadowHolder = val;
         }).catchError((error) {});
       } catch (_) {}

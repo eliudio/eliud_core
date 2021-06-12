@@ -126,7 +126,7 @@ class PageCache implements PageRepository {
     AppBarModel? appBarHolder;
     if (model.appBar != null) {
       try {
-        await appBarRepository(appId: model.appBar!.appId)!.get(model.appBar!.documentID).then((val) {
+        await appBarRepository(appId: model.appId)!.get(model.appBar!.documentID).then((val) {
           appBarHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -135,7 +135,7 @@ class PageCache implements PageRepository {
     DrawerModel? drawerHolder;
     if (model.drawer != null) {
       try {
-        await drawerRepository(appId: model.drawer!.appId)!.get(model.drawer!.documentID).then((val) {
+        await drawerRepository(appId: model.appId)!.get(model.drawer!.documentID).then((val) {
           drawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -144,7 +144,7 @@ class PageCache implements PageRepository {
     DrawerModel? endDrawerHolder;
     if (model.endDrawer != null) {
       try {
-        await drawerRepository(appId: model.endDrawer!.appId)!.get(model.endDrawer!.documentID).then((val) {
+        await drawerRepository(appId: model.appId)!.get(model.endDrawer!.documentID).then((val) {
           endDrawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -153,7 +153,7 @@ class PageCache implements PageRepository {
     HomeMenuModel? homeMenuHolder;
     if (model.homeMenu != null) {
       try {
-        await homeMenuRepository(appId: model.homeMenu!.appId)!.get(model.homeMenu!.documentID).then((val) {
+        await homeMenuRepository(appId: model.appId)!.get(model.homeMenu!.documentID).then((val) {
           homeMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -162,7 +162,7 @@ class PageCache implements PageRepository {
     BackgroundModel? backgroundHolder;
     if (model.background != null) {
       try {
-        await backgroundRepository(appId: model.background!.appId)!.get(model.background!.documentID).then((val) {
+        await backgroundRepository(appId: model.appId)!.get(model.background!.documentID).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -171,7 +171,7 @@ class PageCache implements PageRepository {
     GridViewModel? gridViewHolder;
     if (model.gridView != null) {
       try {
-        await gridViewRepository(appId: model.gridView!.appId)!.get(model.gridView!.documentID).then((val) {
+        await gridViewRepository(appId: model.appId)!.get(model.gridView!.documentID).then((val) {
           gridViewHolder = val;
         }).catchError((error) {});
       } catch (_) {}

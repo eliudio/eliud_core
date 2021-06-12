@@ -88,7 +88,7 @@ class AppEntryPagesForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update AppEntryPages' : 'Add AppEntryPages'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppEntryPages' : 'Add AppEntryPages'),
         body: BlocProvider<AppEntryPagesFormBloc >(
             create: (context) => AppEntryPagesFormBloc(AccessBloc.appId(context),
                                        
@@ -169,7 +169,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'minPrivilege', Icons.text_format, _readOnly(accessState, state), _minPrivilegeController, FieldType.Int, validator: (_) => state is MinPrivilegeAppEntryPagesFormError ? state.message : null, hintText: 'Members with a privilege more or equal to this privilege have this homepage, unless a ')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'minPrivilege', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _minPrivilegeController, keyboardType: TextInputType.number, validator: (_) => state is MinPrivilegeAppEntryPagesFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -200,7 +200,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is AppEntryPagesFormError) {
                       return null;

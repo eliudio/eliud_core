@@ -133,10 +133,6 @@ class Registry {
                   var app = accessState.app;
                   var router = eliudrouter.Router(AccessBloc.getBloc(context));
                   ThemeData? darkTheme;
-                  if ((app.darkOrLight != null) &&
-                      (app.darkOrLight == DarkOrLight.Dark)) {
-                    darkTheme = ThemeData.dark();
-                  }
                   return MaterialApp(
                     debugShowCheckedModeBanner: false,
                     navigatorKey: navigatorKey,

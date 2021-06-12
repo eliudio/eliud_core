@@ -88,7 +88,7 @@ class MemberSubscriptionForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
         body: BlocProvider<MemberSubscriptionFormBloc >(
             create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
                                        
@@ -178,7 +178,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberSubscriptionFormError) {
                       return null;

@@ -126,7 +126,7 @@ class HomeMenuCache implements HomeMenuRepository {
     MenuDefModel? menuHolder;
     if (model.menu != null) {
       try {
-        await menuDefRepository(appId: model.menu!.appId)!.get(model.menu!.documentID).then((val) {
+        await menuDefRepository(appId: model.appId)!.get(model.menu!.documentID).then((val) {
           menuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -135,7 +135,7 @@ class HomeMenuCache implements HomeMenuRepository {
     BackgroundModel? backgroundHolder;
     if (model.background != null) {
       try {
-        await backgroundRepository(appId: model.background!.appId)!.get(model.background!.documentID).then((val) {
+        await backgroundRepository(appId: model.appId)!.get(model.background!.documentID).then((val) {
           backgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}

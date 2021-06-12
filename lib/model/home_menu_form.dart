@@ -90,7 +90,7 @@ class HomeMenuForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update HomeMenu' : 'Add HomeMenu'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update HomeMenu' : 'Add HomeMenu'),
         body: BlocProvider<HomeMenuFormBloc >(
             create: (context) => HomeMenuFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -178,12 +178,12 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDHomeMenuFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDHomeMenuFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameHomeMenuFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameHomeMenuFormError ? state.message : null, hintText: null)
           );
 
 
@@ -256,7 +256,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is HomeMenuFormError) {
                       return null;

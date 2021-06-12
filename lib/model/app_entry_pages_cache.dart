@@ -126,7 +126,7 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     PageModel? entryPageHolder;
     if (model.entryPage != null) {
       try {
-        await pageRepository(appId: model.entryPage!.appId)!.get(model.entryPage!.documentID).then((val) {
+        await pageRepository()!.get(model.entryPage!.documentID).then((val) {
           entryPageHolder = val;
         }).catchError((error) {});
       } catch (_) {}

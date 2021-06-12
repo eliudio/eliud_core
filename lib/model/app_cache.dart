@@ -126,7 +126,7 @@ class AppCache implements AppRepository {
     MemberMediumModel? logoHolder;
     if (model.logo != null) {
       try {
-        await memberMediumRepository(appId: model.logo!.appId)!.get(model.logo!.documentID).then((val) {
+        await memberMediumRepository()!.get(model.logo!.documentID).then((val) {
           logoHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -135,7 +135,7 @@ class AppCache implements AppRepository {
     AppPolicyModel? policiesHolder;
     if (model.policies != null) {
       try {
-        await appPolicyRepository(appId: model.policies!.appId)!.get(model.policies!.documentID).then((val) {
+        await appPolicyRepository()!.get(model.policies!.documentID).then((val) {
           policiesHolder = val;
         }).catchError((error) {});
       } catch (_) {}

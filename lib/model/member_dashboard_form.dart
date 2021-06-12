@@ -95,7 +95,7 @@ class MemberDashboardForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update MemberDashboard' : 'Add MemberDashboard'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberDashboard' : 'Add MemberDashboard'),
         body: BlocProvider<MemberDashboardFormBloc >(
             create: (context) => MemberDashboardFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -209,47 +209,47 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDMemberDashboardFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberDashboardFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'App Identifier', Icons.text_format, _readOnly(accessState, state), _appIdController, FieldType.String, validator: (_) => state is AppIdMemberDashboardFormError ? state.message : null, hintText: 'This is the identifier of the app to which this belongs')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'App Identifier', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _appIdController, keyboardType: TextInputType.text, validator: (_) => state is AppIdMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Description', Icons.text_format, _readOnly(accessState, state), _descriptionController, FieldType.String, validator: (_) => state is DescriptionMemberDashboardFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionMemberDashboardFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Update Profile Text', Icons.text_format, _readOnly(accessState, state), _updateProfileTextController, FieldType.String, validator: (_) => state is UpdateProfileTextMemberDashboardFormError ? state.message : null, hintText: 'This is the text on the member dashboard screen providing more information about what it means to update the member profile')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Update Profile Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _updateProfileTextController, keyboardType: TextInputType.text, validator: (_) => state is UpdateProfileTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Retrieve Data Text', Icons.text_format, _readOnly(accessState, state), _retrieveDataTextController, FieldType.String, validator: (_) => state is RetrieveDataTextMemberDashboardFormError ? state.message : null, hintText: 'This is the text on the member dashboard screen providing more information about what it means to retrieve all data')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Retrieve Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataTextController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Delete Data Text', Icons.text_format, _readOnly(accessState, state), _deleteDataTextController, FieldType.String, validator: (_) => state is DeleteDataTextMemberDashboardFormError ? state.message : null, hintText: 'This is the text on the member dashboard screen providing more information about what it means to destroy the account, i.e. the member will loose all data')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataTextController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Retrieve Data Email Subject', Icons.text_format, _readOnly(accessState, state), _retrieveDataEmailSubjectController, FieldType.String, validator: (_) => state is RetrieveDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'This is the subject of the email providing the member his data stored in the app (after requesting it)')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Retrieve Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Delete Data Email Subject', Icons.text_format, _readOnly(accessState, state), _deleteDataEmailSubjectController, FieldType.String, validator: (_) => state is DeleteDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'This is the subject of the email informing the member that his account and all of his data has been destroyed (after requesting it)')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Delete Data Email Message', Icons.text_format, _readOnly(accessState, state), _deleteDataEmailMessageController, FieldType.String, validator: (_) => state is DeleteDataEmailMessageMemberDashboardFormError ? state.message : null, hintText: 'This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Email Message', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailMessageController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailMessageMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -270,7 +270,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberDashboardFormError) {
                       return null;

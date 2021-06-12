@@ -90,7 +90,7 @@ class DialogForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Dialog' : 'Add Dialog'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Dialog' : 'Add Dialog'),
         body: BlocProvider<DialogFormBloc >(
             create: (context) => DialogFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -196,17 +196,17 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDDialogFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDDialogFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Title', Icons.text_format, _readOnly(accessState, state), _titleController, FieldType.String, validator: (_) => state is TitleDialogFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Title', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleDialogFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Shared Widget Wrapper', Icons.text_format, _readOnly(accessState, state), _widgetWrapperController, FieldType.String, validator: (_) => state is WidgetWrapperDialogFormError ? state.message : null, hintText: 'This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all components of this page. The page will wrap all it's components inside this widget. This can for example be of use when you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Shared Widget Wrapper', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widgetWrapperController, keyboardType: TextInputType.text, validator: (_) => state is WidgetWrapperDialogFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -325,7 +325,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is DialogFormError) {
                       return null;

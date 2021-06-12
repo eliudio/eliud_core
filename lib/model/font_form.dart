@@ -90,7 +90,7 @@ class FontForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
         body: BlocProvider<FontFormBloc >(
             create: (context) => FontFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -186,17 +186,17 @@ class _MyFontFormState extends State<MyFontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDFontFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDFontFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Font Family Name (currently supported family is Google Fonts)', Icons.text_format, _readOnly(accessState, state), _fontNameController, FieldType.String, validator: (_) => state is FontNameFontFormError ? state.message : null, hintText: 'See https://fonts.google.com/')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Font Family Name (currently supported family is Google Fonts)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _fontNameController, keyboardType: TextInputType.text, validator: (_) => state is FontNameFontFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Size', Icons.text_format, _readOnly(accessState, state), _sizeController, FieldType.Double, validator: (_) => state is SizeFontFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Size', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _sizeController, keyboardType: TextInputType.number, validator: (_) => state is SizeFontFormError ? state.message : null, hintText: null)
           );
 
 
@@ -317,7 +317,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is FontFormError) {
                       return null;

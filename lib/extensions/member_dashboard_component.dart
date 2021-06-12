@@ -11,9 +11,9 @@ import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/gdpr/gdpr_functions.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
@@ -46,15 +46,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
     ]);
   }
 
-  TableRow getRow(AppModel app, String textButton, String description,
+  TableRow getRow(BuildContext context, AppModel app, String textButton, String description,
       VoidCallback action) {
     return TableRow(children: [
       TextButton(onPressed: () => action(), child: Text(textButton)),
       TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: Text(description,
-              textAlign: TextAlign.center,
-              style: FontTools.textStyle(app.fontText))),
+          child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().text(context, description, textAlign: TextAlign.center)),
     ]);
   }
 
@@ -81,23 +79,19 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         children: [
           Row(children: [
             Spacer(),
-            Text(welcomeText,
-                textAlign: TextAlign.center,
-                style: FontTools.textStyle(app!.fontText)),
+            StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().text(context, welcomeText, textAlign: TextAlign.center),
             Spacer(),
             profilePhoto,
           ]),
           Container(height:20),
-          Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)),
+          StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().divider(context),
           Container(height:20),
-          Table(
-            defaultColumnWidth: IntrinsicColumnWidth(),
-            border: TableBorder.symmetric(inside: BorderSide(color: RgbHelper.color(rgbo: app.dividerColor))),
+          StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().table(context,
             children: [
 //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
-              getRow(app, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),
-              getRow(app, 'Retrieve data', dashboardModel.retrieveDataText!, () => _retrieveData(context, dashboardModel, app, member)),
-              getRow(app, 'Delete account', dashboardModel.deleteDataText!, () => _deleteAccount(context, dashboardModel, app, member)),
+              getRow(context, app!, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),
+              getRow(context, app!, 'Retrieve data', dashboardModel.retrieveDataText!, () => _retrieveData(context, dashboardModel, app, member)),
+              getRow(context, app!, 'Delete account', dashboardModel.deleteDataText!, () => _deleteAccount(context, dashboardModel, app, member)),
             ],
           )
         ],

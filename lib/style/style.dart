@@ -3,6 +3,7 @@ import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'admin/admin_form_style.dart';
 import 'admin/admin_list_style.dart';
+import 'frontend/frontend_form_style.dart';
 
 abstract class Style {
   final String _familyName;
@@ -12,6 +13,7 @@ abstract class Style {
 
   AdminFormStyle adminFormStyle();
   AdminListStyle adminListStyle();
+  FrontEndFormStyle frontEndFormStyle();
 
   String familyName() => _familyName;
 

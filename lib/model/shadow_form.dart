@@ -90,7 +90,7 @@ class ShadowForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Shadow' : 'Add Shadow'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Shadow' : 'Add Shadow'),
         body: BlocProvider<ShadowFormBloc >(
             create: (context) => ShadowFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -208,12 +208,12 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDShadowFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDShadowFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Comments', Icons.text_format, _readOnly(accessState, state), _commentsController, FieldType.String, validator: (_) => state is CommentsShadowFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Comments', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _commentsController, keyboardType: TextInputType.text, validator: (_) => state is CommentsShadowFormError ? state.message : null, hintText: null)
           );
 
 
@@ -229,12 +229,12 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'DX', Icons.text_format, _readOnly(accessState, state), _offsetDXController, FieldType.Double, validator: (_) => state is OffsetDXShadowFormError ? state.message : null, hintText: 'The first argument sets [dx], the horizontal component of the offset')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'DX', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _offsetDXController, keyboardType: TextInputType.number, validator: (_) => state is OffsetDXShadowFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'DY', Icons.text_format, _readOnly(accessState, state), _offsetDYController, FieldType.Double, validator: (_) => state is OffsetDYShadowFormError ? state.message : null, hintText: 'The second argument sets [dy], the vertical component of the offset')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'DY', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _offsetDYController, keyboardType: TextInputType.number, validator: (_) => state is OffsetDYShadowFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -250,12 +250,12 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Spread Radius', Icons.text_format, _readOnly(accessState, state), _spreadRadiusController, FieldType.Double, validator: (_) => state is SpreadRadiusShadowFormError ? state.message : null, hintText: 'The amount the box should be inflated prior to applying the blur.')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Spread Radius', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _spreadRadiusController, keyboardType: TextInputType.number, validator: (_) => state is SpreadRadiusShadowFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Blur Radius', Icons.text_format, _readOnly(accessState, state), _blurRadiusController, FieldType.Double, validator: (_) => state is BlurRadiusShadowFormError ? state.message : null, hintText: 'The standard deviation of the Gaussian to convolve with the shadow's shape.')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Blur Radius', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _blurRadiusController, keyboardType: TextInputType.number, validator: (_) => state is BlurRadiusShadowFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -264,7 +264,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ShadowFormError) {
                       return null;

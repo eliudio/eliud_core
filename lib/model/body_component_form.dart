@@ -88,7 +88,7 @@ class BodyComponentForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update BodyComponent' : 'Add BodyComponent'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update BodyComponent' : 'Add BodyComponent'),
         body: BlocProvider<BodyComponentFormBloc >(
             create: (context) => BodyComponentFormBloc(AccessBloc.appId(context),
                                        
@@ -178,7 +178,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BodyComponentFormError) {
                       return null;

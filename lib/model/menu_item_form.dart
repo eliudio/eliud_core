@@ -88,7 +88,7 @@ class MenuItemForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update MenuItem' : 'Add MenuItem'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MenuItem' : 'Add MenuItem'),
         body: BlocProvider<MenuItemFormBloc >(
             create: (context) => MenuItemFormBloc(AccessBloc.appId(context),
                                        
@@ -165,12 +165,12 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'text', Icons.text_format, _readOnly(accessState, state), _textController, FieldType.String, validator: (_) => state is TextMenuItemFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _textController, keyboardType: TextInputType.text, validator: (_) => state is TextMenuItemFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'description', Icons.text_format, _readOnly(accessState, state), _descriptionController, FieldType.String, validator: (_) => state is DescriptionMenuItemFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionMenuItemFormError ? state.message : null, hintText: null)
           );
 
 
@@ -211,7 +211,7 @@ class _MyMenuItemFormState extends State<MyMenuItemForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MenuItemFormError) {
                       return null;

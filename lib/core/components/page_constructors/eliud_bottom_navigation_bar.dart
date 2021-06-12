@@ -3,6 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
 import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 
@@ -58,15 +59,19 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
                   currentIndex: 0,
                   fixedColor: Colors.teal,
                   items: menuItems.map((item) {
-                    TextStyle style =
+                    var text =
                         PageHelper.isActivePage(widget.currentPage, item.action)
-                            ? FontTools.textStyle(widget.app!.h3)!
-                            : FontTools.textStyle(widget.app!.h4)!;
+                            ? StyleRegistry.registry()
+                                .styleWithContext(context)
+                                .frontEndFormStyle()
+                                .h3(context, item.text)
+                            : StyleRegistry.registry()
+                                .styleWithContext(context)
+                                .frontEndFormStyle()
+                                .h4(context, item.text);
+
                     return BottomNavigationBarItem(
-                      title: Text(
-                        item.text,
-                        style: style,
-                      ),
+                      title: text,
                       icon: IconHelper.getIconFromModelWithFlutterColor(
                           iconModel: item.icon, color: style.color),
                     );

@@ -90,7 +90,7 @@ class DrawerForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Drawer' : 'Add Drawer'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Drawer' : 'Add Drawer'),
         body: BlocProvider<DrawerFormBloc >(
             create: (context) => DrawerFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -217,22 +217,22 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDDrawerFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDDrawerFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameDrawerFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameDrawerFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Header Text', Icons.text_format, _readOnly(accessState, state), _headerTextController, FieldType.String, validator: (_) => state is HeaderTextDrawerFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Header Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _headerTextController, keyboardType: TextInputType.text, validator: (_) => state is HeaderTextDrawerFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Header Description', Icons.text_format, _readOnly(accessState, state), _secondHeaderTextController, FieldType.String, validator: (_) => state is SecondHeaderTextDrawerFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Header Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _secondHeaderTextController, keyboardType: TextInputType.text, validator: (_) => state is SecondHeaderTextDrawerFormError ? state.message : null, hintText: null)
           );
 
 
@@ -248,7 +248,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Header Height (0 for default)', Icons.photo_size_select_large, _readOnly(accessState, state), _headerHeightController, FieldType.Double, validator: (_) => state is HeaderHeightDrawerFormError ? state.message : null, hintText: 'Header height, 0 for default')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Header Height (0 for default)', icon: Icons.photo_size_select_large, readOnly: _readOnly(accessState, state), textEditingController: _headerHeightController, keyboardType: TextInputType.number, validator: (_) => state is HeaderHeightDrawerFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -316,7 +316,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is DrawerFormError) {
                       return null;

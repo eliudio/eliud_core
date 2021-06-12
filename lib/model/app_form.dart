@@ -90,7 +90,7 @@ class AppForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update App' : 'Add App'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update App' : 'Add App'),
         body: BlocProvider<AppFormBloc >(
             create: (context) => AppFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -226,12 +226,12 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Style Family', Icons.text_format, _readOnly(accessState, state), _styleFamilyController, FieldType.String, validator: (_) => state is StyleFamilyAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Style Family', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _styleFamilyController, keyboardType: TextInputType.text, validator: (_) => state is StyleFamilyAppFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Style Name', Icons.text_format, _readOnly(accessState, state), _styleNameController, FieldType.String, validator: (_) => state is StyleNameAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Style Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _styleNameController, keyboardType: TextInputType.text, validator: (_) => state is StyleNameAppFormError ? state.message : null, hintText: null)
           );
 
 
@@ -247,22 +247,22 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDAppFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Title', Icons.text_format, _readOnly(accessState, state), _titleController, FieldType.String, validator: (_) => state is TitleAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Title', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleAppFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Contact email', Icons.email, _readOnly(accessState, state), _emailController, FieldType.String, validator: (_) => state is EmailAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Contact email', icon: Icons.email, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailAppFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Description', Icons.text_format, _readOnly(accessState, state), _descriptionController, FieldType.String, validator: (_) => state is DescriptionAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionAppFormError ? state.message : null, hintText: null)
           );
 
 
@@ -365,7 +365,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Page Animation (millisec)', Icons.text_format, _readOnly(accessState, state), _routeAnimationDurationController, FieldType.Int, validator: (_) => state is RouteAnimationDurationAppFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Page Animation (millisec)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _routeAnimationDurationController, keyboardType: TextInputType.number, validator: (_) => state is RouteAnimationDurationAppFormError ? state.message : null, hintText: null)
           );
 
 
@@ -409,7 +409,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is AppFormError) {
                       return null;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'dialog_helper.dart';
+import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 
 typedef OptionTriggered = void Function();
 

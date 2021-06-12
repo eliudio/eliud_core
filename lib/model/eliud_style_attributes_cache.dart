@@ -126,7 +126,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     BackgroundModel? formBackgroundHolder;
     if (model.formBackground != null) {
       try {
-        await backgroundRepository(appId: model.formBackground!.appId)!.get(model.formBackground!.documentID).then((val) {
+        await backgroundRepository()!.get(model.formBackground!.documentID).then((val) {
           formBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -135,7 +135,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     BackgroundModel? formAppBarBackgroundHolder;
     if (model.formAppBarBackground != null) {
       try {
-        await backgroundRepository(appId: model.formAppBarBackground!.appId)!.get(model.formAppBarBackground!.documentID).then((val) {
+        await backgroundRepository()!.get(model.formAppBarBackground!.documentID).then((val) {
           formAppBarBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -144,7 +144,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     BackgroundModel? listBackgroundHolder;
     if (model.listBackground != null) {
       try {
-        await backgroundRepository(appId: model.listBackground!.appId)!.get(model.listBackground!.documentID).then((val) {
+        await backgroundRepository()!.get(model.listBackground!.documentID).then((val) {
           listBackgroundHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -153,7 +153,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? h1Holder;
     if (model.h1 != null) {
       try {
-        await fontRepository(appId: model.h1!.appId)!.get(model.h1!.documentID).then((val) {
+        await fontRepository()!.get(model.h1!.documentID).then((val) {
           h1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -162,7 +162,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? h2Holder;
     if (model.h2 != null) {
       try {
-        await fontRepository(appId: model.h2!.appId)!.get(model.h2!.documentID).then((val) {
+        await fontRepository()!.get(model.h2!.documentID).then((val) {
           h2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -171,7 +171,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? h3Holder;
     if (model.h3 != null) {
       try {
-        await fontRepository(appId: model.h3!.appId)!.get(model.h3!.documentID).then((val) {
+        await fontRepository()!.get(model.h3!.documentID).then((val) {
           h3Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -180,7 +180,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? h4Holder;
     if (model.h4 != null) {
       try {
-        await fontRepository(appId: model.h4!.appId)!.get(model.h4!.documentID).then((val) {
+        await fontRepository()!.get(model.h4!.documentID).then((val) {
           h4Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -189,7 +189,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? h5Holder;
     if (model.h5 != null) {
       try {
-        await fontRepository(appId: model.h5!.appId)!.get(model.h5!.documentID).then((val) {
+        await fontRepository()!.get(model.h5!.documentID).then((val) {
           h5Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -198,7 +198,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? fontTextHolder;
     if (model.fontText != null) {
       try {
-        await fontRepository(appId: model.fontText!.appId)!.get(model.fontText!.documentID).then((val) {
+        await fontRepository()!.get(model.fontText!.documentID).then((val) {
           fontTextHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -207,7 +207,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? fontHighlight1Holder;
     if (model.fontHighlight1 != null) {
       try {
-        await fontRepository(appId: model.fontHighlight1!.appId)!.get(model.fontHighlight1!.documentID).then((val) {
+        await fontRepository()!.get(model.fontHighlight1!.documentID).then((val) {
           fontHighlight1Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -216,7 +216,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? fontHighlight2Holder;
     if (model.fontHighlight2 != null) {
       try {
-        await fontRepository(appId: model.fontHighlight2!.appId)!.get(model.fontHighlight2!.documentID).then((val) {
+        await fontRepository()!.get(model.fontHighlight2!.documentID).then((val) {
           fontHighlight2Holder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -225,7 +225,7 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
     FontModel? fontLinkHolder;
     if (model.fontLink != null) {
       try {
-        await fontRepository(appId: model.fontLink!.appId)!.get(model.fontLink!.documentID).then((val) {
+        await fontRepository()!.get(model.fontLink!.documentID).then((val) {
           fontLinkHolder = val;
         }).catchError((error) {});
       } catch (_) {}

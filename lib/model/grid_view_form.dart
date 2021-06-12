@@ -90,7 +90,7 @@ class GridViewForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update GridView' : 'Add GridView'),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update GridView' : 'Add GridView'),
         body: BlocProvider<GridViewFormBloc >(
             create: (context) => GridViewFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -239,12 +239,12 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDGridViewFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameGridViewFormError ? state.message : null, hintText: null)
           );
 
 
@@ -300,7 +300,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         if ((state.value!.type == GridViewGridType.Count)) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Cross Axis Count', Icons.text_format, _readOnly(accessState, state), _crossAxisCountController, FieldType.Int, validator: (_) => state is CrossAxisCountGridViewFormError ? state.message : null, hintText: 'Amount of components cross axis')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Cross Axis Count', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _crossAxisCountController, keyboardType: TextInputType.number, validator: (_) => state is CrossAxisCountGridViewFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -336,7 +336,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Absolute Max Cross Axis Extent', Icons.text_format, _readOnly(accessState, state), _absoluteMaxCrossAxisExtentController, FieldType.Double, validator: (_) => state is AbsoluteMaxCrossAxisExtentGridViewFormError ? state.message : null, hintText: 'Absolute Max Cross Axis Extent')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Absolute Max Cross Axis Extent', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _absoluteMaxCrossAxisExtentController, keyboardType: TextInputType.number, validator: (_) => state is AbsoluteMaxCrossAxisExtentGridViewFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -352,7 +352,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         if (((state.value!.type == GridViewGridType.Extent) && (state.value!.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Relative Max Cross Axis Extent', Icons.text_format, _readOnly(accessState, state), _relativeMaxCrossAxisExtentController, FieldType.Double, validator: (_) => state is RelativeMaxCrossAxisExtentGridViewFormError ? state.message : null, hintText: 'Relative Max Cross Axis Extent')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Relative Max Cross Axis Extent', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _relativeMaxCrossAxisExtentController, keyboardType: TextInputType.number, validator: (_) => state is RelativeMaxCrossAxisExtentGridViewFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -368,22 +368,22 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'ChildAspectRatio', Icons.text_format, _readOnly(accessState, state), _childAspectRatioController, FieldType.Double, validator: (_) => state is ChildAspectRatioGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'ChildAspectRatio', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _childAspectRatioController, keyboardType: TextInputType.number, validator: (_) => state is ChildAspectRatioGridViewFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Padding', Icons.text_format, _readOnly(accessState, state), _paddingController, FieldType.Double, validator: (_) => state is PaddingGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Padding', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _paddingController, keyboardType: TextInputType.number, validator: (_) => state is PaddingGridViewFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'MainAxisSpacing', Icons.text_format, _readOnly(accessState, state), _mainAxisSpacingController, FieldType.Double, validator: (_) => state is MainAxisSpacingGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'MainAxisSpacing', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mainAxisSpacingController, keyboardType: TextInputType.number, validator: (_) => state is MainAxisSpacingGridViewFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'CrossAxisSpacing', Icons.text_format, _readOnly(accessState, state), _crossAxisSpacingController, FieldType.Double, validator: (_) => state is CrossAxisSpacingGridViewFormError ? state.message : null, hintText: 'null')
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'CrossAxisSpacing', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _crossAxisSpacingController, keyboardType: TextInputType.number, validator: (_) => state is CrossAxisSpacingGridViewFormError ? state.message : null, hintText: null)
           );
 
 
@@ -404,7 +404,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is GridViewFormError) {
                       return null;
