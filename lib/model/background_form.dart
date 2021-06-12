@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/style/admin/admin_form_style.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -88,17 +90,7 @@ class BackgroundForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update Background", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add Background", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Background' : 'Add Background'),
         body: BlocProvider<BackgroundFormBloc >(
             create: (context) => BackgroundFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -127,7 +119,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   late BackgroundFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
-  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
   String? _backgroundImage;
   bool? _useProfilePhotoAsBackgroundSelection;
@@ -145,7 +136,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<BackgroundFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
-    _appIdController.addListener(_onAppIdChanged);
     _commentsController.addListener(_onCommentsChanged);
     _useProfilePhotoAsBackgroundSelection = false;
     _beginGradientPositionSelectedRadioTile = 0;
@@ -169,10 +159,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value!.appId != null)
-          _appIdController.text = state.value!.appId.toString();
-        else
-          _appIdController.text = "";
         if (state.value!.comments != null)
           _commentsController.text = state.value!.comments.toString();
         else
@@ -211,91 +197,49 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                CheckboxListTile(
-                    title: Text('Use Profile Photo As Background', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _useProfilePhotoAsBackgroundSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
-                      setSelectionUseProfilePhotoAsBackground(val);
-                    }),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Use Profile Photo As Background', _useProfilePhotoAsBackgroundSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionUseProfilePhotoAsBackground(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: (formAction == FormAction.UpdateAction),
-                  controller: _documentIDController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Document ID',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is DocumentIDBackgroundFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDBackgroundFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _commentsController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Comments',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is CommentsBackgroundFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Comments', Icons.text_format, _readOnly(accessState, state), _commentsController, FieldType.String, validator: (_) => state is CommentsBackgroundFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                CheckboxListTile(
-                    title: Text('border', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _borderSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
-                      setSelectionBorder(val);
-                    }),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'border', _borderSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionBorder(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Colors',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Colors')
                 ));
 
         children.add(
@@ -308,15 +252,13 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Background Image',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Background Image')
                 ));
 
         children.add(
@@ -326,277 +268,109 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Start position of the gradient',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Start position of the gradient')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 8,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _beginGradientPositionSelectedRadioTile,
-                    title: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionBeginGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('End position of the gradient',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'End position of the gradient')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("TopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("CenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Center", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("CenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 8,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _endGradientPositionSelectedRadioTile,
-                    title: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("BottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionEndGradientPosition(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Shadow',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shadow')
                 ));
 
         children.add(
@@ -606,12 +380,11 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BackgroundFormError) {
                       return null;
@@ -620,7 +393,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                         BlocProvider.of<BackgroundListBloc>(context).add(
                           UpdateBackgroundList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
@@ -635,7 +407,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                         BlocProvider.of<BackgroundListBloc>(context).add(
                           AddBackgroundList(value: BackgroundModel(
                               documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
@@ -654,22 +425,16 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();
@@ -679,11 +444,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   void _onDocumentIDChanged() {
     _myFormBloc.add(ChangedBackgroundDocumentID(value: _documentIDController.text));
-  }
-
-
-  void _onAppIdChanged() {
-    _myFormBloc.add(ChangedBackgroundAppId(value: _appIdController.text));
   }
 
 
@@ -755,7 +515,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
-    _appIdController.dispose();
     _commentsController.dispose();
     super.dispose();
   }

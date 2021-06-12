@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/style/admin/admin_form_style.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -86,17 +88,7 @@ class MemberForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -256,100 +248,49 @@ class _MyMemberFormState extends State<MyMemberForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: true,
-                  controller: _documentIDController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'User UUID',
-                    hintText: "User UUID",
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is DocumentIDMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'User UUID', Icons.vpn_key, true, _documentIDController, FieldType.String, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'User UUID')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Name',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is NameMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Email address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is EmailMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Email address', Icons.text_format, _readOnly(accessState, state), _emailController, FieldType.String, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                CheckboxListTile(
-                    title: Text('Is Anonymous', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _isAnonymousSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
-                      setSelectionIsAnonymous(val);
-                    }),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Is Anonymous', _isAnonymousSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIsAnonymous(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Subscriptions',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Subscriptions')
                 ));
 
         children.add(
@@ -362,157 +303,82 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Cart',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Cart')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('User Group',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'User Group')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Access',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Access')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Shipping Address',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Address')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStreet1Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStreet1MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _shipStreet1Controller, FieldType.String, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStreet2Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address Line 2',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStreet2MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _shipStreet2Controller, FieldType.String, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipCityController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'City',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipCityMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _shipCityController, FieldType.String, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStateController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'State/Province',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStateMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _shipStateController, FieldType.String, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _postcodeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Postal / Zip Code',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PostcodeMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _postcodeController, FieldType.String, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Shipping Country',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Country')
                 ));
 
         children.add(
@@ -522,128 +388,54 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Invoice Address',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Address')
                 ));
 
         children.add(
 
-                CheckboxListTile(
-                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _invoiceSameSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
-                      setSelectionInvoiceSame(val);
-                    }),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStreet1Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStreet1MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _invoiceStreet1Controller, FieldType.String, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStreet2Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address Line 2',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStreet2MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _invoiceStreet2Controller, FieldType.String, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceCityController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'City',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceCityMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _invoiceCityController, FieldType.String, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStateController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'State/Province',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStateMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _invoiceStateController, FieldType.String, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoicePostcodeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Postal / Zip Code',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoicePostcodeMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _invoicePostcodeController, FieldType.String, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Invoice Country',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Country')
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
@@ -653,12 +445,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -721,22 +512,16 @@ class _MyMemberFormState extends State<MyMemberForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();
@@ -921,17 +706,7 @@ class MemberSmallForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add Member", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -991,40 +766,23 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Name',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is NameMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Subscriptions',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Subscriptions')
                 ));
 
         children.add(
@@ -1037,12 +795,11 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -1067,22 +824,16 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();
@@ -1147,17 +898,7 @@ class MemberAddressForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Confirm Delivery Address", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(AccessBloc.appId(context),
                                        
@@ -1299,161 +1040,64 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Name',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is NameMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Email address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is EmailMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Email address', Icons.text_format, _readOnly(accessState, state), _emailController, FieldType.String, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Shipping Address',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Address')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStreet1Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStreet1MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _shipStreet1Controller, FieldType.String, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStreet2Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address Line 2',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStreet2MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _shipStreet2Controller, FieldType.String, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipCityController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'City',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipCityMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _shipCityController, FieldType.String, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _shipStateController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'State/Province',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ShipStateMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _shipStateController, FieldType.String, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _postcodeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Postal / Zip Code',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is PostcodeMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _postcodeController, FieldType.String, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Shipping Country',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Country')
                 ));
 
         children.add(
@@ -1463,128 +1107,54 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Invoice Address',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Address')
                 ));
 
         children.add(
 
-                CheckboxListTile(
-                    title: Text('Invoice address same as shipping address', style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    value: _invoiceSameSelection,
-                    onChanged: _readOnly(accessState, state) ? null : (dynamic val) {
-                      setSelectionInvoiceSame(val);
-                    }),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStreet1Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStreet1MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address', Icons.text_format, _readOnly(accessState, state), _invoiceStreet1Controller, FieldType.String, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStreet2Controller,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Street Address Line 2',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStreet2MemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Street Address Line 2', Icons.text_format, _readOnly(accessState, state), _invoiceStreet2Controller, FieldType.String, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceCityController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'City',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceCityMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'City', Icons.text_format, _readOnly(accessState, state), _invoiceCityController, FieldType.String, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoiceStateController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'State/Province',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoiceStateMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'State/Province', Icons.text_format, _readOnly(accessState, state), _invoiceStateController, FieldType.String, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: 'null')
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _invoicePostcodeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Postal / Zip Code',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is InvoicePostcodeMemberFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Postal / Zip Code', Icons.text_format, _readOnly(accessState, state), _invoicePostcodeController, FieldType.String, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Invoice Country',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Country')
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
@@ -1594,12 +1164,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -1650,22 +1219,16 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                       }
                     }
                   },
-                  child: Text('Finish Order', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();

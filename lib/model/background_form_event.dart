@@ -67,18 +67,6 @@ class ChangedBackgroundDocumentID extends BackgroundFormEvent {
   String toString() => 'ChangedBackgroundDocumentID{ value: $value }';
 }
 
-class ChangedBackgroundAppId extends BackgroundFormEvent {
-  final String? value;
-
-  ChangedBackgroundAppId({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedBackgroundAppId{ value: $value }';
-}
-
 class ChangedBackgroundComments extends BackgroundFormEvent {
   final String? value;
 

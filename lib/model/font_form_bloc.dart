@@ -49,7 +49,6 @@ class FontFormBloc extends Bloc<FontFormEvent, FontFormState> {
       if (event is InitialiseNewFontFormEvent) {
         FontFormLoaded loaded = FontFormLoaded(value: FontModel(
                                                documentID: "",
-                                 appId: "",
                                  fontName: "",
                                  size: 20, 
                                  color: RgbModel(r: 255, g: 0, b: 255, opacity: 1.00), 

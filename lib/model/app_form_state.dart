@@ -159,22 +159,6 @@ class AppStatusAppFormError extends AppFormError {
 }
 
 
-class DarkOrLightAppFormError extends AppFormError { 
-  const DarkOrLightAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''DarkOrLightAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class HomePagesAppFormError extends AppFormError { 
   const HomePagesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
@@ -200,246 +184,6 @@ class LogoAppFormError extends AppFormError {
   @override
   String toString() {
     return '''LogoAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormSubmitButtonColorAppFormError extends AppFormError { 
-  const FormSubmitButtonColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormSubmitButtonColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormBackgroundAppFormError extends AppFormError { 
-  const FormBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormBackgroundAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormSubmitButtonTextColorAppFormError extends AppFormError { 
-  const FormSubmitButtonTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormSubmitButtonTextColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormGroupTitleColorAppFormError extends AppFormError { 
-  const FormGroupTitleColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormGroupTitleColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormFieldTextColorAppFormError extends AppFormError { 
-  const FormFieldTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormFieldTextColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormFieldHeaderColorAppFormError extends AppFormError { 
-  const FormFieldHeaderColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormFieldHeaderColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormFieldFocusColorAppFormError extends AppFormError { 
-  const FormFieldFocusColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormFieldFocusColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormAppBarBackgroundAppFormError extends AppFormError { 
-  const FormAppBarBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormAppBarBackgroundAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormAppBarTextColorAppFormError extends AppFormError { 
-  const FormAppBarTextColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormAppBarTextColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class ListBackgroundAppFormError extends AppFormError { 
-  const ListBackgroundAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''ListBackgroundAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class ListTextItemColorAppFormError extends AppFormError { 
-  const ListTextItemColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''ListTextItemColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FloatingButtonForegroundColorAppFormError extends AppFormError { 
-  const FloatingButtonForegroundColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FloatingButtonForegroundColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FloatingButtonBackgroundColorAppFormError extends AppFormError { 
-  const FloatingButtonBackgroundColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FloatingButtonBackgroundColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class DividerColorAppFormError extends AppFormError { 
-  const DividerColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''DividerColorAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class IconColorAppFormError extends AppFormError { 
-  const IconColorAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''IconColorAppFormError {
       value: $value,
       message: $message,
     }''';
@@ -495,150 +239,6 @@ class LogoURLAppFormError extends AppFormError {
 }
 
 
-class H1AppFormError extends AppFormError { 
-  const H1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''H1AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class H2AppFormError extends AppFormError { 
-  const H2AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''H2AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class H3AppFormError extends AppFormError { 
-  const H3AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''H3AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class H4AppFormError extends AppFormError { 
-  const H4AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''H4AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class H5AppFormError extends AppFormError { 
-  const H5AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''H5AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FontTextAppFormError extends AppFormError { 
-  const FontTextAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FontTextAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FontHighlight1AppFormError extends AppFormError { 
-  const FontHighlight1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FontHighlight1AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FontHighlight2AppFormError extends AppFormError { 
-  const FontHighlight2AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FontHighlight2AppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FontLinkAppFormError extends AppFormError { 
-  const FontLinkAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FontLinkAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class PoliciesAppFormError extends AppFormError { 
   const PoliciesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 
@@ -648,6 +248,38 @@ class PoliciesAppFormError extends AppFormError {
   @override
   String toString() {
     return '''PoliciesAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class StyleFamilyAppFormError extends AppFormError { 
+  const StyleFamilyAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''StyleFamilyAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class StyleNameAppFormError extends AppFormError { 
+  const StyleNameAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''StyleNameAppFormError {
       value: $value,
       message: $message,
     }''';

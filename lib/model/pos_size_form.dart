@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/style/admin/admin_form_style.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -88,17 +90,7 @@ class PosSizeForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update PosSize", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add PosSize", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
         body: BlocProvider<PosSizeFormBloc >(
             create: (context) => PosSizeFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -249,942 +241,401 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: (formAction == FormAction.UpdateAction),
-                  controller: _documentIDController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Document ID',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is DocumentIDPosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDPosSizeFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Name',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is NamePosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Name', Icons.text_format, _readOnly(accessState, state), _nameController, FieldType.String, validator: (_) => state is NamePosSizeFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Clip',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Clip')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("NoClip", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'NoClip', 'NoClip', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipOval", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipOval', 'ClipOval', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect5", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect5', 'ClipRRect5', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect10", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect10', 'ClipRRect10', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect15", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect15', 'ClipRRect15', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect20", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect20', 'ClipRRect20', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect30", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect30', 'ClipRRect30', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _clipSelectedRadioTile,
-                    title: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("ClipRRect40", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionClip(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect40', 'ClipRRect40', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionClip(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Width and Height',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width and Height')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Width when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width when Landscape')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _widthLandscapeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'widthLandscape',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is WidthLandscapePosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'widthLandscape', Icons.text_format, _readOnly(accessState, state), _widthLandscapeController, FieldType.Double, validator: (_) => state is WidthLandscapePosSizeFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Width when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width when Portrait')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _widthPortraitController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'widthPortrait',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is WidthPortraitPosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'widthPortrait', Icons.text_format, _readOnly(accessState, state), _widthPortraitController, FieldType.Double, validator: (_) => state is WidthPortraitPosSizeFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Width type when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width type when Landscape')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _widthTypeLandscapeSelectedRadioTile,
-                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionWidthTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypeLandscapeSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _widthTypeLandscapeSelectedRadioTile,
-                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionWidthTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypeLandscapeSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Width type when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width type when Portrait')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _widthTypePortraitSelectedRadioTile,
-                    title: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("AbsoluteWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionWidthTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypePortraitSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _widthTypePortraitSelectedRadioTile,
-                    title: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PercentageWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionWidthTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypePortraitSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Height when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height when Landscape')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _heightLandscapeController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'heightLandscape',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is HeightLandscapePosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'heightLandscape', Icons.text_format, _readOnly(accessState, state), _heightLandscapeController, FieldType.Double, validator: (_) => state is HeightLandscapePosSizeFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Height when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height when Portrait')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _heightPortraitController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'heightPortrait',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is HeightPortraitPosSizeFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'heightPortrait', Icons.text_format, _readOnly(accessState, state), _heightPortraitController, FieldType.Double, validator: (_) => state is HeightPortraitPosSizeFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Height type when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height type when Landscape')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _heightTypeLandscapeSelectedRadioTile,
-                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionHeightTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypeLandscapeSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _heightTypeLandscapeSelectedRadioTile,
-                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionHeightTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypeLandscapeSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Height type when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height type when Portrait')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _heightTypePortraitSelectedRadioTile,
-                    title: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("AbsoluteHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionHeightTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypePortraitSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _heightTypePortraitSelectedRadioTile,
-                    title: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PercentageHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionHeightTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypePortraitSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Box Fit when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Box Fit when Landscape')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitWidth', 'LandscapeFitWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitHeight', 'LandscapeFitHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFill', 'LandscapeFill', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeNone', 'LandscapeNone', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeContain', 'LandscapeContain', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeCover', 'LandscapeCover', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitLandscapeSelectedRadioTile,
-                    title: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeScaleDown', 'LandscapeScaleDown', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Box Fit when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Box Fit when Portrait')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitFitWidth", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitWidth', 'PortraitFitWidth', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitFitHeight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitHeight', 'PortraitFitHeight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitFill", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFill', 'PortraitFill', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitNone", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitNone', 'PortraitNone', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitContain", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitContain', 'PortraitContain', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitCover", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitCover', 'PortraitCover', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _fitPortraitSelectedRadioTile,
-                    title: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitScaleDown", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionFitPortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitScaleDown', 'PortraitScaleDown', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Align when Landscape',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Align when Landscape')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopLeft', 'LandscapeAlignTopLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopCenter', 'LandscapeAlignTopCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopRight', 'LandscapeAlignTopRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterLeft', 'LandscapeAlignCenterLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenter', 'LandscapeAlignCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterRight', 'LandscapeAlignCenterRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomLeft', 'LandscapeAlignBottomLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomCenter', 'LandscapeAlignBottomCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 8,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypeLandscapeSelectedRadioTile,
-                    title: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("LandscapeAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypeLandscape(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomRight', 'LandscapeAlignBottomRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Align when Portrait',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Align when Portrait')
                 ));
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopLeft', 'PortraitAlignTopLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopCenter', 'PortraitAlignTopCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignTopRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopRight', 'PortraitAlignTopRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 3,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenterLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterLeft', 'PortraitAlignCenterLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 4,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenter', 'PortraitAlignCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 5,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignCenterRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterRight', 'PortraitAlignCenterRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 6,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomLeft", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomLeft', 'PortraitAlignBottomLeft', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 7,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomCenter", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomCenter', 'PortraitAlignBottomCenter', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 8,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _alignTypePortraitSelectedRadioTile,
-                    title: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("PortraitAlignBottomRight", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionAlignTypePortrait(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomRight', 'PortraitAlignBottomRight', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PosSizeFormError) {
                       return null;
@@ -1237,22 +688,16 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();

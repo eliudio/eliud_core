@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/style/admin/admin_form_style.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -88,17 +90,7 @@ class ShadowForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add Shadow", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update Shadow' : 'Add Shadow'),
         body: BlocProvider<ShadowFormBloc >(
             create: (context) => ShadowFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -195,9 +187,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
@@ -207,163 +197,74 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: (formAction == FormAction.UpdateAction),
-                  controller: _documentIDController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Document ID',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is DocumentIDShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDShadowFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _commentsController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Comments',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is CommentsShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Comments', Icons.text_format, _readOnly(accessState, state), _commentsController, FieldType.String, validator: (_) => state is CommentsShadowFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Offset',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Offset')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _offsetDXController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'DX',
-                    hintText: "The first argument sets [dx], the horizontal component of the offset",
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is OffsetDXShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'DX', Icons.text_format, _readOnly(accessState, state), _offsetDXController, FieldType.Double, validator: (_) => state is OffsetDXShadowFormError ? state.message : null, hintText: 'The first argument sets [dx], the horizontal component of the offset')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _offsetDYController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'DY',
-                    hintText: "The second argument sets [dy], the vertical component of the offset",
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is OffsetDYShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'DY', Icons.text_format, _readOnly(accessState, state), _offsetDYController, FieldType.Double, validator: (_) => state is OffsetDYShadowFormError ? state.message : null, hintText: 'The second argument sets [dy], the vertical component of the offset')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Other parameters',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Other parameters')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _spreadRadiusController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Spread Radius',
-                    hintText: "The amount the box should be inflated prior to applying the blur.",
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is SpreadRadiusShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Spread Radius', Icons.text_format, _readOnly(accessState, state), _spreadRadiusController, FieldType.Double, validator: (_) => state is SpreadRadiusShadowFormError ? state.message : null, hintText: 'The amount the box should be inflated prior to applying the blur.')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _blurRadiusController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Blur Radius',
-                    hintText: "The standard deviation of the Gaussian to convolve with the shadow's shape.",
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is BlurRadiusShadowFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Blur Radius', Icons.text_format, _readOnly(accessState, state), _blurRadiusController, FieldType.Double, validator: (_) => state is BlurRadiusShadowFormError ? state.message : null, hintText: 'The standard deviation of the Gaussian to convolve with the shadow's shape.')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is ShadowFormError) {
                       return null;
@@ -400,22 +301,16 @@ class _MyShadowFormState extends State<MyShadowForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();

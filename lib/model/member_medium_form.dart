@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/style/admin/admin_form_style.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -88,17 +90,7 @@ class MemberMediumForm extends StatelessWidget {
           );
     } else {
       return Scaffold(
-        appBar: formAction == FormAction.UpdateAction ?
-                AppBar(
-                    title: Text("Update MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                  ) :
-                AppBar(
-                    title: Text("Add MemberMedium", style: TextStyle(color: RgbHelper.color(rgbo: app.formAppBarTextColor))),
-                    flexibleSpace: Container(
-                        decoration: BoxDecorationHelper.boxDecoration(accessState, app.formAppBarBackground)),
-                ),
+        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().constructAppBar(context, formAction == FormAction.UpdateAction ? 'Update MemberMedium' : 'Add MemberMedium'),
         body: BlocProvider<MemberMediumFormBloc >(
             create: (context) => MemberMediumFormBloc(AccessBloc.appId(context),
                                        formAction: formAction,
@@ -231,297 +223,117 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _authorIdController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Author ID',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is AuthorIdMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Author ID', Icons.text_format, _readOnly(accessState, state), _authorIdController, FieldType.String, validator: (_) => state is AuthorIdMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _urlController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Image URL',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is UrlMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image URL', Icons.text_format, _readOnly(accessState, state), _urlController, FieldType.String, validator: (_) => state is UrlMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _refController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Image Ref on Firebase Storage',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is RefMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Ref on Firebase Storage', Icons.text_format, _readOnly(accessState, state), _refController, FieldType.String, validator: (_) => state is RefMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _urlThumbnailController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Image Thumbnail URL',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is UrlThumbnailMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Thumbnail URL', Icons.text_format, _readOnly(accessState, state), _urlThumbnailController, FieldType.String, validator: (_) => state is UrlThumbnailMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _refThumbnailController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Image Ref on Firebase Storage',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is RefThumbnailMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Image Ref on Firebase Storage', Icons.text_format, _readOnly(accessState, state), _refThumbnailController, FieldType.String, validator: (_) => state is RefThumbnailMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                RadioListTile(
-                    value: 0,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _mediumTypeSelectedRadioTile,
-                    title: Text("Photo", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Photo", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionMediumType(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 1,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _mediumTypeSelectedRadioTile,
-                    title: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Video", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionMediumType(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                RadioListTile(
-                    value: 2,
-                    activeColor: RgbHelper.color(rgbo: app.formFieldTextColor),
-                    groupValue: _mediumTypeSelectedRadioTile,
-                    title: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    subtitle: Text("Pdf", style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor))),
-                    onChanged: !accessState.memberIsOwner() ? null : (dynamic val) {
-                      setSelectionMediumType(val);
-                    },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionMediumType(val))
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _mediumWidthController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'mediumWidth',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is MediumWidthMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'mediumWidth', Icons.text_format, _readOnly(accessState, state), _mediumWidthController, FieldType.Int, validator: (_) => state is MediumWidthMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _mediumHeightController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'mediumHeight',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is MediumHeightMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'mediumHeight', Icons.text_format, _readOnly(accessState, state), _mediumHeightController, FieldType.Int, validator: (_) => state is MediumHeightMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _thumbnailWidthController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'thumbnailWidth',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ThumbnailWidthMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'thumbnailWidth', Icons.text_format, _readOnly(accessState, state), _thumbnailWidthController, FieldType.Int, validator: (_) => state is ThumbnailWidthMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _thumbnailHeightController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'thumbnailHeight',
-                  ),
-                  keyboardType: TextInputType.number,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is ThumbnailHeightMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'thumbnailHeight', Icons.text_format, _readOnly(accessState, state), _thumbnailHeightController, FieldType.Int, validator: (_) => state is ThumbnailHeightMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: _readOnly(accessState, state),
-                  controller: _relatedMediumIdController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.text_format, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'relatedMediumId',
-                    hintText: "In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.",
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is RelatedMediumIdMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'relatedMediumId', Icons.text_format, _readOnly(accessState, state), _relatedMediumIdController, FieldType.String, validator: (_) => state is RelatedMediumIdMemberMediumFormError ? state.message : null, hintText: 'In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('General',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
 
         children.add(
 
-                TextFormField(
-                style: TextStyle(color: RgbHelper.color(rgbo: app.formFieldTextColor)),
-                  readOnly: (formAction == FormAction.UpdateAction),
-                  controller: _documentIDController,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldTextColor))),                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: RgbHelper.color(rgbo: app.formFieldFocusColor))),                    icon: Icon(Icons.vpn_key, color: RgbHelper.color(rgbo: app.formFieldHeaderColor)),
-                    labelText: 'Document ID',
-                  ),
-                  keyboardType: TextInputType.text,
-                  autovalidate: true,
-                  validator: (_) {
-                    return state is DocumentIDMemberMediumFormError ? state.message : null;
-                  },
-                ),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, 'Document ID', Icons.vpn_key, (formAction == FormAction.UpdateAction), _documentIDController, FieldType.String, validator: (_) => state is DocumentIDMemberMediumFormError ? state.message : null, hintText: 'null')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Source',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Source')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: Text('Photo',
-                      style: TextStyle(
-                          color: RgbHelper.color(rgbo: app.formGroupTitleColor), fontWeight: FontWeight.bold)),
+                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Photo')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(Divider(height: 1.0, thickness: 1.0, color: RgbHelper.color(rgbo: app.dividerColor)));
+        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(RaisedButton(
-                  color: RgbHelper.color(rgbo: app.formSubmitButtonColor),
+          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().submitButton(context, 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberMediumFormError) {
                       return null;
@@ -570,22 +382,16 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                       }
                     }
                   },
-                  child: Text('Submit', style: TextStyle(color: RgbHelper.color(rgbo: app.formSubmitButtonTextColor))),
                 ));
 
-        return Container(
-          color: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? Colors.transparent : null,
-          decoration: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? null : BoxDecorationHelper.boxDecoration(accessState, app.formBackground),
-          padding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Form(
+        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
               shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
               children: children as List<Widget>
             ),
-          )
+          ), formAction!
         );
       } else {
         return DelayedCircularProgressIndicator();

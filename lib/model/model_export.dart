@@ -28,6 +28,7 @@ export '../model/country_model.dart';
 export '../model/decoration_color_model.dart';
 export '../model/dialog_model.dart';
 export '../model/drawer_model.dart';
+export '../model/eliud_style_attributes_model.dart';
 export '../model/font_model.dart';
 export '../model/grid_view_model.dart';
 export '../model/home_menu_model.dart';

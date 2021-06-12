@@ -113,6 +113,19 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+import 'package:eliud_core/model/eliud_style_attributes_list_bloc.dart';
+import 'package:eliud_core/model/eliud_style_attributes_list.dart';
+import 'package:eliud_core/model/eliud_style_attributes_dropdown_button.dart';
+import 'package:eliud_core/model/eliud_style_attributes_list_event.dart';
+
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/repository_export.dart';
+import '../tools/bespoke_models.dart';
+import 'package:eliud_core/model/model_export.dart';
+import '../tools/bespoke_entities.dart';
+import 'package:eliud_core/model/entity_export.dart';
+
 import 'package:eliud_core/model/font_list_bloc.dart';
 import 'package:eliud_core/model/font_list.dart';
 import 'package:eliud_core/model/font_dropdown_button.dart';
@@ -267,6 +280,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "countrys") return true;
     if (id == "dialogs") return true;
     if (id == "drawers") return true;
+    if (id == "eliudStyleAttributess") return true;
     if (id == "fonts") return true;
     if (id == "gridViews") return true;
     if (id == "homeMenus") return true;
@@ -301,6 +315,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "drawers")
+      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+
+    if (id == "eliudStyleAttributess")
       return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "fonts")
@@ -365,6 +382,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
+    if (componentId == 'eliudStyleAttributess') return _eliudStyleAttributesBuild(context);
     if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
@@ -386,6 +404,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'countrys') widget = CountryListWidget();
     if (componentId == 'dialogs') widget = DialogListWidget();
     if (componentId == 'drawers') widget = DrawerListWidget();
+    if (componentId == 'eliudStyleAttributess') widget = EliudStyleAttributesListWidget();
     if (componentId == 'fonts') widget = FontListWidget();
     if (componentId == 'gridViews') widget = GridViewListWidget();
     if (componentId == 'homeMenus') widget = HomeMenuListWidget();
@@ -442,7 +461,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: AccessBloc.appId(context))!,
+            backgroundRepository: backgroundRepository()!,
           )..add(LoadBackgroundList()),
         )
       ],
@@ -489,12 +508,25 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
+  Widget _eliudStyleAttributesBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<EliudStyleAttributesListBloc>(
+          create: (context) => EliudStyleAttributesListBloc(
+            eliudStyleAttributesRepository: eliudStyleAttributesRepository()!,
+          )..add(LoadEliudStyleAttributesList()),
+        )
+      ],
+      child: widget!,
+    );
+  }
+
   Widget _fontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository(appId: AccessBloc.appId(context))!,
+            fontRepository: fontRepository()!,
           )..add(LoadFontList()),
         )
       ],
@@ -642,6 +674,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
+    if (componentId == 'eliudStyleAttributess') return _eliudStyleAttributesBuild(context);
     if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
@@ -700,7 +733,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: AccessBloc.appId(context))!,
+            backgroundRepository: backgroundRepository()!,
           )..add(LoadBackgroundList()),
         )
       ],
@@ -747,12 +780,25 @@ class DropdownButtonComponent extends StatelessWidget {
     );
   }
 
+  Widget _eliudStyleAttributesBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<EliudStyleAttributesListBloc>(
+          create: (context) => EliudStyleAttributesListBloc(
+            eliudStyleAttributesRepository: eliudStyleAttributesRepository()!,
+          )..add(LoadEliudStyleAttributesList()),
+        )
+      ],
+      child: EliudStyleAttributesDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+    );
+  }
+
   Widget _fontBuild(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository(appId: AccessBloc.appId(context))!,
+            fontRepository: fontRepository()!,
           )..add(LoadFontList()),
         )
       ],

@@ -79,22 +79,6 @@ class DocumentIDBackgroundFormError extends BackgroundFormError {
 }
 
 
-class AppIdBackgroundFormError extends BackgroundFormError { 
-  const AppIdBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''AppIdBackgroundFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class CommentsBackgroundFormError extends BackgroundFormError { 
   const CommentsBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 

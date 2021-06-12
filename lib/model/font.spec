@@ -1,7 +1,6 @@
 {
   "id": "Font",
   "packageName": "eliud_core",
-  "isAppModel": true,
   "generate": {
     "generateComponent": true,
     "generateRepository": true,
@@ -15,8 +14,7 @@
     "generateList": true,
     "generateDropDownButton": true,
     "generateInternalComponent": true,
-    "generateEmbeddedComponent": false,
-    "isDocumentCollection": true
+    "generateEmbeddedComponent": false
   },
   "fields": [
     {
@@ -24,14 +22,6 @@
       "displayName": "Document ID",
       "fieldType": "String",
       "iconName": "vpn_key",
-      "group": "general"
-    },
-    {
-      "fieldName": "appId",
-      "displayName": "App ID",
-      "fieldType": "String",
-      "iconName": "vpn_key",
-      "hidden": true,
       "group": "general"
     },
     {

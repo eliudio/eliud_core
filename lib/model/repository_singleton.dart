@@ -47,6 +47,9 @@ import '../model/dialog_cache.dart';
 import '../model/drawer_firestore.dart';
 import '../model/drawer_repository.dart';
 import '../model/drawer_cache.dart';
+import '../model/eliud_style_attributes_firestore.dart';
+import '../model/eliud_style_attributes_repository.dart';
+import '../model/eliud_style_attributes_cache.dart';
 import '../model/font_firestore.dart';
 import '../model/font_repository.dart';
 import '../model/font_cache.dart';
@@ -91,6 +94,7 @@ import '../model/app_policy_item_model.dart';
 import '../model/background_model.dart';
 import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
+import '../model/eliud_style_attributes_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
@@ -100,11 +104,12 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
-    var _backgroundRepository = HashMap<String, BackgroundRepository>();
+    var _backgroundRepository = BackgroundCache(BackgroundFirestore());
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
-    var _fontRepository = HashMap<String, FontRepository>();
+    var _eliudStyleAttributesRepository = EliudStyleAttributesCache(EliudStyleAttributesFirestore());
+    var _fontRepository = FontCache(FontFirestore());
     var _gridViewRepository = HashMap<String, GridViewRepository>();
     var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
     var _memberDashboardRepository = HashMap<String, MemberDashboardRepository>();
@@ -127,9 +132,8 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
     }
-    BackgroundRepository? backgroundRepository(String? appId) {
-      if ((appId != null) && (_backgroundRepository[appId] == null)) _backgroundRepository[appId] = BackgroundCache(BackgroundFirestore(appRepository()!.getSubCollection(appId, 'background'), appId));
-      return _backgroundRepository[appId];
+    BackgroundRepository? backgroundRepository() {
+      return _backgroundRepository;
     }
     CountryRepository? countryRepository() {
       return _countryRepository;
@@ -142,9 +146,11 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_drawerRepository[appId] == null)) _drawerRepository[appId] = DrawerCache(DrawerFirestore(appRepository()!.getSubCollection(appId, 'drawer'), appId));
       return _drawerRepository[appId];
     }
-    FontRepository? fontRepository(String? appId) {
-      if ((appId != null) && (_fontRepository[appId] == null)) _fontRepository[appId] = FontCache(FontFirestore(appRepository()!.getSubCollection(appId, 'font'), appId));
-      return _fontRepository[appId];
+    EliudStyleAttributesRepository? eliudStyleAttributesRepository() {
+      return _eliudStyleAttributesRepository;
+    }
+    FontRepository? fontRepository() {
+      return _fontRepository;
     }
     GridViewRepository? gridViewRepository(String? appId) {
       if ((appId != null) && (_gridViewRepository[appId] == null)) _gridViewRepository[appId] = GridViewCache(GridViewFirestore(appRepository()!.getSubCollection(appId, 'gridview'), appId));

@@ -67,18 +67,6 @@ class ChangedFontDocumentID extends FontFormEvent {
   String toString() => 'ChangedFontDocumentID{ value: $value }';
 }
 
-class ChangedFontAppId extends FontFormEvent {
-  final String? value;
-
-  ChangedFontAppId({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedFontAppId{ value: $value }';
-}
-
 class ChangedFontFontName extends FontFormEvent {
   final String? value;
 

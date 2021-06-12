@@ -127,18 +127,6 @@ class ChangedAppAppStatus extends AppFormEvent {
   String toString() => 'ChangedAppAppStatus{ value: $value }';
 }
 
-class ChangedAppDarkOrLight extends AppFormEvent {
-  final DarkOrLight? value;
-
-  ChangedAppDarkOrLight({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppDarkOrLight{ value: $value }';
-}
-
 class ChangedAppHomePages extends AppFormEvent {
   final AppHomePageReferencesModel? value;
 
@@ -161,186 +149,6 @@ class ChangedAppLogo extends AppFormEvent {
 
   @override
   String toString() => 'ChangedAppLogo{ value: $value }';
-}
-
-class ChangedAppFormSubmitButtonColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormSubmitButtonColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormSubmitButtonColor{ value: $value }';
-}
-
-class ChangedAppFormBackground extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFormBackground({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormBackground{ value: $value }';
-}
-
-class ChangedAppFormSubmitButtonTextColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormSubmitButtonTextColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormSubmitButtonTextColor{ value: $value }';
-}
-
-class ChangedAppFormGroupTitleColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormGroupTitleColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormGroupTitleColor{ value: $value }';
-}
-
-class ChangedAppFormFieldTextColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormFieldTextColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormFieldTextColor{ value: $value }';
-}
-
-class ChangedAppFormFieldHeaderColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormFieldHeaderColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormFieldHeaderColor{ value: $value }';
-}
-
-class ChangedAppFormFieldFocusColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormFieldFocusColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormFieldFocusColor{ value: $value }';
-}
-
-class ChangedAppFormAppBarBackground extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFormAppBarBackground({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormAppBarBackground{ value: $value }';
-}
-
-class ChangedAppFormAppBarTextColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFormAppBarTextColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFormAppBarTextColor{ value: $value }';
-}
-
-class ChangedAppListBackground extends AppFormEvent {
-  final String? value;
-
-  ChangedAppListBackground({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppListBackground{ value: $value }';
-}
-
-class ChangedAppListTextItemColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppListTextItemColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppListTextItemColor{ value: $value }';
-}
-
-class ChangedAppFloatingButtonForegroundColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFloatingButtonForegroundColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFloatingButtonForegroundColor{ value: $value }';
-}
-
-class ChangedAppFloatingButtonBackgroundColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppFloatingButtonBackgroundColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFloatingButtonBackgroundColor{ value: $value }';
-}
-
-class ChangedAppDividerColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppDividerColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppDividerColor{ value: $value }';
-}
-
-class ChangedAppIconColor extends AppFormEvent {
-  final RgbModel? value;
-
-  ChangedAppIconColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppIconColor{ value: $value }';
 }
 
 class ChangedAppRouteBuilder extends AppFormEvent {
@@ -379,114 +187,6 @@ class ChangedAppLogoURL extends AppFormEvent {
   String toString() => 'ChangedAppLogoURL{ value: $value }';
 }
 
-class ChangedAppH1 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppH1({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppH1{ value: $value }';
-}
-
-class ChangedAppH2 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppH2({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppH2{ value: $value }';
-}
-
-class ChangedAppH3 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppH3({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppH3{ value: $value }';
-}
-
-class ChangedAppH4 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppH4({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppH4{ value: $value }';
-}
-
-class ChangedAppH5 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppH5({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppH5{ value: $value }';
-}
-
-class ChangedAppFontText extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFontText({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFontText{ value: $value }';
-}
-
-class ChangedAppFontHighlight1 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFontHighlight1({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFontHighlight1{ value: $value }';
-}
-
-class ChangedAppFontHighlight2 extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFontHighlight2({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFontHighlight2{ value: $value }';
-}
-
-class ChangedAppFontLink extends AppFormEvent {
-  final String? value;
-
-  ChangedAppFontLink({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppFontLink{ value: $value }';
-}
-
 class ChangedAppPolicies extends AppFormEvent {
   final String? value;
 
@@ -497,5 +197,29 @@ class ChangedAppPolicies extends AppFormEvent {
 
   @override
   String toString() => 'ChangedAppPolicies{ value: $value }';
+}
+
+class ChangedAppStyleFamily extends AppFormEvent {
+  final String? value;
+
+  ChangedAppStyleFamily({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppStyleFamily{ value: $value }';
+}
+
+class ChangedAppStyleName extends AppFormEvent {
+  final String? value;
+
+  ChangedAppStyleName({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppStyleName{ value: $value }';
 }
 

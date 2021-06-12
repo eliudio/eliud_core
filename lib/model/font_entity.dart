@@ -21,7 +21,6 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class FontEntity {
-  final String? appId;
   final String? fontName;
   final double? size;
   final int? weight;
@@ -29,14 +28,14 @@ class FontEntity {
   final int? decoration;
   final RgbEntity? color;
 
-  FontEntity({this.appId, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, });
+  FontEntity({this.fontName, this.size, this.weight, this.style, this.decoration, this.color, });
 
 
-  List<Object?> get props => [appId, fontName, size, weight, style, decoration, color, ];
+  List<Object?> get props => [fontName, size, weight, style, decoration, color, ];
 
   @override
   String toString() {
-    return 'FontEntity{appId: $appId, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
+    return 'FontEntity{fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
   static FontEntity? fromMap(Map? map) {
@@ -48,7 +47,6 @@ class FontEntity {
       colorFromMap = RgbEntity.fromMap(colorFromMap);
 
     return FontEntity(
-      appId: map['appId'], 
       fontName: map['fontName'], 
       size: double.tryParse(map['size'].toString()), 
       weight: map['weight'], 
@@ -64,8 +62,6 @@ class FontEntity {
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
     if (fontName != null) theDocument["fontName"] = fontName;
       else theDocument["fontName"] = null;
     if (size != null) theDocument["size"] = size;
