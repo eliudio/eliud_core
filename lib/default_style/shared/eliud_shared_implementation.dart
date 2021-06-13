@@ -71,80 +71,102 @@ abstract class EliudSharedImplementation
   @override
   Widget button(BuildContext context,
       {Icon? icon, required String label, VoidCallback? onPressed}) {
+    return buttonWithChild(context, icon: icon, child: Text(label), onPressed: onPressed);
+  }
+
+  @override
+  Widget buttonWithChild(BuildContext context,
+      {Icon? icon, required Widget child, VoidCallback? onPressed}) {
     if (icon != null) {
       return ElevatedButton.icon(
         onPressed: onPressed,
         icon: icon!,
-        label: Text(label),
+        label: child,
       );
     } else {
       return ElevatedButton(
         onPressed: onPressed,
-        child: Text(label),
+        child: child,
       );
     }
   }
 
   @override
-  Widget text(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget text(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap}) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.fontText));
   }
 
   @override
-  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.fontHighlight1));
   }
 
   @override
-  Widget highLight2(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget highLight2(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.fontHighlight2));
   }
 
   @override
-  Widget h1(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget h1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h1));
   }
 
   @override
-  Widget h2(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget h2(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h2));
   }
 
   @override
-  Widget h3(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget h3(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h3));
   }
 
   @override
-  Widget h4(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget h4(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h4));
   }
 
   @override
-  Widget h5(BuildContext context, String data, {TextAlign? textAlign, }) {
+  Widget h5(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
     return Text(data,
         textAlign: textAlign,
+        maxLines: maxLines,
+        softWrap: softWrap,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h5));
   }
@@ -198,33 +220,63 @@ abstract class EliudSharedImplementation
   }
 
   @override
-  Widget h1Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+  Widget h1Icon(BuildContext context, {required IconModel icon, String? semanticLabel}) {
     var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h1);
-    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null, semanticLabel: semanticLabel);
   }
 
   @override
-  Widget h2Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+  Widget h2Icon(BuildContext context, {required IconModel icon, String? semanticLabel}) {
     var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h2);
-    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null, semanticLabel: semanticLabel);
   }
 
   @override
-  Widget h3Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+  Widget h3Icon(BuildContext context, {required IconModel icon, String? semanticLabel}) {
     var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h3);
-    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null, semanticLabel: semanticLabel);
   }
 
   @override
-  Widget h4Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+  Widget h4Icon(BuildContext context, {required IconModel icon, String? semanticLabel}) {
     var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h4);
-    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null, semanticLabel: semanticLabel);
   }
 
   @override
-  Widget h5Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+  Widget h5Icon(BuildContext context, {required IconModel icon, String? semanticLabel}) {
     var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h5);
-    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null, semanticLabel: semanticLabel);
+  }
+
+  @override
+  Widget h1Icon2(BuildContext context, {required IconData iconData, String? semanticLabel}) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h1);
+    return IconHelper.getIcon(iconData: iconData, color: style != null ? style.color : null, semanticLabel: semanticLabel);
+  }
+
+  @override
+  Widget h2Icon2(BuildContext context, {required IconData iconData, String? semanticLabel}) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h2);
+    return IconHelper.getIcon(iconData: iconData, color: style != null ? style.color : null, semanticLabel: semanticLabel);
+  }
+
+  @override
+  Widget h3Icon2(BuildContext context, {required IconData iconData, String? semanticLabel}) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h3);
+    return IconHelper.getIcon(iconData: iconData, color: style != null ? style.color : null, semanticLabel: semanticLabel);
+  }
+
+  @override
+  Widget h4Icon2(BuildContext context, {required IconData iconData, String? semanticLabel}) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h4);
+    return IconHelper.getIcon(iconData: iconData, color: style != null ? style.color : null, semanticLabel: semanticLabel);
+  }
+
+  @override
+  Widget h5Icon2(BuildContext context, {required IconData iconData, String? semanticLabel}) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h5);
+    return IconHelper.getIcon(iconData: iconData, color: style != null ? style.color : null, semanticLabel: semanticLabel);
   }
 
   @override
@@ -238,7 +290,7 @@ abstract class EliudSharedImplementation
 
 
   @override
-  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background}) {
+  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
     var accessState = AccessBloc.getState(context);
     return appBarWithWidget(context, title: Text(title,
         style: TextStyle(
@@ -247,20 +299,25 @@ abstract class EliudSharedImplementation
                     .eliudStyleAttributesModel.formAppBarTextColor))),
         actions: actions,
         iconTheme: iconTheme,
-        background: background);
+        backgroundOverride: backgroundOverride);
   }
 
 
   @override
-  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background}) {
+  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
     var accessState = AccessBloc.getState(context);
+    var background;
+    if (backgroundOverride != null) {
+      background = backgroundOverride;
+    } else {
+      background = _eliudStyle.eliudStyleAttributesModel.formAppBarBackground;
+    }
     return AppBar(
       title: title,
       actions: actions,
       iconTheme: iconTheme,
       flexibleSpace: Container(
-          decoration: BoxDecorationHelper.boxDecoration(accessState,
-              _eliudStyle.eliudStyleAttributesModel.formAppBarBackground)),
+          decoration: BoxDecorationHelper.boxDecoration(accessState, background)),
     );
 
   }

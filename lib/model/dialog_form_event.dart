@@ -103,16 +103,16 @@ class ChangedDialogBodyComponents extends DialogFormEvent {
   String toString() => 'ChangedDialogBodyComponents{ value: $value }';
 }
 
-class ChangedDialogBackground extends DialogFormEvent {
-  final RgbModel? value;
+class ChangedDialogBackgroundOverride extends DialogFormEvent {
+  final String? value;
 
-  ChangedDialogBackground({this.value});
+  ChangedDialogBackgroundOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedDialogBackground{ value: $value }';
+  String toString() => 'ChangedDialogBackgroundOverride{ value: $value }';
 }
 
 class ChangedDialogLayout extends DialogFormEvent {

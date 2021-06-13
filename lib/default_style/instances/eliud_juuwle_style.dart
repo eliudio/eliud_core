@@ -59,7 +59,9 @@ class EliudJuuwleStyle {
           FontTools.key(FontTools.dancingScriptLabel, FontTools.linkLabel)),
       fontText: fontTools.getFont(
           FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
-
+      backgroundHomeMenu: backgroundHomeMenu(),
+      backgroundColorHomeMenu: homeMenuPopupBGColor(),
+      iconColorHomeMenu: homeMenuIconColor()
     );
   }
 
@@ -71,11 +73,13 @@ class EliudJuuwleStyle {
   static RgbModel appColor2() => EliudColors.ochre;
   static RgbModel appColor3() => EliudColors.ochreTransparent;
   static RgbModel appColor4() => EliudColors.white;
+  static RgbModel homeMenuIconColor() => EliudColors.black;
+  static RgbModel homeMenuPopupBGColor() => EliudColors.white;
 
   static BackgroundModel appBarBG() => EliudShared.drawerBG('juuwle-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('juuwle-page-bg', appColor3(), appColor4());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('juuwle-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('juuwle-drawer-header-bg');
   static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerBG('juuwle-profile-drawer-bg', appColor1(), appColor2());
-
+  static BackgroundModel backgroundHomeMenu() => EliudShared.homeMenuBG('juuwle-homemenu', appColor1(), appColor2());
 }

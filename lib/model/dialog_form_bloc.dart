@@ -52,7 +52,6 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
-                                 background: RgbModel(r: 211, g: 211, b: 211, opacity: 0.50), 
                                  widgetWrapper: "",
 
         ));
@@ -96,8 +95,21 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
 
         return;
       }
-      if (event is ChangedDialogBackground) {
-        newValue = currentState.value!.copyWith(background: event.value);
+      if (event is ChangedDialogBackgroundOverride) {
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
+        else
+          newValue = new DialogModel(
+                                 documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
+                                 title: currentState.value!.title,
+                                 bodyComponents: currentState.value!.bodyComponents,
+                                 backgroundOverride: null,
+                                 layout: currentState.value!.layout,
+                                 gridView: currentState.value!.gridView,
+                                 widgetWrapper: currentState.value!.widgetWrapper,
+                                 conditions: currentState.value!.conditions,
+          );
         yield SubmittableDialogForm(value: newValue);
 
         return;
@@ -117,7 +129,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  appId: currentState.value!.appId,
                                  title: currentState.value!.title,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: null,
                                  widgetWrapper: currentState.value!.widgetWrapper,

@@ -139,16 +139,16 @@ class ChangedAppBarIconMenu extends AppBarFormEvent {
   String toString() => 'ChangedAppBarIconMenu{ value: $value }';
 }
 
-class ChangedAppBarBackground extends AppBarFormEvent {
+class ChangedAppBarBackgroundOverride extends AppBarFormEvent {
   final String? value;
 
-  ChangedAppBarBackground({this.value});
+  ChangedAppBarBackgroundOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedAppBarBackground{ value: $value }';
+  String toString() => 'ChangedAppBarBackgroundOverride{ value: $value }';
 }
 
 class ChangedAppBarIconColor extends AppBarFormEvent {

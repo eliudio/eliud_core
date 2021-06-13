@@ -81,12 +81,6 @@
       "fieldName": "border",
       "fieldType": "bool",
       "group": "general"
-    },
-    {
-      "fieldName": "admin",
-      "hidden": true,
-      "fieldType": "bool",
-      "group": "general"
     }
   ],
   "groups": [

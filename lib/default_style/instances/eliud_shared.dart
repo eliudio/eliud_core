@@ -80,6 +80,15 @@ abstract class EliudShared {
     return backgroundModel;
   }
 
+  static BackgroundModel profileDrawerHeaderBG(String bgNBame) {
+    var decorationColorModels = <DecorationColorModel>[];
+    var backgroundModel = BackgroundModel(
+        documentID: 'profile_drawer_header_bg',
+        decorationColors: decorationColorModels,
+        useProfilePhotoAsBackground: true);
+    return backgroundModel;
+  }
+
   static BackgroundModel homeMenuBG(String bgName, RgbModel appColor1, RgbModel appColor2) {
     // this is a clone of _pageBG
     var decorationColorModels = <DecorationColorModel>[];

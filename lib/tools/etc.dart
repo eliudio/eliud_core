@@ -23,7 +23,8 @@ class ListHelper {
     return newList;
   }
 
-  static List<MemberMediumModel> getMemberMediumModelList(List<MemberMediumModel?> list) {
+  static List<MemberMediumModel> getMemberMediumModelList(
+      List<MemberMediumModel?> list) {
     var newList = <MemberMediumModel>[];
     list.forEach((element) {
       if (element != null) newList.add(element);
@@ -112,18 +113,15 @@ class BoxDecorationHelper {
       var member = state.getMember();
       if (member != null) {
         image = DecorationImage(
-            image: NetworkImage(
-                member.photoURL!
-            ),
-            fit: BoxFit.scaleDown);
+            image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);
       }
     }
     if (image == null) {
-      var imageProvider = (bdm.backgroundImage != null) ? NetworkImage(
-          bdm.backgroundImage!.url!) : null;
-      image = (imageProvider != null) ? DecorationImage(
-          image: imageProvider,
-          fit: BoxFit.scaleDown)
+      var imageProvider = (bdm.backgroundImage != null)
+          ? NetworkImage(bdm.backgroundImage!.url!)
+          : null;
+      image = (imageProvider != null)
+          ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
           : null;
     }
     if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
@@ -143,15 +141,14 @@ class BoxDecorationHelper {
       var colors = bdm.decorationColors!
           .map((color) => RgbHelper.color(rgbo: color.color))
           .toList();
-      var stops = bdm.decorationColors!
-          .map((stop) => stop.stop)
-          .toList();
-      var noStops = stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
+      var stops = bdm.decorationColors!.map((stop) => stop.stop).toList();
+      var noStops =
+          stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
       var gradient = LinearGradient(
-        begin: startAlignment(bdm.beginGradientPosition),
-        end: endAlignment(bdm.endGradientPosition),
-        colors: colors,
-        stops: noStops ? null : stops as List<double>?);
+          begin: startAlignment(bdm.beginGradientPosition),
+          end: endAlignment(bdm.endGradientPosition),
+          colors: colors,
+          stops: noStops ? null : stops as List<double>?);
 
       List<BoxShadow>? boxShadows;
       if (bdm.shadow != null) {
@@ -164,24 +161,28 @@ class BoxDecorationHelper {
         ));
       }
       return BoxDecoration(
-        gradient: gradient,
-        image: image,
-        border: border,
-        boxShadow: boxShadows
-      );
+          gradient: gradient,
+          image: image,
+          border: border,
+          boxShadow: boxShadows);
     }
   }
 }
 
 class ImageHelper {
   static Widget getImageFromMediumModel(
-      {MemberMediumModel? memberMediumModel, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
+      {MemberMediumModel? memberMediumModel,
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
         image: AssetImage('assets/images/image_not_available.png'),
         height: height,
         width: width,
-        alignment: alignment!,);
+        alignment: alignment!,
+      );
     } else {
       return getImageFromURL(
           url: memberMediumModel.url!, height: height, width: width);
@@ -189,7 +190,11 @@ class ImageHelper {
   }
 
   static Widget getThumbnailFromMembereMediumModel(
-      {MemberMediumModel? memberMediumModel, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
+      {MemberMediumModel? memberMediumModel,
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
           image: AssetImage('assets/images/image_not_available.png'),
@@ -202,7 +207,11 @@ class ImageHelper {
   }
 
   static Widget getImageFromURL(
-      {required String url, double? height, double? width, BoxFit? fit, Alignment? alignment}) {
+      {required String url,
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     try {
       return FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,
@@ -227,7 +236,6 @@ class ImageTool {
   Future<dynamic> getImageDownloadURL(String pathName) {
     return firebaseStorage.ref().child(pathName).getDownloadURL();
   }
-
 }
 
 class IconHelper {
@@ -239,19 +247,26 @@ class IconHelper {
       return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
           color: color != null ? RgbHelper.color(rgbo: color) : null);
     }
-    return Icon(IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
+    return Icon(
+        IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
         color: color != null ? RgbHelper.color(rgbo: color) : null);
   }
 
   static Icon getIconFromModelWithFlutterColor(
-      {IconModel? iconModel, Color? color}) {
-    if (iconModel == null) return Icon(Icons.touch_app, color: color);
+      {IconModel? iconModel, Color? color, String? semanticLabel}) {
+    if (iconModel == null) return Icon(Icons.touch_app, color: color, semanticLabel: semanticLabel);
     if (iconModel.fontFamily == null) {
       return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
-          color: color);
+          color: color, semanticLabel: semanticLabel);
     }
-    return Icon(IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
-        color: color);
+    return Icon(
+        IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
+        color: color, semanticLabel: semanticLabel);
+  }
+
+  static Icon getIcon(
+      {required IconData iconData, Color? color, String? semanticLabel}) {
+    return Icon(iconData, color: color, semanticLabel: semanticLabel);
   }
 }
 
@@ -300,7 +315,8 @@ class BoxFitHelper {
     return null;
   }
 
-  static double? toWidth(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+  static double? toWidth(PosSizeModel posSizeModel, BuildContext context,
+      Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       if (posSizeModel.widthLandscape == 0) return null;
@@ -319,7 +335,8 @@ class BoxFitHelper {
     }
   }
 
-  static double? toHeight(PosSizeModel posSizeModel, BuildContext context, Orientation orientation) {
+  static double? toHeight(PosSizeModel posSizeModel, BuildContext context,
+      Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       if (posSizeModel.heightLandscape == null) return null;
@@ -340,7 +357,8 @@ class BoxFitHelper {
     }
   }
 
-  static Alignment? toAlignment(PosSizeModel posSizeModel, Orientation orientation) {
+  static Alignment? toAlignment(
+      PosSizeModel posSizeModel, Orientation orientation) {
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.alignTypeLandscape) {
         case LandscapeAlignType.LandscapeAlignTopLeft:
@@ -388,7 +406,7 @@ class BoxFitHelper {
           return Alignment.bottomRight;
       }
     }
-      return null;
+    return null;
   }
 }
 
@@ -396,16 +414,26 @@ class FontTools {
   static FontWeight toFontWeight(EliudFontWeight? eliudFontWeight) {
     if (eliudFontWeight == null) return FontWeight.w400;
     switch (eliudFontWeight) {
-      case EliudFontWeight.Thin: return FontWeight.w100;
-      case EliudFontWeight.ExtraLight: return FontWeight.w200;
-      case EliudFontWeight.Light: return FontWeight.w300;
-      case EliudFontWeight.Normal: return FontWeight.w400;
-      case EliudFontWeight.Medium: return FontWeight.w500;
-      case EliudFontWeight.SemiBold: return FontWeight.w600;
-      case EliudFontWeight.Bold: return FontWeight.w700;
-      case EliudFontWeight.ExtraBold: return FontWeight.w800;
-      case EliudFontWeight.MostThick: return FontWeight.w900;
-      case EliudFontWeight.Unknown:return FontWeight.w900;
+      case EliudFontWeight.Thin:
+        return FontWeight.w100;
+      case EliudFontWeight.ExtraLight:
+        return FontWeight.w200;
+      case EliudFontWeight.Light:
+        return FontWeight.w300;
+      case EliudFontWeight.Normal:
+        return FontWeight.w400;
+      case EliudFontWeight.Medium:
+        return FontWeight.w500;
+      case EliudFontWeight.SemiBold:
+        return FontWeight.w600;
+      case EliudFontWeight.Bold:
+        return FontWeight.w700;
+      case EliudFontWeight.ExtraBold:
+        return FontWeight.w800;
+      case EliudFontWeight.MostThick:
+        return FontWeight.w900;
+      case EliudFontWeight.Unknown:
+        return FontWeight.w900;
     }
     return FontWeight.w400;
   }
@@ -416,14 +444,13 @@ class FontTools {
         fontSize: fontModel.size,
         fontWeight: FontTools.toFontWeight(fontModel.weight),
         color: RgbHelper.color(rgbo: fontModel.color),
-      fontStyle: FontStyle.italic
-    );
+        fontStyle: FontStyle.italic);
   }
 }
 
-
 abstract class ListTool<T> {
-  static List<T> copyAllExcept<T>(List<T> original, bool Function(T t) exclude) {
+  static List<T> copyAllExcept<T>(
+      List<T> original, bool Function(T t) exclude) {
     var newList = <T>[];
     original.forEach((element) {
       if (!exclude(element)) newList.add(element);
@@ -431,7 +458,8 @@ abstract class ListTool<T> {
     return newList;
   }
 
-  static List<T> addAllExcept<T>(List<T> original, List<T> addHere, bool Function(T t) exclude) {
+  static List<T> addAllExcept<T>(
+      List<T> original, List<T> addHere, bool Function(T t) exclude) {
     original.forEach((element) {
       if (!exclude(element)) addHere.add(element);
     });

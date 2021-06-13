@@ -122,7 +122,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   String? _menu;
-  String? _background;
+  String? _backgroundOverride;
 
 
   _MyHomeMenuFormState(this.formAction);
@@ -163,10 +163,10 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
           _menu= state.value!.menu!.documentID;
         else
           _menu= "";
-        if (state.value!.background != null)
-          _background= state.value!.background!.documentID;
+        if (state.value!.backgroundOverride != null)
+          _backgroundOverride= state.value!.backgroundOverride!.documentID;
         else
-          _background= "";
+          _backgroundOverride= "";
       }
       if (state is HomeMenuFormInitialized) {
         List<Widget> children = [];
@@ -199,7 +199,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                RgbField("Icon Color", state.value!.iconColor, _onIconColorChanged)
+                RgbField("Icon Color Override", state.value!.iconColorOverride, _onIconColorOverrideChanged)
           );
 
 
@@ -231,7 +231,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _background, trigger: _onBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -247,7 +247,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                RgbField("Popup Menu Background Color", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
+                RgbField("Popup Menu Background Color Override", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)
           );
 
 
@@ -268,9 +268,9 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
                               appId: state.value!.appId, 
                               name: state.value!.name, 
                               menu: state.value!.menu, 
-                              iconColor: state.value!.iconColor, 
-                              background: state.value!.background, 
-                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
+                              iconColorOverride: state.value!.iconColorOverride, 
+                              backgroundOverride: state.value!.backgroundOverride, 
+                              popupMenuBackgroundColorOverride: state.value!.popupMenuBackgroundColorOverride, 
                         )));
                       } else {
                         BlocProvider.of<HomeMenuListBloc>(context).add(
@@ -279,9 +279,9 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
                               appId: state.value!.appId, 
                               name: state.value!.name, 
                               menu: state.value!.menu, 
-                              iconColor: state.value!.iconColor, 
-                              background: state.value!.background, 
-                              popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
+                              iconColorOverride: state.value!.iconColorOverride, 
+                              backgroundOverride: state.value!.backgroundOverride, 
+                              popupMenuBackgroundColorOverride: state.value!.popupMenuBackgroundColorOverride, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -331,22 +331,22 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   }
 
 
-  void _onIconColorChanged(value) {
-    _myFormBloc.add(ChangedHomeMenuIconColor(value: value));
+  void _onIconColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedHomeMenuIconColorOverride(value: value));
     
   }
 
 
-  void _onBackgroundSelected(String? val) {
+  void _onBackgroundOverrideSelected(String? val) {
     setState(() {
-      _background = val;
+      _backgroundOverride = val;
     });
-    _myFormBloc.add(ChangedHomeMenuBackground(value: val));
+    _myFormBloc.add(ChangedHomeMenuBackgroundOverride(value: val));
   }
 
 
-  void _onPopupMenuBackgroundColorChanged(value) {
-    _myFormBloc.add(ChangedHomeMenuPopupMenuBackgroundColor(value: value));
+  void _onPopupMenuBackgroundColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedHomeMenuPopupMenuBackgroundColorOverride(value: value));
     
   }
 

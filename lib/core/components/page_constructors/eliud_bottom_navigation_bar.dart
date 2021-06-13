@@ -73,9 +73,9 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       if (action is PopupMenu) {
         PopupMenuWidget(widget.app, widget.currentPage).openMenu(
           context,
-          action,
-          widget.homeMenu!.popupMenuBackgroundColor,
-          RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+          popupMenu: action,
+          popupMenuBackgroundColorOverride: widget.homeMenu!.popupMenuBackgroundColorOverride,
+          position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
         );
       } else {
         if (!PageHelper.isActivePage(widget.currentPage, action)) {

@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
+import 'package:eliud_core/model/rgb_model.dart';
 import 'package:flutter/material.dart';
 
 abstract class HasTexFormField {
@@ -15,6 +16,7 @@ abstract class HasDivider {
 
 abstract class HasButton {
   Widget button(BuildContext context, {Icon? icon, required String label, VoidCallback? onPressed});
+  Widget buttonWithChild(BuildContext context, {Icon? icon, required Widget child, VoidCallback? onPressed});
 }
 
 abstract class HasStyle {
@@ -29,22 +31,29 @@ abstract class HasStyle {
 }
 
 abstract class HasText {
-  Widget text(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget highLight2(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget h1(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget h2(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget h3(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget h4(BuildContext context, String data, {TextAlign? textAlign, });
-  Widget h5(BuildContext context, String data, {TextAlign? textAlign, });
+  Widget text(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget highLight2(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget h1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget h2(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget h3(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget h4(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
+  Widget h5(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap, });
 }
 
 abstract class HasIcon {
-  Widget h1Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, });
-  Widget h2Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, });
-  Widget h3Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, });
-  Widget h4Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, });
-  Widget h5Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, });
+  Widget h1Icon(BuildContext context, {required IconModel icon, String? semanticLabel});
+  Widget h2Icon(BuildContext context, {required IconModel icon, String? semanticLabel});
+  Widget h3Icon(BuildContext context, {required IconModel icon, String? semanticLabel});
+  Widget h4Icon(BuildContext context, {required IconModel icon, String? semanticLabel});
+  Widget h5Icon(BuildContext context, {required IconModel icon, String? semanticLabel});
+
+  Widget h1Icon2(BuildContext context, {required IconData iconData, String? semanticLabel});
+  Widget h2Icon2(BuildContext context, {required IconData iconData, String? semanticLabel});
+  Widget h3Icon2(BuildContext context, {required IconData iconData, String? semanticLabel});
+  Widget h4Icon2(BuildContext context, {required IconData iconData, String? semanticLabel});
+  Widget h5Icon2(BuildContext context, {required IconData iconData, String? semanticLabel});
+
 }
 
 abstract class HasTable {
@@ -52,8 +61,8 @@ abstract class HasTable {
 }
 
 abstract class HasAppBar {
-  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background});
-  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background});
+  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride});
+  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride});
 }
 
 class BottomNavigationBarItemAttributes {
@@ -77,4 +86,18 @@ enum Layout {
 
 abstract class HasPageBody {
   Widget pageBody(BuildContext context, {BackgroundModel? backgroundOverride, required List<Widget> components, Layout? layout, GridViewModel? gridView});
+}
+
+class MenuItemAttributes {
+  final int value;
+  final String label;
+  final bool isActive;
+
+  MenuItemAttributes(this.value, this.label, this.isActive);
+}
+
+typedef MenuItemSelected = void Function(int selected);
+
+abstract class HasMenu {
+  Future<void> openMenu(BuildContext context, {required RelativeRect position, required List<MenuItemAttributes> menuItems, MenuItemSelected? onSelected, RgbModel? popupMenuBackgroundColorOverride});
 }

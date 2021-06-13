@@ -46,7 +46,7 @@ class _PageBodyState extends State<PageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return theBody(context, widget.componentInfo.state, backgroundOverride:widget.componentInfo.background, components: widget.componentInfo.widgets, layout:widget.componentInfo.layout,
+    return theBody(context, widget.componentInfo.state, backgroundOverride:widget.componentInfo.backgroundOverride, components: widget.componentInfo.widgets, layout:widget.componentInfo.layout,
         gridView: widget.componentInfo.gridView);
   }
 

@@ -62,6 +62,8 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: RgbModel(r: 255, g: 0, b: 255, opacity: 1.00), 
                                  dividerColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
                                  iconColor: RgbModel(r: 255, g: 0, b: 0, opacity: 1.00), 
+                                 backgroundColorHomeMenu: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
+                                 iconColorHomeMenu: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
 
         ));
         yield loaded;
@@ -127,6 +129,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -164,6 +169,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -231,6 +239,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -274,6 +285,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -318,6 +332,58 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
 
         return;
       }
+      if (event is ChangedEliudStyleAttributesBackgroundHomeMenu) {
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(backgroundHomeMenu: await backgroundRepository(appId: appId)!.get(event.value));
+        else
+          newValue = new EliudStyleAttributesModel(
+                                 documentID: currentState.value!.documentID,
+                                 description: currentState.value!.description,
+                                 formSubmitButtonColor: currentState.value!.formSubmitButtonColor,
+                                 formBackground: currentState.value!.formBackground,
+                                 appBackground: currentState.value!.appBackground,
+                                 formSubmitButtonTextColor: currentState.value!.formSubmitButtonTextColor,
+                                 formGroupTitleColor: currentState.value!.formGroupTitleColor,
+                                 formFieldTextColor: currentState.value!.formFieldTextColor,
+                                 formFieldHeaderColor: currentState.value!.formFieldHeaderColor,
+                                 formFieldFocusColor: currentState.value!.formFieldFocusColor,
+                                 formAppBarBackground: currentState.value!.formAppBarBackground,
+                                 formAppBarTextColor: currentState.value!.formAppBarTextColor,
+                                 listBackground: currentState.value!.listBackground,
+                                 listTextItemColor: currentState.value!.listTextItemColor,
+                                 floatingButtonForegroundColor: currentState.value!.floatingButtonForegroundColor,
+                                 floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
+                                 dividerColor: currentState.value!.dividerColor,
+                                 iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: null,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
+                                 h1: currentState.value!.h1,
+                                 h2: currentState.value!.h2,
+                                 h3: currentState.value!.h3,
+                                 h4: currentState.value!.h4,
+                                 h5: currentState.value!.h5,
+                                 fontText: currentState.value!.fontText,
+                                 fontHighlight1: currentState.value!.fontHighlight1,
+                                 fontHighlight2: currentState.value!.fontHighlight2,
+                                 fontLink: currentState.value!.fontLink,
+          );
+        yield SubmittableEliudStyleAttributesForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedEliudStyleAttributesBackgroundColorHomeMenu) {
+        newValue = currentState.value!.copyWith(backgroundColorHomeMenu: event.value);
+        yield SubmittableEliudStyleAttributesForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedEliudStyleAttributesIconColorHomeMenu) {
+        newValue = currentState.value!.copyWith(iconColorHomeMenu: event.value);
+        yield SubmittableEliudStyleAttributesForm(value: newValue);
+
+        return;
+      }
       if (event is ChangedEliudStyleAttributesH1) {
         if (event.value != null)
           newValue = currentState.value!.copyWith(h1: await fontRepository(appId: appId)!.get(event.value));
@@ -341,6 +407,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: null,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -378,6 +447,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: null,
                                  h3: currentState.value!.h3,
@@ -415,6 +487,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: null,
@@ -452,6 +527,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -489,6 +567,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -526,6 +607,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -563,6 +647,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -600,6 +687,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,
@@ -637,6 +727,9 @@ class EliudStyleAttributesFormBloc extends Bloc<EliudStyleAttributesFormEvent, E
                                  floatingButtonBackgroundColor: currentState.value!.floatingButtonBackgroundColor,
                                  dividerColor: currentState.value!.dividerColor,
                                  iconColor: currentState.value!.iconColor,
+                                 backgroundHomeMenu: currentState.value!.backgroundHomeMenu,
+                                 backgroundColorHomeMenu: currentState.value!.backgroundColorHomeMenu,
+                                 iconColorHomeMenu: currentState.value!.iconColorHomeMenu,
                                  h1: currentState.value!.h1,
                                  h2: currentState.value!.h2,
                                  h3: currentState.value!.h3,

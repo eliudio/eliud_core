@@ -79,7 +79,7 @@
       "bespokeFormField": "RgbField(\"Popup Menu Background Color\", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
     },
     {
-      "fieldName": "headerBackground",
+      "fieldName": "headerBackgroundOverride",
       "displayName": "Header Background",
       "fieldType": "Background",
       "association": true,

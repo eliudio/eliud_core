@@ -124,7 +124,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   int? _headerSelectedRadioTile;
   String? _image;
   String? _iconMenu;
-  String? _background;
+  String? _backgroundOverride;
 
 
   _MyAppBarFormState(this.formAction);
@@ -174,10 +174,10 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
           _iconMenu= state.value!.iconMenu!.documentID;
         else
           _iconMenu= "";
-        if (state.value!.background != null)
-          _background= state.value!.background!.documentID;
+        if (state.value!.backgroundOverride != null)
+          _backgroundOverride= state.value!.backgroundOverride!.documentID;
         else
-          _background= "";
+          _backgroundOverride= "";
       }
       if (state is AppBarFormInitialized) {
         List<Widget> children = [];
@@ -334,7 +334,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _background, trigger: _onBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -358,7 +358,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                               icon: state.value!.icon, 
                               image: state.value!.image, 
                               iconMenu: state.value!.iconMenu, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               iconColor: state.value!.iconColor, 
                               selectedIconColor: state.value!.selectedIconColor, 
                               menuBackgroundColor: state.value!.menuBackgroundColor, 
@@ -373,7 +373,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                               icon: state.value!.icon, 
                               image: state.value!.image, 
                               iconMenu: state.value!.iconMenu, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               iconColor: state.value!.iconColor, 
                               selectedIconColor: state.value!.selectedIconColor, 
                               menuBackgroundColor: state.value!.menuBackgroundColor, 
@@ -448,11 +448,11 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void _onBackgroundSelected(String? val) {
+  void _onBackgroundOverrideSelected(String? val) {
     setState(() {
-      _background = val;
+      _backgroundOverride = val;
     });
-    _myFormBloc.add(ChangedAppBarBackground(value: val));
+    _myFormBloc.add(ChangedAppBarBackgroundOverride(value: val));
   }
 
 

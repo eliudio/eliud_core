@@ -27,19 +27,19 @@ class AppBarEntity {
   final IconEntity? icon;
   final String? imageId;
   final String? iconMenuId;
-  final String? backgroundId;
+  final String? backgroundOverrideId;
   final RgbEntity? iconColor;
   final RgbEntity? selectedIconColor;
   final RgbEntity? menuBackgroundColor;
 
-  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundId, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, });
+  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverrideId, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, });
 
 
-  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundId, iconColor, selectedIconColor, menuBackgroundColor, ];
+  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverrideId, iconColor, selectedIconColor, menuBackgroundColor, ];
 
   @override
   String toString() {
-    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundId: $backgroundId, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
+    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverrideId: $backgroundOverrideId, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
   static AppBarEntity? fromMap(Map? map) {
@@ -69,7 +69,7 @@ class AppBarEntity {
       icon: iconFromMap, 
       imageId: map['imageId'], 
       iconMenuId: map['iconMenuId'], 
-      backgroundId: map['backgroundId'], 
+      backgroundOverrideId: map['backgroundOverrideId'], 
       iconColor: iconColorFromMap, 
       selectedIconColor: selectedIconColorFromMap, 
       menuBackgroundColor: menuBackgroundColorFromMap, 
@@ -103,8 +103,8 @@ class AppBarEntity {
       else theDocument["imageId"] = null;
     if (iconMenuId != null) theDocument["iconMenuId"] = iconMenuId;
       else theDocument["iconMenuId"] = null;
-    if (backgroundId != null) theDocument["backgroundId"] = backgroundId;
-      else theDocument["backgroundId"] = null;
+    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
+      else theDocument["backgroundOverrideId"] = null;
     if (iconColor != null) theDocument["iconColor"] = iconColorMap;
       else theDocument["iconColor"] = null;
     if (selectedIconColor != null) theDocument["selectedIconColor"] = selectedIconColorMap;

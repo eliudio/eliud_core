@@ -124,6 +124,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
   String? _appBackground;
   String? _formAppBarBackground;
   String? _listBackground;
+  String? _backgroundHomeMenu;
   String? _h1;
   String? _h2;
   String? _h3;
@@ -180,6 +181,10 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
           _listBackground= state.value!.listBackground!.documentID;
         else
           _listBackground= "";
+        if (state.value!.backgroundHomeMenu != null)
+          _backgroundHomeMenu= state.value!.backgroundHomeMenu!.documentID;
+        else
+          _backgroundHomeMenu= "";
         if (state.value!.h1 != null)
           _h1= state.value!.h1!.documentID;
         else
@@ -224,6 +229,21 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundHomeMenu, trigger: _onBackgroundHomeMenuSelected, optional: true),
+          );
+
+        children.add(
+
+                RgbField("Background Color Home Menu", state.value!.backgroundColorHomeMenu, _onBackgroundColorHomeMenuChanged)
+          );
+
+        children.add(
+
+                RgbField("Icon Color Home Menu", state.value!.iconColorHomeMenu, _onIconColorHomeMenuChanged)
+          );
 
         children.add(
 
@@ -579,6 +599,9 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
                               dividerColor: state.value!.dividerColor, 
                               iconColor: state.value!.iconColor, 
+                              backgroundHomeMenu: state.value!.backgroundHomeMenu, 
+                              backgroundColorHomeMenu: state.value!.backgroundColorHomeMenu, 
+                              iconColorHomeMenu: state.value!.iconColorHomeMenu, 
                               h1: state.value!.h1, 
                               h2: state.value!.h2, 
                               h3: state.value!.h3, 
@@ -610,6 +633,9 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
                               dividerColor: state.value!.dividerColor, 
                               iconColor: state.value!.iconColor, 
+                              backgroundHomeMenu: state.value!.backgroundHomeMenu, 
+                              backgroundColorHomeMenu: state.value!.backgroundColorHomeMenu, 
+                              iconColorHomeMenu: state.value!.iconColorHomeMenu, 
                               h1: state.value!.h1, 
                               h2: state.value!.h2, 
                               h3: state.value!.h3, 
@@ -755,6 +781,26 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
 
   void _onIconColorChanged(value) {
     _myFormBloc.add(ChangedEliudStyleAttributesIconColor(value: value));
+    
+  }
+
+
+  void _onBackgroundHomeMenuSelected(String? val) {
+    setState(() {
+      _backgroundHomeMenu = val;
+    });
+    _myFormBloc.add(ChangedEliudStyleAttributesBackgroundHomeMenu(value: val));
+  }
+
+
+  void _onBackgroundColorHomeMenuChanged(value) {
+    _myFormBloc.add(ChangedEliudStyleAttributesBackgroundColorHomeMenu(value: value));
+    
+  }
+
+
+  void _onIconColorHomeMenuChanged(value) {
+    _myFormBloc.add(ChangedEliudStyleAttributesIconColorHomeMenu(value: value));
     
   }
 

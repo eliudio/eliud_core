@@ -271,6 +271,42 @@ class ChangedEliudStyleAttributesIconColor extends EliudStyleAttributesFormEvent
   String toString() => 'ChangedEliudStyleAttributesIconColor{ value: $value }';
 }
 
+class ChangedEliudStyleAttributesBackgroundHomeMenu extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesBackgroundHomeMenu({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesBackgroundHomeMenu{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesBackgroundColorHomeMenu extends EliudStyleAttributesFormEvent {
+  final RgbModel? value;
+
+  ChangedEliudStyleAttributesBackgroundColorHomeMenu({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesBackgroundColorHomeMenu{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesIconColorHomeMenu extends EliudStyleAttributesFormEvent {
+  final RgbModel? value;
+
+  ChangedEliudStyleAttributesIconColorHomeMenu({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesIconColorHomeMenu{ value: $value }';
+}
+
 class ChangedEliudStyleAttributesH1 extends EliudStyleAttributesFormEvent {
   final String? value;
 

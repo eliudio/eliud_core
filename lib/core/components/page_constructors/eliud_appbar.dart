@@ -120,7 +120,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
     var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().appBarWithWidget(context, iconTheme: iconThemeData, title: title, actions: buttons, background: value.background);
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().appBarWithWidget(context, iconTheme: iconThemeData, title: title, actions: buttons, backgroundOverride: value.backgroundOverride);
   }
 
   void _addPlayStoreButton(String? playStoreApp,

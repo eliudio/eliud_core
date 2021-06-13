@@ -24,48 +24,48 @@ class HomeMenuEntity {
   final String? appId;
   final String? name;
   final String? menuId;
-  final RgbEntity? iconColor;
-  final String? backgroundId;
-  final RgbEntity? popupMenuBackgroundColor;
+  final RgbEntity? iconColorOverride;
+  final String? backgroundOverrideId;
+  final RgbEntity? popupMenuBackgroundColorOverride;
 
-  HomeMenuEntity({this.appId, this.name, this.menuId, this.iconColor, this.backgroundId, this.popupMenuBackgroundColor, });
+  HomeMenuEntity({this.appId, this.name, this.menuId, this.iconColorOverride, this.backgroundOverrideId, this.popupMenuBackgroundColorOverride, });
 
 
-  List<Object?> get props => [appId, name, menuId, iconColor, backgroundId, popupMenuBackgroundColor, ];
+  List<Object?> get props => [appId, name, menuId, iconColorOverride, backgroundOverrideId, popupMenuBackgroundColorOverride, ];
 
   @override
   String toString() {
-    return 'HomeMenuEntity{appId: $appId, name: $name, menuId: $menuId, iconColor: $iconColor, backgroundId: $backgroundId, popupMenuBackgroundColor: $popupMenuBackgroundColor}';
+    return 'HomeMenuEntity{appId: $appId, name: $name, menuId: $menuId, iconColorOverride: $iconColorOverride, backgroundOverrideId: $backgroundOverrideId, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
   static HomeMenuEntity? fromMap(Map? map) {
     if (map == null) return null;
 
-    var iconColorFromMap;
-    iconColorFromMap = map['iconColor'];
-    if (iconColorFromMap != null)
-      iconColorFromMap = RgbEntity.fromMap(iconColorFromMap);
-    var popupMenuBackgroundColorFromMap;
-    popupMenuBackgroundColorFromMap = map['popupMenuBackgroundColor'];
-    if (popupMenuBackgroundColorFromMap != null)
-      popupMenuBackgroundColorFromMap = RgbEntity.fromMap(popupMenuBackgroundColorFromMap);
+    var iconColorOverrideFromMap;
+    iconColorOverrideFromMap = map['iconColorOverride'];
+    if (iconColorOverrideFromMap != null)
+      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap);
+    var popupMenuBackgroundColorOverrideFromMap;
+    popupMenuBackgroundColorOverrideFromMap = map['popupMenuBackgroundColorOverride'];
+    if (popupMenuBackgroundColorOverrideFromMap != null)
+      popupMenuBackgroundColorOverrideFromMap = RgbEntity.fromMap(popupMenuBackgroundColorOverrideFromMap);
 
     return HomeMenuEntity(
       appId: map['appId'], 
       name: map['name'], 
       menuId: map['menuId'], 
-      iconColor: iconColorFromMap, 
-      backgroundId: map['backgroundId'], 
-      popupMenuBackgroundColor: popupMenuBackgroundColorFromMap, 
+      iconColorOverride: iconColorOverrideFromMap, 
+      backgroundOverrideId: map['backgroundOverrideId'], 
+      popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverrideFromMap, 
     );
   }
 
   Map<String, Object?> toDocument() {
-    final Map<String, dynamic>? iconColorMap = iconColor != null 
-        ? iconColor!.toDocument()
+    final Map<String, dynamic>? iconColorOverrideMap = iconColorOverride != null 
+        ? iconColorOverride!.toDocument()
         : null;
-    final Map<String, dynamic>? popupMenuBackgroundColorMap = popupMenuBackgroundColor != null 
-        ? popupMenuBackgroundColor!.toDocument()
+    final Map<String, dynamic>? popupMenuBackgroundColorOverrideMap = popupMenuBackgroundColorOverride != null 
+        ? popupMenuBackgroundColorOverride!.toDocument()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
@@ -75,12 +75,12 @@ class HomeMenuEntity {
       else theDocument["name"] = null;
     if (menuId != null) theDocument["menuId"] = menuId;
       else theDocument["menuId"] = null;
-    if (iconColor != null) theDocument["iconColor"] = iconColorMap;
-      else theDocument["iconColor"] = null;
-    if (backgroundId != null) theDocument["backgroundId"] = backgroundId;
-      else theDocument["backgroundId"] = null;
-    if (popupMenuBackgroundColor != null) theDocument["popupMenuBackgroundColor"] = popupMenuBackgroundColorMap;
-      else theDocument["popupMenuBackgroundColor"] = null;
+    if (iconColorOverride != null) theDocument["iconColorOverride"] = iconColorOverrideMap;
+      else theDocument["iconColorOverride"] = null;
+    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
+      else theDocument["backgroundOverrideId"] = null;
+    if (popupMenuBackgroundColorOverride != null) theDocument["popupMenuBackgroundColorOverride"] = popupMenuBackgroundColorOverrideMap;
+      else theDocument["popupMenuBackgroundColorOverride"] = null;
     return theDocument;
   }
 

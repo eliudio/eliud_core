@@ -159,6 +159,15 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
       } catch (_) {}
     }
 
+    BackgroundModel? backgroundHomeMenuHolder;
+    if (model.backgroundHomeMenu != null) {
+      try {
+        await backgroundRepository()!.get(model.backgroundHomeMenu!.documentID).then((val) {
+          backgroundHomeMenuHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     FontModel? h1Holder;
     if (model.h1 != null) {
       try {
@@ -248,6 +257,8 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
         formAppBarBackground: formAppBarBackgroundHolder,
 
         listBackground: listBackgroundHolder,
+
+        backgroundHomeMenu: backgroundHomeMenuHolder,
 
         h1: h1Holder,
 

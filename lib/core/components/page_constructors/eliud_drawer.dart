@@ -43,7 +43,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
                       child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h3(context, drawer.headerText!)
 ),
                   decoration: BoxDecorationHelper.boxDecoration(
-                      theState, drawer.headerBackground))),
+                      theState, drawer.headerBackgroundOverride))),
         );
         if ((drawer.secondHeaderText != null) &&
             (drawer.secondHeaderText!.isNotEmpty)) {

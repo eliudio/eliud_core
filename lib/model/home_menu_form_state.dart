@@ -127,15 +127,15 @@ class MenuHomeMenuFormError extends HomeMenuFormError {
 }
 
 
-class IconColorHomeMenuFormError extends HomeMenuFormError { 
-  const IconColorHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class IconColorOverrideHomeMenuFormError extends HomeMenuFormError { 
+  const IconColorOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''IconColorHomeMenuFormError {
+    return '''IconColorOverrideHomeMenuFormError {
       value: $value,
       message: $message,
     }''';
@@ -143,15 +143,15 @@ class IconColorHomeMenuFormError extends HomeMenuFormError {
 }
 
 
-class BackgroundHomeMenuFormError extends HomeMenuFormError { 
-  const BackgroundHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class BackgroundOverrideHomeMenuFormError extends HomeMenuFormError { 
+  const BackgroundOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundHomeMenuFormError {
+    return '''BackgroundOverrideHomeMenuFormError {
       value: $value,
       message: $message,
     }''';
@@ -159,15 +159,15 @@ class BackgroundHomeMenuFormError extends HomeMenuFormError {
 }
 
 
-class PopupMenuBackgroundColorHomeMenuFormError extends HomeMenuFormError { 
-  const PopupMenuBackgroundColorHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class PopupMenuBackgroundColorOverrideHomeMenuFormError extends HomeMenuFormError { 
+  const PopupMenuBackgroundColorOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''PopupMenuBackgroundColorHomeMenuFormError {
+    return '''PopupMenuBackgroundColorOverrideHomeMenuFormError {
       value: $value,
       message: $message,
     }''';

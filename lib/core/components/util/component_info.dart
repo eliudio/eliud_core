@@ -15,10 +15,10 @@ class ComponentInfo {
   final List<Widget> widgets;
   final HasFab? hasFab;
   final Layout layout;
-  final BackgroundModel? background;
+  final BackgroundModel? backgroundOverride;
   final GridViewModel? gridView;
 
-  ComponentInfo(this.componentModels, this.parameters, this.widgets, this.hasFab, this.state, this.layout, this.background, this.gridView);
+  ComponentInfo(this.componentModels, this.parameters, this.widgets, this.hasFab, this.state, this.layout, this.backgroundOverride, this.gridView);
 
   static HasFab? _getFab(List<Widget?> components) {
     HasFab? hasFab;

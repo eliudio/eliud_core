@@ -55,21 +55,21 @@ class AppBarModel {
   IconModel? icon;
   MemberMediumModel? image;
   MenuDefModel? iconMenu;
-  BackgroundModel? background;
+  BackgroundModel? backgroundOverride;
   RgbModel? iconColor;
   RgbModel? selectedIconColor;
   RgbModel? menuBackgroundColor;
 
-  AppBarModel({this.documentID, this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.background, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, })  {
+  AppBarModel({this.documentID, this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.backgroundOverride, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, })  {
     assert(documentID != null);
   }
 
-  AppBarModel copyWith({String? documentID, String? appId, String? title, HeaderSelection? header, IconModel? icon, MemberMediumModel? image, MenuDefModel? iconMenu, BackgroundModel? background, RgbModel? iconColor, RgbModel? selectedIconColor, RgbModel? menuBackgroundColor, }) {
-    return AppBarModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, header: header ?? this.header, icon: icon ?? this.icon, image: image ?? this.image, iconMenu: iconMenu ?? this.iconMenu, background: background ?? this.background, iconColor: iconColor ?? this.iconColor, selectedIconColor: selectedIconColor ?? this.selectedIconColor, menuBackgroundColor: menuBackgroundColor ?? this.menuBackgroundColor, );
+  AppBarModel copyWith({String? documentID, String? appId, String? title, HeaderSelection? header, IconModel? icon, MemberMediumModel? image, MenuDefModel? iconMenu, BackgroundModel? backgroundOverride, RgbModel? iconColor, RgbModel? selectedIconColor, RgbModel? menuBackgroundColor, }) {
+    return AppBarModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, header: header ?? this.header, icon: icon ?? this.icon, image: image ?? this.image, iconMenu: iconMenu ?? this.iconMenu, backgroundOverride: backgroundOverride ?? this.backgroundOverride, iconColor: iconColor ?? this.iconColor, selectedIconColor: selectedIconColor ?? this.selectedIconColor, menuBackgroundColor: menuBackgroundColor ?? this.menuBackgroundColor, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ header.hashCode ^ icon.hashCode ^ image.hashCode ^ iconMenu.hashCode ^ background.hashCode ^ iconColor.hashCode ^ selectedIconColor.hashCode ^ menuBackgroundColor.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ header.hashCode ^ icon.hashCode ^ image.hashCode ^ iconMenu.hashCode ^ backgroundOverride.hashCode ^ iconColor.hashCode ^ selectedIconColor.hashCode ^ menuBackgroundColor.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -83,14 +83,14 @@ class AppBarModel {
           icon == other.icon &&
           image == other.image &&
           iconMenu == other.iconMenu &&
-          background == other.background &&
+          backgroundOverride == other.backgroundOverride &&
           iconColor == other.iconColor &&
           selectedIconColor == other.selectedIconColor &&
           menuBackgroundColor == other.menuBackgroundColor;
 
   @override
   String toString() {
-    return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, background: $background, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
+    return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
   }
 
   AppBarEntity toEntity({String? appId}) {
@@ -101,7 +101,7 @@ class AppBarModel {
           icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
           imageId: (image != null) ? image!.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu!.documentID : null, 
-          backgroundId: (background != null) ? background!.documentID : null, 
+          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
           iconColor: (iconColor != null) ? iconColor!.toEntity(appId: appId) : null, 
           selectedIconColor: (selectedIconColor != null) ? selectedIconColor!.toEntity(appId: appId) : null, 
           menuBackgroundColor: (menuBackgroundColor != null) ? menuBackgroundColor!.toEntity(appId: appId) : null, 
@@ -151,13 +151,13 @@ class AppBarModel {
       }
     }
 
-    BackgroundModel? backgroundHolder;
-    if (entity.backgroundId != null) {
+    BackgroundModel? backgroundOverrideHolder;
+    if (entity.backgroundOverrideId != null) {
       try {
-          backgroundHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundId);
+          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
       } on Exception catch(e) {
-        print('Error whilst trying to initialise background');
-        print('Error whilst retrieving background with id ${entity.backgroundId}');
+        print('Error whilst trying to initialise backgroundOverride');
+        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
         print('Exception: $e');
       }
     }
@@ -171,7 +171,7 @@ class AppBarModel {
             await IconModel.fromEntityPlus(entity.icon, appId: appId), 
           image: imageHolder, 
           iconMenu: iconMenuHolder, 
-          background: backgroundHolder, 
+          backgroundOverride: backgroundOverrideHolder, 
           iconColor: 
             await RgbModel.fromEntityPlus(entity.iconColor, appId: appId), 
           selectedIconColor: 

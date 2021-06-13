@@ -351,6 +351,54 @@ class IconColorEliudStyleAttributesFormError extends EliudStyleAttributesFormErr
 }
 
 
+class BackgroundHomeMenuEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const BackgroundHomeMenuEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BackgroundHomeMenuEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class BackgroundColorHomeMenuEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const BackgroundColorHomeMenuEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BackgroundColorHomeMenuEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class IconColorHomeMenuEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const IconColorHomeMenuEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IconColorHomeMenuEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class H1EliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
   const H1EliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 

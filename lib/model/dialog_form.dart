@@ -121,6 +121,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  String? _backgroundOverride;
   int? _layoutSelectedRadioTile;
   String? _gridView;
   final TextEditingController _widgetWrapperController = TextEditingController();
@@ -162,6 +163,10 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
+        if (state.value!.backgroundOverride != null)
+          _backgroundOverride= state.value!.backgroundOverride!.documentID;
+        else
+          _backgroundOverride= "";
         if (state.value!.layout != null)
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
@@ -252,7 +257,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                RgbField("Background Color", state.value!.background, _onBackgroundChanged)
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -337,7 +342,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               appId: state.value!.appId, 
                               title: state.value!.title, 
                               bodyComponents: state.value!.bodyComponents, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
@@ -350,7 +355,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               appId: state.value!.appId, 
                               title: state.value!.title, 
                               bodyComponents: state.value!.bodyComponents, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
@@ -402,9 +407,11 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void _onBackgroundChanged(value) {
-    _myFormBloc.add(ChangedDialogBackground(value: value));
-    
+  void _onBackgroundOverrideSelected(String? val) {
+    setState(() {
+      _backgroundOverride = val;
+    });
+    _myFormBloc.add(ChangedDialogBackgroundOverride(value: val));
   }
 
 

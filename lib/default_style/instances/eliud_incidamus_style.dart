@@ -58,6 +58,9 @@ class EliudIncidamusStyle {
           .getFont(FontTools.key(FontTools.latoLabel, FontTools.linkLabel)),
       fontText: fontTools
           .getFont(FontTools.key(FontTools.latoLabel, FontTools.normalLabel)),
+      backgroundHomeMenu: backgroundHomeMenu(),
+      backgroundColorHomeMenu: homeMenuPopupBGColor(),
+      iconColorHomeMenu: homeMenuIconColor()
     );
   }
 
@@ -69,10 +72,14 @@ class EliudIncidamusStyle {
   static RgbModel appColor2() => EliudColors.black;
   static RgbModel appColor3() => EliudColors.darkRed2;
   static RgbModel appColor4() => EliudColors.black;
+  static RgbModel homeMenuIconColor() => EliudColors.orange1;
+  static RgbModel homeMenuPopupBGColor() => EliudColors.black;
 
   static BackgroundModel appBarBG() => EliudShared.drawerBG('incidamus-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('incidamus-page-bg', appColor3(), appColor4());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('incidamus-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('incidamus-drawer-header-bg');
-  static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerBG('incidamus-profile-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel profileDrawerBG()  => EliudShared.profileDrawerBG('incidamus-profile-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerHeaderBG('incidamus-profile-drawer-header-bg');
+  static BackgroundModel backgroundHomeMenu() => EliudShared.homeMenuBG('incidamus-homemenu', appColor1(), appColor2());
 }

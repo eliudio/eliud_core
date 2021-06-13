@@ -48,12 +48,11 @@
       "group": "components"
     },
     {
-      "fieldName": "background",
-      "displayName": "Background Color",
-      "defaultValue": "RgbModel(r: 211, g: 211, b: 211, opacity: 0.50)",
-      "fieldType": "Rgb",
-      "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Background Color\", state.value!.background, _onBackgroundChanged)",
+      "fieldName": "backgroundOverride",
+      "displayName": "Background Override",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
       "group": "background"
     },
     {

@@ -52,30 +52,31 @@
       "group": "menu"
     },
     {
-      "fieldName": "iconColor",
+      "fieldName": "iconColorOverride",
       "displayName": "Icon Color",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
       "fieldType": "Rgb",
       "group": "colors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Icon Color\", state.value!.iconColor, _onIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Icon Color Override\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
     },
     {
-      "fieldName": "background",
-      "displayName": "background",
+      "fieldName": "backgroundOverride",
+      "remark": "Override the style background",
+      "displayName": "Background Override",
       "fieldType": "Background",
       "association": true,
       "optional": true,
       "group": "background"
     },
     {
-      "fieldName": "popupMenuBackgroundColor",
-      "displayName": "Popup Menu Background Color",
+      "fieldName": "popupMenuBackgroundColorOverride",
+      "displayName": "Popup Menu Background Color Override",
       "fieldType": "Rgb",
       "group": "popupMenuBackgroundColor",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Popup Menu Background Color\", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(\"Popup Menu Background Color Override\", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)"
     }
   ],
   "groups": [

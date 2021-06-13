@@ -1,16 +1,11 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
-import 'package:eliud_core/default_style/shared/tools.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/style/admin/admin_form_style.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
-import 'package:eliud_core/style/shared/types.dart';
-import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:eliud_core/tools/grid_view_helper.dart';
 import 'package:flutter/material.dart';
+
 import '../../eliud_style.dart';
 
 class EliudPageBodyImpl implements HasPageBody {
@@ -19,7 +14,11 @@ class EliudPageBodyImpl implements HasPageBody {
   EliudPageBodyImpl(this._eliudStyle);
 
   @override
-  Widget pageBody(BuildContext context, {BackgroundModel? backgroundOverride, required List<Widget> components, Layout? layout, GridViewModel? gridView}) {
+  Widget pageBody(BuildContext context,
+      {BackgroundModel? backgroundOverride,
+      required List<Widget> components,
+      Layout? layout,
+      GridViewModel? gridView}) {
     BackgroundModel? background;
     if (backgroundOverride == null) {
       background = _eliudStyle.eliudStyleAttributesModel.appBackground;
@@ -35,7 +34,8 @@ class EliudPageBodyImpl implements HasPageBody {
         } else {
           return Stack(children: <Widget>[
             Container(
-              decoration: BoxDecorationHelper.boxDecoration(accessState, background),
+              decoration:
+                  BoxDecorationHelper.boxDecoration(accessState, background),
             ),
             _container(context, components, layout, gridView)
           ]);
@@ -47,8 +47,8 @@ class EliudPageBodyImpl implements HasPageBody {
     }
   }
 
-  Widget _container(
-      BuildContext context, List<Widget> components, Layout? layout, GridViewModel? gridView) {
+  Widget _container(BuildContext context, List<Widget> components,
+      Layout? layout, GridViewModel? gridView) {
     if (components.length == 1) return _justTheFirst(components);
     switch (layout) {
       case Layout.GridView:
@@ -63,8 +63,7 @@ class EliudPageBodyImpl implements HasPageBody {
     return _listView(context, components);
   }
 
-  Widget _listView(
-      BuildContext context, List<Widget?> components) {
+  Widget _listView(BuildContext context, List<Widget?> components) {
     return ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),
@@ -84,4 +83,3 @@ class EliudPageBodyImpl implements HasPageBody {
     return GridViewHelper.container(context, components, model);
   }
 }
-

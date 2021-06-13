@@ -103,39 +103,39 @@ class ChangedHomeMenuMenu extends HomeMenuFormEvent {
   String toString() => 'ChangedHomeMenuMenu{ value: $value }';
 }
 
-class ChangedHomeMenuIconColor extends HomeMenuFormEvent {
+class ChangedHomeMenuIconColorOverride extends HomeMenuFormEvent {
   final RgbModel? value;
 
-  ChangedHomeMenuIconColor({this.value});
+  ChangedHomeMenuIconColorOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedHomeMenuIconColor{ value: $value }';
+  String toString() => 'ChangedHomeMenuIconColorOverride{ value: $value }';
 }
 
-class ChangedHomeMenuBackground extends HomeMenuFormEvent {
+class ChangedHomeMenuBackgroundOverride extends HomeMenuFormEvent {
   final String? value;
 
-  ChangedHomeMenuBackground({this.value});
+  ChangedHomeMenuBackgroundOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedHomeMenuBackground{ value: $value }';
+  String toString() => 'ChangedHomeMenuBackgroundOverride{ value: $value }';
 }
 
-class ChangedHomeMenuPopupMenuBackgroundColor extends HomeMenuFormEvent {
+class ChangedHomeMenuPopupMenuBackgroundColorOverride extends HomeMenuFormEvent {
   final RgbModel? value;
 
-  ChangedHomeMenuPopupMenuBackgroundColor({this.value});
+  ChangedHomeMenuPopupMenuBackgroundColorOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedHomeMenuPopupMenuBackgroundColor{ value: $value }';
+  String toString() => 'ChangedHomeMenuPopupMenuBackgroundColorOverride{ value: $value }';
 }
 

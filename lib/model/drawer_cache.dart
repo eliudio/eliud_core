@@ -132,11 +132,11 @@ class DrawerCache implements DrawerRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? headerBackgroundHolder;
-    if (model.headerBackground != null) {
+    BackgroundModel? headerBackgroundOverrideHolder;
+    if (model.headerBackgroundOverride != null) {
       try {
-        await backgroundRepository(appId: model.appId)!.get(model.headerBackground!.documentID).then((val) {
-          headerBackgroundHolder = val;
+        await backgroundRepository(appId: model.appId)!.get(model.headerBackgroundOverride!.documentID).then((val) {
+          headerBackgroundOverrideHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
@@ -153,7 +153,7 @@ class DrawerCache implements DrawerRepository {
     return model.copyWith(
         backgroundOverride: backgroundOverrideHolder,
 
-        headerBackground: headerBackgroundHolder,
+        headerBackgroundOverride: headerBackgroundOverrideHolder,
 
         menu: menuHolder,
 

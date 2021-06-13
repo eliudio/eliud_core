@@ -58,6 +58,9 @@ class EliudEliudStyle {
           .getFont(FontTools.key(FontTools.robotoLabel, FontTools.linkLabel)),
       fontText: fontTools
           .getFont(FontTools.key(FontTools.robotoLabel, FontTools.normalLabel)),
+      backgroundHomeMenu: backgroundHomeMenu(),
+      backgroundColorHomeMenu: homeMenuPopupBGColor(),
+      iconColorHomeMenu: homeMenuIconColor()
     );
   }
 
@@ -69,10 +72,14 @@ class EliudEliudStyle {
   static RgbModel appColor2() => EliudColors.blackTransparent;
   static RgbModel appColor3() => EliudColors.gray;
   static RgbModel appColor4() => EliudColors.gray;
+  static RgbModel homeMenuIconColor() => EliudColors.white;
+  static RgbModel homeMenuPopupBGColor() => EliudColors.lightRed;
 
   static BackgroundModel appBarBG() => EliudShared.drawerBG('eliud-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('eliud-page-bg', appColor3(), appColor4());
-  static BackgroundModel drawerBG() => EliudShared.drawerBG('eliud-page-bg', appColor1(), appColor2());
+  static BackgroundModel drawerBG() => EliudShared.drawerBG('eliud-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('eliud-drawer-header-bg');
-  static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerBG('eliud-profile-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel profileDrawerBG()  => EliudShared.profileDrawerBG('eliud-profile-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerHeaderBG('eliud-profile-drawer-header-bg');
+  static BackgroundModel backgroundHomeMenu() => EliudShared.homeMenuBG('eliud-homemenu', appColor1(), appColor2());
 }

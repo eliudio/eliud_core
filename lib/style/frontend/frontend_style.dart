@@ -11,6 +11,7 @@ abstract class FrontEndStyle
         HasIcon,
         HasTable,
         HasAppBar,
+        HasMenu,
         HasBottomNavigationBar,
         HasPageBody {
   Widget container(BuildContext context, {Widget child});

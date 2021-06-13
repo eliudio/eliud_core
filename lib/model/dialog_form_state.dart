@@ -127,15 +127,15 @@ class BodyComponentsDialogFormError extends DialogFormError {
 }
 
 
-class BackgroundDialogFormError extends DialogFormError { 
-  const BackgroundDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class BackgroundOverrideDialogFormError extends DialogFormError { 
+  const BackgroundOverrideDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundDialogFormError {
+    return '''BackgroundOverrideDialogFormError {
       value: $value,
       message: $message,
     }''';

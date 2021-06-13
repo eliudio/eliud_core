@@ -74,9 +74,9 @@ class _EliudPopupMenuState extends State<EliudPopupMenu> {
             if (action is PopupMenu) {
               PopupMenuWidget(app, currentPage).openMenu(
                 context,
-                action,
-                background,
-                RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
+                popupMenu: action,
+                popupMenuBackgroundColorOverride: background,
+                position: RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
               );
             } else {
               if (!PageHelper.isActivePage(currentPage, action)) {

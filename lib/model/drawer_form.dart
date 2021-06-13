@@ -125,7 +125,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   final TextEditingController _headerTextController = TextEditingController();
   final TextEditingController _secondHeaderTextController = TextEditingController();
   final TextEditingController _headerHeightController = TextEditingController();
-  String? _headerBackground;
+  String? _headerBackgroundOverride;
   String? _menu;
 
 
@@ -182,10 +182,10 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           _headerHeightController.text = state.value!.headerHeight.toString();
         else
           _headerHeightController.text = "";
-        if (state.value!.headerBackground != null)
-          _headerBackground= state.value!.headerBackground!.documentID;
+        if (state.value!.headerBackgroundOverride != null)
+          _headerBackgroundOverride= state.value!.headerBackgroundOverride!.documentID;
         else
-          _headerBackground= "";
+          _headerBackgroundOverride= "";
         if (state.value!.menu != null)
           _menu= state.value!.menu!.documentID;
         else
@@ -264,7 +264,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _headerBackground, trigger: _onHeaderBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _headerBackgroundOverride, trigger: _onHeaderBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -332,7 +332,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               secondHeaderText: state.value!.secondHeaderText, 
                               headerHeight: state.value!.headerHeight, 
                               popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
-                              headerBackground: state.value!.headerBackground, 
+                              headerBackgroundOverride: state.value!.headerBackgroundOverride, 
                               menu: state.value!.menu, 
                         )));
                       } else {
@@ -346,7 +346,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               secondHeaderText: state.value!.secondHeaderText, 
                               headerHeight: state.value!.headerHeight, 
                               popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
-                              headerBackground: state.value!.headerBackground, 
+                              headerBackgroundOverride: state.value!.headerBackgroundOverride, 
                               menu: state.value!.menu, 
                           )));
                       }
@@ -418,11 +418,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onHeaderBackgroundSelected(String? val) {
+  void _onHeaderBackgroundOverrideSelected(String? val) {
     setState(() {
-      _headerBackground = val;
+      _headerBackgroundOverride = val;
     });
-    _myFormBloc.add(ChangedDrawerHeaderBackground(value: val));
+    _myFormBloc.add(ChangedDrawerHeaderBackgroundOverride(value: val));
   }
 
 

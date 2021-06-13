@@ -175,15 +175,15 @@ class IconMenuAppBarFormError extends AppBarFormError {
 }
 
 
-class BackgroundAppBarFormError extends AppBarFormError { 
-  const BackgroundAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class BackgroundOverrideAppBarFormError extends AppBarFormError { 
+  const BackgroundOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundAppBarFormError {
+    return '''BackgroundOverrideAppBarFormError {
       value: $value,
       message: $message,
     }''';

@@ -114,7 +114,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  icon: currentState.value!.icon,
                                  image: null,
                                  iconMenu: currentState.value!.iconMenu,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  iconColor: currentState.value!.iconColor,
                                  selectedIconColor: currentState.value!.selectedIconColor,
                                  menuBackgroundColor: currentState.value!.menuBackgroundColor,
@@ -135,7 +135,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  icon: currentState.value!.icon,
                                  image: currentState.value!.image,
                                  iconMenu: null,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  iconColor: currentState.value!.iconColor,
                                  selectedIconColor: currentState.value!.selectedIconColor,
                                  menuBackgroundColor: currentState.value!.menuBackgroundColor,
@@ -144,9 +144,9 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
 
         return;
       }
-      if (event is ChangedAppBarBackground) {
+      if (event is ChangedAppBarBackgroundOverride) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppBarModel(
                                  documentID: currentState.value!.documentID,
@@ -156,7 +156,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  icon: currentState.value!.icon,
                                  image: currentState.value!.image,
                                  iconMenu: currentState.value!.iconMenu,
-                                 background: null,
+                                 backgroundOverride: null,
                                  iconColor: currentState.value!.iconColor,
                                  selectedIconColor: currentState.value!.selectedIconColor,
                                  menuBackgroundColor: currentState.value!.menuBackgroundColor,

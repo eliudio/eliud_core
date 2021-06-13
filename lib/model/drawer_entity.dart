@@ -28,17 +28,17 @@ class DrawerEntity {
   final String? secondHeaderText;
   final double? headerHeight;
   final RgbEntity? popupMenuBackgroundColor;
-  final String? headerBackgroundId;
+  final String? headerBackgroundOverrideId;
   final String? menuId;
 
-  DrawerEntity({this.appId, this.name, this.backgroundOverrideId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundId, this.menuId, });
+  DrawerEntity({this.appId, this.name, this.backgroundOverrideId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverrideId, this.menuId, });
 
 
-  List<Object?> get props => [appId, name, backgroundOverrideId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
+  List<Object?> get props => [appId, name, backgroundOverrideId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundOverrideId, menuId, ];
 
   @override
   String toString() {
-    return 'DrawerEntity{appId: $appId, name: $name, backgroundOverrideId: $backgroundOverrideId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundId: $headerBackgroundId, menuId: $menuId}';
+    return 'DrawerEntity{appId: $appId, name: $name, backgroundOverrideId: $backgroundOverrideId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverrideId: $headerBackgroundOverrideId, menuId: $menuId}';
   }
 
   static DrawerEntity? fromMap(Map? map) {
@@ -57,7 +57,7 @@ class DrawerEntity {
       secondHeaderText: map['secondHeaderText'], 
       headerHeight: double.tryParse(map['headerHeight'].toString()), 
       popupMenuBackgroundColor: popupMenuBackgroundColorFromMap, 
-      headerBackgroundId: map['headerBackgroundId'], 
+      headerBackgroundOverrideId: map['headerBackgroundOverrideId'], 
       menuId: map['menuId'], 
     );
   }
@@ -82,8 +82,8 @@ class DrawerEntity {
       else theDocument["headerHeight"] = null;
     if (popupMenuBackgroundColor != null) theDocument["popupMenuBackgroundColor"] = popupMenuBackgroundColorMap;
       else theDocument["popupMenuBackgroundColor"] = null;
-    if (headerBackgroundId != null) theDocument["headerBackgroundId"] = headerBackgroundId;
-      else theDocument["headerBackgroundId"] = null;
+    if (headerBackgroundOverrideId != null) theDocument["headerBackgroundOverrideId"] = headerBackgroundOverrideId;
+      else theDocument["headerBackgroundOverrideId"] = null;
     if (menuId != null) theDocument["menuId"] = menuId;
       else theDocument["menuId"] = null;
     return theDocument;
