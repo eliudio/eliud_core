@@ -36,7 +36,7 @@ class RichTextFieldState extends State<RichTextField> {
   @override
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
-    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().textFormField(context,
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().textFormField(context,
     readOnly: !appState.memberIsOwner(),
     initialValue: value,
     onChanged: _onChanged,

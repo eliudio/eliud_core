@@ -1,7 +1,7 @@
 import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract class FrontEndFormStyle
+abstract class FrontEndStyle
     implements
         HasTexFormField,
         HasDivider,

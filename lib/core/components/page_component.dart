@@ -1,23 +1,20 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/components/util/component_info.dart';
-import 'package:eliud_core/core/components/util/page_body.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
+import 'package:eliud_core/core/components/util/component_info.dart';
+import 'package:eliud_core/core/components/util/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/page_model.dart';
-
-import 'package:eliud_core/core/widgets/alert_widget.dart';
-
 import 'package:eliud_core/model/page_component_bloc.dart';
-import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/model/page_component_state.dart';
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:eliud_core/tools/registry.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

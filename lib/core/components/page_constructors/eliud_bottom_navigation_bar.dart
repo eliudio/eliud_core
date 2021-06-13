@@ -2,14 +2,13 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
 import 'package:eliud_core/core/components/util/page_helper.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/home_menu_model.dart';
+import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +46,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
         } else {
           return StyleRegistry.registry()
               .styleWithContext(context)
-              .frontEndFormStyle()
+              .frontEndStyle()
               .bottomNavigatorBar(context,
               onTap: (int index) async {
                 MenuItemModel item = menuItems[index];

@@ -738,6 +738,7 @@ class AdminAppWiper extends AdminAppWiperBase {
     await countryRepository()!.deleteAll();
     await fontRepository()!.deleteAll();
     await memberPublicInfoRepository()!.deleteAll();
+    await shadowRepository()!.deleteAll();
     ;
   }
 

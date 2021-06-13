@@ -1,22 +1,17 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_popup_menu.dart';
-import 'package:eliud_core/core/tools/document_processor.dart';
+import 'package:eliud_core/core/components/util/page_helper.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
-
-import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MenuHelper {
   static void addWidget(
@@ -129,7 +124,7 @@ class MenuHelper {
         buttons.add(Center(
             child: OutlineButton(
           padding: EdgeInsets.all(10.0),
-          child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h5(context, item.text!),
+          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h5(context, item.text!),
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action)) {
               eliudrouter.Router.navigateTo(context, item.action!);
@@ -137,7 +132,7 @@ class MenuHelper {
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          borderSide: BorderSide(color: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH4(context)!.color!),
+          borderSide: BorderSide(color: StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH4(context)!.color!),
         )));
       }
     }

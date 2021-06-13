@@ -1,6 +1,4 @@
-import 'package:eliud_core/model/member_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class NavigatorEvent extends Equatable {
   @override

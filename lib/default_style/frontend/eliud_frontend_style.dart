@@ -4,7 +4,7 @@ import 'package:eliud_core/default_style/shared/tools.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
-import 'package:eliud_core/style/frontend/frontend_form_style.dart';
+import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/style/shared/types.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -15,12 +15,12 @@ import 'package:flutter/material.dart';
 import '../eliud_style.dart';
 import 'impl/eliud_page_body_impl.dart';
 
-class EliudFrontEndFormStyle extends EliudSharedImplementation
-    implements FrontEndFormStyle {
+class EliudFrontEndStyle extends EliudSharedImplementation
+    implements FrontEndStyle {
   final EliudStyle _eliudStyle;
   late EliudPageBodyImpl eliudPageBodyImpl;
 
-  EliudFrontEndFormStyle(this._eliudStyle) : super(_eliudStyle) {
+  EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
   }
 
@@ -54,17 +54,17 @@ class EliudFrontEndFormStyle extends EliudSharedImplementation
             items: items.map((item) {
               var text = item.isActive
                   ? _eliudStyle
-                      .frontEndFormStyle()
+                      .frontEndStyle()
                       .h3(context, item.label)
                   : _eliudStyle
-                      .frontEndFormStyle()
+                      .frontEndStyle()
                       .h4(context, item.label);
               var icon = item.isActive
                   ? _eliudStyle
-                      .frontEndFormStyle()
+                      .frontEndStyle()
                       .h3Icon(context, item.icon)
                   : _eliudStyle
-                      .frontEndFormStyle()
+                      .frontEndStyle()
                       .h4Icon(context, item.icon);
               return BottomNavigationBarItem(
                 title: text,

@@ -1,19 +1,18 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_helper.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -73,7 +72,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
     Widget title;
     Widget? part1;
     if ((value.header == HeaderSelection.Title) && (value.title != null)) {
-      part1 = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, value.title!);
+      part1 = StyleRegistry.registry().styleWithContext(context).frontEndStyle().h1(context, value.title!);
     } else if ((value.header == HeaderSelection.Icon) && (value.icon != null)) {
       part1 = IconHelper.getIconFromModel(iconModel: value.icon);
     } else if ((value.header == HeaderSelection.Image) &&
@@ -89,9 +88,9 @@ class _EliudAppBarState extends State<EliudAppBar> {
     if (part1 != null) {
       title = Row(children: [part1, Container(width: 20), Text(theTitle!)]);
     } else if (theTitle != null) {
-      title = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, theTitle);
+      title = StyleRegistry.registry().styleWithContext(context).frontEndStyle().h1(context, theTitle);
     } else {
-      title = StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h1(context, 'No title');
+      title = StyleRegistry.registry().styleWithContext(context).frontEndStyle().h1(context, 'No title');
     }
 
     if (member != null) {
@@ -121,7 +120,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
     var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().appBarWithWidget(context, iconTheme: iconThemeData, title: title, actions: buttons, background: value.background);
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().appBarWithWidget(context, iconTheme: iconThemeData, title: title, actions: buttons, background: value.background);
   }
 
   void _addPlayStoreButton(String? playStoreApp,

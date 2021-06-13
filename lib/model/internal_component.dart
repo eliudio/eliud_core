@@ -643,7 +643,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: AccessBloc.appId(context))!,
+            shadowRepository: shadowRepository()!,
           )..add(LoadShadowList()),
         )
       ],
@@ -915,7 +915,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: AccessBloc.appId(context))!,
+            shadowRepository: shadowRepository()!,
           )..add(LoadShadowList()),
         )
       ],

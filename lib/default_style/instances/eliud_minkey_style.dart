@@ -1,13 +1,15 @@
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/decoration_color_model.dart';
 import 'package:eliud_core/model/eliud_style_attributes_model.dart';
+import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/tools/backgrounds.dart';
 import 'package:eliud_core/style/tools/colors.dart';
 import 'package:eliud_core/style/tools/font_tools.dart';
 import '../eliud_style.dart';
+import 'eliud_shared.dart';
 
 class EliudMinkeyStyle {
-  static final String _defaultStyleName = 'Default';
+  static final String styleName = 'Minkey';
 
   static EliudStyleAttributesModel _defaultEliudStyleAttributesModel() {
     var headerColor1To3 = EliudColors.white;
@@ -22,6 +24,9 @@ class EliudMinkeyStyle {
         highlightColor: highlightColor,
         linkColor: linkColor);
     return EliudStyleAttributesModel(
+      appBackground: pageBG(),
+      listBackground: pageBG(),
+      formBackground: pageBG(),
       formSubmitButtonColor: EliudColors.red,
       formSubmitButtonTextColor: EliudColors.white,
       formGroupTitleColor: EliudColors.red,
@@ -31,7 +36,6 @@ class EliudMinkeyStyle {
       formAppBarBackground: appBarBG(),
       formAppBarTextColor: EliudColors.white,
       listTextItemColor: EliudColors.white,
-      listBackground: pageBG(),
       floatingButtonForegroundColor: EliudColors.white,
       iconColor: EliudColors.red,
       floatingButtonBackgroundColor: EliudColors.red,
@@ -59,39 +63,18 @@ class EliudMinkeyStyle {
   }
 
   static EliudStyle defaultEliudStyle() {
-    return EliudStyle(_defaultStyleName, _defaultEliudStyleAttributesModel());
+    return EliudStyle(styleName, _defaultEliudStyleAttributesModel());
   }
 
-  static BackgroundModel appBarBG() {
-    return Backgrounds.gradient(
-      documentId: 'appbar_bg',
-      fromColor: EliudColors.red,   // appColor1
-      toColor: EliudColors.white,   // appColor2
-      startPosition: StartGradientPosition.TopLeft,
-      endPosition: EndGradientPosition.BottomRight,
-    );
+  static RgbModel appColor1() => EliudColors.red;
+  static RgbModel appColor2() => EliudColors.white;
+  static RgbModel appColor3() => EliudColors.lightRed;
+  static RgbModel appColor4() => EliudColors.white;
+
+  static BackgroundModel appBarBG() => EliudShared.drawerBG('minkey-appbar-bg', appColor1(), appColor2());
+  static BackgroundModel pageBG() => EliudShared.pageBG('minkey-page-bg', appColor3(), appColor4());
+  static BackgroundModel drawerBG() => EliudShared.drawerBG('minkey-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('minkey-drawer-header-bg');
+  static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerBG('minkey-profile-drawer-bg', appColor1(), appColor2());
+
   }
-
-  static BackgroundModel pageBG() {
-    var decorationColorModels = <DecorationColorModel>[];
-    var decorationColorModel1 = DecorationColorModel(
-      documentID: '1',
-      color: EliudColors.white,           // appColor4
-    );
-    decorationColorModels.add(decorationColorModel1);
-    var decorationColorModel2 = DecorationColorModel(
-      documentID: '2',
-      color: EliudColors.lightRed,           // appColor3
-    );
-
-    decorationColorModels.add(decorationColorModel2);
-    var backgroundModel = BackgroundModel(
-      documentID: 'page_bg',
-      beginGradientPosition: StartGradientPosition.CenterLeft,
-      endGradientPosition: EndGradientPosition.CenterRight,
-      decorationColors: decorationColorModels,
-    );
-    return backgroundModel;
-  }
-
-}

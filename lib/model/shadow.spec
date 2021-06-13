@@ -1,7 +1,6 @@
 {
   "id": "Shadow",
   "packageName": "eliud_core",
-  "isAppModel": true,
   "generate": {
     "generateComponent": false,
     "generateRepository": true,
@@ -15,8 +14,7 @@
     "generateList": true,
     "generateDropDownButton": true,
     "generateInternalComponent": true,
-    "generateEmbeddedComponent": false,
-    "isDocumentCollection": true
+    "generateEmbeddedComponent": false
   },
   "fields": [
     {

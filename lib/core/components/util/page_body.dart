@@ -2,21 +2,12 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/grid_view_helper.dart';
-
-
-
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/tools/has_fab.dart';
-import 'package:eliud_core/tools/registry.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../tools/etc.dart';
 import 'component_info.dart';
 
 
@@ -66,7 +57,7 @@ class _PageBodyState extends State<PageBody> {
         Layout? layout,
         GridViewModel? gridView
       }) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().pageBody(context, backgroundOverride: backgroundOverride,
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().pageBody(context, backgroundOverride: backgroundOverride,
         components: components, layout: layout, gridView: gridView);
   }
 

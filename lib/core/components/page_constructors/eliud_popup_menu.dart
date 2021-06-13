@@ -1,19 +1,17 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
+import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core/model/rgb_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/core/components/util/page_helper.dart';
 
 class EliudPopupMenu extends StatefulWidget {
   final String currentPage;
@@ -91,8 +89,8 @@ class _EliudPopupMenuState extends State<EliudPopupMenu> {
             var index = 0;
             menuItems.forEach((item) {
               var style = PageHelper.isActivePage(currentPage, item.action)
-                  ? StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH3(context)
-                  : StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH4(context);
+                  ? StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH3(context)
+                  : StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH4(context);
               var description = item.description!;
               var menuItem = PopupMenuItem<int>(
                 value: index,

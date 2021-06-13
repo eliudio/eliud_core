@@ -110,7 +110,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
       i++;
     });
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().container(context,
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().container(context,
         child: Center(
             child: Container(
           width: AcceptMembershipWidget.width(context),
@@ -162,7 +162,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     ];
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
-      StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().button(context, label: 'Accept', onPressed: _allEnabled(app)
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Accept', onPressed: _allEnabled(app)
             ? () async {
                 BlocProvider.of<AccessBloc>(context)
                     .add(AcceptedMembership(widget.member, widget.usr));
@@ -170,7 +170,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
             : null,
       ),
       Spacer(),
-      StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().button(context, label: 'Cancel',
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Cancel',
         onPressed: () async {
           BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
         },)

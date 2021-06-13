@@ -1,9 +1,9 @@
 import 'dart:async';
+
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;

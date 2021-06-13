@@ -52,7 +52,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       TextButton(onPressed: () => action(), child: Text(textButton)),
       TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().text(context, description, textAlign: TextAlign.center)),
+          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, description, textAlign: TextAlign.center)),
     ]);
   }
 
@@ -79,14 +79,14 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         children: [
           Row(children: [
             Spacer(),
-            StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().text(context, welcomeText, textAlign: TextAlign.center),
+            StyleRegistry.registry().styleWithContext(context).frontEndStyle().text(context, welcomeText, textAlign: TextAlign.center),
             Spacer(),
             profilePhoto,
           ]),
           Container(height:20),
-          StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().divider(context),
+          StyleRegistry.registry().styleWithContext(context).frontEndStyle().divider(context),
           Container(height:20),
-          StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().table(context,
+          StyleRegistry.registry().styleWithContext(context).frontEndStyle().table(context,
             children: [
 //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
               getRow(context, app!, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),

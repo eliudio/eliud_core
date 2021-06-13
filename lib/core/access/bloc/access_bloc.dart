@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -13,10 +16,6 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
-
-import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // When subscribing the MapAccessEvent method, then this will be called before AccessBloc has handled the event, i.e. the state is the current state

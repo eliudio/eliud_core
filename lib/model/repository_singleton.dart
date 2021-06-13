@@ -118,7 +118,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
-    var _shadowRepository = HashMap<String, ShadowRepository>();
+    var _shadowRepository = ShadowCache(ShadowFirestore());
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -183,9 +183,8 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_posSizeRepository[appId] == null)) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository()!.getSubCollection(appId, 'possize'), appId));
       return _posSizeRepository[appId];
     }
-    ShadowRepository? shadowRepository(String? appId) {
-      if ((appId != null) && (_shadowRepository[appId] == null)) _shadowRepository[appId] = ShadowCache(ShadowFirestore(appRepository()!.getSubCollection(appId, 'shadow'), appId));
-      return _shadowRepository[appId];
+    ShadowRepository? shadowRepository() {
+      return _shadowRepository;
     }
 
 }

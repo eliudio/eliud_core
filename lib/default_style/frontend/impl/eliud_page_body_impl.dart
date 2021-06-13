@@ -4,7 +4,6 @@ import 'package:eliud_core/default_style/shared/tools.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
-import 'package:eliud_core/style/frontend/frontend_form_style.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/style/shared/types.dart';
 import 'package:eliud_core/style/style_registry.dart';

@@ -1,13 +1,13 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/tools/menu_helper.dart';
-import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/core/components/util/page_helper.dart';
+import 'package:eliud_core/core/tools/menu_helper.dart';
+import 'package:eliud_core/model/drawer_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
               height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
               child: DrawerHeader(
                   child: Center(
-                      child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h3(context, drawer.headerText!)
+                      child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h3(context, drawer.headerText!)
 ),
                   decoration: BoxDecorationHelper.boxDecoration(
                       theState, drawer.headerBackground))),
@@ -51,7 +51,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
             height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
             child: DrawerHeader(
                 child: Center(
-                    child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h4(context, drawer.secondHeaderText!),
+                    child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, drawer.secondHeaderText!),
                 )),
           ));
         }
@@ -61,8 +61,8 @@ class _EliudDrawerState extends State<EliudDrawer> {
         for (var i = 0; i < drawer.menu!.menuItems!.length; i++) {
           var item = drawer.menu!.menuItems![i];
           var style = PageHelper.isActivePage(currentPage, item.action)
-              ? StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH3(context)
-              : StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH4(context);
+              ? StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH3(context)
+              : StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH4(context);
 
               if (theState.menuItemHasAccess(item)) {
             _addWidget(context, widgets, item, style, member);

@@ -61,7 +61,7 @@ MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => Abs
 MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
-ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
+ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository();
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -87,7 +87,7 @@ abstract class AbstractRepositorySingleton {
   MenuDefRepository? menuDefRepository(String? appId);
   PageRepository? pageRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
-  ShadowRepository? shadowRepository(String? appId);
+  ShadowRepository? shadowRepository();
 
   void flush(String? appId) {
     backgroundRepository()!.flush();
@@ -95,5 +95,6 @@ abstract class AbstractRepositorySingleton {
     eliudStyleAttributesRepository()!.flush();
     fontRepository()!.flush();
     memberPublicInfoRepository()!.flush();
+    shadowRepository()!.flush();
   }
 }
