@@ -125,7 +125,7 @@ class _MyPageFormState extends State<MyPageForm> {
   String? _drawer;
   String? _endDrawer;
   String? _homeMenu;
-  String? _background;
+  String? _backgroundOverride;
   int? _layoutSelectedRadioTile;
   String? _gridView;
   final TextEditingController _widgetWrapperController = TextEditingController();
@@ -183,10 +183,10 @@ class _MyPageFormState extends State<MyPageForm> {
           _homeMenu= state.value!.homeMenu!.documentID;
         else
           _homeMenu= "";
-        if (state.value!.background != null)
-          _background= state.value!.background!.documentID;
+        if (state.value!.backgroundOverride != null)
+          _backgroundOverride= state.value!.backgroundOverride!.documentID;
         else
-          _background= "";
+          _backgroundOverride= "";
         if (state.value!.layout != null)
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
@@ -330,7 +330,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _background, trigger: _onBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -407,7 +407,7 @@ class _MyPageFormState extends State<MyPageForm> {
                               endDrawer: state.value!.endDrawer, 
                               homeMenu: state.value!.homeMenu, 
                               bodyComponents: state.value!.bodyComponents, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
@@ -424,7 +424,7 @@ class _MyPageFormState extends State<MyPageForm> {
                               endDrawer: state.value!.endDrawer, 
                               homeMenu: state.value!.homeMenu, 
                               bodyComponents: state.value!.bodyComponents, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
@@ -508,11 +508,11 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
 
-  void _onBackgroundSelected(String? val) {
+  void _onBackgroundOverrideSelected(String? val) {
     setState(() {
-      _background = val;
+      _backgroundOverride = val;
     });
-    _myFormBloc.add(ChangedPageBackground(value: val));
+    _myFormBloc.add(ChangedPageBackgroundOverride(value: val));
   }
 
 

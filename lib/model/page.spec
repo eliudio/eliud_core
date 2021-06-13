@@ -80,8 +80,9 @@
       "group": "components"
     },
     {
-      "fieldName": "background",
-      "displayName": "background",
+      "fieldName": "backgroundOverride",
+      "remark": "Override the style background",
+      "displayName": "Background Override",
       "fieldType": "Background",
       "association": true,
       "optional": true,

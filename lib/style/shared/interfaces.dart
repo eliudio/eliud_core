@@ -3,6 +3,7 @@ import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_form_style.dart';
@@ -38,7 +39,6 @@ abstract class HasStyle {
   TextStyle? styleH3(BuildContext context);
   TextStyle? styleH4(BuildContext context);
   TextStyle? styleH5(BuildContext context);
-
 }
 
 abstract class HasText {
@@ -50,7 +50,6 @@ abstract class HasText {
   Widget h3(BuildContext context, String data, {TextAlign? textAlign, });
   Widget h4(BuildContext context, String data, {TextAlign? textAlign, });
   Widget h5(BuildContext context, String data, {TextAlign? textAlign, });
-
 }
 
 abstract class HasIcon {
@@ -83,4 +82,12 @@ abstract class HasBottomNavigationBar {
       {required List<BottomNavigationBarItemAttributes> items,
         BackgroundModel? background,
         ValueChanged<int>? onTap});
+}
+
+enum Layout {
+  GridView, ListView, OnlyTheFirstComponent, Unknown
+}
+
+abstract class HasPageBody {
+  Widget pageBody(BuildContext context, {BackgroundModel? backgroundOverride, required List<Widget> components, Layout? layout, GridViewModel? gridView});
 }

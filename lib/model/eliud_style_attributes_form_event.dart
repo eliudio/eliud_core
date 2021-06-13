@@ -103,6 +103,18 @@ class ChangedEliudStyleAttributesFormBackground extends EliudStyleAttributesForm
   String toString() => 'ChangedEliudStyleAttributesFormBackground{ value: $value }';
 }
 
+class ChangedEliudStyleAttributesAppBackground extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesAppBackground({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesAppBackground{ value: $value }';
+}
+
 class ChangedEliudStyleAttributesFormSubmitButtonTextColor extends EliudStyleAttributesFormEvent {
   final RgbModel? value;
 

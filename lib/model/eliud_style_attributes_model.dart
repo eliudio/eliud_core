@@ -35,7 +35,12 @@ class EliudStyleAttributesModel {
   String? documentID;
   String? description;
   RgbModel? formSubmitButtonColor;
+
+  // Background of forms in admin section
   BackgroundModel? formBackground;
+
+  // Background of pages in app
+  BackgroundModel? appBackground;
   RgbModel? formSubmitButtonTextColor;
   RgbModel? formGroupTitleColor;
   RgbModel? formFieldTextColor;
@@ -43,6 +48,8 @@ class EliudStyleAttributesModel {
   RgbModel? formFieldFocusColor;
   BackgroundModel? formAppBarBackground;
   RgbModel? formAppBarTextColor;
+
+  // Background of list in admin section
   BackgroundModel? listBackground;
   RgbModel? listTextItemColor;
   RgbModel? floatingButtonForegroundColor;
@@ -59,16 +66,16 @@ class EliudStyleAttributesModel {
   FontModel? fontHighlight2;
   FontModel? fontLink;
 
-  EliudStyleAttributesModel({this.documentID, this.description, this.formSubmitButtonColor, this.formBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
+  EliudStyleAttributesModel({this.documentID, this.description, this.formSubmitButtonColor, this.formBackground, this.appBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
     assert(documentID != null);
   }
 
-  EliudStyleAttributesModel copyWith({String? documentID, String? description, RgbModel? formSubmitButtonColor, BackgroundModel? formBackground, RgbModel? formSubmitButtonTextColor, RgbModel? formGroupTitleColor, RgbModel? formFieldTextColor, RgbModel? formFieldHeaderColor, RgbModel? formFieldFocusColor, BackgroundModel? formAppBarBackground, RgbModel? formAppBarTextColor, BackgroundModel? listBackground, RgbModel? listTextItemColor, RgbModel? floatingButtonForegroundColor, RgbModel? floatingButtonBackgroundColor, RgbModel? dividerColor, RgbModel? iconColor, FontModel? h1, FontModel? h2, FontModel? h3, FontModel? h4, FontModel? h5, FontModel? fontText, FontModel? fontHighlight1, FontModel? fontHighlight2, FontModel? fontLink, }) {
-    return EliudStyleAttributesModel(documentID: documentID ?? this.documentID, description: description ?? this.description, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, iconColor: iconColor ?? this.iconColor, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
+  EliudStyleAttributesModel copyWith({String? documentID, String? description, RgbModel? formSubmitButtonColor, BackgroundModel? formBackground, BackgroundModel? appBackground, RgbModel? formSubmitButtonTextColor, RgbModel? formGroupTitleColor, RgbModel? formFieldTextColor, RgbModel? formFieldHeaderColor, RgbModel? formFieldFocusColor, BackgroundModel? formAppBarBackground, RgbModel? formAppBarTextColor, BackgroundModel? listBackground, RgbModel? listTextItemColor, RgbModel? floatingButtonForegroundColor, RgbModel? floatingButtonBackgroundColor, RgbModel? dividerColor, RgbModel? iconColor, FontModel? h1, FontModel? h2, FontModel? h3, FontModel? h4, FontModel? h5, FontModel? fontText, FontModel? fontHighlight1, FontModel? fontHighlight2, FontModel? fontLink, }) {
+    return EliudStyleAttributesModel(documentID: documentID ?? this.documentID, description: description ?? this.description, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, appBackground: appBackground ?? this.appBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, iconColor: iconColor ?? this.iconColor, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ description.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ iconColor.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
+  int get hashCode => documentID.hashCode ^ description.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ appBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ iconColor.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -79,6 +86,7 @@ class EliudStyleAttributesModel {
           description == other.description &&
           formSubmitButtonColor == other.formSubmitButtonColor &&
           formBackground == other.formBackground &&
+          appBackground == other.appBackground &&
           formSubmitButtonTextColor == other.formSubmitButtonTextColor &&
           formGroupTitleColor == other.formGroupTitleColor &&
           formFieldTextColor == other.formFieldTextColor &&
@@ -104,7 +112,7 @@ class EliudStyleAttributesModel {
 
   @override
   String toString() {
-    return 'EliudStyleAttributesModel{documentID: $documentID, description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
+    return 'EliudStyleAttributesModel{documentID: $documentID, description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, appBackground: $appBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
   }
 
   EliudStyleAttributesEntity toEntity({String? appId}) {
@@ -112,6 +120,7 @@ class EliudStyleAttributesModel {
           description: (description != null) ? description : null, 
           formSubmitButtonColor: (formSubmitButtonColor != null) ? formSubmitButtonColor!.toEntity(appId: appId) : null, 
           formBackgroundId: (formBackground != null) ? formBackground!.documentID : null, 
+          appBackgroundId: (appBackground != null) ? appBackground!.documentID : null, 
           formSubmitButtonTextColor: (formSubmitButtonTextColor != null) ? formSubmitButtonTextColor!.toEntity(appId: appId) : null, 
           formGroupTitleColor: (formGroupTitleColor != null) ? formGroupTitleColor!.toEntity(appId: appId) : null, 
           formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor!.toEntity(appId: appId) : null, 
@@ -179,6 +188,17 @@ class EliudStyleAttributesModel {
       } on Exception catch(e) {
         print('Error whilst trying to initialise formBackground');
         print('Error whilst retrieving background with id ${entity.formBackgroundId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? appBackgroundHolder;
+    if (entity.appBackgroundId != null) {
+      try {
+          appBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.appBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise appBackground');
+        print('Error whilst retrieving background with id ${entity.appBackgroundId}');
         print('Exception: $e');
       }
     }
@@ -310,6 +330,7 @@ class EliudStyleAttributesModel {
           formSubmitButtonColor: 
             await RgbModel.fromEntityPlus(entity.formSubmitButtonColor, appId: appId), 
           formBackground: formBackgroundHolder, 
+          appBackground: appBackgroundHolder, 
           formSubmitButtonTextColor: 
             await RgbModel.fromEntityPlus(entity.formSubmitButtonTextColor, appId: appId), 
           formGroupTitleColor: 

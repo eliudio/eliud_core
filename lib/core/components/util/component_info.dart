@@ -3,6 +3,7 @@ import 'package:eliud_core/core/components/util/page_body.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
+import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/material.dart';

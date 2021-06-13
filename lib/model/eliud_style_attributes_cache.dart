@@ -132,6 +132,15 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
       } catch (_) {}
     }
 
+    BackgroundModel? appBackgroundHolder;
+    if (model.appBackground != null) {
+      try {
+        await backgroundRepository()!.get(model.appBackground!.documentID).then((val) {
+          appBackgroundHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     BackgroundModel? formAppBarBackgroundHolder;
     if (model.formAppBarBackground != null) {
       try {
@@ -233,6 +242,8 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
 
     return model.copyWith(
         formBackground: formBackgroundHolder,
+
+        appBackground: appBackgroundHolder,
 
         formAppBarBackground: formAppBarBackgroundHolder,
 

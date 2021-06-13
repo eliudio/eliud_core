@@ -42,8 +42,8 @@
       "group": "general"
     },
     {
-      "fieldName": "background",
-      "displayName": "background",
+      "fieldName": "backgroundOverride",
+      "displayName": "Background Override",
       "fieldType": "Background",
       "association": true,
       "optional": true,

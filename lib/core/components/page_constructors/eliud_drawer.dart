@@ -70,9 +70,10 @@ class _EliudDrawerState extends State<EliudDrawer> {
         }
 
         return Drawer(
+          // TODO: MAKE SURE TO USE THE DRAWER or HEADER DRAWER BACKGROUND
             child: Container(
                 decoration: BoxDecorationHelper.boxDecoration(
-                    theState, drawer.background),
+                    theState, drawer.backgroundOverride),
                 child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,

@@ -41,6 +41,16 @@
     },
     {
       "fieldName": "formBackground",
+      "remark": "Background of forms in admin section",
+      "displayName": "Form Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "formBackground"
+    },
+    {
+      "fieldName": "appBackground",
+      "remark": "Background of pages in app",
       "displayName": "Form Background",
       "fieldType": "Background",
       "association": true,
@@ -111,6 +121,7 @@
     },
     {
       "fieldName": "listBackground",
+      "remark": "Background of list in admin section",
       "displayName": "List Background",
       "fieldType": "Background",
       "association": true,

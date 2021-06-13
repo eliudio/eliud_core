@@ -24,6 +24,7 @@ class EliudStyleAttributesEntity {
   final String? description;
   final RgbEntity? formSubmitButtonColor;
   final String? formBackgroundId;
+  final String? appBackgroundId;
   final RgbEntity? formSubmitButtonTextColor;
   final RgbEntity? formGroupTitleColor;
   final RgbEntity? formFieldTextColor;
@@ -47,14 +48,14 @@ class EliudStyleAttributesEntity {
   final String? fontHighlight2Id;
   final String? fontLinkId;
 
-  EliudStyleAttributesEntity({this.description, this.formSubmitButtonColor, this.formBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
+  EliudStyleAttributesEntity({this.description, this.formSubmitButtonColor, this.formBackgroundId, this.appBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
 
 
-  List<Object?> get props => [description, formSubmitButtonColor, formBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
+  List<Object?> get props => [description, formSubmitButtonColor, formBackgroundId, appBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
 
   @override
   String toString() {
-    return 'EliudStyleAttributesEntity{description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
+    return 'EliudStyleAttributesEntity{description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, appBackgroundId: $appBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
   }
 
   static EliudStyleAttributesEntity? fromMap(Map? map) {
@@ -113,6 +114,7 @@ class EliudStyleAttributesEntity {
       description: map['description'], 
       formSubmitButtonColor: formSubmitButtonColorFromMap, 
       formBackgroundId: map['formBackgroundId'], 
+      appBackgroundId: map['appBackgroundId'], 
       formSubmitButtonTextColor: formSubmitButtonTextColorFromMap, 
       formGroupTitleColor: formGroupTitleColorFromMap, 
       formFieldTextColor: formFieldTextColorFromMap, 
@@ -183,6 +185,8 @@ class EliudStyleAttributesEntity {
       else theDocument["formSubmitButtonColor"] = null;
     if (formBackgroundId != null) theDocument["formBackgroundId"] = formBackgroundId;
       else theDocument["formBackgroundId"] = null;
+    if (appBackgroundId != null) theDocument["appBackgroundId"] = appBackgroundId;
+      else theDocument["appBackgroundId"] = null;
     if (formSubmitButtonTextColor != null) theDocument["formSubmitButtonTextColor"] = formSubmitButtonTextColorMap;
       else theDocument["formSubmitButtonTextColor"] = null;
     if (formGroupTitleColor != null) theDocument["formGroupTitleColor"] = formGroupTitleColorMap;

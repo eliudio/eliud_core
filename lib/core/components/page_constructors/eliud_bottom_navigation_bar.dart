@@ -17,11 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EliudBottomNavigationBar extends StatefulWidget {
   final String? currentPage;
   final HomeMenuModel? homeMenu;
-  final BackgroundModel? bg;
   final AppModel? app;
 
   const EliudBottomNavigationBar(
-      {Key? key, this.app, this.homeMenu, this.bg, this.currentPage})
+      {Key? key, this.app, this.homeMenu, this.currentPage})
       : super(key: key);
 
   @override

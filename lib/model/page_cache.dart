@@ -159,11 +159,11 @@ class PageCache implements PageRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? backgroundHolder;
-    if (model.background != null) {
+    BackgroundModel? backgroundOverrideHolder;
+    if (model.backgroundOverride != null) {
       try {
-        await backgroundRepository(appId: model.appId)!.get(model.background!.documentID).then((val) {
-          backgroundHolder = val;
+        await backgroundRepository(appId: model.appId)!.get(model.backgroundOverride!.documentID).then((val) {
+          backgroundOverrideHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
@@ -193,7 +193,7 @@ class PageCache implements PageRepository {
 
         homeMenu: homeMenuHolder,
 
-        background: backgroundHolder,
+        backgroundOverride: backgroundOverrideHolder,
 
         gridView: gridViewHolder,
 

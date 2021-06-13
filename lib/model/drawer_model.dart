@@ -35,7 +35,7 @@ class DrawerModel {
   String? documentID;
   String? appId;
   String? name;
-  BackgroundModel? background;
+  BackgroundModel? backgroundOverride;
   String? headerText;
   String? secondHeaderText;
 
@@ -45,16 +45,16 @@ class DrawerModel {
   BackgroundModel? headerBackground;
   MenuDefModel? menu;
 
-  DrawerModel({this.documentID, this.appId, this.name, this.background, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackground, this.menu, })  {
+  DrawerModel({this.documentID, this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackground, this.menu, })  {
     assert(documentID != null);
   }
 
-  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? background, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackground, MenuDefModel? menu, }) {
-    return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, background: background ?? this.background, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackground: headerBackground ?? this.headerBackground, menu: menu ?? this.menu, );
+  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? backgroundOverride, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackground, MenuDefModel? menu, }) {
+    return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, backgroundOverride: backgroundOverride ?? this.backgroundOverride, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackground: headerBackground ?? this.headerBackground, menu: menu ?? this.menu, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ background.hashCode ^ headerText.hashCode ^ secondHeaderText.hashCode ^ headerHeight.hashCode ^ popupMenuBackgroundColor.hashCode ^ headerBackground.hashCode ^ menu.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ backgroundOverride.hashCode ^ headerText.hashCode ^ secondHeaderText.hashCode ^ headerHeight.hashCode ^ popupMenuBackgroundColor.hashCode ^ headerBackground.hashCode ^ menu.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -64,7 +64,7 @@ class DrawerModel {
           documentID == other.documentID &&
           appId == other.appId &&
           name == other.name &&
-          background == other.background &&
+          backgroundOverride == other.backgroundOverride &&
           headerText == other.headerText &&
           secondHeaderText == other.secondHeaderText &&
           headerHeight == other.headerHeight &&
@@ -74,14 +74,14 @@ class DrawerModel {
 
   @override
   String toString() {
-    return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, background: $background, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackground: $headerBackground, menu: $menu}';
+    return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackground: $headerBackground, menu: $menu}';
   }
 
   DrawerEntity toEntity({String? appId}) {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          backgroundId: (background != null) ? background!.documentID : null, 
+          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
@@ -108,13 +108,13 @@ class DrawerModel {
   static Future<DrawerModel?> fromEntityPlus(String documentID, DrawerEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    BackgroundModel? backgroundHolder;
-    if (entity.backgroundId != null) {
+    BackgroundModel? backgroundOverrideHolder;
+    if (entity.backgroundOverrideId != null) {
       try {
-          backgroundHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundId);
+          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
       } on Exception catch(e) {
-        print('Error whilst trying to initialise background');
-        print('Error whilst retrieving background with id ${entity.backgroundId}');
+        print('Error whilst trying to initialise backgroundOverride');
+        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
         print('Exception: $e');
       }
     }
@@ -145,7 +145,7 @@ class DrawerModel {
           documentID: documentID, 
           appId: entity.appId, 
           name: entity.name, 
-          background: backgroundHolder, 
+          backgroundOverride: backgroundOverrideHolder, 
           headerText: entity.headerText, 
           secondHeaderText: entity.secondHeaderText, 
           headerHeight: entity.headerHeight, 

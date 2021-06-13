@@ -28,22 +28,22 @@ class PageEntity {
   final String? endDrawerId;
   final String? homeMenuId;
   final List<BodyComponentEntity>? bodyComponents;
-  final String? backgroundId;
+  final String? backgroundOverrideId;
   final int? layout;
   final String? gridViewId;
   final String? widgetWrapper;
   final ConditionsEntity? conditions;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundId, this.layout, this.gridViewId, this.widgetWrapper, this.conditions, });
+  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.widgetWrapper, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundId, layout, gridViewId, widgetWrapper, conditions, ];
+  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverrideId, layout, gridViewId, widgetWrapper, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundId: $backgroundId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
   static PageEntity? fromMap(Map? map) {
@@ -70,7 +70,7 @@ class PageEntity {
       endDrawerId: map['endDrawerId'], 
       homeMenuId: map['homeMenuId'], 
       bodyComponents: bodyComponentsList, 
-      backgroundId: map['backgroundId'], 
+      backgroundOverrideId: map['backgroundOverrideId'], 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
       widgetWrapper: map['widgetWrapper'], 
@@ -101,8 +101,8 @@ class PageEntity {
       else theDocument["homeMenuId"] = null;
     if (bodyComponents != null) theDocument["bodyComponents"] = bodyComponentsListMap;
       else theDocument["bodyComponents"] = null;
-    if (backgroundId != null) theDocument["backgroundId"] = backgroundId;
-      else theDocument["backgroundId"] = null;
+    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
+      else theDocument["backgroundOverrideId"] = null;
     if (layout != null) theDocument["layout"] = layout;
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;

@@ -111,15 +111,15 @@ class NameDrawerFormError extends DrawerFormError {
 }
 
 
-class BackgroundDrawerFormError extends DrawerFormError { 
-  const BackgroundDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class BackgroundOverrideDrawerFormError extends DrawerFormError { 
+  const BackgroundOverrideDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundDrawerFormError {
+    return '''BackgroundOverrideDrawerFormError {
       value: $value,
       message: $message,
     }''';

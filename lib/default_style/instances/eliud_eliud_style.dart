@@ -23,6 +23,7 @@ class EliudEliudStyle {
         linkColor: linkColor);
     return EliudStyleAttributesModel(
       formBackground: pageBG(),
+      appBackground: pageBG(),
       formSubmitButtonColor: EliudColors.red,
       formSubmitButtonTextColor: EliudColors.white,
       formGroupTitleColor: EliudColors.red,

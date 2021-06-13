@@ -91,15 +91,15 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
 
         return;
       }
-      if (event is ChangedDrawerBackground) {
+      if (event is ChangedDrawerBackgroundOverride) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new DrawerModel(
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
                                  name: currentState.value!.name,
-                                 background: null,
+                                 backgroundOverride: null,
                                  headerText: currentState.value!.headerText,
                                  secondHeaderText: currentState.value!.secondHeaderText,
                                  headerHeight: currentState.value!.headerHeight,
@@ -148,7 +148,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
                                  name: currentState.value!.name,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  headerText: currentState.value!.headerText,
                                  secondHeaderText: currentState.value!.secondHeaderText,
                                  headerHeight: currentState.value!.headerHeight,
@@ -168,7 +168,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  documentID: currentState.value!.documentID,
                                  appId: currentState.value!.appId,
                                  name: currentState.value!.name,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  headerText: currentState.value!.headerText,
                                  secondHeaderText: currentState.value!.secondHeaderText,
                                  headerHeight: currentState.value!.headerHeight,

@@ -127,6 +127,22 @@ class FormBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFo
 }
 
 
+class AppBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBackgroundEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBackgroundEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class FormSubmitButtonTextColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
   const FormSubmitButtonTextColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 

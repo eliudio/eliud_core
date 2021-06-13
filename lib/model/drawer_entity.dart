@@ -23,7 +23,7 @@ import 'package:eliud_core/model/entity_export.dart';
 class DrawerEntity {
   final String? appId;
   final String? name;
-  final String? backgroundId;
+  final String? backgroundOverrideId;
   final String? headerText;
   final String? secondHeaderText;
   final double? headerHeight;
@@ -31,14 +31,14 @@ class DrawerEntity {
   final String? headerBackgroundId;
   final String? menuId;
 
-  DrawerEntity({this.appId, this.name, this.backgroundId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundId, this.menuId, });
+  DrawerEntity({this.appId, this.name, this.backgroundOverrideId, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundId, this.menuId, });
 
 
-  List<Object?> get props => [appId, name, backgroundId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
+  List<Object?> get props => [appId, name, backgroundOverrideId, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundId, menuId, ];
 
   @override
   String toString() {
-    return 'DrawerEntity{appId: $appId, name: $name, backgroundId: $backgroundId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundId: $headerBackgroundId, menuId: $menuId}';
+    return 'DrawerEntity{appId: $appId, name: $name, backgroundOverrideId: $backgroundOverrideId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundId: $headerBackgroundId, menuId: $menuId}';
   }
 
   static DrawerEntity? fromMap(Map? map) {
@@ -52,7 +52,7 @@ class DrawerEntity {
     return DrawerEntity(
       appId: map['appId'], 
       name: map['name'], 
-      backgroundId: map['backgroundId'], 
+      backgroundOverrideId: map['backgroundOverrideId'], 
       headerText: map['headerText'], 
       secondHeaderText: map['secondHeaderText'], 
       headerHeight: double.tryParse(map['headerHeight'].toString()), 
@@ -72,8 +72,8 @@ class DrawerEntity {
       else theDocument["appId"] = null;
     if (name != null) theDocument["name"] = name;
       else theDocument["name"] = null;
-    if (backgroundId != null) theDocument["backgroundId"] = backgroundId;
-      else theDocument["backgroundId"] = null;
+    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
+      else theDocument["backgroundOverrideId"] = null;
     if (headerText != null) theDocument["headerText"] = headerText;
       else theDocument["headerText"] = null;
     if (secondHeaderText != null) theDocument["secondHeaderText"] = secondHeaderText;

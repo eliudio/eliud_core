@@ -121,7 +121,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String? _background;
+  String? _backgroundOverride;
   final TextEditingController _headerTextController = TextEditingController();
   final TextEditingController _secondHeaderTextController = TextEditingController();
   final TextEditingController _headerHeightController = TextEditingController();
@@ -166,10 +166,10 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value!.background != null)
-          _background= state.value!.background!.documentID;
+        if (state.value!.backgroundOverride != null)
+          _backgroundOverride= state.value!.backgroundOverride!.documentID;
         else
-          _background= "";
+          _backgroundOverride= "";
         if (state.value!.headerText != null)
           _headerTextController.text = state.value!.headerText.toString();
         else
@@ -291,7 +291,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _background, trigger: _onBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -327,7 +327,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               name: state.value!.name, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               headerText: state.value!.headerText, 
                               secondHeaderText: state.value!.secondHeaderText, 
                               headerHeight: state.value!.headerHeight, 
@@ -341,7 +341,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               name: state.value!.name, 
-                              background: state.value!.background, 
+                              backgroundOverride: state.value!.backgroundOverride, 
                               headerText: state.value!.headerText, 
                               secondHeaderText: state.value!.secondHeaderText, 
                               headerHeight: state.value!.headerHeight, 
@@ -389,11 +389,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onBackgroundSelected(String? val) {
+  void _onBackgroundOverrideSelected(String? val) {
     setState(() {
-      _background = val;
+      _backgroundOverride = val;
     });
-    _myFormBloc.add(ChangedDrawerBackground(value: val));
+    _myFormBloc.add(ChangedDrawerBackgroundOverride(value: val));
   }
 
 

@@ -102,7 +102,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: currentState.value!.endDrawer,
                                  homeMenu: currentState.value!.homeMenu,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
@@ -125,7 +125,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: currentState.value!.endDrawer,
                                  homeMenu: currentState.value!.homeMenu,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
@@ -148,7 +148,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: null,
                                  homeMenu: currentState.value!.homeMenu,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
@@ -171,7 +171,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: currentState.value!.endDrawer,
                                  homeMenu: null,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
@@ -187,9 +187,9 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
 
         return;
       }
-      if (event is ChangedPageBackground) {
+      if (event is ChangedPageBackgroundOverride) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(background: await backgroundRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
         else
           newValue = new PageModel(
                                  documentID: currentState.value!.documentID,
@@ -200,7 +200,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: currentState.value!.endDrawer,
                                  homeMenu: currentState.value!.homeMenu,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: null,
+                                 backgroundOverride: null,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
@@ -229,7 +229,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  endDrawer: currentState.value!.endDrawer,
                                  homeMenu: currentState.value!.homeMenu,
                                  bodyComponents: currentState.value!.bodyComponents,
-                                 background: currentState.value!.background,
+                                 backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: null,
                                  widgetWrapper: currentState.value!.widgetWrapper,

@@ -121,6 +121,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   String? _formBackground;
+  String? _appBackground;
   String? _formAppBarBackground;
   String? _listBackground;
   String? _h1;
@@ -167,6 +168,10 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
           _formBackground= state.value!.formBackground!.documentID;
         else
           _formBackground= "";
+        if (state.value!.appBackground != null)
+          _appBackground= state.value!.appBackground!.documentID;
+        else
+          _appBackground= "";
         if (state.value!.formAppBarBackground != null)
           _formAppBarBackground= state.value!.formAppBarBackground!.documentID;
         else
@@ -366,6 +371,11 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                 DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _formBackground, trigger: _onFormBackgroundSelected, optional: true),
           );
 
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _appBackground, trigger: _onAppBackgroundSelected, optional: true),
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
@@ -555,6 +565,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               description: state.value!.description, 
                               formSubmitButtonColor: state.value!.formSubmitButtonColor, 
                               formBackground: state.value!.formBackground, 
+                              appBackground: state.value!.appBackground, 
                               formSubmitButtonTextColor: state.value!.formSubmitButtonTextColor, 
                               formGroupTitleColor: state.value!.formGroupTitleColor, 
                               formFieldTextColor: state.value!.formFieldTextColor, 
@@ -585,6 +596,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               description: state.value!.description, 
                               formSubmitButtonColor: state.value!.formSubmitButtonColor, 
                               formBackground: state.value!.formBackground, 
+                              appBackground: state.value!.appBackground, 
                               formSubmitButtonTextColor: state.value!.formSubmitButtonTextColor, 
                               formGroupTitleColor: state.value!.formGroupTitleColor, 
                               formFieldTextColor: state.value!.formFieldTextColor, 
@@ -654,6 +666,14 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
       _formBackground = val;
     });
     _myFormBloc.add(ChangedEliudStyleAttributesFormBackground(value: val));
+  }
+
+
+  void _onAppBackgroundSelected(String? val) {
+    setState(() {
+      _appBackground = val;
+    });
+    _myFormBloc.add(ChangedEliudStyleAttributesAppBackground(value: val));
   }
 
 

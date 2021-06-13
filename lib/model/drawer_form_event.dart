@@ -91,16 +91,16 @@ class ChangedDrawerName extends DrawerFormEvent {
   String toString() => 'ChangedDrawerName{ value: $value }';
 }
 
-class ChangedDrawerBackground extends DrawerFormEvent {
+class ChangedDrawerBackgroundOverride extends DrawerFormEvent {
   final String? value;
 
-  ChangedDrawerBackground({this.value});
+  ChangedDrawerBackgroundOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedDrawerBackground{ value: $value }';
+  String toString() => 'ChangedDrawerBackgroundOverride{ value: $value }';
 }
 
 class ChangedDrawerHeaderText extends DrawerFormEvent {

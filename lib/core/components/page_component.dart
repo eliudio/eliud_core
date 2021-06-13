@@ -124,7 +124,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
-      var componentInfo = ComponentInfo.getComponentInfo(value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.background, value.gridView);
+      var componentInfo = ComponentInfo.getComponentInfo(value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
       if (value.widgetWrapper != null) {
         theBody = Registry.registry()!.wrapWidgetInBloc(value.widgetWrapper!, context, componentInfo);
       } else {
@@ -141,7 +141,6 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var bottomNavigationBar = EliudBottomNavigationBar(
         app: app,
         homeMenu: value.homeMenu,
-        bg: value.background,
         currentPage: pageID);
     var appBar = value.appBar == null
         ? null

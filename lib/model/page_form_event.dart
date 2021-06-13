@@ -151,16 +151,16 @@ class ChangedPageBodyComponents extends PageFormEvent {
   String toString() => 'ChangedPageBodyComponents{ value: $value }';
 }
 
-class ChangedPageBackground extends PageFormEvent {
+class ChangedPageBackgroundOverride extends PageFormEvent {
   final String? value;
 
-  ChangedPageBackground({this.value});
+  ChangedPageBackgroundOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPageBackground{ value: $value }';
+  String toString() => 'ChangedPageBackgroundOverride{ value: $value }';
 }
 
 class ChangedPageLayout extends PageFormEvent {

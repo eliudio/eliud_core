@@ -191,15 +191,15 @@ class BodyComponentsPageFormError extends PageFormError {
 }
 
 
-class BackgroundPageFormError extends PageFormError { 
-  const BackgroundPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
+class BackgroundOverridePageFormError extends PageFormError { 
+  const BackgroundOverridePageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundPageFormError {
+    return '''BackgroundOverridePageFormError {
       value: $value,
       message: $message,
     }''';
