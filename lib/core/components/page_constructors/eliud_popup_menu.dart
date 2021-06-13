@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/popup_menu.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
@@ -5,6 +6,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +25,16 @@ class EliudPopupMenu extends StatefulWidget {
   final Icon? icon;
   final RgbModel? menuBackgroundColor;
 
-  const EliudPopupMenu({Key? key, required this.currentPage, this.member, required this.app, required this.state, required this.menu, required this.text, this.icon, this.menuBackgroundColor})
+  const EliudPopupMenu(
+      {Key? key,
+      required this.currentPage,
+      this.member,
+      required this.app,
+      required this.state,
+      required this.menu,
+      required this.text,
+      this.icon,
+      this.menuBackgroundColor})
       : super(key: key);
 
   @override
@@ -33,19 +44,28 @@ class EliudPopupMenu extends StatefulWidget {
 class _EliudPopupMenuState extends State<EliudPopupMenu> {
   @override
   Widget build(BuildContext context) {
-    var theState = widget.state;
-    var icon = widget.icon;
-    var app = widget.app;
-    var currentPage = widget.currentPage;
-    var menuBackgroundColor = widget.menuBackgroundColor;
-    var text = widget.text;
+     var menuBackgroundColor = widget.menuBackgroundColor;
     var menu = widget.menu;
-    if (theState is AppLoaded) {
-      if (menu!.menuItems!.isEmpty) return Text("No menuitems");
+    return stylePopupMenuButton(context, menu,
+        icon: widget.icon,
+        text: widget.text,
+        background: menuBackgroundColor,
+        currentPage: widget.currentPage);
+  }
+
+  Widget stylePopupMenuButton(BuildContext context, MenuDefModel menu,
+      {Icon? icon,
+      required Widget text,
+      RgbModel? background,
+      String? currentPage}) {
+    if (menu!.menuItems!.isEmpty) return Text('No menu items');
+    var state = AccessBloc.getState(context);
+    if (state is AppLoaded) {
+      var app = state.app;
       var menuItems = <MenuItemModel>[];
       for (var i = 0; i < menu.menuItems!.length; i++) {
         var item = menu.menuItems![i];
-        if (theState.menuItemHasAccess(item)) menuItems.add(item);
+        if (state.menuItemHasAccess(item)) menuItems.add(item);
       }
       return PopupMenuButton<int>(
           icon: icon,
@@ -57,7 +77,7 @@ class _EliudPopupMenuState extends State<EliudPopupMenu> {
               PopupMenuWidget(app, currentPage).openMenu(
                 context,
                 action,
-                menuBackgroundColor,
+                background,
                 RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
               );
             } else {
@@ -70,10 +90,9 @@ class _EliudPopupMenuState extends State<EliudPopupMenu> {
             var entries = <PopupMenuEntry<int>>[];
             var index = 0;
             menuItems.forEach((item) {
-              var style = PageHelper.isActivePage(
-                  currentPage, item.action)
-                  ? FontTools.textStyle(app.h3)
-                  : FontTools.textStyle(app.h4);
+              var style = PageHelper.isActivePage(currentPage, item.action)
+                  ? StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH3(context)
+                  : StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH4(context);
               var description = item.description!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
@@ -87,7 +106,7 @@ class _EliudPopupMenuState extends State<EliudPopupMenu> {
             return entries;
           });
     } else {
-      return Text("App not loaded");
+      return Text('App not loaded');
     }
   }
 }

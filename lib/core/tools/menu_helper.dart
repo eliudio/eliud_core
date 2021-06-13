@@ -8,6 +8,7 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
@@ -128,7 +129,7 @@ class MenuHelper {
         buttons.add(Center(
             child: OutlineButton(
           padding: EdgeInsets.all(10.0),
-          child: Text('${item.text}', style: FontTools.textStyle(app.h5)),
+          child: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().h5(context, item.text!),
           onPressed: () {
             if (!PageHelper.isActivePage(currentPage, item.action)) {
               eliudrouter.Router.navigateTo(context, item.action!);
@@ -136,7 +137,7 @@ class MenuHelper {
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          borderSide: BorderSide(color: FontTools.textStyle(app.h4)!.color!),
+          borderSide: BorderSide(color: StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().styleH4(context)!.color!),
         )));
       }
     }

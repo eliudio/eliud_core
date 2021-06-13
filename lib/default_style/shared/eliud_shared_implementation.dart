@@ -3,6 +3,7 @@ import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
+import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_form_style.dart';
 import 'package:eliud_core/style/shared/interfaces.dart';
@@ -18,7 +19,7 @@ import 'package:eliud_core/model/member_model.dart';
 import '../eliud_style.dart';
 
 abstract class EliudSharedImplementation
-    implements HasTexFormField, HasDivider, HasButton, HasText, HasTable, HasAppBar {
+    implements HasTexFormField, HasDivider, HasButton, HasText, HasStyle, HasIcon, HasTable, HasAppBar {
   final EliudStyle _eliudStyle;
 
   EliudSharedImplementation(this._eliudStyle);
@@ -157,6 +158,84 @@ abstract class EliudSharedImplementation
         textAlign: textAlign,
         style: FontTools.textStyle(
             _eliudStyle.eliudStyleAttributesModel.h5));
+  }
+
+  @override
+  TextStyle? styleText(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.fontText);
+  }
+
+  @override
+  TextStyle? styleHighLight1(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.fontHighlight1);
+  }
+
+  @override
+  TextStyle? styleHighLight2(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.fontHighlight2);
+  }
+
+  @override
+  TextStyle? styleH1(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.h1);
+  }
+
+  @override
+  TextStyle? styleH2(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.h2);
+  }
+
+  @override
+  TextStyle? styleH3(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.h3);
+  }
+
+  @override
+  TextStyle? styleH4(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.h4);
+  }
+
+  @override
+  TextStyle? styleH5(BuildContext context) {
+    return FontTools.textStyle(
+        _eliudStyle.eliudStyleAttributesModel.h5);
+  }
+
+  @override
+  Widget h1Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h1);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+  }
+
+  @override
+  Widget h2Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h2);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+  }
+
+  @override
+  Widget h3Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h3);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+  }
+
+  @override
+  Widget h4Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h4);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
+  }
+
+  @override
+  Widget h5Icon(BuildContext context, IconModel icon, {TextAlign? textAlign, }) {
+    var style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h5);
+    return IconHelper.getIconFromModelWithFlutterColor(iconModel: icon, color: style != null ? style.color : null);
   }
 
   @override

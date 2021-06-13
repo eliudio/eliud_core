@@ -29,6 +29,18 @@ abstract class HasButton {
   Widget button(BuildContext context, {Icon? icon, required String label, VoidCallback? onPressed});
 }
 
+abstract class HasStyle {
+  TextStyle? styleText(BuildContext context);
+  TextStyle? styleHighLight1(BuildContext context);
+  TextStyle? styleHighLight2(BuildContext context);
+  TextStyle? styleH1(BuildContext context);
+  TextStyle? styleH2(BuildContext context);
+  TextStyle? styleH3(BuildContext context);
+  TextStyle? styleH4(BuildContext context);
+  TextStyle? styleH5(BuildContext context);
+
+}
+
 abstract class HasText {
   Widget text(BuildContext context, String data, {TextAlign? textAlign, });
   Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, });
@@ -56,4 +68,19 @@ abstract class HasTable {
 abstract class HasAppBar {
   PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background});
   PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? background});
+}
+
+class BottomNavigationBarItemAttributes {
+  final String label;
+  final bool isActive;
+  final IconModel icon;
+
+  BottomNavigationBarItemAttributes(this.label, this.icon, this.isActive);
+}
+
+abstract class HasBottomNavigationBar {
+  Widget bottomNavigatorBar(BuildContext context,
+      {required List<BottomNavigationBarItemAttributes> items,
+        BackgroundModel? background,
+        ValueChanged<int>? onTap});
 }

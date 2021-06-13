@@ -1,5 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 
@@ -18,27 +19,50 @@ class PopupMenuWidget {
 
   PopupMenuWidget(this.app, this.currentPage);
 
-  void openMenu(BuildContext context, PopupMenu popupMenu, RgbModel? popupMenuBackgroundColor, RelativeRect position) async {
-    MenuDefModel menuDef = popupMenu.menuDef!;
+  void openMenu(BuildContext context, PopupMenu popupMenu,
+      RgbModel? popupMenuBackgroundColor, RelativeRect position) async {
+    var menuDef = popupMenu.menuDef!;
+    styleOpenMenu(context, menuDef, popupMenuBackgroundColor, position,
+        (result) {
+      var subItem = menuDef.menuItems![result];
+      eliudrouter.Router.navigateTo(context, subItem.action!);
+    });
+  }
+
+  void styleOpenMenu(
+      BuildContext context,
+      MenuDefModel menuDef,
+      RgbModel? popupMenuBackgroundColor,
+      RelativeRect position,
+      MenuItemAction? action) async {
     var popupMenuItems = <PopupMenuItem<int>>[];
-    int i = 0;
+    var i = 0;
     menuDef.menuItems!.forEach((element) {
-      TextStyle? style = PageHelper.isActivePage(currentPage, element.action) ? FontTools.textStyle(app!.h3) : FontTools.textStyle(app!.h4);
-      PopupMenuItem<int> p = PopupMenuItem<int>(value: i, child: Text(element.description!, style: style));
+      var style = PageHelper.isActivePage(currentPage, element.action)
+          ? StyleRegistry.registry()
+              .styleWithContext(context)
+              .frontEndFormStyle()
+              .styleH3(context)
+          : StyleRegistry.registry()
+              .styleWithContext(context)
+              .frontEndFormStyle()
+              .styleH4(context);
+      var p = PopupMenuItem<int>(
+          value: i, child: Text(element.description!, style: style));
       popupMenuItems.add(p);
       i++;
     });
 
     final result = await showMenu<int>(
-      context: context,
-      position: position,
-      items: popupMenuItems,
-      elevation: 8.0,
-      color: RgbHelper.color(rgbo: popupMenuBackgroundColor)
-    );
-    if (result != null) {
-      MenuItemModel subItem = menuDef.menuItems![result];
-      eliudrouter.Router.navigateTo(context, subItem.action!);
+        context: context,
+        position: position,
+        items: popupMenuItems,
+        elevation: 8.0,
+        color: RgbHelper.color(rgbo: popupMenuBackgroundColor));
+    if ((result != null) && (action != null)) {
+      action(result);
     }
   }
 }
+
+typedef MenuItemAction = Function(int selection);

@@ -5,8 +5,6 @@ import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-
-import 'package:eliud_core/core/components/util/page_helper.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -19,7 +17,6 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'eliud_popup_menu.dart';
 
 class EliudAppBar extends StatefulWidget {
   final String currentPage;
@@ -124,7 +121,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
     var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: value.iconColor));
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().appBarWithWidget(context, title: title, buttons: buttons, background: value.background);
+    return StyleRegistry.registry().styleWithContext(context).frontEndFormStyle().appBarWithWidget(context, iconTheme: iconThemeData, title: title, actions: buttons, background: value.background);
   }
 
   void _addPlayStoreButton(String? playStoreApp,

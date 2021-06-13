@@ -13,6 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 
-abstract class FrontEndFormStyle implements HasTexFormField, HasDivider, HasButton, HasText, HasTable, HasAppBar {
+abstract class FrontEndFormStyle implements HasTexFormField, HasDivider, HasButton, HasText, HasStyle, HasIcon, HasTable, HasAppBar, HasBottomNavigationBar {
   Widget container(BuildContext context, {Widget child});
 }
