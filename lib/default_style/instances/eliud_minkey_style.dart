@@ -22,6 +22,7 @@ class EliudMinkeyStyle {
         highlightColor: highlightColor,
         linkColor: linkColor);
     return EliudStyleAttributesModel(
+        documentID: styleName,
         appBackground: pageBG(),
         listBackground: pageBG(),
         formBackground: pageBG(),
@@ -31,8 +32,8 @@ class EliudMinkeyStyle {
         formFieldTextColor: EliudColors.white,
         formFieldHeaderColor: EliudColors.red,
         formFieldFocusColor: EliudColors.red,
-        formAppBarBackground: appBarBG(),
-        formAppBarTextColor: EliudColors.white,
+        appBarBackground: appBarBG(),
+        appBarTextColor: EliudColors.white,
         listTextItemColor: EliudColors.white,
         floatingButtonForegroundColor: EliudColors.white,
         iconColor: EliudColors.red,
@@ -58,7 +59,11 @@ class EliudMinkeyStyle {
             .getFont(FontTools.key(FontTools.latoLabel, FontTools.normalLabel)),
         backgroundHomeMenu: backgroundHomeMenu(),
         backgroundColorHomeMenu: homeMenuPopupBGColor(),
-        iconColorHomeMenu: homeMenuIconColor()
+        iconColorHomeMenu: homeMenuIconColor(),
+        drawerBG: drawerBG(),
+        drawerHeaderBG: drawerHeaderBG(),
+        profileDrawerBG: profileDrawerBG(),
+        profileDrawerHeaderBG: profileDrawerHeaderBG()
     );
   }
 
@@ -78,24 +83,11 @@ class EliudMinkeyStyle {
 
   static RgbModel homeMenuPopupBGColor() => EliudColors.white;
 
-  static BackgroundModel appBarBG() =>
-      EliudShared.drawerBG('minkey-appbar-bg', appColor1(), appColor2());
-
-  static BackgroundModel pageBG() =>
-      EliudShared.pageBG('minkey-page-bg', appColor3(), appColor4());
-
-  static BackgroundModel drawerBG() =>
-      EliudShared.drawerBG('minkey-drawer-bg', appColor1(), appColor2());
-
-  static BackgroundModel drawerHeaderBG() =>
-      EliudShared.drawerHeaderBG('minkey-drawer-header-bg');
-
-  static BackgroundModel profileDrawerBG() =>
-      EliudShared.profileDrawerBG(
-          'minkey-profile-drawer-bg', appColor1(), appColor2());
-
-  static BackgroundModel profileDrawerHeaderBG() =>
-      EliudShared.profileDrawerHeaderBG('minkey-profile-drawer-header-bg');
-
+  static BackgroundModel appBarBG() => EliudShared.appBarBG('minkey-appbar-bg', appColor1(), appColor2());
+  static BackgroundModel pageBG() => EliudShared.pageBG('minkey-page-bg', appColor3(), appColor4());
+  static BackgroundModel drawerBG() => EliudShared.drawerBG('minkey-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel drawerHeaderBG() => EliudShared.drawerHeaderBG('minkey-drawer-header-bg');
+  static BackgroundModel profileDrawerBG() => EliudShared.profileDrawerBG('minkey-profile-drawer-bg', appColor1(), appColor2());
+  static BackgroundModel profileDrawerHeaderBG() => EliudShared.profileDrawerHeaderBG('minkey-profile-drawer-header-bg');
   static BackgroundModel backgroundHomeMenu() => EliudShared.homeMenuBG('minkey-homemenu', appColor1(), appColor2());
 }

@@ -141,20 +141,56 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? formAppBarBackgroundHolder;
-    if (model.formAppBarBackground != null) {
-      try {
-        await backgroundRepository()!.get(model.formAppBarBackground!.documentID).then((val) {
-          formAppBarBackgroundHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     BackgroundModel? listBackgroundHolder;
     if (model.listBackground != null) {
       try {
         await backgroundRepository()!.get(model.listBackground!.documentID).then((val) {
           listBackgroundHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? appBarBackgroundHolder;
+    if (model.appBarBackground != null) {
+      try {
+        await backgroundRepository()!.get(model.appBarBackground!.documentID).then((val) {
+          appBarBackgroundHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? drawerBGHolder;
+    if (model.drawerBG != null) {
+      try {
+        await backgroundRepository()!.get(model.drawerBG!.documentID).then((val) {
+          drawerBGHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? drawerHeaderBGHolder;
+    if (model.drawerHeaderBG != null) {
+      try {
+        await backgroundRepository()!.get(model.drawerHeaderBG!.documentID).then((val) {
+          drawerHeaderBGHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? profileDrawerBGHolder;
+    if (model.profileDrawerBG != null) {
+      try {
+        await backgroundRepository()!.get(model.profileDrawerBG!.documentID).then((val) {
+          profileDrawerBGHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? profileDrawerHeaderBGHolder;
+    if (model.profileDrawerHeaderBG != null) {
+      try {
+        await backgroundRepository()!.get(model.profileDrawerHeaderBG!.documentID).then((val) {
+          profileDrawerHeaderBGHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
@@ -254,9 +290,17 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
 
         appBackground: appBackgroundHolder,
 
-        formAppBarBackground: formAppBarBackgroundHolder,
-
         listBackground: listBackgroundHolder,
+
+        appBarBackground: appBarBackgroundHolder,
+
+        drawerBG: drawerBGHolder,
+
+        drawerHeaderBG: drawerHeaderBGHolder,
+
+        profileDrawerBG: profileDrawerBGHolder,
+
+        profileDrawerHeaderBG: profileDrawerHeaderBGHolder,
 
         backgroundHomeMenu: backgroundHomeMenuHolder,
 

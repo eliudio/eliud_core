@@ -9,6 +9,7 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
+import 'impl/eliud_drawer_impl.dart';
 import 'impl/eliud_menu_impl.dart';
 import 'impl/eliud_page_body_impl.dart';
 
@@ -17,10 +18,12 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   final EliudStyle _eliudStyle;
   late EliudPageBodyImpl eliudPageBodyImpl;
   late EliudMenuImpl eliudMenuImpl;
+  late EliudDrawerImpl eliudDrawerImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
     eliudMenuImpl = EliudMenuImpl(_eliudStyle);
+    eliudDrawerImpl = EliudDrawerImpl(_eliudStyle);
   }
 
   @override
@@ -29,8 +32,6 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     return Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecorationHelper.boxDecoration(accessState,
-            _eliudStyle.eliudStyleAttributesModel.formAppBarBackground),
         child: child);
   }
 
@@ -81,5 +82,11 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   Future<void> openMenu(BuildContext context, {required RelativeRect position, required List<MenuItemAttributes> menuItems, MenuItemSelected? onSelected, RgbModel? popupMenuBackgroundColorOverride}) {
     return eliudMenuImpl.openMenu(context, position: position, menuItems: menuItems, onSelected: onSelected, popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
   }
+
+  @override
+  Drawer drawer(BuildContext context, {String? currentPage, required DrawerType drawerType, DrawerHeader1Attributes? header1, DrawerHeader2Attributes? header2, BackgroundModel? backgroundOverride, required List<DrawerItemAttributes> items}) {
+    return eliudDrawerImpl.drawer(context, currentPage: currentPage, drawerType: drawerType, header1: header1, header2: header2, backgroundOverride: backgroundOverride, items: items);
+  }
+
 }
 

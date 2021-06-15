@@ -24,6 +24,7 @@ class EliudEliudStyle {
         highlightColor: highlightColor,
         linkColor: linkColor);
     return EliudStyleAttributesModel(
+      documentID: styleName,
       appBackground: pageBG(),
       listBackground: pageBG(),
       formBackground: pageBG(),
@@ -33,8 +34,8 @@ class EliudEliudStyle {
       formFieldTextColor: EliudColors.white,
       formFieldHeaderColor: EliudColors.red,
       formFieldFocusColor: EliudColors.red,
-      formAppBarBackground: appBarBG(),
-      formAppBarTextColor: EliudColors.white,
+      appBarBackground: appBarBG(),
+      appBarTextColor: EliudColors.white,
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       floatingButtonBackgroundColor: EliudColors.red,
@@ -60,7 +61,11 @@ class EliudEliudStyle {
           .getFont(FontTools.key(FontTools.robotoLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),
       backgroundColorHomeMenu: homeMenuPopupBGColor(),
-      iconColorHomeMenu: homeMenuIconColor()
+      iconColorHomeMenu: homeMenuIconColor(),
+      drawerBG: drawerBG(),
+      drawerHeaderBG: drawerHeaderBG(),
+      profileDrawerBG: profileDrawerBG(),
+      profileDrawerHeaderBG: profileDrawerHeaderBG()
     );
   }
 
@@ -75,7 +80,7 @@ class EliudEliudStyle {
   static RgbModel homeMenuIconColor() => EliudColors.white;
   static RgbModel homeMenuPopupBGColor() => EliudColors.lightRed;
 
-  static BackgroundModel appBarBG() => EliudShared.drawerBG('eliud-appbar-bg', appColor1(), appColor2());
+  static BackgroundModel appBarBG() => EliudShared.appBarBG('eliud-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('eliud-page-bg', appColor3(), appColor4());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('eliud-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('eliud-drawer-header-bg');

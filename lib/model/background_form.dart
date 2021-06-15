@@ -120,13 +120,12 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
-  String? _backgroundImage;
+  final TextEditingController _backgroundImageURLController = TextEditingController();
   bool? _useProfilePhotoAsBackgroundSelection;
   int? _beginGradientPositionSelectedRadioTile;
   int? _endGradientPositionSelectedRadioTile;
   String? _shadow;
   bool? _borderSelection;
-  bool? _adminSelection;
 
 
   _MyBackgroundFormState(this.formAction);
@@ -137,11 +136,11 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     _myFormBloc = BlocProvider.of<BackgroundFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _commentsController.addListener(_onCommentsChanged);
+    _backgroundImageURLController.addListener(_onBackgroundImageURLChanged);
     _useProfilePhotoAsBackgroundSelection = false;
     _beginGradientPositionSelectedRadioTile = 0;
     _endGradientPositionSelectedRadioTile = 0;
     _borderSelection = false;
-    _adminSelection = false;
   }
 
   @override
@@ -163,10 +162,10 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           _commentsController.text = state.value!.comments.toString();
         else
           _commentsController.text = "";
-        if (state.value!.backgroundImage != null)
-          _backgroundImage= state.value!.backgroundImage!.documentID;
+        if (state.value!.backgroundImageURL != null)
+          _backgroundImageURLController.text = state.value!.backgroundImageURL.toString();
         else
-          _backgroundImage= "";
+          _backgroundImageURLController.text = "";
         if (state.value!.useProfilePhotoAsBackground != null)
         _useProfilePhotoAsBackgroundSelection = state.value!.useProfilePhotoAsBackground;
         else
@@ -187,10 +186,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
         _borderSelection = state.value!.border;
         else
         _borderSelection = false;
-        if (state.value!.admin != null)
-        _adminSelection = state.value!.admin;
-        else
-        _adminSelection = false;
       }
       if (state is BackgroundFormInitialized) {
         List<Widget> children = [];
@@ -263,7 +258,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Header Background Image', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _backgroundImageURLController, keyboardType: TextInputType.text, validator: (_) => state is BackgroundImageURLBackgroundFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -394,28 +389,26 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                           UpdateBackgroundList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               comments: state.value!.comments, 
-                              backgroundImage: state.value!.backgroundImage, 
+                              backgroundImageURL: state.value!.backgroundImageURL, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value!.beginGradientPosition, 
                               endGradientPosition: state.value!.endGradientPosition, 
                               shadow: state.value!.shadow, 
                               decorationColors: state.value!.decorationColors, 
                               border: state.value!.border, 
-                              admin: state.value!.admin, 
                         )));
                       } else {
                         BlocProvider.of<BackgroundListBloc>(context).add(
                           AddBackgroundList(value: BackgroundModel(
                               documentID: state.value!.documentID, 
                               comments: state.value!.comments, 
-                              backgroundImage: state.value!.backgroundImage, 
+                              backgroundImageURL: state.value!.backgroundImageURL, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value!.beginGradientPosition, 
                               endGradientPosition: state.value!.endGradientPosition, 
                               shadow: state.value!.shadow, 
                               decorationColors: state.value!.decorationColors, 
                               border: state.value!.border, 
-                              admin: state.value!.admin, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -452,11 +445,8 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   }
 
 
-  void _onBackgroundImageSelected(String? val) {
-    setState(() {
-      _backgroundImage = val;
-    });
-    _myFormBloc.add(ChangedBackgroundBackgroundImage(value: val));
+  void _onBackgroundImageURLChanged() {
+    _myFormBloc.add(ChangedBackgroundBackgroundImageURL(value: _backgroundImageURLController.text));
   }
 
 
@@ -504,18 +494,12 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     _myFormBloc.add(ChangedBackgroundBorder(value: val));
   }
 
-  void setSelectionAdmin(bool? val) {
-    setState(() {
-      _adminSelection = val;
-    });
-    _myFormBloc.add(ChangedBackgroundAdmin(value: val));
-  }
-
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _commentsController.dispose();
+    _backgroundImageURLController.dispose();
     super.dispose();
   }
 

@@ -55,7 +55,8 @@ class PageFirestore implements PageRepository {
     try {
       var collection = PageCollection.doc(id);
       var doc = await collection.get();
-      return await _populateDocPlus(doc);
+      var test = await _populateDocPlus(doc);
+      return test;
     } on Exception catch(e) {
       print("Error whilst retrieving Page with id $id");
       print("Exceptoin: $e");

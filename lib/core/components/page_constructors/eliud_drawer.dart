@@ -1,12 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/util/page_helper.dart';
-import 'package:eliud_core/core/tools/menu_helper.dart';
+import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/style/shared/interfaces.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +13,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EliudDrawer extends StatefulWidget {
   final String currentPage;
   final DrawerModel drawer;
-  EliudDrawer({Key? key, required this.drawer, required this.currentPage})
+  final DrawerType drawerType;
+
+  EliudDrawer(
+      {Key? key,
+      required this.drawerType,
+      required this.drawer,
+      required this.currentPage})
       : super(key: key);
 
   @override
@@ -31,62 +35,43 @@ class _EliudDrawerState extends State<EliudDrawer> {
     var currentPage = widget.currentPage;
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, theState) {
       if (theState is AppLoaded) {
-        var app = theState.app;
         if (drawer == null) return Text('Drawer is not defined');
         if (drawer.menu == null) return Text('Drawer menu not defined');
-        var widgets = <Widget>[];
-        widgets.add(
-          Container(
-              height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
-              child: DrawerHeader(
-                  child: Center(
-                      child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h3(context, drawer.headerText!)
-),
-                  decoration: BoxDecorationHelper.boxDecoration(
-                      theState, drawer.headerBackgroundOverride))),
-        );
+
+        var drawerHeader1Attributes = DrawerHeader1Attributes(
+            drawer.headerHeight,
+            drawer.headerText!,
+            drawer.headerBackgroundOverride);
+        var drawerHeader2Attributes;
         if ((drawer.secondHeaderText != null) &&
             (drawer.secondHeaderText!.isNotEmpty)) {
-          widgets.add(Container(
-            height: drawer.headerHeight == 0 ? null : drawer.headerHeight,
-            child: DrawerHeader(
-                child: Center(
-                    child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().h4(context, drawer.secondHeaderText!),
-                )),
-          ));
+          drawerHeader2Attributes = DrawerHeader2Attributes(
+              drawer.headerHeight, drawer.secondHeaderText!);
         }
 
-        var member = theState is LoggedIn ? theState.member : null;
-
+        var itemList = <DrawerItemAttributes>[];
         for (var i = 0; i < drawer.menu!.menuItems!.length; i++) {
           var item = drawer.menu!.menuItems![i];
-          var style = PageHelper.isActivePage(currentPage, item.action)
-              ? StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH3(context)
-              : StyleRegistry.registry().styleWithContext(context).frontEndStyle().styleH4(context);
-
-              if (theState.menuItemHasAccess(item)) {
-            _addWidget(context, widgets, item, style, member);
+          var active = PageHelper.isActivePage(currentPage, item.action);
+          if (theState.menuItemHasAccess(item)) {
+            itemList.add(DrawerItemAttributes(item, active));
           }
         }
 
-        return Drawer(
-          // TODO: MAKE SURE TO USE THE DRAWER or HEADER DRAWER BACKGROUND
-            child: Container(
-                decoration: BoxDecorationHelper.boxDecoration(
-                    theState, drawer.backgroundOverride),
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  children: widgets,
-                )));
+        return StyleRegistry.registry()
+            .styleWithContext(context)
+            .frontEndStyle()
+            .drawer(context,
+                drawerType: widget.drawerType,
+                header1: drawerHeader1Attributes,
+                header2: drawerHeader2Attributes,
+                items: itemList,
+                backgroundOverride: widget.drawer.backgroundOverride);
       } else {
-        return Text('Error constructing Drawer');
+        return Center(
+          child: DelayedCircularProgressIndicator(),
+        );
       }
     });
-  }
-
-  void _addWidget(BuildContext context, List<Widget> widgets,
-      MenuItemModel item, TextStyle? style, MemberModel? member) {
-    return MenuHelper.addWidget(context,  widgets, item, style, member, widget.currentPage);
   }
 }

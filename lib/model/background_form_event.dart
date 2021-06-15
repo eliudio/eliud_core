@@ -79,16 +79,16 @@ class ChangedBackgroundComments extends BackgroundFormEvent {
   String toString() => 'ChangedBackgroundComments{ value: $value }';
 }
 
-class ChangedBackgroundBackgroundImage extends BackgroundFormEvent {
+class ChangedBackgroundBackgroundImageURL extends BackgroundFormEvent {
   final String? value;
 
-  ChangedBackgroundBackgroundImage({this.value});
+  ChangedBackgroundBackgroundImageURL({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedBackgroundBackgroundImage{ value: $value }';
+  String toString() => 'ChangedBackgroundBackgroundImageURL{ value: $value }';
 }
 
 class ChangedBackgroundUseProfilePhotoAsBackground extends BackgroundFormEvent {
@@ -161,17 +161,5 @@ class ChangedBackgroundBorder extends BackgroundFormEvent {
 
   @override
   String toString() => 'ChangedBackgroundBorder{ value: $value }';
-}
-
-class ChangedBackgroundAdmin extends BackgroundFormEvent {
-  final bool? value;
-
-  ChangedBackgroundAdmin({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedBackgroundAdmin{ value: $value }';
 }
 

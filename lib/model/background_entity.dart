@@ -22,25 +22,24 @@ import 'package:eliud_core/model/entity_export.dart';
 
 class BackgroundEntity {
   final String? comments;
-  final String? backgroundImageId;
+  final String? backgroundImageURL;
   final bool? useProfilePhotoAsBackground;
   final int? beginGradientPosition;
   final int? endGradientPosition;
   final String? shadowId;
   final List<DecorationColorEntity>? decorationColors;
   final bool? border;
-  final bool? admin;
 
-  BackgroundEntity({this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, this.admin, });
+  BackgroundEntity({this.comments, this.backgroundImageURL, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, });
 
 
-  List<Object?> get props => [comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, admin, ];
+  List<Object?> get props => [comments, backgroundImageURL, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, ];
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundEntity{comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border, admin: $admin}';
+    return 'BackgroundEntity{comments: $comments, backgroundImageURL: $backgroundImageURL, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
   static BackgroundEntity? fromMap(Map? map) {
@@ -57,14 +56,13 @@ class BackgroundEntity {
 
     return BackgroundEntity(
       comments: map['comments'], 
-      backgroundImageId: map['backgroundImageId'], 
+      backgroundImageURL: map['backgroundImageURL'], 
       useProfilePhotoAsBackground: map['useProfilePhotoAsBackground'], 
       beginGradientPosition: map['beginGradientPosition'], 
       endGradientPosition: map['endGradientPosition'], 
       shadowId: map['shadowId'], 
       decorationColors: decorationColorsList, 
       border: map['border'], 
-      admin: map['admin'], 
     );
   }
 
@@ -76,8 +74,8 @@ class BackgroundEntity {
     Map<String, Object?> theDocument = HashMap();
     if (comments != null) theDocument["comments"] = comments;
       else theDocument["comments"] = null;
-    if (backgroundImageId != null) theDocument["backgroundImageId"] = backgroundImageId;
-      else theDocument["backgroundImageId"] = null;
+    if (backgroundImageURL != null) theDocument["backgroundImageURL"] = backgroundImageURL;
+      else theDocument["backgroundImageURL"] = null;
     if (useProfilePhotoAsBackground != null) theDocument["useProfilePhotoAsBackground"] = useProfilePhotoAsBackground;
       else theDocument["useProfilePhotoAsBackground"] = null;
     if (beginGradientPosition != null) theDocument["beginGradientPosition"] = beginGradientPosition;
@@ -90,8 +88,6 @@ class BackgroundEntity {
       else theDocument["decorationColors"] = null;
     if (border != null) theDocument["border"] = border;
       else theDocument["border"] = null;
-    if (admin != null) theDocument["admin"] = admin;
-      else theDocument["admin"] = null;
     return theDocument;
   }
 

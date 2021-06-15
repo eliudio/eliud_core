@@ -20,7 +20,7 @@ class MenuHelper {
       MenuItemModel item,
       TextStyle? style,
       MemberModel? member,
-      String currentPage) {
+      String? currentPage) {
     var action = item.action;
     if ((action is InternalAction) &&
         (action.internalActionEnum == InternalActionEnum.OtherApps)) {

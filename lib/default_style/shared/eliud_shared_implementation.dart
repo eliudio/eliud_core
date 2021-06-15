@@ -296,7 +296,7 @@ abstract class EliudSharedImplementation
         style: TextStyle(
             color: RgbHelper.color(
                 rgbo: _eliudStyle
-                    .eliudStyleAttributesModel.formAppBarTextColor))),
+                    .eliudStyleAttributesModel.appBarTextColor))),
         actions: actions,
         iconTheme: iconTheme,
         backgroundOverride: backgroundOverride);
@@ -310,7 +310,7 @@ abstract class EliudSharedImplementation
     if (backgroundOverride != null) {
       background = backgroundOverride;
     } else {
-      background = _eliudStyle.eliudStyleAttributesModel.formAppBarBackground;
+      background = _eliudStyle.eliudStyleAttributesModel.appBarBackground;
     }
     return AppBar(
       title: title,

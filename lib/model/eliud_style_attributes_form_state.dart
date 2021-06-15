@@ -223,38 +223,6 @@ class FormFieldFocusColorEliudStyleAttributesFormError extends EliudStyleAttribu
 }
 
 
-class FormAppBarBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
-  const FormAppBarBackgroundEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormAppBarBackgroundEliudStyleAttributesFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class FormAppBarTextColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
-  const FormAppBarTextColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''FormAppBarTextColorEliudStyleAttributesFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class ListBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
   const ListBackgroundEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 
@@ -328,6 +296,102 @@ class DividerColorEliudStyleAttributesFormError extends EliudStyleAttributesForm
   @override
   String toString() {
     return '''DividerColorEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class AppBarBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarBackgroundEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBarBackgroundEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class AppBarTextColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarTextColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBarTextColorEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DrawerBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const DrawerBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DrawerBGEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DrawerHeaderBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const DrawerHeaderBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DrawerHeaderBGEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ProfileDrawerBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const ProfileDrawerBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ProfileDrawerBGEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ProfileDrawerHeaderBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const ProfileDrawerHeaderBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ProfileDrawerHeaderBGEliudStyleAttributesFormError {
       value: $value,
       message: $message,
     }''';

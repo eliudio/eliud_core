@@ -30,13 +30,17 @@ class EliudStyleAttributesEntity {
   final RgbEntity? formFieldTextColor;
   final RgbEntity? formFieldHeaderColor;
   final RgbEntity? formFieldFocusColor;
-  final String? formAppBarBackgroundId;
-  final RgbEntity? formAppBarTextColor;
   final String? listBackgroundId;
   final RgbEntity? listTextItemColor;
   final RgbEntity? floatingButtonForegroundColor;
   final RgbEntity? floatingButtonBackgroundColor;
   final RgbEntity? dividerColor;
+  final String? appBarBackgroundId;
+  final RgbEntity? appBarTextColor;
+  final String? drawerBGId;
+  final String? drawerHeaderBGId;
+  final String? profileDrawerBGId;
+  final String? profileDrawerHeaderBGId;
   final RgbEntity? iconColor;
   final String? backgroundHomeMenuId;
   final RgbEntity? backgroundColorHomeMenu;
@@ -51,14 +55,14 @@ class EliudStyleAttributesEntity {
   final String? fontHighlight2Id;
   final String? fontLinkId;
 
-  EliudStyleAttributesEntity({this.description, this.formSubmitButtonColor, this.formBackgroundId, this.appBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackgroundId, this.formAppBarTextColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.backgroundHomeMenuId, this.backgroundColorHomeMenu, this.iconColorHomeMenu, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
+  EliudStyleAttributesEntity({this.description, this.formSubmitButtonColor, this.formBackgroundId, this.appBackgroundId, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.listBackgroundId, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.appBarBackgroundId, this.appBarTextColor, this.drawerBGId, this.drawerHeaderBGId, this.profileDrawerBGId, this.profileDrawerHeaderBGId, this.iconColor, this.backgroundHomeMenuId, this.backgroundColorHomeMenu, this.iconColorHomeMenu, this.h1Id, this.h2Id, this.h3Id, this.h4Id, this.h5Id, this.fontTextId, this.fontHighlight1Id, this.fontHighlight2Id, this.fontLinkId, });
 
 
-  List<Object?> get props => [description, formSubmitButtonColor, formBackgroundId, appBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, formAppBarBackgroundId, formAppBarTextColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, iconColor, backgroundHomeMenuId, backgroundColorHomeMenu, iconColorHomeMenu, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
+  List<Object?> get props => [description, formSubmitButtonColor, formBackgroundId, appBackgroundId, formSubmitButtonTextColor, formGroupTitleColor, formFieldTextColor, formFieldHeaderColor, formFieldFocusColor, listBackgroundId, listTextItemColor, floatingButtonForegroundColor, floatingButtonBackgroundColor, dividerColor, appBarBackgroundId, appBarTextColor, drawerBGId, drawerHeaderBGId, profileDrawerBGId, profileDrawerHeaderBGId, iconColor, backgroundHomeMenuId, backgroundColorHomeMenu, iconColorHomeMenu, h1Id, h2Id, h3Id, h4Id, h5Id, fontTextId, fontHighlight1Id, fontHighlight2Id, fontLinkId, ];
 
   @override
   String toString() {
-    return 'EliudStyleAttributesEntity{description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, appBackgroundId: $appBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackgroundId: $formAppBarBackgroundId, formAppBarTextColor: $formAppBarTextColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, backgroundHomeMenuId: $backgroundHomeMenuId, backgroundColorHomeMenu: $backgroundColorHomeMenu, iconColorHomeMenu: $iconColorHomeMenu, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
+    return 'EliudStyleAttributesEntity{description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, appBackgroundId: $appBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, appBarBackgroundId: $appBarBackgroundId, appBarTextColor: $appBarTextColor, drawerBGId: $drawerBGId, drawerHeaderBGId: $drawerHeaderBGId, profileDrawerBGId: $profileDrawerBGId, profileDrawerHeaderBGId: $profileDrawerHeaderBGId, iconColor: $iconColor, backgroundHomeMenuId: $backgroundHomeMenuId, backgroundColorHomeMenu: $backgroundColorHomeMenu, iconColorHomeMenu: $iconColorHomeMenu, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
   }
 
   static EliudStyleAttributesEntity? fromMap(Map? map) {
@@ -88,10 +92,6 @@ class EliudStyleAttributesEntity {
     formFieldFocusColorFromMap = map['formFieldFocusColor'];
     if (formFieldFocusColorFromMap != null)
       formFieldFocusColorFromMap = RgbEntity.fromMap(formFieldFocusColorFromMap);
-    var formAppBarTextColorFromMap;
-    formAppBarTextColorFromMap = map['formAppBarTextColor'];
-    if (formAppBarTextColorFromMap != null)
-      formAppBarTextColorFromMap = RgbEntity.fromMap(formAppBarTextColorFromMap);
     var listTextItemColorFromMap;
     listTextItemColorFromMap = map['listTextItemColor'];
     if (listTextItemColorFromMap != null)
@@ -108,6 +108,10 @@ class EliudStyleAttributesEntity {
     dividerColorFromMap = map['dividerColor'];
     if (dividerColorFromMap != null)
       dividerColorFromMap = RgbEntity.fromMap(dividerColorFromMap);
+    var appBarTextColorFromMap;
+    appBarTextColorFromMap = map['appBarTextColor'];
+    if (appBarTextColorFromMap != null)
+      appBarTextColorFromMap = RgbEntity.fromMap(appBarTextColorFromMap);
     var iconColorFromMap;
     iconColorFromMap = map['iconColor'];
     if (iconColorFromMap != null)
@@ -131,13 +135,17 @@ class EliudStyleAttributesEntity {
       formFieldTextColor: formFieldTextColorFromMap, 
       formFieldHeaderColor: formFieldHeaderColorFromMap, 
       formFieldFocusColor: formFieldFocusColorFromMap, 
-      formAppBarBackgroundId: map['formAppBarBackgroundId'], 
-      formAppBarTextColor: formAppBarTextColorFromMap, 
       listBackgroundId: map['listBackgroundId'], 
       listTextItemColor: listTextItemColorFromMap, 
       floatingButtonForegroundColor: floatingButtonForegroundColorFromMap, 
       floatingButtonBackgroundColor: floatingButtonBackgroundColorFromMap, 
       dividerColor: dividerColorFromMap, 
+      appBarBackgroundId: map['appBarBackgroundId'], 
+      appBarTextColor: appBarTextColorFromMap, 
+      drawerBGId: map['drawerBGId'], 
+      drawerHeaderBGId: map['drawerHeaderBGId'], 
+      profileDrawerBGId: map['profileDrawerBGId'], 
+      profileDrawerHeaderBGId: map['profileDrawerHeaderBGId'], 
       iconColor: iconColorFromMap, 
       backgroundHomeMenuId: map['backgroundHomeMenuId'], 
       backgroundColorHomeMenu: backgroundColorHomeMenuFromMap, 
@@ -173,9 +181,6 @@ class EliudStyleAttributesEntity {
     final Map<String, dynamic>? formFieldFocusColorMap = formFieldFocusColor != null 
         ? formFieldFocusColor!.toDocument()
         : null;
-    final Map<String, dynamic>? formAppBarTextColorMap = formAppBarTextColor != null 
-        ? formAppBarTextColor!.toDocument()
-        : null;
     final Map<String, dynamic>? listTextItemColorMap = listTextItemColor != null 
         ? listTextItemColor!.toDocument()
         : null;
@@ -187,6 +192,9 @@ class EliudStyleAttributesEntity {
         : null;
     final Map<String, dynamic>? dividerColorMap = dividerColor != null 
         ? dividerColor!.toDocument()
+        : null;
+    final Map<String, dynamic>? appBarTextColorMap = appBarTextColor != null 
+        ? appBarTextColor!.toDocument()
         : null;
     final Map<String, dynamic>? iconColorMap = iconColor != null 
         ? iconColor!.toDocument()
@@ -217,10 +225,6 @@ class EliudStyleAttributesEntity {
       else theDocument["formFieldHeaderColor"] = null;
     if (formFieldFocusColor != null) theDocument["formFieldFocusColor"] = formFieldFocusColorMap;
       else theDocument["formFieldFocusColor"] = null;
-    if (formAppBarBackgroundId != null) theDocument["formAppBarBackgroundId"] = formAppBarBackgroundId;
-      else theDocument["formAppBarBackgroundId"] = null;
-    if (formAppBarTextColor != null) theDocument["formAppBarTextColor"] = formAppBarTextColorMap;
-      else theDocument["formAppBarTextColor"] = null;
     if (listBackgroundId != null) theDocument["listBackgroundId"] = listBackgroundId;
       else theDocument["listBackgroundId"] = null;
     if (listTextItemColor != null) theDocument["listTextItemColor"] = listTextItemColorMap;
@@ -231,6 +235,18 @@ class EliudStyleAttributesEntity {
       else theDocument["floatingButtonBackgroundColor"] = null;
     if (dividerColor != null) theDocument["dividerColor"] = dividerColorMap;
       else theDocument["dividerColor"] = null;
+    if (appBarBackgroundId != null) theDocument["appBarBackgroundId"] = appBarBackgroundId;
+      else theDocument["appBarBackgroundId"] = null;
+    if (appBarTextColor != null) theDocument["appBarTextColor"] = appBarTextColorMap;
+      else theDocument["appBarTextColor"] = null;
+    if (drawerBGId != null) theDocument["drawerBGId"] = drawerBGId;
+      else theDocument["drawerBGId"] = null;
+    if (drawerHeaderBGId != null) theDocument["drawerHeaderBGId"] = drawerHeaderBGId;
+      else theDocument["drawerHeaderBGId"] = null;
+    if (profileDrawerBGId != null) theDocument["profileDrawerBGId"] = profileDrawerBGId;
+      else theDocument["profileDrawerBGId"] = null;
+    if (profileDrawerHeaderBGId != null) theDocument["profileDrawerHeaderBGId"] = profileDrawerHeaderBGId;
+      else theDocument["profileDrawerHeaderBGId"] = null;
     if (iconColor != null) theDocument["iconColor"] = iconColorMap;
       else theDocument["iconColor"] = null;
     if (backgroundHomeMenuId != null) theDocument["backgroundHomeMenuId"] = backgroundHomeMenuId;

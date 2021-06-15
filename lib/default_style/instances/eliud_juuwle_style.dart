@@ -24,6 +24,7 @@ class EliudJuuwleStyle {
         highlightColor: highlightColor,
         linkColor: linkColor);
     return EliudStyleAttributesModel(
+      documentID: styleName,
       appBackground: pageBG(),
       listBackground: pageBG(),
       formBackground: pageBG(),
@@ -33,8 +34,8 @@ class EliudJuuwleStyle {
       formFieldTextColor: EliudColors.black,
       formFieldHeaderColor: EliudColors.red,
       formFieldFocusColor: EliudColors.red,
-      formAppBarBackground: appBarBG(),
-      formAppBarTextColor: EliudColors.white,
+      appBarBackground: appBarBG(),
+      appBarTextColor: EliudColors.white,
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       iconColor: EliudColors.red,
@@ -61,7 +62,11 @@ class EliudJuuwleStyle {
           FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),
       backgroundColorHomeMenu: homeMenuPopupBGColor(),
-      iconColorHomeMenu: homeMenuIconColor()
+      iconColorHomeMenu: homeMenuIconColor(),
+      drawerBG: drawerBG(),
+      drawerHeaderBG: drawerHeaderBG(),
+      profileDrawerBG: profileDrawerBG(),
+      profileDrawerHeaderBG: profileDrawerHeaderBG()
     );
   }
 
@@ -76,10 +81,11 @@ class EliudJuuwleStyle {
   static RgbModel homeMenuIconColor() => EliudColors.black;
   static RgbModel homeMenuPopupBGColor() => EliudColors.white;
 
-  static BackgroundModel appBarBG() => EliudShared.drawerBG('juuwle-appbar-bg', appColor1(), appColor2());
+  static BackgroundModel appBarBG() => EliudShared.appBarBG('juuwle-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('juuwle-page-bg', appColor3(), appColor4());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('juuwle-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('juuwle-drawer-header-bg');
+  static BackgroundModel profileDrawerBG() => EliudShared.profileDrawerBG('juuwle-profile-drawer-bg', appColor1(), appColor2());
   static BackgroundModel profileDrawerHeaderBG()  => EliudShared.profileDrawerBG('juuwle-profile-drawer-bg', appColor1(), appColor2());
   static BackgroundModel backgroundHomeMenu() => EliudShared.homeMenuBG('juuwle-homemenu', appColor1(), appColor2());
 }

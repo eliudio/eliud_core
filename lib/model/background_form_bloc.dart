@@ -50,6 +50,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         BackgroundFormLoaded loaded = BackgroundFormLoaded(value: BackgroundModel(
                                                documentID: "",
                                  comments: "",
+                                 backgroundImageURL: "",
                                  decorationColors: [],
 
         ));
@@ -87,22 +88,8 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
 
         return;
       }
-      if (event is ChangedBackgroundBackgroundImage) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundImage: await memberMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new BackgroundModel(
-                                 documentID: currentState.value!.documentID,
-                                 comments: currentState.value!.comments,
-                                 backgroundImage: null,
-                                 useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,
-                                 beginGradientPosition: currentState.value!.beginGradientPosition,
-                                 endGradientPosition: currentState.value!.endGradientPosition,
-                                 shadow: currentState.value!.shadow,
-                                 decorationColors: currentState.value!.decorationColors,
-                                 border: currentState.value!.border,
-                                 admin: currentState.value!.admin,
-          );
+      if (event is ChangedBackgroundBackgroundImageURL) {
+        newValue = currentState.value!.copyWith(backgroundImageURL: event.value);
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
@@ -132,14 +119,13 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
                                  comments: currentState.value!.comments,
-                                 backgroundImage: currentState.value!.backgroundImage,
+                                 backgroundImageURL: currentState.value!.backgroundImageURL,
                                  useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,
                                  beginGradientPosition: currentState.value!.beginGradientPosition,
                                  endGradientPosition: currentState.value!.endGradientPosition,
                                  shadow: null,
                                  decorationColors: currentState.value!.decorationColors,
                                  border: currentState.value!.border,
-                                 admin: currentState.value!.admin,
           );
         yield SubmittableBackgroundForm(value: newValue);
 

@@ -95,15 +95,15 @@ class CommentsBackgroundFormError extends BackgroundFormError {
 }
 
 
-class BackgroundImageBackgroundFormError extends BackgroundFormError { 
-  const BackgroundImageBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
+class BackgroundImageURLBackgroundFormError extends BackgroundFormError { 
+  const BackgroundImageURLBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundImageBackgroundFormError {
+    return '''BackgroundImageURLBackgroundFormError {
       value: $value,
       message: $message,
     }''';
@@ -200,22 +200,6 @@ class BorderBackgroundFormError extends BackgroundFormError {
   @override
   String toString() {
     return '''BorderBackgroundFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
-class AdminBackgroundFormError extends BackgroundFormError { 
-  const AdminBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''AdminBackgroundFormError {
       value: $value,
       message: $message,
     }''';

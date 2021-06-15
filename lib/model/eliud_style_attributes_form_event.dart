@@ -175,30 +175,6 @@ class ChangedEliudStyleAttributesFormFieldFocusColor extends EliudStyleAttribute
   String toString() => 'ChangedEliudStyleAttributesFormFieldFocusColor{ value: $value }';
 }
 
-class ChangedEliudStyleAttributesFormAppBarBackground extends EliudStyleAttributesFormEvent {
-  final String? value;
-
-  ChangedEliudStyleAttributesFormAppBarBackground({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedEliudStyleAttributesFormAppBarBackground{ value: $value }';
-}
-
-class ChangedEliudStyleAttributesFormAppBarTextColor extends EliudStyleAttributesFormEvent {
-  final RgbModel? value;
-
-  ChangedEliudStyleAttributesFormAppBarTextColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedEliudStyleAttributesFormAppBarTextColor{ value: $value }';
-}
-
 class ChangedEliudStyleAttributesListBackground extends EliudStyleAttributesFormEvent {
   final String? value;
 
@@ -257,6 +233,78 @@ class ChangedEliudStyleAttributesDividerColor extends EliudStyleAttributesFormEv
 
   @override
   String toString() => 'ChangedEliudStyleAttributesDividerColor{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesAppBarBackground extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesAppBarBackground({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesAppBarBackground{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesAppBarTextColor extends EliudStyleAttributesFormEvent {
+  final RgbModel? value;
+
+  ChangedEliudStyleAttributesAppBarTextColor({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesAppBarTextColor{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesDrawerBG extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesDrawerBG({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesDrawerBG{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesDrawerHeaderBG extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesDrawerHeaderBG({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesDrawerHeaderBG{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesProfileDrawerBG extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesProfileDrawerBG({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesProfileDrawerBG{ value: $value }';
+}
+
+class ChangedEliudStyleAttributesProfileDrawerHeaderBG extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesProfileDrawerHeaderBG({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesProfileDrawerHeaderBG{ value: $value }';
 }
 
 class ChangedEliudStyleAttributesIconColor extends EliudStyleAttributesFormEvent {

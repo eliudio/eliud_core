@@ -24,6 +24,7 @@ class EliudIncidamusStyle {
         highlightColor: highlightColor,
         linkColor: linkColor);
     return EliudStyleAttributesModel(
+      documentID: styleName,
       appBackground: pageBG(),
       listBackground: pageBG(),
       formBackground: pageBG(),
@@ -33,8 +34,8 @@ class EliudIncidamusStyle {
       formFieldTextColor: EliudColors.white,
       formFieldHeaderColor: EliudColors.red,
       formFieldFocusColor: EliudColors.red,
-      formAppBarBackground: appBarBG(),
-      formAppBarTextColor: EliudColors.white,
+      appBarBackground: appBarBG(),
+      appBarTextColor: EliudColors.white,
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       iconColor: EliudColors.red,
@@ -60,7 +61,11 @@ class EliudIncidamusStyle {
           .getFont(FontTools.key(FontTools.latoLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),
       backgroundColorHomeMenu: homeMenuPopupBGColor(),
-      iconColorHomeMenu: homeMenuIconColor()
+      iconColorHomeMenu: homeMenuIconColor(),
+      drawerBG: drawerBG(),
+      drawerHeaderBG: drawerHeaderBG(),
+      profileDrawerBG: profileDrawerBG(),
+      profileDrawerHeaderBG: profileDrawerHeaderBG()
     );
   }
 
@@ -75,7 +80,7 @@ class EliudIncidamusStyle {
   static RgbModel homeMenuIconColor() => EliudColors.orange1;
   static RgbModel homeMenuPopupBGColor() => EliudColors.black;
 
-  static BackgroundModel appBarBG() => EliudShared.drawerBG('incidamus-appbar-bg', appColor1(), appColor2());
+  static BackgroundModel appBarBG() => EliudShared.appBarBG('incidamus-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('incidamus-page-bg', appColor3(), appColor4());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('incidamus-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('incidamus-drawer-header-bg');

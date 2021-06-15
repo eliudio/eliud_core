@@ -121,8 +121,12 @@ class DrawerModel {
 
     BackgroundModel? headerBackgroundOverrideHolder;
     if (entity.headerBackgroundOverrideId != null) {
+      var id = entity.headerBackgroundOverrideId;
       try {
-          headerBackgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.headerBackgroundOverrideId);
+        var repo = AbstractRepositorySingleton.singleton.backgroundRepository();
+        if (repo != null) {
+          headerBackgroundOverrideHolder = await repo.get(id);
+        }
       } on Exception catch(e) {
         print('Error whilst trying to initialise headerBackgroundOverride');
         print('Error whilst retrieving background with id ${entity.headerBackgroundOverrideId}');

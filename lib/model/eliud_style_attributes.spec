@@ -103,23 +103,6 @@
       "bespokeFormField": "RgbField(\"Form Field Focus Color\", state.value!.formFieldFocusColor, _onFormFieldFocusColorChanged)"
     },
     {
-      "fieldName": "formAppBarBackground",
-      "displayName": "AppBar Form Background",
-      "fieldType": "Background",
-      "association": true,
-      "optional": true,
-      "group": "formAppBarBackground"
-    },
-    {
-      "fieldName": "formAppBarTextColor",
-      "displayName": "Form App Bar Text Color",
-      "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "fieldType": "Rgb",
-      "group": "formColors",
-      "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Form App Bar Text color\", state.value!.formAppBarTextColor, _onFormAppBarTextColorChanged)"
-    },
-    {
       "fieldName": "listBackground",
       "remark": "Background of list in admin section",
       "displayName": "List Background",
@@ -163,6 +146,55 @@
       "group": "otherColors",
       "iconName": "color_lens",
       "bespokeFormField": "RgbField(\"Divider Color\", state.value!.dividerColor, _onDividerColorChanged)"
+    },
+    {
+      "fieldName": "appBarBackground",
+      "displayName": "AppBar Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "appBarBackground"
+    },
+    {
+      "fieldName": "appBarTextColor",
+      "displayName": "Form App Bar Text Color",
+      "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
+      "fieldType": "Rgb",
+      "group": "formColors",
+      "iconName": "color_lens",
+      "bespokeFormField": "RgbField(\"App Bar Text color\", state.value!.appBarTextColor, _onAppBarTextColorChanged)"
+    },
+    {
+      "fieldName": "drawerBG",
+      "displayName": "Left Drawer Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "drawerBarBackground"
+    },
+    {
+      "fieldName": "drawerHeaderBG",
+      "displayName": "Left Drawer Header Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "drawerBarBackground"
+    },
+    {
+      "fieldName": "profileDrawerBG",
+      "displayName": "Right Drawer Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "drawerBarBackground"
+    },
+    {
+      "fieldName": "profileDrawerHeaderBG",
+      "displayName": "Right Drawer Header Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "drawerBarBackground"
     },
     {
       "fieldName": "iconColor",
@@ -299,8 +331,8 @@
         "description": "Background forms"
     },
     {
-        "group": "formAppBarBackground",
-        "description": "Form AppBar Background"
+        "group": "appBarBackground",
+        "description": "AppBar Background"
     },
     {
         "group": "listBackground",

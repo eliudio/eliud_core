@@ -46,8 +46,6 @@ class EliudStyleAttributesModel {
   RgbModel? formFieldTextColor;
   RgbModel? formFieldHeaderColor;
   RgbModel? formFieldFocusColor;
-  BackgroundModel? formAppBarBackground;
-  RgbModel? formAppBarTextColor;
 
   // Background of list in admin section
   BackgroundModel? listBackground;
@@ -55,6 +53,12 @@ class EliudStyleAttributesModel {
   RgbModel? floatingButtonForegroundColor;
   RgbModel? floatingButtonBackgroundColor;
   RgbModel? dividerColor;
+  BackgroundModel? appBarBackground;
+  RgbModel? appBarTextColor;
+  BackgroundModel? drawerBG;
+  BackgroundModel? drawerHeaderBG;
+  BackgroundModel? profileDrawerBG;
+  BackgroundModel? profileDrawerHeaderBG;
   RgbModel? iconColor;
 
   // Override the style background
@@ -71,16 +75,16 @@ class EliudStyleAttributesModel {
   FontModel? fontHighlight2;
   FontModel? fontLink;
 
-  EliudStyleAttributesModel({this.documentID, this.description, this.formSubmitButtonColor, this.formBackground, this.appBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.formAppBarBackground, this.formAppBarTextColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.iconColor, this.backgroundHomeMenu, this.backgroundColorHomeMenu, this.iconColorHomeMenu, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
+  EliudStyleAttributesModel({this.documentID, this.description, this.formSubmitButtonColor, this.formBackground, this.appBackground, this.formSubmitButtonTextColor, this.formGroupTitleColor, this.formFieldTextColor, this.formFieldHeaderColor, this.formFieldFocusColor, this.listBackground, this.listTextItemColor, this.floatingButtonForegroundColor, this.floatingButtonBackgroundColor, this.dividerColor, this.appBarBackground, this.appBarTextColor, this.drawerBG, this.drawerHeaderBG, this.profileDrawerBG, this.profileDrawerHeaderBG, this.iconColor, this.backgroundHomeMenu, this.backgroundColorHomeMenu, this.iconColorHomeMenu, this.h1, this.h2, this.h3, this.h4, this.h5, this.fontText, this.fontHighlight1, this.fontHighlight2, this.fontLink, })  {
     assert(documentID != null);
   }
 
-  EliudStyleAttributesModel copyWith({String? documentID, String? description, RgbModel? formSubmitButtonColor, BackgroundModel? formBackground, BackgroundModel? appBackground, RgbModel? formSubmitButtonTextColor, RgbModel? formGroupTitleColor, RgbModel? formFieldTextColor, RgbModel? formFieldHeaderColor, RgbModel? formFieldFocusColor, BackgroundModel? formAppBarBackground, RgbModel? formAppBarTextColor, BackgroundModel? listBackground, RgbModel? listTextItemColor, RgbModel? floatingButtonForegroundColor, RgbModel? floatingButtonBackgroundColor, RgbModel? dividerColor, RgbModel? iconColor, BackgroundModel? backgroundHomeMenu, RgbModel? backgroundColorHomeMenu, RgbModel? iconColorHomeMenu, FontModel? h1, FontModel? h2, FontModel? h3, FontModel? h4, FontModel? h5, FontModel? fontText, FontModel? fontHighlight1, FontModel? fontHighlight2, FontModel? fontLink, }) {
-    return EliudStyleAttributesModel(documentID: documentID ?? this.documentID, description: description ?? this.description, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, appBackground: appBackground ?? this.appBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, formAppBarBackground: formAppBarBackground ?? this.formAppBarBackground, formAppBarTextColor: formAppBarTextColor ?? this.formAppBarTextColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, iconColor: iconColor ?? this.iconColor, backgroundHomeMenu: backgroundHomeMenu ?? this.backgroundHomeMenu, backgroundColorHomeMenu: backgroundColorHomeMenu ?? this.backgroundColorHomeMenu, iconColorHomeMenu: iconColorHomeMenu ?? this.iconColorHomeMenu, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
+  EliudStyleAttributesModel copyWith({String? documentID, String? description, RgbModel? formSubmitButtonColor, BackgroundModel? formBackground, BackgroundModel? appBackground, RgbModel? formSubmitButtonTextColor, RgbModel? formGroupTitleColor, RgbModel? formFieldTextColor, RgbModel? formFieldHeaderColor, RgbModel? formFieldFocusColor, BackgroundModel? listBackground, RgbModel? listTextItemColor, RgbModel? floatingButtonForegroundColor, RgbModel? floatingButtonBackgroundColor, RgbModel? dividerColor, BackgroundModel? appBarBackground, RgbModel? appBarTextColor, BackgroundModel? drawerBG, BackgroundModel? drawerHeaderBG, BackgroundModel? profileDrawerBG, BackgroundModel? profileDrawerHeaderBG, RgbModel? iconColor, BackgroundModel? backgroundHomeMenu, RgbModel? backgroundColorHomeMenu, RgbModel? iconColorHomeMenu, FontModel? h1, FontModel? h2, FontModel? h3, FontModel? h4, FontModel? h5, FontModel? fontText, FontModel? fontHighlight1, FontModel? fontHighlight2, FontModel? fontLink, }) {
+    return EliudStyleAttributesModel(documentID: documentID ?? this.documentID, description: description ?? this.description, formSubmitButtonColor: formSubmitButtonColor ?? this.formSubmitButtonColor, formBackground: formBackground ?? this.formBackground, appBackground: appBackground ?? this.appBackground, formSubmitButtonTextColor: formSubmitButtonTextColor ?? this.formSubmitButtonTextColor, formGroupTitleColor: formGroupTitleColor ?? this.formGroupTitleColor, formFieldTextColor: formFieldTextColor ?? this.formFieldTextColor, formFieldHeaderColor: formFieldHeaderColor ?? this.formFieldHeaderColor, formFieldFocusColor: formFieldFocusColor ?? this.formFieldFocusColor, listBackground: listBackground ?? this.listBackground, listTextItemColor: listTextItemColor ?? this.listTextItemColor, floatingButtonForegroundColor: floatingButtonForegroundColor ?? this.floatingButtonForegroundColor, floatingButtonBackgroundColor: floatingButtonBackgroundColor ?? this.floatingButtonBackgroundColor, dividerColor: dividerColor ?? this.dividerColor, appBarBackground: appBarBackground ?? this.appBarBackground, appBarTextColor: appBarTextColor ?? this.appBarTextColor, drawerBG: drawerBG ?? this.drawerBG, drawerHeaderBG: drawerHeaderBG ?? this.drawerHeaderBG, profileDrawerBG: profileDrawerBG ?? this.profileDrawerBG, profileDrawerHeaderBG: profileDrawerHeaderBG ?? this.profileDrawerHeaderBG, iconColor: iconColor ?? this.iconColor, backgroundHomeMenu: backgroundHomeMenu ?? this.backgroundHomeMenu, backgroundColorHomeMenu: backgroundColorHomeMenu ?? this.backgroundColorHomeMenu, iconColorHomeMenu: iconColorHomeMenu ?? this.iconColorHomeMenu, h1: h1 ?? this.h1, h2: h2 ?? this.h2, h3: h3 ?? this.h3, h4: h4 ?? this.h4, h5: h5 ?? this.h5, fontText: fontText ?? this.fontText, fontHighlight1: fontHighlight1 ?? this.fontHighlight1, fontHighlight2: fontHighlight2 ?? this.fontHighlight2, fontLink: fontLink ?? this.fontLink, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ description.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ appBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ formAppBarBackground.hashCode ^ formAppBarTextColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ iconColor.hashCode ^ backgroundHomeMenu.hashCode ^ backgroundColorHomeMenu.hashCode ^ iconColorHomeMenu.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
+  int get hashCode => documentID.hashCode ^ description.hashCode ^ formSubmitButtonColor.hashCode ^ formBackground.hashCode ^ appBackground.hashCode ^ formSubmitButtonTextColor.hashCode ^ formGroupTitleColor.hashCode ^ formFieldTextColor.hashCode ^ formFieldHeaderColor.hashCode ^ formFieldFocusColor.hashCode ^ listBackground.hashCode ^ listTextItemColor.hashCode ^ floatingButtonForegroundColor.hashCode ^ floatingButtonBackgroundColor.hashCode ^ dividerColor.hashCode ^ appBarBackground.hashCode ^ appBarTextColor.hashCode ^ drawerBG.hashCode ^ drawerHeaderBG.hashCode ^ profileDrawerBG.hashCode ^ profileDrawerHeaderBG.hashCode ^ iconColor.hashCode ^ backgroundHomeMenu.hashCode ^ backgroundColorHomeMenu.hashCode ^ iconColorHomeMenu.hashCode ^ h1.hashCode ^ h2.hashCode ^ h3.hashCode ^ h4.hashCode ^ h5.hashCode ^ fontText.hashCode ^ fontHighlight1.hashCode ^ fontHighlight2.hashCode ^ fontLink.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -97,13 +101,17 @@ class EliudStyleAttributesModel {
           formFieldTextColor == other.formFieldTextColor &&
           formFieldHeaderColor == other.formFieldHeaderColor &&
           formFieldFocusColor == other.formFieldFocusColor &&
-          formAppBarBackground == other.formAppBarBackground &&
-          formAppBarTextColor == other.formAppBarTextColor &&
           listBackground == other.listBackground &&
           listTextItemColor == other.listTextItemColor &&
           floatingButtonForegroundColor == other.floatingButtonForegroundColor &&
           floatingButtonBackgroundColor == other.floatingButtonBackgroundColor &&
           dividerColor == other.dividerColor &&
+          appBarBackground == other.appBarBackground &&
+          appBarTextColor == other.appBarTextColor &&
+          drawerBG == other.drawerBG &&
+          drawerHeaderBG == other.drawerHeaderBG &&
+          profileDrawerBG == other.profileDrawerBG &&
+          profileDrawerHeaderBG == other.profileDrawerHeaderBG &&
           iconColor == other.iconColor &&
           backgroundHomeMenu == other.backgroundHomeMenu &&
           backgroundColorHomeMenu == other.backgroundColorHomeMenu &&
@@ -120,7 +128,7 @@ class EliudStyleAttributesModel {
 
   @override
   String toString() {
-    return 'EliudStyleAttributesModel{documentID: $documentID, description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, appBackground: $appBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, formAppBarBackground: $formAppBarBackground, formAppBarTextColor: $formAppBarTextColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, iconColor: $iconColor, backgroundHomeMenu: $backgroundHomeMenu, backgroundColorHomeMenu: $backgroundColorHomeMenu, iconColorHomeMenu: $iconColorHomeMenu, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
+    return 'EliudStyleAttributesModel{documentID: $documentID, description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackground: $formBackground, appBackground: $appBackground, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, listBackground: $listBackground, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, appBarBackground: $appBarBackground, appBarTextColor: $appBarTextColor, drawerBG: $drawerBG, drawerHeaderBG: $drawerHeaderBG, profileDrawerBG: $profileDrawerBG, profileDrawerHeaderBG: $profileDrawerHeaderBG, iconColor: $iconColor, backgroundHomeMenu: $backgroundHomeMenu, backgroundColorHomeMenu: $backgroundColorHomeMenu, iconColorHomeMenu: $iconColorHomeMenu, h1: $h1, h2: $h2, h3: $h3, h4: $h4, h5: $h5, fontText: $fontText, fontHighlight1: $fontHighlight1, fontHighlight2: $fontHighlight2, fontLink: $fontLink}';
   }
 
   EliudStyleAttributesEntity toEntity({String? appId}) {
@@ -134,13 +142,17 @@ class EliudStyleAttributesModel {
           formFieldTextColor: (formFieldTextColor != null) ? formFieldTextColor!.toEntity(appId: appId) : null, 
           formFieldHeaderColor: (formFieldHeaderColor != null) ? formFieldHeaderColor!.toEntity(appId: appId) : null, 
           formFieldFocusColor: (formFieldFocusColor != null) ? formFieldFocusColor!.toEntity(appId: appId) : null, 
-          formAppBarBackgroundId: (formAppBarBackground != null) ? formAppBarBackground!.documentID : null, 
-          formAppBarTextColor: (formAppBarTextColor != null) ? formAppBarTextColor!.toEntity(appId: appId) : null, 
           listBackgroundId: (listBackground != null) ? listBackground!.documentID : null, 
           listTextItemColor: (listTextItemColor != null) ? listTextItemColor!.toEntity(appId: appId) : null, 
           floatingButtonForegroundColor: (floatingButtonForegroundColor != null) ? floatingButtonForegroundColor!.toEntity(appId: appId) : null, 
           floatingButtonBackgroundColor: (floatingButtonBackgroundColor != null) ? floatingButtonBackgroundColor!.toEntity(appId: appId) : null, 
           dividerColor: (dividerColor != null) ? dividerColor!.toEntity(appId: appId) : null, 
+          appBarBackgroundId: (appBarBackground != null) ? appBarBackground!.documentID : null, 
+          appBarTextColor: (appBarTextColor != null) ? appBarTextColor!.toEntity(appId: appId) : null, 
+          drawerBGId: (drawerBG != null) ? drawerBG!.documentID : null, 
+          drawerHeaderBGId: (drawerHeaderBG != null) ? drawerHeaderBG!.documentID : null, 
+          profileDrawerBGId: (profileDrawerBG != null) ? profileDrawerBG!.documentID : null, 
+          profileDrawerHeaderBGId: (profileDrawerHeaderBG != null) ? profileDrawerHeaderBG!.documentID : null, 
           iconColor: (iconColor != null) ? iconColor!.toEntity(appId: appId) : null, 
           backgroundHomeMenuId: (backgroundHomeMenu != null) ? backgroundHomeMenu!.documentID : null, 
           backgroundColorHomeMenu: (backgroundColorHomeMenu != null) ? backgroundColorHomeMenu!.toEntity(appId: appId) : null, 
@@ -174,8 +186,6 @@ class EliudStyleAttributesModel {
             RgbModel.fromEntity(entity.formFieldHeaderColor), 
           formFieldFocusColor: 
             RgbModel.fromEntity(entity.formFieldFocusColor), 
-          formAppBarTextColor: 
-            RgbModel.fromEntity(entity.formAppBarTextColor), 
           listTextItemColor: 
             RgbModel.fromEntity(entity.listTextItemColor), 
           floatingButtonForegroundColor: 
@@ -184,6 +194,8 @@ class EliudStyleAttributesModel {
             RgbModel.fromEntity(entity.floatingButtonBackgroundColor), 
           dividerColor: 
             RgbModel.fromEntity(entity.dividerColor), 
+          appBarTextColor: 
+            RgbModel.fromEntity(entity.appBarTextColor), 
           iconColor: 
             RgbModel.fromEntity(entity.iconColor), 
           backgroundColorHomeMenu: 
@@ -218,17 +230,6 @@ class EliudStyleAttributesModel {
       }
     }
 
-    BackgroundModel? formAppBarBackgroundHolder;
-    if (entity.formAppBarBackgroundId != null) {
-      try {
-          formAppBarBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.formAppBarBackgroundId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise formAppBarBackground');
-        print('Error whilst retrieving background with id ${entity.formAppBarBackgroundId}');
-        print('Exception: $e');
-      }
-    }
-
     BackgroundModel? listBackgroundHolder;
     if (entity.listBackgroundId != null) {
       try {
@@ -236,6 +237,61 @@ class EliudStyleAttributesModel {
       } on Exception catch(e) {
         print('Error whilst trying to initialise listBackground');
         print('Error whilst retrieving background with id ${entity.listBackgroundId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? appBarBackgroundHolder;
+    if (entity.appBarBackgroundId != null) {
+      try {
+          appBarBackgroundHolder = await backgroundRepository(appId: appId)!.get(entity.appBarBackgroundId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise appBarBackground');
+        print('Error whilst retrieving background with id ${entity.appBarBackgroundId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? drawerBGHolder;
+    if (entity.drawerBGId != null) {
+      try {
+          drawerBGHolder = await backgroundRepository(appId: appId)!.get(entity.drawerBGId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise drawerBG');
+        print('Error whilst retrieving background with id ${entity.drawerBGId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? drawerHeaderBGHolder;
+    if (entity.drawerHeaderBGId != null) {
+      try {
+          drawerHeaderBGHolder = await backgroundRepository(appId: appId)!.get(entity.drawerHeaderBGId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise drawerHeaderBG');
+        print('Error whilst retrieving background with id ${entity.drawerHeaderBGId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? profileDrawerBGHolder;
+    if (entity.profileDrawerBGId != null) {
+      try {
+          profileDrawerBGHolder = await backgroundRepository(appId: appId)!.get(entity.profileDrawerBGId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise profileDrawerBG');
+        print('Error whilst retrieving background with id ${entity.profileDrawerBGId}');
+        print('Exception: $e');
+      }
+    }
+
+    BackgroundModel? profileDrawerHeaderBGHolder;
+    if (entity.profileDrawerHeaderBGId != null) {
+      try {
+          profileDrawerHeaderBGHolder = await backgroundRepository(appId: appId)!.get(entity.profileDrawerHeaderBGId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise profileDrawerHeaderBG');
+        print('Error whilst retrieving background with id ${entity.profileDrawerHeaderBGId}');
         print('Exception: $e');
       }
     }
@@ -367,9 +423,6 @@ class EliudStyleAttributesModel {
             await RgbModel.fromEntityPlus(entity.formFieldHeaderColor, appId: appId), 
           formFieldFocusColor: 
             await RgbModel.fromEntityPlus(entity.formFieldFocusColor, appId: appId), 
-          formAppBarBackground: formAppBarBackgroundHolder, 
-          formAppBarTextColor: 
-            await RgbModel.fromEntityPlus(entity.formAppBarTextColor, appId: appId), 
           listBackground: listBackgroundHolder, 
           listTextItemColor: 
             await RgbModel.fromEntityPlus(entity.listTextItemColor, appId: appId), 
@@ -379,6 +432,13 @@ class EliudStyleAttributesModel {
             await RgbModel.fromEntityPlus(entity.floatingButtonBackgroundColor, appId: appId), 
           dividerColor: 
             await RgbModel.fromEntityPlus(entity.dividerColor, appId: appId), 
+          appBarBackground: appBarBackgroundHolder, 
+          appBarTextColor: 
+            await RgbModel.fromEntityPlus(entity.appBarTextColor, appId: appId), 
+          drawerBG: drawerBGHolder, 
+          drawerHeaderBG: drawerHeaderBGHolder, 
+          profileDrawerBG: profileDrawerBGHolder, 
+          profileDrawerHeaderBG: profileDrawerHeaderBGHolder, 
           iconColor: 
             await RgbModel.fromEntityPlus(entity.iconColor, appId: appId), 
           backgroundHomeMenu: backgroundHomeMenuHolder, 

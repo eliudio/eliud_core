@@ -123,15 +123,6 @@ class BackgroundCache implements BackgroundRepository {
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {
 
-    MemberMediumModel? backgroundImageHolder;
-    if (model.backgroundImage != null) {
-      try {
-        await memberMediumRepository()!.get(model.backgroundImage!.documentID).then((val) {
-          backgroundImageHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     ShadowModel? shadowHolder;
     if (model.shadow != null) {
       try {
@@ -149,8 +140,6 @@ class BackgroundCache implements BackgroundRepository {
     }
 
     return model.copyWith(
-        backgroundImage: backgroundImageHolder,
-
         shadow: shadowHolder,
 
         decorationColors: decorationColorsHolder,
