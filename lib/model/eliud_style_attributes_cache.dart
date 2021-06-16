@@ -150,11 +150,20 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? appBarBackgroundHolder;
-    if (model.appBarBackground != null) {
+    BackgroundModel? appBarBGHolder;
+    if (model.appBarBG != null) {
       try {
-        await backgroundRepository()!.get(model.appBarBackground!.documentID).then((val) {
-          appBarBackgroundHolder = val;
+        await backgroundRepository()!.get(model.appBarBG!.documentID).then((val) {
+          appBarBGHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
+    BackgroundModel? bottomNavigationBarBGHolder;
+    if (model.bottomNavigationBarBG != null) {
+      try {
+        await backgroundRepository()!.get(model.bottomNavigationBarBG!.documentID).then((val) {
+          bottomNavigationBarBGHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
@@ -292,7 +301,9 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
 
         listBackground: listBackgroundHolder,
 
-        appBarBackground: appBarBackgroundHolder,
+        appBarBG: appBarBGHolder,
+
+        bottomNavigationBarBG: bottomNavigationBarBGHolder,
 
         drawerBG: drawerBGHolder,
 

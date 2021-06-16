@@ -303,15 +303,15 @@ class DividerColorEliudStyleAttributesFormError extends EliudStyleAttributesForm
 }
 
 
-class AppBarBackgroundEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
-  const AppBarBackgroundEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+class AppBarBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''AppBarBackgroundEliudStyleAttributesFormError {
+    return '''AppBarBGEliudStyleAttributesFormError {
       value: $value,
       message: $message,
     }''';
@@ -319,15 +319,63 @@ class AppBarBackgroundEliudStyleAttributesFormError extends EliudStyleAttributes
 }
 
 
-class AppBarTextColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
-  const AppBarTextColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+class AppBarIconColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarIconColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''AppBarTextColorEliudStyleAttributesFormError {
+    return '''AppBarIconColorEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class AppBarSelectedIconColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarSelectedIconColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBarSelectedIconColorEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class AppBarMenuBackgroundColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const AppBarMenuBackgroundColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppBarMenuBackgroundColorEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class BottomNavigationBarBGEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const BottomNavigationBarBGEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BottomNavigationBarBGEliudStyleAttributesFormError {
       value: $value,
       message: $message,
     }''';

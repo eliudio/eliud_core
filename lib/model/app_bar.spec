@@ -82,31 +82,31 @@
       "group": "background"
     },
     {
-      "fieldName": "iconColor",
+      "fieldName": "iconColorOverride",
       "displayName": "Icon Color",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
       "fieldType": "Rgb",
       "group": "iconColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColor, _onIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
     },
     {
-      "fieldName": "selectedIconColor",
+      "fieldName": "selectedIconColorOverride",
       "displayName": "Selected Icon Color",
       "fieldType": "Rgb",
       "group": "iconColors",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value!.selectedIconColor, _onSelectedIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value!.selectedIconColorOverride, _onSelectedIconColorOverrideChanged)"
     },
     {
-      "fieldName": "menuBackgroundColor",
+      "fieldName": "menuBackgroundColorOverride",
       "displayName": "Background Color",
       "defaultValue": "RgbModel(r: 64, g: 6, b: 64, opacity: 1.00)",
       "fieldType": "Rgb",
       "group": "menuColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Background Color\", state.value!.menuBackgroundColor, _onMenuBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(\"Background Color\", state.value!.menuBackgroundColorOverride, _onMenuBackgroundColorOverrideChanged)"
     }
   ],
   "groups": [

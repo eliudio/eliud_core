@@ -123,7 +123,8 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
   String? _formBackground;
   String? _appBackground;
   String? _listBackground;
-  String? _appBarBackground;
+  String? _appBarBG;
+  String? _bottomNavigationBarBG;
   String? _drawerBG;
   String? _drawerHeaderBG;
   String? _profileDrawerBG;
@@ -181,10 +182,14 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
           _listBackground= state.value!.listBackground!.documentID;
         else
           _listBackground= "";
-        if (state.value!.appBarBackground != null)
-          _appBarBackground= state.value!.appBarBackground!.documentID;
+        if (state.value!.appBarBG != null)
+          _appBarBG= state.value!.appBarBG!.documentID;
         else
-          _appBarBackground= "";
+          _appBarBG= "";
+        if (state.value!.bottomNavigationBarBG != null)
+          _bottomNavigationBarBG= state.value!.bottomNavigationBarBG!.documentID;
+        else
+          _bottomNavigationBarBG= "";
         if (state.value!.drawerBG != null)
           _drawerBG= state.value!.drawerBG!.documentID;
         else
@@ -249,6 +254,26 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
+
+        children.add(
+
+                RgbField("Text color", state.value!.iconColor, _onIconColorChanged)
+          );
+
+        children.add(
+
+                RgbField("Selected Icon Color", state.value!.appBarSelectedIconColor, _onAppBarSelectedIconColorChanged)
+          );
+
+        children.add(
+
+                RgbField("AppBar Menu Background Color", state.value!.appBarMenuBackgroundColor, _onAppBarMenuBackgroundColorChanged)
+          );
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _bottomNavigationBarBG, trigger: _onBottomNavigationBarBGSelected, optional: true),
+          );
 
         children.add(
 
@@ -345,11 +370,6 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
         children.add(
 
                 RgbField("Form Field Focus Color", state.value!.formFieldFocusColor, _onFormFieldFocusColorChanged)
-          );
-
-        children.add(
-
-                RgbField("App Bar Text color", state.value!.appBarTextColor, _onAppBarTextColorChanged)
           );
 
 
@@ -449,7 +469,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _appBarBackground, trigger: _onAppBarBackgroundSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _appBarBG, trigger: _onAppBarBGSelected, optional: true),
           );
 
 
@@ -636,8 +656,11 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               floatingButtonForegroundColor: state.value!.floatingButtonForegroundColor, 
                               floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
                               dividerColor: state.value!.dividerColor, 
-                              appBarBackground: state.value!.appBarBackground, 
-                              appBarTextColor: state.value!.appBarTextColor, 
+                              appBarBG: state.value!.appBarBG, 
+                              appBarIconColor: state.value!.appBarIconColor, 
+                              appBarSelectedIconColor: state.value!.appBarSelectedIconColor, 
+                              appBarMenuBackgroundColor: state.value!.appBarMenuBackgroundColor, 
+                              bottomNavigationBarBG: state.value!.bottomNavigationBarBG, 
                               drawerBG: state.value!.drawerBG, 
                               drawerHeaderBG: state.value!.drawerHeaderBG, 
                               profileDrawerBG: state.value!.profileDrawerBG, 
@@ -674,8 +697,11 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               floatingButtonForegroundColor: state.value!.floatingButtonForegroundColor, 
                               floatingButtonBackgroundColor: state.value!.floatingButtonBackgroundColor, 
                               dividerColor: state.value!.dividerColor, 
-                              appBarBackground: state.value!.appBarBackground, 
-                              appBarTextColor: state.value!.appBarTextColor, 
+                              appBarBG: state.value!.appBarBG, 
+                              appBarIconColor: state.value!.appBarIconColor, 
+                              appBarSelectedIconColor: state.value!.appBarSelectedIconColor, 
+                              appBarMenuBackgroundColor: state.value!.appBarMenuBackgroundColor, 
+                              bottomNavigationBarBG: state.value!.bottomNavigationBarBG, 
                               drawerBG: state.value!.drawerBG, 
                               drawerHeaderBG: state.value!.drawerHeaderBG, 
                               profileDrawerBG: state.value!.profileDrawerBG, 
@@ -813,17 +839,37 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
   }
 
 
-  void _onAppBarBackgroundSelected(String? val) {
+  void _onAppBarBGSelected(String? val) {
     setState(() {
-      _appBarBackground = val;
+      _appBarBG = val;
     });
-    _myFormBloc.add(ChangedEliudStyleAttributesAppBarBackground(value: val));
+    _myFormBloc.add(ChangedEliudStyleAttributesAppBarBG(value: val));
   }
 
 
-  void _onAppBarTextColorChanged(value) {
-    _myFormBloc.add(ChangedEliudStyleAttributesAppBarTextColor(value: value));
+  void _onAppBarIconColorChanged(value) {
+    _myFormBloc.add(ChangedEliudStyleAttributesAppBarIconColor(value: value));
     
+  }
+
+
+  void _onAppBarSelectedIconColorChanged(value) {
+    _myFormBloc.add(ChangedEliudStyleAttributesAppBarSelectedIconColor(value: value));
+    
+  }
+
+
+  void _onAppBarMenuBackgroundColorChanged(value) {
+    _myFormBloc.add(ChangedEliudStyleAttributesAppBarMenuBackgroundColor(value: value));
+    
+  }
+
+
+  void _onBottomNavigationBarBGSelected(String? val) {
+    setState(() {
+      _bottomNavigationBarBG = val;
+    });
+    _myFormBloc.add(ChangedEliudStyleAttributesBottomNavigationBarBG(value: val));
   }
 
 

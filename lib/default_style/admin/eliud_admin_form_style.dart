@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
+import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -56,6 +57,38 @@ class EliudAdminFormStyle extends EliudSharedImplementation implements AdminForm
         const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
         child: child
     );
+  }
+
+  @override
+  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
+    return appBarWithWidget(context, title: Text(title,
+        style: TextStyle(
+            color: RgbHelper.color(
+                rgbo: _eliudStyle
+                    .eliudStyleAttributesModel.appBarIconColor))),
+        actions: actions,
+        iconTheme: iconTheme,
+        backgroundOverride: backgroundOverride);
+  }
+
+
+  @override
+  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
+    var accessState = AccessBloc.getState(context);
+    var background;
+    if (backgroundOverride != null) {
+      background = backgroundOverride;
+    } else {
+      background = _eliudStyle.eliudStyleAttributesModel.appBarBG;
+    }
+    return AppBar(
+      title: title,
+      actions: actions,
+      iconTheme: iconTheme,
+      flexibleSpace: Container(
+          decoration: BoxDecorationHelper.boxDecoration(accessState, background)),
+    );
+
   }
 
 }

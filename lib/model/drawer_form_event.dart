@@ -163,6 +163,18 @@ class ChangedDrawerHeaderBackgroundOverride extends DrawerFormEvent {
   String toString() => 'ChangedDrawerHeaderBackgroundOverride{ value: $value }';
 }
 
+class ChangedDrawerPopupMenuBackgroundColorOverride extends DrawerFormEvent {
+  final RgbModel? value;
+
+  ChangedDrawerPopupMenuBackgroundColorOverride({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedDrawerPopupMenuBackgroundColorOverride{ value: $value }';
+}
+
 class ChangedDrawerMenu extends DrawerFormEvent {
   final String? value;
 

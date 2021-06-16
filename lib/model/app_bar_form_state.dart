@@ -191,15 +191,15 @@ class BackgroundOverrideAppBarFormError extends AppBarFormError {
 }
 
 
-class IconColorAppBarFormError extends AppBarFormError { 
-  const IconColorAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class IconColorOverrideAppBarFormError extends AppBarFormError { 
+  const IconColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''IconColorAppBarFormError {
+    return '''IconColorOverrideAppBarFormError {
       value: $value,
       message: $message,
     }''';
@@ -207,15 +207,15 @@ class IconColorAppBarFormError extends AppBarFormError {
 }
 
 
-class SelectedIconColorAppBarFormError extends AppBarFormError { 
-  const SelectedIconColorAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class SelectedIconColorOverrideAppBarFormError extends AppBarFormError { 
+  const SelectedIconColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''SelectedIconColorAppBarFormError {
+    return '''SelectedIconColorOverrideAppBarFormError {
       value: $value,
       message: $message,
     }''';
@@ -223,15 +223,15 @@ class SelectedIconColorAppBarFormError extends AppBarFormError {
 }
 
 
-class MenuBackgroundColorAppBarFormError extends AppBarFormError { 
-  const MenuBackgroundColorAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class MenuBackgroundColorOverrideAppBarFormError extends AppBarFormError { 
+  const MenuBackgroundColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''MenuBackgroundColorAppBarFormError {
+    return '''MenuBackgroundColorOverrideAppBarFormError {
       value: $value,
       message: $message,
     }''';

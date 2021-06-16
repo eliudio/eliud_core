@@ -28,18 +28,18 @@ class AppBarEntity {
   final String? imageId;
   final String? iconMenuId;
   final String? backgroundOverrideId;
-  final RgbEntity? iconColor;
-  final RgbEntity? selectedIconColor;
-  final RgbEntity? menuBackgroundColor;
+  final RgbEntity? iconColorOverride;
+  final RgbEntity? selectedIconColorOverride;
+  final RgbEntity? menuBackgroundColorOverride;
 
-  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverrideId, this.iconColor, this.selectedIconColor, this.menuBackgroundColor, });
+  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverrideId, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
 
 
-  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverrideId, iconColor, selectedIconColor, menuBackgroundColor, ];
+  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverrideId, iconColorOverride, selectedIconColorOverride, menuBackgroundColorOverride, ];
 
   @override
   String toString() {
-    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverrideId: $backgroundOverrideId, iconColor: $iconColor, selectedIconColor: $selectedIconColor, menuBackgroundColor: $menuBackgroundColor}';
+    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverrideId: $backgroundOverrideId, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
   static AppBarEntity? fromMap(Map? map) {
@@ -49,18 +49,18 @@ class AppBarEntity {
     iconFromMap = map['icon'];
     if (iconFromMap != null)
       iconFromMap = IconEntity.fromMap(iconFromMap);
-    var iconColorFromMap;
-    iconColorFromMap = map['iconColor'];
-    if (iconColorFromMap != null)
-      iconColorFromMap = RgbEntity.fromMap(iconColorFromMap);
-    var selectedIconColorFromMap;
-    selectedIconColorFromMap = map['selectedIconColor'];
-    if (selectedIconColorFromMap != null)
-      selectedIconColorFromMap = RgbEntity.fromMap(selectedIconColorFromMap);
-    var menuBackgroundColorFromMap;
-    menuBackgroundColorFromMap = map['menuBackgroundColor'];
-    if (menuBackgroundColorFromMap != null)
-      menuBackgroundColorFromMap = RgbEntity.fromMap(menuBackgroundColorFromMap);
+    var iconColorOverrideFromMap;
+    iconColorOverrideFromMap = map['iconColorOverride'];
+    if (iconColorOverrideFromMap != null)
+      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap);
+    var selectedIconColorOverrideFromMap;
+    selectedIconColorOverrideFromMap = map['selectedIconColorOverride'];
+    if (selectedIconColorOverrideFromMap != null)
+      selectedIconColorOverrideFromMap = RgbEntity.fromMap(selectedIconColorOverrideFromMap);
+    var menuBackgroundColorOverrideFromMap;
+    menuBackgroundColorOverrideFromMap = map['menuBackgroundColorOverride'];
+    if (menuBackgroundColorOverrideFromMap != null)
+      menuBackgroundColorOverrideFromMap = RgbEntity.fromMap(menuBackgroundColorOverrideFromMap);
 
     return AppBarEntity(
       appId: map['appId'], 
@@ -70,9 +70,9 @@ class AppBarEntity {
       imageId: map['imageId'], 
       iconMenuId: map['iconMenuId'], 
       backgroundOverrideId: map['backgroundOverrideId'], 
-      iconColor: iconColorFromMap, 
-      selectedIconColor: selectedIconColorFromMap, 
-      menuBackgroundColor: menuBackgroundColorFromMap, 
+      iconColorOverride: iconColorOverrideFromMap, 
+      selectedIconColorOverride: selectedIconColorOverrideFromMap, 
+      menuBackgroundColorOverride: menuBackgroundColorOverrideFromMap, 
     );
   }
 
@@ -80,14 +80,14 @@ class AppBarEntity {
     final Map<String, dynamic>? iconMap = icon != null 
         ? icon!.toDocument()
         : null;
-    final Map<String, dynamic>? iconColorMap = iconColor != null 
-        ? iconColor!.toDocument()
+    final Map<String, dynamic>? iconColorOverrideMap = iconColorOverride != null 
+        ? iconColorOverride!.toDocument()
         : null;
-    final Map<String, dynamic>? selectedIconColorMap = selectedIconColor != null 
-        ? selectedIconColor!.toDocument()
+    final Map<String, dynamic>? selectedIconColorOverrideMap = selectedIconColorOverride != null 
+        ? selectedIconColorOverride!.toDocument()
         : null;
-    final Map<String, dynamic>? menuBackgroundColorMap = menuBackgroundColor != null 
-        ? menuBackgroundColor!.toDocument()
+    final Map<String, dynamic>? menuBackgroundColorOverrideMap = menuBackgroundColorOverride != null 
+        ? menuBackgroundColorOverride!.toDocument()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
@@ -105,12 +105,12 @@ class AppBarEntity {
       else theDocument["iconMenuId"] = null;
     if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
       else theDocument["backgroundOverrideId"] = null;
-    if (iconColor != null) theDocument["iconColor"] = iconColorMap;
-      else theDocument["iconColor"] = null;
-    if (selectedIconColor != null) theDocument["selectedIconColor"] = selectedIconColorMap;
-      else theDocument["selectedIconColor"] = null;
-    if (menuBackgroundColor != null) theDocument["menuBackgroundColor"] = menuBackgroundColorMap;
-      else theDocument["menuBackgroundColor"] = null;
+    if (iconColorOverride != null) theDocument["iconColorOverride"] = iconColorOverrideMap;
+      else theDocument["iconColorOverride"] = null;
+    if (selectedIconColorOverride != null) theDocument["selectedIconColorOverride"] = selectedIconColorOverrideMap;
+      else theDocument["selectedIconColorOverride"] = null;
+    if (menuBackgroundColorOverride != null) theDocument["menuBackgroundColorOverride"] = menuBackgroundColorOverrideMap;
+      else theDocument["menuBackgroundColorOverride"] = null;
     return theDocument;
   }
 

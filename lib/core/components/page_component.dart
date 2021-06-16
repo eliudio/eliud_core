@@ -13,7 +13,7 @@ import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/style/shared/interfaces.dart';
+import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/material.dart';
@@ -137,8 +137,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
         ? null
         : EliudDrawer(drawerType: DrawerType.Right, drawer: value.endDrawer!, currentPage: pageID);
     var bottomNavigationBar = EliudBottomNavigationBar(
-        app: app,
-        homeMenu: value.homeMenu,
+        homeMenu: value.homeMenu!,
         currentPage: pageID);
     var appBar = value.appBar == null
         ? null

@@ -43,18 +43,19 @@ class DrawerModel {
   double? headerHeight;
   RgbModel? popupMenuBackgroundColor;
   BackgroundModel? headerBackgroundOverride;
+  RgbModel? popupMenuBackgroundColorOverride;
   MenuDefModel? menu;
 
-  DrawerModel({this.documentID, this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.menu, })  {
+  DrawerModel({this.documentID, this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menu, })  {
     assert(documentID != null);
   }
 
-  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? backgroundOverride, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackgroundOverride, MenuDefModel? menu, }) {
-    return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, backgroundOverride: backgroundOverride ?? this.backgroundOverride, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackgroundOverride: headerBackgroundOverride ?? this.headerBackgroundOverride, menu: menu ?? this.menu, );
+  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? backgroundOverride, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackgroundOverride, RgbModel? popupMenuBackgroundColorOverride, MenuDefModel? menu, }) {
+    return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, backgroundOverride: backgroundOverride ?? this.backgroundOverride, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackgroundOverride: headerBackgroundOverride ?? this.headerBackgroundOverride, popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride ?? this.popupMenuBackgroundColorOverride, menu: menu ?? this.menu, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ backgroundOverride.hashCode ^ headerText.hashCode ^ secondHeaderText.hashCode ^ headerHeight.hashCode ^ popupMenuBackgroundColor.hashCode ^ headerBackgroundOverride.hashCode ^ menu.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ backgroundOverride.hashCode ^ headerText.hashCode ^ secondHeaderText.hashCode ^ headerHeight.hashCode ^ popupMenuBackgroundColor.hashCode ^ headerBackgroundOverride.hashCode ^ popupMenuBackgroundColorOverride.hashCode ^ menu.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -70,11 +71,12 @@ class DrawerModel {
           headerHeight == other.headerHeight &&
           popupMenuBackgroundColor == other.popupMenuBackgroundColor &&
           headerBackgroundOverride == other.headerBackgroundOverride &&
+          popupMenuBackgroundColorOverride == other.popupMenuBackgroundColorOverride &&
           menu == other.menu;
 
   @override
   String toString() {
-    return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, menu: $menu}';
+    return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menu: $menu}';
   }
 
   DrawerEntity toEntity({String? appId}) {
@@ -87,6 +89,7 @@ class DrawerModel {
           headerHeight: (headerHeight != null) ? headerHeight : null, 
           popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
           headerBackgroundOverrideId: (headerBackgroundOverride != null) ? headerBackgroundOverride!.documentID : null, 
+          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
           menuId: (menu != null) ? menu!.documentID : null, 
     );
   }
@@ -102,6 +105,8 @@ class DrawerModel {
           headerHeight: entity.headerHeight, 
           popupMenuBackgroundColor: 
             RgbModel.fromEntity(entity.popupMenuBackgroundColor), 
+          popupMenuBackgroundColorOverride: 
+            RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
     );
   }
 
@@ -121,12 +126,8 @@ class DrawerModel {
 
     BackgroundModel? headerBackgroundOverrideHolder;
     if (entity.headerBackgroundOverrideId != null) {
-      var id = entity.headerBackgroundOverrideId;
       try {
-        var repo = AbstractRepositorySingleton.singleton.backgroundRepository();
-        if (repo != null) {
-          headerBackgroundOverrideHolder = await repo.get(id);
-        }
+          headerBackgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.headerBackgroundOverrideId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise headerBackgroundOverride');
         print('Error whilst retrieving background with id ${entity.headerBackgroundOverrideId}');
@@ -156,6 +157,8 @@ class DrawerModel {
           popupMenuBackgroundColor: 
             await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor, appId: appId), 
           headerBackgroundOverride: headerBackgroundOverrideHolder, 
+          popupMenuBackgroundColorOverride: 
+            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColorOverride, appId: appId), 
           menu: menuHolder, 
     );
   }

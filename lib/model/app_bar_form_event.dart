@@ -151,39 +151,39 @@ class ChangedAppBarBackgroundOverride extends AppBarFormEvent {
   String toString() => 'ChangedAppBarBackgroundOverride{ value: $value }';
 }
 
-class ChangedAppBarIconColor extends AppBarFormEvent {
+class ChangedAppBarIconColorOverride extends AppBarFormEvent {
   final RgbModel? value;
 
-  ChangedAppBarIconColor({this.value});
+  ChangedAppBarIconColorOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedAppBarIconColor{ value: $value }';
+  String toString() => 'ChangedAppBarIconColorOverride{ value: $value }';
 }
 
-class ChangedAppBarSelectedIconColor extends AppBarFormEvent {
+class ChangedAppBarSelectedIconColorOverride extends AppBarFormEvent {
   final RgbModel? value;
 
-  ChangedAppBarSelectedIconColor({this.value});
+  ChangedAppBarSelectedIconColorOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedAppBarSelectedIconColor{ value: $value }';
+  String toString() => 'ChangedAppBarSelectedIconColorOverride{ value: $value }';
 }
 
-class ChangedAppBarMenuBackgroundColor extends AppBarFormEvent {
+class ChangedAppBarMenuBackgroundColorOverride extends AppBarFormEvent {
   final RgbModel? value;
 
-  ChangedAppBarMenuBackgroundColor({this.value});
+  ChangedAppBarMenuBackgroundColorOverride({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedAppBarMenuBackgroundColor{ value: $value }';
+  String toString() => 'ChangedAppBarMenuBackgroundColorOverride{ value: $value }';
 }
 

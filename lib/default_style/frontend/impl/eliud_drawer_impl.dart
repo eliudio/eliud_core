@@ -1,21 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/tools/menu_helper.dart';
-import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
-import 'package:eliud_core/default_style/shared/tools.dart';
 import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/admin/admin_form_style.dart';
-import 'package:eliud_core/style/shared/interfaces.dart';
+import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/shared/types.dart';
-import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/grid_view_helper.dart';
 import 'package:flutter/material.dart';
-
 import '../../eliud_style.dart';
 
 class EliudDrawerImpl implements HasDrawer {
@@ -25,7 +14,12 @@ class EliudDrawerImpl implements HasDrawer {
 
   @override
   Drawer drawer(BuildContext context,
-      {String? currentPage, required DrawerType drawerType, DrawerHeader1Attributes? header1, DrawerHeader2Attributes? header2, BackgroundModel? backgroundOverride, required List<DrawerItemAttributes> items}) {
+      {required DrawerType drawerType,
+      DrawerHeader1Attributes? header1,
+      DrawerHeader2Attributes? header2,
+      BackgroundModel? backgroundOverride,
+      RgbModel? popupMenuBackgroundColorOverride,
+      required List<AbstractMenuItemAttributes> items}) {
     var theState = AccessBloc.getState(context);
     var widgets = <Widget>[];
     if (header1 != null) {
@@ -40,15 +34,13 @@ class EliudDrawerImpl implements HasDrawer {
       }
       widgets.add(
         Container(
-            height: header1.height == 0
-                ? null
-                : header1.height,
+            height: header1.height == 0 ? null : header1.height,
             child: DrawerHeader(
                 child: Center(
-                    child: _eliudStyle.frontEndStyle().h3(
-                        context, header1.text)),
-                decoration: BoxDecorationHelper.boxDecoration(
-                    theState, background))),
+                    child:
+                        _eliudStyle.frontEndStyle().h3(context, header1.text)),
+                decoration:
+                    BoxDecorationHelper.boxDecoration(theState, background))),
       );
     }
 
@@ -57,22 +49,38 @@ class EliudDrawerImpl implements HasDrawer {
         height: header2.height == 0 ? null : header2.height,
         child: DrawerHeader(
             child: Center(
-              child: _eliudStyle.frontEndStyle()
-                  .h4(context, header2.text!),
-            )),
+          child: _eliudStyle.frontEndStyle().h4(context, header2.text),
+        )),
       ));
     }
 
-    var member = theState is LoggedIn ? theState.member : null;
-
     for (var item in items) {
-      var style = item.isActive
-          ? _eliudStyle.frontEndStyle()
-          .styleH3(context)
-          : _eliudStyle.frontEndStyle()
-          .styleH4(context);
-      MenuHelper.addWidget(
-          context, widgets, item.menuItemModel, style, member, currentPage);
+      if (item is MenuItemAttributes) {
+        var style = item.isActive
+            ? _eliudStyle.frontEndStyle().styleH3(context)
+            : _eliudStyle.frontEndStyle().styleH4(context);
+
+        widgets.add(ListTile(
+            leading: item.icon == null
+                ? null
+                : IconHelper.getIconFromModelWithFlutterColor(
+                    iconModel: item.icon, color: style!.color),
+            title: Text(item.label!, textAlign: TextAlign.center, style: style),
+            onTap: () {
+              if (item is MenuItemAttributes) {
+                item.onTap();
+              } else if (item is MenuItemWithMenuItems) {
+                var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
+                _eliudStyle.frontEndStyle().openMenu(context,
+                    position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                    menuItems: theMenuItemWithMenuItems.items,
+                    popupMenuBackgroundColorOverride:
+                        popupMenuBackgroundColorOverride);
+              }
+            }));
+      } else if (item is MenuItemWithMenuItems) {
+        // todo
+      }
     }
 
     var background = backgroundOverride;
@@ -85,8 +93,7 @@ class EliudDrawerImpl implements HasDrawer {
     }
     return Drawer(
         child: Container(
-            decoration: BoxDecorationHelper.boxDecoration(
-                theState, background),
+            decoration: BoxDecorationHelper.boxDecoration(theState, background),
             child: ListView(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -94,4 +101,3 @@ class EliudDrawerImpl implements HasDrawer {
             )));
   }
 }
-

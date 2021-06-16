@@ -32,8 +32,11 @@ class EliudMinkeyStyle {
         formFieldTextColor: EliudColors.white,
         formFieldHeaderColor: EliudColors.red,
         formFieldFocusColor: EliudColors.red,
-        appBarBackground: appBarBG(),
-        appBarTextColor: EliudColors.white,
+        appBarBG: appBarBG(),
+        appBarIconColor: EliudColors.black,
+        appBarSelectedIconColor: EliudColors.green,
+        appBarMenuBackgroundColor: EliudColors.lightRed,
+        bottomNavigationBarBG: bottomNavigationBarBG(),
         listTextItemColor: EliudColors.white,
         floatingButtonForegroundColor: EliudColors.white,
         iconColor: EliudColors.red,
@@ -85,6 +88,7 @@ class EliudMinkeyStyle {
 
   static BackgroundModel appBarBG() => EliudShared.appBarBG('minkey-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('minkey-page-bg', appColor3(), appColor4());
+  static BackgroundModel bottomNavigationBarBG() => EliudShared.bottomNavigationBarBG('minkey-bottom-navigationbar-bg', appColor1(), appColor2());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('minkey-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG() => EliudShared.drawerHeaderBG('minkey-drawer-header-bg');
   static BackgroundModel profileDrawerBG() => EliudShared.profileDrawerBG('minkey-profile-drawer-bg', appColor1(), appColor2());

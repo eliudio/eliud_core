@@ -55,6 +55,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  secondHeaderText: "",
                                  headerHeight: 0.0,
                                  popupMenuBackgroundColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
+                                 popupMenuBackgroundColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
 
         ));
         yield loaded;
@@ -105,6 +106,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  headerHeight: currentState.value!.headerHeight,
                                  popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
                                  headerBackgroundOverride: currentState.value!.headerBackgroundOverride,
+                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
                                  menu: currentState.value!.menu,
           );
         yield SubmittableDrawerForm(value: newValue);
@@ -154,8 +156,15 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  headerHeight: currentState.value!.headerHeight,
                                  popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
                                  headerBackgroundOverride: null,
+                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
                                  menu: currentState.value!.menu,
           );
+        yield SubmittableDrawerForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedDrawerPopupMenuBackgroundColorOverride) {
+        newValue = currentState.value!.copyWith(popupMenuBackgroundColorOverride: event.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
@@ -174,6 +183,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  headerHeight: currentState.value!.headerHeight,
                                  popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
                                  headerBackgroundOverride: currentState.value!.headerBackgroundOverride,
+                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
                                  menu: null,
           );
         yield SubmittableDrawerForm(value: newValue);

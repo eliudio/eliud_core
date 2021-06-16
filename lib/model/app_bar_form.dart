@@ -297,12 +297,12 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                RgbField("Text color", state.value!.iconColor, _onIconColorChanged)
+                RgbField("Text color", state.value!.iconColorOverride, _onIconColorOverrideChanged)
           );
 
         children.add(
 
-                RgbField("Selected Icon Color", state.value!.selectedIconColor, _onSelectedIconColorChanged)
+                RgbField("Selected Icon Color", state.value!.selectedIconColorOverride, _onSelectedIconColorOverrideChanged)
           );
 
 
@@ -318,7 +318,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                RgbField("Background Color", state.value!.menuBackgroundColor, _onMenuBackgroundColorChanged)
+                RgbField("Background Color", state.value!.menuBackgroundColorOverride, _onMenuBackgroundColorOverrideChanged)
           );
 
 
@@ -359,9 +359,9 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                               image: state.value!.image, 
                               iconMenu: state.value!.iconMenu, 
                               backgroundOverride: state.value!.backgroundOverride, 
-                              iconColor: state.value!.iconColor, 
-                              selectedIconColor: state.value!.selectedIconColor, 
-                              menuBackgroundColor: state.value!.menuBackgroundColor, 
+                              iconColorOverride: state.value!.iconColorOverride, 
+                              selectedIconColorOverride: state.value!.selectedIconColorOverride, 
+                              menuBackgroundColorOverride: state.value!.menuBackgroundColorOverride, 
                         )));
                       } else {
                         BlocProvider.of<AppBarListBloc>(context).add(
@@ -374,9 +374,9 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                               image: state.value!.image, 
                               iconMenu: state.value!.iconMenu, 
                               backgroundOverride: state.value!.backgroundOverride, 
-                              iconColor: state.value!.iconColor, 
-                              selectedIconColor: state.value!.selectedIconColor, 
-                              menuBackgroundColor: state.value!.menuBackgroundColor, 
+                              iconColorOverride: state.value!.iconColorOverride, 
+                              selectedIconColorOverride: state.value!.selectedIconColorOverride, 
+                              menuBackgroundColorOverride: state.value!.menuBackgroundColorOverride, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -456,20 +456,20 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
 
-  void _onIconColorChanged(value) {
-    _myFormBloc.add(ChangedAppBarIconColor(value: value));
+  void _onIconColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedAppBarIconColorOverride(value: value));
     
   }
 
 
-  void _onSelectedIconColorChanged(value) {
-    _myFormBloc.add(ChangedAppBarSelectedIconColor(value: value));
+  void _onSelectedIconColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedAppBarSelectedIconColorOverride(value: value));
     
   }
 
 
-  void _onMenuBackgroundColorChanged(value) {
-    _myFormBloc.add(ChangedAppBarMenuBackgroundColor(value: value));
+  void _onMenuBackgroundColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedAppBarMenuBackgroundColorOverride(value: value));
     
   }
 

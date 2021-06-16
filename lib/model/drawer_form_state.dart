@@ -207,6 +207,22 @@ class HeaderBackgroundOverrideDrawerFormError extends DrawerFormError {
 }
 
 
+class PopupMenuBackgroundColorOverrideDrawerFormError extends DrawerFormError { 
+  const PopupMenuBackgroundColorOverrideDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''PopupMenuBackgroundColorOverrideDrawerFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class MenuDrawerFormError extends DrawerFormError { 
   const MenuDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
 

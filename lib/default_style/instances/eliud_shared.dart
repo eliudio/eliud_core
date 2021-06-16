@@ -38,6 +38,16 @@ abstract class EliudShared {
     );
   }
 
+  static BackgroundModel bottomNavigationBarBG(String bgName, RgbModel appColor1, RgbModel appColor2,) {
+    return Backgrounds.gradient(
+      documentId: bgName,
+      fromColor: appColor1,
+      toColor: appColor2,
+      startPosition: StartGradientPosition.TopLeft,
+      endPosition: EndGradientPosition.BottomRight,
+    );
+  }
+
   static BackgroundModel drawerBG(String bgName, RgbModel appColor1, RgbModel appColor2, ) {
     var decorationColorModels = <DecorationColorModel>[];
     var decorationColorModel1 =

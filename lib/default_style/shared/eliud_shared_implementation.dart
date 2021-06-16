@@ -1,14 +1,19 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
-import 'package:eliud_core/style/shared/interfaces.dart';
+import 'package:eliud_core/style/shared/has_button.dart';
+import 'package:eliud_core/style/shared/has_divider.dart';
+import 'package:eliud_core/style/shared/has_icon.dart';
+import 'package:eliud_core/style/shared/has_style.dart';
+import 'package:eliud_core/style/shared/has_table.dart';
+import 'package:eliud_core/style/shared/has_text.dart';
+import 'package:eliud_core/style/shared/has_text.dart';
+import 'package:eliud_core/style/shared/has_text_form_field.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
 
 abstract class EliudSharedImplementation
-    implements HasTexFormField, HasDivider, HasButton, HasText, HasStyle, HasIcon, HasTable, HasAppBar {
+    implements HasTexFormField, HasDivider, HasButton, HasText, HasStyle, HasIcon, HasTable {
   final EliudStyle _eliudStyle;
 
   EliudSharedImplementation(this._eliudStyle);
@@ -288,37 +293,4 @@ abstract class EliudSharedImplementation
     );
   }
 
-
-  @override
-  PreferredSizeWidget appBarWithString(BuildContext context, {required String title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
-    var accessState = AccessBloc.getState(context);
-    return appBarWithWidget(context, title: Text(title,
-        style: TextStyle(
-            color: RgbHelper.color(
-                rgbo: _eliudStyle
-                    .eliudStyleAttributesModel.appBarTextColor))),
-        actions: actions,
-        iconTheme: iconTheme,
-        backgroundOverride: backgroundOverride);
-  }
-
-
-  @override
-  PreferredSizeWidget appBarWithWidget(BuildContext context, {required Widget title, List<Widget>? actions, IconThemeData? iconTheme, BackgroundModel? backgroundOverride}) {
-    var accessState = AccessBloc.getState(context);
-    var background;
-    if (backgroundOverride != null) {
-      background = backgroundOverride;
-    } else {
-      background = _eliudStyle.eliudStyleAttributesModel.appBarBackground;
-    }
-    return AppBar(
-      title: title,
-      actions: actions,
-      iconTheme: iconTheme,
-      flexibleSpace: Container(
-          decoration: BoxDecorationHelper.boxDecoration(accessState, background)),
-    );
-
-  }
 }

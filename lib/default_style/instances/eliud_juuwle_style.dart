@@ -34,8 +34,11 @@ class EliudJuuwleStyle {
       formFieldTextColor: EliudColors.black,
       formFieldHeaderColor: EliudColors.red,
       formFieldFocusColor: EliudColors.red,
-      appBarBackground: appBarBG(),
-      appBarTextColor: EliudColors.white,
+      appBarBG: appBarBG(),
+      appBarIconColor: EliudColors.black,
+      appBarSelectedIconColor: EliudColors.white,
+      appBarMenuBackgroundColor: EliudColors.lightRed,
+      bottomNavigationBarBG: bottomNavigationBarBG(),
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       iconColor: EliudColors.red,
@@ -83,6 +86,7 @@ class EliudJuuwleStyle {
 
   static BackgroundModel appBarBG() => EliudShared.appBarBG('juuwle-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('juuwle-page-bg', appColor3(), appColor4());
+  static BackgroundModel bottomNavigationBarBG() => EliudShared.bottomNavigationBarBG('juuwle-bottom-navigationbar-bg', appColor1(), appColor2());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('juuwle-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('juuwle-drawer-header-bg');
   static BackgroundModel profileDrawerBG() => EliudShared.profileDrawerBG('juuwle-profile-drawer-bg', appColor1(), appColor2());

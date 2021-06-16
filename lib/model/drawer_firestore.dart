@@ -55,8 +55,7 @@ class DrawerFirestore implements DrawerRepository {
     try {
       var collection = DrawerCollection.doc(id);
       var doc = await collection.get();
-      var test = await _populateDocPlus(doc);
-      return test;
+      return await _populateDocPlus(doc);
     } on Exception catch(e) {
       print("Error whilst retrieving Drawer with id $id");
       print("Exceptoin: $e");

@@ -204,6 +204,11 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                 RgbField("Popup Menu Background Color", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)
           );
 
+        children.add(
+
+                RgbField("Popup Menu Background Color Override", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
@@ -333,6 +338,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               headerHeight: state.value!.headerHeight, 
                               popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
                               headerBackgroundOverride: state.value!.headerBackgroundOverride, 
+                              popupMenuBackgroundColorOverride: state.value!.popupMenuBackgroundColorOverride, 
                               menu: state.value!.menu, 
                         )));
                       } else {
@@ -347,6 +353,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                               headerHeight: state.value!.headerHeight, 
                               popupMenuBackgroundColor: state.value!.popupMenuBackgroundColor, 
                               headerBackgroundOverride: state.value!.headerBackgroundOverride, 
+                              popupMenuBackgroundColorOverride: state.value!.popupMenuBackgroundColorOverride, 
                               menu: state.value!.menu, 
                           )));
                       }
@@ -423,6 +430,12 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
       _headerBackgroundOverride = val;
     });
     _myFormBloc.add(ChangedDrawerHeaderBackgroundOverride(value: val));
+  }
+
+
+  void _onPopupMenuBackgroundColorOverrideChanged(value) {
+    _myFormBloc.add(ChangedDrawerPopupMenuBackgroundColorOverride(value: value));
+    
   }
 
 

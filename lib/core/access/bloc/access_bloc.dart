@@ -349,6 +349,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return null;
   }
 
+  static MemberModel? member(BuildContext context) {
+    var state = BlocProvider.of<AccessBloc>(context).state;
+    if (state is AppLoaded) {
+      return state.getMember();
+    } else {
+      return null;
+    }
+  }
+
   static MemberPublicInfoModel? memberPublicInfoModel(AccessState state) {
     if (state is LoggedIn) {
       return state.memberPublicInfoModel;
@@ -362,7 +371,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static AppModel? app(BuildContext context) {
-    AccessState state = BlocProvider.of<AccessBloc>(context).state;
+    var state = BlocProvider.of<AccessBloc>(context).state;
     if (state is AppLoaded) {
       return state.app;
     } else {

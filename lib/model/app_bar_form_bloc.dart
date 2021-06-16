@@ -51,9 +51,9 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                                documentID: "",
                                  appId: "",
                                  title: "",
-                                 iconColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
-                                 selectedIconColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
-                                 menuBackgroundColor: RgbModel(r: 64, g: 6, b: 64, opacity: 1.00), 
+                                 iconColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
+                                 selectedIconColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
+                                 menuBackgroundColorOverride: RgbModel(r: 64, g: 6, b: 64, opacity: 1.00), 
 
         ));
         yield loaded;
@@ -115,9 +115,9 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  image: null,
                                  iconMenu: currentState.value!.iconMenu,
                                  backgroundOverride: currentState.value!.backgroundOverride,
-                                 iconColor: currentState.value!.iconColor,
-                                 selectedIconColor: currentState.value!.selectedIconColor,
-                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
+                                 iconColorOverride: currentState.value!.iconColorOverride,
+                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
+                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
           );
         yield SubmittableAppBarForm(value: newValue);
 
@@ -136,9 +136,9 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  image: currentState.value!.image,
                                  iconMenu: null,
                                  backgroundOverride: currentState.value!.backgroundOverride,
-                                 iconColor: currentState.value!.iconColor,
-                                 selectedIconColor: currentState.value!.selectedIconColor,
-                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
+                                 iconColorOverride: currentState.value!.iconColorOverride,
+                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
+                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
           );
         yield SubmittableAppBarForm(value: newValue);
 
@@ -157,28 +157,28 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  image: currentState.value!.image,
                                  iconMenu: currentState.value!.iconMenu,
                                  backgroundOverride: null,
-                                 iconColor: currentState.value!.iconColor,
-                                 selectedIconColor: currentState.value!.selectedIconColor,
-                                 menuBackgroundColor: currentState.value!.menuBackgroundColor,
+                                 iconColorOverride: currentState.value!.iconColorOverride,
+                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
+                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
           );
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
-      if (event is ChangedAppBarIconColor) {
-        newValue = currentState.value!.copyWith(iconColor: event.value);
+      if (event is ChangedAppBarIconColorOverride) {
+        newValue = currentState.value!.copyWith(iconColorOverride: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
-      if (event is ChangedAppBarSelectedIconColor) {
-        newValue = currentState.value!.copyWith(selectedIconColor: event.value);
+      if (event is ChangedAppBarSelectedIconColorOverride) {
+        newValue = currentState.value!.copyWith(selectedIconColorOverride: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;
       }
-      if (event is ChangedAppBarMenuBackgroundColor) {
-        newValue = currentState.value!.copyWith(menuBackgroundColor: event.value);
+      if (event is ChangedAppBarMenuBackgroundColorOverride) {
+        newValue = currentState.value!.copyWith(menuBackgroundColorOverride: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;

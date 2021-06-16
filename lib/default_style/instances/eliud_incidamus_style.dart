@@ -34,8 +34,11 @@ class EliudIncidamusStyle {
       formFieldTextColor: EliudColors.white,
       formFieldHeaderColor: EliudColors.red,
       formFieldFocusColor: EliudColors.red,
-      appBarBackground: appBarBG(),
-      appBarTextColor: EliudColors.white,
+      appBarBG: appBarBG(),
+      appBarIconColor: EliudColors.white,
+      appBarSelectedIconColor: EliudColors.red,
+      appBarMenuBackgroundColor: EliudColors.lightRed,
+      bottomNavigationBarBG: bottomNavigationBarBG(),
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       iconColor: EliudColors.red,
@@ -82,6 +85,7 @@ class EliudIncidamusStyle {
 
   static BackgroundModel appBarBG() => EliudShared.appBarBG('incidamus-appbar-bg', appColor1(), appColor2());
   static BackgroundModel pageBG() => EliudShared.pageBG('incidamus-page-bg', appColor3(), appColor4());
+  static BackgroundModel bottomNavigationBarBG() => EliudShared.bottomNavigationBarBG('incidamus-bottom-navigationbar-bg', appColor1(), appColor2());
   static BackgroundModel drawerBG() => EliudShared.drawerBG('incidamus-drawer-bg', appColor1(), appColor2());
   static BackgroundModel drawerHeaderBG()  => EliudShared.drawerHeaderBG('incidamus-drawer-header-bg');
   static BackgroundModel profileDrawerBG()  => EliudShared.profileDrawerBG('incidamus-profile-drawer-bg', appColor1(), appColor2());

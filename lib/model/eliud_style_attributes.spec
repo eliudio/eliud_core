@@ -148,7 +148,7 @@
       "bespokeFormField": "RgbField(\"Divider Color\", state.value!.dividerColor, _onDividerColorChanged)"
     },
     {
-      "fieldName": "appBarBackground",
+      "fieldName": "appBarBG",
       "displayName": "AppBar Background",
       "fieldType": "Background",
       "association": true,
@@ -156,13 +156,39 @@
       "group": "appBarBackground"
     },
     {
-      "fieldName": "appBarTextColor",
-      "displayName": "Form App Bar Text Color",
+      "fieldName": "appBarIconColor",
+      "displayName": "Icon Color",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
       "fieldType": "Rgb",
-      "group": "formColors",
+      "group": "iconColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"App Bar Text color\", state.value!.appBarTextColor, _onAppBarTextColorChanged)"
+      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColor, _onIconColorChanged)"
+    },
+    {
+      "fieldName": "appBarSelectedIconColor",
+      "displayName": "Selected Icon Color",
+      "fieldType": "Rgb",
+      "group": "iconColors",
+      "iconName": "color_lens",
+      "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
+      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value!.appBarSelectedIconColor, _onAppBarSelectedIconColorChanged)"
+    },
+    {
+      "fieldName": "appBarMenuBackgroundColor",
+      "displayName": "Background Color",
+      "defaultValue": "RgbModel(r: 64, g: 6, b: 64, opacity: 1.00)",
+      "fieldType": "Rgb",
+      "group": "menuColors",
+      "iconName": "color_lens",
+      "bespokeFormField": "RgbField(\"AppBar Menu Background Color\", state.value!.appBarMenuBackgroundColor, _onAppBarMenuBackgroundColorChanged)"
+    },
+    {
+      "fieldName": "bottomNavigationBarBG",
+      "displayName": "Bottom NavigationBar Background",
+      "fieldType": "Background",
+      "association": true,
+      "optional": true,
+      "group": "bottomNavigationBarBG"
     },
     {
       "fieldName": "drawerBG",
