@@ -172,7 +172,7 @@ class EliudAppBarImpl implements HasAppBar {
               var style = thisItem.isActive
                   ? _eliudStyle.frontEndStyle().styleH3(context)
                   : _eliudStyle.frontEndStyle().styleH4(context);
-              var label = item.label!;
+              var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
                 child: Text(label),

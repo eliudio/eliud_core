@@ -93,6 +93,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
             selectedIconColorOverride: value.selectedIconColorOverride,
             pageName: widget.theTitle,
             items: items,
+            openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
           );
     } else {
       return Text('App not loaded');

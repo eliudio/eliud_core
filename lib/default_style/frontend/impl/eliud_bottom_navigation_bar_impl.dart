@@ -38,8 +38,7 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
         RgbModel? popupMenuBackgroundColorOverride,
         required List<AbstractMenuItemAttributes> items,
       }) {
-    var background = backgroundOverride;
-    background ??= _eliudStyle.eliudStyleAttributesModel.bottomNavigationBarBG;
+    var background = backgroundOverride ??= _eliudStyle.eliudStyleAttributesModel.bottomNavigationBarBG;
 
     var accessState = AccessBloc.getState(context);
     return Container(

@@ -1,7 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/components/util/component_info.dart';
-import 'package:eliud_core/core/components/util/page_body.dart';
+import 'package:eliud_core/core/tools/component_info.dart';
+import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/tools/registry.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';

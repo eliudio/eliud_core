@@ -81,7 +81,7 @@ abstract class ActionModel {
   bool hasAccess(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     if (accessState is AppLoaded) {
-      accessState.actionHasAccess(this);
+      return accessState.actionHasAccess(this);
     }
     return true;
   }
