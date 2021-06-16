@@ -15,10 +15,11 @@ import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/tools/has_fab.dart';
-import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../registry.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/tools/registry.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

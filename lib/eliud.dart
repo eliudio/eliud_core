@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/global_data.dart';
-import 'package:eliud_core/tools/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/component_registry.dart';
+import 'core/registry.dart';
 import 'package/package.dart';
 
 class Eliud {

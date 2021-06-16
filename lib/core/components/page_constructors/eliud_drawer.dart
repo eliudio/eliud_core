@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/drawer_model.dart';
@@ -43,7 +44,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
         if ((drawer.secondHeaderText != null) &&
             (drawer.secondHeaderText!.isNotEmpty)) {
           drawerHeader2Attributes = DrawerHeader2Attributes(
-              drawer.headerHeight, drawer.secondHeaderText!);
+              drawer.headerHeight, processDoc(context, drawer.secondHeaderText!));
         }
 
         var itemList = MenuItemMapper.mapMenu(context, drawer.menu!, theState.getMember(), currentPage);
