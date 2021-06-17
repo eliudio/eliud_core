@@ -66,8 +66,8 @@ class BodyComponentDropdownButtonWidgetState extends State<BodyComponentDropdown
 
 List<Widget> widgets(BodyComponentModel pm) {
 var widgets = <Widget>[];
-if (pm.componentName != null) widgets.add(new Text(pm.componentName!));
-if (pm.componentId != null) widgets.add(new Text(pm.componentId!));
+if (pm.componentName! != null) widgets.add(new Text(pm.componentName!));
+if (pm.componentId! != null) widgets.add(new Text(pm.componentId!));
 return widgets;
 }
 

@@ -230,7 +230,7 @@ class MenuDefListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
           ),
         ),
-        subtitle: (value!.name != null) && (value!.name!.isNotEmpty)
+        subtitle: (value!.name! != null) && (value!.name!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!))
             : null,
       ),

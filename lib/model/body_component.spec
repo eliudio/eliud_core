@@ -52,7 +52,7 @@
     }
   ],
   "listFields": {
-    "title": "componentName",
-    "subTitle": "componentId"
+    "title": "componentName!",
+    "subTitle": "componentId!"
   }
 }

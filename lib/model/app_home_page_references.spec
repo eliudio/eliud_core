@@ -60,7 +60,7 @@
     }
   ],
   "listFields": {
-    "title": "text",
-    "subTitle": "description"
+    "title": "text!",
+    "subTitle": "description!"
   }
 }

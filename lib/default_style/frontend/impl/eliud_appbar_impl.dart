@@ -112,7 +112,7 @@ class EliudAppBarImpl implements HasAppBar {
   }
 
   Widget pageName(BuildContext context, String pageName) {
-    return _eliudStyle.frontEndStyle().h1(context, pageName ?? 'No title');
+    return _eliudStyle.frontEndStyle().h1(context, pageName);
   }
 
   Widget constructTitle(BuildContext context, Widget widget, String _pageName) {

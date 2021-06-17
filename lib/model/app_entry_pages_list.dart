@@ -230,7 +230,7 @@ class AppEntryPagesListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.documentID!)),
           ),
         ),
-        subtitle: (value!.entryPage!.title != null) && (value!.entryPage!.title!.isNotEmpty)
+        subtitle: (value!.entryPage!.title! != null) && (value!.entryPage!.title!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.title!))
             : null,
       ),

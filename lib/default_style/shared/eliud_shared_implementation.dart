@@ -85,7 +85,7 @@ abstract class EliudSharedImplementation
     if (icon != null) {
       return ElevatedButton.icon(
         onPressed: onPressed,
-        icon: icon!,
+        icon: icon,
         label: child,
       );
     } else {

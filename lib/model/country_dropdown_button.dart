@@ -66,8 +66,8 @@ class CountryDropdownButtonWidgetState extends State<CountryDropdownButtonWidget
 
 List<Widget> widgets(CountryModel pm) {
 var widgets = <Widget>[];
-if (pm.countryCode != null) widgets.add(new Text(pm.countryCode!));
-if (pm.countryName != null) widgets.add(new Text(pm.countryName!));
+if (pm.countryCode! != null) widgets.add(new Text(pm.countryCode!));
+if (pm.countryName! != null) widgets.add(new Text(pm.countryName!));
 return widgets;
 }
 

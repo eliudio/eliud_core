@@ -574,7 +574,7 @@ class LoggedInWithoutMembership extends LoggedIn {
   Future<LoggedInWithoutMembership> copyWith(
       MemberModel? member, MemberPublicInfoModel memberPublicInfoModel, AppModel? playstoreApp) async {
     return getLoggedInWithoutMembership(
-        usr, member ?? this.member, memberPublicInfoModel ?? this.memberPublicInfoModel, app, playstoreApp, postLoginAction);
+        usr, member ?? this.member, memberPublicInfoModel, app, playstoreApp, postLoginAction);
   }
 
   @override
@@ -635,7 +635,7 @@ class LoggedInWithMembership extends LoggedIn {
   Future<LoggedInWithMembership> copyWith(
       MemberModel? member, MemberPublicInfoModel memberPublicInfoModel, AppModel? playstoreApp) {
     return getLoggedInWithMembership(
-        usr, member ?? this.member, memberPublicInfoModel ?? this.memberPublicInfoModel, app, playstoreApp);
+        usr, member ?? this.member, memberPublicInfoModel, app, playstoreApp);
   }
 
   @override

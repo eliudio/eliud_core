@@ -59,6 +59,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   @override
   Widget yourWidget(BuildContext context, MemberDashboardModel? dashboardModel) {
     var app = AccessBloc.app(context);
+    if (app == null) return Text('No active app');
     var state = AccessBloc.getState(context);
     var member = AccessBloc.memberFor(state);
     if (member != null) {
@@ -89,9 +90,9 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           StyleRegistry.registry().styleWithContext(context).frontEndStyle().table(context,
             children: [
 //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
-              getRow(context, app!, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),
-              getRow(context, app!, 'Retrieve data', dashboardModel.retrieveDataText!, () => _retrieveData(context, dashboardModel, app, member)),
-              getRow(context, app!, 'Delete account', dashboardModel.deleteDataText!, () => _deleteAccount(context, dashboardModel, app, member)),
+              getRow(context, app, 'Update profile', dashboardModel!.updateProfileText!, () => _updateProfile(context, app, member)),
+              getRow(context, app, 'Retrieve data', dashboardModel.retrieveDataText!, () => _retrieveData(context, dashboardModel, app, member)),
+              getRow(context, app, 'Delete account', dashboardModel.deleteDataText!, () => _deleteAccount(context, dashboardModel, app, member)),
             ],
           )
         ],

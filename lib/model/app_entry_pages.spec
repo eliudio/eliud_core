@@ -52,7 +52,7 @@
     }
   ],
   "listFields": {
-    "title": "entryPage!.documentID",
-    "subTitle": "entryPage!.title"
+    "title": "entryPage!.documentID!",
+    "subTitle": "entryPage!.title!"
   }
 }

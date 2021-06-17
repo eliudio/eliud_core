@@ -230,7 +230,7 @@ class MemberMediumListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
           ),
         ),
-        subtitle: (value!.url != null) && (value!.url!.isNotEmpty)
+        subtitle: (value!.url! != null) && (value!.url!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.url!))
             : null,
       ),

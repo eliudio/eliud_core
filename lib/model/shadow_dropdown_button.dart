@@ -66,8 +66,8 @@ class ShadowDropdownButtonWidgetState extends State<ShadowDropdownButtonWidget> 
 
 List<Widget> widgets(ShadowModel pm) {
 var widgets = <Widget>[];
-if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
-if (pm.comments != null) widgets.add(new Text(pm.comments!));
+if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
+if (pm.comments! != null) widgets.add(new Text(pm.comments!));
 return widgets;
 }
 

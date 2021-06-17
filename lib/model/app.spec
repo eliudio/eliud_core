@@ -154,8 +154,8 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "title"
+    "title": "documentID!",
+    "subTitle": "title!"
   },
   "preToEntityCode": "logoURL = logo != null ? logo!.url : null;"
 }

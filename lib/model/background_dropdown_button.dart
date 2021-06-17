@@ -66,8 +66,8 @@ class BackgroundDropdownButtonWidgetState extends State<BackgroundDropdownButton
 
 List<Widget> widgets(BackgroundModel pm) {
 var widgets = <Widget>[];
-if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
-if (pm.comments != null) widgets.add(new Text(pm.comments!));
+if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
+if (pm.comments! != null) widgets.add(new Text(pm.comments!));
 return widgets;
 }
 

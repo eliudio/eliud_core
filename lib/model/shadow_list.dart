@@ -230,7 +230,7 @@ class ShadowListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
           ),
         ),
-        subtitle: (value!.comments != null) && (value!.comments!.isNotEmpty)
+        subtitle: (value!.comments! != null) && (value!.comments!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.comments!))
             : null,
       ),

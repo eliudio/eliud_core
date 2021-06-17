@@ -230,7 +230,7 @@ class CountryListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryCode!)),
           ),
         ),
-        subtitle: (value!.countryName != null) && (value!.countryName!.isNotEmpty)
+        subtitle: (value!.countryName! != null) && (value!.countryName!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryName!))
             : null,
       ),

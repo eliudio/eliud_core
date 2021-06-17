@@ -204,7 +204,7 @@ class Registry {
   Widget? wrapWidgetInBloc(String wrapperName, BuildContext context, ComponentInfo componentInfo) {
     var wrapper = _componentWidgetWrappers[wrapperName];
     if (wrapper != null) {
-      return wrapper!.wrapWidget(context, componentInfo);
+      return wrapper.wrapWidget(context, componentInfo);
     } else {
       print("Can't find the wrapper with wrapperName $wrapperName. Did you register it from your package using registerPageComponentsBloc?");
       return null;

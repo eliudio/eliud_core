@@ -21,7 +21,7 @@ class EliudMenuImpl implements HasMenu {
     }
      var popupMenuItems = <PopupMenuItem<int>>[];
       var i = 0;
-      menuItems!.forEach((element) {
+      menuItems.forEach((element) {
         var style = element.isActive
             ? _eliudStyle.frontEndStyle()
             .styleH3(context)

@@ -217,8 +217,8 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "name"
+    "title": "documentID!",
+    "subTitle": "name!"
   },
   "preToEntityCode": "   readAccess = subscriptions!.map((subscription) => subscription.app!.ownerID!).toList();\n    subscriptionsAsString = subscriptions!.map((subscription) => subscription.app!.documentID!).toList();\n",
   "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",

@@ -47,7 +47,7 @@
     }
   ],
   "listFields": {
-    "title": "countryCode",
-    "subTitle": "countryName"
+    "title": "countryCode!",
+    "subTitle": "countryName!"
   }
 }

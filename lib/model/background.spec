@@ -109,7 +109,7 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "comments"
+    "title": "documentID!",
+    "subTitle": "comments!"
   }
 }

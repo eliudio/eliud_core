@@ -66,8 +66,8 @@ class AppEntryPagesDropdownButtonWidgetState extends State<AppEntryPagesDropdown
 
 List<Widget> widgets(AppEntryPagesModel pm) {
 var widgets = <Widget>[];
-if (pm.entryPage!.documentID != null) widgets.add(new Text(pm.entryPage!.documentID!));
-if (pm.entryPage!.title != null) widgets.add(new Text(pm.entryPage!.title!));
+if (pm.entryPage!.documentID! != null) widgets.add(new Text(pm.entryPage!.documentID!));
+if (pm.entryPage!.title! != null) widgets.add(new Text(pm.entryPage!.title!));
 return widgets;
 }
 

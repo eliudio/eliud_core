@@ -30,7 +30,7 @@ class PageParamHelper {
     if (fullPageId == null) {
       throw Exception('No page selected');
     }
-    var pageId = settings.name!.substring(appId!.length + 1);
+    var pageId = settings.name!.substring(appId.length + 1);
     Map<String, dynamic>? parameters;
     if (settings.arguments != null) {
       parameters = settings.arguments as Map<String, dynamic>;

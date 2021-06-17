@@ -148,7 +148,7 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "title"
+    "title": "documentID!",
+    "subTitle": "title!"
   }
 }

@@ -97,7 +97,7 @@
     }
   ],
   "listFields": {
-    "title": "fontName",
-    "subTitle": "documentID"
+    "title": "fontName!",
+    "subTitle": "documentID!"
   }
 }

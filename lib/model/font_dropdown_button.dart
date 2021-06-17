@@ -66,8 +66,8 @@ class FontDropdownButtonWidgetState extends State<FontDropdownButtonWidget> {
 
 List<Widget> widgets(FontModel pm) {
 var widgets = <Widget>[];
-if (pm.fontName != null) widgets.add(new Text(pm.fontName!));
-if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
+if (pm.fontName! != null) widgets.add(new Text(pm.fontName!));
+if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
 return widgets;
 }
 

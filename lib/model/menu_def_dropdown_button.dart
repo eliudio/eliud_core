@@ -66,8 +66,8 @@ class MenuDefDropdownButtonWidgetState extends State<MenuDefDropdownButtonWidget
 
 List<Widget> widgets(MenuDefModel pm) {
 var widgets = <Widget>[];
-if (pm.documentID != null) widgets.add(new Text(pm.documentID!));
-if (pm.name != null) widgets.add(new Text(pm.name!));
+if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
+if (pm.name! != null) widgets.add(new Text(pm.name!));
 return widgets;
 }
 

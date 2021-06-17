@@ -230,7 +230,7 @@ class BodyComponentListItem extends StatelessWidget {
             child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentName!)),
           ),
         ),
-        subtitle: (value!.componentId != null) && (value!.componentId!.isNotEmpty)
+        subtitle: (value!.componentId! != null) && (value!.componentId!.isNotEmpty)
             ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentId!))
             : null,
       ),

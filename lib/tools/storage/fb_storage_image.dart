@@ -26,9 +26,9 @@ class _MemberImageModelState extends State<MemberImageModelWidget> {
   Widget build(BuildContext context) {
     var url;
     if (widget.showThumbnail) {
-      url = widget.memberMediumModel!.urlThumbnail!;
+      url = widget.memberMediumModel.urlThumbnail!;
     } else {
-      url = widget.memberMediumModel!.url!;
+      url = widget.memberMediumModel.url!;
     }
     if ((url == null) && (widget.defaultWidget != null)) {
       return widget.defaultWidget!;

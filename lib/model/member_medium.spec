@@ -111,7 +111,7 @@
     }
   ],
   "listFields": {
-    "title": "documentID",
-    "subTitle": "url"
+    "title": "documentID!",
+    "subTitle": "url!"
   }
 }

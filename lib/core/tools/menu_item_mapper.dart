@@ -37,6 +37,7 @@ class MenuItemMapper {
       MemberModel? member,
       String? currentPage) {
     var action = item.action;
+    if (action == null) return null;
     if ((action is InternalAction) &&
         (action.internalActionEnum == InternalActionEnum.OtherApps)) {
       if ((member != null) && (member.subscriptions != null)) {
@@ -69,13 +70,13 @@ class MenuItemMapper {
           );
         }
       } else {
-        if (action!.hasAccess(context)) {
+        if (action.hasAccess(context)) {
           return MenuItemAttributes(
               icon: item.icon,
               label: processDoc(context, item.text!),
               onTap: () {
                 if (!PageHelper.isActivePage(currentPage, action)) {
-                  eliudrouter.Router.navigateTo(context, action!);
+                  eliudrouter.Router.navigateTo(context, action);
                 }
               }
               , isActive: PageHelper.isActivePage(currentPage, action));
