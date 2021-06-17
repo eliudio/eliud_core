@@ -33,7 +33,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       var homeMenu = widget.homeMenu;
       var itemList = MenuItemMapper.mapMenu(
           context, homeMenu.menu!, theState.getMember(), currentPage);
-      if (itemList != null) {
+      if ((itemList != null) && (itemList.length > 2)) {
         return StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
@@ -43,7 +43,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
                 popupMenuBackgroundColorOverride:
                     widget.homeMenu.popupMenuBackgroundColorOverride);
       } else {
-        return Text('Drawer ${homeMenu.documentID} has no items');
+        return Container(height:0);
       }
     } else {
       return Center(

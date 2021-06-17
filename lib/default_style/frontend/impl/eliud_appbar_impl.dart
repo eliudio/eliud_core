@@ -138,6 +138,13 @@ class EliudAppBarImpl implements HasAppBar {
             icon: IconHelper.getIconFromModel(iconModel: item.icon)!,
             color: _color,
             onPressed: item.onTap);
+      } else if (item.imageURL != null) {
+        return IconButton(
+            icon: Image.network(
+                item.imageURL!
+            ),
+            color: RgbHelper.color(rgbo: iconColor),
+            onPressed: item.onTap);
       } else {
         return Center(
             child: OutlineButton(
