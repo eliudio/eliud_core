@@ -14,6 +14,7 @@ import 'package:eliud_core/style/shared/types.dart';
 import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
+import 'impl/eliud_app_impl.dart';
 import 'impl/eliud_appbar_impl.dart';
 import 'impl/eliud_bottom_navigation_bar_impl.dart';
 import 'impl/eliud_container_impl.dart';
@@ -34,6 +35,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudProfilePhotoImpl eliudProfilePhotoImpl;
   late EliudContainerImpl eliudContainerImpl;
   late EliudProgressIndicatorImpl eliudProgressIndicatorImpl;
+  late EliudAppImpl eliudAppImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -44,6 +46,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudProfilePhotoImpl = EliudProfilePhotoImpl(_eliudStyle);
     eliudContainerImpl = EliudContainerImpl(_eliudStyle);
     eliudProgressIndicatorImpl = EliudProgressIndicatorImpl(_eliudStyle);
+    eliudAppImpl = EliudAppImpl(_eliudStyle);
   }
 
   @override
@@ -200,5 +203,10 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   @override
   Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
     return eliudProgressIndicatorImpl.progressIndicator(context, valueColor: valueColor);
+  }
+
+  @override
+  Widget app({GlobalKey<NavigatorState>? navigatorKey, GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey, String? initialRoute, RouteFactory? onGenerateRoute, RouteFactory? onUnknownRoute, required String title}) {
+    return eliudAppImpl.app(navigatorKey: navigatorKey, scaffoldMessengerKey: scaffoldMessengerKey, initialRoute: initialRoute, onGenerateRoute: onGenerateRoute, onUnknownRoute: onUnknownRoute, title: title);
   }
 }

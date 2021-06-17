@@ -130,14 +130,11 @@ class Registry {
                 } else {
                   var app = accessState.app;
                   var router = eliudrouter.Router(AccessBloc.getBloc(context));
-                  ThemeData? darkTheme;
-                  return MaterialApp(
-                    debugShowCheckedModeBanner: false,
+                  return StyleRegistry.registry().styleWithContext(context).frontEndStyle().app(
                     navigatorKey: navigatorKey,
                     scaffoldMessengerKey: rootScaffoldMessengerKey,
                     initialRoute: eliudrouter.Router.homeRoute,
                     onGenerateRoute: router.generateRoute,
-                    darkTheme: darkTheme,
                     onUnknownRoute: (RouteSettings setting) {
                       return pageRouteBuilder(accessState.app,
                           page: AlertWidget(
@@ -151,8 +148,7 @@ class Registry {
               }
             });
           } else if (state is AppError) {
-            print("AppError");
-            print(state.message);
+            print("AppError" + state.message);
             return AlertWidget(title: 'Error', content: state.message);
           } else {
             return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);

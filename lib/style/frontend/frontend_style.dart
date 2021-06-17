@@ -1,3 +1,4 @@
+import 'package:eliud_core/style/shared/has_app.dart';
 import 'package:eliud_core/style/shared/has_appbar.dart';
 import 'package:eliud_core/style/shared/has_bottom_navigation_bar.dart';
 import 'package:eliud_core/style/shared/has_button.dart';
@@ -30,6 +31,7 @@ abstract class FrontEndStyle implements
     HasPageBody,
     HasProfilePhoto,
     HasContainer,
-    HasProgressIndicator
+    HasProgressIndicator,
+    HasApp
 {
 }
