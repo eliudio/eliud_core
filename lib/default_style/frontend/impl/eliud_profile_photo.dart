@@ -92,7 +92,7 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
                   onPressed: onPressed);
             } else {
               return _formatProfilePhotoButton(
-                  Image.network(profileAttributes.url!), radius, onPressed);
+                  Image.network(profileAttributes.url!), iconColor, radius, onPressed);
             }
           }
           return Center(child: DelayedCircularProgressIndicator());
@@ -124,7 +124,7 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
       RgbModel? iconColor,
       VoidCallback? onPressed}) {
     if (url != null) {
-      return _formatProfilePhotoButton(Image.network(url), radius, onPressed);
+      return _formatProfilePhotoButton(Image.network(url), iconColor, radius, onPressed);
     } else {
       return _defaultProfile(iconColor, onPressed);
     }
@@ -136,12 +136,12 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
   }
 
   Widget _formatProfilePhotoButton(
-      Widget widget, double radius, VoidCallback? onPressed) {
+      Widget widget, RgbModel? iconColor, double radius, VoidCallback? onPressed) {
     return GestureDetector(
         onTap: onPressed,
         child: CircleAvatar(
             radius: radius,
-            backgroundColor: Colors.black,            // border color
+            backgroundColor: iconColor == null ? Colors.black : RgbHelper.color(rgbo: iconColor),            // border color
             child: CircleAvatar(
               radius: radius-2,
               backgroundColor: Colors.white,         // background color

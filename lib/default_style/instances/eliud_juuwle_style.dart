@@ -41,7 +41,6 @@ class EliudJuuwleStyle {
       bottomNavigationBarBG: bottomNavigationBarBG(),
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
-      iconColor: EliudColors.red,
       floatingButtonBackgroundColor: EliudColors.red,
       dividerColor: EliudColors.red,
 

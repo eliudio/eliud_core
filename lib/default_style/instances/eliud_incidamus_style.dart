@@ -41,7 +41,6 @@ class EliudIncidamusStyle {
       bottomNavigationBarBG: bottomNavigationBarBG(),
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
-      iconColor: EliudColors.red,
       floatingButtonBackgroundColor: EliudColors.red,
       dividerColor: EliudColors.red,
       h1: fontTools

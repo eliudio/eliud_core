@@ -343,18 +343,6 @@ class ChangedEliudStyleAttributesProfileDrawerHeaderBG extends EliudStyleAttribu
   String toString() => 'ChangedEliudStyleAttributesProfileDrawerHeaderBG{ value: $value }';
 }
 
-class ChangedEliudStyleAttributesIconColor extends EliudStyleAttributesFormEvent {
-  final RgbModel? value;
-
-  ChangedEliudStyleAttributesIconColor({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedEliudStyleAttributesIconColor{ value: $value }';
-}
-
 class ChangedEliudStyleAttributesBackgroundHomeMenu extends EliudStyleAttributesFormEvent {
   final String? value;
 

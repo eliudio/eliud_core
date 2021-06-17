@@ -162,7 +162,7 @@
       "fieldType": "Rgb",
       "group": "iconColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColor, _onIconColorChanged)"
+      "bespokeFormField": "RgbField(\"Text color\", state.value!.appBarIconColor, _onAppBarIconColorChanged)"
     },
     {
       "fieldName": "appBarSelectedIconColor",
@@ -221,15 +221,6 @@
       "association": true,
       "optional": true,
       "group": "drawerBarBackground"
-    },
-    {
-      "fieldName": "iconColor",
-      "displayName": "Icon Color",
-      "defaultValue": "RgbModel(r: 255, g: 0, b: 0, opacity: 1.00)",
-      "fieldType": "Rgb",
-      "group": "otherColors",
-      "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Divider Color\", state.value!.dividerColor, _onDividerColorChanged)"
     },
     {
       "fieldName": "backgroundHomeMenu",

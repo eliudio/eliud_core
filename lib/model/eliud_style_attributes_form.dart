@@ -257,7 +257,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
 
         children.add(
 
-                RgbField("Text color", state.value!.iconColor, _onIconColorChanged)
+                RgbField("Text color", state.value!.appBarIconColor, _onAppBarIconColorChanged)
           );
 
         children.add(
@@ -423,11 +423,6 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
         children.add(
 
                 RgbField("Form Field Header Color", state.value!.formFieldHeaderColor, _onFormFieldHeaderColorChanged)
-          );
-
-        children.add(
-
-                RgbField("Divider Color", state.value!.dividerColor, _onDividerColorChanged)
           );
 
         children.add(
@@ -665,7 +660,6 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               drawerHeaderBG: state.value!.drawerHeaderBG, 
                               profileDrawerBG: state.value!.profileDrawerBG, 
                               profileDrawerHeaderBG: state.value!.profileDrawerHeaderBG, 
-                              iconColor: state.value!.iconColor, 
                               backgroundHomeMenu: state.value!.backgroundHomeMenu, 
                               backgroundColorHomeMenu: state.value!.backgroundColorHomeMenu, 
                               iconColorHomeMenu: state.value!.iconColorHomeMenu, 
@@ -706,7 +700,6 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               drawerHeaderBG: state.value!.drawerHeaderBG, 
                               profileDrawerBG: state.value!.profileDrawerBG, 
                               profileDrawerHeaderBG: state.value!.profileDrawerHeaderBG, 
-                              iconColor: state.value!.iconColor, 
                               backgroundHomeMenu: state.value!.backgroundHomeMenu, 
                               backgroundColorHomeMenu: state.value!.backgroundColorHomeMenu, 
                               iconColorHomeMenu: state.value!.iconColorHomeMenu, 
@@ -902,12 +895,6 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
       _profileDrawerHeaderBG = val;
     });
     _myFormBloc.add(ChangedEliudStyleAttributesProfileDrawerHeaderBG(value: val));
-  }
-
-
-  void _onIconColorChanged(value) {
-    _myFormBloc.add(ChangedEliudStyleAttributesIconColor(value: value));
-    
   }
 
 

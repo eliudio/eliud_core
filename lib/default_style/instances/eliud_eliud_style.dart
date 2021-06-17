@@ -42,7 +42,6 @@ class EliudEliudStyle {
       listTextItemColor: EliudColors.white,
       floatingButtonForegroundColor: EliudColors.white,
       floatingButtonBackgroundColor: EliudColors.red,
-      iconColor: EliudColors.red,
       dividerColor: EliudColors.red,
       h1: fontTools
           .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h1Label)),

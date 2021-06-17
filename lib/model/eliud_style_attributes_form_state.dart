@@ -447,22 +447,6 @@ class ProfileDrawerHeaderBGEliudStyleAttributesFormError extends EliudStyleAttri
 }
 
 
-class IconColorEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
-  const IconColorEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''IconColorEliudStyleAttributesFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class BackgroundHomeMenuEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
   const BackgroundHomeMenuEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 
