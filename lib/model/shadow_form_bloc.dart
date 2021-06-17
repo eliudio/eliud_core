@@ -49,7 +49,6 @@ class ShadowFormBloc extends Bloc<ShadowFormEvent, ShadowFormState> {
       if (event is InitialiseNewShadowFormEvent) {
         ShadowFormLoaded loaded = ShadowFormLoaded(value: ShadowModel(
                                                documentID: "",
-                                 appId: "",
                                  comments: "",
                                  color: RgbModel(r: 211, g: 211, b: 211, opacity: 0.50), 
                                  offsetDX: 0.0,

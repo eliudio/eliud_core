@@ -3,7 +3,6 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -178,9 +177,7 @@ class Router {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  DelayedCircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                  ),
+//                  StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);,
                   SizedBox(
                     height: 30,
                   ),

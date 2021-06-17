@@ -25,14 +25,6 @@
       "group": "general"
     },
     {
-      "fieldName": "appId",
-      "displayName": "App ID",
-      "fieldType": "String",
-      "iconName": "vpn_key",
-      "hidden": true,
-      "group": "general"
-    },
-    {
       "fieldName": "comments",
       "displayName": "Comments",
       "fieldType": "String",

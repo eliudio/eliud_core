@@ -2,7 +2,6 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -66,9 +65,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
         return Text('Drawer ${drawer.documentID} has no menu defined');
       }
     } else {
-      return Center(
-        child: DelayedCircularProgressIndicator(),
-      );
+      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
     }
   }
 }

@@ -1,15 +1,5 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
-import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
-
-import 'package:flutter/material.dart';
-
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:flutter/cupertino.dart';
 

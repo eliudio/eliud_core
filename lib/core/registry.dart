@@ -8,8 +8,8 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 import 'package:eliud_core/tools/widgets/message_dialog.dart';
@@ -95,36 +95,34 @@ class Registry {
 
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   Widget application({String? id, bool? asPlaystore}) {
-    print("application");
+    print(".");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
-    print("application 2");
+    print(".");
     var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
-    print("application 3");
+    print(".");
     var blocProviders = <BlocProvider>[];
     blocProviders
         .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
-    print("application 4");
+    print(".");
     blocProviders
         .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
-    print("application 5");
+    print(".");
     GlobalData.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
         blocProviders.add(provider);
       }
     });
-    print("application 6");
+    print(".");
     return MultiBlocProvider(
         providers: blocProviders,
         child: BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
           if (state is AppLoaded) {
-            print("AppLoaded");
+            print("App Loaded");
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (accessContext, accessState) {
               if (accessState is UndeterminedAccessState) {
-                return Center(
-                  child: DelayedCircularProgressIndicator(),
-                );
+                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
               } else if (accessState is AppLoaded) {
                 if (accessState.app == null) {
                   return AlertWidget(
@@ -157,12 +155,7 @@ class Registry {
             print(state.message);
             return AlertWidget(title: 'Error', content: state.message);
           } else {
-            print("Center");
-            return Center(
-                child: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: DelayedCircularProgressIndicator()));
+            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
           }
         }));
   }

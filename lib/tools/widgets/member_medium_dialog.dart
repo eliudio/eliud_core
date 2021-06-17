@@ -1,9 +1,8 @@
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/storage/medium_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'dialog_helper.dart';
 
 class MemberMediumDialog extends StatefulWidget {
@@ -47,9 +46,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
               if (snapshot.hasData) {
                 return Container(width: widget.width, height : height(context) - 130, child: getAllImages(context, snapshot.data!));
               } else {
-                return Center(
-                  child: DelayedCircularProgressIndicator(),
-                );
+                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
               }
             }));
   }

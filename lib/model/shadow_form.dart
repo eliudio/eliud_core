@@ -13,7 +13,6 @@
 
 */
 
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
@@ -119,7 +118,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
   late ShadowFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
-  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
   final TextEditingController _offsetDXController = TextEditingController();
   final TextEditingController _offsetDYController = TextEditingController();
@@ -134,7 +132,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<ShadowFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
-    _appIdController.addListener(_onAppIdChanged);
     _commentsController.addListener(_onCommentsChanged);
     _offsetDXController.addListener(_onOffsetDXChanged);
     _offsetDYController.addListener(_onOffsetDYChanged);
@@ -149,7 +146,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShadowFormBloc, ShadowFormState>(builder: (context, state) {
       if (state is ShadowFormUninitialized) return Center(
-        child: DelayedCircularProgressIndicator(),
+        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
       );
 
       if (state is ShadowFormLoaded) {
@@ -157,10 +154,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
-        if (state.value!.appId != null)
-          _appIdController.text = state.value!.appId.toString();
-        else
-          _appIdController.text = "";
         if (state.value!.comments != null)
           _commentsController.text = state.value!.comments.toString();
         else
@@ -273,7 +266,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
                         BlocProvider.of<ShadowListBloc>(context).add(
                           UpdateShadowList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               color: state.value!.color, 
                               offsetDX: state.value!.offsetDX, 
@@ -285,7 +277,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
                         BlocProvider.of<ShadowListBloc>(context).add(
                           AddShadowList(value: ShadowModel(
                               documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               color: state.value!.color, 
                               offsetDX: state.value!.offsetDX, 
@@ -313,18 +304,13 @@ class _MyShadowFormState extends State<MyShadowForm> {
           ), formAction!
         );
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }
 
   void _onDocumentIDChanged() {
     _myFormBloc.add(ChangedShadowDocumentID(value: _documentIDController.text));
-  }
-
-
-  void _onAppIdChanged() {
-    _myFormBloc.add(ChangedShadowAppId(value: _appIdController.text));
   }
 
 
@@ -363,7 +349,6 @@ class _MyShadowFormState extends State<MyShadowForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
-    _appIdController.dispose();
     _commentsController.dispose();
     _offsetDXController.dispose();
     _offsetDYController.dispose();

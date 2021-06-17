@@ -1,10 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/shared/has_profile_photo.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
@@ -95,7 +95,7 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
                   Image.network(profileAttributes.url!), iconColor, radius, onPressed);
             }
           }
-          return Center(child: DelayedCircularProgressIndicator());
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
         });
   }
 

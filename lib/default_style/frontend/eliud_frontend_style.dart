@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/default_style/frontend/impl/eliud_profile_photo.dart';
 import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
@@ -21,6 +20,8 @@ import 'impl/eliud_container_impl.dart';
 import 'impl/eliud_drawer_impl.dart';
 import 'impl/eliud_menu_impl.dart';
 import 'impl/eliud_page_body_impl.dart';
+import 'impl/eliud_profile_photo_impl.dart';
+import 'impl/eliud_progress_indicator_impl.dart';
 
 class EliudFrontEndStyle extends EliudSharedImplementation
     implements FrontEndStyle {
@@ -32,6 +33,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudAppBarImpl eliudAppBarImpl;
   late EliudProfilePhotoImpl eliudProfilePhotoImpl;
   late EliudContainerImpl eliudContainerImpl;
+  late EliudProgressIndicatorImpl eliudProgressIndicatorImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -41,6 +43,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudAppBarImpl = EliudAppBarImpl(_eliudStyle);
     eliudProfilePhotoImpl = EliudProfilePhotoImpl(_eliudStyle);
     eliudContainerImpl = EliudContainerImpl(_eliudStyle);
+    eliudProgressIndicatorImpl = EliudProgressIndicatorImpl(_eliudStyle);
   }
 
   @override
@@ -192,5 +195,10 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   @override
   Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image}) {
     return eliudContainerImpl.topicContainer(context, children: children, image: image);
+  }
+
+  @override
+  Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
+    return eliudProgressIndicatorImpl.progressIndicator(context, valueColor: valueColor);
   }
 }

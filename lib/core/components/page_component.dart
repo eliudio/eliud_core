@@ -7,13 +7,13 @@ import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/core/widgets/progress_indicator.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,13 +65,11 @@ class PageComponent extends StatelessWidget {
               } else if (state is PageComponentError) {
                 return AlertWidget(title: 'Error', content: state.message);
               } else {
-                return Center(
-                  child: DelayedCircularProgressIndicator(),
-                );
+                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
               }
             }));
       } else {
-        return DelayedCircularProgressIndicator();
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
       }
     });
   }
@@ -114,10 +112,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageID = widget.pageID;
     var parameters = widget.parameters;
     if (accessState is AppProcessingState) {
-      theBody = Center(
-          child: DelayedCircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-      ));
+      theBody = StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
     } else if ((accessState is LoggedIn) &&
         (accessState.forceAcceptMembership())) {
       theBody =
