@@ -79,7 +79,9 @@ class EliudDrawerImpl implements HasDrawer {
               }
             }));
       } else if (item is MenuItemWithMenuItems) {
-        // todo
+        _eliudStyle.frontEndStyle().openMenu(context, position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+            menuItems: item.items,
+            popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
       }
     }
 

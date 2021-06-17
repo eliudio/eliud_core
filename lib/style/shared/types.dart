@@ -27,6 +27,6 @@ class MenuItemWithMenuItems extends AbstractMenuItemAttributes {
   List<AbstractMenuItemAttributes> items;
 
   MenuItemWithMenuItems(
-      {required this.items, required String label, IconModel? icon})
-      : super(label: label, icon: icon, isActive: false);
+      {required this.items, required String label, IconModel? icon, required bool isActive})
+      : super(label: label, icon: icon, isActive: isActive);
 }

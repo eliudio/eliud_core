@@ -62,7 +62,7 @@ class EliudAppBarImpl implements HasAppBar {
       buttons.add(_eliudStyle
           .frontEndStyle()
           .getProfilePhotoButtonFromMember(
-          context, member, iconColor, openDrawer));
+          context, member: member, radius: 20, iconColor: iconColor, onPressed: openDrawer));
     }
 
     var state = AccessBloc.getState(context);

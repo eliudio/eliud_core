@@ -110,7 +110,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
       i++;
     });
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().container(context,
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().actionContainer(context,
         child: Center(
             child: Container(
           width: AcceptMembershipWidget.width(context),

@@ -4,17 +4,20 @@ import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/shared/has_appbar.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/shared/has_page_body.dart';
+import 'package:eliud_core/style/shared/has_profile_photo.dart';
 import 'package:eliud_core/style/shared/types.dart';
 import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
 import 'impl/eliud_appbar_impl.dart';
 import 'impl/eliud_bottom_navigation_bar_impl.dart';
+import 'impl/eliud_container_impl.dart';
 import 'impl/eliud_drawer_impl.dart';
 import 'impl/eliud_menu_impl.dart';
 import 'impl/eliud_page_body_impl.dart';
@@ -28,6 +31,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudBottomNavigationBarImpl eliudBottomNavigationBarImpl;
   late EliudAppBarImpl eliudAppBarImpl;
   late EliudProfilePhotoImpl eliudProfilePhotoImpl;
+  late EliudContainerImpl eliudContainerImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -36,6 +40,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudBottomNavigationBarImpl = EliudBottomNavigationBarImpl(_eliudStyle);
     eliudAppBarImpl = EliudAppBarImpl(_eliudStyle);
     eliudProfilePhotoImpl = EliudProfilePhotoImpl(_eliudStyle);
+    eliudContainerImpl = EliudContainerImpl(_eliudStyle);
   }
 
   @override
@@ -102,42 +107,90 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   @override
   PreferredSizeWidget appBar(BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,
-        required String pageName,
-        List<AbstractMenuItemAttributes>? items,
-        BackgroundModel? backgroundOverride,
-        RgbModel? menuBackgroundColorOverride,
-        RgbModel? selectedIconColorOverride,
-        RgbModel? iconColorOverride,
-        VoidCallback? openDrawer}) {
+      required String pageName,
+      List<AbstractMenuItemAttributes>? items,
+      BackgroundModel? backgroundOverride,
+      RgbModel? menuBackgroundColorOverride,
+      RgbModel? selectedIconColorOverride,
+      RgbModel? iconColorOverride,
+      VoidCallback? openDrawer}) {
     return eliudAppBarImpl.appBar(context,
-        headerAttributes:headerAttributes,
+        headerAttributes: headerAttributes,
         pageName: pageName,
         items: items,
         backgroundOverride: backgroundOverride,
         menuBackgroundColorOverride: menuBackgroundColorOverride,
         selectedIconColorOverride: selectedIconColorOverride,
         iconColorOverride: iconColorOverride,
-        openDrawer:openDrawer);
+        openDrawer: openDrawer);
   }
 
   @override
-  Widget getProfilePhotoButtonFromCurrentMember(
-      BuildContext context, RgbModel? iconColor, VoidCallback? onPressed) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromCurrentMember(
-        context, iconColor, onPressed);
+  Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
+      {RgbModel? iconColor, required double radius, VoidCallback? onPressed}) {
+    return eliudProfilePhotoImpl.getProfilePhotoButtonFromCurrentMember(context,
+        radius: radius, iconColor: iconColor, onPressed: onPressed);
   }
 
   @override
   Widget getProfilePhotoButtonFromMember(BuildContext context,
-      MemberModel? member, RgbModel? iconColor, VoidCallback? onPressed) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromMember(
-        context, member, iconColor, onPressed);
+      {MemberModel? member,
+      required double radius,
+      RgbModel? iconColor,
+      VoidCallback? onPressed}) {
+    return eliudProfilePhotoImpl.getProfilePhotoButtonFromMember(context,
+        radius: radius,
+        member: member,
+        iconColor: iconColor,
+        onPressed: onPressed);
   }
 
   @override
-  Widget getProfilePhotoButtonFromURL(BuildContext context, String? url,
-      RgbModel? iconColor, VoidCallback? onPressed) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromURL(
-        context, url, iconColor, onPressed);
+  Widget getProfilePhotoButtonFromURL(BuildContext context,
+      {String? url,
+      required double radius,
+      RgbModel? iconColor,
+      VoidCallback? onPressed}) {
+    return eliudProfilePhotoImpl.getProfilePhotoButtonFromURL(context,
+        radius: radius, url: url, iconColor: iconColor, onPressed: onPressed);
+  }
+
+  @override
+  Widget getProfilePhotoButtonFromPublicMember(BuildContext context,
+      {MemberPublicInfoModel? member,
+      required double radius,
+      RgbModel? iconColor,
+      VoidCallback? onPressed}) {
+    return eliudProfilePhotoImpl.getProfilePhotoButtonFromPublicMember(context,
+        radius: radius,
+        member: member,
+        iconColor: iconColor,
+        onPressed: onPressed);
+  }
+
+  @override
+  Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
+      {required ExternalProfileURLProvider externalProfileURLProvider,
+      BackupProfileURLProvider? fallBackURLProvider,
+      required double radius,
+      RgbModel? iconColor,
+      VoidCallback? onPressed}) {
+    return eliudProfilePhotoImpl.getProfilePhotoButtonFromExternalProvider(
+        context,
+        radius: radius,
+        externalProfileURLProvider: externalProfileURLProvider,
+        fallBackURLProvider: fallBackURLProvider,
+        iconColor: iconColor,
+        onPressed: onPressed);
+  }
+
+  @override
+  Widget actionContainer(BuildContext context, {required Widget child}) {
+    return eliudContainerImpl.actionContainer(context, child: child);
+  }
+
+  @override
+  Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image}) {
+    return eliudContainerImpl.topicContainer(context, children: children, image: image);
   }
 }

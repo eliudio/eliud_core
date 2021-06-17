@@ -48,25 +48,29 @@ class MenuItemMapper {
           }
         });
         return MenuItemWithMenuItems(
-            icon: item.icon,
-            label: 'Switch to...',
-            items: items
+          icon: item.icon,
+          label: 'Switch to...',
+          items: items,
+          isActive: false,
         );
       }
     } else {
       if (action is PopupMenu) {
         var items = <AbstractMenuItemAttributes>[];
+        var hasActive = false;
         action.menuDef!.menuItems!.forEach((item) {
           var newItem = mapMenuItem(context, item, member, currentPage);
           if (newItem != null) {
             items.add(newItem);
+            hasActive = hasActive || newItem.isActive;
           }
         });
         if (items.length > 0) {
           return MenuItemWithMenuItems(
               icon: item.icon,
               label: item.text == null ? '?' : item.text!,
-              items: items
+              items: items,
+              isActive: hasActive,
           );
         }
       } else {

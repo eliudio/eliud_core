@@ -1,6 +1,7 @@
 import 'package:eliud_core/style/shared/has_appbar.dart';
 import 'package:eliud_core/style/shared/has_bottom_navigation_bar.dart';
 import 'package:eliud_core/style/shared/has_button.dart';
+import 'package:eliud_core/style/shared/has_container.dart';
 import 'package:eliud_core/style/shared/has_divider.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/shared/has_icon.dart';
@@ -26,6 +27,6 @@ abstract class FrontEndStyle implements
     HasMenu,
     HasBottomNavigationBar,
     HasPageBody,
-    HasProfilePhoto {
-  Widget container(BuildContext context, {Widget child});
+    HasProfilePhoto,
+    HasContainer {
 }
