@@ -53,9 +53,6 @@ class EliudAppBarImpl implements HasAppBar {
       buttons = [];
     }
 
-    // add playstoreButton
-    var playStoreButton;
-
     // add profilePhoto
     var member = AccessBloc.member(context);
     if (member != null) {
