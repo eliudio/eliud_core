@@ -2,9 +2,9 @@ import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/style/shared/has_button.dart';
 import 'package:eliud_core/style/shared/has_divider.dart';
 import 'package:eliud_core/style/shared/has_icon.dart';
+import 'package:eliud_core/style/shared/has_list_tile.dart';
 import 'package:eliud_core/style/shared/has_style.dart';
 import 'package:eliud_core/style/shared/has_table.dart';
-import 'package:eliud_core/style/shared/has_text.dart';
 import 'package:eliud_core/style/shared/has_text.dart';
 import 'package:eliud_core/style/shared/has_text_form_field.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -94,6 +94,31 @@ abstract class EliudSharedImplementation
         child: child,
       );
     }
+  }
+
+  @override
+  Widget dialogButton(BuildContext context,
+      {VoidCallback? onPressed, required String label}) {
+    return TextButton(
+        onPressed: onPressed,
+        child: Text(label));
+  }
+
+  @override
+  List<Widget> dialogButtons(BuildContext context, {required List<String> labels,
+    required List<VoidCallback?> functions}) {
+    if (labels.length != functions.length) {
+      throw Exception(
+          'Amount of labels of buttons does not correspond functions');
+    }
+    var buttons = <Widget>[];
+    for (var i = 0; i < labels.length; i++) {
+      var label = labels[i];
+      var function = functions[i];
+      buttons.add(dialogButton(context,
+          onPressed: function, label: label));
+    }
+    return buttons;
   }
 
   @override

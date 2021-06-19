@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'dialog_helper.dart';
 
-class WidgetDialog extends StatefulWidget {
+class FlexibleDialog extends StatefulWidget {
   final String title;
   final Widget widget;
-  final VoidCallback onPressed;
-  final String? buttonLabel;
   final DialogButtonPosition dialogButtonPosition;
+  final List<Widget> buttons;
 
-  WidgetDialog({
+  FlexibleDialog({
     Key? key,
     required this.title,
     required this.widget,
-    this.buttonLabel,
-    required this.onPressed,
     required this.dialogButtonPosition,
+    required this.buttons,
   }) : super(key: key);
 
   @override
-  _WidgetDialogState createState() => _WidgetDialogState();
+  _FlexibleDialogState createState() => _FlexibleDialogState();
 }
 
-class _WidgetDialogState extends State<WidgetDialog> {
+class _FlexibleDialogState extends State<FlexibleDialog> {
   final DialogStateHelper dialogHelper = DialogStateHelper();
 
   @override
@@ -30,7 +28,6 @@ class _WidgetDialogState extends State<WidgetDialog> {
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
         contents: widget.widget,
-        buttons: dialogHelper.getCloseButton(context,
-            onPressed: widget.onPressed, buttonLabel: widget.buttonLabel));
+        buttons: widget.buttons);
   }
 }

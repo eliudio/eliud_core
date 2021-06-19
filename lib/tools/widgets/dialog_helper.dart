@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,14 +9,14 @@ enum DialogButtonPosition { BottomRight, TopRight }
 class DialogStatefulWidgetHelper {
   static double width(BuildContext context) =>
       MediaQuery.of(context).size.width * 0.9;
+
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 0.9;
 
   static void openIt(BuildContext context, Widget dialog,
       {double? heightValue, double? widthValue}) {
-    var _width = widthValue == null
-        ? width(context)
-        : min(width(context), widthValue);
+    var _width =
+        widthValue == null ? width(context) : min(width(context), widthValue);
     var _height = heightValue == null
         ? height(context)
         : min(height(context), heightValue);
@@ -24,10 +25,10 @@ class DialogStatefulWidgetHelper {
         builder: (BuildContext context) {
           return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: Align(alignment: Alignment.center, child: SizedBox(
-              width: _width,
-              height: _height,
-              child: dialog)));
+              child: Align(
+                  alignment: Alignment.center,
+                  child:
+                      SizedBox(width: _width, height: _height, child: dialog)));
         });
   }
 }
@@ -36,7 +37,13 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget build({required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
+  Widget build(
+      {required String title,
+      required Widget contents,
+      required List<Widget> buttons,
+      double? width,
+      required DialogButtonPosition dialogButtonPosition,
+      Widget? separator}) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
       shape: RoundedRectangleBorder(
@@ -44,16 +51,31 @@ class DialogStateHelper {
       ),
       elevation: 0,
       backgroundColor: Colors.white,
-      child: _contentBox(title: title, contents: contents, buttons: buttons, dialogButtonPosition: dialogButtonPosition, seperator: seperator),
+      child: _contentBox(
+          title: title,
+          contents: contents,
+          buttons: buttons,
+          dialogButtonPosition: dialogButtonPosition,
+          separator: separator),
     );
   }
 
   Widget _contentBox(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
+      {required String title,
+      required Widget contents,
+      required List<Widget> buttons,
+      double? width,
+      DialogButtonPosition? dialogButtonPosition,
+      Widget? separator}) {
     return Form(
         key: _formKey,
-        child: _titleAndFields(title: title, contents: contents, buttons: buttons, width: width, dialogButtonPosition: dialogButtonPosition, seperator: seperator)
-    );
+        child: _titleAndFields(
+            title: title,
+            contents: contents,
+            buttons: buttons,
+            width: width,
+            dialogButtonPosition: dialogButtonPosition,
+            separator: separator));
   }
 
   Widget _getRowWithButtons(List<Widget> buttons, {Widget? title}) {
@@ -68,41 +90,50 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFields(
-      {required String title, required Widget contents, required List<Widget> buttons, double? width, DialogButtonPosition? dialogButtonPosition, Widget? seperator}) {
+      {required String title,
+      required Widget contents,
+      required List<Widget> buttons,
+      double? width,
+      DialogButtonPosition? dialogButtonPosition,
+      Widget? separator}) {
     var widgets = <Widget>[];
     Widget _title = Text(title,
         style: TextStyle(
             color: Colors.grey[800],
             fontWeight: FontWeight.bold,
             fontSize: 20));
-    if ((dialogButtonPosition != null) && (dialogButtonPosition == DialogButtonPosition.TopRight)) {
+    if ((dialogButtonPosition != null) &&
+        (dialogButtonPosition == DialogButtonPosition.TopRight)) {
       widgets.add(_getRowWithButtons(buttons, title: _title));
     } else {
-      widgets.add(
-          Center(child: _title));
+      widgets.add(Center(child: _title));
     }
-    if (seperator == null) {
+    if (separator == null) {
       widgets.add(Divider(
         height: 10,
         color: Colors.red,
       ));
     } else {
-      widgets.add(seperator);
+      widgets.add(separator);
     }
     widgets.add(contents);
-    if (!((dialogButtonPosition != null) && (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+    if (!((dialogButtonPosition != null) &&
+        (dialogButtonPosition == DialogButtonPosition.TopRight))) {
       widgets.add(Divider(
-          height: 10,
-          color: Colors.red,
+        height: 10,
+        color: Colors.red,
       ));
       widgets.add(_getRowWithButtons(buttons));
     }
 
-    return Container(width: width, child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        children: widgets));
+    return Container(
+        width: width,
+        child: ListView(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            children: widgets));
   }
 
   /* Helper method to create a list tile */
@@ -119,40 +150,51 @@ class DialogStateHelper {
   /* Helper method to format the fields */
   Widget fieldsWidget(BuildContext context, List<Widget> widgets,
       {double? height, double? width}) {
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().simpleTopicContainer(context, children: widgets, height: height, width: width);
+/*
     return Container(
         height: (height != null)
             ? height
             : DialogStatefulWidgetHelper.height(context) -
-                150 /* minus the size of the button, title and divider */,
+                150 */
+/* minus the size of the button, title and divider *//*
+,
         width:
             (width != null) ? width : DialogStatefulWidgetHelper.width(context),
         child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             children: widgets));
+*/
   }
 
   /* Helper method to retrieve the button */
   List<TextButton> getCloseButton(
-      BuildContext context, Function? closeFunction) {
+    BuildContext context, {
+    required VoidCallback onPressed,
+    String? buttonLabel,
+  }) {
     return <TextButton>[
-      TextButton(child: Text('Close'), onPressed: closeFunction as void Function()?),
+      TextButton(child: Text(buttonLabel ?? 'Close'), onPressed: onPressed),
     ];
   }
 
   List<TextButton> getDefaultCloseButton(BuildContext context) {
-    return getCloseButton(context, () => Navigator.pop(context));
+    return getCloseButton(context,
+        buttonLabel: 'Close', onPressed: () => Navigator.pop(context));
   }
 
-  List<TextButton> getYesNoButtons(
-      BuildContext context, Function? yesFunction, Function? noFunction,
-      {String? yesButtonLabel, String? noButtonLabel}) {
-    return <TextButton> [
+  List<Widget> getAckNackButtons(BuildContext context,
+      {required VoidCallback ackFunction,
+      required VoidCallback nackFunction,
+      String? ackButtonLabel,
+      String? nackButtonLabel}) {
+    return <TextButton>[
       TextButton(
-          onPressed: noFunction as void Function()?,
-          child: Text(noButtonLabel == null ? 'Cancel' : noButtonLabel),),
+        onPressed: nackFunction,
+        child: Text(nackButtonLabel ?? 'Cancel'),
+      ),
       TextButton(
-          onPressed: yesFunction as void Function()?,
-          child: Text(yesButtonLabel == null ? 'Continue' : yesButtonLabel)),
+          onPressed: ackFunction, child: Text(ackButtonLabel ?? 'Continue')),
     ];
   }
 
@@ -165,7 +207,8 @@ class DialogStateHelper {
     for (int i = 0; i < buttonLabels.length; i++) {
       String label = buttonLabels[i];
       Function function = functions[i];
-      buttons.add(TextButton(onPressed: function as void Function()?, child: Text(label)));
+      buttons.add(TextButton(
+          onPressed: function as void Function()?, child: Text(label)));
     }
     return buttons;
   }

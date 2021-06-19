@@ -3,14 +3,13 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-typedef void ValueChanged(String value);
-
 class DialogField extends StatefulWidget {
   final InputDecoration? decoration;
-  final ValueChanged? valueChanged;
+  final ValueChanged<String> valueChanged;
   final String? initialValue;
 
-  const DialogField({Key? key, this.decoration, this.valueChanged, this.initialValue})
+  const DialogField(
+      {Key? key, this.decoration, required this.valueChanged, this.initialValue})
       : super(key: key);
 
   @override
@@ -32,7 +31,7 @@ class _DialogFieldState extends State<DialogField> {
   }
 
   void _fieldChanged() {
-    widget.valueChanged!(myController.text);
+    widget.valueChanged(myController.text);
   }
 
   @override

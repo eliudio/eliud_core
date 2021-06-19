@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/default_style/frontend/impl/eliud_list_tile_impl.dart';
 import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
@@ -36,6 +36,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudContainerImpl eliudContainerImpl;
   late EliudProgressIndicatorImpl eliudProgressIndicatorImpl;
   late EliudAppImpl eliudAppImpl;
+  late EliudListTileImpl eliudListTileImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -47,13 +48,7 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudContainerImpl = EliudContainerImpl(_eliudStyle);
     eliudProgressIndicatorImpl = EliudProgressIndicatorImpl(_eliudStyle);
     eliudAppImpl = EliudAppImpl(_eliudStyle);
-  }
-
-  @override
-  Widget container(BuildContext context, {Widget? child}) {
-    var accessState = AccessBloc.getState(context);
-    return Container(
-        height: double.infinity, width: double.infinity, child: child);
+    eliudListTileImpl = EliudListTileImpl(_eliudStyle);
   }
 
   @override
@@ -191,13 +186,18 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   }
 
   @override
-  Widget actionContainer(BuildContext context, {required Widget child}) {
-    return eliudContainerImpl.actionContainer(context, child: child);
+  Widget actionContainer(BuildContext context, {required Widget child, double? height, double? width}) {
+    return eliudContainerImpl.actionContainer(context, child: child, height: height, width: width);
   }
 
   @override
-  Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image}) {
-    return eliudContainerImpl.topicContainer(context, children: children, image: image);
+  Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image, double? height, double? width}) {
+    return eliudContainerImpl.topicContainer(context, children: children, image: image, height: height, width: width);
+  }
+
+  @override
+  Widget simpleTopicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image, double? height, double? width}) {
+    return eliudContainerImpl.simpleTopicContainer(context, children: children, image: image, height: height, width: width);
   }
 
   @override
@@ -209,4 +209,10 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   Widget app({GlobalKey<NavigatorState>? navigatorKey, GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey, String? initialRoute, RouteFactory? onGenerateRoute, RouteFactory? onUnknownRoute, required String title}) {
     return eliudAppImpl.app(navigatorKey: navigatorKey, scaffoldMessengerKey: scaffoldMessengerKey, initialRoute: initialRoute, onGenerateRoute: onGenerateRoute, onUnknownRoute: onUnknownRoute, title: title);
   }
+
+  @override
+  Widget getListTile(BuildContext context, {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine}) {
+    return eliudListTileImpl.getListTile(context, leading: leading, title: title, subtitle: subtitle, isThreeLine: isThreeLine);
+  }
+
 }

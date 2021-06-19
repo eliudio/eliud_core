@@ -9,9 +9,12 @@ class EliudContainerImpl implements HasContainer {
   EliudContainerImpl(this._eliudStyle);
 
   @override
-  Widget actionContainer(BuildContext context, {required Widget child}) {
+  Widget actionContainer(BuildContext context,
+      {required Widget child, double? height, double? width}) {
     return Container(
         margin: EdgeInsets.all(7.0),
+        width: width,
+        height: height,
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.white, width: 1),
@@ -28,10 +31,16 @@ class EliudContainerImpl implements HasContainer {
   }
 
   @override
-  Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image}) {
+  Widget topicContainer(BuildContext context,
+      {required List<Widget> children,
+      DecorationImage? image,
+      double? height,
+      double? width}) {
     return Padding(
         padding: const EdgeInsets.all(7.0),
         child: Container(
+            width: width,
+            height: height,
             decoration: BoxDecoration(
                 color: Colors.white,
                 image: image,
@@ -51,5 +60,19 @@ class EliudContainerImpl implements HasContainer {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: children,
                 ))));
+  }
+
+  @override
+  Widget simpleTopicContainer(BuildContext context,
+      {required List<Widget> children,
+      DecorationImage? image,
+      double? height,
+      double? width}) {
+    return Padding(
+        padding: const EdgeInsets.all(7.0),
+        child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ));
   }
 }

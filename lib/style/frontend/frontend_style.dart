@@ -6,6 +6,7 @@ import 'package:eliud_core/style/shared/has_container.dart';
 import 'package:eliud_core/style/shared/has_divider.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/shared/has_icon.dart';
+import 'package:eliud_core/style/shared/has_list_tile.dart';
 import 'package:eliud_core/style/shared/has_menu.dart';
 import 'package:eliud_core/style/shared/has_page_body.dart';
 import 'package:eliud_core/style/shared/has_profile_photo.dart';
@@ -32,6 +33,6 @@ abstract class FrontEndStyle implements
     HasProfilePhoto,
     HasContainer,
     HasProgressIndicator,
-    HasApp
-{
+    HasApp,
+    HasListTile {
 }

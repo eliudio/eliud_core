@@ -6,22 +6,28 @@ import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 typedef OptionTriggered = void Function();
 
 class DialogOption {
-  final String? value;
-  final OptionTriggered? optionTriggered;
+  final String value;
+  final OptionTriggered optionTriggered;
 
-  DialogOption({this.value, this.optionTriggered});
+  DialogOption({required this.value, required this.optionTriggered});
 }
 
 class DialogWithOptions extends StatefulWidget {
-  List<DialogOption>? options;
-  final String? title;
+  List<DialogOption> options;
+  final String title;
+  final String? buttonLabel;
+  final DialogButtonPosition dialogButtonPosition;
 
   DialogWithOptions(
-      {Key? key, this.options, this.title,
-      })
+      {Key? key,
+      required this.options,
+      required this.title,
+      this.buttonLabel,
+      required this.dialogButtonPosition})
       : super(key: key);
 
-  DialogWithOptions withOptionConditional(bool condition, String option, OptionTriggered triggered) {
+  DialogWithOptions withOptionConditional(
+      bool condition, String option, OptionTriggered triggered) {
     if (condition) {
       return withOption(option, triggered);
     } else {
@@ -30,8 +36,7 @@ class DialogWithOptions extends StatefulWidget {
   }
 
   DialogWithOptions withOption(String option, OptionTriggered triggered) {
-    options ??= [];
-    options!.add(DialogOption(value: option, optionTriggered: triggered));
+    options.add(DialogOption(value: option, optionTriggered: triggered));
     return this;
   }
 
@@ -45,30 +50,32 @@ class _DialogWithOptionsState extends State<DialogWithOptions> {
   @override
   Widget build(BuildContext context) {
     return helper.build(
-        title: widget.title!,
+        dialogButtonPosition: widget.dialogButtonPosition,
+        title: widget.title,
         contents: getOptions(context),
-        buttons: helper.getCloseButton(
-            context, pressed));
+        buttons: helper.getCloseButton(context,
+            onPressed: pressed, buttonLabel: widget.buttonLabel));
   }
 
   Widget getOptions(BuildContext context) {
     return ListView.builder(
         physics: ScrollPhysics(),
         shrinkWrap: true,
-        itemCount: widget.options!.length,
+        itemCount: widget.options.length,
         itemBuilder: (context, i) {
-          return TextButton(onPressed: () => onPressed(i), child: Text(widget.options![i].value!));
-      });
+          return TextButton(
+              onPressed: () => onPressed(i),
+              child: Text(widget.options[i].value));
+        });
   }
 
   void onPressed(int index) {
     Navigator.pop(context);
-    widget.options![index].optionTriggered!();
+    widget.options[index].optionTriggered();
   }
 
   Widget getFieldsWidget(BuildContext context) {
-    return helper.fieldsWidget(context, <Widget>[
-    ]);
+    return helper.fieldsWidget(context, <Widget>[]);
   }
 
   void pressed() {

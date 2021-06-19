@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'dialog_helper.dart';
 
 class MessageDialog extends StatefulWidget {
-  final String? title;
-  final String? message;
-  final Function? yesFunction;
+  final String title;
+  final String message;
+  final VoidCallback onPressed;
+  final String? buttonLabel;
+  final DialogButtonPosition dialogButtonPosition;
 
   MessageDialog({
     Key? key,
-    this.title,
-    this.message,
-    this.yesFunction,
+    required this.title,
+    required this.message,
+    required this.onPressed,
+    this.buttonLabel,
+    required this.dialogButtonPosition,
   }) : super(key: key);
 
   @override
@@ -25,8 +29,10 @@ class _MessageState extends State<MessageDialog> {
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
-        title: widget.title!,
-        contents: Text(widget.message!),
-        buttons: dialogHelper.getCloseButton(context, widget.yesFunction));
+        title: widget.title,
+        dialogButtonPosition: widget.dialogButtonPosition,
+        contents: Text(widget.message),
+        buttons: dialogHelper.getCloseButton(context,
+            onPressed: widget.onPressed, buttonLabel: widget.buttonLabel));
   }
 }

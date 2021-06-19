@@ -51,7 +51,9 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   void initState() {
     super.initState();
     var app = AccessBloc.app(context)!;
-    checked = app.policies!.policies!.map((element) => CheckboxHandler(false, element.policy)).toList();
+    checked = app.policies!.policies!
+        .map((element) => CheckboxHandler(false, element.policy))
+        .toList();
   }
 
   @override
@@ -66,8 +68,17 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     return true;
   }
 
-  void _openPolicy(String? title, MemberMediumModel? item) {
-    DialogStatefulWidgetHelper.openIt(context, MemberMediumDialog(width: 100, title: title, memberMediumModel: item, closeFunction: () => Navigator.of(context).pop()), );
+  void _openPolicy(String? title, MemberMediumModel item) {
+    DialogStatefulWidgetHelper.openIt(
+      context,
+      MemberMediumDialog(
+        width: 100,
+        title: title,
+        memberMediumModel: item,
+        onPressed: () => Navigator.of(context).pop(),
+        dialogButtonPosition: DialogButtonPosition.BottomRight,
+      ),
+    );
   }
 
   @override
@@ -79,8 +90,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     var i = 0;
     app.policies!.policies!.forEach((policy) {
       var handler = checked[i];
-      contents.add(Row(
-          children: [
+      contents.add(Row(children: [
         Container(
             height: 40,
             child: Center(
@@ -102,33 +112,37 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
         Container(
             height: 30,
             child: Center(
-                child:
-                    TextButton(child: Text('Read'), onPressed: () async {
-                      _openPolicy(policy.name, handler.item);
+                child: TextButton(
+                    child: Text('Read'),
+                    onPressed: () async {
+                      _openPolicy(policy.name, handler.item!);
                     }))),
       ]));
       i++;
     });
 
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().actionContainer(context,
-        child: Center(
-            child: Container(
-          width: AcceptMembershipWidget.width(context),
-          height: AcceptMembershipWidget.height(context),
-          child: addStuff(contents, app),
-          //padding: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                )
-              ]),
-        )));
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .actionContainer(context,
+            child: Center(
+                child: Container(
+              width: AcceptMembershipWidget.width(context),
+              height: AcceptMembershipWidget.height(context),
+              child: addStuff(contents, app),
+              //padding: EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    )
+                  ]),
+            )));
   }
 
   Widget addStuff(List<Widget> content, AppModel app) {
@@ -162,18 +176,24 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     ];
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Accept', onPressed: _allEnabled(app)
-            ? () async {
-                BlocProvider.of<AccessBloc>(context)
-                    .add(AcceptedMembership(widget.member, widget.usr));
-              }
-            : null,
-      ),
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(
+            context,
+            label: 'Accept',
+            onPressed: _allEnabled(app)
+                ? () async {
+                    BlocProvider.of<AccessBloc>(context)
+                        .add(AcceptedMembership(widget.member, widget.usr));
+                  }
+                : null,
+          ),
       Spacer(),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Cancel',
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(
+        context,
+        label: 'Cancel',
         onPressed: () async {
           BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
-        },)
+        },
+      )
     ]));
 
     return ListView(

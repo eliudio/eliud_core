@@ -8,15 +8,19 @@ import 'dialog_helper.dart';
 class MemberMediumDialog extends StatefulWidget {
   final double? width;
   final String? title;
-  final MemberMediumModel? memberMediumModel;
-  final Function? closeFunction;
+  final MemberMediumModel memberMediumModel;
+  final VoidCallback onPressed;
+  final String? buttonLabel;
+  final DialogButtonPosition dialogButtonPosition;
 
   MemberMediumDialog({
     Key? key,
     this.title,
-    this.memberMediumModel,
-    this.closeFunction,
+    required this.memberMediumModel,
+    required this.onPressed,
+    this.buttonLabel,
     this.width,
+    required this.dialogButtonPosition,
   }) : super(key: key);
 
   @override
@@ -25,28 +29,38 @@ class MemberMediumDialog extends StatefulWidget {
 
 class _MemberMediumState extends State<MemberMediumDialog> {
   final DialogStateHelper dialogHelper = DialogStateHelper();
+
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
   Future<List<MediumInfo>> buildImagesList() async {
-    var memberMediumModel = widget.memberMediumModel!;
+    var memberMediumModel = widget.memberMediumModel;
     var appId = memberMediumModel.appId;
-    return await ChainOfMediumModels.getChainOfMediumInfo(appId, memberMediumModel);
+    return await ChainOfMediumModels.getChainOfMediumInfo(
+        appId, memberMediumModel);
   }
 
   @override
   Widget build(BuildContext context) {
     return dialogHelper.build(
-      width: widget.width,
+        width: widget.width,
         title: widget.title!,
-        buttons: dialogHelper.getCloseButton(context, widget.closeFunction),
+        dialogButtonPosition: widget.dialogButtonPosition,
+        buttons: dialogHelper.getCloseButton(context,
+            onPressed: widget.onPressed, buttonLabel: widget.buttonLabel),
         contents: FutureBuilder<List<MediumInfo>>(
             future: buildImagesList(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Container(width: widget.width, height : height(context) - 130, child: getAllImages(context, snapshot.data!));
+                return Container(
+                    width: widget.width,
+                    height: height(context) - 130,
+                    child: getAllImages(context, snapshot.data!));
               } else {
-                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+                return StyleRegistry.registry()
+                    .styleWithContext(context)
+                    .frontEndStyle()
+                    .progressIndicator(context);
               }
             }));
   }
@@ -58,9 +72,9 @@ class _MemberMediumState extends State<MemberMediumDialog> {
       physics: ScrollPhysics(),
       itemCount: infos.length,
       itemBuilder: (BuildContext context, int index) {
-        return Image.network(
-            infos[index].url!, width: infos[index].width!.toDouble(), height: infos[index].height!.toDouble()
-            );
+        return Image.network(infos[index].url!,
+            width: infos[index].width!.toDouble(),
+            height: infos[index].height!.toDouble());
       },
     );
   }

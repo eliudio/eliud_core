@@ -13,6 +13,7 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/widgets/dialog_helper.dart';
 import 'package:eliud_core/tools/widgets/message_dialog.dart';
+import 'package:eliud_core/tools/widgets/simple_dialog_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
@@ -38,14 +39,14 @@ class Registry {
   }
 
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();
-  final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers = HashMap();
+  final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers =
+      HashMap();
 
   static Registry? _instance;
 
   Map<String?, ComponentConstructor?> registryMap() => _registryMap;
 
-  Registry._internal() {
-  }
+  Registry._internal() {}
 
   static Registry? registry() {
     _instance ??= Registry._internal();
@@ -71,29 +72,36 @@ class Registry {
     var appId = AccessBloc.appId(context);
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
-      DialogStatefulWidgetHelper.openIt(context, DialogComponent(dialog: dialog, parameters: parameters));
+      DialogStatefulWidgetHelper.openIt(
+          context, DialogComponent(dialog: dialog, parameters: parameters));
     } else {
-      DialogStatefulWidgetHelper.openIt(context, MessageDialog(title: 'Error', message: 'Widget with id $id not found in app $appId', yesFunction: () => Navigator.of(context).pop()));
+      SimpleDialogApi.openErrorDialog(context,
+          title: 'Error',
+          errorMessage: 'Widget with id $id not found in app $appId',
+          closeLabel: 'Close');
     }
   }
 
   void snackbar(
-      String text, {
-        String? snackbarActionLabel,
-        Function()? action,
-      }) {
+    String text, {
+    String? snackbarActionLabel,
+    Function()? action,
+  }) {
     final snackBar = SnackBar(
       content: Text(text),
-      action: snackbarActionLabel == null ? null : SnackBarAction(
-          label: snackbarActionLabel,
-          onPressed: () {
-            if (action != null) action();
-          }),
+      action: snackbarActionLabel == null
+          ? null
+          : SnackBarAction(
+              label: snackbarActionLabel,
+              onPressed: () {
+                if (action != null) action();
+              }),
     );
     rootScaffoldMessengerKey.currentState!.showSnackBar(snackBar);
   }
 
-  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   Widget application({String? id, bool? asPlaystore}) {
     print(".");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
@@ -122,7 +130,10 @@ class Registry {
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (accessContext, accessState) {
               if (accessState is UndeterminedAccessState) {
-                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+                return StyleRegistry.registry()
+                    .styleWithContext(context)
+                    .frontEndStyle()
+                    .progressIndicator(context);
               } else if (accessState is AppLoaded) {
                 if (accessState.app == null) {
                   return AlertWidget(
@@ -130,18 +141,21 @@ class Registry {
                 } else {
                   var app = accessState.app;
                   var router = eliudrouter.Router(AccessBloc.getBloc(context));
-                  return StyleRegistry.registry().styleWithContext(context).frontEndStyle().app(
-                    navigatorKey: navigatorKey,
-                    scaffoldMessengerKey: rootScaffoldMessengerKey,
-                    initialRoute: eliudrouter.Router.homeRoute,
-                    onGenerateRoute: router.generateRoute,
-                    onUnknownRoute: (RouteSettings setting) {
-                      return pageRouteBuilder(accessState.app,
-                          page: AlertWidget(
-                              title: 'Error', content: 'Page not found'));
-                    },
-                    title: app.title ?? 'No title',
-                  );
+                  return StyleRegistry.registry()
+                      .styleWithContext(context)
+                      .frontEndStyle()
+                      .app(
+                        navigatorKey: navigatorKey,
+                        scaffoldMessengerKey: rootScaffoldMessengerKey,
+                        initialRoute: eliudrouter.Router.homeRoute,
+                        onGenerateRoute: router.generateRoute,
+                        onUnknownRoute: (RouteSettings setting) {
+                          return pageRouteBuilder(accessState.app,
+                              page: AlertWidget(
+                                  title: 'Error', content: 'Page not found'));
+                        },
+                        title: app.title ?? 'No title',
+                      );
                 }
               } else {
                 return AlertWidget(title: 'Error', content: 'Unexpected state');
@@ -151,12 +165,16 @@ class Registry {
             print("AppError" + state.message);
             return AlertWidget(title: 'Error', content: state.message);
           } else {
-            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+            return StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .progressIndicator(context);
           }
         }));
   }
 
-  Widget component(String componentName, String id, {Map<String, dynamic>? parameters}) {
+  Widget component(String componentName, String id,
+      {Map<String, dynamic>? parameters}) {
     Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
@@ -186,16 +204,19 @@ class Registry {
     _registryMap[componentName] = componentConstructor;
   }
 
-  void registerPageComponentsBloc(String blocName, ComponentWidgetWrapper wrapper) {
+  void registerPageComponentsBloc(
+      String blocName, ComponentWidgetWrapper wrapper) {
     _componentWidgetWrappers[blocName] = wrapper;
   }
 
-  Widget? wrapWidgetInBloc(String wrapperName, BuildContext context, ComponentInfo componentInfo) {
+  Widget? wrapWidgetInBloc(
+      String wrapperName, BuildContext context, ComponentInfo componentInfo) {
     var wrapper = _componentWidgetWrappers[wrapperName];
     if (wrapper != null) {
       return wrapper.wrapWidget(context, componentInfo);
     } else {
-      print("Can't find the wrapper with wrapperName $wrapperName. Did you register it from your package using registerPageComponentsBloc?");
+      print(
+          "Can't find the wrapper with wrapperName $wrapperName. Did you register it from your package using registerPageComponentsBloc?");
       return null;
     }
   }

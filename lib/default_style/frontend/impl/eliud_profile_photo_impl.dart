@@ -148,7 +148,10 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
               child: CircleAvatar(
                 radius: radius - 4,
                 backgroundColor: Colors.transparent,
-                child: widget,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: widget,
+                ),
               ),
             )));
   }
