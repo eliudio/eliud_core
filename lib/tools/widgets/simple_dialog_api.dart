@@ -86,10 +86,7 @@ class SimpleDialogApi {
           ackButtonLabel: ackButtonLabel,
           nackButtonLabel: nackButtonLabel,
           hintText: hintText,
-          onPressed: (value) {
-            Navigator.of(context).pop();
-            onPressed(value);
-          },
+          onPressed: onPressed,
           initialValue: initialValue,
         ),
       );
@@ -121,12 +118,7 @@ class SimpleDialogApi {
             context,
             title: title,
             child: child,
-            onPressed: () {
-              Navigator.of(context).pop();
-              if (onPressed != null) {
-                onPressed();
-              }
-            },
+            onPressed: onPressed,
             buttonLabel: buttonLabel,
           ));
 
