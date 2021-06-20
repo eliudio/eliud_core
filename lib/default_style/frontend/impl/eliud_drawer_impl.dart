@@ -55,34 +55,30 @@ class EliudDrawerImpl implements HasDrawer {
     }
 
     for (var item in items) {
-      if (item is MenuItemAttributes) {
-        var style = item.isActive
-            ? _eliudStyle.frontEndStyle().styleH3(context)
-            : _eliudStyle.frontEndStyle().styleH4(context);
+      var style = item.isActive
+          ? _eliudStyle.frontEndStyle().styleH3(context)
+          : _eliudStyle.frontEndStyle().styleH4(context);
 
-        widgets.add(ListTile(
-            leading: item.icon == null
-                ? null
-                : IconHelper.getIconFromModelWithFlutterColor(
-                    iconModel: item.icon, color: style!.color),
-            title: Text(item.label!, textAlign: TextAlign.center, style: style),
-            onTap: () {
-              if (item is MenuItemAttributes) {
-                item.onTap();
-              } else if (item is MenuItemWithMenuItems) {
-                var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
-                _eliudStyle.frontEndStyle().openMenu(context,
-                    position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
-                    menuItems: theMenuItemWithMenuItems.items,
-                    popupMenuBackgroundColorOverride:
-                        popupMenuBackgroundColorOverride);
-              }
-            }));
-      } else if (item is MenuItemWithMenuItems) {
-        _eliudStyle.frontEndStyle().openMenu(context, position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
-            menuItems: item.items,
-            popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
-      }
+      var theIcon = item.icon == null
+              ? null
+              : IconHelper.getIconFromModelWithFlutterColor(
+              iconModel: item.icon, color: style!.color);
+      var theText = Text(item.label!, textAlign: TextAlign.center, style: style);
+      widgets.add(ListTile(
+          leading: theIcon,
+          title: theText,
+          onTap: () {
+            if (item is MenuItemAttributes) {
+              item.onTap();
+            } else if (item is MenuItemWithMenuItems) {
+              var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
+              _eliudStyle.frontEndStyle().openMenu(context,
+                  position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                  menuItems: theMenuItemWithMenuItems.items,
+                  popupMenuBackgroundColorOverride:
+                      popupMenuBackgroundColorOverride);
+            }
+          }));
     }
 
     var background = backgroundOverride;
