@@ -72,8 +72,7 @@ class Registry {
       StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle()
-          .openComplexDialog(context,
-              title: dialog.title == null ? 'Unnamed' : dialog.title!,
+          .openWidgetDialog(context,
               child: DialogComponent(dialog: dialog, parameters: parameters));
     } else {
       StyleRegistry.registry()

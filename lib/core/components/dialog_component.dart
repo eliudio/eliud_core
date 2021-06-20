@@ -52,7 +52,7 @@ class _DialogComponentState extends State<DialogComponent> {
       return StyleRegistry.registry().styleWithContext(context).frontEndStyle().simpleTopicContainer(context, children: <Widget>[
         theBody]);
     } else {
-      return Text("App not loaded");
+      return Text('App not loaded');
     }
   }
 
