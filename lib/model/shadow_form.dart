@@ -146,7 +146,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShadowFormBloc, ShadowFormState>(builder: (context, state) {
       if (state is ShadowFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is ShadowFormLoaded) {
@@ -304,7 +304,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

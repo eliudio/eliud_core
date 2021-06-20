@@ -100,7 +100,7 @@ class ShadowListWidgetState extends State<ShadowListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<ShadowListBloc, ShadowListState>(builder: (context, state) {
         if (state is ShadowListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is ShadowListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class ShadowListWidgetState extends State<ShadowListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

@@ -3,7 +3,7 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/style/shared/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
         if (itemList != null) {
           return StyleRegistry.registry()
               .styleWithContext(context)
-              .frontEndStyle()
+              .frontEndStyle().drawerStyle()
               .drawer(context,
               drawerType: widget.drawerType,
               header1: drawerHeader1Attributes,
@@ -65,7 +65,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
         return Text('Drawer ${drawer.documentID} has no menu defined');
       }
     } else {
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
     }
   }
 }

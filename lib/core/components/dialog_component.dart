@@ -26,7 +26,7 @@ class DialogComponent extends StatefulWidget {
 class _DialogComponentState extends State<DialogComponent> {
   @override
   Widget build(BuildContext context) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().flexibleDialog(context, title: widget.dialog!.title!, child: getContents(context), buttons: getButtons(context));
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogWidgetStyle().flexibleDialog(context, title: widget.dialog!.title!, child: getContents(context), buttons: getButtons(context));
   }
 
   List<TextButton> getButtons(BuildContext context) {
@@ -49,7 +49,7 @@ class _DialogComponentState extends State<DialogComponent> {
         theBody = PageBody(componentInfo: componentInfo,);
       }
 
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().simpleTopicContainer(context, children: <Widget>[
+      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().simpleTopicContainer(context, children: <Widget>[
         theBody]);
     } else {
       return Text('App not loaded');

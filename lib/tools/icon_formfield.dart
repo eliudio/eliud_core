@@ -41,7 +41,7 @@ class IconFieldState extends State<IconField> {
 
   @override
   Widget build(BuildContext context) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
   }
 
   void _pickIcon() async {

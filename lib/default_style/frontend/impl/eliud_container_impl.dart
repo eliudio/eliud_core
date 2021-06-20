@@ -1,4 +1,4 @@
-import 'package:eliud_core/style/shared/has_container.dart';
+import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:flutter/material.dart';
 
 import '../../eliud_style.dart';

@@ -77,7 +77,7 @@ class _FbStorageImageState extends State<FbStorageImageDoesntWork> {
                   package: "eliud_pkg_feed");
             }
           }
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
         });
   }
 }

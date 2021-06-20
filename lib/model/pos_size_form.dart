@@ -166,7 +166,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PosSizeFormBloc, PosSizeFormState>(builder: (context, state) {
       if (state is PosSizeFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is PosSizeFormLoaded) {
@@ -699,7 +699,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

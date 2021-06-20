@@ -133,7 +133,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BodyComponentFormBloc, BodyComponentFormState>(builder: (context, state) {
       if (state is BodyComponentFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is BodyComponentFormLoaded) {
@@ -216,7 +216,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

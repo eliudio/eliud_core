@@ -1,6 +1,6 @@
 import 'package:eliud_core/default_style/frontend/impl/dialog/request_value_dialog.dart';
 import 'package:eliud_core/default_style/frontend/impl/dialog/widget_dialog.dart';
-import 'package:eliud_core/style/shared/has_dialog_widget.dart';
+import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

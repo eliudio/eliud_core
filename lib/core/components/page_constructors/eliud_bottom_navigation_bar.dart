@@ -35,7 +35,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       if ((itemList != null) && (itemList.length > 2)) {
         return StyleRegistry.registry()
             .styleWithContext(context)
-            .frontEndStyle()
+            .frontEndStyle().bottomNavigationBarStyle()
             .bottomNavigationBar(context,
                 items: itemList,
                 backgroundOverride: widget.homeMenu.backgroundOverride,
@@ -45,7 +45,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
         return Container(height:0);
       }
     } else {
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
     }
   }
 }

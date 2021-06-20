@@ -146,7 +146,7 @@ class _MyFontFormState extends State<MyFontForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<FontFormBloc, FontFormState>(builder: (context, state) {
       if (state is FontFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is FontFormLoaded) {
@@ -363,7 +363,7 @@ class _MyFontFormState extends State<MyFontForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

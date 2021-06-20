@@ -136,7 +136,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppEntryPagesFormBloc, AppEntryPagesFormState>(builder: (context, state) {
       if (state is AppEntryPagesFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is AppEntryPagesFormLoaded) {
@@ -238,7 +238,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

@@ -8,7 +8,6 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,13 +70,13 @@ class Registry {
     if (dialog != null) {
       StyleRegistry.registry()
           .styleWithContext(context)
-          .frontEndStyle()
+          .frontEndStyle().dialogStyle()
           .openWidgetDialog(context,
               child: DialogComponent(dialog: dialog, parameters: parameters));
     } else {
       StyleRegistry.registry()
           .styleWithContext(context)
-          .frontEndStyle()
+          .frontEndStyle().dialogStyle()
           .openErrorDialog(context,
               title: 'Error',
               errorMessage: 'Widget with id $id not found in app $appId',
@@ -135,7 +134,7 @@ class Registry {
               if (accessState is UndeterminedAccessState) {
                 return StyleRegistry.registry()
                     .styleWithContext(context)
-                    .frontEndStyle()
+                    .frontEndStyle().progressIndicatorStyle()
                     .progressIndicator(context);
               } else if (accessState is AppLoaded) {
                 if (accessState.app == null) {
@@ -146,7 +145,7 @@ class Registry {
                   var router = eliudrouter.Router(AccessBloc.getBloc(context));
                   return StyleRegistry.registry()
                       .styleWithContext(context)
-                      .frontEndStyle()
+                      .frontEndStyle().appStyle()
                       .app(
                         navigatorKey: navigatorKey,
                         scaffoldMessengerKey: rootScaffoldMessengerKey,
@@ -170,7 +169,7 @@ class Registry {
           } else {
             return StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().progressIndicatorStyle()
                 .progressIndicator(context);
           }
         }));

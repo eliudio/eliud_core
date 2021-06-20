@@ -149,7 +149,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BackgroundFormBloc, BackgroundFormState>(builder: (context, state) {
       if (state is BackgroundFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is BackgroundFormLoaded) {
@@ -429,7 +429,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

@@ -142,7 +142,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MenuDefFormBloc, MenuDefFormState>(builder: (context, state) {
       if (state is MenuDefFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is MenuDefFormLoaded) {
@@ -260,7 +260,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

@@ -2,8 +2,8 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/shared/has_appbar.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_appbar.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -58,6 +58,7 @@ class EliudAppBarImpl implements HasAppBar {
     if (member != null) {
       buttons.add(_eliudStyle
           .frontEndStyle()
+          .profilePhotoStyle()
           .getProfilePhotoButtonFromMember(
           context, member: member, radius: 20, iconColor: iconColor, onPressed: openDrawer));
     }
@@ -78,7 +79,7 @@ class EliudAppBarImpl implements HasAppBar {
         if (headerAttributes.title != null) {
           return constructTitle(
               context,
-              _eliudStyle.frontEndStyle().h1(context, headerAttributes.title!),
+              _eliudStyle.frontEndStyle().textStyle().h1(context, headerAttributes.title!),
               _pageName);
         }
         break;
@@ -109,7 +110,7 @@ class EliudAppBarImpl implements HasAppBar {
   }
 
   Widget pageName(BuildContext context, String pageName) {
-    return _eliudStyle.frontEndStyle().h1(context, pageName);
+    return _eliudStyle.frontEndStyle().textStyle().h1(context, pageName);
   }
 
   Widget constructTitle(BuildContext context, Widget widget, String _pageName) {
@@ -146,11 +147,11 @@ class EliudAppBarImpl implements HasAppBar {
         return Center(
             child: OutlineButton(
           padding: EdgeInsets.all(10.0),
-          child: _eliudStyle.frontEndStyle().h5(context, item.label!),
+          child: _eliudStyle.frontEndStyle().textStyle().h5(context, item.label!),
           onPressed: item.onTap,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          borderSide: BorderSide(color: _eliudStyle.frontEndStyle().styleH4(context)!.color!),
+          borderSide: BorderSide(color: _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context)!.color!),
         ));
       }
     } else if (item is MenuItemWithMenuItems) {
@@ -174,8 +175,8 @@ class EliudAppBarImpl implements HasAppBar {
             var index = 0;
             item.items.forEach((thisItem) {
               var style = thisItem.isActive
-                  ? _eliudStyle.frontEndStyle().styleH3(context)
-                  : _eliudStyle.frontEndStyle().styleH4(context);
+                  ? _eliudStyle.frontEndStyle().textStyleStyle().styleH3(context)
+                  : _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context);
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,

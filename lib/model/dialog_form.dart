@@ -146,7 +146,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DialogFormBloc, DialogFormState>(builder: (context, state) {
       if (state is DialogFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is DialogFormLoaded) {
@@ -380,7 +380,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

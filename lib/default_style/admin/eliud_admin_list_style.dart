@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/default_style/frontend/impl/delayed_circular_progress_indicator.dart';
 import 'package:eliud_core/style/admin/admin_list_style.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,11 @@ class EliudAdminListStyle extends AdminListStyle {
       text,
       style: TextStyle(color: RgbHelper.color(rgbo: _eliudStyle.eliudStyleAttributesModel.listTextItemColor)),
     );
+  }
+
+  @override
+  Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
+    return DelayedCircularProgressIndicator();
   }
 
 }

@@ -3,7 +3,7 @@ import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'types.dart';
 import 'package:flutter/material.dart';
 
 class AppbarHeaderAttributes {

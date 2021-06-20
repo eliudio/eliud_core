@@ -100,7 +100,7 @@ class MemberDashboardListWidgetState extends State<MemberDashboardListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<MemberDashboardListBloc, MemberDashboardListState>(builder: (context, state) {
         if (state is MemberDashboardListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is MemberDashboardListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class MemberDashboardListWidgetState extends State<MemberDashboardListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

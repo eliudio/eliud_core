@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/shared/has_bottom_navigation_bar.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_bottom_navigation_bar.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,8 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
   Widget getIconExcl(BuildContext context, AbstractMenuItemAttributes item) {
     if (item.icon != null) {
       return item.isActive
-          ? _eliudStyle.frontEndStyle().h3Icon(context, icon: item.icon!)
-          : _eliudStyle.frontEndStyle().h4Icon(context, icon: item.icon!);
+          ? _eliudStyle.frontEndStyle().iconStyle().h3Icon(context, icon: item.icon!)
+          : _eliudStyle.frontEndStyle().iconStyle().h4Icon(context, icon: item.icon!);
     } else {
       var color;
       var style;
@@ -54,7 +54,7 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
               if (theItem is MenuItemAttributes) {
                 theItem.onTap();
               } else if (theItem is MenuItemWithMenuItems) {
-                _eliudStyle.frontEndStyle().openMenu(context, position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                _eliudStyle.frontEndStyle().menuStyle().openMenu(context, position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                     menuItems: theItem.items,
                     popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
               }

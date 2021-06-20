@@ -140,7 +140,7 @@ class _MyCountryFormState extends State<MyCountryForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CountryFormBloc, CountryFormState>(builder: (context, state) {
       if (state is CountryFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is CountryFormLoaded) {
@@ -225,7 +225,7 @@ class _MyCountryFormState extends State<MyCountryForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

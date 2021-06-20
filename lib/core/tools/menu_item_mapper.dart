@@ -5,7 +5,7 @@ import 'package:eliud_core/core/tools/page_helper.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -140,7 +140,7 @@ class _MyMemberPublicInfoFormState extends State<MyMemberPublicInfoForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberPublicInfoFormBloc, MemberPublicInfoFormState>(builder: (context, state) {
       if (state is MemberPublicInfoFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is MemberPublicInfoFormLoaded) {
@@ -241,7 +241,7 @@ class _MyMemberPublicInfoFormState extends State<MyMemberPublicInfoForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

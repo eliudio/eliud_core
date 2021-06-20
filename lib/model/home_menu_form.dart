@@ -142,7 +142,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<HomeMenuFormBloc, HomeMenuFormState>(builder: (context, state) {
       if (state is HomeMenuFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is HomeMenuFormLoaded) {
@@ -302,7 +302,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

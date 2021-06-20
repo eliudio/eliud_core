@@ -157,7 +157,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberDashboardFormBloc, MemberDashboardFormState>(builder: (context, state) {
       if (state is MemberDashboardFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is MemberDashboardFormLoaded) {
@@ -322,7 +322,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

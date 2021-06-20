@@ -149,7 +149,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DrawerFormBloc, DrawerFormState>(builder: (context, state) {
       if (state is DrawerFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is DrawerFormLoaded) {
@@ -375,7 +375,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

@@ -3,8 +3,8 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/style/shared/has_appbar.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_appbar.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
       return StyleRegistry.registry()
           .styleWithContext(context)
-          .frontEndStyle()
+          .frontEndStyle().appBarStyle()
           .appBar(
             context,
             headerAttributes: headerAttributes,

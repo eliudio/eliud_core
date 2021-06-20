@@ -145,7 +145,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppBarFormBloc, AppBarFormState>(builder: (context, state) {
       if (state is AppBarFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is AppBarFormLoaded) {
@@ -397,7 +397,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

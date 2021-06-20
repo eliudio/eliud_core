@@ -52,6 +52,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           child: StyleRegistry.registry()
               .styleWithContext(context)
               .frontEndStyle()
+          .textStyle()
               .text(context, description, textAlign: TextAlign.center)),
     ]);
   }
@@ -85,7 +86,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             Spacer(),
             StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().textStyle()
                 .text(context, welcomeText, textAlign: TextAlign.center),
             Spacer(),
             profilePhoto,
@@ -93,12 +94,12 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           Container(height: 20),
           StyleRegistry.registry()
               .styleWithContext(context)
-              .frontEndStyle()
+              .frontEndStyle().dividerStyle()
               .divider(context),
           Container(height: 20),
           StyleRegistry.registry()
               .styleWithContext(context)
-              .frontEndStyle()
+              .frontEndStyle().tableStyle()
               .table(
             context,
             children: [
@@ -147,7 +148,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel? app, MemberModel member) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -160,7 +161,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 dashboardModel!.retrieveDataEmailSubject,
                 app.email,
                 AccessBloc.getState(context).getMemberCollectionInfo()!);
-            StyleRegistry.registry().styleWithContext(context).frontEndStyle().openComplexDialog(context, title: 'Photo', child: Text(
+            StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openComplexDialog(context, title: 'Photo', child: Text(
                 'You will receive an email at your registered email address ' +
                     member.email! +
                     ' with the data you have with us.'));
@@ -170,7 +171,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
         title: 'Confirm. Last but 2 warnings',
         message:
         'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -189,7 +190,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
           title: 'Confirm. Last but 1 warning',
           message:
               'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -208,7 +209,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
           title: 'Confirm. Last warning',
           message:
               'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',

@@ -100,7 +100,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<AppPolicyItemListBloc, AppPolicyItemListState>(builder: (context, state) {
         if (state is AppPolicyItemListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is AppPolicyItemListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

@@ -150,7 +150,7 @@ class DialogStateHelper {
   /* Helper method to format the fields */
   Widget fieldsWidget(BuildContext context, List<Widget> widgets,
       {double? height, double? width}) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().simpleTopicContainer(context, children: widgets, height: height, width: width);
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().simpleTopicContainer(context, children: widgets, height: height, width: width);
 /*
     return Container(
         height: (height != null)

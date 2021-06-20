@@ -35,7 +35,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
   Widget build(BuildContext context) {
     return StyleRegistry.registry()
         .styleWithContext(context)
-        .frontEndStyle()
+        .frontEndStyle().dialogWidgetStyle()
         .complexDialog(context, title: widget.title!, child: FutureBuilder<List<MediumInfo>>(
         future: buildImagesList(),
         builder: (context, snapshot) {
@@ -47,7 +47,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
           } else {
             return StyleRegistry.registry()
                 .styleWithContext(context)
-                .frontEndStyle()
+                .frontEndStyle().progressIndicatorStyle()
                 .progressIndicator(context);
           }
         }));

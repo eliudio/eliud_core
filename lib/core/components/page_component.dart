@@ -12,7 +12,7 @@ import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/style/shared/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -65,11 +65,11 @@ class PageComponent extends StatelessWidget {
               } else if (state is PageComponentError) {
                 return AlertWidget(title: 'Error', content: state.message);
               } else {
-                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
               }
             }));
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
       }
     });
   }
@@ -112,7 +112,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageID = widget.pageID;
     var parameters = widget.parameters;
     if (accessState is AppProcessingState) {
-      theBody = StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+      theBody = StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
     } else if ((accessState is LoggedIn) &&
         (accessState.forceAcceptMembership())) {
       theBody =
@@ -142,7 +142,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
             child: EliudAppBar(
                 currentPage: pageID,
                 scaffoldKey: widget.scaffoldKey,
-                theTitle: value.title == null ? "" : value.title!,
+                theTitle: value.title == null ? '' : value.title!,
                 value: value.appBar!));
     var fab = hasFab != null ? hasFab!.fab(context) : null;
     var scaffoldMessenger = ScaffoldMessenger(

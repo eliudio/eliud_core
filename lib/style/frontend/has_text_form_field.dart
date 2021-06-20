@@ -7,7 +7,7 @@ abstract class HasTexFormField {
     String? initialValue,
     FormFieldValidator<String>? validator,
     TextInputType? keyboardType,
-    IconData icon,
+    IconData? icon,
     String? labelText,
     String? hintText,
     int? maxLines,

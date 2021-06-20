@@ -1,17 +1,33 @@
+import 'package:eliud_core/default_style/frontend/impl/eliud_button_impl.dart';
 import 'package:eliud_core/default_style/frontend/impl/eliud_list_tile_impl.dart';
-import 'package:eliud_core/default_style/shared/eliud_shared_implementation.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
+import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
-import 'package:eliud_core/style/shared/has_appbar.dart';
-import 'package:eliud_core/style/shared/has_dialog_widget.dart';
-import 'package:eliud_core/style/shared/has_drawer.dart';
-import 'package:eliud_core/style/shared/has_page_body.dart';
-import 'package:eliud_core/style/shared/has_profile_photo.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_app.dart';
+import 'package:eliud_core/style/frontend/has_appbar.dart';
+import 'package:eliud_core/style/frontend/has_bottom_navigation_bar.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_container.dart';
+import 'package:eliud_core/style/frontend/has_dialog.dart';
+import 'package:eliud_core/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
+import 'package:eliud_core/style/frontend/has_divider.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_icon.dart';
+import 'package:eliud_core/style/frontend/has_list_tile.dart';
+import 'package:eliud_core/style/frontend/has_menu.dart';
+import 'package:eliud_core/style/frontend/has_page_body.dart';
+import 'package:eliud_core/style/frontend/has_profile_photo.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_style.dart';
+import 'package:eliud_core/style/frontend/has_table.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
+import 'package:eliud_core/style/frontend/has_text_form_field.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
@@ -22,14 +38,19 @@ import 'impl/eliud_container_impl.dart';
 import 'impl/eliud_dialog_field_impl.dart';
 import 'impl/eliud_dialog_impl.dart';
 import 'impl/eliud_dialog_widget_impl.dart';
+import 'impl/eliud_divider_impl.dart';
 import 'impl/eliud_drawer_impl.dart';
+import 'impl/eliud_icon_impl.dart';
 import 'impl/eliud_menu_impl.dart';
 import 'impl/eliud_page_body_impl.dart';
 import 'impl/eliud_profile_photo_impl.dart';
 import 'impl/eliud_progress_indicator_impl.dart';
+import 'impl/eliud_style_impl.dart';
+import 'impl/eliud_table_impl.dart';
+import 'impl/eliud_text_form_field_impl.dart';
+import 'impl/eliud_text_impl.dart';
 
-class EliudFrontEndStyle extends EliudSharedImplementation
-    implements FrontEndStyle {
+class EliudFrontEndStyle implements FrontEndStyle {
   final EliudStyle _eliudStyle;
   late EliudPageBodyImpl eliudPageBodyImpl;
   late EliudMenuImpl eliudMenuImpl;
@@ -44,8 +65,15 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudDialogFieldImpl eliudDialogFieldImpl;
   late EliudDialogImpl eliudDialogImpl;
   late EliudDialogWidgetImpl eliudDialogWidgetImpl;
+  late EliudButtonImpl eliudButtonImpl;
+  late EliudTextImpl eliudTextImpl;
+  late EliudTableImpl eliudTableImpl;
+  late EliudTextFormFieldImpl eliudTextFormFieldImpl;
+  late EliudStyleImpl eliudStyleImpl;
+  late EliudIconImpl eliudIconImpl;
+  late EliudDividerImpl eliudDividerImpl;
 
-  EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
+  EliudFrontEndStyle(this._eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
     eliudMenuImpl = EliudMenuImpl(_eliudStyle);
     eliudDrawerImpl = EliudDrawerImpl(_eliudStyle);
@@ -59,255 +87,72 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudDialogFieldImpl = EliudDialogFieldImpl(_eliudStyle);
     eliudDialogImpl = EliudDialogImpl(_eliudStyle);
     eliudDialogWidgetImpl = EliudDialogWidgetImpl(_eliudStyle);
+    eliudButtonImpl = EliudButtonImpl(_eliudStyle);
+    eliudTextImpl = EliudTextImpl(_eliudStyle);
+    eliudTableImpl = EliudTableImpl(_eliudStyle);
+    eliudTextFormFieldImpl = EliudTextFormFieldImpl(_eliudStyle);
+    eliudStyleImpl = EliudStyleImpl(_eliudStyle);
+    eliudIconImpl = EliudIconImpl(_eliudStyle);
+    eliudDividerImpl = EliudDividerImpl(_eliudStyle);
   }
 
   @override
-  Widget bottomNavigationBar(
-    BuildContext context, {
-    BackgroundModel? backgroundOverride,
-    RgbModel? popupMenuBackgroundColorOverride,
-    required List<AbstractMenuItemAttributes> items,
-  }) {
-    return eliudBottomNavigationBarImpl.bottomNavigationBar(context,
-        backgroundOverride: backgroundOverride,
-        popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
-        items: items);
-  }
+  HasAppBar appBarStyle() => eliudAppBarImpl;
 
   @override
-  Widget pageBody(BuildContext context,
-      {BackgroundModel? backgroundOverride,
-      required List<Widget> components,
-      Layout? layout,
-      GridViewModel? gridView}) {
-    return eliudPageBodyImpl.pageBody(context,
-        backgroundOverride: backgroundOverride,
-        components: components,
-        layout: layout,
-        gridView: gridView);
-  }
+  HasApp appStyle() => eliudAppImpl;
 
   @override
-  Future<void> openMenu(BuildContext context,
-      {required RelativeRect position,
-      required List<AbstractMenuItemAttributes> menuItems,
-      RgbModel? popupMenuBackgroundColorOverride}) {
-    return eliudMenuImpl.openMenu(context,
-        position: position,
-        menuItems: menuItems,
-        popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
-  }
+  HasBottomNavigationBar bottomNavigationBarStyle() => eliudBottomNavigationBarImpl;
 
   @override
-  Drawer drawer(BuildContext context,
-      {required DrawerType drawerType,
-      DrawerHeader1Attributes? header1,
-      DrawerHeader2Attributes? header2,
-      BackgroundModel? backgroundOverride,
-      RgbModel? popupMenuBackgroundColorOverride,
-      required List<AbstractMenuItemAttributes> items}) {
-    return eliudDrawerImpl.drawer(context,
-        drawerType: drawerType,
-        header1: header1,
-        header2: header2,
-        backgroundOverride: backgroundOverride,
-        popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
-        items: items);
-  }
+  HasButton buttonStyle() => eliudButtonImpl;
 
   @override
-  PreferredSizeWidget appBar(BuildContext context,
-      {required AppbarHeaderAttributes headerAttributes,
-      required String pageName,
-      List<AbstractMenuItemAttributes>? items,
-      BackgroundModel? backgroundOverride,
-      RgbModel? menuBackgroundColorOverride,
-      RgbModel? selectedIconColorOverride,
-      RgbModel? iconColorOverride,
-      VoidCallback? openDrawer}) {
-    return eliudAppBarImpl.appBar(context,
-        headerAttributes: headerAttributes,
-        pageName: pageName,
-        items: items,
-        backgroundOverride: backgroundOverride,
-        menuBackgroundColorOverride: menuBackgroundColorOverride,
-        selectedIconColorOverride: selectedIconColorOverride,
-        iconColorOverride: iconColorOverride,
-        openDrawer: openDrawer);
-  }
+  HasContainer containerStyle() => eliudContainerImpl;
 
   @override
-  Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
-      {RgbModel? iconColor, required double radius, VoidCallback? onPressed}) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromCurrentMember(context,
-        radius: radius, iconColor: iconColor, onPressed: onPressed);
-  }
+  HasDialogField dialogFieldStyle() => eliudDialogFieldImpl;
 
   @override
-  Widget getProfilePhotoButtonFromMember(BuildContext context,
-      {MemberModel? member,
-      required double radius,
-      RgbModel? iconColor,
-      VoidCallback? onPressed}) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromMember(context,
-        radius: radius,
-        member: member,
-        iconColor: iconColor,
-        onPressed: onPressed);
-  }
+  HasDialog dialogStyle() => eliudDialogImpl;
 
   @override
-  Widget getProfilePhotoButtonFromURL(BuildContext context,
-      {String? url,
-      required double radius,
-      RgbModel? iconColor,
-      VoidCallback? onPressed}) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromURL(context,
-        radius: radius, url: url, iconColor: iconColor, onPressed: onPressed);
-  }
+  HasDialogWidget dialogWidgetStyle() => eliudDialogWidgetImpl;
 
   @override
-  Widget getProfilePhotoButtonFromPublicMember(BuildContext context,
-      {MemberPublicInfoModel? member,
-      required double radius,
-      RgbModel? iconColor,
-      VoidCallback? onPressed}) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromPublicMember(context,
-        radius: radius,
-        member: member,
-        iconColor: iconColor,
-        onPressed: onPressed);
-  }
+  HasDivider dividerStyle() => eliudDividerImpl;
 
   @override
-  Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
-      {required ExternalProfileURLProvider externalProfileURLProvider,
-      BackupProfileURLProvider? fallBackURLProvider,
-      required double radius,
-      RgbModel? iconColor,
-      VoidCallback? onPressed}) {
-    return eliudProfilePhotoImpl.getProfilePhotoButtonFromExternalProvider(
-        context,
-        radius: radius,
-        externalProfileURLProvider: externalProfileURLProvider,
-        fallBackURLProvider: fallBackURLProvider,
-        iconColor: iconColor,
-        onPressed: onPressed);
-  }
+  HasDrawer drawerStyle() => eliudDrawerImpl;
 
   @override
-  Widget actionContainer(BuildContext context, {required Widget child, double? height, double? width}) {
-    return eliudContainerImpl.actionContainer(context, child: child, height: height, width: width);
-  }
+  HasIcon iconStyle() => eliudIconImpl;
 
   @override
-  Widget topicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image, double? height, double? width}) {
-    return eliudContainerImpl.topicContainer(context, children: children, image: image, height: height, width: width);
-  }
+  HasListTile listTileStyle() => eliudListTileImpl;
 
   @override
-  Widget simpleTopicContainer(BuildContext context, {required List<Widget> children, DecorationImage? image, double? height, double? width}) {
-    return eliudContainerImpl.simpleTopicContainer(context, children: children, image: image, height: height, width: width);
-  }
+  HasMenu menuStyle() => eliudMenuImpl;
 
   @override
-  Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
-    return eliudProgressIndicatorImpl.progressIndicator(context, valueColor: valueColor);
-  }
+  HasPageBody pageBodyStyle() => eliudPageBodyImpl;
 
   @override
-  Widget app({GlobalKey<NavigatorState>? navigatorKey, GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey, String? initialRoute, RouteFactory? onGenerateRoute, RouteFactory? onUnknownRoute, required String title}) {
-    return eliudAppImpl.app(navigatorKey: navigatorKey, scaffoldMessengerKey: scaffoldMessengerKey, initialRoute: initialRoute, onGenerateRoute: onGenerateRoute, onUnknownRoute: onUnknownRoute, title: title);
-  }
+  HasProfilePhoto profilePhotoStyle() => eliudProfilePhotoImpl;
 
   @override
-  Widget getListTile(BuildContext context, {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine}) {
-    return eliudListTileImpl.getListTile(context, leading: leading, title: title, subtitle: subtitle, isThreeLine: isThreeLine);
-  }
+  HasProgressIndicator progressIndicatorStyle() => eliudProgressIndicatorImpl;
 
   @override
-  Widget ackNackDialog(BuildContext context, {required String title, required String message, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
-    return eliudDialogWidgetImpl.ackNackDialog(context, title: title, message: message, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
-  }
+  HasTable tableStyle() => eliudTableImpl;
 
   @override
-  Widget complexAckNackDialog(BuildContext context, {required String title, required Widget child, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
-    return eliudDialogWidgetImpl.complexAckNackDialog(context, title: title, child: child, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
-  }
+  HasTexFormField texFormFieldStyle() => eliudTextFormFieldImpl;
 
   @override
-  Widget complexDialog(BuildContext context, {required String title, required Widget child, VoidCallback? onPressed, String? buttonLabel}) {
-    return eliudDialogWidgetImpl.complexDialog(context, title: title, child: child, onPressed: onPressed, buttonLabel: buttonLabel);
-  }
+  HasText textStyle() => eliudTextImpl;
 
   @override
-  Widget dialogField(BuildContext context, {InputDecoration? decoration, required ValueChanged<String> valueChanged, String? initialValue}) {
-    return eliudDialogFieldImpl.dialogField(context, decoration: decoration, valueChanged: valueChanged, initialValue: initialValue);
-  }
-
-  @override
-  Widget entryDialog(BuildContext context, {required String title, String? ackButtonLabel, String? nackButtonLabel, String? hintText, required Function(String? response) onPressed, String? initialValue}) {
-    return eliudDialogWidgetImpl.entryDialog(context, title: title, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel, hintText: hintText, onPressed: onPressed, initialValue: initialValue);
-  }
-
-  @override
-  Widget errorDialog(BuildContext context, {required String title, required String errorMessage, String? closeLabel}) {
-    return eliudDialogWidgetImpl.errorDialog(context, title: title, errorMessage: errorMessage, closeLabel: closeLabel);
-  }
-
-  @override
-  Widget flexibleDialog(BuildContext context, {required String title, required Widget child, required List<Widget> buttons}) {
-    return eliudDialogWidgetImpl.flexibleDialog(context, title: title, child: child, buttons: buttons);
-  }
-
-  @override
-  Widget messageDialog(BuildContext context, {required String title, required String message, String? closeLabel}) {
-    return eliudDialogWidgetImpl.messageDialog(context, title: title, message: message, closeLabel: closeLabel);
-  }
-
-  @override
-  Widget selectionDialog(BuildContext context, {required String title, required List<String> options, required OnSelection onSelection, String? buttonLabel}) {
-    return eliudDialogWidgetImpl.selectionDialog(context, title: title, options: options, onSelection: onSelection, buttonLabel: buttonLabel);
-  }
-
-  @override
-  void openAckNackDialog(BuildContext context, {required String title, required String message, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
-    eliudDialogImpl.openAckNackDialog(context, title: title, message: message, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
-  }
-
-  @override
-  void openComplexDialog(BuildContext context, {required String title, required Widget child, VoidCallback? onPressed, String? buttonLabel}) {
-    eliudDialogImpl.openComplexDialog(context, title: title, child: child, onPressed: onPressed, buttonLabel: buttonLabel);
-  }
-
-  @override
-  void openEntryDialog(BuildContext context, {required String title, String? ackButtonLabel, String? nackButtonLabel, String? hintText, required Function(String? response) onPressed, String? initialValue}) {
-    eliudDialogImpl.openEntryDialog(context, title: title, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel, hintText: hintText, onPressed: onPressed, initialValue: initialValue);
-  }
-
-  @override
-  void openErrorDialog(BuildContext context, {required String title, required String errorMessage, String? closeLabel}) {
-    eliudDialogImpl.openErrorDialog(context, title: title, errorMessage: errorMessage, closeLabel: closeLabel);
-  }
-
-  @override
-  void openFlexibleDialog(BuildContext context, {required String title, required Widget child, required List<Widget> buttons}) {
-    eliudDialogImpl.openFlexibleDialog(context, title: title, child: child, buttons: buttons);
-  }
-
-  @override
-  void openMessageDialog(BuildContext context, {required String title, required String message, String? closeLabel}) {
-    eliudDialogImpl.openMessageDialog(context, title: title, message: message, closeLabel: closeLabel);
-  }
-
-  @override
-  void openSelectionDialog(BuildContext context, {required String title, required List<String> options, required OnSelection onSelection, String? buttonLabel}) {
-    eliudDialogImpl.openSelectionDialog(context, title: title, options: options, onSelection: onSelection, buttonLabel: buttonLabel);
-  }
-
-  @override
-  void openWidgetDialog(BuildContext context, {required Widget child}) {
-    eliudDialogImpl.openWidgetDialog(context, child: child);
-  }
-
+  HasStyle textStyleStyle() => eliudStyleImpl;
 }

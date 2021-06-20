@@ -100,7 +100,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<DecorationColorListBloc, DecorationColorListState>(builder: (context, state) {
         if (state is DecorationColorListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is DecorationColorListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

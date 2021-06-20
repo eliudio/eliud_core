@@ -1,5 +1,5 @@
 import 'package:delayed_display/delayed_display.dart';
-import 'package:eliud_core/style/shared/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
 import '../../eliud_style.dart';
@@ -11,13 +11,13 @@ class EliudProgressIndicatorImpl implements HasProgressIndicator {
 
   @override
   Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
-    return Center(child: _DelayedCircularProgressIndicator(valueColor: valueColor,));
+    return Center(child: DelayedCircularProgressIndicator(valueColor: valueColor,));
   }
 }
 
-class _DelayedCircularProgressIndicator extends StatelessWidget {
+class DelayedCircularProgressIndicator extends StatelessWidget {
   final Animation<Color>? valueColor;
-  _DelayedCircularProgressIndicator({
+  DelayedCircularProgressIndicator({
     this.valueColor,
   });
 

@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/shared/has_drawer.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import '../../eliud_style.dart';
@@ -38,7 +38,7 @@ class EliudDrawerImpl implements HasDrawer {
             child: DrawerHeader(
                 child: Center(
                     child:
-                        _eliudStyle.frontEndStyle().h3(context, header1.text)),
+                        _eliudStyle.frontEndStyle().textStyle().h3(context, header1.text)),
                 decoration:
                     BoxDecorationHelper.boxDecoration(theState, background))),
       );
@@ -49,15 +49,15 @@ class EliudDrawerImpl implements HasDrawer {
         height: header2.height == 0 ? null : header2.height,
         child: DrawerHeader(
             child: Center(
-          child: _eliudStyle.frontEndStyle().h4(context, header2.text),
+          child: _eliudStyle.frontEndStyle().textStyle().h4(context, header2.text),
         )),
       ));
     }
 
     for (var item in items) {
       var style = item.isActive
-          ? _eliudStyle.frontEndStyle().styleH3(context)
-          : _eliudStyle.frontEndStyle().styleH4(context);
+          ? _eliudStyle.frontEndStyle().textStyleStyle().styleH3(context)
+          : _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context);
 
       var theIcon = item.icon == null
               ? null
@@ -72,7 +72,7 @@ class EliudDrawerImpl implements HasDrawer {
               item.onTap();
             } else if (item is MenuItemWithMenuItems) {
               var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
-              _eliudStyle.frontEndStyle().openMenu(context,
+              _eliudStyle.frontEndStyle().menuStyle().openMenu(context,
                   position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                   menuItems: theMenuItemWithMenuItems.items,
                   popupMenuBackgroundColorOverride:

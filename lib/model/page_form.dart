@@ -150,7 +150,7 @@ class _MyPageFormState extends State<MyPageForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PageFormBloc, PageFormState>(builder: (context, state) {
       if (state is PageFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is PageFormLoaded) {
@@ -449,7 +449,7 @@ class _MyPageFormState extends State<MyPageForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

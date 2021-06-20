@@ -1,6 +1,6 @@
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/shared/has_menu.dart';
-import 'package:eliud_core/style/shared/types.dart';
+import 'package:eliud_core/style/frontend/has_menu.dart';
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
@@ -23,9 +23,9 @@ class EliudMenuImpl implements HasMenu {
       var i = 0;
       menuItems.forEach((element) {
         var style = element.isActive
-            ? _eliudStyle.frontEndStyle()
+            ? _eliudStyle.frontEndStyle().textStyleStyle()
             .styleH3(context)
-            : _eliudStyle.frontEndStyle()
+            : _eliudStyle.frontEndStyle().textStyleStyle()
             .styleH4(context);
         var p = PopupMenuItem<int>(
             value: i, child: Text(element.label!, style: style));

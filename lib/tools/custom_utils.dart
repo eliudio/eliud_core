@@ -10,7 +10,7 @@ class Utils {
   }
 
   static Widget getShrinkedListView(BuildContext context, List<Widget> widgets) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().topicContainer(context, children: [
+    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().topicContainer(context, children: [
     ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),

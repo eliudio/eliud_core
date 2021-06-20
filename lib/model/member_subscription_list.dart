@@ -100,7 +100,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
     if (accessState is AppLoaded) {
       return BlocBuilder<MemberSubscriptionListBloc, MemberSubscriptionListState>(builder: (context, state) {
         if (state is MemberSubscriptionListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is MemberSubscriptionListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

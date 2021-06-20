@@ -71,7 +71,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   void _openPolicy(String? title, MemberMediumModel item) {
     StyleRegistry.registry()
         .styleWithContext(context)
-        .frontEndStyle()
+        .frontEndStyle().dialogStyle()
         .openComplexDialog(
           context,
           title: title!,
@@ -125,7 +125,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
     return StyleRegistry.registry()
         .styleWithContext(context)
-        .frontEndStyle()
+        .frontEndStyle().containerStyle()
         .actionContainer(context,
             child: Center(
                 child: Container(
@@ -178,7 +178,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     ];
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(
             context,
             label: 'Accept',
             onPressed: _allEnabled(app)
@@ -189,7 +189,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                 : null,
           ),
       Spacer(),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().button(
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(
         context,
         label: 'Cancel',
         onPressed: () async {

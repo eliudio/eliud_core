@@ -157,7 +157,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<EliudStyleAttributesFormBloc, EliudStyleAttributesFormState>(builder: (context, state) {
       if (state is EliudStyleAttributesFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is EliudStyleAttributesFormLoaded) {
@@ -732,7 +732,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

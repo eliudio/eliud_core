@@ -100,7 +100,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<PosSizeListBloc, PosSizeListState>(builder: (context, state) {
         if (state is PosSizeListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is PosSizeListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

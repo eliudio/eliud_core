@@ -100,7 +100,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
     if (accessState is AppLoaded) {
       return BlocBuilder<MemberPublicInfoListBloc, MemberPublicInfoListState>(builder: (context, state) {
         if (state is MemberPublicInfoListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is MemberPublicInfoListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {

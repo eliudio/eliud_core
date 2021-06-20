@@ -140,7 +140,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppPolicyFormBloc, AppPolicyFormState>(builder: (context, state) {
       if (state is AppPolicyFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
       );
 
       if (state is AppPolicyFormLoaded) {
@@ -241,7 +241,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
       }
     });
   }

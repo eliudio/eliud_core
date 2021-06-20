@@ -100,7 +100,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
     if (accessState is AppLoaded) {
       return BlocBuilder<MemberMediumListBloc, MemberMediumListState>(builder: (context, state) {
         if (state is MemberMediumListLoading) {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         } else if (state is MemberMediumListLoaded) {
           final values = state.values;
           if ((widget.isEmbedded != null) && widget.isEmbedded!) {
@@ -130,7 +130,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
             return theList(context, values, accessState);
           }
         } else {
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
         }
       });
     } else {
