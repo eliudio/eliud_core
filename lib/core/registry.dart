@@ -11,9 +11,6 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/router_builders.dart';
-import 'package:eliud_core/tools/widgets/dialog_helper.dart';
-import 'package:eliud_core/tools/widgets/message_dialog.dart';
-import 'package:eliud_core/tools/widgets/simple_dialog_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
@@ -72,13 +69,20 @@ class Registry {
     var appId = AccessBloc.appId(context);
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
-      DialogStatefulWidgetHelper.openIt(
-          context, DialogComponent(dialog: dialog, parameters: parameters));
+      StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .openComplexDialog(context,
+              title: dialog.title == null ? 'Unnamed' : dialog.title!,
+              child: DialogComponent(dialog: dialog, parameters: parameters));
     } else {
-      SimpleDialogApi.openErrorDialog(context,
-          title: 'Error',
-          errorMessage: 'Widget with id $id not found in app $appId',
-          closeLabel: 'Close');
+      StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .openErrorDialog(context,
+              title: 'Error',
+              errorMessage: 'Widget with id $id not found in app $appId',
+              closeLabel: 'Close');
     }
   }
 

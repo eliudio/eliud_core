@@ -18,8 +18,6 @@ import 'package:eliud_core/tools/gdpr/gdpr_functions.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/router_builders.dart';
-import 'package:eliud_core/tools/widgets/simple_dialog_api.dart';
-import 'package:eliud_core/tools/widgets/widget_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -149,7 +147,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel? app, MemberModel member) {
-    SimpleDialogApi.openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -162,7 +160,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 dashboardModel!.retrieveDataEmailSubject,
                 app.email,
                 AccessBloc.getState(context).getMemberCollectionInfo()!);
-            SimpleDialogApi.openComplexDialog(context, title: 'Photo', child: Text(
+            StyleRegistry.registry().styleWithContext(context).frontEndStyle().openComplexDialog(context, title: 'Photo', child: Text(
                 'You will receive an email at your registered email address ' +
                     member.email! +
                     ' with the data you have with us.'));
@@ -172,7 +170,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
-    SimpleDialogApi.openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
         title: 'Confirm. Last but 2 warnings',
         message:
         'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -191,7 +189,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    SimpleDialogApi.openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
           title: 'Confirm. Last but 1 warning',
           message:
               'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -210,7 +208,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    SimpleDialogApi.openAckNackDialog(context,
+    StyleRegistry.registry().styleWithContext(context).frontEndStyle().openAckNackDialog(context,
           title: 'Confirm. Last warning',
           message:
               'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',

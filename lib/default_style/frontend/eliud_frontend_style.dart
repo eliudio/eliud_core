@@ -7,6 +7,7 @@ import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/shared/has_appbar.dart';
+import 'package:eliud_core/style/shared/has_dialog_widget.dart';
 import 'package:eliud_core/style/shared/has_drawer.dart';
 import 'package:eliud_core/style/shared/has_page_body.dart';
 import 'package:eliud_core/style/shared/has_profile_photo.dart';
@@ -18,6 +19,9 @@ import 'impl/eliud_app_impl.dart';
 import 'impl/eliud_appbar_impl.dart';
 import 'impl/eliud_bottom_navigation_bar_impl.dart';
 import 'impl/eliud_container_impl.dart';
+import 'impl/eliud_dialog_field_impl.dart';
+import 'impl/eliud_dialog_impl.dart';
+import 'impl/eliud_dialog_widget_impl.dart';
 import 'impl/eliud_drawer_impl.dart';
 import 'impl/eliud_menu_impl.dart';
 import 'impl/eliud_page_body_impl.dart';
@@ -37,6 +41,9 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   late EliudProgressIndicatorImpl eliudProgressIndicatorImpl;
   late EliudAppImpl eliudAppImpl;
   late EliudListTileImpl eliudListTileImpl;
+  late EliudDialogFieldImpl eliudDialogFieldImpl;
+  late EliudDialogImpl eliudDialogImpl;
+  late EliudDialogWidgetImpl eliudDialogWidgetImpl;
 
   EliudFrontEndStyle(this._eliudStyle) : super(_eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -49,6 +56,9 @@ class EliudFrontEndStyle extends EliudSharedImplementation
     eliudProgressIndicatorImpl = EliudProgressIndicatorImpl(_eliudStyle);
     eliudAppImpl = EliudAppImpl(_eliudStyle);
     eliudListTileImpl = EliudListTileImpl(_eliudStyle);
+    eliudDialogFieldImpl = EliudDialogFieldImpl(_eliudStyle);
+    eliudDialogImpl = EliudDialogImpl(_eliudStyle);
+    eliudDialogWidgetImpl = EliudDialogWidgetImpl(_eliudStyle);
   }
 
   @override
@@ -213,6 +223,91 @@ class EliudFrontEndStyle extends EliudSharedImplementation
   @override
   Widget getListTile(BuildContext context, {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine}) {
     return eliudListTileImpl.getListTile(context, leading: leading, title: title, subtitle: subtitle, isThreeLine: isThreeLine);
+  }
+
+  @override
+  Widget ackNackDialog(BuildContext context, {required String title, required String message, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
+    return eliudDialogWidgetImpl.ackNackDialog(context, title: title, message: message, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
+  }
+
+  @override
+  Widget complexAckNackDialog(BuildContext context, {required String title, required Widget child, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
+    return eliudDialogWidgetImpl.complexAckNackDialog(context, title: title, child: child, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
+  }
+
+  @override
+  Widget complexDialog(BuildContext context, {required String title, required Widget child, VoidCallback? onPressed, String? buttonLabel}) {
+    return eliudDialogWidgetImpl.complexDialog(context, title: title, child: child, onPressed: onPressed, buttonLabel: buttonLabel);
+  }
+
+  @override
+  Widget dialogField(BuildContext context, {InputDecoration? decoration, required ValueChanged<String> valueChanged, String? initialValue}) {
+    return eliudDialogFieldImpl.dialogField(context, decoration: decoration, valueChanged: valueChanged, initialValue: initialValue);
+  }
+
+  @override
+  Widget entryDialog(BuildContext context, {required String title, String? ackButtonLabel, String? nackButtonLabel, String? hintText, required Function(String? response) onPressed, String? initialValue}) {
+    return eliudDialogWidgetImpl.entryDialog(context, title: title, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel, hintText: hintText, onPressed: onPressed, initialValue: initialValue);
+  }
+
+  @override
+  Widget errorDialog(BuildContext context, {required String title, required String errorMessage, String? closeLabel}) {
+    return eliudDialogWidgetImpl.errorDialog(context, title: title, errorMessage: errorMessage, closeLabel: closeLabel);
+  }
+
+  @override
+  Widget flexibleDialog(BuildContext context, {required String title, required Widget child, required List<Widget> buttons}) {
+    return eliudDialogWidgetImpl.flexibleDialog(context, title: title, child: child, buttons: buttons);
+  }
+
+  @override
+  Widget messageDialog(BuildContext context, {required String title, required String message, String? closeLabel}) {
+    return eliudDialogWidgetImpl.messageDialog(context, title: title, message: message, closeLabel: closeLabel);
+  }
+
+  @override
+  Widget selectionDialog(BuildContext context, {required String title, required List<String> options, required OnSelection onSelection, String? buttonLabel}) {
+    return eliudDialogWidgetImpl.selectionDialog(context, title: title, options: options, onSelection: onSelection, buttonLabel: buttonLabel);
+  }
+
+  @override
+  void openAckNackDialog(BuildContext context, {required String title, required String message, required OnSelection onSelection, String? ackButtonLabel, String? nackButtonLabel}) {
+    eliudDialogImpl.openAckNackDialog(context, title: title, message: message, onSelection: onSelection, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel);
+  }
+
+  @override
+  void openComplexDialog(BuildContext context, {required String title, required Widget child, VoidCallback? onPressed, String? buttonLabel}) {
+    eliudDialogImpl.openComplexDialog(context, title: title, child: child, onPressed: onPressed, buttonLabel: buttonLabel);
+  }
+
+  @override
+  void openEntryDialog(BuildContext context, {required String title, String? ackButtonLabel, String? nackButtonLabel, String? hintText, required Function(String? response) onPressed, String? initialValue}) {
+    eliudDialogImpl.openEntryDialog(context, title: title, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel, hintText: hintText, onPressed: onPressed, initialValue: initialValue);
+  }
+
+  @override
+  void openErrorDialog(BuildContext context, {required String title, required String errorMessage, String? closeLabel}) {
+    eliudDialogImpl.openErrorDialog(context, title: title, errorMessage: errorMessage, closeLabel: closeLabel);
+  }
+
+  @override
+  void openFlexibleDialog(BuildContext context, {required String title, required Widget child, required List<Widget> buttons}) {
+    eliudDialogImpl.openFlexibleDialog(context, title: title, child: child, buttons: buttons);
+  }
+
+  @override
+  void openMessageDialog(BuildContext context, {required String title, required String message, String? closeLabel}) {
+    eliudDialogImpl.openMessageDialog(context, title: title, message: message, closeLabel: closeLabel);
+  }
+
+  @override
+  void openSelectionDialog(BuildContext context, {required String title, required List<String> options, required OnSelection onSelection, String? buttonLabel}) {
+    eliudDialogImpl.openSelectionDialog(context, title: title, options: options, onSelection: onSelection, buttonLabel: buttonLabel);
+  }
+
+  @override
+  void openWidgetDialog(BuildContext context, {required Widget child}) {
+    eliudDialogImpl.openWidgetDialog(context, child: child);
   }
 
 }

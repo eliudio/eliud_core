@@ -4,12 +4,12 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/widgets/dialog_helper.dart';
-import 'package:eliud_core/tools/widgets/member_medium_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'member_medium_dialog.dart';
 
 class AcceptMembershipWidget extends StatefulWidget {
   static double width(BuildContext context) =>
@@ -69,16 +69,18 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   void _openPolicy(String? title, MemberMediumModel item) {
-    DialogStatefulWidgetHelper.openIt(
-      context,
-      MemberMediumDialog(
-        width: 100,
-        title: title,
-        memberMediumModel: item,
-        onPressed: () => Navigator.of(context).pop(),
-        dialogButtonPosition: DialogButtonPosition.BottomRight,
-      ),
-    );
+    StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .openComplexDialog(
+          context,
+          title: title!,
+          child: MemberMediumDialog(
+            width: 100,
+            title: title,
+            memberMediumModel: item,
+          ),
+        );
   }
 
   @override

@@ -3,24 +3,17 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/storage/medium_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dialog_helper.dart';
 
 class MemberMediumDialog extends StatefulWidget {
   final double? width;
   final String? title;
   final MemberMediumModel memberMediumModel;
-  final VoidCallback onPressed;
-  final String? buttonLabel;
-  final DialogButtonPosition dialogButtonPosition;
 
   MemberMediumDialog({
     Key? key,
     this.title,
     required this.memberMediumModel,
-    required this.onPressed,
-    this.buttonLabel,
     this.width,
-    required this.dialogButtonPosition,
   }) : super(key: key);
 
   @override
@@ -28,8 +21,6 @@ class MemberMediumDialog extends StatefulWidget {
 }
 
 class _MemberMediumState extends State<MemberMediumDialog> {
-  final DialogStateHelper dialogHelper = DialogStateHelper();
-
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
@@ -42,27 +33,24 @@ class _MemberMediumState extends State<MemberMediumDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return dialogHelper.build(
-        width: widget.width,
-        title: widget.title!,
-        dialogButtonPosition: widget.dialogButtonPosition,
-        buttons: dialogHelper.getCloseButton(context,
-            onPressed: widget.onPressed, buttonLabel: widget.buttonLabel),
-        contents: FutureBuilder<List<MediumInfo>>(
-            future: buildImagesList(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                    width: widget.width,
-                    height: height(context) - 130,
-                    child: getAllImages(context, snapshot.data!));
-              } else {
-                return StyleRegistry.registry()
-                    .styleWithContext(context)
-                    .frontEndStyle()
-                    .progressIndicator(context);
-              }
-            }));
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .complexDialog(context, title: widget.title!, child: FutureBuilder<List<MediumInfo>>(
+        future: buildImagesList(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+                width: widget.width,
+                height: height(context) - 130,
+                child: getAllImages(context, snapshot.data!));
+          } else {
+            return StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .progressIndicator(context);
+          }
+        }));
   }
 
   Widget getAllImages(BuildContext context, List<MediumInfo> infos) {
