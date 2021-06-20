@@ -42,13 +42,10 @@ class EliudAppBarImpl implements HasAppBar {
     // add menu items
     List<Widget>? buttons;
     if (items != null) {
-      buttons = items.map((item) => button(
-          context,
-          item,
-          menuBackgroundColor,
-          selectedIconColor,
-          iconColor
-      )).toList();
+      buttons = items
+          .map((item) => button(
+              context, item, menuBackgroundColor, selectedIconColor, iconColor))
+          .toList();
     } else {
       buttons = [];
     }
@@ -59,8 +56,11 @@ class EliudAppBarImpl implements HasAppBar {
       buttons.add(_eliudStyle
           .frontEndStyle()
           .profilePhotoStyle()
-          .getProfilePhotoButtonFromMember(
-          context, member: member, radius: 20, iconColor: iconColor, onPressed: openDrawer));
+          .getProfilePhotoButtonFromMember(context,
+              member: member,
+              radius: 20,
+              iconColor: iconColor,
+              onPressed: openDrawer));
     }
 
     var state = AccessBloc.getState(context);
@@ -79,7 +79,10 @@ class EliudAppBarImpl implements HasAppBar {
         if (headerAttributes.title != null) {
           return constructTitle(
               context,
-              _eliudStyle.frontEndStyle().textStyle().h1(context, headerAttributes.title!),
+              _eliudStyle
+                  .frontEndStyle()
+                  .textStyle()
+                  .h1(context, headerAttributes.title!),
               _pageName);
         }
         break;
@@ -138,25 +141,20 @@ class EliudAppBarImpl implements HasAppBar {
             onPressed: item.onTap);
       } else if (item.imageURL != null) {
         return IconButton(
-            icon: Image.network(
-                item.imageURL!
-            ),
+            icon: Image.network(item.imageURL!),
             color: RgbHelper.color(rgbo: iconColor),
             onPressed: item.onTap);
       } else {
         return Center(
-            child: OutlineButton(
-          padding: EdgeInsets.all(10.0),
-          child: _eliudStyle.frontEndStyle().textStyle().h5(context, item.label!),
-          onPressed: item.onTap,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          borderSide: BorderSide(color: _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context)!.color!),
-        ));
+            child: _eliudStyle.frontEndStyle().buttonStyle().button(
+                  context,
+                  label: item.label == null ? '?' : item.label!,
+                  onPressed: item.onTap,
+                ));
       }
     } else if (item is MenuItemWithMenuItems) {
-      var icon = IconHelper.getIconFromModel(
-          iconModel: item.icon, color: _rgbcolor);
+      var icon =
+          IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
       var text = Text(item.label!);
       var popupMenu = PopupMenuButton<int>(
           icon: icon,
@@ -164,8 +162,10 @@ class EliudAppBarImpl implements HasAppBar {
           onSelected: (int result) {
             var thisItem = item.items[result];
             if (thisItem is MenuItemWithMenuItems) {
-              EliudMenuImpl(_eliudStyle).openMenu(context, position: RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
-                  menuItems: thisItem.items, popupMenuBackgroundColorOverride: menuBackgroundColor);
+              EliudMenuImpl(_eliudStyle).openMenu(context,
+                  position: RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
+                  menuItems: thisItem.items,
+                  popupMenuBackgroundColorOverride: menuBackgroundColor);
             } else if (thisItem is MenuItemAttributes) {
               thisItem.onTap();
             }
@@ -175,8 +175,14 @@ class EliudAppBarImpl implements HasAppBar {
             var index = 0;
             item.items.forEach((thisItem) {
               var style = thisItem.isActive
-                  ? _eliudStyle.frontEndStyle().textStyleStyle().styleH3(context)
-                  : _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context);
+                  ? _eliudStyle
+                      .frontEndStyle()
+                      .textStyleStyle()
+                      .styleH3(context)
+                  : _eliudStyle
+                      .frontEndStyle()
+                      .textStyleStyle()
+                      .styleH4(context);
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,

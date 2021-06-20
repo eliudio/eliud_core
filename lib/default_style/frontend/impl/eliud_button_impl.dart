@@ -19,16 +19,31 @@ class EliudButtonImpl implements HasButton {
   Widget button(BuildContext context,
       {Icon? icon, required String label, VoidCallback? onPressed}) {
     if (icon != null) {
+      return GestureDetector(
+        onTap: onPressed,
+          child: Padding(padding: const EdgeInsets.all(7.0),
+        child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
+            child: icon)));
+
+/*
       return ElevatedButton.icon(
         onPressed: onPressed,
         icon: icon,
         label: Text(label),
       );
+*/
     } else {
+      return GestureDetector(
+          onTap: onPressed,
+          child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
+              child: Padding(padding: const EdgeInsets.all(7.0),
+              child: Text(label))));
+/*
       return ElevatedButton(
         onPressed: onPressed,
         child: Text(label),
       );
+*/
     }
   }
 

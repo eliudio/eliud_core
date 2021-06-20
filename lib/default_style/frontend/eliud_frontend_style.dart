@@ -52,26 +52,26 @@ import 'impl/eliud_text_impl.dart';
 
 class EliudFrontEndStyle implements FrontEndStyle {
   final EliudStyle _eliudStyle;
-  late EliudPageBodyImpl eliudPageBodyImpl;
-  late EliudMenuImpl eliudMenuImpl;
-  late EliudDrawerImpl eliudDrawerImpl;
-  late EliudBottomNavigationBarImpl eliudBottomNavigationBarImpl;
-  late EliudAppBarImpl eliudAppBarImpl;
-  late EliudProfilePhotoImpl eliudProfilePhotoImpl;
-  late EliudContainerImpl eliudContainerImpl;
-  late EliudProgressIndicatorImpl eliudProgressIndicatorImpl;
-  late EliudAppImpl eliudAppImpl;
-  late EliudListTileImpl eliudListTileImpl;
-  late EliudDialogFieldImpl eliudDialogFieldImpl;
-  late EliudDialogImpl eliudDialogImpl;
-  late EliudDialogWidgetImpl eliudDialogWidgetImpl;
-  late EliudButtonImpl eliudButtonImpl;
-  late EliudTextImpl eliudTextImpl;
-  late EliudTableImpl eliudTableImpl;
-  late EliudTextFormFieldImpl eliudTextFormFieldImpl;
-  late EliudStyleImpl eliudStyleImpl;
-  late EliudIconImpl eliudIconImpl;
-  late EliudDividerImpl eliudDividerImpl;
+  late HasPageBody eliudPageBodyImpl;
+  late HasMenu eliudMenuImpl;
+  late HasDrawer eliudDrawerImpl;
+  late HasBottomNavigationBar eliudBottomNavigationBarImpl;
+  late HasAppBar eliudAppBarImpl;
+  late HasProfilePhoto eliudProfilePhotoImpl;
+  late HasContainer eliudContainerImpl;
+  late HasProgressIndicator eliudProgressIndicatorImpl;
+  late HasApp eliudAppImpl;
+  late HasListTile eliudListTileImpl;
+  late HasDialogField eliudDialogFieldImpl;
+  late HasDialog eliudDialogImpl;
+  late HasDialogWidget eliudDialogWidgetImpl;
+  late HasButton eliudButtonImpl;
+  late HasText eliudTextImpl;
+  late HasTable eliudTableImpl;
+  late HasTexFormField eliudTextFormFieldImpl;
+  late HasStyle eliudStyleImpl;
+  late HasIcon eliudIconImpl;
+  late HasDivider eliudDividerImpl;
 
   EliudFrontEndStyle(this._eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
