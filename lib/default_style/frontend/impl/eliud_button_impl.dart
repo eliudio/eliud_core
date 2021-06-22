@@ -1,14 +1,7 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../eliud_style.dart';
-import 'eliud_menu_impl.dart';
 
 class EliudButtonImpl implements HasButton {
   final EliudStyle _eliudStyle;
@@ -41,7 +34,11 @@ class EliudButtonImpl implements HasButton {
           child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(
               context,
               child: Padding(
-                  padding: const EdgeInsets.all(7.0), child: Text(label))));
+                  padding: const EdgeInsets.all(7.0),
+                  child: _eliudStyle
+                      .frontEndStyle()
+                      .textStyle()
+                      .text(context, label))));
 /*
       return ElevatedButton(
         onPressed: onPressed,
@@ -59,10 +56,9 @@ class EliudButtonImpl implements HasButton {
       style: TextButton.styleFrom(
         primary: Colors.pink,
       ),
-      child: Text(label,
-          style: selected == null || selected == false
-              ? null
-              : TextStyle(fontWeight: FontWeight.w900)),
+      child: selected == null || selected == false
+          ? _eliudStyle.frontEndStyle().textStyle().text(context, label)
+          : _eliudStyle.frontEndStyle().textStyle().highLight1(context, label),
     );
   }
 

@@ -41,7 +41,7 @@ class DialogStateHelper {
 
   DialogStateHelper(this.frontEndStyle);
 
-  Widget build(
+  Widget build(BuildContext context,
       {required String title,
       required Widget contents,
       required List<Widget> buttons,
@@ -54,8 +54,8 @@ class DialogStateHelper {
         borderRadius: BorderRadius.circular(20),
       ),
       elevation: 0,
-      backgroundColor: Colors.white,
-      child: _contentBox(
+      backgroundColor: Colors.grey,
+      child: _contentBox(context,
           title: title,
           contents: contents,
           buttons: buttons,
@@ -64,7 +64,7 @@ class DialogStateHelper {
     );
   }
 
-  Widget _contentBox(
+  Widget _contentBox(BuildContext context,
       {required String title,
       required Widget contents,
       required List<Widget> buttons,
@@ -73,7 +73,7 @@ class DialogStateHelper {
       Widget? separator}) {
     return Form(
         key: _formKey,
-        child: _titleAndFields(
+        child: _titleAndFields(context,
             title: title,
             contents: contents,
             buttons: buttons,
@@ -93,7 +93,7 @@ class DialogStateHelper {
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
-  Widget _titleAndFields(
+  Widget _titleAndFields(BuildContext context,
       {required String title,
       required Widget contents,
       required List<Widget> buttons,
@@ -101,11 +101,7 @@ class DialogStateHelper {
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator}) {
     var widgets = <Widget>[];
-    Widget _title = Text(title,
-        style: TextStyle(
-            color: Colors.grey[800],
-            fontWeight: FontWeight.bold,
-            fontSize: 20));
+    var _title = frontEndStyle.textStyle().h1(context, title);
     if ((dialogButtonPosition != null) &&
         (dialogButtonPosition == DialogButtonPosition.TopRight)) {
       widgets.add(_getRowWithButtons(buttons, title: _title));
@@ -154,14 +150,19 @@ class DialogStateHelper {
   /* Helper method to format the fields */
   Widget fieldsWidget(BuildContext context, List<Widget> widgets,
       {double? height, double? width}) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().simpleTopicContainer(context, children: widgets, height: height, width: width);
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .containerStyle()
+        .simpleTopicContainer(context,
+            children: widgets, height: height, width: width);
 /*
     return Container(
         height: (height != null)
             ? height
             : DialogStatefulWidgetHelper.height(context) -
                 150 */
-/* minus the size of the button, title and divider *//*
+/* minus the size of the button, title and divider */ /*
 ,
         width:
             (width != null) ? width : DialogStatefulWidgetHelper.width(context),
@@ -177,9 +178,9 @@ class DialogStateHelper {
     required VoidCallback onPressed,
     String? buttonLabel,
   }) {
-
     return <Widget>[
-      frontEndStyle.buttonStyle().dialogButton(context, label: buttonLabel ?? 'Close', onPressed: onPressed),
+      frontEndStyle.buttonStyle().dialogButton(context,
+          label: buttonLabel ?? 'Close', onPressed: onPressed),
     ];
   }
 
@@ -194,9 +195,13 @@ class DialogStateHelper {
       String? ackButtonLabel,
       String? nackButtonLabel}) {
     return <Widget>[
-      frontEndStyle.buttonStyle().dialogButton(context, label: nackButtonLabel ?? 'Cancel',        onPressed: nackFunction,
-      ),
-      frontEndStyle.buttonStyle().dialogButton(context, label: ackButtonLabel ?? 'Continue',          onPressed: ackFunction),
+      frontEndStyle.buttonStyle().dialogButton(
+            context,
+            label: nackButtonLabel ?? 'Cancel',
+            onPressed: nackFunction,
+          ),
+      frontEndStyle.buttonStyle().dialogButton(context,
+          label: ackButtonLabel ?? 'Continue', onPressed: ackFunction),
     ];
   }
 
@@ -210,9 +215,9 @@ class DialogStateHelper {
     for (var i = 0; i < buttonLabels.length; i++) {
       var label = buttonLabels[i];
       var function = functions[i];
-      buttons.add(
-          frontEndStyle.buttonStyle().dialogButton(context, label: label,
-          onPressed: function));
+      buttons.add(frontEndStyle
+          .buttonStyle()
+          .dialogButton(context, label: label, onPressed: function));
     }
     return buttons;
   }

@@ -28,7 +28,7 @@ class _FlexibleDialogState extends State<FlexibleDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
         contents: widget.widget,

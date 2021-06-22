@@ -156,7 +156,7 @@ class EliudAppBarImpl implements HasAppBar {
     } else if (item is MenuItemWithMenuItems) {
       var icon =
           IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
-      var text = Text(item.label!);
+      var text = _eliudStyle.frontEndStyle().textStyle().text(context, (item.label!));
       var popupMenu = PopupMenuButton<int>(
           icon: icon,
           child: icon == null ? text : null,
@@ -187,7 +187,7 @@ class EliudAppBarImpl implements HasAppBar {
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
-                child: Text(label),
+                child: _eliudStyle.frontEndStyle().textStyle().text(context, label),
                 textStyle: style,
               );
               entries.add(menuItem);

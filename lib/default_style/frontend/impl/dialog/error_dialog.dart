@@ -47,9 +47,9 @@ class ErrorDialog extends StatefulWidget {
 class _ErrorDialogState extends State<ErrorDialog> {
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         title: widget.title,
-        contents: Text(widget.message),
+        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message),
         dialogButtonPosition: widget.dialogButtonPosition,
         buttons: widget.dialogHelper.getCloseButton(context,
             buttonLabel: widget.buttonLabel,

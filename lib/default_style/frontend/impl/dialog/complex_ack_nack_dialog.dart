@@ -34,7 +34,7 @@ class ComplexAckNackDialog extends StatefulWidget {
 class _ComplexAckNackDialogState extends State<ComplexAckNackDialog> {
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
         contents: widget.widget,

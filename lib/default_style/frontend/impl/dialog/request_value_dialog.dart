@@ -40,7 +40,7 @@ class _RequestValueDialogState extends State<RequestValueDialog> {
   @override
   Widget build(BuildContext context) {
     String? feedback;
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         dialogButtonPosition: widget.dialogButtonPosition,
         title: widget.title,
         contents: widget.dialogHelper.getListTile(

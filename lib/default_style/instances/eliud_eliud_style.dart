@@ -44,23 +44,23 @@ class EliudEliudStyle {
       floatingButtonBackgroundColor: EliudColors.red,
       dividerColor: EliudColors.red,
       h1: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h1Label)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.h1Label)),
       h2: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h2Label)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.h2Label)),
       h3: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h3Label)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.h3Label)),
       h4: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h4Label)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.h4Label)),
       h5: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.h5Label)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.h5Label)),
       fontHighlight1: fontTools.getFont(
-          FontTools.key(FontTools.robotoLabel, FontTools.highlightLabel1)),
+          FontTools.key(FontTools.dancingScriptLabel, FontTools.highlightLabel1)),
       fontHighlight2: fontTools.getFont(
-          FontTools.key(FontTools.robotoLabel, FontTools.highlightLabel2)),
+          FontTools.key(FontTools.dancingScriptLabel, FontTools.highlightLabel2)),
       fontLink: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.linkLabel)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.linkLabel)),
       fontText: fontTools
-          .getFont(FontTools.key(FontTools.robotoLabel, FontTools.normalLabel)),
+          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),
       backgroundColorHomeMenu: homeMenuPopupBGColor(),
       iconColorHomeMenu: homeMenuIconColor(),

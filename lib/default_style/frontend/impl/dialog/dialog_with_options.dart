@@ -14,6 +14,7 @@ class DialogOption {
 }
 
 class DialogWithOptions extends StatefulWidget {
+  final FrontEndStyle frontEndStyle;
   late DialogStateHelper dialogHelper;
 
   List<DialogOption> options;
@@ -21,14 +22,14 @@ class DialogWithOptions extends StatefulWidget {
   final String? buttonLabel;
   final DialogButtonPosition dialogButtonPosition;
 
-  DialogWithOptions(FrontEndStyle frontEndStyle, {
-      Key? key,
+  DialogWithOptions(this.frontEndStyle,
+      {Key? key,
       required this.options,
       required this.title,
       this.buttonLabel,
-      required this.dialogButtonPosition
-  }) : super(key: key) {
-  dialogHelper = DialogStateHelper(frontEndStyle);
+      required this.dialogButtonPosition})
+      : super(key: key) {
+    dialogHelper = DialogStateHelper(frontEndStyle);
   }
 
   DialogWithOptions withOptionConditional(
@@ -52,7 +53,7 @@ class DialogWithOptions extends StatefulWidget {
 class _DialogWithOptionsState extends State<DialogWithOptions> {
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         dialogButtonPosition: widget.dialogButtonPosition,
         title: widget.title,
         contents: getOptions(context),
@@ -66,9 +67,11 @@ class _DialogWithOptionsState extends State<DialogWithOptions> {
         shrinkWrap: true,
         itemCount: widget.options.length,
         itemBuilder: (context, i) {
-          return TextButton(
-              onPressed: () => onPressed(i),
-              child: Text(widget.options[i].value));
+          return widget.frontEndStyle.buttonStyle().dialogButton(
+                context,
+                label: widget.options[i].value,
+                onPressed: () => onPressed(i),
+              );
         });
   }
 

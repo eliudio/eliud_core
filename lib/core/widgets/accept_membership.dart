@@ -72,9 +72,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle().dialogStyle()
-        .openComplexDialog(
+        .openWidgetDialog(
           context,
-          title: title!,
           child: MemberMediumDialog(
             width: 100,
             title: title,
@@ -110,14 +109,10 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                 height: 30, width: 200, child: Center(child: Text(policy.name))),
 */
         Text(policy.name!),
-        Spacer(),
-        Container(
-            height: 30,
-            child: Center(
-                child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Read',
+        Spacer(),StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Read',
                     onPressed: () async {
                       _openPolicy(policy.name, handler.item!);
-                    }))),
+                    }),
       ]));
       i++;
     });

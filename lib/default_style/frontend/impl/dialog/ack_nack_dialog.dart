@@ -58,10 +58,10 @@ class _AckNackState extends State<AckNackDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         dialogButtonPosition: widget.dialogButtonPosition,
         title: widget.title!,
-        contents: Text(widget.message!),
+        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message!),
         buttons: widget.dialogHelper.getAckNackButtons(context,
             ackFunction: widget.ackFunction,
             nackFunction: widget.nackFunction,

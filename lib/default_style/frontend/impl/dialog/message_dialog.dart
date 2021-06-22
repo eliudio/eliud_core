@@ -32,10 +32,10 @@ class _MessageState extends State<MessageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
-        contents: Text(widget.message),
+        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message),
         buttons: widget.dialogHelper.getCloseButton(context,
             onPressed: widget.onPressed, buttonLabel: widget.buttonLabel));
   }

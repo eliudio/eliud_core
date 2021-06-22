@@ -18,7 +18,9 @@ class WidgetDialog extends StatefulWidget {
     this.buttonLabel,
     required this.onPressed,
     required this.dialogButtonPosition,
-  }) : super(key: key);
+  }) : super(key: key) {
+    dialogHelper = DialogStateHelper(frontEndStyle);
+  }
 
   @override
   _WidgetDialogState createState() => _WidgetDialogState();
@@ -27,7 +29,7 @@ class WidgetDialog extends StatefulWidget {
 class _WidgetDialogState extends State<WidgetDialog> {
   @override
   Widget build(BuildContext context) {
-    return widget.dialogHelper.build(
+    return widget.dialogHelper.build(context,
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
         contents: widget.widget,

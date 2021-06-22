@@ -63,7 +63,7 @@ class EliudDrawerImpl implements HasDrawer {
               ? null
               : IconHelper.getIconFromModelWithFlutterColor(
               iconModel: item.icon, color: style!.color);
-      var theText = Text(item.label!, textAlign: TextAlign.center, style: style);
+      var theText = item.isActive ? _eliudStyle.frontEndStyle().textStyle().h3(context, item.label!, textAlign: TextAlign.center) : _eliudStyle.frontEndStyle().textStyle().h4(context, item.label!, textAlign: TextAlign.center);
       widgets.add(ListTile(
           leading: theIcon,
           title: theText,

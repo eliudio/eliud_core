@@ -12,41 +12,46 @@ class EliudMenuImpl implements HasMenu {
   EliudMenuImpl(this._eliudStyle);
 
   @override
-  Future<void> openMenu(BuildContext context, {required RelativeRect position, required List<AbstractMenuItemAttributes> menuItems, RgbModel? popupMenuBackgroundColorOverride}) async {
+  Future<void> openMenu(BuildContext context,
+      {required RelativeRect position,
+      required List<AbstractMenuItemAttributes> menuItems,
+      RgbModel? popupMenuBackgroundColorOverride}) async {
     var popupMenuBackgroundColor;
     if (popupMenuBackgroundColorOverride == null) {
-      popupMenuBackgroundColor = _eliudStyle.eliudStyleAttributesModel.backgroundColorHomeMenu;
+      popupMenuBackgroundColor =
+          _eliudStyle.eliudStyleAttributesModel.backgroundColorHomeMenu;
     } else {
       popupMenuBackgroundColor = popupMenuBackgroundColorOverride;
     }
-     var popupMenuItems = <PopupMenuItem<int>>[];
-      var i = 0;
-      menuItems.forEach((element) {
-        var style = element.isActive
-            ? _eliudStyle.frontEndStyle().textStyleStyle()
-            .styleH3(context)
-            : _eliudStyle.frontEndStyle().textStyleStyle()
-            .styleH4(context);
-        var p = PopupMenuItem<int>(
-            value: i, child: Text(element.label!, style: style));
-        popupMenuItems.add(p);
-        i++;
-      });
+    var popupMenuItems = <PopupMenuItem<int>>[];
+    var i = 0;
+    menuItems.forEach((element) {
+      var label = element.label ?? '?';
+      var p = PopupMenuItem<int>(
+          value: i,
+          child: element.isActive
+              ? _eliudStyle.frontEndStyle().textStyle().h3(context, label)
+              : _eliudStyle.frontEndStyle().textStyle().h4(context, label));
+      popupMenuItems.add(p);
+      i++;
+    });
 
-      final result = await showMenu<int>(
-          context: context,
-          position: position,
-          items: popupMenuItems,
-          elevation: 8.0,
-          color: RgbHelper.color(rgbo: popupMenuBackgroundColor));
-      if (result != null) {
-        var item = menuItems[result];
-        if (item is MenuItemAttributes) {
-          item.onTap();
-        } else if (item is MenuItemWithMenuItems) {
-          await openMenu(context, position: position, menuItems: item.items, popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
-        }
+    final result = await showMenu<int>(
+        context: context,
+        position: position,
+        items: popupMenuItems,
+        elevation: 8.0,
+        color: RgbHelper.color(rgbo: popupMenuBackgroundColor));
+    if (result != null) {
+      var item = menuItems[result];
+      if (item is MenuItemAttributes) {
+        item.onTap();
+      } else if (item is MenuItemWithMenuItems) {
+        await openMenu(context,
+            position: position,
+            menuItems: item.items,
+            popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
       }
+    }
   }
 }
-

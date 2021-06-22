@@ -43,7 +43,7 @@ class EliudPageBodyImpl implements HasPageBody {
       }
       return Container(color: Colors.white);
     } catch (_) {
-      return Text("Error whilst constructing the body");
+      return _eliudStyle.frontEndStyle().textStyle().text(context, "Error whilst constructing the body");
     }
   }
 
