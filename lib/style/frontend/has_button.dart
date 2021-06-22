@@ -13,13 +13,12 @@ abstract class HasButton {
 
   // Button in a dialog, e.g. to close the dialog
   Widget dialogButton(BuildContext context,
-      {VoidCallback? onPressed, required String label});
+      {VoidCallback? onPressed, required String label, bool? selected});
   List<Widget> dialogButtons(BuildContext context, {required List<String> labels,
     required List<VoidCallback?> functions});
 
   // Button with icon only
-  Widget iconButton(BuildContext context,
-      {VoidCallback? onPressed, required Icon icon});
+  Widget iconButton(BuildContext context, {VoidCallback? onPressed, Color? color, String? tooltip, required Widget icon});
     // Search for IconButton, take all inputs for the input of this method and copy it's implementation
 
 }

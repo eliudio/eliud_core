@@ -26,31 +26,47 @@ class DialogComponent extends StatefulWidget {
 class _DialogComponentState extends State<DialogComponent> {
   @override
   Widget build(BuildContext context) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogWidgetStyle().flexibleDialog(context, title: widget.dialog!.title!, child: getContents(context), buttons: getButtons(context));
-  }
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .dialogWidgetStyle()
+        .flexibleDialog(context,
+            title: widget.dialog!.title!,
+            child: getContents(context),
+            buttons: [
 
-  List<TextButton> getButtons(BuildContext context) {
-    return <TextButton>[
-      TextButton(onPressed: () => pressed(true), child: Text('Close')),
-    ];
+        StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .buttonStyle().dialogButton(context, label: 'Close', onPressed: () => pressed(true)),
+    ]);
   }
 
   Widget getContents(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     if (accessState is AppLoaded) {
       var componentInfo = ComponentInfo.getComponentInfo(
-          widget.dialog!.bodyComponents!, widget.parameters, accessState,
-          fromDialogLayout(widget.dialog!.layout), null,
+          widget.dialog!.bodyComponents!,
+          widget.parameters,
+          accessState,
+          fromDialogLayout(widget.dialog!.layout),
+          null,
           widget.dialog!.gridView);
       var theBody;
       if (widget.dialog!.widgetWrapper != null) {
-        theBody = Registry.registry()!.wrapWidgetInBloc(widget.dialog!.widgetWrapper!, context, componentInfo);
+        theBody = Registry.registry()!.wrapWidgetInBloc(
+            widget.dialog!.widgetWrapper!, context, componentInfo);
       } else {
-        theBody = PageBody(componentInfo: componentInfo,);
+        theBody = PageBody(
+          componentInfo: componentInfo,
+        );
       }
 
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().simpleTopicContainer(context, children: <Widget>[
-        theBody]);
+      return StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .containerStyle()
+          .simpleTopicContainer(context, children: <Widget>[theBody]);
     } else {
       return Text('App not loaded');
     }

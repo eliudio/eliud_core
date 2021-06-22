@@ -1,3 +1,4 @@
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,9 @@ class AlertWidget extends StatelessWidget {
       title: Text(title!),
       content: Text(content!),
       actions: <Widget>[
-        TextButton(
-          onPressed: () {
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Close',onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Close"),
         ),
       ],
     );

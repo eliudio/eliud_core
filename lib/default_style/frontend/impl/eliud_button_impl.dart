@@ -20,10 +20,13 @@ class EliudButtonImpl implements HasButton {
       {Icon? icon, required String label, VoidCallback? onPressed}) {
     if (icon != null) {
       return GestureDetector(
-        onTap: onPressed,
-          child: Padding(padding: const EdgeInsets.all(7.0),
-        child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
-            child: icon)));
+          onTap: onPressed,
+          child: Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: _eliudStyle
+                  .frontEndStyle()
+                  .containerStyle()
+                  .actionContainer(context, child: icon)));
 
 /*
       return ElevatedButton.icon(
@@ -35,9 +38,10 @@ class EliudButtonImpl implements HasButton {
     } else {
       return GestureDetector(
           onTap: onPressed,
-          child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
-              child: Padding(padding: const EdgeInsets.all(7.0),
-              child: Text(label))));
+          child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(
+              context,
+              child: Padding(
+                  padding: const EdgeInsets.all(7.0), child: Text(label))));
 /*
       return ElevatedButton(
         onPressed: onPressed,
@@ -49,15 +53,22 @@ class EliudButtonImpl implements HasButton {
 
   @override
   Widget dialogButton(BuildContext context,
-      {VoidCallback? onPressed, required String label}) {
+      {VoidCallback? onPressed, required String label, bool? selected}) {
     return TextButton(
-        onPressed: onPressed,
-        child: Text(label));
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        primary: Colors.pink,
+      ),
+      child: Text(label,
+          style: selected == null || selected == false
+              ? null
+              : TextStyle(fontWeight: FontWeight.w900)),
+    );
   }
 
   @override
-  List<Widget> dialogButtons(BuildContext context, {required List<String> labels,
-    required List<VoidCallback?> functions}) {
+  List<Widget> dialogButtons(BuildContext context,
+      {required List<String> labels, required List<VoidCallback?> functions}) {
     if (labels.length != functions.length) {
       throw Exception(
           'Amount of labels of buttons does not correspond functions');
@@ -66,22 +77,26 @@ class EliudButtonImpl implements HasButton {
     for (var i = 0; i < labels.length; i++) {
       var label = labels[i];
       var function = functions[i];
-      buttons.add(dialogButton(context,
-          onPressed: function, label: label));
+      buttons.add(dialogButton(context, onPressed: function, label: label));
     }
     return buttons;
   }
 
   @override
-  Widget iconButton(BuildContext context, {VoidCallback? onPressed, required Icon icon}) {
-    // TODO: implement iconButton
-    throw UnimplementedError();
+  Widget iconButton(BuildContext context,
+      {VoidCallback? onPressed,
+      Color? color,
+      String? tooltip,
+      required Widget icon}) {
+    return _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
+        child: IconButton(
+            icon: icon, color: color, tooltip: tooltip, onPressed: onPressed));
   }
 
   @override
-  Widget simpleButton(BuildContext context, {VoidCallback? onPressed, required String label}) {
+  Widget simpleButton(BuildContext context,
+      {VoidCallback? onPressed, required String label}) {
     // TODO: implement simpleButton
     throw UnimplementedError();
   }
-
 }

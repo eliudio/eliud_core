@@ -114,8 +114,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
         Container(
             height: 30,
             child: Center(
-                child: TextButton(
-                    child: Text('Read'),
+                child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Read',
                     onPressed: () async {
                       _openPolicy(policy.name, handler.item!);
                     }))),

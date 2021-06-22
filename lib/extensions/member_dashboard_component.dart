@@ -43,10 +43,10 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
     ]);
   }
 
-  TableRow getRow(BuildContext context, AppModel app, String textButton,
+  TableRow getRow(BuildContext context, AppModel app, String label,
       String description, VoidCallback action) {
     return TableRow(children: [
-      TextButton(onPressed: () => action(), child: Text(textButton)),
+        StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: label, onPressed: action, ),
       TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
           child: StyleRegistry.registry()
