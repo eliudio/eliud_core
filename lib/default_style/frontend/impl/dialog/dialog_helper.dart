@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,9 @@ class DialogStatefulWidgetHelper {
 // We use this helper allowing to maintain, reuse and change common dialog behavior
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FrontEndStyle frontEndStyle;
+
+  DialogStateHelper(this.frontEndStyle);
 
   Widget build(
       {required String title,
@@ -168,17 +172,18 @@ class DialogStateHelper {
   }
 
   /* Helper method to retrieve the button */
-  List<TextButton> getCloseButton(
+  List<Widget> getCloseButton(
     BuildContext context, {
     required VoidCallback onPressed,
     String? buttonLabel,
   }) {
-    return <TextButton>[
-      TextButton(child: Text(buttonLabel ?? 'Close'), onPressed: onPressed),
+
+    return <Widget>[
+      frontEndStyle.buttonStyle().dialogButton(context, label: buttonLabel ?? 'Close', onPressed: onPressed),
     ];
   }
 
-  List<TextButton> getDefaultCloseButton(BuildContext context) {
+  List<Widget> getDefaultCloseButton(BuildContext context) {
     return getCloseButton(context,
         buttonLabel: 'Close', onPressed: () => Navigator.pop(context));
   }
@@ -188,27 +193,26 @@ class DialogStateHelper {
       required VoidCallback nackFunction,
       String? ackButtonLabel,
       String? nackButtonLabel}) {
-    return <TextButton>[
-      TextButton(
-        onPressed: nackFunction,
-        child: Text(nackButtonLabel ?? 'Cancel'),
+    return <Widget>[
+      frontEndStyle.buttonStyle().dialogButton(context, label: nackButtonLabel ?? 'Cancel',        onPressed: nackFunction,
       ),
-      TextButton(
-          onPressed: ackFunction, child: Text(ackButtonLabel ?? 'Continue')),
+      frontEndStyle.buttonStyle().dialogButton(context, label: ackButtonLabel ?? 'Continue',          onPressed: ackFunction),
     ];
   }
 
-  List<TextButton> getButtons(BuildContext context, List<String> buttonLabels,
-      List<Function> functions) {
-    if (buttonLabels.length != functions.length)
+  List<Widget> getButtons(BuildContext context, List<String> buttonLabels,
+      List<VoidCallback> functions) {
+    if (buttonLabels.length != functions.length) {
       throw Exception(
-          "Amount of labels of buttons does not correspond functions");
-    List<TextButton> buttons = [];
-    for (int i = 0; i < buttonLabels.length; i++) {
-      String label = buttonLabels[i];
-      Function function = functions[i];
-      buttons.add(TextButton(
-          onPressed: function as void Function()?, child: Text(label)));
+          'Amount of labels of buttons does not correspond functions');
+    }
+    var buttons = <Widget>[];
+    for (var i = 0; i < buttonLabels.length; i++) {
+      var label = buttonLabels[i];
+      var function = functions[i];
+      buttons.add(
+          frontEndStyle.buttonStyle().dialogButton(context, label: label,
+          onPressed: function));
     }
     return buttons;
   }

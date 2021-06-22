@@ -1,14 +1,17 @@
+import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:flutter/material.dart';
 import 'dialog_helper.dart';
 
 class WidgetDialog extends StatefulWidget {
+  late DialogStateHelper dialogHelper;
+
   final String title;
   final Widget widget;
   final VoidCallback onPressed;
   final String? buttonLabel;
   final DialogButtonPosition dialogButtonPosition;
 
-  WidgetDialog({
+  WidgetDialog(FrontEndStyle frontEndStyle, {
     Key? key,
     required this.title,
     required this.widget,
@@ -22,15 +25,13 @@ class WidgetDialog extends StatefulWidget {
 }
 
 class _WidgetDialogState extends State<WidgetDialog> {
-  final DialogStateHelper dialogHelper = DialogStateHelper();
-
   @override
   Widget build(BuildContext context) {
-    return dialogHelper.build(
+    return widget.dialogHelper.build(
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
         contents: widget.widget,
-        buttons: dialogHelper.getCloseButton(context,
+        buttons: widget.dialogHelper.getCloseButton(context,
             onPressed: widget.onPressed, buttonLabel: widget.buttonLabel));
   }
 }

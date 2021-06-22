@@ -1,16 +1,19 @@
+import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'dialog_helper.dart';
 
 class ErrorDialog extends StatefulWidget {
+  late DialogStateHelper dialogHelper;
+
   final String title;
   final String message;
   final VoidCallback onPressed;
   final String? buttonLabel;
   final DialogButtonPosition dialogButtonPosition;
 
-  ErrorDialog({
+  ErrorDialog(FrontEndStyle frontEndStyle, {
     Key? key,
     required this.title,
     required this.message,
@@ -22,7 +25,8 @@ class ErrorDialog extends StatefulWidget {
   @override
   _ErrorDialogState createState() => _ErrorDialogState();
 
-  static ErrorDialog errorDialog({
+  static ErrorDialog errorDialog(      FrontEndStyle frontEndStyle,
+      {
     required String title,
     required String message,
     String? buttonLabel,
@@ -30,6 +34,7 @@ class ErrorDialog extends StatefulWidget {
     required DialogButtonPosition dialogButtonPosition,
   }) {
     return ErrorDialog(
+      frontEndStyle,
       message: message,
       title: title,
       buttonLabel: buttonLabel,
@@ -40,15 +45,13 @@ class ErrorDialog extends StatefulWidget {
 }
 
 class _ErrorDialogState extends State<ErrorDialog> {
-  final DialogStateHelper dialogHelper = DialogStateHelper();
-
   @override
   Widget build(BuildContext context) {
-    return dialogHelper.build(
+    return widget.dialogHelper.build(
         title: widget.title,
         contents: Text(widget.message),
         dialogButtonPosition: widget.dialogButtonPosition,
-        buttons: dialogHelper.getCloseButton(context,
+        buttons: widget.dialogHelper.getCloseButton(context,
             buttonLabel: widget.buttonLabel,
             onPressed: () => Navigator.pop(context)));
   }

@@ -3,18 +3,18 @@ import 'package:eliud_core/model/model_export.dart';
 
 class FontTools {
   // Use this for reference:
-  static String h1Label = "H1";
-  static String h2Label = "H2";
-  static String h3Label = "H3";
-  static String h4Label = "H4";
-  static String h5Label = "H5";
-  static String normalLabel = "Normal";
-  static String highlightLabel1 = "Highlight1";
-  static String highlightLabel2 = "Highlight2";
-  static String linkLabel = "Link";
-  static String robotoLabel = "Roboto";
-  static String latoLabel = "Lato";
-  static String dancingScriptLabel = "DancingScript";
+  static String h1Label = 'H1';
+  static String h2Label = 'H2';
+  static String h3Label = 'H3';
+  static String h4Label = 'H4';
+  static String h5Label = 'H5';
+  static String normalLabel = 'Normal';
+  static String highlightLabel1 = 'Highlight1';
+  static String highlightLabel2 = 'Highlight2';
+  static String linkLabel = 'Link';
+  static String robotoLabel = 'Roboto';
+  static String latoLabel = 'Lato';
+  static String dancingScriptLabel = 'DancingScript';
 
   final Map<String, FontModel> fonts = new Map();
   final RgbModel? headerColor1To3;
@@ -55,7 +55,7 @@ class FontTools {
   ];
 
   List<String> fontKeys = <String>[robotoLabel, latoLabel, dancingScriptLabel];
-  List<String> fontNames = <String>["Roboto", "Lato", "Dancing Script"];
+  List<String> fontNames = <String>['Roboto', 'Lato', 'Dancing Script'];
 
   FontTools({
     this.headerColor1To3,
@@ -201,9 +201,9 @@ class FontTools {
   }
 
   FontModel? getFont(String fontKey) {
-    FontModel? fontModel = fonts[fontKey];
+    var fontModel = fonts[fontKey];
     if (fontModel == null) {
-      print("Warning: font $fontKey not found");
+      print('Warning: font $fontKey not found');
     }
     return fontModel;
   }

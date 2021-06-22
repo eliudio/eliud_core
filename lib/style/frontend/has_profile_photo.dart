@@ -37,7 +37,9 @@ abstract class HasProfilePhoto {
       VoidCallback? onPressed});
 
   Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
-      {RgbModel? iconColor, required double radius, VoidCallback? onPressed});
+      {RgbModel? iconColor,
+      required double radius,
+      VoidCallback? onPressed});
 
   Widget getProfilePhotoButtonFromURL(BuildContext context,
       {String? url,

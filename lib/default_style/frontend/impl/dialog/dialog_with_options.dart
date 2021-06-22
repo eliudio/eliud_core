@@ -1,3 +1,4 @@
+import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +14,22 @@ class DialogOption {
 }
 
 class DialogWithOptions extends StatefulWidget {
+  late DialogStateHelper dialogHelper;
+
   List<DialogOption> options;
   final String title;
   final String? buttonLabel;
   final DialogButtonPosition dialogButtonPosition;
 
-  DialogWithOptions(
-      {Key? key,
+  DialogWithOptions(FrontEndStyle frontEndStyle, {
+      Key? key,
       required this.options,
       required this.title,
       this.buttonLabel,
-      required this.dialogButtonPosition})
-      : super(key: key);
+      required this.dialogButtonPosition
+  }) : super(key: key) {
+  dialogHelper = DialogStateHelper(frontEndStyle);
+  }
 
   DialogWithOptions withOptionConditional(
       bool condition, String option, OptionTriggered triggered) {
@@ -45,15 +50,13 @@ class DialogWithOptions extends StatefulWidget {
 }
 
 class _DialogWithOptionsState extends State<DialogWithOptions> {
-  final DialogStateHelper helper = DialogStateHelper();
-
   @override
   Widget build(BuildContext context) {
-    return helper.build(
+    return widget.dialogHelper.build(
         dialogButtonPosition: widget.dialogButtonPosition,
         title: widget.title,
         contents: getOptions(context),
-        buttons: helper.getCloseButton(context,
+        buttons: widget.dialogHelper.getCloseButton(context,
             onPressed: pressed, buttonLabel: widget.buttonLabel));
   }
 
@@ -75,7 +78,7 @@ class _DialogWithOptionsState extends State<DialogWithOptions> {
   }
 
   Widget getFieldsWidget(BuildContext context) {
-    return helper.fieldsWidget(context, <Widget>[]);
+    return widget.dialogHelper.fieldsWidget(context, <Widget>[]);
   }
 
   void pressed() {

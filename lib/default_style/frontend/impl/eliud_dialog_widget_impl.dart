@@ -40,7 +40,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     required String errorMessage,
     String? closeLabel,
   }) =>
-      ErrorDialog(
+      ErrorDialog(_eliudStyle.frontEndStyle(),
         title: title,
         message: errorMessage,
         onPressed: () => Navigator.of(context).pop(),
@@ -55,7 +55,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
           required OnSelection onSelection,
           String? ackButtonLabel,
           String? nackButtonLabel}) =>
-      AckNackDialog(
+      AckNackDialog(_eliudStyle.frontEndStyle(),
         title: title,
         message: message,
         ackFunction: () {
@@ -79,7 +79,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
           String? hintText,
           required Function(String? response) onPressed,
           String? initialValue}) =>
-      RequestValueDialog(
+      RequestValueDialog(_eliudStyle.frontEndStyle(),
         title: title,
         ackButtonLabel: ackButtonLabel,
         nackButtonLabel: nackButtonLabel,
@@ -107,7 +107,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
             onSelection(i);
           }));
     }
-    return DialogWithOptions(
+    return DialogWithOptions(_eliudStyle.frontEndStyle(),
       title: title,
       options: newOptions,
       buttonLabel: buttonLabel,
@@ -124,7 +124,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     String? ackButtonLabel,
     String? nackButtonLabel,
   }) =>
-      ComplexAckNackDialog(
+      ComplexAckNackDialog(_eliudStyle.frontEndStyle(),
         title: title,
         widget: child,
         ackFunction: () {
@@ -145,7 +145,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
           required Widget child,
           VoidCallback? onPressed,
           String? buttonLabel}) =>
-      WidgetDialog(
+      WidgetDialog(_eliudStyle.frontEndStyle(),
         title: title,
         widget: child,
         onPressed: () {
@@ -163,7 +163,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
       {required String title,
       required Widget child,
       required List<Widget> buttons}) {
-    return FlexibleDialog(
+    return FlexibleDialog(_eliudStyle.frontEndStyle(),
         title: title,
         widget: child,
         dialogButtonPosition: DialogButtonPosition.TopRight,

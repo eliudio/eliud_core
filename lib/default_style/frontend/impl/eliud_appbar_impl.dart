@@ -4,6 +4,7 @@ import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/types.dart';
+import 'package:eliud_core/style/tools/colors.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -59,7 +60,7 @@ class EliudAppBarImpl implements HasAppBar {
           .getProfilePhotoButtonFromMember(context,
               member: member,
               radius: 20,
-              iconColor: iconColor,
+              iconColor: EliudColors.white,
               onPressed: openDrawer));
     }
 

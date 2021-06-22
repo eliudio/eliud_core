@@ -16,7 +16,7 @@ class EliudContainerImpl implements HasContainer {
         width: width,
         height: height,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color.fromRGBO(220, 200, 200, 1),
             border: Border.all(color: Colors.white, width: 1),
             boxShadow: [
               BoxShadow(
