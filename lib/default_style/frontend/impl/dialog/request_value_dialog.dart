@@ -28,7 +28,7 @@ class RequestValueDialog extends StatefulWidget {
     this.initialValue,
     required this.dialogButtonPosition,
   }) : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   @override

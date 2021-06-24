@@ -1,6 +1,6 @@
 import 'package:eliud_core/package/package.dart';
 
-class GlobalData {
+class Packages {
   static List<Package> registeredPackages = [];
 
   static void registerPackage(package) {

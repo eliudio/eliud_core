@@ -1,4 +1,5 @@
 import 'package:eliud_core/style/frontend/frontend_style.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
   Widget build(BuildContext context) {
     return widget.dialogHelper.build(context,
         title: widget.title,
-        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message),
+        contents: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, widget.message),
         dialogButtonPosition: widget.dialogButtonPosition,
         buttons: widget.dialogHelper.getCloseButton(context,
             buttonLabel: widget.buttonLabel,

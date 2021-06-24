@@ -1,20 +1,20 @@
-import 'package:eliud_core/core/global_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/component_registry.dart';
+import 'core/packages.dart';
 import 'core/registry.dart';
 import 'package/package.dart';
 
 class Eliud {
   void register(Package package) {
-    GlobalData.registerPackage(package);
+    Packages.registerPackage(package);
   }
 
   void initRegistryAndPackages() {
     try {
       ComponentRegistry().init();
 
-      var plugins = GlobalData.registeredPackages;
+      var plugins = Packages.registeredPackages;
       for (var i = 0; i < plugins.length; i++) {
         var plugin = plugins[i];
         plugin.init();

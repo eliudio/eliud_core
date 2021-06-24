@@ -3,9 +3,9 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/dialog_component.dart';
-import 'package:eliud_core/core/global_data.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
+import 'package:eliud_core/core/packages.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -117,7 +117,7 @@ class Registry {
     blocProviders
         .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
     print(".");
-    GlobalData.registeredPackages.forEach((element) {
+    Packages.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
         blocProviders.add(provider);

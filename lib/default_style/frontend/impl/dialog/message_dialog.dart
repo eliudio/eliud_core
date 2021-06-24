@@ -1,4 +1,5 @@
 import 'package:eliud_core/style/frontend/frontend_style.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class MessageDialog extends StatefulWidget {
     this.buttonLabel,
     required this.dialogButtonPosition,
   }) : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   @override
@@ -35,7 +36,7 @@ class _MessageState extends State<MessageDialog> {
     return widget.dialogHelper.build(context,
         title: widget.title,
         dialogButtonPosition: widget.dialogButtonPosition,
-        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message),
+        contents: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, widget.message),
         buttons: widget.dialogHelper.getCloseButton(context,
             onPressed: widget.onPressed, buttonLabel: widget.buttonLabel));
   }

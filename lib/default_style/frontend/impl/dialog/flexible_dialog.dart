@@ -17,7 +17,7 @@ class FlexibleDialog extends StatefulWidget {
     required this.dialogButtonPosition,
     required this.buttons,
   }) : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   @override

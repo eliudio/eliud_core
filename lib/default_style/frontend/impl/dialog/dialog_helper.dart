@@ -37,9 +37,8 @@ class DialogStatefulWidgetHelper {
 // We use this helper allowing to maintain, reuse and change common dialog behavior
 class DialogStateHelper {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final FrontEndStyle frontEndStyle;
 
-  DialogStateHelper(this.frontEndStyle);
+  DialogStateHelper();
 
   Widget build(BuildContext context,
       {required String title,
@@ -54,7 +53,7 @@ class DialogStateHelper {
         borderRadius: BorderRadius.circular(20),
       ),
       elevation: 0,
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       child: _contentBox(context,
           title: title,
           contents: contents,
@@ -101,7 +100,7 @@ class DialogStateHelper {
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator}) {
     var widgets = <Widget>[];
-    var _title = frontEndStyle.textStyle().h1(context, title);
+    var _title = Text("Title");
     if ((dialogButtonPosition != null) &&
         (dialogButtonPosition == DialogButtonPosition.TopRight)) {
       widgets.add(_getRowWithButtons(buttons, title: _title));
@@ -179,7 +178,7 @@ class DialogStateHelper {
     String? buttonLabel,
   }) {
     return <Widget>[
-      frontEndStyle.buttonStyle().dialogButton(context,
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(context,
           label: buttonLabel ?? 'Close', onPressed: onPressed),
     ];
   }
@@ -195,12 +194,12 @@ class DialogStateHelper {
       String? ackButtonLabel,
       String? nackButtonLabel}) {
     return <Widget>[
-      frontEndStyle.buttonStyle().dialogButton(
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(
             context,
             label: nackButtonLabel ?? 'Cancel',
             onPressed: nackFunction,
           ),
-      frontEndStyle.buttonStyle().dialogButton(context,
+      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(context,
           label: ackButtonLabel ?? 'Continue', onPressed: ackFunction),
     ];
   }
@@ -215,7 +214,7 @@ class DialogStateHelper {
     for (var i = 0; i < buttonLabels.length; i++) {
       var label = buttonLabels[i];
       var function = functions[i];
-      buttons.add(frontEndStyle
+      buttons.add(StyleRegistry.registry().styleWithContext(context).frontEndStyle()
           .buttonStyle()
           .dialogButton(context, label: label, onPressed: function));
     }

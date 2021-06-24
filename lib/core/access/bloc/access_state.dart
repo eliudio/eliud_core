@@ -14,7 +14,7 @@ import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../global_data.dart';
+import '../../packages.dart';
 
 abstract class AccessState extends Equatable {
   const AccessState();
@@ -114,9 +114,8 @@ class PagesAndDialogAccesss {
 class AccessHelper {
   static List<String> getAllPackageConditions() {
     var packageConditions = <String>[];
-    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
-      var newItems =
-          GlobalData.registeredPackages[i].retrieveAllPackageConditions();
+    for (var i = 0; i < Packages.registeredPackages.length; i++) {
+      var newItems = Packages.registeredPackages[i].retrieveAllPackageConditions();
       if (newItems != null) {
         packageConditions.addAll(newItems);
       }
@@ -131,8 +130,8 @@ class AccessHelper {
       bool isOwner,
       bool? isBlocked,
       PrivilegeLevel? privilegeLevel) async {
-    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
-      var plg = GlobalData.registeredPackages[i];
+    for (var i = 0; i < Packages.registeredPackages.length; i++) {
+      var plg = Packages.registeredPackages[i];
       var plgOk = await plg.isConditionOk(
           packageCondition, app, member, isOwner, isBlocked, privilegeLevel);
       if (plgOk != null) {
@@ -506,8 +505,8 @@ abstract class LoggedIn extends AppLoaded {
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() {
     List<MemberCollectionInfo> memberCollectionInfo = [];
-    for (var i = 0; i < GlobalData.registeredPackages.length; i++) {
-      var packageCollectionInfo = GlobalData.registeredPackages[i].getMemberCollectionInfo();
+    for (var i = 0; i < Packages.registeredPackages.length; i++) {
+      var packageCollectionInfo = Packages.registeredPackages[i].getMemberCollectionInfo();
       if (packageCollectionInfo != null) {
         memberCollectionInfo.addAll(packageCollectionInfo);
       }

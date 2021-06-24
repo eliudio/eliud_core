@@ -24,7 +24,7 @@ class ComplexAckNackDialog extends StatefulWidget {
     this.ackButtonLabel,
     this.nackButtonLabel,
   }) : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   @override

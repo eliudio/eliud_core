@@ -29,7 +29,7 @@ class DialogWithOptions extends StatefulWidget {
       this.buttonLabel,
       required this.dialogButtonPosition})
       : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   DialogWithOptions withOptionConditional(

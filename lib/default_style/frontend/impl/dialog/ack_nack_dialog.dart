@@ -1,4 +1,5 @@
 import 'package:eliud_core/style/frontend/frontend_style.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class AckNackDialog extends StatefulWidget {
     this.nackButtonLabel,
     required this.dialogButtonPosition,
   }) : super(key: key) {
-    dialogHelper = DialogStateHelper(frontEndStyle);
+    dialogHelper = DialogStateHelper();
   }
 
   @override
@@ -61,7 +62,7 @@ class _AckNackState extends State<AckNackDialog> {
     return widget.dialogHelper.build(context,
         dialogButtonPosition: widget.dialogButtonPosition,
         title: widget.title!,
-        contents: widget.dialogHelper.frontEndStyle.textStyle().text(context, widget.message!),
+        contents: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, widget.message!),
         buttons: widget.dialogHelper.getAckNackButtons(context,
             ackFunction: widget.ackFunction,
             nackFunction: widget.nackFunction,
