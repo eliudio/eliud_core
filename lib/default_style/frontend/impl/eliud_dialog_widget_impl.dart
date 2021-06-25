@@ -14,8 +14,11 @@ import 'dialog/flexible_dialog.dart';
 
 class EliudDialogWidgetImpl implements HasDialogWidget {
   final EliudStyle _eliudStyle;
+  late DialogStateHelper dialogHelper;
 
-  EliudDialogWidgetImpl(this._eliudStyle);
+  EliudDialogWidgetImpl(this._eliudStyle) {
+    dialogHelper = DialogStateHelper();
+  }
 
   @override
   Widget messageDialog(
@@ -163,10 +166,17 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
       {required String title,
       required Widget child,
       required List<Widget> buttons}) {
+    return dialogHelper.build(context,
+        title: title,
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        contents: child,
+        buttons: buttons);
+/*
     return FlexibleDialog(_eliudStyle.frontEndStyle(),
         title: title,
         widget: child,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         buttons: buttons);
+*/
   }
 }
