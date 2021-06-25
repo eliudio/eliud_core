@@ -48,37 +48,21 @@ class DialogStateHelper {
       required DialogButtonPosition dialogButtonPosition,
       Widget? separator}) {
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      child: _contentBox(context,
-          title: title,
-          contents: contents,
-          buttons: buttons,
-          dialogButtonPosition: dialogButtonPosition,
-          separator: separator),
-    );
-  }
-
-  Widget _contentBox(BuildContext context,
-      {required String title,
-      required Widget contents,
-      required List<Widget> buttons,
-      double? width,
-      DialogButtonPosition? dialogButtonPosition,
-      Widget? separator}) {
-    return Form(
-        key: _formKey,
-        child: _titleAndFields(context,
-            title: title,
-            contents: contents,
-            buttons: buttons,
-            width: width,
-            dialogButtonPosition: dialogButtonPosition,
-            separator: separator));
+        insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.grey[200],
+        child: Form(
+            key: _formKey,
+            child: _titleAndFieldsAndContent(context,
+                title: title,
+                contents: contents,
+                buttons: buttons,
+                width: width,
+                dialogButtonPosition: dialogButtonPosition,
+                separator: separator)));
   }
 
   Widget _getRowWithButtons(List<Widget> buttons, {Widget? title}) {
@@ -92,47 +76,72 @@ class DialogStateHelper {
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
-  Widget _titleAndFields(BuildContext context,
+  Widget _titleAndFieldsAndContent(BuildContext context,
       {required String title,
       required Widget contents,
       required List<Widget> buttons,
       double? width,
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator}) {
-    var widgets = <Widget>[];
-    var _title = Text(title);
+    var items = <Widget>[];
+
+    // Title
+    var _title = StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .textStyle()
+        .h4(context, title);
+
+    var titleWidget;
     if ((dialogButtonPosition != null) &&
         (dialogButtonPosition == DialogButtonPosition.TopRight)) {
-      widgets.add(_getRowWithButtons(buttons, title: _title));
+      titleWidget = _getRowWithButtons(buttons, title: _title);
     } else {
-      widgets.add(Center(child: _title));
+      titleWidget = Center(child: _title);
     }
+    var seperatorWidget;
     if (separator == null) {
-      widgets.add(Divider(
-        height: 10,
+      seperatorWidget = Divider(
+        height: 15,
+        thickness: 5,
         color: Colors.red,
-      ));
+      );
     } else {
-      widgets.add(separator);
+      seperatorWidget = separator;
     }
-    widgets.add(contents);
+    var titleContainer = Container(
+        child: ListView(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: [titleWidget, seperatorWidget],
+    ));
+
+    // Middle
+    var middle = Flexible(
+        child: ListView(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            children: <Widget>[contents]));
+
+    // Footer
+    var footerContainer;
     if (!((dialogButtonPosition != null) &&
         (dialogButtonPosition == DialogButtonPosition.TopRight))) {
-      widgets.add(Divider(
-        height: 10,
-        color: Colors.red,
+      footerContainer = Container(
+          child: ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: [seperatorWidget, _getRowWithButtons(buttons)],
       ));
-      widgets.add(_getRowWithButtons(buttons));
+      items = [titleContainer, middle, footerContainer];
+    } else {
+      items = [titleContainer, middle];
     }
 
     return Container(
         width: width,
-        child: ListView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            children: widgets));
+        padding: const EdgeInsets.all(10.0),
+        child: Column(mainAxisSize: MainAxisSize.min, children: items));
   }
 
   /* Helper method to create a list tile */
@@ -178,8 +187,12 @@ class DialogStateHelper {
     String? buttonLabel,
   }) {
     return <Widget>[
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(context,
-          label: buttonLabel ?? 'Close', onPressed: onPressed),
+      StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .buttonStyle()
+          .dialogButton(context,
+              label: buttonLabel ?? 'Close', onPressed: onPressed),
     ];
   }
 
@@ -194,13 +207,21 @@ class DialogStateHelper {
       String? ackButtonLabel,
       String? nackButtonLabel}) {
     return <Widget>[
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(
+      StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .buttonStyle()
+          .dialogButton(
             context,
             label: nackButtonLabel ?? 'Cancel',
             onPressed: nackFunction,
           ),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().dialogButton(context,
-          label: ackButtonLabel ?? 'Continue', onPressed: ackFunction),
+      StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .buttonStyle()
+          .dialogButton(context,
+              label: ackButtonLabel ?? 'Continue', onPressed: ackFunction),
     ];
   }
 
@@ -214,7 +235,9 @@ class DialogStateHelper {
     for (var i = 0; i < buttonLabels.length; i++) {
       var label = buttonLabels[i];
       var function = functions[i];
-      buttons.add(StyleRegistry.registry().styleWithContext(context).frontEndStyle()
+      buttons.add(StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
           .buttonStyle()
           .dialogButton(context, label: label, onPressed: function));
     }
