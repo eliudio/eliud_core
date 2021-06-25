@@ -100,7 +100,7 @@ class DialogStateHelper {
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator}) {
     var widgets = <Widget>[];
-    var _title = Text("Title");
+    var _title = Text(title);
     if ((dialogButtonPosition != null) &&
         (dialogButtonPosition == DialogButtonPosition.TopRight)) {
       widgets.add(_getRowWithButtons(buttons, title: _title));

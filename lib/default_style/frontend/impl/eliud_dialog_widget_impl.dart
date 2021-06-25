@@ -1,16 +1,10 @@
-import 'package:eliud_core/default_style/frontend/impl/dialog/request_value_dialog.dart';
-import 'package:eliud_core/default_style/frontend/impl/dialog/widget_dialog.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../eliud_style.dart';
-import 'dialog/ack_nack_dialog.dart';
-import 'dialog/complex_ack_nack_dialog.dart';
+import 'dialog/dialog_field.dart';
 import 'dialog/dialog_helper.dart';
-import 'dialog/dialog_with_options.dart';
-import 'dialog/error_dialog.dart';
-import 'dialog/flexible_dialog.dart';
 
 class EliudDialogWidgetImpl implements HasDialogWidget {
   final EliudStyle _eliudStyle;
@@ -27,13 +21,13 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     required String message,
     String? closeLabel,
   }) {
-    // MessageDialog
-    return messageDialog(
-      context,
-      title: title,
-      message: message,
-      closeLabel: closeLabel,
-    );
+    return dialogHelper.build(context,
+        title: title,
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        contents:
+            _eliudStyle.frontEndStyle().textStyle().text(context, message),
+        buttons: dialogHelper.getCloseButton(context,
+            onPressed: () => Navigator.pop(context), buttonLabel: closeLabel));
   }
 
   @override
@@ -42,47 +36,78 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     required String title,
     required String errorMessage,
     String? closeLabel,
-  }) =>
-      ErrorDialog(_eliudStyle.frontEndStyle(),
+  }) {
+    return dialogHelper.build(context,
         title: title,
-        message: errorMessage,
-        onPressed: () => Navigator.of(context).pop(),
-        buttonLabel: closeLabel,
+        contents:
+            _eliudStyle.frontEndStyle().textStyle().text(context, errorMessage),
         dialogButtonPosition: DialogButtonPosition.TopRight,
-      );
+        buttons: dialogHelper.getCloseButton(context,
+            buttonLabel: closeLabel, onPressed: () => Navigator.pop(context)));
+  }
 
   @override
   Widget ackNackDialog(BuildContext context,
-          {required String title,
-          required String message,
-          required OnSelection onSelection,
-          String? ackButtonLabel,
-          String? nackButtonLabel}) =>
-      AckNackDialog(_eliudStyle.frontEndStyle(),
+      {required String title,
+      required String message,
+      required OnSelection onSelection,
+      String? ackButtonLabel,
+      String? nackButtonLabel}) {
+    return dialogHelper.build(context,
+        dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
-        message: message,
-        ackFunction: () {
+        contents:
+            _eliudStyle.frontEndStyle().textStyle().text(context, message),
+        buttons: dialogHelper.getAckNackButtons(context, ackFunction: () {
           Navigator.of(context).pop();
           onSelection(0);
-        },
-        nackFunction: () {
+        }, nackFunction: () {
           Navigator.of(context).pop();
           onSelection(1);
-        },
-        ackButtonLabel: ackButtonLabel,
-        nackButtonLabel: nackButtonLabel,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
-      );
+        }, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel));
+  }
 
   @override
   Widget entryDialog(BuildContext context,
-          {required String title,
-          String? ackButtonLabel,
-          String? nackButtonLabel,
-          String? hintText,
-          required Function(String? response) onPressed,
-          String? initialValue}) =>
-      RequestValueDialog(_eliudStyle.frontEndStyle(),
+      {required String title,
+      String? ackButtonLabel,
+      String? nackButtonLabel,
+      String? hintText,
+      required Function(String? response) onPressed,
+      String? initialValue}) {
+    String? feedback;
+    return dialogHelper.build(context,
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        title: title,
+        contents: dialogHelper.getListTile(
+            leading: Icon(Icons.message),
+            title: DialogField(
+              valueChanged: (value) => feedback = value,
+              initialValue: initialValue,
+              decoration: InputDecoration(
+                hintText: hintText,
+                labelText: hintText,
+              ),
+            )),
+        buttons: dialogHelper.getAckNackButtons(
+          context,
+          ackFunction: () {
+            Navigator.of(context).pop();
+            onPressed(feedback);
+          },
+          nackFunction: () {
+            Navigator.of(context).pop();
+            onPressed(null);
+          },
+          ackButtonLabel: ackButtonLabel,
+          nackButtonLabel: nackButtonLabel,
+        ));
+  }
+
+/*
+  =>
+      RequestValueDialog(
+        _eliudStyle.frontEndStyle(),
         title: title,
         ackButtonLabel: ackButtonLabel,
         nackButtonLabel: nackButtonLabel,
@@ -94,6 +119,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
         initialValue: initialValue,
         dialogButtonPosition: DialogButtonPosition.TopRight,
       );
+*/
 
   @override
   Widget selectionDialog(BuildContext context,
@@ -101,21 +127,26 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
       required List<String> options,
       required OnSelection onSelection,
       String? buttonLabel}) {
-    var newOptions = <DialogOption>[];
-    for (var i = 0; i < options.length; i++) {
-      newOptions.add(DialogOption(
-          value: options[i],
-          optionTriggered: () {
-            Navigator.of(context).pop();
-            onSelection(i);
-          }));
-    }
-    return DialogWithOptions(_eliudStyle.frontEndStyle(),
-      title: title,
-      options: newOptions,
-      buttonLabel: buttonLabel,
-      dialogButtonPosition: DialogButtonPosition.TopRight,
-    );
+    return dialogHelper.build(context,
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        title: title,
+        buttons: dialogHelper.getCloseButton(context, onPressed: () {
+          Navigator.of(context).pop();
+        }),
+        contents: ListView.builder(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: options.length,
+            itemBuilder: (context, i) {
+              return _eliudStyle.frontEndStyle().buttonStyle().dialogButton(
+                    context,
+                    label: options[i],
+                    onPressed: () {
+                      onSelection(i);
+                      Navigator.of(context).pop();
+                    },
+                  );
+            }));
   }
 
   @override
@@ -126,40 +157,37 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     required OnSelection onSelection,
     String? ackButtonLabel,
     String? nackButtonLabel,
-  }) =>
-      ComplexAckNackDialog(_eliudStyle.frontEndStyle(),
+  }) {
+    return dialogHelper.build(context,
         title: title,
-        widget: child,
-        ackFunction: () {
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        contents: child,
+        buttons: dialogHelper.getAckNackButtons(context, ackFunction: () {
           Navigator.of(context).pop();
           onSelection(0);
-        },
-        nackFunction: () {
+        }, nackFunction: () {
           Navigator.of(context).pop();
           onSelection(1);
-        },
-        ackButtonLabel: ackButtonLabel,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
-      );
+        }, ackButtonLabel: ackButtonLabel, nackButtonLabel: nackButtonLabel));
+  }
 
   @override
   Widget complexDialog(BuildContext context,
-          {required String title,
-          required Widget child,
-          VoidCallback? onPressed,
-          String? buttonLabel}) =>
-      WidgetDialog(_eliudStyle.frontEndStyle(),
+      {required String title,
+      required Widget child,
+      VoidCallback? onPressed,
+      String? buttonLabel}) {
+    return dialogHelper.build(context,
         title: title,
-        widget: child,
-        onPressed: () {
+        dialogButtonPosition: DialogButtonPosition.TopRight,
+        contents: child,
+        buttons: dialogHelper.getCloseButton(context, onPressed: () {
           Navigator.of(context).pop();
           if (onPressed != null) {
             onPressed();
           }
-        },
-        buttonLabel: buttonLabel,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
-      );
+        }, buttonLabel: buttonLabel));
+  }
 
   @override
   Widget flexibleDialog(BuildContext context,
@@ -171,12 +199,5 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
         buttons: buttons);
-/*
-    return FlexibleDialog(_eliudStyle.frontEndStyle(),
-        title: title,
-        widget: child,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
-        buttons: buttons);
-*/
   }
 }
