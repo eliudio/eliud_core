@@ -10,7 +10,6 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -95,7 +94,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (event is MemberUpdated) {
         if ((event.member != null) && (theState is LoggedIn)) {
           var toYield =
-              await theState.copyWith(event.member, await getMemberPublicInfoModel(event.member!), theState.playStoreApp);
+              await theState.copyWith(event.member, theState.playStoreApp);
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
           if ((event.refresh != null) && event.refresh!) {
@@ -220,16 +219,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<MemberPublicInfoModel> getMemberPublicInfoModel(MemberModel member) async {
-    var memberPublicInfoModel = await memberPublicInfoRepository()!.get(member.documentID);
-    if (memberPublicInfoModel == null) {
-      print("Can't find public member instance for member " + member.documentID!);
-      print("This is probably because this is a new member and the firebase function has not yet been able to create the public info yet");
-      print("This should be fine as we should not rely on this and only other people should read this public info model");
-    }
-    return memberPublicInfoModel;
-  }
-
   Future<AccessState> _mapMemberAndApp(
       User usr,
       MemberModel member,
@@ -238,10 +227,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       PostLoginAction? postLoginAction) async {
     if (!isSubscibred(member, app)) {
       return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
-          usr, member, await getMemberPublicInfoModel(member), app, playstoreApp, postLoginAction);
+          usr, member, app, playstoreApp, postLoginAction);
     } else {
       return await LoggedInWithMembership.getLoggedInWithMembership(
-          usr, member, await getMemberPublicInfoModel(member), app, playstoreApp);
+          usr, member, app, playstoreApp);
     }
   }
 
@@ -252,10 +241,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (state is LoggedIn) {
         if (!isSubscibred(state.member, app)) {
           return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
-              state.usr, state.member, await getMemberPublicInfoModel(state.member), app, playstoreApp, postLoginAction);
+              state.usr, state.member, app, playstoreApp, postLoginAction);
         } else {
           return await LoggedInWithMembership.getLoggedInWithMembership(
-              state.usr, state.member, await getMemberPublicInfoModel(state.member), app, playstoreApp);
+              state.usr, state.member, app, playstoreApp);
         }
       }
     }
@@ -360,13 +349,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     } else {
       return null;
     }
-  }
-
-  static MemberPublicInfoModel? memberPublicInfoModel(AccessState state) {
-    if (state is LoggedIn) {
-      return state.memberPublicInfoModel;
-    }
-    return null;
   }
 
   static AccessState getState(BuildContext context) {

@@ -55,22 +55,6 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
         url: null, radius: radius, iconColor: iconColor, onPressed: onPressed);
   }
 
-  Widget _getFromFallBack(BuildContext context,
-      {BackupProfileURLProvider? fallBackURLProvider,
-      RgbModel? iconColor,
-      required double radius,
-      VoidCallback? onPressed}) {
-    if (fallBackURLProvider == null) {
-      return _defaultProfile(iconColor, onPressed);
-    } else {
-      return getProfilePhotoButtonFromURL(context,
-          url: fallBackURLProvider(),
-          radius: radius,
-          iconColor: iconColor,
-          onPressed: onPressed);
-    }
-  }
-
   @override
   Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
@@ -85,11 +69,7 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
             var profileAttributes = snapshot.data;
             if ((profileAttributes == null) ||
                 (profileAttributes.url == null)) {
-              return _getFromFallBack(context,
-                  fallBackURLProvider: fallBackURLProvider,
-                  radius: radius,
-                  iconColor: iconColor,
-                  onPressed: onPressed);
+              return _defaultProfile(iconColor, onPressed, radius);
             } else {
               return _formatProfilePhotoButton(
                   Image.network(profileAttributes.url!), iconColor, radius, onPressed);
@@ -126,13 +106,13 @@ class EliudProfilePhotoImpl implements HasProfilePhoto {
     if (url != null) {
       return _formatProfilePhotoButton(Image.network(url), iconColor, radius, onPressed);
     } else {
-      return _defaultProfile(iconColor, onPressed);
+      return _defaultProfile(iconColor, onPressed, radius);
     }
   }
 
-  Widget _defaultProfile(RgbModel? color, VoidCallback? onPressed) {
-    return Icon(Icons.person_outline,
-        color: color != null ? RgbHelper.color(rgbo: color) : null);
+  Widget _defaultProfile(RgbModel? color, VoidCallback? onPressed, double radius) {
+    return _formatProfilePhotoButton(Icon(Icons.person_outline, size: radius,
+        color: color != null ? RgbHelper.color(rgbo: color) : null), color, radius, onPressed);
   }
 
   Widget _formatProfilePhotoButton(

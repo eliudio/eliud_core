@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 
 class ProfileAttributes {
   final String? url;
+  final String name;
 
-  ProfileAttributes(this.url);
+  ProfileAttributes(this.name, this.url);
 }
 
 /*
@@ -31,7 +32,6 @@ abstract class HasProfilePhoto {
       VoidCallback? onPressed});
   Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
-      BackupProfileURLProvider? fallBackURLProvider,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
