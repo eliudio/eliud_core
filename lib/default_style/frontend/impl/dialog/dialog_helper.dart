@@ -47,7 +47,8 @@ class DialogStateHelper {
       double? width,
       required DialogButtonPosition dialogButtonPosition,
       Widget? separator}) {
-    return Dialog(
+    return
+      Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -55,7 +56,7 @@ class DialogStateHelper {
         elevation: 0,
         backgroundColor: Colors.grey[200],
         child: Form(
-            key: _formKey,
+            //key: _formKey,
             child: _titleAndFieldsAndContent(context,
                 title: title,
                 contents: contents,

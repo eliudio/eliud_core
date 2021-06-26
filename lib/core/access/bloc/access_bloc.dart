@@ -222,7 +222,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   Future<MemberPublicInfoModel> getMemberPublicInfoModel(MemberModel member) async {
     var memberPublicInfoModel = await memberPublicInfoRepository()!.get(member.documentID);
-    if (memberPublicInfoModel == null) return throw Exception("Can't find public member instance for member " + member.documentID!);
+    if (memberPublicInfoModel == null) {
+      print("Can't find public member instance for member " + member.documentID!);
+      print("This is probably because this is a new member and the firebase function has not yet been able to create the public info yet");
+      print("This should be fine as we should not rely on this and only other people should read this public info model");
+    }
     return memberPublicInfoModel;
   }
 
