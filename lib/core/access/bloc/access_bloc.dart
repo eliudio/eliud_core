@@ -94,10 +94,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       _invokeStateChangeListenersBefore(event, theState);
       var app = theState.app;
       if (event is MemberUpdated) {
-/*
-        var oldMember = theState.getMember();
-        var sameMember = oldMember != null ? oldMember == event.member : false;
-*/
         if ((event.member != null) && (theState is LoggedIn)) {
           var toYield =
               await theState.copyWith(event.member, theState.playStoreApp);
@@ -107,10 +103,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           if (!sameState) {
             _invokeStateChangeListenersAfter(event, toYield);
             yield toYield;
-          }
-          if ((event.refresh != null) && event.refresh!) {
-            if (navigatorBloc != null)
-              navigatorBloc!.add(GoHome());
+            if ((event.refresh != null) && event.refresh!) {
+              if (navigatorBloc != null)
+                navigatorBloc!.add(GoHome());
+            }
           }
         } else {
           // Assumed the result of having logged out, which has been processed separately by the bloc already

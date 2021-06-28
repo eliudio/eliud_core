@@ -105,18 +105,9 @@ class Registry {
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   Widget application({String? id, bool? asPlaystore}) {
-    print(".");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
-    print(".");
     var accessBloc = AccessBloc(navigatorBloc)..add(InitApp(id, asPlaystore));
-    print(".");
-    var blocProviders = <BlocProvider>[];
-    blocProviders
-        .add(BlocProvider<AccessBloc>(create: (context) => accessBloc));
-    print(".");
-    blocProviders
-        .add(BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc));
-    print(".");
+    var blocProviders = <BlocProvider>[BlocProvider<AccessBloc>(create: (context) => accessBloc), BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc)];
     Packages.registeredPackages.forEach((element) {
       var provider = element.createMainBloc(navigatorBloc, accessBloc);
       if (provider != null) {
@@ -128,44 +119,23 @@ class Registry {
         providers: blocProviders,
         child: BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
           if (state is AppLoaded) {
-            print("App Loaded");
-            return BlocBuilder<AccessBloc, AccessState>(
-                builder: (accessContext, accessState) {
-              if (accessState is UndeterminedAccessState) {
-                return StyleRegistry.registry()
-                    .styleWithContext(context)
-                    .frontEndStyle().progressIndicatorStyle()
-                    .progressIndicator(context);
-              } else if (accessState is AppLoaded) {
-                if (accessState.app == null) {
-                  return AlertWidget(
-                      title: 'Error', content: 'No access defined');
-                } else {
-                  var app = accessState.app;
-                  var router = eliudrouter.Router(AccessBloc.getBloc(context));
-                  return StyleRegistry.registry()
-                      .styleWithContext(context)
-                      .frontEndStyle().appStyle()
-                      .app(
-                        navigatorKey: navigatorKey,
-                        scaffoldMessengerKey: rootScaffoldMessengerKey,
-                        initialRoute: eliudrouter.Router.homeRoute,
-                        onGenerateRoute: router.generateRoute,
-                        onUnknownRoute: (RouteSettings setting) {
-                          return pageRouteBuilder(accessState.app,
-                              page: AlertWidget(
-                                  title: 'Error', content: 'Page not found'));
-                        },
-                        title: app.title ?? 'No title',
-                      );
-                }
-              } else {
-                return AlertWidget(title: 'Error', content: 'Unexpected state');
-              }
-            });
-          } else if (state is AppError) {
-            print("AppError" + state.message);
-            return AlertWidget(title: 'Error', content: state.message);
+            var app = state.app;
+            var router = eliudrouter.Router(AccessBloc.getBloc(context));
+            return StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle().appStyle()
+                .app(
+                  navigatorKey: navigatorKey,
+                  scaffoldMessengerKey: rootScaffoldMessengerKey,
+                  initialRoute: eliudrouter.Router.homeRoute,
+                  onGenerateRoute: router.generateRoute,
+                  onUnknownRoute: (RouteSettings setting) {
+                    return pageRouteBuilder(state.app,
+                        page: AlertWidget(
+                            title: 'Error', content: 'Page not found'));
+                  },
+                  title: app.title ?? 'No title',
+                );
           } else {
             return StyleRegistry.registry()
                 .styleWithContext(context)

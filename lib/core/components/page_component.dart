@@ -32,46 +32,35 @@ class PageComponent extends StatelessWidget {
 
   PageComponent({this.navigatorKey, this.pageID, this.parameters});
 
+  Future<PageModel?> getPage(String appId, String pageId) {
+    return pageRepository(appId: appId)!.get(pageId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      if (accessState is AppLoaded) {
-        var app = accessState.app;
-        return MultiBlocProvider(
-            providers: [
-              BlocProvider<PageComponentBloc>(
-                create: (context) => PageComponentBloc(
-                    pageRepository: pageRepository(appId: app.documentID))
-                  ..add(FetchPageComponent(id: pageID)),
-              ),
-            ],
-            child: BlocBuilder<PageComponentBloc, PageComponentState>(
-                builder: (context, state) {
-              if (state is PageComponentLoaded) {
-                if (state.value == null) {
-                  return AlertWidget(
-                      title: 'Error', content: 'No page defined');
-                } else {
-                  return PageContentsWidget(
-                    state: accessState,
-                    pageID: pageID!,
-                    pageModel: state.value!,
-                    parameters: parameters,
-                    scaffoldKey: scaffoldKey,
-                    scaffoldMessengerKey: scaffoldMessengerKey,
-                  );
-                }
-              } else if (state is PageComponentError) {
-                return AlertWidget(title: 'Error', content: state.message);
-              } else {
-                return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-              }
-            }));
-      } else {
-        return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-      }
-    });
+          if (accessState is AppLoaded) {
+            var app = accessState.app;
+            return FutureBuilder<PageModel?>(
+                future: getPage(app.documentID!, pageID!),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return PageContentsWidget(
+                      state: accessState,
+                      pageID: pageID!,
+                      pageModel: snapshot.data!,
+                      parameters: parameters,
+                      scaffoldKey: scaffoldKey,
+                      scaffoldMessengerKey: scaffoldMessengerKey,
+                    );
+                  }
+                  return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+                });
+          } else {
+            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+          }
+        });
   }
 }
 
