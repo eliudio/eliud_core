@@ -6,4 +6,17 @@ class CoreMobilePackage extends CorePackage {
     super.init();
     // initialise the platform... nothing now
   }
+
+  @override
+  List<Object?> get props => [
+    stateMemberModel,
+  ];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is CoreMobilePackage &&
+              runtimeType == other.runtimeType &&
+              stateMemberModel == other.stateMemberModel;
+
 }

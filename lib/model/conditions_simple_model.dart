@@ -79,6 +79,7 @@ class ConditionsSimpleModel {
 
   static ConditionsSimpleModel? fromEntity(ConditionsSimpleEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ConditionsSimpleModel(
           privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
     );
@@ -87,6 +88,7 @@ class ConditionsSimpleModel {
   static Future<ConditionsSimpleModel?> fromEntityPlus(ConditionsSimpleEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return ConditionsSimpleModel(
           privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
     );

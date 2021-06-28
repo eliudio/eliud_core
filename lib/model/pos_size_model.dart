@@ -264,6 +264,7 @@ class PosSizeModel {
 
   static PosSizeModel? fromEntity(String documentID, PosSizeEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return PosSizeModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -287,6 +288,7 @@ class PosSizeModel {
   static Future<PosSizeModel?> fromEntityPlus(String documentID, PosSizeEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return PosSizeModel(
           documentID: documentID, 
           appId: entity.appId, 

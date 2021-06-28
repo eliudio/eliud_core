@@ -66,6 +66,7 @@ class MemberSubscriptionModel {
 
   static MemberSubscriptionModel? fromEntity(String documentID, MemberSubscriptionEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberSubscriptionModel(
           documentID: documentID, 
     );
@@ -85,6 +86,7 @@ class MemberSubscriptionModel {
       }
     }
 
+    var counter = 0;
     return MemberSubscriptionModel(
           documentID: documentID, 
           app: appHolder, 

@@ -70,4 +70,5 @@ abstract class PackageWithSubscription extends Package {
   }
 
   void resubscribe(AppModel app, MemberModel? currentMember);
+
 }

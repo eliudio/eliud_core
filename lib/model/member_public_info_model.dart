@@ -79,6 +79,7 @@ class MemberPublicInfoModel {
 
   static MemberPublicInfoModel? fromEntity(String documentID, MemberPublicInfoEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberPublicInfoModel(
           documentID: documentID, 
           name: entity.name, 
@@ -86,7 +87,10 @@ class MemberPublicInfoModel {
           subscriptions: 
             entity.subscriptions == null ? null :
             entity.subscriptions
-            !.map((item) => MemberSubscriptionModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return MemberSubscriptionModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
     );
   }
@@ -94,13 +98,16 @@ class MemberPublicInfoModel {
   static Future<MemberPublicInfoModel?> fromEntityPlus(String documentID, MemberPublicInfoEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MemberPublicInfoModel(
           documentID: documentID, 
           name: entity.name, 
           photoURL: entity.photoURL, 
           subscriptions: 
-            entity. subscriptions == null ? null : new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
-            !.map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. subscriptions == null ? null : List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
+            !.map((item) {
+            counter++;
+            return MemberSubscriptionModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
     );
   }

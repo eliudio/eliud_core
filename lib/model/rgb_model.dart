@@ -80,6 +80,7 @@ class RgbModel {
 
   static RgbModel? fromEntity(RgbEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return RgbModel(
           r: entity.r, 
           g: entity.g, 
@@ -91,6 +92,7 @@ class RgbModel {
   static Future<RgbModel?> fromEntityPlus(RgbEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return RgbModel(
           r: entity.r, 
           g: entity.g, 

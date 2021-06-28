@@ -69,6 +69,7 @@ class AppPolicyItemModel {
 
   static AppPolicyItemModel? fromEntity(String documentID, AppPolicyItemEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppPolicyItemModel(
           documentID: documentID, 
           name: entity.name, 
@@ -89,6 +90,7 @@ class AppPolicyItemModel {
       }
     }
 
+    var counter = 0;
     return AppPolicyItemModel(
           documentID: documentID, 
           name: entity.name, 

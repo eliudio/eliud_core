@@ -70,6 +70,7 @@ class IconModel {
 
   static IconModel? fromEntity(IconEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return IconModel(
           codePoint: entity.codePoint, 
           fontFamily: entity.fontFamily, 
@@ -79,6 +80,7 @@ class IconModel {
   static Future<IconModel?> fromEntityPlus(IconEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return IconModel(
           codePoint: entity.codePoint, 
           fontFamily: entity.fontFamily, 

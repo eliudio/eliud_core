@@ -95,6 +95,7 @@ class DrawerModel {
 
   static DrawerModel? fromEntity(String documentID, DrawerEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return DrawerModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -145,6 +146,7 @@ class DrawerModel {
       }
     }
 
+    var counter = 0;
     return DrawerModel(
           documentID: documentID, 
           appId: entity.appId, 

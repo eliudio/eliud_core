@@ -128,6 +128,7 @@ class FontModel {
 
   static FontModel? fromEntity(String documentID, FontEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return FontModel(
           documentID: documentID, 
           fontName: entity.fontName, 
@@ -143,6 +144,7 @@ class FontModel {
   static Future<FontModel?> fromEntityPlus(String documentID, FontEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return FontModel(
           documentID: documentID, 
           fontName: entity.fontName, 

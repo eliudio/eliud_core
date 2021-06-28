@@ -133,6 +133,7 @@ class AppModel {
 
   static AppModel? fromEntity(String documentID, AppEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppModel(
           documentID: documentID, 
           ownerID: entity.ownerID, 
@@ -175,6 +176,7 @@ class AppModel {
       }
     }
 
+    var counter = 0;
     return AppModel(
           documentID: documentID, 
           ownerID: entity.ownerID, 

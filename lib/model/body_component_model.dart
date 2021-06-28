@@ -73,6 +73,7 @@ class BodyComponentModel {
 
   static BodyComponentModel? fromEntity(String documentID, BodyComponentEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return BodyComponentModel(
           documentID: documentID, 
           componentName: entity.componentName, 
@@ -83,6 +84,7 @@ class BodyComponentModel {
   static Future<BodyComponentModel?> fromEntityPlus(String documentID, BodyComponentEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return BodyComponentModel(
           documentID: documentID, 
           componentName: entity.componentName, 

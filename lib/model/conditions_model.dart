@@ -102,6 +102,7 @@ class ConditionsModel {
 
   static ConditionsModel? fromEntity(ConditionsEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ConditionsModel(
           privilegeLevelRequired: toPrivilegeLevelRequired(entity.privilegeLevelRequired), 
           packageCondition: entity.packageCondition, 
@@ -112,6 +113,7 @@ class ConditionsModel {
   static Future<ConditionsModel?> fromEntityPlus(ConditionsEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return ConditionsModel(
           privilegeLevelRequired: toPrivilegeLevelRequired(entity.privilegeLevelRequired), 
           packageCondition: entity.packageCondition, 

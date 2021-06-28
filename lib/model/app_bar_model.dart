@@ -109,6 +109,7 @@ class AppBarModel {
 
   static AppBarModel? fromEntity(String documentID, AppBarEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppBarModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -161,6 +162,7 @@ class AppBarModel {
       }
     }
 
+    var counter = 0;
     return AppBarModel(
           documentID: documentID, 
           appId: entity.appId, 

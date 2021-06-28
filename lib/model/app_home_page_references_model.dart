@@ -85,6 +85,7 @@ class AppHomePageReferencesModel {
 
   static AppHomePageReferencesModel? fromEntity(AppHomePageReferencesEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppHomePageReferencesModel(
           homePageBlockedMemberId: entity.homePageBlockedMemberId, 
           homePageSubscribedMemberId: entity.homePageSubscribedMemberId, 
@@ -97,6 +98,7 @@ class AppHomePageReferencesModel {
   static Future<AppHomePageReferencesModel?> fromEntityPlus(AppHomePageReferencesEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return AppHomePageReferencesModel(
           homePageBlockedMemberId: entity.homePageBlockedMemberId, 
           homePageSubscribedMemberId: entity.homePageSubscribedMemberId, 

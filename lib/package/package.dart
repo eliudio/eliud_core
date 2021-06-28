@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
@@ -16,7 +17,7 @@ class MemberCollectionInfo {
   MemberCollectionInfo(this.name, this.memberIdentifier);
 }
 
-abstract class Package {
+abstract class Package extends Equatable {
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
    * Initialise your repositories and any other platform specifics

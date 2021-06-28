@@ -75,6 +75,7 @@ class MenuItemModel {
 
   static MenuItemModel? fromEntity(String documentID, MenuItemEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MenuItemModel(
           documentID: documentID, 
           text: entity.text, 
@@ -89,6 +90,7 @@ class MenuItemModel {
   static Future<MenuItemModel?> fromEntityPlus(String documentID, MenuItemEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MenuItemModel(
           documentID: documentID, 
           text: entity.text, 

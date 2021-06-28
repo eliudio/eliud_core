@@ -10,7 +10,7 @@ import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 import 'package/package_with_subscription.dart';
 
-class CorePackage extends PackageWithSubscription {
+abstract class CorePackage extends PackageWithSubscription {
   static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
 
   MemberModel? stateMemberModel;

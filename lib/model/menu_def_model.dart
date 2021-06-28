@@ -80,6 +80,7 @@ class MenuDefModel {
 
   static MenuDefModel? fromEntity(String documentID, MenuDefEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MenuDefModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -87,7 +88,10 @@ class MenuDefModel {
           menuItems: 
             entity.menuItems == null ? null :
             entity.menuItems
-            !.map((item) => MenuItemModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return MenuItemModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           admin: entity.admin, 
     );
@@ -96,13 +100,16 @@ class MenuDefModel {
   static Future<MenuDefModel?> fromEntityPlus(String documentID, MenuDefEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MenuDefModel(
           documentID: documentID, 
           appId: entity.appId, 
           name: entity.name, 
           menuItems: 
-            entity. menuItems == null ? null : new List<MenuItemModel>.from(await Future.wait(entity. menuItems
-            !.map((item) => MenuItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. menuItems == null ? null : List<MenuItemModel>.from(await Future.wait(entity. menuItems
+            !.map((item) {
+            counter++;
+            return MenuItemModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           admin: entity.admin, 
     );

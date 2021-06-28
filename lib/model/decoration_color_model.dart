@@ -69,6 +69,7 @@ class DecorationColorModel {
 
   static DecorationColorModel? fromEntity(String documentID, DecorationColorEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return DecorationColorModel(
           documentID: documentID, 
           color: 
@@ -80,6 +81,7 @@ class DecorationColorModel {
   static Future<DecorationColorModel?> fromEntityPlus(String documentID, DecorationColorEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return DecorationColorModel(
           documentID: documentID, 
           color: 

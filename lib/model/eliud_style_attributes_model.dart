@@ -176,6 +176,7 @@ class EliudStyleAttributesModel {
 
   static EliudStyleAttributesModel? fromEntity(String documentID, EliudStyleAttributesEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return EliudStyleAttributesModel(
           documentID: documentID, 
           description: entity.description, 
@@ -424,6 +425,7 @@ class EliudStyleAttributesModel {
       }
     }
 
+    var counter = 0;
     return EliudStyleAttributesModel(
           documentID: documentID, 
           description: entity.description, 

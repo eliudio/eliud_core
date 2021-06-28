@@ -123,6 +123,7 @@ class PageModel {
 
   static PageModel? fromEntity(String documentID, PageEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return PageModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -130,7 +131,10 @@ class PageModel {
           bodyComponents: 
             entity.bodyComponents == null ? null :
             entity.bodyComponents
-            !.map((item) => BodyComponentModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return BodyComponentModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           layout: toPageLayout(entity.layout), 
           widgetWrapper: entity.widgetWrapper, 
@@ -208,6 +212,7 @@ class PageModel {
       }
     }
 
+    var counter = 0;
     return PageModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -217,8 +222,10 @@ class PageModel {
           endDrawer: endDrawerHolder, 
           homeMenu: homeMenuHolder, 
           bodyComponents: 
-            entity. bodyComponents == null ? null : new List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
-            !.map((item) => BodyComponentModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
+            !.map((item) {
+            counter++;
+            return BodyComponentModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           backgroundOverride: backgroundOverrideHolder, 
           layout: toPageLayout(entity.layout), 

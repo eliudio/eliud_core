@@ -135,13 +135,17 @@ class MemberModel {
 
   static MemberModel? fromEntity(String documentID, MemberEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberModel(
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
             entity.subscriptions == null ? null :
             entity.subscriptions
-            !.map((item) => MemberSubscriptionModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return MemberSubscriptionModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           subscriptionsAsString: entity.subscriptionsAsString, 
           photoURL: entity.photoURL, 
@@ -187,12 +191,15 @@ class MemberModel {
       }
     }
 
+    var counter = 0;
     return MemberModel(
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
-            entity. subscriptions == null ? null : new List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
-            !.map((item) => MemberSubscriptionModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. subscriptions == null ? null : List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
+            !.map((item) {
+            counter++;
+            return MemberSubscriptionModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           subscriptionsAsString: entity.subscriptionsAsString, 
           photoURL: entity.photoURL, 

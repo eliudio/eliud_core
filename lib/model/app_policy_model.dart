@@ -77,6 +77,7 @@ class AppPolicyModel {
 
   static AppPolicyModel? fromEntity(String documentID, AppPolicyEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppPolicyModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -84,7 +85,10 @@ class AppPolicyModel {
           policies: 
             entity.policies == null ? null :
             entity.policies
-            !.map((item) => AppPolicyItemModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return AppPolicyItemModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
     );
   }
@@ -92,13 +96,16 @@ class AppPolicyModel {
   static Future<AppPolicyModel?> fromEntityPlus(String documentID, AppPolicyEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return AppPolicyModel(
           documentID: documentID, 
           appId: entity.appId, 
           comments: entity.comments, 
           policies: 
-            entity. policies == null ? null : new List<AppPolicyItemModel>.from(await Future.wait(entity. policies
-            !.map((item) => AppPolicyItemModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. policies == null ? null : List<AppPolicyItemModel>.from(await Future.wait(entity. policies
+            !.map((item) {
+            counter++;
+            return AppPolicyItemModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
     );
   }

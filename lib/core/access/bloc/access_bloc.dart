@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // When subscribing the MapAccessEvent method, then this will be called before AccessBloc has handled the event, i.e. the state is the current state
@@ -92,11 +94,29 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       _invokeStateChangeListenersBefore(event, theState);
       var app = theState.app;
       if (event is MemberUpdated) {
+/*
+        var oldMember = theState.getMember();
+        var sameMember = oldMember != null ? oldMember == event.member : false;
+*/
         if ((event.member != null) && (theState is LoggedIn)) {
           var toYield =
               await theState.copyWith(event.member, theState.playStoreApp);
+
+          var sameState = toYield == theState;
+          var sameState2 = toYield.member == theState.member;
+          var sameState3 = toYield.usr == theState.usr;
+          var sameState4 = toYield.blocked == theState.blocked;
+          var sameState5 = toYield.privilegeLevel == theState.privilegeLevel;
+          var sameState7 = toYield.playStoreApp == theState.playStoreApp;
+          var sameState8 = mapEquals(toYield.packageConditionsAccess, theState.packageConditionsAccess);
+          var sameState9 = mapEquals(toYield.dialogAccess, theState.dialogAccess);
+          var sameState10 = mapEquals(toYield.pagesAccess, theState.pagesAccess);
+          var sameState11 = toYield.app == theState.app;
+
           _invokeStateChangeListenersAfter(event, toYield);
-          yield toYield;
+
+          if (!sameState)
+            yield toYield;
           if ((event.refresh != null) && event.refresh!) {
             if (navigatorBloc != null)
               navigatorBloc!.add(GoHome());

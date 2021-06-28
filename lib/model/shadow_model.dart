@@ -89,6 +89,7 @@ class ShadowModel {
 
   static ShadowModel? fromEntity(String documentID, ShadowEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return ShadowModel(
           documentID: documentID, 
           comments: entity.comments, 
@@ -104,6 +105,7 @@ class ShadowModel {
   static Future<ShadowModel?> fromEntityPlus(String documentID, ShadowEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return ShadowModel(
           documentID: documentID, 
           comments: entity.comments, 

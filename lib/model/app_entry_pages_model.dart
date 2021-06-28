@@ -71,6 +71,7 @@ class AppEntryPagesModel {
 
   static AppEntryPagesModel? fromEntity(String documentID, AppEntryPagesEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AppEntryPagesModel(
           documentID: documentID, 
           minPrivilege: entity.minPrivilege, 
@@ -91,6 +92,7 @@ class AppEntryPagesModel {
       }
     }
 
+    var counter = 0;
     return AppEntryPagesModel(
           documentID: documentID, 
           entryPage: entryPageHolder, 

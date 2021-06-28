@@ -108,6 +108,7 @@ class MemberDashboardModel {
 
   static MemberDashboardModel? fromEntity(String documentID, MemberDashboardEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberDashboardModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -126,6 +127,7 @@ class MemberDashboardModel {
   static Future<MemberDashboardModel?> fromEntityPlus(String documentID, MemberDashboardEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MemberDashboardModel(
           documentID: documentID, 
           appId: entity.appId, 

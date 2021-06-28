@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
@@ -13,6 +14,7 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../packages.dart';
 
@@ -55,6 +57,13 @@ class AppError extends AccessState {
 
   @override
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is AppError &&
+              runtimeType == other.runtimeType &&
+              message == other.message;
 }
 
 class UndeterminedAccessState extends AccessState {
@@ -80,6 +89,12 @@ class UndeterminedAccessState extends AccessState {
 
   @override
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is UndeterminedAccessState &&
+              runtimeType == other.runtimeType;
 }
 
 class PackageCondition extends Equatable {
@@ -87,13 +102,22 @@ class PackageCondition extends Equatable {
   final String? condition;
   final bool? access;
 
-  @override
-  List<Object?> get props => [condition, access];
-
   PackageCondition({this.pkg, this.condition, this.access});
+
+  @override
+  List<Object?> get props => [pkg, condition, access];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is PackageCondition &&
+              runtimeType == other.runtimeType && 
+              pkg == other.pkg && 
+              condition == other.condition &&
+              access == other.access;
 }
 
-class PagesAndDialogAccesss {
+class PagesAndDialogAccesss extends Equatable {
   // Map between page-id and access
   final Map<String?, bool> pagesAccess;
 
@@ -109,6 +133,20 @@ class PagesAndDialogAccesss {
 
   PagesAndDialogAccesss(this.pagesAccess, this.dialogsAccess,
       this.packageConditionsAccess, this.privilegeLevel, this.blocked);
+
+  @override
+  List<Object?> get props => [pagesAccess, dialogsAccess, packageConditionsAccess, privilegeLevel, blocked];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is PagesAndDialogAccesss &&
+              runtimeType == other.runtimeType &&
+              mapEquals(pagesAccess, other.pagesAccess) &&
+              mapEquals(dialogsAccess, other.dialogsAccess) &&
+              mapEquals(packageConditionsAccess, other.packageConditionsAccess) &&
+              privilegeLevel == other.privilegeLevel &&
+              blocked == other.blocked;
 }
 
 class AccessHelper {
@@ -384,16 +422,29 @@ class AppProcessingState extends AppLoaded {
   @override
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 
-  @override
-  List<Object?> get props =>
-      [processingType, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
-
   static Future<AppProcessingState> getAppProcessingState(ProcessingType processingType, AccessState stateBeforeProcessing, AppModel app, AppModel? playstoreApp) async {
     var access = await AccessHelper._getAccess(null, app, false);
     var appProcessingState = AppProcessingState._(processingType, stateBeforeProcessing, app, playstoreApp, access.pagesAccess,
         access.dialogsAccess, access.packageConditionsAccess);
     return appProcessingState;
   }
+
+  @override
+  List<Object?> get props =>
+      [processingType, stateBeforeProcessing, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is AppProcessingState &&
+              runtimeType == other.runtimeType &&
+              processingType == other.processingType &&
+              stateBeforeProcessing == other.stateBeforeProcessing &&
+              app == other.app &&
+              playStoreApp == other.playStoreApp &&
+              mapEquals(pagesAccess, other.pagesAccess) &&
+              mapEquals(dialogAccess, other.dialogAccess) &&
+              mapEquals(packageConditionsAccess, other.packageConditionsAccess);
 }
 
 class LoggedOut extends AppLoaded {
@@ -437,6 +488,21 @@ class LoggedOut extends AppLoaded {
 
   @override
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
+
+  @override
+  List<Object?> get props =>
+      [app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is AppProcessingState &&
+              runtimeType == other.runtimeType &&
+              app == other.app &&
+              playStoreApp == other.playStoreApp &&
+              mapEquals(pagesAccess, other.pagesAccess) &&
+              mapEquals(dialogAccess, other.dialogAccess) &&
+              mapEquals(packageConditionsAccess, other.packageConditionsAccess);
 }
 
 abstract class LoggedIn extends AppLoaded {
@@ -535,19 +601,6 @@ class LoggedInWithoutMembership extends LoggedIn {
     return loggedInWithoutMembership;
   }
 
-  @override
-  List<Object?> get props => [
-        usr,
-        member,
-        app,
-        pagesAccess,
-        dialogAccess,
-        packageConditionsAccess,
-        usr,
-        member,
-        privilegeLevel
-      ];
-
   // What is the event that should be triggered after the membership will be accepted...
   final PostLoginAction? postLoginAction;
   LoggedInWithoutMembership._(
@@ -573,6 +626,32 @@ class LoggedInWithoutMembership extends LoggedIn {
 
   @override
   bool forceAcceptMembership() => true;
+
+  @override
+  List<Object?> get props => [
+    usr,
+    member,
+    app,
+    playStoreApp,
+    pagesAccess,
+    dialogAccess,
+    packageConditionsAccess,
+    privilegeLevel,
+    blocked
+  ];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is LoggedInWithoutMembership &&
+              usr == other.usr &&
+              member == other.member &&
+              app == other.app &&
+              blocked == other.blocked &&
+              playStoreApp == other.playStoreApp &&
+              mapEquals(pagesAccess, other.pagesAccess) &&
+              mapEquals(dialogAccess, other.dialogAccess) &&
+              mapEquals(packageConditionsAccess, other.packageConditionsAccess);
 }
 
 class LoggedInWithMembership extends LoggedIn {
@@ -596,19 +675,6 @@ class LoggedInWithMembership extends LoggedIn {
     return loggedInWithMembership;
   }
 
-  @override
-  List<Object?> get props => [
-        usr,
-        member,
-        app,
-        pagesAccess,
-        dialogAccess,
-        packageConditionsAccess,
-        usr,
-        member,
-        privilegeLevel
-      ];
-
   LoggedInWithMembership._(
       User usr,
       MemberModel member,
@@ -631,4 +697,31 @@ class LoggedInWithMembership extends LoggedIn {
 
   @override
   bool forceAcceptMembership() => false;
+
+  @override
+  List<Object?> get props => [
+    usr,
+    member,
+    app,
+    playStoreApp,
+    pagesAccess,
+    dialogAccess,
+    packageConditionsAccess,
+    privilegeLevel,
+    blocked
+  ];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is LoggedInWithMembership &&
+              runtimeType == other.runtimeType &&
+              usr == other.usr &&
+              member == other.member &&
+              app == other.app &&
+              blocked == other.blocked &&
+              mapEquals(pagesAccess, other.pagesAccess) &&
+              mapEquals(dialogAccess, other.dialogAccess) &&
+              mapEquals(packageConditionsAccess, packageConditionsAccess) &&
+              privilegeLevel == other.privilegeLevel;
 }

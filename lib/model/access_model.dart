@@ -113,6 +113,7 @@ class AccessModel {
 
   static AccessModel? fromEntity(String documentID, AccessEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return AccessModel(
           documentID: documentID, 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 
@@ -125,6 +126,7 @@ class AccessModel {
   static Future<AccessModel?> fromEntityPlus(String documentID, AccessEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return AccessModel(
           documentID: documentID, 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 

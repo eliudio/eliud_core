@@ -138,6 +138,7 @@ class BackgroundModel {
 
   static BackgroundModel? fromEntity(String documentID, BackgroundEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return BackgroundModel(
           documentID: documentID, 
           comments: entity.comments, 
@@ -148,7 +149,10 @@ class BackgroundModel {
           decorationColors: 
             entity.decorationColors == null ? null :
             entity.decorationColors
-            !.map((item) => DecorationColorModel.fromEntity(newRandomKey(), item)!)
+            !.map((item) {
+              counter++; 
+              return DecorationColorModel.fromEntity(counter.toString(), item)!;
+            })
             .toList(), 
           border: entity.border, 
     );
@@ -168,6 +172,7 @@ class BackgroundModel {
       }
     }
 
+    var counter = 0;
     return BackgroundModel(
           documentID: documentID, 
           comments: entity.comments, 
@@ -177,8 +182,10 @@ class BackgroundModel {
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           shadow: shadowHolder, 
           decorationColors: 
-            entity. decorationColors == null ? null : new List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
-            !.map((item) => DecorationColorModel.fromEntityPlus(newRandomKey(), item, appId: appId))
+            entity. decorationColors == null ? null : List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
+            !.map((item) {
+            counter++;
+            return DecorationColorModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           border: entity.border, 
     );

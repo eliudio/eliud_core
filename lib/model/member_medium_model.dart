@@ -120,6 +120,7 @@ class MemberMediumModel {
 
   static MemberMediumModel? fromEntity(String documentID, MemberMediumEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return MemberMediumModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -141,6 +142,7 @@ class MemberMediumModel {
   static Future<MemberMediumModel?> fromEntityPlus(String documentID, MemberMediumEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return MemberMediumModel(
           documentID: documentID, 
           appId: entity.appId, 

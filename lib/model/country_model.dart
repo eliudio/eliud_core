@@ -69,6 +69,7 @@ class CountryModel {
 
   static CountryModel? fromEntity(String documentID, CountryEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return CountryModel(
           documentID: documentID, 
           countryCode: entity.countryCode, 
@@ -79,6 +80,7 @@ class CountryModel {
   static Future<CountryModel?> fromEntityPlus(String documentID, CountryEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return CountryModel(
           documentID: documentID, 
           countryCode: entity.countryCode, 

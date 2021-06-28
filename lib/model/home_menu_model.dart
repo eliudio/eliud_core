@@ -83,6 +83,7 @@ class HomeMenuModel {
 
   static HomeMenuModel? fromEntity(String documentID, HomeMenuEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return HomeMenuModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -119,6 +120,7 @@ class HomeMenuModel {
       }
     }
 
+    var counter = 0;
     return HomeMenuModel(
           documentID: documentID, 
           appId: entity.appId, 

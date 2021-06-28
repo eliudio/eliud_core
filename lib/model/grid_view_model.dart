@@ -146,6 +146,7 @@ class GridViewModel {
 
   static GridViewModel? fromEntity(String documentID, GridViewEntity? entity) {
     if (entity == null) return null;
+    var counter = 0;
     return GridViewModel(
           documentID: documentID, 
           appId: entity.appId, 
@@ -168,6 +169,7 @@ class GridViewModel {
   static Future<GridViewModel?> fromEntityPlus(String documentID, GridViewEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    var counter = 0;
     return GridViewModel(
           documentID: documentID, 
           appId: entity.appId, 
