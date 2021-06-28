@@ -103,30 +103,22 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               await theState.copyWith(event.member, theState.playStoreApp);
 
           var sameState = toYield == theState;
-          var sameState2 = toYield.member == theState.member;
-          var sameState3 = toYield.usr == theState.usr;
-          var sameState4 = toYield.blocked == theState.blocked;
-          var sameState5 = toYield.privilegeLevel == theState.privilegeLevel;
-          var sameState7 = toYield.playStoreApp == theState.playStoreApp;
-          var sameState8 = mapEquals(toYield.packageConditionsAccess, theState.packageConditionsAccess);
-          var sameState9 = mapEquals(toYield.dialogAccess, theState.dialogAccess);
-          var sameState10 = mapEquals(toYield.pagesAccess, theState.pagesAccess);
-          var sameState11 = toYield.app == theState.app;
 
-          _invokeStateChangeListenersAfter(event, toYield);
-
-          if (!sameState)
+          if (!sameState) {
+            _invokeStateChangeListenersAfter(event, toYield);
             yield toYield;
+          }
           if ((event.refresh != null) && event.refresh!) {
             if (navigatorBloc != null)
               navigatorBloc!.add(GoHome());
           }
         } else {
-          // Assumed the result of having logged out, which has been processed seperatly by the bloc already
+          // Assumed the result of having logged out, which has been processed separately by the bloc already
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, theState, app, theState.playStoreApp);
+        yield toYield;
         add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
       } else if (event is SwitchAppAndPageProcessingEvent) {
         var app = await _fetchApp(event.appId);
@@ -145,7 +137,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
+        yield toYield;
         add(SwitchAppProcessingEvent(event.appId));
       } else if (event is SwitchAppProcessingEvent) {
         _invokeStateChangeListenersBefore(event, theState);
@@ -164,7 +157,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        yield await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
+        yield toYield;
         add(LogoutProcessingEvent());
       } else if (event is LogoutProcessingEvent) {
         await AbstractMainRepositorySingleton.singleton
@@ -186,13 +180,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             add(GoogleLoginProcessEvent(
                 event.actions,
                 usr));
-            yield await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, theState, app, theState.playStoreApp);
-          } else {
-            // yield current state
-            yield state;
+            var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, theState, app, theState.playStoreApp);
+            yield toYield;
           }
-        } catch (all) {
-          debugPrint(all.toString());
+        } catch (_) {
         }
       } else if (event is GoogleLoginProcessEvent) {
         var usr = event.usr;
@@ -234,8 +225,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               navigatorBloc, "You must accept membership");
         }
       }
-    } else {
-      throw 'Unexpected state';
     }
   }
 
