@@ -73,7 +73,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   @override
   Stream<AccessState> mapEventToState(AccessEvent event) async* {
     _invokeMappers(event, state);
-    AccessState theState = state;
+    var theState = state;
     if (event is InitApp) {
       _invokeStateChangeListenersBefore(event, theState);
       var usr = await AbstractMainRepositorySingleton.singleton
@@ -99,15 +99,19 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               await theState.copyWith(event.member, theState.playStoreApp);
 
           var sameState = toYield == theState;
+/*
 
           if (!sameState) {
+*/
             _invokeStateChangeListenersAfter(event, toYield);
             yield toYield;
             if ((event.refresh != null) && event.refresh!) {
               if (navigatorBloc != null)
                 navigatorBloc!.add(GoHome());
             }
+/*
           }
+*/
         } else {
           // Assumed the result of having logged out, which has been processed separately by the bloc already
         }
