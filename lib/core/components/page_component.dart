@@ -38,29 +38,27 @@ class PageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-          if (accessState is AppLoaded) {
-            var app = accessState.app;
-            return FutureBuilder<PageModel?>(
-                future: getPage(app.documentID!, pageID!),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return PageContentsWidget(
-                      state: accessState,
-                      pageID: pageID!,
-                      pageModel: snapshot.data!,
-                      parameters: parameters,
-                      scaffoldKey: scaffoldKey,
-                      scaffoldMessengerKey: scaffoldMessengerKey,
-                    );
-                  }
-                  return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-                });
-          } else {
+    var accessState = AccessBloc.getState(context);
+    if (accessState is AppLoaded) {
+      var app = accessState.app;
+      return FutureBuilder<PageModel?>(
+          future: getPage(app.documentID!, pageID!),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return PageContentsWidget(
+                state: accessState,
+                pageID: pageID!,
+                pageModel: snapshot.data!,
+                parameters: parameters,
+                scaffoldKey: scaffoldKey,
+                scaffoldMessengerKey: scaffoldMessengerKey,
+              );
+            }
             return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-          }
-        });
+          });
+    } else {
+      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+    }
   }
 }
 
