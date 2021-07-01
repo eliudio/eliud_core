@@ -162,7 +162,7 @@ class Registry {
                               page: AlertWidget(
                                   title: 'Error', content: 'Page not found'));
                         },
-                        title: app!.title ?? 'No title',
+                        title: app.title ?? 'No title',
                       );
                 }));
           } else {
