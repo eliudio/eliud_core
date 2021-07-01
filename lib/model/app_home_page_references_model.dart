@@ -33,53 +33,58 @@ import 'package:eliud_core/tools/random.dart';
 class AppHomePageReferencesModel {
 
   // Entry page for blocked member
-  String? homePageBlockedMemberId;
+  String? homePageBlockedMember;
 
-  // Entry page for subscribed member
-  String? homePageSubscribedMemberId;
+  // Entry page for public
+  String? homePagePublic;
+
+  // Entry page for subscribed member, i.e. for a person logged in but without privileges
+  String? homePageSubscribedMember;
 
   // Entry page for level 1 privileged member
-  String? homePageLevel1MemberId;
+  String? homePageLevel1Member;
 
   // Entry page for level 2 privileged member
-  String? homePageLevel2MemberId;
+  String? homePageLevel2Member;
 
   // Entry page for the owner
-  String? homePageOwnerId;
+  String? homePageOwner;
 
-  AppHomePageReferencesModel({this.homePageBlockedMemberId, this.homePageSubscribedMemberId, this.homePageLevel1MemberId, this.homePageLevel2MemberId, this.homePageOwnerId, })  {
+  AppHomePageReferencesModel({this.homePageBlockedMember, this.homePagePublic, this.homePageSubscribedMember, this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner, })  {
   }
 
-  AppHomePageReferencesModel copyWith({String? homePageBlockedMemberId, String? homePageSubscribedMemberId, String? homePageLevel1MemberId, String? homePageLevel2MemberId, String? homePageOwnerId, }) {
-    return AppHomePageReferencesModel(homePageBlockedMemberId: homePageBlockedMemberId ?? this.homePageBlockedMemberId, homePageSubscribedMemberId: homePageSubscribedMemberId ?? this.homePageSubscribedMemberId, homePageLevel1MemberId: homePageLevel1MemberId ?? this.homePageLevel1MemberId, homePageLevel2MemberId: homePageLevel2MemberId ?? this.homePageLevel2MemberId, homePageOwnerId: homePageOwnerId ?? this.homePageOwnerId, );
+  AppHomePageReferencesModel copyWith({String? homePageBlockedMember, String? homePagePublic, String? homePageSubscribedMember, String? homePageLevel1Member, String? homePageLevel2Member, String? homePageOwner, }) {
+    return AppHomePageReferencesModel(homePageBlockedMember: homePageBlockedMember ?? this.homePageBlockedMember, homePagePublic: homePagePublic ?? this.homePagePublic, homePageSubscribedMember: homePageSubscribedMember ?? this.homePageSubscribedMember, homePageLevel1Member: homePageLevel1Member ?? this.homePageLevel1Member, homePageLevel2Member: homePageLevel2Member ?? this.homePageLevel2Member, homePageOwner: homePageOwner ?? this.homePageOwner, );
   }
 
   @override
-  int get hashCode => homePageBlockedMemberId.hashCode ^ homePageSubscribedMemberId.hashCode ^ homePageLevel1MemberId.hashCode ^ homePageLevel2MemberId.hashCode ^ homePageOwnerId.hashCode;
+  int get hashCode => homePageBlockedMember.hashCode ^ homePagePublic.hashCode ^ homePageSubscribedMember.hashCode ^ homePageLevel1Member.hashCode ^ homePageLevel2Member.hashCode ^ homePageOwner.hashCode;
 
   @override
   bool operator ==(Object other) =>
           identical(this, other) ||
           other is AppHomePageReferencesModel &&
           runtimeType == other.runtimeType && 
-          homePageBlockedMemberId == other.homePageBlockedMemberId &&
-          homePageSubscribedMemberId == other.homePageSubscribedMemberId &&
-          homePageLevel1MemberId == other.homePageLevel1MemberId &&
-          homePageLevel2MemberId == other.homePageLevel2MemberId &&
-          homePageOwnerId == other.homePageOwnerId;
+          homePageBlockedMember == other.homePageBlockedMember &&
+          homePagePublic == other.homePagePublic &&
+          homePageSubscribedMember == other.homePageSubscribedMember &&
+          homePageLevel1Member == other.homePageLevel1Member &&
+          homePageLevel2Member == other.homePageLevel2Member &&
+          homePageOwner == other.homePageOwner;
 
   @override
   String toString() {
-    return 'AppHomePageReferencesModel{homePageBlockedMemberId: $homePageBlockedMemberId, homePageSubscribedMemberId: $homePageSubscribedMemberId, homePageLevel1MemberId: $homePageLevel1MemberId, homePageLevel2MemberId: $homePageLevel2MemberId, homePageOwnerId: $homePageOwnerId}';
+    return 'AppHomePageReferencesModel{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
   AppHomePageReferencesEntity toEntity({String? appId}) {
     return AppHomePageReferencesEntity(
-          homePageBlockedMemberId: (homePageBlockedMemberId != null) ? homePageBlockedMemberId : null, 
-          homePageSubscribedMemberId: (homePageSubscribedMemberId != null) ? homePageSubscribedMemberId : null, 
-          homePageLevel1MemberId: (homePageLevel1MemberId != null) ? homePageLevel1MemberId : null, 
-          homePageLevel2MemberId: (homePageLevel2MemberId != null) ? homePageLevel2MemberId : null, 
-          homePageOwnerId: (homePageOwnerId != null) ? homePageOwnerId : null, 
+          homePageBlockedMember: (homePageBlockedMember != null) ? homePageBlockedMember : null, 
+          homePagePublic: (homePagePublic != null) ? homePagePublic : null, 
+          homePageSubscribedMember: (homePageSubscribedMember != null) ? homePageSubscribedMember : null, 
+          homePageLevel1Member: (homePageLevel1Member != null) ? homePageLevel1Member : null, 
+          homePageLevel2Member: (homePageLevel2Member != null) ? homePageLevel2Member : null, 
+          homePageOwner: (homePageOwner != null) ? homePageOwner : null, 
     );
   }
 
@@ -87,11 +92,12 @@ class AppHomePageReferencesModel {
     if (entity == null) return null;
     var counter = 0;
     return AppHomePageReferencesModel(
-          homePageBlockedMemberId: entity.homePageBlockedMemberId, 
-          homePageSubscribedMemberId: entity.homePageSubscribedMemberId, 
-          homePageLevel1MemberId: entity.homePageLevel1MemberId, 
-          homePageLevel2MemberId: entity.homePageLevel2MemberId, 
-          homePageOwnerId: entity.homePageOwnerId, 
+          homePageBlockedMember: entity.homePageBlockedMember, 
+          homePagePublic: entity.homePagePublic, 
+          homePageSubscribedMember: entity.homePageSubscribedMember, 
+          homePageLevel1Member: entity.homePageLevel1Member, 
+          homePageLevel2Member: entity.homePageLevel2Member, 
+          homePageOwner: entity.homePageOwner, 
     );
   }
 
@@ -100,11 +106,12 @@ class AppHomePageReferencesModel {
 
     var counter = 0;
     return AppHomePageReferencesModel(
-          homePageBlockedMemberId: entity.homePageBlockedMemberId, 
-          homePageSubscribedMemberId: entity.homePageSubscribedMemberId, 
-          homePageLevel1MemberId: entity.homePageLevel1MemberId, 
-          homePageLevel2MemberId: entity.homePageLevel2MemberId, 
-          homePageOwnerId: entity.homePageOwnerId, 
+          homePageBlockedMember: entity.homePageBlockedMember, 
+          homePagePublic: entity.homePagePublic, 
+          homePageSubscribedMember: entity.homePageSubscribedMember, 
+          homePageLevel1Member: entity.homePageLevel1Member, 
+          homePageLevel2Member: entity.homePageLevel2Member, 
+          homePageOwner: entity.homePageOwner, 
     );
   }
 

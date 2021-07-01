@@ -1,8 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
@@ -24,13 +26,14 @@ import '../registry.dart';
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
-  final String? pageID;
+  final String appId;
+  final String pageId;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   final Map<String, dynamic>? parameters;
 
-  PageComponent({this.navigatorKey, this.pageID, this.parameters});
+  PageComponent({this.navigatorKey, required this.appId, required this.pageId, this.parameters});
 
   Future<PageModel?> getPage(String appId, String pageId) {
     return pageRepository(appId: appId)!.get(pageId);
@@ -38,7 +41,37 @@ class PageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
+    var navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
+    return /*BlocProvider<AccessBloc >(
+      create: (context) => AccessBloc(navigatorBloc)..add(InitApp(appId, false)),
+      child: */BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+          if (accessState is AppLoaded) {
+            var app = accessState.app;
+            return FutureBuilder<PageModel?>(
+                future: getPage(appId, pageId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return PageContentsWidget(
+                      state: accessState,
+                      pageID: pageId,
+                      pageModel: snapshot.data!,
+                      parameters: parameters,
+                      scaffoldKey: scaffoldKey,
+                      scaffoldMessengerKey: scaffoldMessengerKey,
+                    );
+                  }
+                  return StyleRegistry.registry().styleWithContext(context)
+                      .frontEndStyle().progressIndicatorStyle()
+                      .progressIndicator(context);
+                });
+          } else {
+            return StyleRegistry.registry().styleWithContext(context)
+                .frontEndStyle().progressIndicatorStyle()
+                .progressIndicator(context);
+          }
+        })/*)*/;
+    /*    var accessState = AccessBloc.getState(context);
     if (accessState is AppLoaded) {
       var app = accessState.app;
       return FutureBuilder<PageModel?>(
@@ -59,6 +92,7 @@ class PageComponent extends StatelessWidget {
     } else {
       return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
     }
+  */
   }
 }
 

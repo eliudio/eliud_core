@@ -18,35 +18,42 @@
   },
   "fields": [
     {
-      "fieldName": "homePageBlockedMemberId",
+      "fieldName": "homePageBlockedMember",
       "remark": "Entry page for blocked member",
       "displayName": "Entry Page",
       "fieldType": "String",
       "group": "general"
     },
     {
-      "fieldName": "homePageSubscribedMemberId",
-      "remark": "Entry page for subscribed member",
-      "displayName": "Entry Page",
+      "fieldName": "homePagePublic",
+      "remark": "Entry page for public",
+      "displayName": "Entry Page Public",
       "fieldType": "String",
       "group": "general"
     },
     {
-      "fieldName": "homePageLevel1MemberId",
+      "fieldName": "homePageSubscribedMember",
+      "remark": "Entry page for subscribed member, i.e. for a person logged in but without privileges",
+      "displayName": "Entry Page Member",
+      "fieldType": "String",
+      "group": "general"
+    },
+    {
+      "fieldName": "homePageLevel1Member",
       "remark": "Entry page for level 1 privileged member",
-      "displayName": "Entry Page",
+      "displayName": "Level 1 Member Home",
       "fieldType": "String",
       "group": "homePageLevel1Member"
     },
     {
-      "fieldName": "homePageLevel2MemberId",
+      "fieldName": "homePageLevel2Member",
       "remark": "Entry page for level 2 privileged member",
-      "displayName": "Entry Page",
+      "displayName": "Level 2 Member Home",
       "fieldType": "String",
       "group": "general"
     },
     {
-      "fieldName": "homePageOwnerId",
+      "fieldName": "homePageOwner",
       "remark": "Entry page for the owner",
       "displayName": "Entry Page",
       "fieldType": "String",

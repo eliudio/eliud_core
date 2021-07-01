@@ -21,46 +21,50 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppHomePageReferencesEntity {
-  final String? homePageBlockedMemberId;
-  final String? homePageSubscribedMemberId;
-  final String? homePageLevel1MemberId;
-  final String? homePageLevel2MemberId;
-  final String? homePageOwnerId;
+  final String? homePageBlockedMember;
+  final String? homePagePublic;
+  final String? homePageSubscribedMember;
+  final String? homePageLevel1Member;
+  final String? homePageLevel2Member;
+  final String? homePageOwner;
 
-  AppHomePageReferencesEntity({this.homePageBlockedMemberId, this.homePageSubscribedMemberId, this.homePageLevel1MemberId, this.homePageLevel2MemberId, this.homePageOwnerId, });
+  AppHomePageReferencesEntity({this.homePageBlockedMember, this.homePagePublic, this.homePageSubscribedMember, this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner, });
 
 
-  List<Object?> get props => [homePageBlockedMemberId, homePageSubscribedMemberId, homePageLevel1MemberId, homePageLevel2MemberId, homePageOwnerId, ];
+  List<Object?> get props => [homePageBlockedMember, homePagePublic, homePageSubscribedMember, homePageLevel1Member, homePageLevel2Member, homePageOwner, ];
 
   @override
   String toString() {
-    return 'AppHomePageReferencesEntity{homePageBlockedMemberId: $homePageBlockedMemberId, homePageSubscribedMemberId: $homePageSubscribedMemberId, homePageLevel1MemberId: $homePageLevel1MemberId, homePageLevel2MemberId: $homePageLevel2MemberId, homePageOwnerId: $homePageOwnerId}';
+    return 'AppHomePageReferencesEntity{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
   static AppHomePageReferencesEntity? fromMap(Map? map) {
     if (map == null) return null;
 
     return AppHomePageReferencesEntity(
-      homePageBlockedMemberId: map['homePageBlockedMemberId'], 
-      homePageSubscribedMemberId: map['homePageSubscribedMemberId'], 
-      homePageLevel1MemberId: map['homePageLevel1MemberId'], 
-      homePageLevel2MemberId: map['homePageLevel2MemberId'], 
-      homePageOwnerId: map['homePageOwnerId'], 
+      homePageBlockedMember: map['homePageBlockedMember'], 
+      homePagePublic: map['homePagePublic'], 
+      homePageSubscribedMember: map['homePageSubscribedMember'], 
+      homePageLevel1Member: map['homePageLevel1Member'], 
+      homePageLevel2Member: map['homePageLevel2Member'], 
+      homePageOwner: map['homePageOwner'], 
     );
   }
 
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (homePageBlockedMemberId != null) theDocument["homePageBlockedMemberId"] = homePageBlockedMemberId;
-      else theDocument["homePageBlockedMemberId"] = null;
-    if (homePageSubscribedMemberId != null) theDocument["homePageSubscribedMemberId"] = homePageSubscribedMemberId;
-      else theDocument["homePageSubscribedMemberId"] = null;
-    if (homePageLevel1MemberId != null) theDocument["homePageLevel1MemberId"] = homePageLevel1MemberId;
-      else theDocument["homePageLevel1MemberId"] = null;
-    if (homePageLevel2MemberId != null) theDocument["homePageLevel2MemberId"] = homePageLevel2MemberId;
-      else theDocument["homePageLevel2MemberId"] = null;
-    if (homePageOwnerId != null) theDocument["homePageOwnerId"] = homePageOwnerId;
-      else theDocument["homePageOwnerId"] = null;
+    if (homePageBlockedMember != null) theDocument["homePageBlockedMember"] = homePageBlockedMember;
+      else theDocument["homePageBlockedMember"] = null;
+    if (homePagePublic != null) theDocument["homePagePublic"] = homePagePublic;
+      else theDocument["homePagePublic"] = null;
+    if (homePageSubscribedMember != null) theDocument["homePageSubscribedMember"] = homePageSubscribedMember;
+      else theDocument["homePageSubscribedMember"] = null;
+    if (homePageLevel1Member != null) theDocument["homePageLevel1Member"] = homePageLevel1Member;
+      else theDocument["homePageLevel1Member"] = null;
+    if (homePageLevel2Member != null) theDocument["homePageLevel2Member"] = homePageLevel2Member;
+      else theDocument["homePageLevel2Member"] = null;
+    if (homePageOwner != null) theDocument["homePageOwner"] = homePageOwner;
+      else theDocument["homePageOwner"] = null;
     return theDocument;
   }
 

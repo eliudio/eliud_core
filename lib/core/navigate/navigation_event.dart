@@ -14,10 +14,11 @@ class JustASecondWait extends NavigatorEvent {
 }
 
 class GoToPageEvent extends NavigatorEvent {
-  final String? ID;
+  final String appId;
+  final String pageId;
   final Map<String, dynamic>? parameters;
 
-  GoToPageEvent(this.ID, { this.parameters });
+  GoToPageEvent(this.appId, this.pageId, { this.parameters });
 }
 
 class MessageEvent extends NavigatorEvent {
@@ -26,10 +27,12 @@ class MessageEvent extends NavigatorEvent {
   MessageEvent(this.message);
 }
 
+/*
 class GoHome extends NavigatorEvent {
   GoHome();
 }
 
+*/
 class OpenRegisteredWidgetEvent extends NavigatorEvent {
   final String ID;
 

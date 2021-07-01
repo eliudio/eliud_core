@@ -1,10 +1,8 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/navigation_event.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,107 +39,74 @@ class Router {
 
   Router(this.accessBloc);
 
-  String? getHomepage(AppLoaded state) {
-    var privilegeLevel;
-    if (state is LoggedIn) {
-      privilegeLevel = state.privilegeLevel;
-    } else {
-      privilegeLevel = PrivilegeLevel.NoPrivilege;
-    }
-    if (state.isBlocked()) return state.app.homePages!.homePageBlockedMemberId;
-    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
-        (state.app.homePages!.homePageOwnerId != null)) {
-      return state.app.homePages!.homePageOwnerId;
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
-        (state.app.homePages!.homePageLevel2MemberId != null)) {
-      return state.app.homePages!.homePageLevel2MemberId;
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
-        (state.app.homePages!.homePageLevel1MemberId != null)) {
-      return state.app.homePages!.homePageLevel1MemberId;
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
-        (state.app.homePages!.homePageSubscribedMemberId != null)) {
-      return state.app.homePages!.homePageSubscribedMemberId;
-    }
-
-    print('Unknown privilegeLevel $privilegeLevel');
-    return state.app.homePages!.homePageSubscribedMemberId;
-  }
-
-  Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+/*
     AccessState theState = accessBloc.state;
     if (theState is AppLoaded) {
-      Arguments? arguments;
-      if (settings.arguments is Arguments) {
-        arguments = settings.arguments as Arguments?;
-      }
-      switch (settings.name) {
+*/
+    Arguments? arguments;
+    if (settings.arguments is Arguments) {
+      arguments = settings.arguments as Arguments?;
+    }
+    switch (settings.name) {
+/*
         case '':
           // in flutterweb, the initialRoute is "", not "/"
-          var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId, page: Registry.registry()!.page(id: pageId));
+              pageId: 'playstore', page: Registry.registry()!.page(id: 'playstore'));
         case homeRoute:
-          var pageId = getHomepage(theState);
           return pageRouteBuilder(theState.app,
-              pageId: pageId, page: Registry.registry()!.page(id: pageId));
+              pageId: 'playstore', page: Registry.registry()!.page(id: 'playstore'));
         case justASecond:
           return pageRouteBuilder(theState.app,
               page: justASecondWidget(
                   arguments == null ? '?' : arguments.mainArgument!));
-        case pageRoute:
-          return pageRouteBuilder(theState.app,
-              pageId: arguments!.mainArgument,
-              parameters: arguments.parameters,
-              page: Registry.registry()!.page(
-                  id: arguments == null ? null : arguments.mainArgument,
-                  parameters: arguments == null ? null : arguments.parameters));
-        case messageRoute:
-          var value = settings.name;
-          if (arguments != null) {
-            value = value! + arguments.mainArgument!;
-            for (var v in arguments.parameters!.values) {
-              value = value! + (v as String);
-            }
+*/
+      case pageRoute:
+        if ((arguments != null) && (arguments.mainArgument != null)) {
+          return getRoute(arguments.mainArgument!, arguments.parameters);
+        }
+        break;
+      case messageRoute:
+        var value = settings.name;
+        if (arguments != null) {
+          value = value! + arguments.mainArgument!;
+          for (var v in arguments.parameters!.values) {
+            value = value! + (v as String);
           }
-          return error(settings.arguments as String);
-        default:
-          final settingsUri = Uri.parse(settings.name!);
-          final pagePath = settingsUri.path.split('/');
-          if ((pagePath != null) && (pagePath.length == 2)) {
-            final appId = pagePath[0];
-            print('appId is =' + appId);
-            if (theState.app == null) {
-              print('theState app is null');
-            }
-            if ((theState.app.documentID == null) ||
-                (theState.app.documentID != appId)) {
-              return error(
-                  'Not allowing to switch to app ' + appId + '.');
-            } else {
-              final pageId = pagePath[1];
-              print('paggeId is ' + pageId);
-              final parameters = settingsUri.queryParameters;
-              if (pageId != null) print(pageId);
-              if (parameters != null) print(parameters);
-              var page =
-                  Registry.registry()!.page(id: pageId, parameters: parameters);
-              if (page != null) {
-                return pageRouteBuilder(theState.app,
-                    pageId: pageId, parameters: parameters, page: page);
-              }
-            }
-          }
-      }
-      return error('No route defined for ${settings.name}!');
+        }
+        return error(settings.arguments as String);
+      default:
+        var settingsUri = Uri.parse(settings.name!);
+        var path = settingsUri.path;
+        var parameters = settingsUri.queryParameters;
+        return getRoute(path, parameters);
+    }
+    return error('No route defined for ${settings.name}!');
+/*
     } else {
       return error("App not loaded, so can't load page!");
     }
+*/
   }
 
-  PageRouteBuilder error(String error) {
+  static Route<dynamic> getRoute(String path, Map<String, dynamic>? parameters) {
+    final pagePath = path.split('/');
+    if ((pagePath != null) && (pagePath.length == 2)) {
+      final appId = pagePath[0];
+      final pageId = pagePath[1];
+
+      var page = Registry.registry()!
+          .page(appId: appId, pageId: pageId, parameters: parameters);
+      if (page != null) {
+        return pageRouteBuilderWithAppId(appId,
+            pageId: pageId, parameters: parameters, page: page);
+      }
+    }
+    return error('No route defined for $path');
+  }
+
+  static PageRouteBuilder error(String error) {
     return FadeRoute(
         name: 'error',
         page: Scaffold(body: Center(child: Text(error))),
@@ -199,8 +164,9 @@ class Router {
     if (action.hasAccess(context)) {
       if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
-          BlocProvider.of<NavigatorBloc>(context)
-              .add(GoToPageEvent(action.pageID, parameters: parameters));
+          BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(
+              action.appID!, action.pageID!,
+              parameters: parameters));
         } else {
           BlocProvider.of<AccessBloc>(context).add(
               SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
@@ -226,7 +192,7 @@ class Router {
           case InternalActionEnum.Flush:
             AbstractRepositorySingleton.singleton
                 .flush(AccessBloc.appId(context));
-            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
+//            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
             break;
           default:
             return null;
@@ -246,15 +212,15 @@ class Router {
   static void navigateToPage(NavigatorBloc bloc, ActionModel action,
       {Map<String, dynamic>? parameters}) async {
     if (action is GotoPage) {
-      bloc.add(GoToPageEvent(action.pageID, parameters: parameters));
+      bloc.add(
+          GoToPageEvent(action.appID!, action.pageID!, parameters: parameters));
     } else {
       throw "I didn't expect this action type";
     }
   }
 
   static void message(NavigatorBloc? bloc, String message) {
-    if (bloc != null)
-      bloc.add(MessageEvent(message));
+    if (bloc != null) bloc.add(MessageEvent(message));
   }
 
   /*

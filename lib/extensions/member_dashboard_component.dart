@@ -133,7 +133,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _updateProfile(
       BuildContext context, AppModel? app, MemberModel member) async {
-    await Navigator.of(context).push(pageRouteBuilder(app,
+    await Navigator.of(context).push(pageRouteBuilderWithAppId(app!.documentID!,
         page: MultiBlocProvider(
             providers: [
               BlocProvider<MemberListBloc>(

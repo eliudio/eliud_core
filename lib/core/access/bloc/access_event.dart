@@ -46,8 +46,8 @@ class SwitchAppAndPageProcessingEvent extends SwitchAppEvent {
 }
 
 class InitApp extends AccessEvent {
-  final String? appId;
-  final bool? isPlaystore;
+  final String appId;
+  final bool isPlaystore;
 
   InitApp(this.appId, this.isPlaystore);
 

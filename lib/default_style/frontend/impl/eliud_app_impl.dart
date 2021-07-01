@@ -16,7 +16,7 @@ class EliudAppImpl implements HasApp {
 
   EliudAppImpl(this._eliudStyle);
 
-  @override
+    @override
   Widget app({GlobalKey<NavigatorState>? navigatorKey, GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey, String? initialRoute, RouteFactory? onGenerateRoute, RouteFactory? onUnknownRoute, required String title}) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,

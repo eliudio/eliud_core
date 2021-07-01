@@ -152,7 +152,12 @@ class FadeRoute extends PageRouteBuilder {
         );
 }
 
-PageRouteBuilder pageRouteBuilder(AppModel? app, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
+PageRouteBuilder pageRouteBuilder(AppModel appModel, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
+  return pageRouteBuilderWithAppId(appModel.documentID!, pageId: pageId, parameters: parameters, page: page);
+}
+
+PageRouteBuilder pageRouteBuilderWithAppId(String appId, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
+/*
   var milliseconds = app != null ? app.routeAnimationDuration : 1000;
   if (app != null) {
     switch (app.routeBuilder) {
@@ -165,10 +170,13 @@ PageRouteBuilder pageRouteBuilder(AppModel? app, {String? pageId, Map<String, dy
       case PageTransitionAnimation.RotationRoute:
         return RotationRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.FadeRoute:
-        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
+*/
+        return FadeRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+/*
       default:
         return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
     }
   }
   return FadeRoute(name: app!.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+*/
 }
