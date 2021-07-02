@@ -4,6 +4,7 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/has_profile_photo.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ import 'package:flutter/material.dart';
 import '../../eliud_style.dart';
 
 class EliudProfilePhotoImpl implements HasProfilePhoto {
-  final EliudStyle _eliudStyle;
+  final Style _style;
 
-  EliudProfilePhotoImpl(this._eliudStyle);
+  EliudProfilePhotoImpl(this._style);
 
   @override
   Widget getProfilePhotoButtonFromMember(BuildContext context,

@@ -1,13 +1,12 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
 
-import '../../eliud_style.dart';
-
 class EliudProgressIndicatorImpl implements HasProgressIndicator {
-  final EliudStyle _eliudStyle;
+  final Style _style;
 
-  EliudProgressIndicatorImpl(this._eliudStyle);
+  EliudProgressIndicatorImpl(this._style);
 
   @override
   Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {

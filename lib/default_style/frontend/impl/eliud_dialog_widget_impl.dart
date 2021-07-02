@@ -1,5 +1,6 @@
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/types.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +9,10 @@ import 'dialog/dialog_field.dart';
 import 'dialog/dialog_helper.dart';
 
 class EliudDialogWidgetImpl implements HasDialogWidget {
-  final EliudStyle _eliudStyle;
+  final Style _style;
   late DialogStateHelper dialogHelper;
 
-  EliudDialogWidgetImpl(this._eliudStyle) {
+  EliudDialogWidgetImpl(this._style) {
     dialogHelper = DialogStateHelper();
   }
 
@@ -25,8 +26,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     return dialogHelper.build(context,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
-        contents:
-            _eliudStyle.frontEndStyle().textStyle().text(context, message),
+        contents: _style.frontEndStyle().textStyle().text(context, message),
         buttons: dialogHelper.getCloseButton(context,
             onPressed: () => Navigator.pop(context), buttonLabel: closeLabel));
   }
@@ -41,7 +41,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     return dialogHelper.build(context,
         title: title,
         contents:
-            _eliudStyle.frontEndStyle().textStyle().text(context, errorMessage),
+            _style.frontEndStyle().textStyle().text(context, errorMessage),
         dialogButtonPosition: DialogButtonPosition.TopRight,
         buttons: dialogHelper.getCloseButton(context,
             buttonLabel: closeLabel, onPressed: () => Navigator.pop(context)));
@@ -57,8 +57,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
     return dialogHelper.build(context,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
-        contents:
-            _eliudStyle.frontEndStyle().textStyle().text(context, message),
+        contents: _style.frontEndStyle().textStyle().text(context, message),
         buttons: dialogHelper.getAckNackButtons(context, ackFunction: () {
           Navigator.of(context).pop();
           onSelection(0);
@@ -139,14 +138,14 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
             shrinkWrap: true,
             itemCount: options.length,
             itemBuilder: (context, i) {
-              return _eliudStyle.frontEndStyle().buttonStyle().dialogButton(
-                    context,
-                    label: options[i],
-                    onPressed: () {
-                      onSelection(i);
-                      Navigator.of(context).pop();
-                    },
-                  );
+              return _style.frontEndStyle().buttonStyle().dialogButton(
+                context,
+                label: options[i],
+                onPressed: () {
+                  onSelection(i);
+                  Navigator.of(context).pop();
+                },
+              );
             }));
   }
 
