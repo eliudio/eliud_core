@@ -1,6 +1,8 @@
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:flutter/cupertino.dart';
 
+typedef OnSelection = void Function(int choice);
+
 abstract class AbstractMenuItemAttributes {
   final String? label;
   final IconModel? icon;

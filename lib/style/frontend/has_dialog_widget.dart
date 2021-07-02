@@ -1,7 +1,6 @@
+import 'package:eliud_core/style/frontend/types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-typedef OnSelection = void Function(int choice);
 
 abstract class HasDialogWidget {
   Widget messageDialog(

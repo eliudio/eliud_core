@@ -1,11 +1,6 @@
 import 'package:eliud_core/default_style/frontend/impl/eliud_button_impl.dart';
 import 'package:eliud_core/default_style/frontend/impl/eliud_list_tile_impl.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/model/icon_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/member_public_info_model.dart';
-import 'package:eliud_core/model/rgb_model.dart';
+import 'package:eliud_core/default_style/frontend/impl/eliud_tabs_impl.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_app.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
@@ -25,10 +20,9 @@ import 'package:eliud_core/style/frontend/has_profile_photo.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_style.dart';
 import 'package:eliud_core/style/frontend/has_table.dart';
+import 'package:eliud_core/style/frontend/has_tabs.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/frontend/has_text_form_field.dart';
-import 'package:eliud_core/style/frontend/types.dart';
-import 'package:flutter/material.dart';
 
 import '../eliud_style.dart';
 import 'impl/eliud_app_impl.dart';
@@ -72,6 +66,7 @@ class EliudFrontEndStyle implements FrontEndStyle {
   late HasStyle eliudStyleImpl;
   late HasIcon eliudIconImpl;
   late HasDivider eliudDividerImpl;
+  late HasTabs eliudTabsImpl;
 
   EliudFrontEndStyle(this._eliudStyle) {
     eliudPageBodyImpl = EliudPageBodyImpl(_eliudStyle);
@@ -94,6 +89,7 @@ class EliudFrontEndStyle implements FrontEndStyle {
     eliudStyleImpl = EliudStyleImpl(_eliudStyle);
     eliudIconImpl = EliudIconImpl(_eliudStyle);
     eliudDividerImpl = EliudDividerImpl(_eliudStyle);
+    eliudTabsImpl = EliudTabsImpl(_eliudStyle);
   }
 
   @override
@@ -155,4 +151,7 @@ class EliudFrontEndStyle implements FrontEndStyle {
 
   @override
   HasStyle textStyleStyle() => eliudStyleImpl;
+
+  @override
+  HasTabs tabsStyle() => eliudTabsImpl;
 }

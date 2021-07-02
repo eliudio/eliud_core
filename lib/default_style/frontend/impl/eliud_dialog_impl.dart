@@ -1,15 +1,14 @@
 import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
+import 'package:eliud_core/style/frontend/types.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../eliud_style.dart';
 import 'dialog/dialog_helper.dart';
-import 'eliud_dialog_widget_impl.dart';
 
 class EliudDialogImpl implements HasDialog {
-  final EliudStyle _eliudStyle;
+  final Style _style;
 
-  EliudDialogImpl(this._eliudStyle);
+  EliudDialogImpl(this._style);
 
   @override
   void openMessageDialog(
@@ -21,7 +20,7 @@ class EliudDialogImpl implements HasDialog {
     // MessageDialog
     DialogStatefulWidgetHelper.openIt(
       context,
-      _eliudStyle.frontEndStyle().dialogWidgetStyle().messageDialog(
+      _style.frontEndStyle().dialogWidgetStyle().messageDialog(
         context,
         title: title,
         message: message,
@@ -38,7 +37,7 @@ class EliudDialogImpl implements HasDialog {
   }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
-        _eliudStyle.frontEndStyle().dialogWidgetStyle().errorDialog(
+        _style.frontEndStyle().dialogWidgetStyle().errorDialog(
           context,
           title: title,
           errorMessage: errorMessage,
@@ -54,7 +53,7 @@ class EliudDialogImpl implements HasDialog {
           String? nackButtonLabel}) =>
       DialogStatefulWidgetHelper.openIt(
           context,
-          _eliudStyle.frontEndStyle().dialogWidgetStyle().ackNackDialog(
+          _style.frontEndStyle().dialogWidgetStyle().ackNackDialog(
             context,
             title: title,
             message: message,
@@ -73,7 +72,7 @@ class EliudDialogImpl implements HasDialog {
           String? initialValue}) =>
       DialogStatefulWidgetHelper.openIt(
         context,
-        _eliudStyle.frontEndStyle().dialogWidgetStyle().entryDialog(
+        _style.frontEndStyle().dialogWidgetStyle().entryDialog(
           context,
           title: title,
           ackButtonLabel: ackButtonLabel,
@@ -92,7 +91,7 @@ class EliudDialogImpl implements HasDialog {
       String? buttonLabel}) {
     DialogStatefulWidgetHelper.openIt(
         context,
-        _eliudStyle.frontEndStyle().dialogWidgetStyle().selectionDialog(
+        _style.frontEndStyle().dialogWidgetStyle().selectionDialog(
           context,
           title: title,
           options: options,
@@ -109,7 +108,7 @@ class EliudDialogImpl implements HasDialog {
           String? buttonLabel}) =>
       DialogStatefulWidgetHelper.openIt(
           context,
-          _eliudStyle.frontEndStyle().dialogWidgetStyle().complexDialog(
+          _style.frontEndStyle().dialogWidgetStyle().complexDialog(
             context,
             title: title,
             child: child,
@@ -123,7 +122,7 @@ class EliudDialogImpl implements HasDialog {
       required Widget child,
       required List<Widget> buttons}) {
     DialogStatefulWidgetHelper.openIt(context,
-        _eliudStyle.frontEndStyle().dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons));
+        _style.frontEndStyle().dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons));
   }
 
   @override

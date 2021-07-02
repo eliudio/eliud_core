@@ -1,12 +1,11 @@
 import 'package:eliud_core/style/frontend/has_container.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
 
-import '../../eliud_style.dart';
-
 class EliudContainerImpl implements HasContainer {
-  final EliudStyle _eliudStyle;
+  final Style _style;
 
-  EliudContainerImpl(this._eliudStyle);
+  EliudContainerImpl(this._style);
 
   @override
   Widget actionContainer(BuildContext context,

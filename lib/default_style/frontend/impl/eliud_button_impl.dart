@@ -1,12 +1,13 @@
 import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
 
 import '../../eliud_style.dart';
 
 class EliudButtonImpl implements HasButton {
-  final EliudStyle _eliudStyle;
+  final Style _style;
 
-  EliudButtonImpl(this._eliudStyle);
+  EliudButtonImpl(this._style);
 
   @override
   Widget button(BuildContext context,
@@ -16,7 +17,7 @@ class EliudButtonImpl implements HasButton {
           onTap: onPressed,
           child: Padding(
               padding: const EdgeInsets.all(7.0),
-              child: _eliudStyle
+              child: _style
                   .frontEndStyle()
                   .containerStyle()
                   .actionContainer(context, child: icon)));
@@ -31,11 +32,11 @@ class EliudButtonImpl implements HasButton {
     } else {
       return GestureDetector(
           onTap: onPressed,
-          child: _eliudStyle.frontEndStyle().containerStyle().actionContainer(
+          child: _style.frontEndStyle().containerStyle().actionContainer(
               context,
               child: Padding(
                   padding: const EdgeInsets.all(7.0),
-                  child: _eliudStyle
+                  child: _style
                       .frontEndStyle()
                       .textStyle()
                       .text(context, label))));
@@ -57,8 +58,8 @@ class EliudButtonImpl implements HasButton {
         primary: Colors.pink,
       ),
       child: selected == null || selected == false
-          ? _eliudStyle.frontEndStyle().textStyle().text(context, label)
-          : _eliudStyle.frontEndStyle().textStyle().highLight1(context, label),
+          ? _style.frontEndStyle().textStyle().text(context, label)
+          : _style.frontEndStyle().textStyle().highLight1(context, label),
     );
   }
 
@@ -84,7 +85,7 @@ class EliudButtonImpl implements HasButton {
       Color? color,
       String? tooltip,
       required Widget icon}) {
-    return _eliudStyle.frontEndStyle().containerStyle().actionContainer(context,
+    return _style.frontEndStyle().containerStyle().actionContainer(context,
         child: IconButton(
             icon: icon, color: color, tooltip: tooltip, onPressed: onPressed));
   }

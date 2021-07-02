@@ -4,7 +4,6 @@ import 'package:eliud_core/model/rgb_model.dart';
 import 'types.dart';
 import 'package:flutter/material.dart';
 
-
 enum DrawerType { Left, Right }
 
 class DrawerHeader1Attributes {
