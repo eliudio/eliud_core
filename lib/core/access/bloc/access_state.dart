@@ -672,7 +672,6 @@ class LoggedInWithMembership extends LoggedIn {
         access.privilegeLevel ?? PrivilegeLevel.NoPrivilege,
         access.packageConditionsAccess,
         access.blocked ?? false);
-    print("********************* getLoggedInWithMembership");
     return loggedInWithMembership;
   }
 
@@ -688,13 +687,11 @@ class LoggedInWithMembership extends LoggedIn {
       bool blocked)
       : super._(usr, member, app, playstoreApp, pagesAccess, dialogsAccess,
             privilegeLevel, packageConditionsAccess, blocked) {
-    print("********************* _");
   }
 
   @override
   Future<LoggedInWithMembership> copyWith(
       MemberModel? member, AppModel? playstoreApp) {
-    print("********************* copy");
     return getLoggedInWithMembership(
         usr, member ?? this.member, app, playstoreApp);
   }
