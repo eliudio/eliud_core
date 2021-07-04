@@ -12,6 +12,11 @@ class EliudProgressIndicatorImpl implements HasProgressIndicator {
   Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
     return Center(child: DelayedCircularProgressIndicator(valueColor: valueColor,));
   }
+
+  @override
+  Widget progressIndicatorWithValue(BuildContext context, {Animation<Color>? valueColor, required double value}) {
+    return Center(child: CircularProgressIndicator(value: value, valueColor: valueColor));
+  }
 }
 
 class DelayedCircularProgressIndicator extends StatelessWidget {
