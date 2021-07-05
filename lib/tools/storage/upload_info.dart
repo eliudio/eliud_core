@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import 'basename_helper.dart';
 
-typedef FeedbackProgress(double progress);
+typedef FeedbackProgress(double? progress);
 
 class UploadInfo {
   final String url;

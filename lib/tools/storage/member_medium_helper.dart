@@ -104,9 +104,14 @@ class MemberMediumHelper {
    * task 4 progress up till: 1
    */
   static void _feedBackAggregatedProgress(int currentTask, int totalTasks,
-      double progressCurrentTask, {FeedbackProgress? feedbackProgress}) {
+      double? progressCurrentTask, {FeedbackProgress? feedbackProgress}) {
     if (feedbackProgress != null) {
-      feedbackProgress(min(1, (currentTask - 1 + progressCurrentTask) / (totalTasks) / 75 * 90));
+      if (progressCurrentTask == null) {
+        feedbackProgress(null);
+      } else {
+        feedbackProgress(min(1,
+            (currentTask - 1 + progressCurrentTask) / (totalTasks) / 75 * 90));
+      }
     }
   }
 
