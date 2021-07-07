@@ -39,6 +39,22 @@ class ListHelper {
     });
     return newList;
   }
+
+  static bool listEquals<T>(List<T> list1, List<T> list2) {
+    for (T obj in list1) {
+      if (!list2.contains(obj)) {
+        return false;
+      }
+    }
+
+    for (T obj in list2) {
+      if (!list1.contains(obj)) {
+        /* ... this object was added ... */
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 class RgbHelper {
