@@ -169,7 +169,7 @@ class Registry {
             return MaterialApp(
                 home: Scaffold(
                   backgroundColor: Colors.black,
-                  body: Text(''),
+                  body: Text('App loading...'),
                 )
             );
           }
