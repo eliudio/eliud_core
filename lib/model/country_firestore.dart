@@ -45,11 +45,11 @@ class CountryFirestore implements CountryRepository {
   }
 
   CountryModel? _populateDoc(DocumentSnapshot value) {
-    return CountryModel.fromEntity(value.id, CountryEntity.fromMap(value.data()));
+    return CountryModel.fromEntity(value.id, CountryEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<CountryModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data()), );  }
+    return CountryModel.fromEntityPlus(value.id, CountryEntity.fromMap(value.data() as Map<String, dynamic>), );  }
 
   Future<CountryModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

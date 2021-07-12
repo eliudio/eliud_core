@@ -45,11 +45,11 @@ class HomeMenuFirestore implements HomeMenuRepository {
   }
 
   HomeMenuModel? _populateDoc(DocumentSnapshot value) {
-    return HomeMenuModel.fromEntity(value.id, HomeMenuEntity.fromMap(value.data()));
+    return HomeMenuModel.fromEntity(value.id, HomeMenuEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<HomeMenuModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);  }
+    return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

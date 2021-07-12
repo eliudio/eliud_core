@@ -45,11 +45,11 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
   }
 
   MemberPublicInfoModel? _populateDoc(DocumentSnapshot value) {
-    return MemberPublicInfoModel.fromEntity(value.id, MemberPublicInfoEntity.fromMap(value.data()));
+    return MemberPublicInfoModel.fromEntity(value.id, MemberPublicInfoEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<MemberPublicInfoModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberPublicInfoModel.fromEntityPlus(value.id, MemberPublicInfoEntity.fromMap(value.data()), );  }
+    return MemberPublicInfoModel.fromEntityPlus(value.id, MemberPublicInfoEntity.fromMap(value.data() as Map<String, dynamic>), );  }
 
   Future<MemberPublicInfoModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

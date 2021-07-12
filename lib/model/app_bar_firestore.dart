@@ -45,11 +45,11 @@ class AppBarFirestore implements AppBarRepository {
   }
 
   AppBarModel? _populateDoc(DocumentSnapshot value) {
-    return AppBarModel.fromEntity(value.id, AppBarEntity.fromMap(value.data()));
+    return AppBarModel.fromEntity(value.id, AppBarEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<AppBarModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);  }
+    return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<AppBarModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

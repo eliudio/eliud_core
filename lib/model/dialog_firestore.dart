@@ -45,11 +45,11 @@ class DialogFirestore implements DialogRepository {
   }
 
   DialogModel? _populateDoc(DocumentSnapshot value) {
-    return DialogModel.fromEntity(value.id, DialogEntity.fromMap(value.data()));
+    return DialogModel.fromEntity(value.id, DialogEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<DialogModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return DialogModel.fromEntityPlus(value.id, DialogEntity.fromMap(value.data()), appId: appId);  }
+    return DialogModel.fromEntityPlus(value.id, DialogEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<DialogModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

@@ -45,11 +45,11 @@ class EliudStyleAttributesFirestore implements EliudStyleAttributesRepository {
   }
 
   EliudStyleAttributesModel? _populateDoc(DocumentSnapshot value) {
-    return EliudStyleAttributesModel.fromEntity(value.id, EliudStyleAttributesEntity.fromMap(value.data()));
+    return EliudStyleAttributesModel.fromEntity(value.id, EliudStyleAttributesEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<EliudStyleAttributesModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return EliudStyleAttributesModel.fromEntityPlus(value.id, EliudStyleAttributesEntity.fromMap(value.data()), );  }
+    return EliudStyleAttributesModel.fromEntityPlus(value.id, EliudStyleAttributesEntity.fromMap(value.data() as Map<String, dynamic>), );  }
 
   Future<EliudStyleAttributesModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

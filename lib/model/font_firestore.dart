@@ -45,11 +45,11 @@ class FontFirestore implements FontRepository {
   }
 
   FontModel? _populateDoc(DocumentSnapshot value) {
-    return FontModel.fromEntity(value.id, FontEntity.fromMap(value.data()));
+    return FontModel.fromEntity(value.id, FontEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<FontModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return FontModel.fromEntityPlus(value.id, FontEntity.fromMap(value.data()), );  }
+    return FontModel.fromEntityPlus(value.id, FontEntity.fromMap(value.data() as Map<String, dynamic>), );  }
 
   Future<FontModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

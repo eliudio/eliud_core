@@ -16,13 +16,13 @@ dependencies:
   google_sign_in_web: ^0.10.0
   firebase_storage: ^8.1.0
   google_fonts: ^2.0.0
-  cloud_firestore: ^1.0.3
+  cloud_firestore: 2.3.0
   datetime_picker_formfield: ^2.0.0
   expandable: ^5.0.1
   flutter_colorpicker: ^0.4.0
   flutter_iconpicker: ^3.0.0
   image_picker: ^0.7.4
-  equatable: ^2.0.0
+  equatable: ^2.0.2
   delayed_display: ^2.0.0
   transparent_image: ^2.0.0
   video_player: ^2.1.0

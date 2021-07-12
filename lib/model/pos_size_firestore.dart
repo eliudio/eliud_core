@@ -45,11 +45,11 @@ class PosSizeFirestore implements PosSizeRepository {
   }
 
   PosSizeModel? _populateDoc(DocumentSnapshot value) {
-    return PosSizeModel.fromEntity(value.id, PosSizeEntity.fromMap(value.data()));
+    return PosSizeModel.fromEntity(value.id, PosSizeEntity.fromMap(value.data() as Map<String, dynamic>));
   }
 
   Future<PosSizeModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data()), appId: appId);  }
+    return PosSizeModel.fromEntityPlus(value.id, PosSizeEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
 
   Future<PosSizeModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

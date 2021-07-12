@@ -34,12 +34,12 @@ class MemberFirestore implements MemberRepository {
 
   MemberModel? _populateDoc(DocumentSnapshot doc) {
     return MemberModel.fromEntity(
-        doc.id, MemberEntity.fromMap(doc.data()));
+        doc.id, MemberEntity.fromMap(doc.data() as Map<String, dynamic>));
   }
 
   Future<MemberModel?> _populateDocPlus(DocumentSnapshot doc) async {
     return MemberModel.fromEntityPlus(
-        doc.id, MemberEntity.fromMap(doc.data()));
+        doc.id, MemberEntity.fromMap(doc.data() as Map<String, dynamic>));
   }
 
   @override
