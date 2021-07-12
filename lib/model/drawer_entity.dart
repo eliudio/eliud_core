@@ -42,8 +42,9 @@ class DrawerEntity {
     return 'DrawerEntity{appId: $appId, name: $name, backgroundOverrideId: $backgroundOverrideId, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverrideId: $headerBackgroundOverrideId, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menuId: $menuId}';
   }
 
-  static DrawerEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static DrawerEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var popupMenuBackgroundColorFromMap;
     popupMenuBackgroundColorFromMap = map['popupMenuBackgroundColor'];

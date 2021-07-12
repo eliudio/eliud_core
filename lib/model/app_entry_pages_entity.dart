@@ -34,8 +34,9 @@ class AppEntryPagesEntity {
     return 'AppEntryPagesEntity{entryPageId: $entryPageId, minPrivilege: $minPrivilege}';
   }
 
-  static AppEntryPagesEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppEntryPagesEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return AppEntryPagesEntity(
       entryPageId: map['entryPageId'], 

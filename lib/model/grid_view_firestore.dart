@@ -45,11 +45,11 @@ class GridViewFirestore implements GridViewRepository {
   }
 
   GridViewModel? _populateDoc(DocumentSnapshot value) {
-    return GridViewModel.fromEntity(value.id, GridViewEntity.fromMap(value.data() as Map<String, dynamic>));
+    return GridViewModel.fromEntity(value.id, GridViewEntity.fromMap(value.data()));
   }
 
   Future<GridViewModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return GridViewModel.fromEntityPlus(value.id, GridViewEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return GridViewModel.fromEntityPlus(value.id, GridViewEntity.fromMap(value.data()), appId: appId);  }
 
   Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

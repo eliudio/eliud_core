@@ -42,8 +42,9 @@ class BackgroundEntity {
     return 'BackgroundEntity{comments: $comments, backgroundImageURL: $backgroundImageURL, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
-  static BackgroundEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static BackgroundEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var decorationColorsFromMap;
     decorationColorsFromMap = map['decorationColors'];

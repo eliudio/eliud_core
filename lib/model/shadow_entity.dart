@@ -38,8 +38,9 @@ class ShadowEntity {
     return 'ShadowEntity{comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  static ShadowEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ShadowEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var colorFromMap;
     colorFromMap = map['color'];

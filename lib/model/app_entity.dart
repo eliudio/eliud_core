@@ -45,8 +45,9 @@ class AppEntity {
     return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
   }
 
-  static AppEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var homePagesFromMap;
     homePagesFromMap = map['homePages'];

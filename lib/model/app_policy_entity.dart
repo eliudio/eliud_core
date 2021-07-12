@@ -37,8 +37,9 @@ class AppPolicyEntity {
     return 'AppPolicyEntity{appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
   }
 
-  static AppPolicyEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppPolicyEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var policiesFromMap;
     policiesFromMap = map['policies'];

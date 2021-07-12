@@ -38,8 +38,9 @@ class HomeMenuEntity {
     return 'HomeMenuEntity{appId: $appId, name: $name, menuId: $menuId, iconColorOverride: $iconColorOverride, backgroundOverrideId: $backgroundOverrideId, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
-  static HomeMenuEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static HomeMenuEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var iconColorOverrideFromMap;
     iconColorOverrideFromMap = map['iconColorOverride'];

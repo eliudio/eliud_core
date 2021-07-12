@@ -36,8 +36,9 @@ class AccessEntity {
     return 'AccessEntity{privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  static AccessEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AccessEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return AccessEntity(
       privilegeLevel: map['privilegeLevel'], 

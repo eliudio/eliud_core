@@ -36,8 +36,9 @@ class RgbEntity {
     return 'RgbEntity{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  static RgbEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static RgbEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return RgbEntity(
       r: int.tryParse(map['r'].toString()), 

@@ -38,8 +38,9 @@ class MenuDefEntity {
     return 'MenuDefEntity{appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  static MenuDefEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MenuDefEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var menuItemsFromMap;
     menuItemsFromMap = map['menuItems'];

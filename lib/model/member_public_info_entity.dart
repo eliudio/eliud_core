@@ -37,8 +37,9 @@ class MemberPublicInfoEntity {
     return 'MemberPublicInfoEntity{name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  static MemberPublicInfoEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberPublicInfoEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var subscriptionsFromMap;
     subscriptionsFromMap = map['subscriptions'];

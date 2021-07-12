@@ -35,8 +35,9 @@ class ConditionsEntity {
     return 'ConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  static ConditionsEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ConditionsEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return ConditionsEntity(
       privilegeLevelRequired: map['privilegeLevelRequired'], 

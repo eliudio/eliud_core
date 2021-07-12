@@ -38,8 +38,9 @@ class FontEntity {
     return 'FontEntity{fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
-  static FontEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static FontEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var colorFromMap;
     colorFromMap = map['color'];

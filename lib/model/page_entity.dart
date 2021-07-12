@@ -46,8 +46,9 @@ class PageEntity {
     return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
-  static PageEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static PageEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var bodyComponentsFromMap;
     bodyComponentsFromMap = map['bodyComponents'];

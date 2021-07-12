@@ -45,11 +45,11 @@ class ShadowFirestore implements ShadowRepository {
   }
 
   ShadowModel? _populateDoc(DocumentSnapshot value) {
-    return ShadowModel.fromEntity(value.id, ShadowEntity.fromMap(value.data() as Map<String, dynamic>));
+    return ShadowModel.fromEntity(value.id, ShadowEntity.fromMap(value.data()));
   }
 
   Future<ShadowModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data() as Map<String, dynamic>), );  }
+    return ShadowModel.fromEntityPlus(value.id, ShadowEntity.fromMap(value.data()), );  }
 
   Future<ShadowModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

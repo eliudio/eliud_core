@@ -67,8 +67,9 @@ class EliudStyleAttributesEntity {
     return 'EliudStyleAttributesEntity{description: $description, formSubmitButtonColor: $formSubmitButtonColor, formBackgroundId: $formBackgroundId, appBackgroundId: $appBackgroundId, formSubmitButtonTextColor: $formSubmitButtonTextColor, formGroupTitleColor: $formGroupTitleColor, formFieldTextColor: $formFieldTextColor, formFieldHeaderColor: $formFieldHeaderColor, formFieldFocusColor: $formFieldFocusColor, listBackgroundId: $listBackgroundId, listTextItemColor: $listTextItemColor, floatingButtonForegroundColor: $floatingButtonForegroundColor, floatingButtonBackgroundColor: $floatingButtonBackgroundColor, dividerColor: $dividerColor, appBarBGId: $appBarBGId, appBarIconColor: $appBarIconColor, appBarSelectedIconColor: $appBarSelectedIconColor, appBarMenuBackgroundColor: $appBarMenuBackgroundColor, bottomNavigationBarBGId: $bottomNavigationBarBGId, drawerBGId: $drawerBGId, drawerHeaderBGId: $drawerHeaderBGId, profileDrawerBGId: $profileDrawerBGId, profileDrawerHeaderBGId: $profileDrawerHeaderBGId, backgroundHomeMenuId: $backgroundHomeMenuId, backgroundColorHomeMenu: $backgroundColorHomeMenu, iconColorHomeMenu: $iconColorHomeMenu, h1Id: $h1Id, h2Id: $h2Id, h3Id: $h3Id, h4Id: $h4Id, h5Id: $h5Id, fontTextId: $fontTextId, fontHighlight1Id: $fontHighlight1Id, fontHighlight2Id: $fontHighlight2Id, fontLinkId: $fontLinkId}';
   }
 
-  static EliudStyleAttributesEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static EliudStyleAttributesEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var formSubmitButtonColorFromMap;
     formSubmitButtonColorFromMap = map['formSubmitButtonColor'];

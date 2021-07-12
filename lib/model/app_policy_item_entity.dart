@@ -34,8 +34,9 @@ class AppPolicyItemEntity {
     return 'AppPolicyItemEntity{name: $name, policyId: $policyId}';
   }
 
-  static AppPolicyItemEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppPolicyItemEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return AppPolicyItemEntity(
       name: map['name'], 

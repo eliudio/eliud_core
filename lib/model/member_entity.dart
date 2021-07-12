@@ -56,8 +56,9 @@ class MemberEntity {
     return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  static MemberEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var subscriptionsFromMap;
     subscriptionsFromMap = map['subscriptions'];

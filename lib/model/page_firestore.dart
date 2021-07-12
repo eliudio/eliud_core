@@ -45,11 +45,11 @@ class PageFirestore implements PageRepository {
   }
 
   PageModel? _populateDoc(DocumentSnapshot value) {
-    return PageModel.fromEntity(value.id, PageEntity.fromMap(value.data() as Map<String, dynamic>));
+    return PageModel.fromEntity(value.id, PageEntity.fromMap(value.data()));
   }
 
   Future<PageModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data()), appId: appId);  }
 
   Future<PageModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

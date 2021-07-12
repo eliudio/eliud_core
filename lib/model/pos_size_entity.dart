@@ -47,8 +47,9 @@ class PosSizeEntity {
     return 'PosSizeEntity{appId: $appId, name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  static PosSizeEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static PosSizeEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return PosSizeEntity(
       appId: map['appId'], 

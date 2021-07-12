@@ -42,8 +42,9 @@ class DialogEntity {
     return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
-  static DialogEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static DialogEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var bodyComponentsFromMap;
     bodyComponentsFromMap = map['bodyComponents'];

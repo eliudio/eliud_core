@@ -45,11 +45,11 @@ class AccessFirestore implements AccessRepository {
   }
 
   AccessModel? _populateDoc(DocumentSnapshot value) {
-    return AccessModel.fromEntity(value.id, AccessEntity.fromMap(value.data() as Map<String, dynamic>));
+    return AccessModel.fromEntity(value.id, AccessEntity.fromMap(value.data()));
   }
 
   Future<AccessModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return AccessModel.fromEntityPlus(value.id, AccessEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return AccessModel.fromEntityPlus(value.id, AccessEntity.fromMap(value.data()), appId: appId);  }
 
   Future<AccessModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

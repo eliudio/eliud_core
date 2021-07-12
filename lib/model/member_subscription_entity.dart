@@ -33,8 +33,9 @@ class MemberSubscriptionEntity {
     return 'MemberSubscriptionEntity{appId: $appId}';
   }
 
-  static MemberSubscriptionEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberSubscriptionEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return MemberSubscriptionEntity(
       appId: map['appId'], 

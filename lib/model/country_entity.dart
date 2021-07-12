@@ -34,8 +34,9 @@ class CountryEntity {
     return 'CountryEntity{countryCode: $countryCode, countryName: $countryName}';
   }
 
-  static CountryEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static CountryEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return CountryEntity(
       countryCode: map['countryCode'], 

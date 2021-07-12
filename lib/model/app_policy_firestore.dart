@@ -45,11 +45,11 @@ class AppPolicyFirestore implements AppPolicyRepository {
   }
 
   AppPolicyModel? _populateDoc(DocumentSnapshot value) {
-    return AppPolicyModel.fromEntity(value.id, AppPolicyEntity.fromMap(value.data() as Map<String, dynamic>));
+    return AppPolicyModel.fromEntity(value.id, AppPolicyEntity.fromMap(value.data()));
   }
 
   Future<AppPolicyModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return AppPolicyModel.fromEntityPlus(value.id, AppPolicyEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return AppPolicyModel.fromEntityPlus(value.id, AppPolicyEntity.fromMap(value.data()), appId: appId);  }
 
   Future<AppPolicyModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

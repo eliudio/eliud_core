@@ -42,8 +42,9 @@ class AppBarEntity {
     return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverrideId: $backgroundOverrideId, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  static AppBarEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppBarEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var iconFromMap;
     iconFromMap = map['icon'];

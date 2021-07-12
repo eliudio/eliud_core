@@ -45,11 +45,11 @@ class DrawerFirestore implements DrawerRepository {
   }
 
   DrawerModel? _populateDoc(DocumentSnapshot value) {
-    return DrawerModel.fromEntity(value.id, DrawerEntity.fromMap(value.data() as Map<String, dynamic>));
+    return DrawerModel.fromEntity(value.id, DrawerEntity.fromMap(value.data()));
   }
 
   Future<DrawerModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return DrawerModel.fromEntityPlus(value.id, DrawerEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return DrawerModel.fromEntityPlus(value.id, DrawerEntity.fromMap(value.data()), appId: appId);  }
 
   Future<DrawerModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

@@ -47,8 +47,9 @@ class MemberMediumEntity {
     return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  static MemberMediumEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberMediumEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return MemberMediumEntity(
       appId: map['appId'], 

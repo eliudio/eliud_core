@@ -45,11 +45,11 @@ class BackgroundFirestore implements BackgroundRepository {
   }
 
   BackgroundModel? _populateDoc(DocumentSnapshot value) {
-    return BackgroundModel.fromEntity(value.id, BackgroundEntity.fromMap(value.data() as Map<String, dynamic>));
+    return BackgroundModel.fromEntity(value.id, BackgroundEntity.fromMap(value.data()));
   }
 
   Future<BackgroundModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data() as Map<String, dynamic>), );  }
+    return BackgroundModel.fromEntityPlus(value.id, BackgroundEntity.fromMap(value.data()), );  }
 
   Future<BackgroundModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

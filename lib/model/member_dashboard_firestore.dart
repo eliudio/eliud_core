@@ -49,11 +49,11 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
   }
 
   MemberDashboardModel? _populateDoc(DocumentSnapshot value) {
-    return MemberDashboardModel.fromEntity(value.id, MemberDashboardEntity.fromMap(value.data() as Map<String, dynamic>));
+    return MemberDashboardModel.fromEntity(value.id, MemberDashboardEntity.fromMap(value.data()));
   }
 
   Future<MemberDashboardModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

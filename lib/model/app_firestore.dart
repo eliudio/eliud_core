@@ -45,11 +45,11 @@ class AppFirestore implements AppRepository {
   }
 
   AppModel? _populateDoc(DocumentSnapshot value) {
-    return AppModel.fromEntity(value.id, AppEntity.fromMap(value.data() as Map<String, dynamic>));
+    return AppModel.fromEntity(value.id, AppEntity.fromMap(value.data()));
   }
 
   Future<AppModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return AppModel.fromEntityPlus(value.id, AppEntity.fromMap(value.data() as Map<String, dynamic>), appId: value.id);  }
+    return AppModel.fromEntityPlus(value.id, AppEntity.fromMap(value.data()), appId: value.id);  }
 
   Future<AppModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

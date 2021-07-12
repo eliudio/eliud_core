@@ -45,11 +45,11 @@ class MemberMediumFirestore implements MemberMediumRepository {
   }
 
   MemberMediumModel? _populateDoc(DocumentSnapshot value) {
-    return MemberMediumModel.fromEntity(value.id, MemberMediumEntity.fromMap(value.data() as Map<String, dynamic>));
+    return MemberMediumModel.fromEntity(value.id, MemberMediumEntity.fromMap(value.data()));
   }
 
   Future<MemberMediumModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberMediumModel.fromEntityPlus(value.id, MemberMediumEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return MemberMediumModel.fromEntityPlus(value.id, MemberMediumEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MemberMediumModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

@@ -45,11 +45,11 @@ class MenuDefFirestore implements MenuDefRepository {
   }
 
   MenuDefModel? _populateDoc(DocumentSnapshot value) {
-    return MenuDefModel.fromEntity(value.id, MenuDefEntity.fromMap(value.data() as Map<String, dynamic>));
+    return MenuDefModel.fromEntity(value.id, MenuDefEntity.fromMap(value.data()));
   }
 
   Future<MenuDefModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data() as Map<String, dynamic>), appId: appId);  }
+    return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);  }
 
   Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

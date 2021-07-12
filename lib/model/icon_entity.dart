@@ -34,8 +34,9 @@ class IconEntity {
     return 'IconEntity{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  static IconEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static IconEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return IconEntity(
       codePoint: int.tryParse(map['codePoint'].toString()), 

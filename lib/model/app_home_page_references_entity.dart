@@ -38,8 +38,9 @@ class AppHomePageReferencesEntity {
     return 'AppHomePageReferencesEntity{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
-  static AppHomePageReferencesEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static AppHomePageReferencesEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return AppHomePageReferencesEntity(
       homePageBlockedMember: map['homePageBlockedMember'], 

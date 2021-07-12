@@ -42,8 +42,9 @@ class MemberDashboardEntity {
     return 'MemberDashboardEntity{appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  static MemberDashboardEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static MemberDashboardEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];

@@ -33,8 +33,9 @@ class ConditionsSimpleEntity {
     return 'ConditionsSimpleEntity{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  static ConditionsSimpleEntity? fromMap(Map? map) {
-    if (map == null) return null;
+  static ConditionsSimpleEntity? fromMap(Object? o) {
+    if (o == null) return null;
+    var map = o as Map<String, dynamic>;
 
     return ConditionsSimpleEntity(
       privilegeLevelRequired: map['privilegeLevelRequired'], 
