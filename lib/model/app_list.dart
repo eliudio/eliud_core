@@ -152,7 +152,7 @@ class AppListWidgetState extends State<AppListWidget> {
 
           return AppListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<AppListBloc>(context)
                   .add(DeleteAppList(value: value));
@@ -199,7 +199,6 @@ class AppListWidgetState extends State<AppListWidget> {
 class AppListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final AppModel? value;
 
   AppListItem({
@@ -207,7 +206,6 @@ class AppListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

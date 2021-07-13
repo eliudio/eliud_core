@@ -152,7 +152,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
 
           return DecorationColorListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<DecorationColorListBloc>(context)
                   .add(DeleteDecorationColorList(value: value));
@@ -199,7 +199,6 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
 class DecorationColorListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final DecorationColorModel? value;
 
   DecorationColorListItem({
@@ -207,7 +206,6 @@ class DecorationColorListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

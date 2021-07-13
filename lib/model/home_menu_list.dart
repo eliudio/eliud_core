@@ -152,7 +152,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
 
           return HomeMenuListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<HomeMenuListBloc>(context)
                   .add(DeleteHomeMenuList(value: value));
@@ -199,7 +199,6 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
 class HomeMenuListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final HomeMenuModel? value;
 
   HomeMenuListItem({
@@ -207,7 +206,6 @@ class HomeMenuListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

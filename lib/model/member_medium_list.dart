@@ -152,7 +152,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
 
           return MemberMediumListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MemberMediumListBloc>(context)
                   .add(DeleteMemberMediumList(value: value));
@@ -199,7 +199,6 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
 class MemberMediumListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MemberMediumModel? value;
 
   MemberMediumListItem({
@@ -207,7 +206,6 @@ class MemberMediumListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

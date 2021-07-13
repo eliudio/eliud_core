@@ -152,7 +152,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
 
           return MemberPublicInfoListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MemberPublicInfoListBloc>(context)
                   .add(DeleteMemberPublicInfoList(value: value));
@@ -199,7 +199,6 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
 class MemberPublicInfoListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MemberPublicInfoModel? value;
 
   MemberPublicInfoListItem({
@@ -207,7 +206,6 @@ class MemberPublicInfoListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

@@ -152,7 +152,7 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
 
           return MenuDefListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MenuDefListBloc>(context)
                   .add(DeleteMenuDefList(value: value));
@@ -199,7 +199,6 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
 class MenuDefListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MenuDefModel? value;
 
   MenuDefListItem({
@@ -207,7 +206,6 @@ class MenuDefListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

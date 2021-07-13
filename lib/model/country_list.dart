@@ -152,7 +152,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
 
           return CountryListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<CountryListBloc>(context)
                   .add(DeleteCountryList(value: value));
@@ -199,7 +199,6 @@ class CountryListWidgetState extends State<CountryListWidget> {
 class CountryListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final CountryModel? value;
 
   CountryListItem({
@@ -207,7 +206,6 @@ class CountryListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

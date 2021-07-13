@@ -152,7 +152,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
 
           return BackgroundListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<BackgroundListBloc>(context)
                   .add(DeleteBackgroundList(value: value));
@@ -199,7 +199,6 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
 class BackgroundListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final BackgroundModel? value;
 
   BackgroundListItem({
@@ -207,7 +206,6 @@ class BackgroundListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

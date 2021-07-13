@@ -152,7 +152,7 @@ class MemberListWidgetState extends State<MemberListWidget> {
 
           return MemberListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MemberListBloc>(context)
                   .add(DeleteMemberList(value: value));
@@ -201,7 +201,6 @@ class MemberListWidgetState extends State<MemberListWidget> {
 class MemberListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MemberModel? value;
 
   MemberListItem({
@@ -209,7 +208,6 @@ class MemberListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

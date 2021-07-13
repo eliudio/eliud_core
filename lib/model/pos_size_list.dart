@@ -152,7 +152,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
 
           return PosSizeListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<PosSizeListBloc>(context)
                   .add(DeletePosSizeList(value: value));
@@ -199,7 +199,6 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
 class PosSizeListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final PosSizeModel? value;
 
   PosSizeListItem({
@@ -207,7 +206,6 @@ class PosSizeListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

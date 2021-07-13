@@ -152,7 +152,7 @@ class EliudStyleAttributesListWidgetState extends State<EliudStyleAttributesList
 
           return EliudStyleAttributesListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<EliudStyleAttributesListBloc>(context)
                   .add(DeleteEliudStyleAttributesList(value: value));
@@ -199,7 +199,6 @@ class EliudStyleAttributesListWidgetState extends State<EliudStyleAttributesList
 class EliudStyleAttributesListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final EliudStyleAttributesModel? value;
 
   EliudStyleAttributesListItem({
@@ -207,7 +206,6 @@ class EliudStyleAttributesListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

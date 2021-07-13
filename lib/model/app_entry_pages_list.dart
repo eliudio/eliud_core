@@ -152,7 +152,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
 
           return AppEntryPagesListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<AppEntryPagesListBloc>(context)
                   .add(DeleteAppEntryPagesList(value: value));
@@ -199,7 +199,6 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
 class AppEntryPagesListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final AppEntryPagesModel? value;
 
   AppEntryPagesListItem({
@@ -207,7 +206,6 @@ class AppEntryPagesListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

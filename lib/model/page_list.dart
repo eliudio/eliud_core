@@ -152,7 +152,7 @@ class PageListWidgetState extends State<PageListWidget> {
 
           return PageListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<PageListBloc>(context)
                   .add(DeletePageList(value: value));
@@ -199,7 +199,6 @@ class PageListWidgetState extends State<PageListWidget> {
 class PageListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final PageModel? value;
 
   PageListItem({
@@ -207,7 +206,6 @@ class PageListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

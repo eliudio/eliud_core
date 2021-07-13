@@ -152,7 +152,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
 
           return BodyComponentListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<BodyComponentListBloc>(context)
                   .add(DeleteBodyComponentList(value: value));
@@ -199,7 +199,6 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
 class BodyComponentListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final BodyComponentModel? value;
 
   BodyComponentListItem({
@@ -207,7 +206,6 @@ class BodyComponentListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

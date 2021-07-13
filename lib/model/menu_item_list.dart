@@ -152,7 +152,7 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
 
           return MenuItemListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MenuItemListBloc>(context)
                   .add(DeleteMenuItemList(value: value));
@@ -199,7 +199,6 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
 class MenuItemListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MenuItemModel? value;
 
   MenuItemListItem({
@@ -207,7 +206,6 @@ class MenuItemListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

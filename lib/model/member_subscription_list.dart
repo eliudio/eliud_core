@@ -152,7 +152,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
 
           return MemberSubscriptionListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<MemberSubscriptionListBloc>(context)
                   .add(DeleteMemberSubscriptionList(value: value));
@@ -199,7 +199,6 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
 class MemberSubscriptionListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final MemberSubscriptionModel? value;
 
   MemberSubscriptionListItem({
@@ -207,7 +206,6 @@ class MemberSubscriptionListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

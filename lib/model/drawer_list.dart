@@ -152,7 +152,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
 
           return DrawerListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<DrawerListBloc>(context)
                   .add(DeleteDrawerList(value: value));
@@ -199,7 +199,6 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
 class DrawerListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final DrawerModel? value;
 
   DrawerListItem({
@@ -207,7 +206,6 @@ class DrawerListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

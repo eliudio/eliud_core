@@ -152,7 +152,7 @@ class DialogListWidgetState extends State<DialogListWidget> {
 
           return DialogListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<DialogListBloc>(context)
                   .add(DeleteDialogList(value: value));
@@ -199,7 +199,6 @@ class DialogListWidgetState extends State<DialogListWidget> {
 class DialogListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final DialogModel? value;
 
   DialogListItem({
@@ -207,7 +206,6 @@ class DialogListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

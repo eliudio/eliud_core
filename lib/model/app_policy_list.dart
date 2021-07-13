@@ -152,7 +152,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
 
           return AppPolicyListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<AppPolicyListBloc>(context)
                   .add(DeleteAppPolicyList(value: value));
@@ -199,7 +199,6 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
 class AppPolicyListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final AppPolicyModel? value;
 
   AppPolicyListItem({
@@ -207,7 +206,6 @@ class AppPolicyListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override

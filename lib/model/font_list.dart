@@ -152,7 +152,7 @@ class FontListWidgetState extends State<FontListWidget> {
 
           return FontListItem(
             value: value,
-            app: accessState.app,
+//            app: accessState.app,
             onDismissed: (direction) {
               BlocProvider.of<FontListBloc>(context)
                   .add(DeleteFontList(value: value));
@@ -199,7 +199,6 @@ class FontListWidgetState extends State<FontListWidget> {
 class FontListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppModel app;
   final FontModel? value;
 
   FontListItem({
@@ -207,7 +206,6 @@ class FontListItem extends StatelessWidget {
     required this.onDismissed,
     required this.onTap,
     required this.value,
-    required this.app,
   }) : super(key: key);
 
   @override
