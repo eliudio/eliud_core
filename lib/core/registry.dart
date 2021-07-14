@@ -79,7 +79,10 @@ class Registry {
           .frontEndStyle()
           .dialogStyle()
           .openWidgetDialog(context,
-              child: DialogComponent(dialog: dialog, parameters: parameters));
+              child: DialogComponent(
+                  dialog: dialog,
+                  parameters: parameters,
+                  includeHeading: dialog.includeHeading));
     } else {
       StyleRegistry.registry()
           .styleWithContext(context)
@@ -142,8 +145,7 @@ class Registry {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var app = snapshot.data;
-            var initialRoute =
-                '$appId/' + app!.homePages!.homePagePublic!;
+            var initialRoute = '$appId/' + app!.homePages!.homePagePublic!;
             return MultiBlocProvider(
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
@@ -168,10 +170,9 @@ class Registry {
           } else {
             return MaterialApp(
                 home: Scaffold(
-                  backgroundColor: Colors.black,
-                  body: Text('App loading...'),
-                )
-            );
+              backgroundColor: Colors.black,
+              body: Text('App loading...'),
+            ));
           }
         });
   }

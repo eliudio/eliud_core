@@ -26,20 +26,21 @@ class DialogEntity {
   final List<BodyComponentEntity>? bodyComponents;
   final String? backgroundOverrideId;
   final int? layout;
+  final bool? includeHeading;
   final String? gridViewId;
   final String? widgetWrapper;
   final ConditionsEntity? conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.widgetWrapper, this.conditions, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.includeHeading, this.gridViewId, this.widgetWrapper, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, bodyComponents, backgroundOverrideId, layout, gridViewId, widgetWrapper, conditions, ];
+  List<Object?> get props => [appId, title, bodyComponents, backgroundOverrideId, layout, includeHeading, gridViewId, widgetWrapper, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
   static DialogEntity? fromMap(Object? o) {
@@ -65,6 +66,7 @@ class DialogEntity {
       bodyComponents: bodyComponentsList, 
       backgroundOverrideId: map['backgroundOverrideId'], 
       layout: map['layout'], 
+      includeHeading: map['includeHeading'], 
       gridViewId: map['gridViewId'], 
       widgetWrapper: map['widgetWrapper'], 
       conditions: conditionsFromMap, 
@@ -90,6 +92,8 @@ class DialogEntity {
       else theDocument["backgroundOverrideId"] = null;
     if (layout != null) theDocument["layout"] = layout;
       else theDocument["layout"] = null;
+    if (includeHeading != null) theDocument["includeHeading"] = includeHeading;
+      else theDocument["includeHeading"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
     if (widgetWrapper != null) theDocument["widgetWrapper"] = widgetWrapper;

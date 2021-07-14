@@ -64,6 +64,11 @@
       "group": "layout"
     },
     {
+      "fieldName": "includeHeading",
+      "displayName": "Include Heading",
+      "fieldType": "bool"
+    },
+    {
       "fieldName": "gridView",
       "displayName": "GridView",
       "remark": "Specific gridview",

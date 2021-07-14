@@ -51,6 +51,7 @@ class DialogModel {
   List<BodyComponentModel>? bodyComponents;
   BackgroundModel? backgroundOverride;
   DialogLayout? layout;
+  bool? includeHeading;
 
   // Specific gridview
   GridViewModel? gridView;
@@ -59,16 +60,16 @@ class DialogModel {
   String? widgetWrapper;
   ConditionsModel? conditions;
 
-  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.widgetWrapper, this.conditions, })  {
+  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.widgetWrapper, this.conditions, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, GridViewModel? gridView, String? widgetWrapper, ConditionsModel? conditions, }) {
-    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, widgetWrapper: widgetWrapper ?? this.widgetWrapper, conditions: conditions ?? this.conditions, );
+  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, bool? includeHeading, GridViewModel? gridView, String? widgetWrapper, ConditionsModel? conditions, }) {
+    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, includeHeading: includeHeading ?? this.includeHeading, gridView: gridView ?? this.gridView, widgetWrapper: widgetWrapper ?? this.widgetWrapper, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ gridView.hashCode ^ widgetWrapper.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ includeHeading.hashCode ^ gridView.hashCode ^ widgetWrapper.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -81,6 +82,7 @@ class DialogModel {
           ListEquality().equals(bodyComponents, other.bodyComponents) &&
           backgroundOverride == other.backgroundOverride &&
           layout == other.layout &&
+          includeHeading == other.includeHeading &&
           gridView == other.gridView &&
           widgetWrapper == other.widgetWrapper &&
           conditions == other.conditions;
@@ -89,7 +91,7 @@ class DialogModel {
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, widgetWrapper: $widgetWrapper, conditions: $conditions}';
   }
 
   DialogEntity toEntity({String? appId}) {
@@ -101,6 +103,7 @@ class DialogModel {
             .toList() : null, 
           backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
           layout: (layout != null) ? layout!.index : null, 
+          includeHeading: (includeHeading != null) ? includeHeading : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
           widgetWrapper: (widgetWrapper != null) ? widgetWrapper : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
@@ -123,6 +126,7 @@ class DialogModel {
             })
             .toList(), 
           layout: toDialogLayout(entity.layout), 
+          includeHeading: entity.includeHeading, 
           widgetWrapper: entity.widgetWrapper, 
           conditions: 
             ConditionsModel.fromEntity(entity.conditions), 
@@ -167,6 +171,7 @@ class DialogModel {
             .toList())), 
           backgroundOverride: backgroundOverrideHolder, 
           layout: toDialogLayout(entity.layout), 
+          includeHeading: entity.includeHeading, 
           gridView: gridViewHolder, 
           widgetWrapper: entity.widgetWrapper, 
           conditions: 

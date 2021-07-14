@@ -159,6 +159,22 @@ class LayoutDialogFormError extends DialogFormError {
 }
 
 
+class IncludeHeadingDialogFormError extends DialogFormError { 
+  const IncludeHeadingDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IncludeHeadingDialogFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class GridViewDialogFormError extends DialogFormError { 
   const GridViewDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
 

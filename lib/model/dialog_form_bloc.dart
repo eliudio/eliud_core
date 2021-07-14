@@ -106,6 +106,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  bodyComponents: currentState.value!.bodyComponents,
                                  backgroundOverride: null,
                                  layout: currentState.value!.layout,
+                                 includeHeading: currentState.value!.includeHeading,
                                  gridView: currentState.value!.gridView,
                                  widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
@@ -116,6 +117,12 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
       }
       if (event is ChangedDialogLayout) {
         newValue = currentState.value!.copyWith(layout: event.value);
+        yield SubmittableDialogForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedDialogIncludeHeading) {
+        newValue = currentState.value!.copyWith(includeHeading: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;
@@ -131,6 +138,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                  bodyComponents: currentState.value!.bodyComponents,
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
+                                 includeHeading: currentState.value!.includeHeading,
                                  gridView: null,
                                  widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,

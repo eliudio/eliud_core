@@ -46,7 +46,8 @@ class DialogStateHelper {
       required List<Widget> buttons,
       double? width,
       required DialogButtonPosition dialogButtonPosition,
-      Widget? separator}) {
+      Widget? separator,
+      bool? includeHeading}) {
     return
       Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
@@ -63,7 +64,8 @@ class DialogStateHelper {
                 buttons: buttons,
                 width: width,
                 dialogButtonPosition: dialogButtonPosition,
-                separator: separator)));
+                separator: separator,
+                includeHeading: includeHeading)));
   }
 
   Widget _getRowWithButtons(List<Widget> buttons, {Widget? title}) {
@@ -77,29 +79,7 @@ class DialogStateHelper {
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
-  Widget _titleAndFieldsAndContent(BuildContext context,
-      {required String title,
-      required Widget contents,
-      required List<Widget> buttons,
-      double? width,
-      DialogButtonPosition? dialogButtonPosition,
-      Widget? separator}) {
-    var items = <Widget>[];
-
-    // Title
-    var _title = StyleRegistry.registry()
-        .styleWithContext(context)
-        .frontEndStyle()
-        .textStyle()
-        .h4(context, title);
-
-    var titleWidget;
-    if ((dialogButtonPosition != null) &&
-        (dialogButtonPosition == DialogButtonPosition.TopRight)) {
-      titleWidget = _getRowWithButtons(buttons, title: _title);
-    } else {
-      titleWidget = Center(child: _title);
-    }
+  Widget seperatorWidget(Widget? separator) {
     var seperatorWidget;
     if (separator == null) {
       seperatorWidget = Divider(
@@ -110,12 +90,42 @@ class DialogStateHelper {
     } else {
       seperatorWidget = separator;
     }
-    var titleContainer = Container(
-        child: ListView(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: [titleWidget, seperatorWidget],
-    ));
+    return seperatorWidget;
+  }
+
+  Widget _titleAndFieldsAndContent(BuildContext context,
+      {required String title,
+      required Widget contents,
+      required List<Widget> buttons,
+      double? width,
+      DialogButtonPosition? dialogButtonPosition,
+      Widget? separator,
+      bool? includeHeading}) {
+    var items = <Widget>[];
+
+    var titleContainer;
+    if ((includeHeading != null) && (includeHeading)) {
+      // Title
+      var _title = StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .textStyle()
+          .h4(context, title);
+
+      var titleWidget;
+      if ((dialogButtonPosition != null) &&
+          (dialogButtonPosition == DialogButtonPosition.TopRight)) {
+        titleWidget = _getRowWithButtons(buttons, title: _title);
+      } else {
+        titleWidget = Center(child: _title);
+      }
+      titleContainer = Container(
+          child: ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [titleWidget, seperatorWidget(separator)],
+          ));
+    }
 
     // Middle
     var middle = Flexible(
@@ -124,19 +134,39 @@ class DialogStateHelper {
             shrinkWrap: true,
             children: <Widget>[contents]));
 
-    // Footer
-    var footerContainer;
-    if (!((dialogButtonPosition != null) &&
-        (dialogButtonPosition == DialogButtonPosition.TopRight))) {
-      footerContainer = Container(
-          child: ListView(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: [seperatorWidget, _getRowWithButtons(buttons)],
-      ));
-      items = [titleContainer, middle, footerContainer];
+    if (titleContainer != null) {
+      // Footer
+      var footerContainer;
+      if (!((dialogButtonPosition != null) &&
+          (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+        footerContainer = Container(
+            child: ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: [seperatorWidget(separator), _getRowWithButtons(buttons)]
+                  ,
+            ));
+        items = [titleContainer, middle, footerContainer];
+      } else {
+        items = [titleContainer, middle];
+      }
+
     } else {
-      items = [titleContainer, middle];
+      // Footer
+      var footerContainer;
+      if (!((dialogButtonPosition != null) &&
+          (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+        footerContainer = Container(
+            child: ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: [_getRowWithButtons(buttons)]
+            ));
+        items = [middle, footerContainer];
+      } else {
+        items = [middle];
+      }
+
     }
 
     return Container(

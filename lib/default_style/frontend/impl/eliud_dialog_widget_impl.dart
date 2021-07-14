@@ -193,7 +193,8 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
   Widget flexibleDialog(BuildContext context,
       {required String title,
       required Widget child,
-      required List<Widget> buttons}) {
+      required List<Widget> buttons,
+      bool? includeHeading}) {
     return dialogHelper.build(context,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,

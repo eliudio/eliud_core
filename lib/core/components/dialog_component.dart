@@ -12,11 +12,12 @@ import '../registry.dart';
 class DialogComponent extends StatefulWidget {
   final DialogModel? dialog;
   final Map<String, dynamic>? parameters;
+  final bool? includeHeading;
 
   DialogComponent({
     Key? key,
     this.dialog,
-    this.parameters,
+    this.parameters, this.includeHeading
   }) : super(key: key);
 
   @override

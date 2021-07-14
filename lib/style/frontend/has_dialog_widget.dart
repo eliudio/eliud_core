@@ -49,5 +49,6 @@ abstract class HasDialogWidget {
   Widget flexibleDialog(BuildContext context,
       {required String title,
       required Widget child,
-      required List<Widget> buttons});
+      required List<Widget> buttons,
+      bool? includeHeading});
 }

@@ -121,6 +121,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _titleController = TextEditingController();
   String? _backgroundOverride;
   int? _layoutSelectedRadioTile;
+  bool? _includeHeadingSelection;
   String? _gridView;
   final TextEditingController _widgetWrapperController = TextEditingController();
 
@@ -135,6 +136,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
+    _includeHeadingSelection = false;
     _widgetWrapperController.addListener(_onWidgetWrapperChanged);
   }
 
@@ -169,6 +171,10 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
           _layoutSelectedRadioTile = 0;
+        if (state.value!.includeHeading != null)
+        _includeHeadingSelection = state.value!.includeHeading;
+        else
+        _includeHeadingSelection = false;
         if (state.value!.gridView != null)
           _gridView= state.value!.gridView!.documentID;
         else
@@ -185,6 +191,11 @@ class _MyDialogFormState extends State<MyDialogForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
                 ));
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Include Heading', _includeHeadingSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIncludeHeading(val))
+          );
 
 
         children.add(Container(height: 20.0));
@@ -342,6 +353,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               bodyComponents: state.value!.bodyComponents, 
                               backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
+                              includeHeading: state.value!.includeHeading, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
@@ -355,6 +367,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               bodyComponents: state.value!.bodyComponents, 
                               backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
+                              includeHeading: state.value!.includeHeading, 
                               gridView: state.value!.gridView, 
                               widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
@@ -420,6 +433,13 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _myFormBloc.add(ChangedDialogLayout(value: toDialogLayout(val)));
   }
 
+
+  void setSelectionIncludeHeading(bool? val) {
+    setState(() {
+      _includeHeadingSelection = val;
+    });
+    _myFormBloc.add(ChangedDialogIncludeHeading(value: val));
+  }
 
   void _onGridViewSelected(String? val) {
     setState(() {

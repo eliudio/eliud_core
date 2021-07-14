@@ -127,6 +127,18 @@ class ChangedDialogLayout extends DialogFormEvent {
   String toString() => 'ChangedDialogLayout{ value: $value }';
 }
 
+class ChangedDialogIncludeHeading extends DialogFormEvent {
+  final bool? value;
+
+  ChangedDialogIncludeHeading({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedDialogIncludeHeading{ value: $value }';
+}
+
 class ChangedDialogGridView extends DialogFormEvent {
   final String? value;
 
