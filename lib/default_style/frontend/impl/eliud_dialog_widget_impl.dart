@@ -199,6 +199,7 @@ class EliudDialogWidgetImpl implements HasDialogWidget {
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
-        buttons: buttons);
+        buttons: buttons,
+        includeHeading: includeHeading);
   }
 }

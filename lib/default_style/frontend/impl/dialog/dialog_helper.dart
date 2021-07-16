@@ -104,7 +104,7 @@ class DialogStateHelper {
     var items = <Widget>[];
 
     var titleContainer;
-    if ((includeHeading != null) && (includeHeading)) {
+    if ((includeHeading == null) || (includeHeading)) {
       // Title
       var _title = StyleRegistry.registry()
           .styleWithContext(context)

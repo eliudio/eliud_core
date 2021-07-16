@@ -34,6 +34,7 @@ class _DialogComponentState extends State<DialogComponent> {
         .flexibleDialog(context,
             title: widget.dialog!.title!,
             child: getContents(context),
+            includeHeading: widget.includeHeading,
             buttons: [
 
         StyleRegistry.registry()
