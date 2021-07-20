@@ -90,11 +90,17 @@ abstract class AbstractRepositorySingleton {
   ShadowRepository? shadowRepository();
 
   void flush(String? appId) {
-    backgroundRepository()!.flush();
-    countryRepository()!.flush();
-    eliudStyleAttributesRepository()!.flush();
-    fontRepository()!.flush();
-    memberPublicInfoRepository()!.flush();
-    shadowRepository()!.flush();
+    accessRepository(appId)!.flush();
+    appBarRepository(appId)!.flush();
+    appPolicyRepository(appId)!.flush();
+    dialogRepository(appId)!.flush();
+    drawerRepository(appId)!.flush();
+    gridViewRepository(appId)!.flush();
+    homeMenuRepository(appId)!.flush();
+    memberDashboardRepository(appId)!.flush();
+    memberMediumRepository(appId)!.flush();
+    menuDefRepository(appId)!.flush();
+    pageRepository(appId)!.flush();
+    posSizeRepository(appId)!.flush();
   }
 }

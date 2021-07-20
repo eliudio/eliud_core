@@ -16,7 +16,7 @@
     "generateDropDownButton": false,
     "generateInternalComponent": false,
     "generateEmbeddedComponent": false,
-    "isDocumentCollection": true
+    "documentSubCollectionOf": "app"
   },
   "memberIdentifier": "documentID",
   "fields": [

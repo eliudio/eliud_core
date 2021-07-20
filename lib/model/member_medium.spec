@@ -16,7 +16,7 @@
     "generateDropDownButton": false,
     "generateInternalComponent": false,
     "generateEmbeddedComponent": true,
-    "isDocumentCollection": true
+    "documentSubCollectionOf": "app"
   },
   "memberIdentifier": "authorId",
   "fields": [
