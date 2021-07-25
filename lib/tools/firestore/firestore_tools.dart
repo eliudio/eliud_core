@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/packages.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:intl/intl.dart';
 
@@ -91,10 +92,23 @@ DateTime? timeStampToDateTime(Timestamp timestamp) {
   return null;
 }
 
+String eliudDateFormat = "dd MM yyyy hh:mm";
+
 String? firestoreTimeStampToString(dynamic timestamp) {
   if (timestamp is Timestamp) {
-    return DateFormat("dd MMM yyyy hh:mm").format(timestamp.toDate());
+    return DateFormat(eliudDateFormat).format(timestamp.toDate());
   } else {
     return null;
+  }
+}
+
+DateTime dateFromTimestampString(String dateTime) {
+  if (dateTime.length > 10) {
+    var year = int.parse(dateTime.substring(6, 10));
+    var month = int.parse(dateTime.substring(3, 5));
+    var day = int.parse(dateTime.substring(0, 2));
+    return DateTime(year, month, day);
+  } else {
+    throw Exception('Can not parse ' + dateTime);
   }
 }
