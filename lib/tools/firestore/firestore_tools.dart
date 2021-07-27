@@ -92,7 +92,7 @@ DateTime? timeStampToDateTime(Timestamp timestamp) {
   return null;
 }
 
-String eliudDateFormat = "dd MM yyyy hh:mm";
+String eliudDateFormat = "dd MM yyyy HH:mm:ss";
 
 String? firestoreTimeStampToString(dynamic timestamp) {
   if (timestamp is Timestamp) {
@@ -108,6 +108,20 @@ DateTime dateFromTimestampString(String dateTime) {
     var month = int.parse(dateTime.substring(3, 5));
     var day = int.parse(dateTime.substring(0, 2));
     return DateTime(year, month, day);
+  } else {
+    throw Exception('Can not parse ' + dateTime);
+  }
+}
+
+DateTime dateTimeFromTimestampString(String dateTime) {
+  if (dateTime.length >= 19) {
+    var year = int.parse(dateTime.substring(6, 10));
+    var month = int.parse(dateTime.substring(3, 5));
+    var day = int.parse(dateTime.substring(0, 2));
+    var hour = int.parse(dateTime.substring(11, 13));
+    var min = int.parse(dateTime.substring(14, 16));
+    var second = int.parse(dateTime.substring(17, 19));
+    return DateTime(year, month, day, hour, min, second);
   } else {
     throw Exception('Can not parse ' + dateTime);
   }
