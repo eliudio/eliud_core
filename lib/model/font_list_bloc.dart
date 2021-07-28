@@ -23,7 +23,6 @@ import 'package:eliud_core/model/font_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _fontLimit = 5;
 
 class FontListBloc extends Bloc<FontListEvent, FontListState> {
   final FontRepository _fontRepository;
@@ -34,8 +33,9 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int fontLimit;
 
-  FontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required FontRepository fontRepository})
+  FontListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required FontRepository fontRepository, this.fontLimit = 5})
       : assert(fontRepository != null),
         _fontRepository = fontRepository,
         super(FontListLoading());
@@ -48,7 +48,7 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _fontLimit : null
+      limit: ((paged != null) && paged!) ? pages * fontLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class FontListBloc extends Bloc<FontListEvent, FontListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _fontLimit : null
+        limit: ((paged != null) && paged!) ? pages * fontLimit : null
     );
   }
 

@@ -59,8 +59,10 @@ class EliudEliudStyle {
           FontTools.key(FontTools.dancingScriptLabel, FontTools.highlightLabel2)),
       fontLink: fontTools
           .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.linkLabel)),
+      fontSmallText: fontTools
+            .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.smallLabel)),
       fontText: fontTools
-          .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
+            .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),
       backgroundColorHomeMenu: homeMenuPopupBGColor(),
       iconColorHomeMenu: homeMenuIconColor(),

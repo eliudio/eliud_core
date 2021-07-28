@@ -23,7 +23,6 @@ import 'package:eliud_core/model/home_menu_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _homeMenuLimit = 5;
 
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final HomeMenuRepository _homeMenuRepository;
@@ -34,8 +33,9 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int homeMenuLimit;
 
-  HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository})
+  HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
       : assert(homeMenuRepository != null),
         _homeMenuRepository = homeMenuRepository,
         super(HomeMenuListLoading());
@@ -48,7 +48,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _homeMenuLimit : null
+      limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _homeMenuLimit : null
+        limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null
     );
   }
 

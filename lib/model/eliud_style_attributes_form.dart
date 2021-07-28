@@ -134,6 +134,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
   String? _h4;
   String? _h5;
   String? _fontText;
+  String? _fontSmallText;
   String? _fontHighlight1;
   String? _fontHighlight2;
   String? _fontLink;
@@ -232,6 +233,10 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
           _fontText= state.value!.fontText!.documentID;
         else
           _fontText= "";
+        if (state.value!.fontSmallText != null)
+          _fontSmallText= state.value!.fontSmallText!.documentID;
+        else
+          _fontSmallText= "";
         if (state.value!.fontHighlight1 != null)
           _fontHighlight1= state.value!.fontHighlight1!.documentID;
         else
@@ -577,6 +582,11 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                 DropdownButtonComponentFactory().createNew(id: "fonts", value: _fontText, trigger: _onFontTextSelected, optional: true),
           );
 
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(id: "fonts", value: _fontSmallText, trigger: _onFontSmallTextSelected, optional: true),
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
@@ -667,6 +677,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               h4: state.value!.h4, 
                               h5: state.value!.h5, 
                               fontText: state.value!.fontText, 
+                              fontSmallText: state.value!.fontSmallText, 
                               fontHighlight1: state.value!.fontHighlight1, 
                               fontHighlight2: state.value!.fontHighlight2, 
                               fontLink: state.value!.fontLink, 
@@ -707,6 +718,7 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
                               h4: state.value!.h4, 
                               h5: state.value!.h5, 
                               fontText: state.value!.fontText, 
+                              fontSmallText: state.value!.fontSmallText, 
                               fontHighlight1: state.value!.fontHighlight1, 
                               fontHighlight2: state.value!.fontHighlight2, 
                               fontLink: state.value!.fontLink, 
@@ -961,6 +973,14 @@ class _MyEliudStyleAttributesFormState extends State<MyEliudStyleAttributesForm>
       _fontText = val;
     });
     _myFormBloc.add(ChangedEliudStyleAttributesFontText(value: val));
+  }
+
+
+  void _onFontSmallTextSelected(String? val) {
+    setState(() {
+      _fontSmallText = val;
+    });
+    _myFormBloc.add(ChangedEliudStyleAttributesFontSmallText(value: val));
   }
 
 

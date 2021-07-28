@@ -23,7 +23,6 @@ import 'package:eliud_core/model/dialog_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _dialogLimit = 5;
 
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final DialogRepository _dialogRepository;
@@ -34,8 +33,9 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int dialogLimit;
 
-  DialogListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository})
+  DialogListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
       : assert(dialogRepository != null),
         _dialogRepository = dialogRepository,
         super(DialogListLoading());
@@ -48,7 +48,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _dialogLimit : null
+      limit: ((paged != null) && paged!) ? pages * dialogLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _dialogLimit : null
+        limit: ((paged != null) && paged!) ? pages * dialogLimit : null
     );
   }
 

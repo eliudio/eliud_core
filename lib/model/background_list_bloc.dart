@@ -23,7 +23,6 @@ import 'package:eliud_core/model/background_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _backgroundLimit = 5;
 
 class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> {
   final BackgroundRepository _backgroundRepository;
@@ -34,8 +33,9 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int backgroundLimit;
 
-  BackgroundListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackgroundRepository backgroundRepository})
+  BackgroundListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackgroundRepository backgroundRepository, this.backgroundLimit = 5})
       : assert(backgroundRepository != null),
         _backgroundRepository = backgroundRepository,
         super(BackgroundListLoading());
@@ -48,7 +48,7 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _backgroundLimit : null
+      limit: ((paged != null) && paged!) ? pages * backgroundLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class BackgroundListBloc extends Bloc<BackgroundListEvent, BackgroundListState> 
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _backgroundLimit : null
+        limit: ((paged != null) && paged!) ? pages * backgroundLimit : null
     );
   }
 

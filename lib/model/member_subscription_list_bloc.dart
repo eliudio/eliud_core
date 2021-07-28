@@ -23,7 +23,6 @@ import 'package:eliud_core/model/member_subscription_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _memberSubscriptionLimit = 5;
 
 class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, MemberSubscriptionListState> {
   final MemberSubscriptionRepository _memberSubscriptionRepository;
@@ -34,8 +33,9 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int memberSubscriptionLimit;
 
-  MemberSubscriptionListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository})
+  MemberSubscriptionListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository, this.memberSubscriptionLimit = 5})
       : assert(memberSubscriptionRepository != null),
         _memberSubscriptionRepository = memberSubscriptionRepository,
         super(MemberSubscriptionListLoading());
@@ -48,7 +48,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _memberSubscriptionLimit : null
+      limit: ((paged != null) && paged!) ? pages * memberSubscriptionLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _memberSubscriptionLimit : null
+        limit: ((paged != null) && paged!) ? pages * memberSubscriptionLimit : null
     );
   }
 

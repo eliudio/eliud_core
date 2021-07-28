@@ -60,6 +60,8 @@ class EliudJuuwleStyle {
           FontTools.dancingScriptLabel, FontTools.highlightLabel2)),
       fontLink: fontTools.getFont(
           FontTools.key(FontTools.dancingScriptLabel, FontTools.linkLabel)),
+      fontSmallText: fontTools.getFont(
+          FontTools.key(FontTools.dancingScriptLabel, FontTools.smallLabel)),
       fontText: fontTools.getFont(
           FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),

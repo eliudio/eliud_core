@@ -57,8 +57,10 @@ class EliudMinkeyStyle {
             FontTools.key(FontTools.dancingScriptLabel, FontTools.highlightLabel2)),
         fontLink: fontTools
             .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.linkLabel)),
-        fontText: fontTools
-            .getFont(FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
+        fontSmallText: fontTools.getFont(
+            FontTools.key(FontTools.dancingScriptLabel, FontTools.smallLabel)),
+        fontText: fontTools.getFont(
+            FontTools.key(FontTools.dancingScriptLabel, FontTools.normalLabel)),
         backgroundHomeMenu: backgroundHomeMenu(),
         backgroundColorHomeMenu: homeMenuPopupBGColor(),
         iconColorHomeMenu: homeMenuIconColor(),

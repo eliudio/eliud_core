@@ -23,7 +23,6 @@ import 'package:eliud_core/model/page_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _pageLimit = 5;
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final PageRepository _pageRepository;
@@ -34,8 +33,9 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int pageLimit;
 
-  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository})
+  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
       : assert(pageRepository != null),
         _pageRepository = pageRepository,
         super(PageListLoading());
@@ -48,7 +48,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _pageLimit : null
+      limit: ((paged != null) && paged!) ? pages * pageLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _pageLimit : null
+        limit: ((paged != null) && paged!) ? pages * pageLimit : null
     );
   }
 

@@ -23,7 +23,6 @@ import 'package:eliud_core/model/body_component_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _bodyComponentLimit = 5;
 
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {
   final BodyComponentRepository _bodyComponentRepository;
@@ -34,8 +33,9 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int bodyComponentLimit;
 
-  BodyComponentListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository})
+  BodyComponentListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository, this.bodyComponentLimit = 5})
       : assert(bodyComponentRepository != null),
         _bodyComponentRepository = bodyComponentRepository,
         super(BodyComponentListLoading());
@@ -48,7 +48,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _bodyComponentLimit : null
+      limit: ((paged != null) && paged!) ? pages * bodyComponentLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _bodyComponentLimit : null
+        limit: ((paged != null) && paged!) ? pages * bodyComponentLimit : null
     );
   }
 

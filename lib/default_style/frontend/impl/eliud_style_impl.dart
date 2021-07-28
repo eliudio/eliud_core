@@ -16,6 +16,11 @@ class EliudStyleImpl implements HasStyle {
   }
 
   @override
+  TextStyle? styleSmallText(BuildContext context) {
+    return FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.fontSmallText);
+  }
+
+  @override
   TextStyle? styleHighLight1(BuildContext context) {
     return FontTools.textStyle(
         _eliudStyle.eliudStyleAttributesModel.fontHighlight1);

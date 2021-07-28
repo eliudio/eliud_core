@@ -23,7 +23,6 @@ import 'package:eliud_core/model/eliud_style_attributes_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _eliudStyleAttributesLimit = 5;
 
 class EliudStyleAttributesListBloc extends Bloc<EliudStyleAttributesListEvent, EliudStyleAttributesListState> {
   final EliudStyleAttributesRepository _eliudStyleAttributesRepository;
@@ -34,8 +33,9 @@ class EliudStyleAttributesListBloc extends Bloc<EliudStyleAttributesListEvent, E
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int eliudStyleAttributesLimit;
 
-  EliudStyleAttributesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required EliudStyleAttributesRepository eliudStyleAttributesRepository})
+  EliudStyleAttributesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required EliudStyleAttributesRepository eliudStyleAttributesRepository, this.eliudStyleAttributesLimit = 5})
       : assert(eliudStyleAttributesRepository != null),
         _eliudStyleAttributesRepository = eliudStyleAttributesRepository,
         super(EliudStyleAttributesListLoading());
@@ -48,7 +48,7 @@ class EliudStyleAttributesListBloc extends Bloc<EliudStyleAttributesListEvent, E
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _eliudStyleAttributesLimit : null
+      limit: ((paged != null) && paged!) ? pages * eliudStyleAttributesLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class EliudStyleAttributesListBloc extends Bloc<EliudStyleAttributesListEvent, E
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _eliudStyleAttributesLimit : null
+        limit: ((paged != null) && paged!) ? pages * eliudStyleAttributesLimit : null
     );
   }
 

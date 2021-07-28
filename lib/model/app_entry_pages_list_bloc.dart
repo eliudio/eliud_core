@@ -23,7 +23,6 @@ import 'package:eliud_core/model/app_entry_pages_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _appEntryPagesLimit = 5;
 
 class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesListState> {
   final AppEntryPagesRepository _appEntryPagesRepository;
@@ -34,8 +33,9 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int appEntryPagesLimit;
 
-  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository})
+  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository, this.appEntryPagesLimit = 5})
       : assert(appEntryPagesRepository != null),
         _appEntryPagesRepository = appEntryPagesRepository,
         super(AppEntryPagesListLoading());
@@ -48,7 +48,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _appEntryPagesLimit : null
+      limit: ((paged != null) && paged!) ? pages * appEntryPagesLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _appEntryPagesLimit : null
+        limit: ((paged != null) && paged!) ? pages * appEntryPagesLimit : null
     );
   }
 

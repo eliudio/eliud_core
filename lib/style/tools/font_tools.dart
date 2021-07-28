@@ -9,6 +9,7 @@ class FontTools {
   static String h4Label = 'H4';
   static String h5Label = 'H5';
   static String normalLabel = 'Normal';
+  static String smallLabel = 'Small';
   static String highlightLabel1 = 'Highlight1';
   static String highlightLabel2 = 'Highlight2';
   static String linkLabel = 'Link';
@@ -44,7 +45,9 @@ class FontTools {
     EliudFontDecoration.None,
     EliudFontDecoration.None
   ];
+
   static final double _defaultSize = 18;
+  static final double _defaultSmallSize = 10;
   static final List<double> _sizes = <double>[30, 22, 20, 20, 20];
   static final List<String> _styleLabels = <String>[
     h1Label,
@@ -90,6 +93,22 @@ class FontTools {
   FontModel _getNormalFont(int fontIndex) {
     var size = _defaultSize;
     var documentID = key(fontKeys[fontIndex], normalLabel);
+    var fontModel = FontModel(
+      documentID: documentID,
+      fontName: fontNames[fontIndex],
+      size: size.toDouble(),
+      weight: EliudFontWeight.Normal,
+      style: EliudFontStyle.Normal,
+      decoration: EliudFontDecoration.None,
+      color: defaultColor,
+    );
+    fonts[documentID] = fontModel;
+    return fontModel;
+  }
+
+  FontModel _getSmallFont(int fontIndex) {
+    var size = _defaultSmallSize;
+    var documentID = key(fontKeys[fontIndex], smallLabel);
     var fontModel = FontModel(
       documentID: documentID,
       fontName: fontNames[fontIndex],
@@ -158,33 +177,40 @@ class FontTools {
   }
 
   void _installNormalFontFor(int fontIndex) {
-    for (var i = 0; i < _weights.length; i++) {
+//    for (var i = 0; i < _weights.length; i++) {
       _getNormalFont(fontIndex);
-    }
+//    }
+  }
+
+  void _installSmallFontFor(int fontIndex) {
+//    for (var i = 0; i < _weights.length; i++) {
+      _getSmallFont(fontIndex);
+//    }
   }
 
   void _installHighlightFont1For(int fontIndex) {
-    for (var i = 0; i < _weights.length; i++) {
+//    for (var i = 0; i < _weights.length; i++) {
       _getHightlightFont1(fontIndex);
-    }
+//    }
   }
 
   void _installHighlightFont2For(int fontIndex) {
-    for (var i = 0; i < _weights.length; i++) {
+//    for (var i = 0; i < _weights.length; i++) {
       _getHightlightFont2(fontIndex);
-    }
+//    }
   }
 
   void _installLinkFontFor(int fontIndex) {
-    for (var i = 0; i < _weights.length; i++) {
+//    for (var i = 0; i < _weights.length; i++) {
       _getLinkFont(fontIndex);
-    }
+//    }
   }
 
   void _setupFonts() {
     for (var i = 0; i < fontNames.length; i++) {
       _installHeaderFontsFor(i);
       _installNormalFontFor(i);
+      _installSmallFontFor(i);
       _installHighlightFont1For(i);
       _installHighlightFont2For(i);
       _installLinkFontFor(i);

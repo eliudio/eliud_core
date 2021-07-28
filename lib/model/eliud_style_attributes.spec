@@ -298,6 +298,14 @@
       "group": "fontText"
     },
     {
+      "fieldName": "fontSmallText",
+      "displayName": "Font Small Text",
+      "fieldType": "Font",
+      "association": true,
+      "optional": true,
+      "group": "fontText"
+    },
+    {
       "fieldName": "fontHighlight1",
       "displayName": "Font Bold Text",
       "fieldType": "Font",

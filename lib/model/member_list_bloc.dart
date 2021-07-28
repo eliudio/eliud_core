@@ -23,7 +23,6 @@ import 'package:eliud_core/model/member_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _memberLimit = 5;
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final MemberRepository _memberRepository;
@@ -34,8 +33,9 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int memberLimit;
 
-  MemberListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository})
+  MemberListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository, this.memberLimit = 5})
       : assert(memberRepository != null),
         _memberRepository = memberRepository,
         super(MemberListLoading());
@@ -48,7 +48,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _memberLimit : null
+      limit: ((paged != null) && paged!) ? pages * memberLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _memberLimit : null
+        limit: ((paged != null) && paged!) ? pages * memberLimit : null
     );
   }
 

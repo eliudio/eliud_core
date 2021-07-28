@@ -23,7 +23,6 @@ import 'package:eliud_core/model/decoration_color_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _decorationColorLimit = 5;
 
 class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationColorListState> {
   final DecorationColorRepository _decorationColorRepository;
@@ -34,8 +33,9 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int decorationColorLimit;
 
-  DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DecorationColorRepository decorationColorRepository})
+  DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DecorationColorRepository decorationColorRepository, this.decorationColorLimit = 5})
       : assert(decorationColorRepository != null),
         _decorationColorRepository = decorationColorRepository,
         super(DecorationColorListLoading());
@@ -48,7 +48,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _decorationColorLimit : null
+      limit: ((paged != null) && paged!) ? pages * decorationColorLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _decorationColorLimit : null
+        limit: ((paged != null) && paged!) ? pages * decorationColorLimit : null
     );
   }
 

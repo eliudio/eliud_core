@@ -591,6 +591,22 @@ class FontTextEliudStyleAttributesFormError extends EliudStyleAttributesFormErro
 }
 
 
+class FontSmallTextEliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
+  const FontSmallTextEliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''FontSmallTextEliudStyleAttributesFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class FontHighlight1EliudStyleAttributesFormError extends EliudStyleAttributesFormError { 
   const FontHighlight1EliudStyleAttributesFormError({ String? message, EliudStyleAttributesModel? value }): super(message: message, value: value);
 

@@ -451,6 +451,18 @@ class ChangedEliudStyleAttributesFontText extends EliudStyleAttributesFormEvent 
   String toString() => 'ChangedEliudStyleAttributesFontText{ value: $value }';
 }
 
+class ChangedEliudStyleAttributesFontSmallText extends EliudStyleAttributesFormEvent {
+  final String? value;
+
+  ChangedEliudStyleAttributesFontSmallText({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedEliudStyleAttributesFontSmallText{ value: $value }';
+}
+
 class ChangedEliudStyleAttributesFontHighlight1 extends EliudStyleAttributesFormEvent {
   final String? value;
 

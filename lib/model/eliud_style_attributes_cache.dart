@@ -267,6 +267,15 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
       } catch (_) {}
     }
 
+    FontModel? fontSmallTextHolder;
+    if (model.fontSmallText != null) {
+      try {
+        await fontRepository()!.get(model.fontSmallText!.documentID).then((val) {
+          fontSmallTextHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     FontModel? fontHighlight1Holder;
     if (model.fontHighlight1 != null) {
       try {
@@ -326,6 +335,8 @@ class EliudStyleAttributesCache implements EliudStyleAttributesRepository {
         h5: h5Holder,
 
         fontText: fontTextHolder,
+
+        fontSmallText: fontSmallTextHolder,
 
         fontHighlight1: fontHighlight1Holder,
 

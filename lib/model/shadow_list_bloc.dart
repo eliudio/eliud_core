@@ -23,7 +23,6 @@ import 'package:eliud_core/model/shadow_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _shadowLimit = 5;
 
 class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   final ShadowRepository _shadowRepository;
@@ -34,8 +33,9 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int shadowLimit;
 
-  ShadowListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShadowRepository shadowRepository})
+  ShadowListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required ShadowRepository shadowRepository, this.shadowLimit = 5})
       : assert(shadowRepository != null),
         _shadowRepository = shadowRepository,
         super(ShadowListLoading());
@@ -48,7 +48,7 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _shadowLimit : null
+      limit: ((paged != null) && paged!) ? pages * shadowLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class ShadowListBloc extends Bloc<ShadowListEvent, ShadowListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _shadowLimit : null
+        limit: ((paged != null) && paged!) ? pages * shadowLimit : null
     );
   }
 

@@ -23,7 +23,6 @@ import 'package:eliud_core/model/app_policy_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _appPolicyLimit = 5;
 
 class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final AppPolicyRepository _appPolicyRepository;
@@ -34,8 +33,9 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int appPolicyLimit;
 
-  AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository})
+  AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
       : assert(appPolicyRepository != null),
         _appPolicyRepository = appPolicyRepository,
         super(AppPolicyListLoading());
@@ -48,7 +48,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _appPolicyLimit : null
+      limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _appPolicyLimit : null
+        limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null
     );
   }
 

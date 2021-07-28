@@ -23,7 +23,6 @@ import 'package:eliud_core/model/menu_def_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _menuDefLimit = 5;
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final MenuDefRepository _menuDefRepository;
@@ -34,8 +33,9 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int menuDefLimit;
 
-  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository})
+  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
       : assert(menuDefRepository != null),
         _menuDefRepository = menuDefRepository,
         super(MenuDefListLoading());
@@ -48,7 +48,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _menuDefLimit : null
+      limit: ((paged != null) && paged!) ? pages * menuDefLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _menuDefLimit : null
+        limit: ((paged != null) && paged!) ? pages * menuDefLimit : null
     );
   }
 

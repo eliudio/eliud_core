@@ -23,7 +23,6 @@ import 'package:eliud_core/model/pos_size_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _posSizeLimit = 5;
 
 class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final PosSizeRepository _posSizeRepository;
@@ -34,8 +33,9 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int posSizeLimit;
 
-  PosSizeListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PosSizeRepository posSizeRepository})
+  PosSizeListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PosSizeRepository posSizeRepository, this.posSizeLimit = 5})
       : assert(posSizeRepository != null),
         _posSizeRepository = posSizeRepository,
         super(PosSizeListLoading());
@@ -48,7 +48,7 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _posSizeLimit : null
+      limit: ((paged != null) && paged!) ? pages * posSizeLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class PosSizeListBloc extends Bloc<PosSizeListEvent, PosSizeListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _posSizeLimit : null
+        limit: ((paged != null) && paged!) ? pages * posSizeLimit : null
     );
   }
 

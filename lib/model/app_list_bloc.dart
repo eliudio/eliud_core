@@ -23,7 +23,6 @@ import 'package:eliud_core/model/app_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _appLimit = 5;
 
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final AppRepository _appRepository;
@@ -34,8 +33,9 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int appLimit;
 
-  AppListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository})
+  AppListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
       : assert(appRepository != null),
         _appRepository = appRepository,
         super(AppListLoading());
@@ -48,7 +48,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _appLimit : null
+      limit: ((paged != null) && paged!) ? pages * appLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _appLimit : null
+        limit: ((paged != null) && paged!) ? pages * appLimit : null
     );
   }
 

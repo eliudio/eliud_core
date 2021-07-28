@@ -23,7 +23,6 @@ import 'package:eliud_core/model/member_public_info_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _memberPublicInfoLimit = 5;
 
 class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPublicInfoListState> {
   final MemberPublicInfoRepository _memberPublicInfoRepository;
@@ -34,8 +33,9 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int memberPublicInfoLimit;
 
-  MemberPublicInfoListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository})
+  MemberPublicInfoListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
       : assert(memberPublicInfoRepository != null),
         _memberPublicInfoRepository = memberPublicInfoRepository,
         super(MemberPublicInfoListLoading());
@@ -48,7 +48,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _memberPublicInfoLimit : null
+      limit: ((paged != null) && paged!) ? pages * memberPublicInfoLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _memberPublicInfoLimit : null
+        limit: ((paged != null) && paged!) ? pages * memberPublicInfoLimit : null
     );
   }
 

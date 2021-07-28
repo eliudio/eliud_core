@@ -23,7 +23,6 @@ import 'package:eliud_core/model/app_bar_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _appBarLimit = 5;
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final AppBarRepository _appBarRepository;
@@ -34,8 +33,9 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int appBarLimit;
 
-  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository})
+  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
       : assert(appBarRepository != null),
         _appBarRepository = appBarRepository,
         super(AppBarListLoading());
@@ -48,7 +48,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _appBarLimit : null
+      limit: ((paged != null) && paged!) ? pages * appBarLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _appBarLimit : null
+        limit: ((paged != null) && paged!) ? pages * appBarLimit : null
     );
   }
 

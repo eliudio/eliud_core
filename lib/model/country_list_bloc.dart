@@ -23,7 +23,6 @@ import 'package:eliud_core/model/country_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _countryLimit = 5;
 
 class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final CountryRepository _countryRepository;
@@ -34,8 +33,9 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int countryLimit;
 
-  CountryListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CountryRepository countryRepository})
+  CountryListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required CountryRepository countryRepository, this.countryLimit = 5})
       : assert(countryRepository != null),
         _countryRepository = countryRepository,
         super(CountryListLoading());
@@ -48,7 +48,7 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _countryLimit : null
+      limit: ((paged != null) && paged!) ? pages * countryLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _countryLimit : null
+        limit: ((paged != null) && paged!) ? pages * countryLimit : null
     );
   }
 

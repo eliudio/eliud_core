@@ -23,7 +23,6 @@ import 'package:eliud_core/model/member_medium_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _memberMediumLimit = 5;
 
 class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListState> {
   final MemberMediumRepository _memberMediumRepository;
@@ -34,8 +33,9 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int memberMediumLimit;
 
-  MemberMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository})
+  MemberMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository, this.memberMediumLimit = 5})
       : assert(memberMediumRepository != null),
         _memberMediumRepository = memberMediumRepository,
         super(MemberMediumListLoading());
@@ -48,7 +48,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _memberMediumLimit : null
+      limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _memberMediumLimit : null
+        limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null
     );
   }
 

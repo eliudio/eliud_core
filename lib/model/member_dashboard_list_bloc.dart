@@ -23,7 +23,6 @@ import 'package:eliud_core/model/member_dashboard_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _memberDashboardLimit = 5;
 
 class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashboardListState> {
   final MemberDashboardRepository _memberDashboardRepository;
@@ -34,8 +33,9 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int memberDashboardLimit;
 
-  MemberDashboardListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberDashboardRepository memberDashboardRepository})
+  MemberDashboardListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberDashboardRepository memberDashboardRepository, this.memberDashboardLimit = 5})
       : assert(memberDashboardRepository != null),
         _memberDashboardRepository = memberDashboardRepository,
         super(MemberDashboardListLoading());
@@ -48,7 +48,7 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _memberDashboardLimit : null
+      limit: ((paged != null) && paged!) ? pages * memberDashboardLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _memberDashboardLimit : null
+        limit: ((paged != null) && paged!) ? pages * memberDashboardLimit : null
     );
   }
 

@@ -59,6 +59,8 @@ class EliudIncidamusStyle {
           FontTools.key(FontTools.latoLabel, FontTools.highlightLabel2)),
       fontLink: fontTools
           .getFont(FontTools.key(FontTools.latoLabel, FontTools.linkLabel)),
+      fontSmallText: fontTools
+          .getFont(FontTools.key(FontTools.latoLabel, FontTools.smallLabel)),
       fontText: fontTools
           .getFont(FontTools.key(FontTools.latoLabel, FontTools.normalLabel)),
       backgroundHomeMenu: backgroundHomeMenu(),

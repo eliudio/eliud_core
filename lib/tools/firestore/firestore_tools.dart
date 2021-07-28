@@ -136,3 +136,7 @@ bool isSameDate(DateTime dateTime1, DateTime dateTime2, ) {
   if (dateTime1.day != dateTime2.day) return false;
   return true;
 }
+
+String formatHHMM(DateTime dateTime ) {
+  return DateFormat('HH:mm').format(dateTime);
+}

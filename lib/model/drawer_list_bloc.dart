@@ -23,7 +23,6 @@ import 'package:eliud_core/model/drawer_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 
-const _drawerLimit = 5;
 
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final DrawerRepository _drawerRepository;
@@ -34,8 +33,9 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final String? orderBy;
   final bool? descending;
   final bool? detailed;
+  final int drawerLimit;
 
-  DrawerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository})
+  DrawerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository, this.drawerLimit = 5})
       : assert(drawerRepository != null),
         _drawerRepository = drawerRepository,
         super(DrawerListLoading());
@@ -48,7 +48,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * _drawerLimit : null
+      limit: ((paged != null) && paged!) ? pages * drawerLimit : null
     );
   }
 
@@ -60,7 +60,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * _drawerLimit : null
+        limit: ((paged != null) && paged!) ? pages * drawerLimit : null
     );
   }
 
