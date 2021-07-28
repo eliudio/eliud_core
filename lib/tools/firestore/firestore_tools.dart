@@ -126,3 +126,13 @@ DateTime dateTimeFromTimestampString(String dateTime) {
     throw Exception('Can not parse ' + dateTime);
   }
 }
+
+bool isSameDate(DateTime dateTime1, DateTime dateTime2, ) {
+  if (dateTime1 == dateTime2) return true;
+  if ((dateTime1 == null) && (dateTime2 == null)) return true;
+  if ((dateTime1 == null) || (dateTime2 == null)) return true;
+  if (dateTime1.year != dateTime2.year) return false;
+  if (dateTime1.month != dateTime2.month) return false;
+  if (dateTime1.day != dateTime2.day) return false;
+  return true;
+}
