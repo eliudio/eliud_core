@@ -82,11 +82,11 @@ class UploadInfo {
    *
    * Usage: When you need to upload a file to firebase storage
    */
-  static Future<UploadInfo> uploadFile(String filePath, String appId,
+  static Future<UploadInfo> uploadFile(String memberMediumDocumentID, String filePath, String appId,
       String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
     var file = File(filePath);
     try {
-      var baseName = BaseNameHelper.baseName(filePath);
+      var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
       var ref = '$appId/$ownerId/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
@@ -108,4 +108,3 @@ class UploadInfo {
     }
   }
 }
-

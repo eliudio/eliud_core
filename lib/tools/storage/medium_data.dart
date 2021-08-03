@@ -18,9 +18,9 @@ abstract class MediumData {
   static int thumbnailSize = 200;
   static String videoImage = 'packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png';
 
-  static Future<PhotoWithThumbnail> enrichPhotoWithPath(String path) async {
-    var baseName = BaseNameHelper.baseName(path);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(path);
+  static Future<PhotoWithThumbnail> enrichPhotoWithPath(String memberMediumdocumentID, String path) async {
+    var baseName = BaseNameHelper.baseName(memberMediumdocumentID, path);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumdocumentID, path);
 
     var imageBytes = await File(path).readAsBytes();
     if (imageBytes == null) {
@@ -88,9 +88,9 @@ abstract class MediumData {
     );
   }
 
-  static Future<VideoWithThumbnail> enrichVideoWithPath(String filePath) async {
-    var baseName = BaseNameHelper.baseName(filePath);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(baseName);
+  static Future<VideoWithThumbnail> enrichVideoWithPath(String memberMediumDocumentID, String filePath) async {
+    var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, baseName);
     var videoBytes = await File(filePath).readAsBytes();
     if (videoBytes == null) {
       throw Exception("Can't read $filePath. videoBytes is null");
@@ -229,7 +229,7 @@ abstract class MediumData {
    * Create an image from a specific page of a pdf doc
    * Before: _createImageFromPdfPage(with thumbnail FALSE)
    */
-  static Future<ImageData> createPhotoFromPdfPage(
+  static Future<ImageData> createPhotoFromPdfPage(String memberMediumDocumentID,
       String filePath, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
@@ -244,7 +244,7 @@ abstract class MediumData {
     }
 
     return ImageData(
-        baseName: BaseNameHelper.baseName(filePath),
+        baseName: BaseNameHelper.baseName(memberMediumDocumentID, filePath),
         width: img.width,
         height: img.height,
         data: pageImage.bytes);

@@ -5,7 +5,6 @@ import 'dart:typed_data';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/tools/random.dart';
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:path/path.dart';
 
@@ -21,6 +20,7 @@ class MemberMediumHelper {
    * Before: mediumAndItsThumbnailDataToMemberMediumModel
    */
   static Future<MemberMediumModel> photoWithThumbnailToMemberMediumModel(
+      String memberMediumDocumentId,
       String appId,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
@@ -31,7 +31,7 @@ class MemberMediumHelper {
     var memberImageModel;
 
     memberImageModel = MemberMediumModel(
-      documentID: newRandomKey(),
+      documentID: memberMediumDocumentId,
       appId: appId,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -53,6 +53,7 @@ class MemberMediumHelper {
    * Before: mediumAndItsThumbnailDataToMemberMediumModel
    */
   static Future<MemberMediumModel> videoWithThumbnailToMemberMediumModel(
+      String memberMediumDocumentId,
       String appId,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
@@ -64,7 +65,7 @@ class MemberMediumHelper {
 
     // Create the MemberImageModel
     memberImageModel = MemberMediumModel(
-      documentID: newRandomKey(),
+      documentID: memberMediumDocumentId,
       appId: appId,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -122,6 +123,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoData(
+      String memberMediumDocumentId,
       String appId,
       Uint8List fileData,
       String baseName,
@@ -162,7 +164,7 @@ class MemberMediumHelper {
       throw Exception('fileInfoThumbnail is null');
     }
 
-    var returnMe = await photoWithThumbnailToMemberMediumModel(
+    var returnMe = await photoWithThumbnailToMemberMediumModel(memberMediumDocumentId,
         appId, fileInfo, fileInfoThumbnail, enrichedPhoto, ownerId, readAccess);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -175,6 +177,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoFile(
+      String memberMediumDocumentID,
       String appId,
       String filePath,
       String ownerId,
@@ -182,12 +185,12 @@ class MemberMediumHelper {
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     var fileInfo =
-        await UploadInfo.uploadFile(filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
+        await UploadInfo.uploadFile(memberMediumDocumentID, filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
             _feedBackAggregatedProgress(1, 4, progress, feedbackProgress: feedbackProgress));
 
     // Second, create the thumbnail
-    var baseName = BaseNameHelper.baseName(filePath);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(filePath);
+    var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
 
     var enrichedPhoto = await MediumData.enrichPhoto(
         baseName, thumbnailBaseName, File(filePath).readAsBytesSync());
@@ -202,7 +205,7 @@ class MemberMediumHelper {
       throw Exception('fileInfoThumbnail is null');
     }
 
-    var returnMe = await photoWithThumbnailToMemberMediumModel(
+    var returnMe = await photoWithThumbnailToMemberMediumModel(memberMediumDocumentID,
         appId, fileInfo, fileInfoThumbnail, enrichedPhoto, ownerId, readAccess);
 
     _feedBackAggregatedProgress(1, 4, 1, feedbackProgress: feedbackProgress);
@@ -215,13 +218,14 @@ class MemberMediumHelper {
    * Asset specified by assetPath. See details about assetPath in _getFileFromAssets.
    */
   static Future<MemberMediumModel> createThumbnailUploadPhotoAsset(
+      String memberMediumDocumentID,
       String appId,
       String assetPath,
       String ownerId,
       List<String> readAccess,
       {FeedbackProgress? feedbackProgress}) async {
-    var filePath = await AssetHelper.getFileFromAssets(assetPath);
-    return createThumbnailUploadPhotoFile(
+    var filePath = await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
+    return createThumbnailUploadPhotoFile(memberMediumDocumentID,
         appId, filePath, ownerId, readAccess, feedbackProgress: feedbackProgress);
   }
 
@@ -229,6 +233,7 @@ class MemberMediumHelper {
    * Upload photo + thumbnail to firestore storage
    */
   static Future<MemberMediumModel> uploadPhotoWithThumbnail(
+      String memberMediumDocumentID,
       String appId,
       PhotoWithThumbnail photoWithThumbnail,
       String ownerId,
@@ -260,7 +265,7 @@ class MemberMediumHelper {
           'Unable to upload photo with thumbnail with baseName = $basename. thumbnailInfo is null ');
     }
 
-    var returnMe = await photoWithThumbnailToMemberMediumModel(appId, fileInfo, thumbnailInfo,
+    var returnMe = await photoWithThumbnailToMemberMediumModel(memberMediumDocumentID, appId, fileInfo, thumbnailInfo,
         photoWithThumbnail, ownerId, readAccess);
     _feedBackAggregatedProgress(3, 3, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -270,6 +275,7 @@ class MemberMediumHelper {
    * Upload video + thumbnail to firestore storage
    */
   static Future<MemberMediumModel> uploadVideoWithThumbnail(
+      String memberMediumDocumentID,
       String appId,
       VideoWithThumbnail videoWithThumbnail,
       String ownerId,
@@ -301,7 +307,7 @@ class MemberMediumHelper {
           'Unable to upload video with thumbnail with baseName = $basename. thumbnailInfo is null ');
     }
 
-    var returnMe = await videoWithThumbnailToMemberMediumModel(appId, fileInfo, thumbnailInfo,
+    var returnMe = await videoWithThumbnailToMemberMediumModel(memberMediumDocumentID, appId, fileInfo, thumbnailInfo,
         videoWithThumbnail, ownerId, readAccess);
     _feedBackAggregatedProgress(3, 3, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -314,6 +320,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> uploadThumbnailAndPhoto(
+      String memberMediumDocumentID,
       String appId,
       String filePath,
       String thumbnailPath,
@@ -322,13 +329,13 @@ class MemberMediumHelper {
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     var fileInfo =
-        await UploadInfo.uploadFile(filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
+        await UploadInfo.uploadFile(memberMediumDocumentID, filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
             _feedBackAggregatedProgress(1, 4, progress, feedbackProgress: feedbackProgress));
 
     // Second, create the thumbnail
     // var photoData = await createThumbNailFromPhoto(filePath);
-    var baseName = BaseNameHelper.baseName(filePath);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(filePath);
+    var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
 
     var enrichedPhoto = await MediumData.enrichPhoto(
         baseName, thumbnailBaseName, File(filePath).readAsBytesSync());
@@ -344,7 +351,7 @@ class MemberMediumHelper {
           'Unable to upload file $filePath. Could not create thumbnail');
     }
 
-    var returnMe = await photoWithThumbnailToMemberMediumModel(
+    var returnMe = await photoWithThumbnailToMemberMediumModel(memberMediumDocumentID,
         appId, fileInfo, fileInfoThumbnail, enrichedPhoto, ownerId, readAccess);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -357,13 +364,14 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoAsset(
+      String memberMediumDocumentID,
       String appId,
       String assetPath,
       String ownerId,
       List<String> readAccess,
   {FeedbackProgress? feedbackProgress}) async {
-    var filePath = await AssetHelper.getFileFromAssets(assetPath);
-    return createThumbnailUploadVideoFile(appId, filePath, ownerId, readAccess, feedbackProgress: feedbackProgress);
+    var filePath = await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
+    return createThumbnailUploadVideoFile(memberMediumDocumentID, appId, filePath, ownerId, readAccess, feedbackProgress: feedbackProgress);
   }
 
   /*
@@ -373,6 +381,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoFile(
+      String memberMediumDocumentID,
       String appId,
       String filePath,
       String ownerId,
@@ -380,12 +389,12 @@ class MemberMediumHelper {
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     var fileInfo =
-        await UploadInfo.uploadFile(filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
+        await UploadInfo.uploadFile(memberMediumDocumentID, filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
             _feedBackAggregatedProgress(1, 4, progress, feedbackProgress: feedbackProgress));
 
     // Second, create the thumbnail
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(filePath);
-    var enrichedVideo = await MediumData.enrichVideoWithPath(filePath);
+    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
+    var enrichedVideo = await MediumData.enrichVideoWithPath(memberMediumDocumentID, filePath);
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
     // Third, upload the thumbnail;
@@ -398,7 +407,7 @@ class MemberMediumHelper {
           'Unable to upload file $filePath. Could not create thumbnail');
     }
 
-    var returnMe = await videoWithThumbnailToMemberMediumModel(
+    var returnMe = await videoWithThumbnailToMemberMediumModel(memberMediumDocumentID,
         appId, fileInfo, fileInfoThumbnail, enrichedVideo, ownerId, readAccess);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -411,6 +420,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadVideoData(
+      String memberMediumDocumentID,
       String appId,
       Uint8List fileData,
       String baseName,
@@ -442,7 +452,7 @@ class MemberMediumHelper {
           'Unable to upload file with baseName $baseName. Could not create fileInfoThumbnail');
     }
 
-    var returnMe = await videoWithThumbnailToMemberMediumModel(
+    var returnMe = await videoWithThumbnailToMemberMediumModel(memberMediumDocumentID,
         appId, fileInfo, fileInfoThumbnail, enrichedVideo, ownerId, readAccess);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -455,15 +465,16 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadPdfAsset(
+      String memberMediumDocumentID,
       String appId,
       String assetPath,
       String ownerId,
       List<String> readAccess,
       String documentID,
   {FeedbackProgress? feedbackProgress}) async {
-    var filePath = await AssetHelper.getFileFromAssets(assetPath);
+    var filePath = await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
 
-    return createThumbnailUploadPdfFile(
+    return createThumbnailUploadPdfFile(memberMediumDocumentID,
         appId, filePath, ownerId, readAccess, documentID, feedbackProgress: feedbackProgress);
   }
 
@@ -474,6 +485,7 @@ class MemberMediumHelper {
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
   static Future<MemberMediumModel> createThumbnailUploadPdfFile(
+      String memberMediumDocumentID,
       String appId,
       String filePath,
       String ownerId,
@@ -487,7 +499,7 @@ class MemberMediumHelper {
     var totalTasks = 4 + (pageCount * 4);
 
     var fileInfo =
-        await UploadInfo.uploadFile(filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
+        await UploadInfo.uploadFile(memberMediumDocumentID, filePath, appId, ownerId, readAccess, feedbackProgress: (progress) =>
             _feedBackAggregatedProgress(taskCounter, totalTasks, progress, feedbackProgress: feedbackProgress));
 
     var baseName = context.basenameWithoutExtension(filePath);

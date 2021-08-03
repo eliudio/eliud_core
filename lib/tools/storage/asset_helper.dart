@@ -27,12 +27,11 @@ class AssetHelper {
    *
    * Before: _getFileFromAssets
    */
-  static Future<String> getFileFromAssets(String path) async {
+  static Future<String> getFileFromAssets(String documentID, String path) async {
     final byteData = await rootBundle.load(path);
 
-    final newFileName = context.basenameWithoutExtension(path) +
+    final newFileName = documentID + '-' + context.basenameWithoutExtension(path) +
         '-' +
-        newRandomKey() +
         context.extension(path); // make sure it's a unique filename
     final newFile = File(Directory.systemTemp.path + '/' + newFileName);
     await newFile.writeAsBytes(byteData.buffer
