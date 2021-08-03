@@ -87,6 +87,7 @@ class UploadInfo {
     var file = File(filePath);
     try {
       var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
+      print("baseName = " + baseName);
       var ref = '$appId/$ownerId/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)

@@ -428,6 +428,8 @@ class MemberMediumHelper {
       String ownerId,
       List<String> readAccess,
       {FeedbackProgress? feedbackProgress}) async {
+    print('MemberMediumHelper.createThumbnailUploadVideoData: ' + baseName);
+
     // First, upload the file
     var fileInfo = await UploadInfo.uploadData(
         baseName, fileData, appId, ownerId, readAccess, feedbackProgress: (progress) =>
