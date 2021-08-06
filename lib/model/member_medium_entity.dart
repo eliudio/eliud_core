@@ -15,11 +15,12 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_core/tools/common_tools.dart';
 import 'abstract_repository_singleton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
+import 'package:eliud_core/tools/common_tools.dart';
 class MemberMediumEntity {
   final String? appId;
   final String? authorId;
@@ -51,9 +52,6 @@ class MemberMediumEntity {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    if (map['urlThumbnail'] == 'https://firebasestorage.googleapis.com/v0/b/minkey-2c028.appspot.com/o/MINKEY_APP%2FWzKImODx6WYVqdSW3D9Az3xrUnM2%2Fpexels-roman-odintsov-5667416.thumbnail.png?alt=media&token=5f2040c3-0a61-49eb-a93f-1455c4373ea2') {
-      int i = 0;
-    }
     return MemberMediumEntity(
       appId: map['appId'], 
       authorId: map['authorId'], 

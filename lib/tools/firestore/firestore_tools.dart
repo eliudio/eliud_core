@@ -127,7 +127,7 @@ DateTime dateTimeFromTimestampString(String dateTime) {
   }
 }
 
-bool isSameDate(DateTime dateTime1, DateTime dateTime2, ) {
+bool isSameDate(DateTime? dateTime1, DateTime? dateTime2, ) {
   if (dateTime1 == dateTime2) return true;
   if ((dateTime1 == null) && (dateTime2 == null)) return true;
   if ((dateTime1 == null) || (dateTime2 == null)) return true;
@@ -139,4 +139,14 @@ bool isSameDate(DateTime dateTime1, DateTime dateTime2, ) {
 
 String formatHHMM(DateTime dateTime ) {
   return DateFormat('HH:mm').format(dateTime);
+}
+
+String dateFormatFullPrecision = "dd MM yyyy HH:mm:ss";
+
+String formatFullPrecision(DateTime? dateTime) {
+  if (dateTime == null) {
+    return "?";
+  } else {
+    return DateFormat('dd MM yyyy HH:mm:ss').format(dateTime);
+  }
 }
