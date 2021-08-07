@@ -161,7 +161,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 dashboardModel!.retrieveDataEmailSubject,
                 app.email,
                 AccessBloc.getState(context).getMemberCollectionInfo()!);
-            StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openComplexDialog(context, title: 'Photo', child: Text(
+            StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openComplexDialog(context, title: 'Retrieve data', child: Text(
                 'You will receive an email at your registered email address ' +
                     member.email! +
                     ' with the data you have with us.'));
