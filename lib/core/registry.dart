@@ -13,6 +13,7 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
@@ -140,12 +141,19 @@ class Registry {
       }
     });
 
+    String? initialFragment;
+    if (kIsWeb) {
+      if (Uri.base.hasFragment) {
+        initialFragment = Uri.base.fragment;
+      }
+    }
+
     return FutureBuilder<AppModel?>(
         future: getApp(appId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var app = snapshot.data;
-            var initialRoute = '$appId/' + app!.homePages!.homePagePublic!;
+            var app = snapshot.data!;
+            var initialRoute = initialFragment ?? '$appId/' + app!.homePages!.homePagePublic!;
             return MultiBlocProvider(
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
