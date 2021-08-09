@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/default_style/instances/eliud_eliud_style.dart';
 import 'package:eliud_core/default_style/instances/eliud_minkey_style.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style.dart';
@@ -37,7 +38,8 @@ class StyleRegistry {
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= EliudMinkeyStyle.defaultEliudStyle();
+//    _defaultStyle ??= EliudMinkeyStyle.defaultEliudStyle();
+    _defaultStyle ??= EliudEliudStyle.defaultEliudStyle();
     return _defaultStyle!;
   }
 
