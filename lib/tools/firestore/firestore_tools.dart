@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eliud_core/core/packages.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 
 dynamic getFirestoreField(dynamic conditionField) {
@@ -149,4 +149,27 @@ String formatFullPrecision(DateTime? dateTime) {
   } else {
     return DateFormat('dd MM yyyy HH:mm:ss').format(dateTime);
   }
+}
+
+String verboseDateTimeRepresentation(DateTime? dateTime) {
+  if (dateTime == null) return 'Unkown date/time';
+  var now = DateTime.now();
+  var justNow = now.subtract(Duration(minutes: 1));
+  var localDateTime = dateTime.toLocal();
+  if (!localDateTime.difference(justNow).isNegative) {
+    return 'Just now';
+  }
+  var roughTimeString = DateFormat('jm').format(dateTime);
+  if (localDateTime.day == now.day && localDateTime.month == now.month && localDateTime.year == now.year) {
+    return roughTimeString;
+  }
+  var yesterday = now.subtract(Duration(days: 1));
+  if (localDateTime.day == yesterday.day && localDateTime.month == now.month && localDateTime.year == now.year) {
+    return 'Yesterday, $roughTimeString';
+  }
+  if (now.difference(localDateTime).inDays < 7) {
+    var weekday = DateFormat('EEEE').format(localDateTime);
+    return '$weekday, $roughTimeString';
+  }
+  return '${DateFormat('yMd').format(dateTime)}, $roughTimeString';
 }
