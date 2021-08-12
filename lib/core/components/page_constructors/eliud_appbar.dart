@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class EliudAppBar extends StatefulWidget {
+  static String PAGE_TITLE_KEYWORD = "\${PAGE_TITLE}";
+
+  final String? pageTitle;
   final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String theTitle;
@@ -18,6 +21,7 @@ class EliudAppBar extends StatefulWidget {
 
   const EliudAppBar(
       {Key? key,
+      this.pageTitle,
       required this.currentPage,
       required this.scaffoldKey,
       required this.theTitle,
@@ -38,6 +42,9 @@ class _EliudAppBarState extends State<EliudAppBar> {
       var app = state.app;
       var header = value.header!;
       var title = value.title;
+      if ((title != null) && (widget.pageTitle != null) && (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+      }
       var icon = value.icon;
       var memberMediumModel = value.image;
       if ((header == HeaderSelection.Title) && (title == null)) {

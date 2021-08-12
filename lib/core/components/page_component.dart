@@ -70,29 +70,7 @@ class PageComponent extends StatelessWidget {
                 .frontEndStyle().progressIndicatorStyle()
                 .progressIndicator(context);
           }
-        })/*)*/;
-    /*    var accessState = AccessBloc.getState(context);
-    if (accessState is AppLoaded) {
-      var app = accessState.app;
-      return FutureBuilder<PageModel?>(
-          future: getPage(app.documentID!, pageID!),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return PageContentsWidget(
-                state: accessState,
-                pageID: pageID!,
-                pageModel: snapshot.data!,
-                parameters: parameters,
-                scaffoldKey: scaffoldKey,
-                scaffoldMessengerKey: scaffoldMessengerKey,
-              );
-            }
-            return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-          });
-    } else {
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
-    }
-  */
+        });
   }
 }
 
@@ -130,6 +108,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var accessState = widget.state;
     var app = accessState.app;
     var value = widget.pageModel;
+    var pageTitle = value.title;
     var pageID = widget.pageID;
     var parameters = widget.parameters;
     if (accessState is AppProcessingState) {
@@ -161,6 +140,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
         : PreferredSize(
             preferredSize: const Size(double.infinity, kToolbarHeight),
             child: EliudAppBar(
+                pageTitle: pageTitle,
                 currentPage: pageID,
                 scaffoldKey: widget.scaffoldKey,
                 theTitle: value.title == null ? '' : value.title!,
