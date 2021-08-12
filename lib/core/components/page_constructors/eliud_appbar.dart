@@ -68,10 +68,10 @@ class _EliudAppBarState extends State<EliudAppBar> {
         }
       }
       var headerAttributes = AppbarHeaderAttributes(
-          title: value.title,
+          title: title,
           icon: value.icon,
           memberMediumModel: value.image,
-          header: value.header!);
+          header: header);
       var items = MenuItemMapper.mapMenu(
               context, value.iconMenu!, state.getMember(), currentPage) ??
           [];

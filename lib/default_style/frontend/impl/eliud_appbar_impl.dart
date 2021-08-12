@@ -84,7 +84,7 @@ class EliudAppBarImpl implements HasAppBar {
                   .frontEndStyle()
                   .textStyle()
                   .h1(context, headerAttributes.title!),
-              _pageName);
+              null);
         }
         break;
       case HeaderSelection.Image:
@@ -97,7 +97,7 @@ class EliudAppBarImpl implements HasAppBar {
                 image: headerAttributes.memberMediumModel!.url!,
                 height: kToolbarHeight,
               ),
-              _pageName);
+              null);
         }
         break;
       case HeaderSelection.Icon:
@@ -117,9 +117,9 @@ class EliudAppBarImpl implements HasAppBar {
     return _eliudStyle.frontEndStyle().textStyle().h1(context, pageName);
   }
 
-  Widget constructTitle(BuildContext context, Widget widget, String _pageName) {
+  Widget constructTitle(BuildContext context, Widget widget, String? _pageName) {
     return Row(
-        children: [widget, Container(width: 20), pageName(context, _pageName)]);
+        children: [widget, Container(width: 20), if (_pageName != null) pageName(context, _pageName)]);
   }
 
   Widget button(
