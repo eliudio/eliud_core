@@ -2,6 +2,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
+import 'package:eliud_core/creator/widgets/creator_mode.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -19,7 +20,7 @@ class EliudAppBar extends StatefulWidget {
   final String theTitle;
   final AppBarModel value;
 
-  const EliudAppBar(
+  EliudAppBar(
       {Key? key,
       this.pageTitle,
       required this.currentPage,
@@ -33,6 +34,8 @@ class EliudAppBar extends StatefulWidget {
 }
 
 class _EliudAppBarState extends State<EliudAppBar> {
+  final GlobalKey _appBarKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     var currentPage = widget.currentPage;
@@ -88,12 +91,13 @@ class _EliudAppBarState extends State<EliudAppBar> {
       }
 
 
-      return StyleRegistry.registry()
+      return CreatorMode.create(toDecorateKey: _appBarKey, label: 'AppBar', toDecorate: StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle().appBarStyle()
           .appBar(
             context,
             headerAttributes: headerAttributes,
+            key: _appBarKey,
             backgroundOverride: value.backgroundOverride,
             menuBackgroundColorOverride: value.menuBackgroundColorOverride,
             iconColorOverride: value.iconColorOverride,
@@ -101,7 +105,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
             pageName: widget.theTitle,
             items: items,
             openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
-          );
+          ), edit: true,);
     } else {
       return Text('App not loaded');
     }

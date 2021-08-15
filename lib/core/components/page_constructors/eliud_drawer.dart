@@ -2,6 +2,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
+import 'package:eliud_core/creator/widgets/creator_mode.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -28,6 +29,8 @@ class EliudDrawer extends StatefulWidget {
 }
 
 class _EliudDrawerState extends State<EliudDrawer> {
+  final GlobalKey _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     var drawer = widget.drawer;
@@ -48,16 +51,17 @@ class _EliudDrawerState extends State<EliudDrawer> {
 
         var itemList = MenuItemMapper.mapMenu(context, drawer.menu!, theState.getMember(), currentPage);
         if (itemList != null) {
-          return StyleRegistry.registry()
+          return CreatorMode.create(label: 'Drawer', toDecorate: StyleRegistry.registry()
               .styleWithContext(context)
               .frontEndStyle().drawerStyle()
               .drawer(context,
+              key: _drawerKey,
               drawerType: widget.drawerType,
               header1: drawerHeader1Attributes,
               header2: drawerHeader2Attributes,
               items: itemList,
               popupMenuBackgroundColorOverride: widget.drawer.popupMenuBackgroundColorOverride,
-              backgroundOverride: widget.drawer.backgroundOverride);
+              backgroundOverride: widget.drawer.backgroundOverride), edit: true, toDecorateKey: _drawerKey,);
         } else {
           return Text('Drawer ${drawer.documentID} has no items');
         }

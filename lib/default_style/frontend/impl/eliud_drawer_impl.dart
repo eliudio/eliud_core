@@ -19,7 +19,8 @@ class EliudDrawerImpl implements HasDrawer {
       DrawerHeader2Attributes? header2,
       BackgroundModel? backgroundOverride,
       RgbModel? popupMenuBackgroundColorOverride,
-      required List<AbstractMenuItemAttributes> items}) {
+      required List<AbstractMenuItemAttributes> items,
+      Key? key}) {
     var theState = AccessBloc.getState(context);
     var widgets = <Widget>[];
     if (header1 != null) {
@@ -90,6 +91,7 @@ class EliudDrawerImpl implements HasDrawer {
       }
     }
     return Drawer(
+        key: key,
         child: Container(
             decoration: BoxDecorationHelper.boxDecoration(theState, background),
             child: ListView(

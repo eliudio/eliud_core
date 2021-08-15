@@ -9,6 +9,7 @@ abstract class HasBottomNavigationBar {
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
     required List<AbstractMenuItemAttributes> items,
+    Key? key,
   });
 }
 

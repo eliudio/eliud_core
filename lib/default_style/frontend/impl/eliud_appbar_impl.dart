@@ -26,7 +26,8 @@ class EliudAppBarImpl implements HasAppBar {
       RgbModel? menuBackgroundColorOverride,
       RgbModel? selectedIconColorOverride,
       RgbModel? iconColorOverride,
-      VoidCallback? openDrawer}) {
+      VoidCallback? openDrawer,
+      Key? key}) {
     var background =
         backgroundOverride ?? _eliudStyle.eliudStyleAttributesModel.appBarBG;
     var iconColor = iconColorOverride ??
@@ -66,6 +67,7 @@ class EliudAppBarImpl implements HasAppBar {
 
     var state = AccessBloc.getState(context);
     return AppBar(
+        key: key,
         iconTheme: iconThemeData,
         title: _title,
         actions: buttons,

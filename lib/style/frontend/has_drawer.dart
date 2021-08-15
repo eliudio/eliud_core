@@ -31,6 +31,7 @@ class DrawerItemAttributes {
 abstract class HasDrawer {
   Drawer drawer(BuildContext context,
       {required DrawerType drawerType,
+        Key? key,
       DrawerHeader1Attributes? header1,
       DrawerHeader2Attributes? header2,
       BackgroundModel? backgroundOverride,

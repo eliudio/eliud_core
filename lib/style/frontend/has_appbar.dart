@@ -27,5 +27,6 @@ abstract class HasAppBar {
         RgbModel? menuBackgroundColorOverride,
         RgbModel? selectedIconColorOverride,
         RgbModel? iconColorOverride,
-        VoidCallback? openDrawer});
+        VoidCallback? openDrawer,
+        Key? key});
 }

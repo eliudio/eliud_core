@@ -44,6 +44,7 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
     required List<AbstractMenuItemAttributes> items,
+    Key? key,
   }) {
     var background = backgroundOverride ??=
         _eliudStyle.eliudStyleAttributesModel.bottomNavigationBarBG;
@@ -59,6 +60,7 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
                 bodyText2: FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h1),
             )), // sets the inactive color of the `BottomNavigationBar`
             child: BottomNavigationBar(
+              key: key,
               selectedFontSize: 18,
                 unselectedFontSize: 14,
                 type: BottomNavigationBarType.fixed,
