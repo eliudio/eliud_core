@@ -7,11 +7,18 @@ import 'package:flutter/material.dart';
 import '../eliud_style.dart';
 
 class EliudAdminFormStyle implements AdminFormStyle {
-  EliudAdminFormStyle();
+  final EliudStyle _eliudStyle;
+
+  EliudAdminFormStyle(this._eliudStyle);
 
   @override
   Widget groupTitle(BuildContext context, String title) {
-    return Text(title);
+    return Text(title,
+        style: TextStyle(
+            color: RgbHelper.color(
+                rgbo:
+                    _eliudStyle.eliudStyleAttributesModel.formGroupTitleColor),
+            fontWeight: FontWeight.bold));
   }
 
   @override
@@ -19,9 +26,19 @@ class EliudAdminFormStyle implements AdminFormStyle {
       String title, String subTitle, ValueChanged<T?>? valueChanged) {
     return RadioListTile(
         value: t,
+        activeColor: RgbHelper.color(
+            rgbo: _eliudStyle.eliudStyleAttributesModel.formFieldTextColor),
         groupValue: groupValue,
-        title: Text(title,),
-        subtitle: Text(subTitle),
+        title: Text(title,
+            style: TextStyle(
+                color: RgbHelper.color(
+                    rgbo: _eliudStyle
+                        .eliudStyleAttributesModel.formFieldTextColor))),
+        subtitle: Text(subTitle,
+            style: TextStyle(
+                color: RgbHelper.color(
+                    rgbo: _eliudStyle
+                        .eliudStyleAttributesModel.formFieldTextColor))),
         onChanged: valueChanged);
   }
 
@@ -29,7 +46,11 @@ class EliudAdminFormStyle implements AdminFormStyle {
   Widget checkboxListTile(BuildContext context, String title, bool? value,
       ValueChanged<bool?>? onChanged) {
     return CheckboxListTile(
-        title: Text(title,),
+        title: Text(title,
+            style: TextStyle(
+                color: RgbHelper.color(
+                    rgbo: _eliudStyle
+                        .eliudStyleAttributesModel.formFieldTextColor))),
         value: value,
         onChanged: onChanged);
   }
@@ -40,6 +61,15 @@ class EliudAdminFormStyle implements AdminFormStyle {
   @override
   Widget container(BuildContext context, Widget child, FormAction formAction) {
     return Container(
+        color: ((formAction == FormAction.ShowData) ||
+                (formAction == FormAction.ShowPreloadedData))
+            ? Colors.transparent
+            : null,
+        decoration: ((formAction == FormAction.ShowData) ||
+                (formAction == FormAction.ShowPreloadedData))
+            ? null
+            : BoxDecorationHelper.boxDecoration(AccessBloc.getState(context),
+                _eliudStyle.eliudStyleAttributesModel.formBackground),
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
         child: child);
   }
@@ -51,7 +81,11 @@ class EliudAdminFormStyle implements AdminFormStyle {
       IconThemeData? iconTheme,
       BackgroundModel? backgroundOverride}) {
     return appBarWithWidget(context,
-        title: Text(title,),
+        title: Text(title,
+            style: TextStyle(
+                color: RgbHelper.color(
+                    rgbo: _eliudStyle
+                        .eliudStyleAttributesModel.appBarIconColor))),
         actions: actions,
         iconTheme: iconTheme,
         backgroundOverride: backgroundOverride);
@@ -66,6 +100,8 @@ class EliudAdminFormStyle implements AdminFormStyle {
     var background;
     if (backgroundOverride != null) {
       background = backgroundOverride;
+    } else {
+      background = _eliudStyle.eliudStyleAttributesModel.appBarBG;
     }
     return AppBar(
       title: title,
@@ -109,13 +145,30 @@ class EliudAdminFormStyle implements AdminFormStyle {
     TextEditingController? textEditingController,
   }) {
     return TextFormField(
+        style: TextStyle(
+            color: RgbHelper.color(
+                rgbo:
+                    _eliudStyle.eliudStyleAttributesModel.formFieldTextColor)),
         readOnly: readOnly,
         onChanged: onChanged,
         controller: textEditingController,
         decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldTextColor))),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldFocusColor))),
           icon: icon == null
               ? null
-              : Icon(icon,),
+              : Icon(icon,
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldHeaderColor)),
           labelText: labelText,
         ),
         keyboardType: TextInputType.text,
@@ -128,6 +181,8 @@ class EliudAdminFormStyle implements AdminFormStyle {
   Widget divider(BuildContext context) {
     return Divider(
         height: 1.0,
-        thickness: 1.0,);
+        thickness: 1.0,
+        color: RgbHelper.color(
+            rgbo: _eliudStyle.eliudStyleAttributesModel.dividerColor));
   }
 }

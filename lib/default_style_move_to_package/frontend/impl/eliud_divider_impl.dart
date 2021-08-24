@@ -16,6 +16,7 @@ class EliudDividerImpl
     return Divider(
         height: 1.0,
         thickness: 1.0,
-);
+        color: RgbHelper.color(
+            rgbo: _eliudStyle.eliudStyleAttributesModel.dividerColor));
   }
 }

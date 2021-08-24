@@ -1,6 +1,6 @@
-import 'package:eliud_core/default_style/frontend/impl/eliud_button_impl.dart';
-import 'package:eliud_core/default_style/frontend/impl/eliud_list_tile_impl.dart';
-import 'package:eliud_core/default_style/frontend/impl/eliud_tabs_impl.dart';
+import '../frontend/impl/eliud_button_impl.dart';
+import '../frontend/impl/eliud_list_tile_impl.dart';
+import '../frontend/impl/eliud_tabs_impl.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_app.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
@@ -87,7 +87,7 @@ class EliudFrontEndStyle implements FrontEndStyle {
     eliudTableImpl = EliudTableImpl(_eliudStyle);
     eliudTextFormFieldImpl = EliudTextFormFieldImpl(_eliudStyle);
     eliudStyleImpl = EliudStyleImpl(_eliudStyle);
-    eliudIconImpl = EliudIconImpl();
+    eliudIconImpl = EliudIconImpl(_eliudStyle);
     eliudDividerImpl = EliudDividerImpl(_eliudStyle);
     eliudTabsImpl = EliudTabsImpl(_eliudStyle);
   }

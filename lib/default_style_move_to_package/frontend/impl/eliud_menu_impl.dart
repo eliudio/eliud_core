@@ -16,7 +16,13 @@ class EliudMenuImpl implements HasMenu {
       {required RelativeRect position,
       required List<AbstractMenuItemAttributes> menuItems,
       RgbModel? popupMenuBackgroundColorOverride}) async {
-    var popupMenuBackgroundColor = popupMenuBackgroundColorOverride;
+    var popupMenuBackgroundColor;
+    if (popupMenuBackgroundColorOverride == null) {
+      popupMenuBackgroundColor =
+          _eliudStyle.eliudStyleAttributesModel.backgroundColorHomeMenu;
+    } else {
+      popupMenuBackgroundColor = popupMenuBackgroundColorOverride;
+    }
     var popupMenuItems = <PopupMenuItem<int>>[];
     var i = 0;
     menuItems.forEach((element) {

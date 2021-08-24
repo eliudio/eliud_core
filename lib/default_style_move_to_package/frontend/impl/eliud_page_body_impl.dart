@@ -19,7 +19,12 @@ class EliudPageBodyImpl implements HasPageBody {
       required List<Widget> components,
       Layout? layout,
       GridViewModel? gridView}) {
-    BackgroundModel? background = backgroundOverride;
+    BackgroundModel? background;
+    if (backgroundOverride == null) {
+      background = _eliudStyle.eliudStyleAttributesModel.appBackground;
+    } else {
+      background = backgroundOverride;
+    }
 
     var accessState = AccessBloc.getState(context);
     try {

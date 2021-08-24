@@ -25,6 +25,14 @@ class EliudDrawerImpl implements HasDrawer {
     var widgets = <Widget>[];
     if (header1 != null) {
       var background = header1.backgroundOverride;
+      if (background == null) {
+        if (drawerType == DrawerType.Left) {
+          background = _eliudStyle.eliudStyleAttributesModel.drawerHeaderBG;
+        } else {
+          background =
+              _eliudStyle.eliudStyleAttributesModel.profileDrawerHeaderBG;
+        }
+      }
       widgets.add(
         Container(
             height: header1.height == 0 ? null : header1.height,
@@ -48,10 +56,14 @@ class EliudDrawerImpl implements HasDrawer {
     }
 
     for (var item in items) {
+      var style = item.isActive
+          ? _eliudStyle.frontEndStyle().textStyleStyle().styleH3(context)
+          : _eliudStyle.frontEndStyle().textStyleStyle().styleH4(context);
+
       var theIcon = item.icon == null
               ? null
               : IconHelper.getIconFromModelWithFlutterColor(
-              iconModel: item.icon, );
+              iconModel: item.icon, color: style!.color);
       var theText = item.isActive ? _eliudStyle.frontEndStyle().textStyle().h3(context, item.label!, textAlign: TextAlign.center) : _eliudStyle.frontEndStyle().textStyle().h4(context, item.label!, textAlign: TextAlign.center);
       widgets.add(ListTile(
           leading: theIcon,
@@ -71,6 +83,13 @@ class EliudDrawerImpl implements HasDrawer {
     }
 
     var background = backgroundOverride;
+    if (background == null) {
+      if (drawerType == DrawerType.Left) {
+        background = _eliudStyle.eliudStyleAttributesModel.drawerBG;
+      } else {
+        background = _eliudStyle.eliudStyleAttributesModel.profileDrawerBG;
+      }
+    }
     return Drawer(
         key: key,
         child: Container(

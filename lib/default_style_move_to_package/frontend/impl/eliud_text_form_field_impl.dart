@@ -24,13 +24,30 @@ class EliudTextFormFieldImpl implements HasTexFormField {
     TextEditingController? textEditingController,
   }) {
     return TextFormField(
+        style: TextStyle(
+            color: RgbHelper.color(
+                rgbo:
+                    _eliudStyle.eliudStyleAttributesModel.formFieldTextColor)),
         readOnly: readOnly,
         onChanged: onChanged,
         controller: textEditingController,
         decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldTextColor))),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldFocusColor))),
           icon: icon == null
               ? null
-              : Icon(icon),
+              : Icon(icon,
+                  color: RgbHelper.color(
+                      rgbo: _eliudStyle
+                          .eliudStyleAttributesModel.formFieldHeaderColor)),
           labelText: labelText,
         ),
         keyboardType: TextInputType.text,

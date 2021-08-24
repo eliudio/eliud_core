@@ -26,7 +26,15 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
               .iconStyle()
               .h4Icon(context, icon: item.icon!);
     } else {
-      return Icon(Icons.circle, );
+      var color;
+      var style;
+      if (item.isActive) {
+        style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h3);
+      } else {
+        style = FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h4);
+      }
+      color = style != null ? style.color : null;
+      return Icon(Icons.circle, color: color);
     }
   }
 
@@ -38,14 +46,20 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
     required List<AbstractMenuItemAttributes> items,
     Key? key,
   }) {
-    var background = backgroundOverride;
+    var background = backgroundOverride ??=
+        _eliudStyle.eliudStyleAttributesModel.bottomNavigationBarBG;
 
     var accessState = AccessBloc.getState(context);
     return Container(
         decoration: backgroundOverride == null
             ? null
             : BoxDecorationHelper.boxDecoration(accessState, background),
-        child: BottomNavigationBar(
+        child: Theme(
+            data: Theme.of(context).copyWith(
+                textTheme: Theme.of(context).textTheme.copyWith(
+                bodyText2: FontTools.textStyle(_eliudStyle.eliudStyleAttributesModel.h1),
+            )), // sets the inactive color of the `BottomNavigationBar`
+            child: BottomNavigationBar(
               key: key,
               selectedFontSize: 18,
                 unselectedFontSize: 14,
@@ -71,6 +85,6 @@ class EliudBottomNavigationBarImpl implements HasBottomNavigationBar {
                     label: item.label,
                     icon: getIconExcl(context, item),
                   );
-                }).toList()));
+                }).toList())));
   }
 }

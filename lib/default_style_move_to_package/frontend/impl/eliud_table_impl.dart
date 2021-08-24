@@ -15,6 +15,7 @@ class EliudTableImpl
   Widget table(BuildContext context, {required List<TableRow> children}) {
     return Table(
       defaultColumnWidth: IntrinsicColumnWidth(),
+      border: TableBorder.symmetric(inside: BorderSide(color: RgbHelper.color(rgbo: _eliudStyle.eliudStyleAttributesModel.dividerColor))),
       children: children,
     );
   }

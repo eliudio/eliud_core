@@ -16,7 +16,9 @@ class EliudTextImpl
     return Text(data,
         textAlign: textAlign,
         maxLines: maxLines,
-        softWrap: softWrap,);
+        softWrap: softWrap,
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.fontText));
   }
 
   @override
@@ -25,7 +27,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.fontHighlight1));
   }
 
   @override
@@ -34,7 +37,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.fontHighlight2));
   }
 
   @override
@@ -43,7 +47,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.h1));
   }
 
   @override
@@ -52,7 +57,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.h2));
   }
 
   @override
@@ -61,7 +67,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.h3));
   }
 
   @override
@@ -70,7 +77,8 @@ class EliudTextImpl
         textAlign: textAlign,
         maxLines: maxLines,
         softWrap: softWrap,
-);
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.h4));
   }
 
   @override
@@ -78,7 +86,9 @@ class EliudTextImpl
     return Text(data,
         textAlign: textAlign,
         maxLines: maxLines,
-        softWrap: softWrap,);
+        softWrap: softWrap,
+        style: FontTools.textStyle(
+            _eliudStyle.eliudStyleAttributesModel.h5));
   }
 
 }
