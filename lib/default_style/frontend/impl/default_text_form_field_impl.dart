@@ -25,12 +25,6 @@ class DefaultTextFormFieldImpl implements HasTexFormField {
         readOnly: readOnly,
         onChanged: onChanged,
         controller: textEditingController,
-        decoration: InputDecoration(
-          icon: icon == null
-              ? null
-              : Icon(icon),
-          labelText: labelText,
-        ),
         keyboardType: TextInputType.text,
         validator: validator,
         initialValue: initialValue);
@@ -57,24 +51,7 @@ class DefaultTextFormFieldImpl implements HasTexFormField {
       textAlign: TextAlign.left,
       textInputAction: TextInputAction.go,
       controller: controller,
-      style:
-      _frontEndStyle.textStyleStyle().styleText(context),
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle:
-        _frontEndStyle.textStyleStyle().styleText(context),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 0,
-            style: BorderStyle.none,
-          ),
-        ),
-        filled: true,
-        contentPadding: EdgeInsets.only(left: 8),
-        fillColor: Colors.grey,
-      ),
     );
   }
 }

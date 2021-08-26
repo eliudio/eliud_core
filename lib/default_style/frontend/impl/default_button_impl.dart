@@ -11,50 +11,25 @@ class DefaultButtonImpl implements HasButton {
   Widget button(BuildContext context,
       {Icon? icon, required String label, VoidCallback? onPressed}) {
     if (icon != null) {
-      return GestureDetector(
-          onTap: onPressed,
-          child: Padding(
-              padding: const EdgeInsets.all(7.0),
-              child: _frontEndStyle.containerStyle()
-                  .actionContainer(context, child: icon)));
-
-/*
-      return ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: icon,
-        label: Text(label),
-      );
-*/
+      return iconButton(context, onPressed: onPressed, icon: icon);
     } else {
-      return GestureDetector(
-          onTap: onPressed,
-          child: _frontEndStyle.containerStyle().actionContainer(
-              context,
-              child: Padding(
-                  padding: const EdgeInsets.all(7.0),
-                  child: _frontEndStyle.textStyle()
-                      .text(context, label))));
-/*
-      return ElevatedButton(
-        onPressed: onPressed,
-        child: Text(label),
-      );
-*/
+      return _textButton(context, label: label);
     }
   }
+
+  Widget _textButton(BuildContext context,
+  {VoidCallback? onPressed, required String label}) =>
+    TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          primary: Colors.pink,
+        ),
+        child: _frontEndStyle.textStyle().text(context, label));
 
   @override
   Widget dialogButton(BuildContext context,
       {VoidCallback? onPressed, required String label, bool? selected}) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        primary: Colors.pink,
-      ),
-      child: selected == null || selected == false
-          ? _frontEndStyle.textStyle().text(context, label)
-          : _frontEndStyle.textStyle().highLight1(context, label),
-    );
+    return _textButton(context, label: label);
   }
 
   @override
@@ -79,15 +54,13 @@ class DefaultButtonImpl implements HasButton {
       Color? color,
       String? tooltip,
       required Widget icon}) {
-    return _frontEndStyle.containerStyle().actionContainer(context,
-        child: IconButton(
-            icon: icon, color: color, tooltip: tooltip, onPressed: onPressed));
+    return IconButton(
+            icon: icon, color: color, tooltip: tooltip, onPressed: onPressed);
   }
 
   @override
   Widget simpleButton(BuildContext context,
       {VoidCallback? onPressed, required String label}) {
-    // TODO: implement simpleButton
     throw UnimplementedError();
   }
 }

@@ -6,23 +6,7 @@ class DefaultContainerImpl implements HasContainer {
   @override
   Widget actionContainer(BuildContext context,
       {required Widget child, double? height, double? width}) {
-    return Container(
-        margin: EdgeInsets.all(7.0),
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(220, 200, 200, 1),
-            border: Border.all(color: Colors.white, width: 1),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 5.0,
-              ),
-            ],
-            borderRadius: BorderRadius.all(
-              const Radius.circular(10.0),
-            )),
-        child: child);
+    return child;
   }
 
   @override
@@ -31,30 +15,16 @@ class DefaultContainerImpl implements HasContainer {
       DecorationImage? image,
       double? height,
       double? width}) {
-    return Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: Container(
+    return Container(
             width: width,
             height: height,
             decoration: BoxDecoration(
-                color: Colors.white,
                 image: image,
-                border: Border.all(color: Colors.white, width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 5.0,
-                  ),
-                ],
-                borderRadius: BorderRadius.all(
-                  const Radius.circular(10.0),
-                )),
-            child: Padding(
-                padding: const EdgeInsets.all(7.0),
-                child: Column(
+            ),
+            child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: children,
-                ))));
+                ));
   }
 
   @override
@@ -63,11 +33,9 @@ class DefaultContainerImpl implements HasContainer {
       DecorationImage? image,
       double? height,
       double? width}) {
-    return Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: Column(
+    return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: children,
-                ));
+                );
   }
 }

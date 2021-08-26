@@ -24,7 +24,6 @@ class DefaultDrawerImpl implements HasDrawer {
     var theState = AccessBloc.getState(context);
     var widgets = <Widget>[];
     if (header1 != null) {
-      var background = header1.backgroundOverride;
       widgets.add(
         Container(
             height: header1.height == 0 ? null : header1.height,
@@ -33,7 +32,7 @@ class DefaultDrawerImpl implements HasDrawer {
                     child:
                     _frontEndStyle.textStyle().h3(context, header1.text)),
                 decoration:
-                    BoxDecorationHelper.boxDecoration(theState, background))),
+                    BoxDecorationHelper.boxDecoration(theState, header1.backgroundOverride))),
       );
     }
 

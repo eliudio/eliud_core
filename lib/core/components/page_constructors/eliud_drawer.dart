@@ -38,10 +38,14 @@ class _EliudDrawerState extends State<EliudDrawer> {
     var theState = AccessBloc.getState(context);
     if (theState is AppLoaded) {
       if (drawer.menu != null) {
-        var drawerHeader1Attributes = DrawerHeader1Attributes(
-            drawer.headerHeight,
-            drawer.headerText!,
-            drawer.headerBackgroundOverride);
+        var drawerHeader1Attributes;
+        if (((drawer.headerText != null) &&
+          (drawer.headerText!.isNotEmpty)) || (drawer.headerBackgroundOverride != null)) {
+          drawerHeader1Attributes = DrawerHeader1Attributes(
+              drawer.headerHeight,
+              drawer.headerText!,
+              drawer.headerBackgroundOverride);
+        }
         var drawerHeader2Attributes;
         if ((drawer.secondHeaderText != null) &&
             (drawer.secondHeaderText!.isNotEmpty)) {
