@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/default_style/instances/eliud_eliud_style.dart';
+import 'package:eliud_core/default_style/default_style.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
@@ -31,17 +31,17 @@ class StyleRegistry {
   }
 
   Style style(String familyName, String styleName) {
-    var style = registeredStyle[familyName + '-' + styleName];
+    var style = registeredStyle[key(familyName, styleName)];
     if (style != null) return style;
     return defaultStyle();
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= EliudDefaultStyle.defaultEliudStyle();
+    _defaultStyle ??= DefaultStyle();
     return _defaultStyle!;
   }
 
-  String key(String familyName, String styleName) => familyName + "-" + styleName;
+  String key(String familyName, String styleName) => familyName + '-' + styleName;
 
   void registerStyle(Style style) {
     registeredStyle[key(style.familyName(), style.styleName())] = style;

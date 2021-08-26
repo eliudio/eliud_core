@@ -1,18 +1,83 @@
+import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/default_style/frontend/helper/appbar_helper.dart';
+import 'package:eliud_core/default_style/frontend/impl/default_menu_impl.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
-import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
-import 'package:eliud_core/style/frontend/has_menu.dart';
 import 'package:eliud_core/style/frontend/types.dart';
+import 'package:eliud_core/style/tools/colors.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class AppBarHelper {
-  final FrontEndStyle _frontEndStyle;
-  final HasMenu _hasMenu;
+import '../../eliud_style.dart';
+import 'eliud_menu_impl.dart';
 
-  AppBarHelper(this._frontEndStyle, this._hasMenu);
+class EliudAppBarImpl implements HasAppBar {
+  final EliudStyle _eliudStyle;
+
+  EliudAppBarImpl(this._eliudStyle);
+
+  @override
+  PreferredSizeWidget appBar(BuildContext context,
+      {required AppbarHeaderAttributes headerAttributes,
+      required String pageName,
+      List<AbstractMenuItemAttributes>? items,
+      BackgroundModel? backgroundOverride,
+      RgbModel? menuBackgroundColorOverride,
+      RgbModel? selectedIconColorOverride,
+      RgbModel? iconColorOverride,
+      VoidCallback? openDrawer,
+      Key? key}) {
+    var background =
+        backgroundOverride ?? _eliudStyle.eliudStyleAttributesModel.appBarBG;
+    var iconColor = iconColorOverride ??
+        _eliudStyle.eliudStyleAttributesModel.appBarIconColor;
+    var selectedIconColor = selectedIconColorOverride ??
+        _eliudStyle.eliudStyleAttributesModel.appBarSelectedIconColor;
+    var menuBackgroundColor = menuBackgroundColorOverride ??
+        _eliudStyle.eliudStyleAttributesModel.appBarMenuBackgroundColor;
+
+    var appBarHelper = AppBarHelper(_eliudStyle.frontEndStyle(), EliudMenuImpl(_eliudStyle));
+    var _title = appBarHelper.title(context, headerAttributes, pageName);
+
+    var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: iconColor));
+
+    // add menu items
+    List<Widget>? buttons;
+    if (items != null) {
+      buttons = items
+          .map((item) => appBarHelper.button(
+              context, item, menuBackgroundColor, selectedIconColor, iconColor))
+          .toList();
+    } else {
+      buttons = [];
+    }
+
+    // add profilePhoto
+    var member = AccessBloc.member(context);
+    if (member != null) {
+      buttons.add(_eliudStyle
+          .frontEndStyle()
+          .profilePhotoStyle()
+          .getProfilePhotoButtonFromMember(context,
+              member: member,
+              radius: 20,
+              iconColor: EliudColors.white,
+              onPressed: openDrawer));
+    }
+
+    var state = AccessBloc.getState(context);
+    return AppBar(
+        key: key,
+        iconTheme: iconThemeData,
+        title: _title,
+        actions: buttons,
+        flexibleSpace: Container(
+            decoration: BoxDecorationHelper.boxDecoration(state, background)));
+  }
+/*
 
   Widget title(BuildContext context, AppbarHeaderAttributes headerAttributes,
       String _pageName) {
@@ -21,7 +86,9 @@ class AppBarHelper {
         if (headerAttributes.title != null) {
           return constructTitle(
               context,
-              _frontEndStyle.textStyle()
+              _eliudStyle
+                  .frontEndStyle()
+                  .textStyle()
                   .h1(context, headerAttributes.title!),
               null);
         }
@@ -42,7 +109,7 @@ class AppBarHelper {
       case HeaderSelection.Icon:
         if (headerAttributes.icon != null) {
           var icon =
-          IconHelper.getIconFromModel(iconModel: headerAttributes.icon);
+              IconHelper.getIconFromModel(iconModel: headerAttributes.icon);
           if (icon != null) {
             return constructTitle(context, icon, _pageName);
           }
@@ -53,7 +120,7 @@ class AppBarHelper {
   }
 
   Widget pageName(BuildContext context, String pageName) {
-    return _frontEndStyle.textStyle().h1(context, pageName);
+    return _eliudStyle.frontEndStyle().textStyle().h1(context, pageName);
   }
 
   Widget constructTitle(BuildContext context, Widget widget, String? _pageName) {
@@ -62,12 +129,12 @@ class AppBarHelper {
   }
 
   Widget button(
-      BuildContext context,
-      AbstractMenuItemAttributes item,
-      RgbModel? menuBackgroundColor,
-      RgbModel? selectedIconColor,
-      RgbModel? iconColor,
-      ) {
+    BuildContext context,
+    AbstractMenuItemAttributes item,
+    RgbModel? menuBackgroundColor,
+    RgbModel? selectedIconColor,
+    RgbModel? iconColor,
+  ) {
     var _color = item.isActive
         ? RgbHelper.color(rgbo: selectedIconColor)
         : RgbHelper.color(rgbo: iconColor);
@@ -86,23 +153,23 @@ class AppBarHelper {
             onPressed: item.onTap);
       } else {
         return Center(
-            child: _frontEndStyle.buttonStyle().button(
-              context,
-              label: item.label == null ? '?' : item.label!,
-              onPressed: item.onTap,
-            ));
+            child: _eliudStyle.frontEndStyle().buttonStyle().button(
+                  context,
+                  label: item.label == null ? '?' : item.label!,
+                  onPressed: item.onTap,
+                ));
       }
     } else if (item is MenuItemWithMenuItems) {
       var icon =
-      IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
-      var text = _frontEndStyle.textStyle().text(context, (item.label!));
+          IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
+      var text = _eliudStyle.frontEndStyle().textStyle().text(context, (item.label!));
       var popupMenu = PopupMenuButton<int>(
           icon: icon,
           child: icon == null ? text : null,
           onSelected: (int result) {
             var thisItem = item.items[result];
             if (thisItem is MenuItemWithMenuItems) {
-              _hasMenu.openMenu(context,
+              EliudMenuImpl(_eliudStyle).openMenu(context,
                   position: RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
                   menuItems: thisItem.items,
                   popupMenuBackgroundColorOverride: menuBackgroundColor);
@@ -115,16 +182,18 @@ class AppBarHelper {
             var index = 0;
             item.items.forEach((thisItem) {
               var style = thisItem.isActive
-                  ? _frontEndStyle
-                  .textStyleStyle()
-                  .styleH3(context)
-                  : _frontEndStyle
-                  .textStyleStyle()
-                  .styleH4(context);
+                  ? _eliudStyle
+                      .frontEndStyle()
+                      .textStyleStyle()
+                      .styleH3(context)
+                  : _eliudStyle
+                      .frontEndStyle()
+                      .textStyleStyle()
+                      .styleH4(context);
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
-                child: _frontEndStyle.textStyle().text(context, label),
+                child: _eliudStyle.frontEndStyle().textStyle().text(context, label),
                 textStyle: style,
               );
               entries.add(menuItem);
@@ -143,4 +212,5 @@ class AppBarHelper {
       throw Exception("item $item not supported");
     }
   }
+*/
 }
