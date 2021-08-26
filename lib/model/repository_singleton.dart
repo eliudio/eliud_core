@@ -47,9 +47,6 @@ import '../model/dialog_cache.dart';
 import '../model/drawer_firestore.dart';
 import '../model/drawer_repository.dart';
 import '../model/drawer_cache.dart';
-import '../model/eliud_style_attributes_firestore.dart';
-import '../model/eliud_style_attributes_repository.dart';
-import '../model/eliud_style_attributes_cache.dart';
 import '../model/font_firestore.dart';
 import '../model/font_repository.dart';
 import '../model/font_cache.dart';
@@ -94,7 +91,6 @@ import '../model/app_policy_item_model.dart';
 import '../model/background_model.dart';
 import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
-import '../model/eliud_style_attributes_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
@@ -108,7 +104,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
-    var _eliudStyleAttributesRepository = EliudStyleAttributesCache(EliudStyleAttributesFirestore());
     var _fontRepository = FontCache(FontFirestore());
     var _gridViewRepository = HashMap<String, GridViewRepository>();
     var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
@@ -145,9 +140,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     DrawerRepository? drawerRepository(String? appId) {
       if ((appId != null) && (_drawerRepository[appId] == null)) _drawerRepository[appId] = DrawerCache(DrawerFirestore(appRepository()!.getSubCollection(appId, 'drawer'), appId));
       return _drawerRepository[appId];
-    }
-    EliudStyleAttributesRepository? eliudStyleAttributesRepository() {
-      return _eliudStyleAttributesRepository;
     }
     FontRepository? fontRepository() {
       return _fontRepository;

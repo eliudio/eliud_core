@@ -220,30 +220,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _eliudStyleAttributessPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-eliudStyleAttributess", componentName: "eliud_core_internalWidgets", componentId: "eliudStyleAttributess"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_eliudstyleattributess_page",
-        title: "EliudStyleAttributess",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _fontsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -500,8 +476,6 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId)!.add(_drawersPages()))
 
-        .then((_) => pageRepository(appId: appId)!.add(_eliudStyleAttributessPages()))
-
         .then((_) => pageRepository(appId: appId)!.add(_fontsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_gridViewsPages()))
@@ -605,16 +579,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Drawers",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_drawers_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "EliudStyleAttributess",
-        text: "EliudStyleAttributess",
-        description: "EliudStyleAttributess",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_eliudstyleattributess_page"))
     );
 
 

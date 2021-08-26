@@ -25,7 +25,6 @@ import '../model/country_repository.dart';
 import '../model/decoration_color_repository.dart';
 import '../model/dialog_repository.dart';
 import '../model/drawer_repository.dart';
-import '../model/eliud_style_attributes_repository.dart';
 import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
 import '../model/home_menu_repository.dart';
@@ -51,7 +50,6 @@ BackgroundRepository? backgroundRepository({ String? appId }) => AbstractReposit
 CountryRepository? countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
 DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
-EliudStyleAttributesRepository? eliudStyleAttributesRepository({ String? appId }) => AbstractRepositorySingleton.singleton.eliudStyleAttributesRepository();
 FontRepository? fontRepository({ String? appId }) => AbstractRepositorySingleton.singleton.fontRepository();
 GridViewRepository? gridViewRepository({ String? appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
 HomeMenuRepository? homeMenuRepository({ String? appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
@@ -77,7 +75,6 @@ abstract class AbstractRepositorySingleton {
   CountryRepository? countryRepository();
   DialogRepository? dialogRepository(String? appId);
   DrawerRepository? drawerRepository(String? appId);
-  EliudStyleAttributesRepository? eliudStyleAttributesRepository();
   FontRepository? fontRepository();
   GridViewRepository? gridViewRepository(String? appId);
   HomeMenuRepository? homeMenuRepository(String? appId);
