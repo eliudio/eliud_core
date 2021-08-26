@@ -12,7 +12,13 @@ class DefaultTextImpl
   }
 
   @override
-  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) => text(context, data, textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
+  Widget highLight1(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) {
+    return Text(data,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      softWrap: softWrap,
+      style: TextStyle(fontWeight: FontWeight.bold));
+  }
   @override
   Widget highLight2(BuildContext context, String data, {TextAlign? textAlign, int? maxLines, bool? softWrap }) => text(context, data, textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override

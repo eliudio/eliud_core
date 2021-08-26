@@ -18,18 +18,19 @@ class DefaultButtonImpl implements HasButton {
   }
 
   Widget _textButton(BuildContext context,
-  {VoidCallback? onPressed, required String label}) =>
+  {VoidCallback? onPressed, required String label, bool? selected}) =>
     TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           primary: Colors.pink,
         ),
-        child: _frontEndStyle.textStyle().text(context, label));
+        child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(context, label) : _frontEndStyle.textStyle().text(context, label)
+    );
 
   @override
   Widget dialogButton(BuildContext context,
       {VoidCallback? onPressed, required String label, bool? selected}) {
-    return _textButton(context, label: label);
+    return _textButton(context, label: label, onPressed: onPressed, selected: selected);
   }
 
   @override

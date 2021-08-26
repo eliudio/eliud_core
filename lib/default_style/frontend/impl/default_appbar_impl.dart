@@ -26,17 +26,21 @@ class DefaultAppBarImpl implements HasAppBar {
       RgbModel? iconColorOverride,
       VoidCallback? openDrawer,
       Key? key}) {
+    var iconColor = iconColorOverride ?? EliudColors.black;
+    var selectedIconColor = selectedIconColorOverride ?? EliudColors.green;
+    var menuBackgroundColor = menuBackgroundColorOverride ?? EliudColors.white;
+
     var appBarHelper = AppBarHelper(_frontEndStyle, DefaultMenuImpl(_frontEndStyle));
     var _title = appBarHelper.title(context, headerAttributes, pageName);
 
-    var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: iconColorOverride));
+    var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: iconColor));
 
     // add menu items
     List<Widget>? buttons;
     if (items != null) {
       buttons = items
           .map((item) => appBarHelper.button(
-              context, item, menuBackgroundColorOverride, selectedIconColorOverride, iconColorOverride))
+              context, item, menuBackgroundColor, selectedIconColor, iconColor))
           .toList();
     } else {
       buttons = [];

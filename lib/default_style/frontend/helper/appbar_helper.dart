@@ -21,8 +21,7 @@ class AppBarHelper {
         if (headerAttributes.title != null) {
           return constructTitle(
               context,
-              _frontEndStyle.textStyle()
-                  .h1(context, headerAttributes.title!),
+              _frontEndStyle.textStyle().h1(context, headerAttributes.title!),
               null);
         }
         break;
@@ -42,7 +41,7 @@ class AppBarHelper {
       case HeaderSelection.Icon:
         if (headerAttributes.icon != null) {
           var icon =
-          IconHelper.getIconFromModel(iconModel: headerAttributes.icon);
+              IconHelper.getIconFromModel(iconModel: headerAttributes.icon);
           if (icon != null) {
             return constructTitle(context, icon, _pageName);
           }
@@ -56,18 +55,22 @@ class AppBarHelper {
     return _frontEndStyle.textStyle().h1(context, pageName);
   }
 
-  Widget constructTitle(BuildContext context, Widget widget, String? _pageName) {
-    return Row(
-        children: [widget, Container(width: 20), if (_pageName != null) pageName(context, _pageName)]);
+  Widget constructTitle(
+      BuildContext context, Widget widget, String? _pageName) {
+    return Row(children: [
+      widget,
+      Container(width: 20),
+      if (_pageName != null) pageName(context, _pageName)
+    ]);
   }
 
   Widget button(
-      BuildContext context,
-      AbstractMenuItemAttributes item,
-      RgbModel? menuBackgroundColor,
-      RgbModel? selectedIconColor,
-      RgbModel? iconColor,
-      ) {
+    BuildContext context,
+    AbstractMenuItemAttributes item,
+    RgbModel? menuBackgroundColor,
+    RgbModel? selectedIconColor,
+    RgbModel? iconColor,
+  ) {
     var _color = item.isActive
         ? RgbHelper.color(rgbo: selectedIconColor)
         : RgbHelper.color(rgbo: iconColor);
@@ -87,14 +90,14 @@ class AppBarHelper {
       } else {
         return Center(
             child: _frontEndStyle.buttonStyle().button(
-              context,
-              label: item.label == null ? '?' : item.label!,
-              onPressed: item.onTap,
-            ));
+                  context,
+                  label: item.label == null ? '?' : item.label!,
+                  onPressed: item.onTap,
+                ));
       }
     } else if (item is MenuItemWithMenuItems) {
       var icon =
-      IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
+          IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
       var text = _frontEndStyle.textStyle().text(context, (item.label!));
       var popupMenu = PopupMenuButton<int>(
           icon: icon,
@@ -115,12 +118,8 @@ class AppBarHelper {
             var index = 0;
             item.items.forEach((thisItem) {
               var style = thisItem.isActive
-                  ? _frontEndStyle
-                  .textStyleStyle()
-                  .styleH3(context)
-                  : _frontEndStyle
-                  .textStyleStyle()
-                  .styleH4(context);
+                  ? _frontEndStyle.textStyleStyle().styleH3(context)
+                  : _frontEndStyle.textStyleStyle().styleH4(context);
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,

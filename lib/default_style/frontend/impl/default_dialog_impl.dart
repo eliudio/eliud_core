@@ -4,7 +4,7 @@ import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dialog/dialog_helper.dart';
+import '../helper/dialog/dialog_helper.dart';
 
 class DefaultDialogImpl implements HasDialog {
   final FrontEndStyle _frontEndStyle;

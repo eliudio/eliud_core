@@ -35,7 +35,7 @@ class DefaultAdminListStyle extends AdminListStyle {
 
   @override
   Widget progressIndicator(BuildContext context, {Animation<Color>? valueColor}) {
-    return CircularProgressIndicator(valueColor: valueColor);
+    return Center(child: CircularProgressIndicator(valueColor: valueColor));
   }
 
 }
