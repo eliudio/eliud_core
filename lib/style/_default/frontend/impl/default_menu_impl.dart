@@ -1,4 +1,4 @@
-import 'package:eliud_core/default_style/frontend/helper/menu_helper.dart';
+import '../helper/menu_helper.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_menu.dart';

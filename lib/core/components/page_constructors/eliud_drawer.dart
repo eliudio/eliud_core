@@ -55,7 +55,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
 
         var itemList = MenuItemMapper.mapMenu(context, drawer.menu!, theState.getMember(), currentPage);
         if (itemList != null) {
-          return CreatorMode.create(label: 'Drawer', toDecorate: StyleRegistry.registry()
+          return CreatorButton.create(label: 'Drawer', toDecorate: StyleRegistry.registry()
               .styleWithContext(context)
               .frontEndStyle().drawerStyle()
               .drawer(context,

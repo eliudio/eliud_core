@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CreatorMode extends StatefulWidget {
+class CreatorButton extends StatefulWidget {
   static double BUTTON_HEIGHT = 35;
   static Color BACKGROUND_COLOR = Colors.green.withOpacity(.3);
   static Color ICON_COLOR = Colors.red;
@@ -15,27 +15,27 @@ class CreatorMode extends StatefulWidget {
   final Widget toDecorate;
   final GlobalKey toDecorateKey;
 
-  CreatorMode({Key? key, required this.toDecorateKey, required this.edit, required this.toDecorate, this.label})
+  CreatorButton({Key? key, required this.toDecorateKey, required this.edit, required this.toDecorate, this.label})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return CreatorModeState();
+    return _CreatorButtonState();
   }
 
-  static CreatorMode create({Key? key, required GlobalKey toDecorateKey, required bool edit, required Widget toDecorate, String? label}) {
-    return CreatorMode(key: key, toDecorateKey: toDecorateKey, edit: edit, toDecorate: toDecorate, label: label);
+  static CreatorButton create({Key? key, required GlobalKey toDecorateKey, required bool edit, required Widget toDecorate, String? label}) {
+    return CreatorButton(key: key, toDecorateKey: toDecorateKey, edit: edit, toDecorate: toDecorate, label: label);
   }
 }
 
-class CreatorModeState extends State<CreatorMode> {
+class _CreatorButtonState extends State<CreatorButton> {
   Offset? position = Offset(20, 20);
   double? width;
   double? height;
 
   final _buttonKey = GlobalKey();
 
-  CreatorModeState();
+  _CreatorButtonState();
 
   @override
   void initState() {
@@ -71,31 +71,31 @@ class CreatorModeState extends State<CreatorMode> {
       var button;
       var icon = Icon(
         Icons.edit,
-        color: CreatorMode.ICON_COLOR,
+        color: CreatorButton.ICON_COLOR,
         size: 15,
       );
       if (widget.label == null) {
-        button = Container(height: CreatorMode.BUTTON_HEIGHT, width: CreatorMode.BUTTON_HEIGHT, decoration: BoxDecoration(
-            color: CreatorMode.BACKGROUND_COLOR,
+        button = Container(height: CreatorButton.BUTTON_HEIGHT, width: CreatorButton.BUTTON_HEIGHT, decoration: BoxDecoration(
+            color: CreatorButton.BACKGROUND_COLOR,
             border: Border.all(
                 width: 1,
-                color: CreatorMode.BORDER_COLOR
+                color: CreatorButton.BORDER_COLOR
             )),
             child: GestureDetector(
                 onTap: () => _doIt(),
                 child: icon));
       } else {
-        button = Container(height: CreatorMode.BUTTON_HEIGHT, decoration: BoxDecoration(
+        button = Container(height: CreatorButton.BUTTON_HEIGHT, decoration: BoxDecoration(
             border: Border.all(
                 width: 1,
-                color: CreatorMode.BORDER_COLOR
+                color: CreatorButton.BORDER_COLOR
             )),
             child: ElevatedButton.icon(
                 onPressed: () => _doIt(),
                 icon: icon,
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        CreatorMode.BACKGROUND_COLOR),
+                        CreatorButton.BACKGROUND_COLOR),
                     padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                     textStyle: MaterialStateProperty.all(
                         TextStyle(fontSize: 30))),
@@ -104,7 +104,7 @@ class CreatorModeState extends State<CreatorMode> {
                     style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.normal,
-                        color: CreatorMode.TEXT_COLOR))));
+                        color: CreatorButton.TEXT_COLOR))));
       }
 
       var draggable = Draggable(
@@ -140,7 +140,6 @@ class CreatorModeState extends State<CreatorMode> {
   }
 
   void _doIt() {
-    print("aaaa");
   }
 }
 

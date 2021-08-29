@@ -91,7 +91,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
       }
 
 
-      return CreatorMode.create(toDecorateKey: _appBarKey, label: 'AppBar', toDecorate: StyleRegistry.registry()
+      return CreatorButton.create(toDecorateKey: _appBarKey, label: 'AppBar', toDecorate: StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle().appBarStyle()
           .appBar(

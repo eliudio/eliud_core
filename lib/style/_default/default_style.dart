@@ -7,7 +7,9 @@ import 'admin/default_admin_list_style.dart';
 import 'frontend/default_frontend_style.dart';
 
 /*
- * We should consider to put more in the style API. For example we could include the appBar, the bottom navigation bar, the drawer, popup menu, ...
+ * This is the default style.
+ * This style is used when an app refers to an non existing style or an app has not yet specified a style
+ * This style is the minimum implementation of the style
  */
 class DefaultStyle extends Style {
   static final String defaultFamilyName = 'DefaultFamily';

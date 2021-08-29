@@ -36,7 +36,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       var itemList = MenuItemMapper.mapMenu(
           context, homeMenu.menu!, theState.getMember(), currentPage);
       if ((itemList != null) && (itemList.length > 2)) {
-        return CreatorMode.create(label: 'Bottom Nav', toDecorate: StyleRegistry.registry()
+        return CreatorButton.create(label: 'Bottom Nav', toDecorate: StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle().bottomNavigationBarStyle()
             .bottomNavigationBar(context,

@@ -1,8 +1,9 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/default_style/default_style.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
+
+import '_default/default_style.dart';
 
 class StyleRegistry {
   static Style? _defaultStyle;

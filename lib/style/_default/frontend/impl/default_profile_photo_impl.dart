@@ -1,4 +1,4 @@
-  import 'package:eliud_core/default_style/frontend/helper/profile_photo_helper.dart';
+import '../helper/profile_photo_helper.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
