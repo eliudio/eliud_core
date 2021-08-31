@@ -93,6 +93,25 @@ abstract class ActionModelMapper {
   ActionEntity? fromMap(Map snap);
 }
 
+
+// ********************************** FunctionToRun **********************************
+// This action can only be instantiated programmatically and not stored in a repository.
+
+class FunctionToRun extends ActionModel {
+  final Function() actionToRun;
+
+  FunctionToRun(String? appID, {ConditionsModel? conditions, required this.actionToRun}) :
+        super(appID, conditions: conditions, actionType: 'FunctionToRun');
+
+  @override
+  String message() => 'Running Function';
+
+  @override
+  ActionEntity toEntity({String? appId}) {
+    throw Exception('Not implemented, not expected');
+  }
+}
+
 // ********************************** GotoPage **********************************
 
 class GotoPage extends ActionModel {

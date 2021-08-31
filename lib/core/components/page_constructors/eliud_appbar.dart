@@ -42,87 +42,74 @@ class _EliudAppBarState extends State<EliudAppBar> {
     var value = widget.value;
     var state = AccessBloc.getState(context);
     if (state is AppLoaded) {
-      var app = state.app;
-      var header = value.header!;
-      var title = value.title;
-      if ((title != null) && (widget.pageTitle != null) && (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
-        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
-      }
-      var icon = value.icon;
-      var memberMediumModel = value.image;
-      if ((header == HeaderSelection.Title) && (title == null)) {
-        if (icon != null) {
-          header = HeaderSelection.Icon;
-        } else {
-          header = HeaderSelection.Image;
+      return Decorations.instance().createDecoratedAppBar(context, _appBarKey, () {
+        var app = state.app;
+        var header = value.header!;
+        var title = value.title;
+        if ((title != null) &&
+            (widget.pageTitle != null) &&
+            (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+          title =
+              title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
         }
-      } else if ((header == HeaderSelection.Image) && (icon == null)) {
-        if (title != null) {
-          header = HeaderSelection.Title;
-        } else {
-          header = HeaderSelection.Image;
+        var icon = value.icon;
+        var memberMediumModel = value.image;
+        if ((header == HeaderSelection.Title) && (title == null)) {
+          if (icon != null) {
+            header = HeaderSelection.Icon;
+          } else {
+            header = HeaderSelection.Image;
+          }
+        } else if ((header == HeaderSelection.Image) && (icon == null)) {
+          if (title != null) {
+            header = HeaderSelection.Title;
+          } else {
+            header = HeaderSelection.Image;
+          }
+        } else if ((header == HeaderSelection.Image) &&
+            (memberMediumModel == null)) {
+          if (title != null) {
+            header = HeaderSelection.Title;
+          } else {
+            header = HeaderSelection.Icon;
+          }
         }
-      } else if ((header == HeaderSelection.Image) &&
-          (memberMediumModel == null)) {
-        if (title != null) {
-          header = HeaderSelection.Title;
-        } else {
-          header = HeaderSelection.Icon;
+        var headerAttributes = AppbarHeaderAttributes(
+            title: title,
+            icon: value.icon,
+            memberMediumModel: value.image,
+            header: header);
+        var items = MenuItemMapper.mapMenu(
+            context, value.iconMenu!, state.getMember(), currentPage) ??
+            [];
+
+        // We should probably consider to introduce an internal action for app store and allow this to be configured as part of the app. The issue to consider however is that
+        var playStoreApp = state.playStoreApp;
+        if ((playStoreApp != null) &&
+            (app.documentID != playStoreApp.documentID)) {
+          items.add(MenuItemAttributes(
+              isActive: false,
+              onTap: () => eliudrouter.Router.navigateTo(context,
+                  SwitchApp(app.documentID, toAppID: playStoreApp.documentID)),
+              imageURL: playStoreApp.logoURL));
         }
-      }
-      var headerAttributes = AppbarHeaderAttributes(
-          title: title,
-          icon: value.icon,
-          memberMediumModel: value.image,
-          header: header);
-      var items = MenuItemMapper.mapMenu(
-              context, value.iconMenu!, state.getMember(), currentPage) ??
-          [];
 
-      // We should probably consider to introduce an internal action for app store and allow this to be configured as part of the app. The issue to consider however is that
-      var playStoreApp = state.playStoreApp;
-      if ((playStoreApp != null) &&
-          (app.documentID != playStoreApp.documentID)) {
-        items.add(MenuItemAttributes(
-            isActive: false,
-            onTap: () => eliudrouter.Router.navigateTo(context,
-                SwitchApp(app.documentID, toAppID: playStoreApp.documentID)),
-            imageURL: playStoreApp.logoURL));
-      }
-
-
-      return Decorations.instance().decorateAppBar(context, _appBarKey, StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle().appBarStyle()
-          .appBar(
-          context,
-          headerAttributes: headerAttributes,
-          key: _appBarKey,
-          backgroundOverride: value.backgroundOverride,
-          menuBackgroundColorOverride: value.menuBackgroundColorOverride,
-          iconColorOverride: value.iconColorOverride,
-          selectedIconColorOverride: value.selectedIconColorOverride,
-          pageName: widget.theTitle,
-          items: items,
-          openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
-      ), value);
-/*
-      return CreatorButton.create(toDecorateKey: _appBarKey, label: 'AppBar', toDecorate: StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle().appBarStyle()
-          .appBar(
-            context,
-            headerAttributes: headerAttributes,
-            key: _appBarKey,
-            backgroundOverride: value.backgroundOverride,
-            menuBackgroundColorOverride: value.menuBackgroundColorOverride,
-            iconColorOverride: value.iconColorOverride,
-            selectedIconColorOverride: value.selectedIconColorOverride,
-            pageName: widget.theTitle,
-            items: items,
-            openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
-          ), edit: true,);
-*/
+        return StyleRegistry.registry()
+            .styleWithContext(context)
+            .frontEndStyle()
+            .appBarStyle()
+            .appBar(context,
+                headerAttributes: headerAttributes,
+                key: _appBarKey,
+                backgroundOverride: value.backgroundOverride,
+                menuBackgroundColorOverride: value.menuBackgroundColorOverride,
+                iconColorOverride: value.iconColorOverride,
+                selectedIconColorOverride: value.selectedIconColorOverride,
+                pageName: widget.theTitle,
+                items: items,
+                openDrawer: () =>
+                    widget.scaffoldKey.currentState!.openEndDrawer());
+      }, value)();
     } else {
       return Text('App not loaded');
     }

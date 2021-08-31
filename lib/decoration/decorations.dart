@@ -8,6 +8,8 @@ import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+typedef CreateWidget = Widget Function();
+
 class Decorations extends Decoration {
   static Decorations? _instance;
   Decorations._internal();
@@ -33,22 +35,25 @@ class Decorations extends Decoration {
     return decoratedWidget;
   }
 
+  // return nesting of CreateWidget
   @override
-  Widget decorateAppBar(BuildContext context, Key? key, Widget appBar, AppBarModel model) {
-    var decoratedWidget = appBar;
+  CreateWidget createDecoratedAppBar(BuildContext context, Key? key, CreateWidget createAppBar, AppBarModel model) {
+    var createWidget = createAppBar;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateAppBar(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedAppBar(context, key, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 
   @override
-  Widget decorateBodyComponent(BuildContext context, Key? key, Widget bodyComponent, BodyComponentModel model) {
-    var decoratedWidget = bodyComponent;
+  CreateWidget createDecoratedBodyComponent(BuildContext context, Key? key, CreateWidget createBodyComponent, BodyComponentModel model) {
+    var createWidget = createBodyComponent;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateBodyComponent(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedBodyComponent(context, key, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 
   @override

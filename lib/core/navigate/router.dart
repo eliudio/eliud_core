@@ -162,7 +162,9 @@ class Router {
   static void navigateTo(BuildContext context, ActionModel action,
       {Map<String, dynamic>? parameters}) async {
     if (action.hasAccess(context)) {
-      if (action is GotoPage) {
+      if (action is FunctionToRun) {
+        action.actionToRun();
+      } else if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
           BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(
               action.appID!, action.pageID!,

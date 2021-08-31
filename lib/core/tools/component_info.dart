@@ -53,12 +53,12 @@ class ComponentInfo {
     if (componentModels == null) throw Exception("componentModels is null");
     var widgets = componentModels.map((model) {
       var key = GlobalKey();
-      return Decorations.instance().decorateBodyComponent(context, key,
-          Registry.registry()!.component(
+      return Decorations.instance().createDecoratedBodyComponent(context, key,
+          () => Registry.registry()!.component(
               model.componentName!, model.componentId!,
               key: key,
               parameters: parameters),
-          model);
+          model)();
     }).toList();
     var hasFab = _getFab(widgets);
     return ComponentInfo(componentModels, parameters, widgets, hasFab, state,
