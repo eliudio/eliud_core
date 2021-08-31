@@ -43,6 +43,7 @@ class ComponentInfo {
 //  ComponentInfo(this.widgets, this.hasFab, this.state, this.layout, this.background, this.gridView);
 
   static ComponentInfo getComponentInfo(
+      BuildContext context,
       List<BodyComponentModel>? componentModels,
       Map<String, dynamic>? parameters,
       AppLoaded state,
@@ -52,7 +53,7 @@ class ComponentInfo {
     if (componentModels == null) throw Exception("componentModels is null");
     var widgets = componentModels.map((model) {
       var key = GlobalKey();
-      return Decorations.instance().decorateBodyComponent(key,
+      return Decorations.instance().decorateBodyComponent(context, key,
           Registry.registry()!.component(
               model.componentName!, model.componentId!,
               key: key,

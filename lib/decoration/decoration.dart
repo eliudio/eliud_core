@@ -13,11 +13,11 @@ import 'package:flutter/cupertino.dart';
    * or adjust the style ("eliud_decor_style).
    */
 abstract class Decoration extends Equatable {
-  Widget decorateAppBar(Key? key, Widget appBar, AppBarModel model);
-  Widget decorateDrawer(Key? key, Widget drawer, DrawerModel model);
-  Widget decorateBottomNavigationBar(Key? key, Widget bottomNavigationBar, HomeMenuModel model);
-  Widget decorateApp(Key? key, Widget app, AppModel model);
-  Widget decoratePage(Key? key, Widget page, PageModel model);
-  Widget decorateDialog(Key? key, Widget dialog, DialogModel model);
-  Widget decorateBodyComponent(Key? key, Widget bodyComponent, BodyComponentModel model);
+  Widget decorateAppBar(BuildContext context, Key? key, Widget appBar, AppBarModel model);
+  Widget decorateDrawer(BuildContext context, Key? key, Widget drawer, DrawerModel model);
+  Widget decorateBottomNavigationBar(BuildContext context, Key? key, Widget bottomNavigationBar, HomeMenuModel model);
+  Widget decorateApp(BuildContext context, Key? key, Widget app, AppModel model);
+  Widget decoratePage(BuildContext context, Key? key, Widget page, PageModel model);
+  Widget decorateDialog(BuildContext context, Key? key, Widget dialog, DialogModel model);
+  Widget decorateBodyComponent(BuildContext context, Key? key, Widget bodyComponent, BodyComponentModel model);
 }

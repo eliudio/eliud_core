@@ -36,7 +36,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       var itemList = MenuItemMapper.mapMenu(
           context, homeMenu.menu!, theState.getMember(), currentPage);
       if ((itemList != null) && (itemList.length > 2)) {
-        return Decorations.instance().decorateBottomNavigationBar(_bottomNavigationBarKey, StyleRegistry.registry()
+        return Decorations.instance().decorateBottomNavigationBar(context, _bottomNavigationBarKey, StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle().bottomNavigationBarStyle()
             .bottomNavigationBar(context,

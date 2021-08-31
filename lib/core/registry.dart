@@ -159,7 +159,7 @@ class Registry {
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
                     builder: (context, state) {
-                  return Decorations.instance().decorateApp(_appKey, StyleRegistry.registry()
+                  return Decorations.instance().decorateApp(context, _appKey, StyleRegistry.registry()
                       .styleWithContext(context)
                       .frontEndStyle()
                       .appStyle()

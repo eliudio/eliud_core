@@ -91,7 +91,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
       }
 
 
-      return Decorations.instance().decorateAppBar(_appBarKey, StyleRegistry.registry()
+      return Decorations.instance().decorateAppBar(context, _appBarKey, StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle().appBarStyle()
           .appBar(

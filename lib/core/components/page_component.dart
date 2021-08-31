@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
@@ -8,12 +7,8 @@ import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
-import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/page_component_bloc.dart';
-import 'package:eliud_core/model/page_component_event.dart';
-import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -56,7 +51,7 @@ class PageComponent extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var pageModel = snapshot.data!;
-                    return Decorations.instance().decoratePage(_pageKey, PageContentsWidget(
+                    return Decorations.instance().decoratePage(context, _pageKey, PageContentsWidget(
                       key: _pageKey,
                       state: accessState,
                       pageID: pageId,
@@ -123,7 +118,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
-      var componentInfo = ComponentInfo.getComponentInfo(value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
+      var componentInfo = ComponentInfo.getComponentInfo(context, value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
       if (value.widgetWrapper != null) {
         theBody = Registry.registry()!.wrapWidgetInBloc(value.widgetWrapper!, context, componentInfo);
       } else {

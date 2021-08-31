@@ -27,7 +27,7 @@ class _DialogComponentState extends State<DialogComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Decorations.instance().decorateDialog(_dialogKey,
+    return Decorations.instance().decorateDialog(context, _dialogKey,
         StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
@@ -51,7 +51,7 @@ class _DialogComponentState extends State<DialogComponent> {
   Widget getContents(BuildContext context) {
     var accessState = AccessBloc.getState(context);
     if (accessState is AppLoaded) {
-      var componentInfo = ComponentInfo.getComponentInfo(
+      var componentInfo = ComponentInfo.getComponentInfo(context,
           widget.dialog!.bodyComponents!,
           widget.parameters,
           accessState,

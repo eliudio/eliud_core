@@ -400,6 +400,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
+  static bool isOwner(BuildContext context) {
+    var state = BlocProvider.of<AccessBloc>(context).state;
+    if (state is AppLoaded) {
+      if (state.getMember() != null) {
+        return state.getMember()!.documentID! == state.app.ownerID!;
+      }
+    }
+    return false;
+  }
+
   static AccessState getState(BuildContext context) {
     var state = BlocProvider.of<AccessBloc>(context).state;
     return state;

@@ -25,55 +25,55 @@ class Decorations extends Decoration {
   }
 
   @override
-  Widget decorateApp(Key? key, Widget app, AppModel model) {
+  Widget decorateApp(BuildContext context, Key? key, Widget app, AppModel model) {
     var decoratedWidget = app;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateApp(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateApp(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
 
   @override
-  Widget decorateAppBar(Key? key, Widget appBar, AppBarModel model) {
+  Widget decorateAppBar(BuildContext context, Key? key, Widget appBar, AppBarModel model) {
     var decoratedWidget = appBar;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateAppBar(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateAppBar(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
 
   @override
-  Widget decorateBodyComponent(Key? key, Widget bodyComponent, BodyComponentModel model) {
+  Widget decorateBodyComponent(BuildContext context, Key? key, Widget bodyComponent, BodyComponentModel model) {
     var decoratedWidget = bodyComponent;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateBodyComponent(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateBodyComponent(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
 
   @override
-  Widget decorateDialog(Key? key, Widget dialog, DialogModel model) {
+  Widget decorateDialog(BuildContext context, Key? key, Widget dialog, DialogModel model) {
     var decoratedWidget = dialog;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateDialog(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateDialog(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
 
   @override
-  Widget decorateDrawer(Key? key, Widget drawer, DrawerModel model) {
+  Widget decorateDrawer(BuildContext context, Key? key, Widget drawer, DrawerModel model) {
     var decoratedWidget = drawer;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateDrawer(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateDrawer(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
 
   @override
-  Widget decoratePage(Key? key, Widget page, PageModel model) {
+  Widget decoratePage(BuildContext context, Key? key, Widget page, PageModel model) {
     var decoratedWidget = page;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decoratePage(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decoratePage(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
@@ -82,10 +82,10 @@ class Decorations extends Decoration {
   List<Object?> get props => [];
 
   @override
-  Widget decorateBottomNavigationBar(Key? key, Widget bottomNavigationBar, HomeMenuModel model) {
+  Widget decorateBottomNavigationBar(BuildContext context, Key? key, Widget bottomNavigationBar, HomeMenuModel model) {
     var decoratedWidget = bottomNavigationBar;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateBottomNavigationBar(key, decoratedWidget, model);
+      decoratedWidget = registeredDecoration.decorateBottomNavigationBar(context, key, decoratedWidget, model);
     }
     return decoratedWidget;
   }
