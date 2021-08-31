@@ -27,7 +27,7 @@ abstract class AbstractPosSizeComponent extends StatelessWidget {
   static String componentName = "posSizes";
   final String? posSizeID;
 
-  AbstractPosSizeComponent({this.posSizeID});
+  AbstractPosSizeComponent({Key? key, this.posSizeID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

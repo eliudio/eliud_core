@@ -42,14 +42,17 @@ class DialogStateHelper {
 
   Widget build(BuildContext context,
       {required String title,
+        Key? key,
       required Widget contents,
       required List<Widget> buttons,
       double? width,
       required DialogButtonPosition dialogButtonPosition,
       Widget? separator,
-      bool? includeHeading}) {
+      bool? includeHeading,
+      }) {
     return
       Dialog(
+        key: key,
         insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

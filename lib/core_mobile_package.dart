@@ -18,5 +18,4 @@ class CoreMobilePackage extends CorePackage {
           other is CoreMobilePackage &&
               runtimeType == other.runtimeType &&
               stateMemberModel == other.stateMemberModel;
-
 }

@@ -27,7 +27,7 @@ abstract class AbstractPageComponent extends StatelessWidget {
   static String componentName = "pages";
   final String? pageID;
 
-  AbstractPageComponent({this.pageID});
+  AbstractPageComponent({Key? key, this.pageID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

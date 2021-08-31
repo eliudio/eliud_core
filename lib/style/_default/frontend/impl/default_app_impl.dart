@@ -7,13 +7,18 @@ class DefaultAppImpl implements HasApp {
   @override
   // on apple we would possibly use CupertinoApp
   Widget app(
-          {GlobalKey<NavigatorState>? navigatorKey,
+          {
+          Key? key,
+          GlobalKey<NavigatorState>? navigatorKey,
           GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
           String? initialRoute,
           RouteFactory? onGenerateRoute,
           RouteFactory? onUnknownRoute,
-          required String title}) =>
+          required String title
+          }
+        ) =>
       MaterialApp(
+        key: key,
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         scaffoldMessengerKey: scaffoldMessengerKey,

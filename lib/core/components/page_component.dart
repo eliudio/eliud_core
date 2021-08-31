@@ -9,6 +9,7 @@ import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_event.dart';
@@ -25,6 +26,8 @@ import '../registry.dart';
 
 // ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
+  final GlobalKey _pageKey = GlobalKey();
+
   final GlobalKey<NavigatorState>? navigatorKey;
   final String appId;
   final String pageId;
@@ -52,14 +55,16 @@ class PageComponent extends StatelessWidget {
                 future: getPage(appId, pageId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return PageContentsWidget(
+                    var pageModel = snapshot.data!;
+                    return Decorations.instance().decoratePage(_pageKey, PageContentsWidget(
+                      key: _pageKey,
                       state: accessState,
                       pageID: pageId,
-                      pageModel: snapshot.data!,
+                      pageModel: pageModel,
                       parameters: parameters,
                       scaffoldKey: scaffoldKey,
                       scaffoldMessengerKey: scaffoldMessengerKey,
-                    );
+                    ), pageModel);
                   }
                   return StyleRegistry.registry().styleWithContext(context)
                       .frontEndStyle().progressIndicatorStyle()

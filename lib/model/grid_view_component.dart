@@ -27,7 +27,7 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
   static String componentName = "gridViews";
   final String? gridViewID;
 
-  AbstractGridViewComponent({this.gridViewID});
+  AbstractGridViewComponent({Key? key, this.gridViewID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

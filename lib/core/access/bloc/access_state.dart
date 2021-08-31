@@ -10,13 +10,12 @@ import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
+import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-
-import '../../packages.dart';
 
 abstract class AccessState extends Equatable {
   const AccessState();

@@ -24,13 +24,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
-  Widget createNew({String? id, Map<String, dynamic>? parameters}) {
-    return MemberDashboard(id: id);
+  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
+    return MemberDashboard(key: key, id: id);
   }
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  MemberDashboard({String? id}) : super(memberDashboardID: id);
+  MemberDashboard({Key? key, required String id}) : super(key: key, memberDashboardID: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {

@@ -27,7 +27,7 @@ abstract class AbstractFontComponent extends StatelessWidget {
   static String componentName = "fonts";
   final String? fontID;
 
-  AbstractFontComponent({this.fontID});
+  AbstractFontComponent({Key? key, this.fontID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

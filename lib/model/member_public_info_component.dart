@@ -27,7 +27,7 @@ abstract class AbstractMemberPublicInfoComponent extends StatelessWidget {
   static String componentName = "memberPublicInfos";
   final String? memberPublicInfoID;
 
-  AbstractMemberPublicInfoComponent({this.memberPublicInfoID});
+  AbstractMemberPublicInfoComponent({Key? key, this.memberPublicInfoID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

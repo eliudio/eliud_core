@@ -2,7 +2,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
-import 'package:eliud_core/creator/widgets/creator_mode.dart';
+import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -91,6 +91,22 @@ class _EliudAppBarState extends State<EliudAppBar> {
       }
 
 
+      return Decorations.instance().decorateAppBar(_appBarKey, StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle().appBarStyle()
+          .appBar(
+          context,
+          headerAttributes: headerAttributes,
+          key: _appBarKey,
+          backgroundOverride: value.backgroundOverride,
+          menuBackgroundColorOverride: value.menuBackgroundColorOverride,
+          iconColorOverride: value.iconColorOverride,
+          selectedIconColorOverride: value.selectedIconColorOverride,
+          pageName: widget.theTitle,
+          items: items,
+          openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
+      ), value);
+/*
       return CreatorButton.create(toDecorateKey: _appBarKey, label: 'AppBar', toDecorate: StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle().appBarStyle()
@@ -106,6 +122,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
             items: items,
             openDrawer: () => widget.scaffoldKey.currentState!.openEndDrawer()
           ), edit: true,);
+*/
     } else {
       return Text('App not loaded');
     }

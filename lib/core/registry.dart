@@ -1,14 +1,14 @@
 import 'dart:collection';
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/components/dialog_component.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
-import 'package:eliud_core/core/packages.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
@@ -25,6 +25,7 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
  */
 
 class Registry {
+  final GlobalKey _appKey = GlobalKey();
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
 
@@ -45,7 +46,7 @@ class Registry {
 
   Map<String?, ComponentConstructor?> registryMap() => _registryMap;
 
-  Registry._internal() {}
+  Registry._internal();
 
   static Registry? registry() {
     _instance ??= Registry._internal();
@@ -153,16 +154,17 @@ class Registry {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var app = snapshot.data!;
-            var initialRoute = initialFragment ?? '$appId/' + app!.homePages!.homePagePublic!;
+            var initialRoute = initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
             return MultiBlocProvider(
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
                     builder: (context, state) {
-                  return StyleRegistry.registry()
+                  return Decorations.instance().decorateApp(_appKey, StyleRegistry.registry()
                       .styleWithContext(context)
                       .frontEndStyle()
                       .appStyle()
                       .app(
+                        key: _appKey,
                         navigatorKey: navigatorKey,
                         scaffoldMessengerKey: rootScaffoldMessengerKey,
                         initialRoute: initialRoute,
@@ -173,7 +175,7 @@ class Registry {
                                   title: 'Error', content: 'Page not found'));
                         },
                         title: app.title ?? 'No title',
-                      );
+                      ), app);
                 }));
           } else {
             return MaterialApp(
@@ -186,13 +188,13 @@ class Registry {
   }
 
   Widget component(String componentName, String id,
-      {Map<String, dynamic>? parameters}) {
+      {Map<String, dynamic>? parameters, Key? key}) {
     Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
         returnThis =
-            componentConstructor.createNew(id: id, parameters: parameters);
+            componentConstructor.createNew(key: key, id: id, parameters: parameters);
       }
     } catch (_) {}
     if (returnThis != null) return returnThis;

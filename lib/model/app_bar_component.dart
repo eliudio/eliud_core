@@ -27,7 +27,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
   static String componentName = "appBars";
   final String? appBarID;
 
-  AbstractAppBarComponent({this.appBarID});
+  AbstractAppBarComponent({Key? key, this.appBarID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -41,6 +41,7 @@ abstract class CorePackage extends PackageWithSubscription {
     }
   }
   
+  @override
   void unsubscribe() {
     super.unsubscribe();
     _setState(null);

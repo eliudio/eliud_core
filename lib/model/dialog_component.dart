@@ -27,7 +27,7 @@ abstract class AbstractDialogComponent extends StatelessWidget {
   static String componentName = "dialogs";
   final String? dialogID;
 
-  AbstractDialogComponent({this.dialogID});
+  AbstractDialogComponent({Key? key, this.dialogID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

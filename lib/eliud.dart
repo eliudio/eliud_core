@@ -1,16 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/component_registry.dart';
-import 'core/packages.dart';
+import 'decoration/decoration.dart' as deco;
+import 'decoration/decorations.dart' as deco;
+import 'package/packages.dart';
 import 'core/registry.dart';
 import 'package/package.dart';
 
 class Eliud {
-  void register(Package package) {
-    Packages.registerPackage(package);
+  void registerPackage(Package package) {
+    Packages.instance().registerPackage(package);
   }
 
-  void initRegistryAndPackages() {
+  void registerDecoration(deco.Decoration decoration) {
+    deco.Decorations.instance().registerDecoration(decoration);
+  }
+
+  /*
+   * Finalise the initialisation of the app.
+   * This must be called before running the app, and/or before wiping the app and reinstalling
+   */
+  void finalizeInitialisation() {
     try {
       ComponentRegistry().init();
 

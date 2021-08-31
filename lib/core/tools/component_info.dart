@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
@@ -19,7 +20,15 @@ class ComponentInfo {
   final BackgroundModel? backgroundOverride;
   final GridViewModel? gridView;
 
-  ComponentInfo(this.componentModels, this.parameters, this.widgets, this.hasFab, this.state, this.layout, this.backgroundOverride, this.gridView);
+  ComponentInfo(
+      this.componentModels,
+      this.parameters,
+      this.widgets,
+      this.hasFab,
+      this.state,
+      this.layout,
+      this.backgroundOverride,
+      this.gridView);
 
   static HasFab? _getFab(List<Widget?> components) {
     HasFab? hasFab;
@@ -33,13 +42,25 @@ class ComponentInfo {
 
 //  ComponentInfo(this.widgets, this.hasFab, this.state, this.layout, this.background, this.gridView);
 
-  static ComponentInfo getComponentInfo(List<BodyComponentModel>? componentModels, Map<String, dynamic>? parameters, AppLoaded state, Layout layout, BackgroundModel? background, GridViewModel? gridView) {
+  static ComponentInfo getComponentInfo(
+      List<BodyComponentModel>? componentModels,
+      Map<String, dynamic>? parameters,
+      AppLoaded state,
+      Layout layout,
+      BackgroundModel? background,
+      GridViewModel? gridView) {
     if (componentModels == null) throw Exception("componentModels is null");
-    var widgets = componentModels
-        .map((model) => Registry.registry()!.component(
-        model.componentName!, model.componentId!, parameters: parameters))
-        .toList();
+    var widgets = componentModels.map((model) {
+      var key = GlobalKey();
+      return Decorations.instance().decorateBodyComponent(key,
+          Registry.registry()!.component(
+              model.componentName!, model.componentId!,
+              key: key,
+              parameters: parameters),
+          model);
+    }).toList();
     var hasFab = _getFab(widgets);
-    return ComponentInfo(componentModels, parameters, widgets, hasFab, state, layout, background, gridView);
+    return ComponentInfo(componentModels, parameters, widgets, hasFab, state,
+        layout, background, gridView);
   }
 }

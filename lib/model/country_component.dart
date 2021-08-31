@@ -27,7 +27,7 @@ abstract class AbstractCountryComponent extends StatelessWidget {
   static String componentName = "countrys";
   final String? countryID;
 
-  AbstractCountryComponent({this.countryID});
+  AbstractCountryComponent({Key? key, this.countryID}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

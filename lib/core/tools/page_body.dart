@@ -12,20 +12,28 @@ import 'component_info.dart';
 
 Layout fromPageLayout(PageLayout? pageLayout) {
   switch (pageLayout) {
-    case PageLayout.GridView: return Layout.GridView;
-    case PageLayout.ListView: return Layout.ListView;
-    case PageLayout.OnlyTheFirstComponent: return Layout.OnlyTheFirstComponent;
-    case PageLayout.Unknown: return Layout.Unknown;
+    case PageLayout.GridView:
+      return Layout.GridView;
+    case PageLayout.ListView:
+      return Layout.ListView;
+    case PageLayout.OnlyTheFirstComponent:
+      return Layout.OnlyTheFirstComponent;
+    case PageLayout.Unknown:
+      return Layout.Unknown;
   }
   return Layout.Unknown;
 }
 
 Layout fromDialogLayout(DialogLayout? dialogLayout) {
   switch (dialogLayout) {
-    case DialogLayout.GridView: return Layout.GridView;
-    case DialogLayout.ListView: return Layout.ListView;
-    case DialogLayout.OnlyTheFirstComponent: return Layout.OnlyTheFirstComponent;
-    case DialogLayout.Unknown: return Layout.Unknown;
+    case DialogLayout.GridView:
+      return Layout.GridView;
+    case DialogLayout.ListView:
+      return Layout.ListView;
+    case DialogLayout.OnlyTheFirstComponent:
+      return Layout.OnlyTheFirstComponent;
+    case DialogLayout.Unknown:
+      return Layout.Unknown;
   }
   return Layout.Unknown;
 }
@@ -42,22 +50,28 @@ class PageBody extends StatefulWidget {
 }
 
 class _PageBodyState extends State<PageBody> {
-
   @override
   Widget build(BuildContext context) {
-    return theBody(context, widget.componentInfo.state, backgroundOverride:widget.componentInfo.backgroundOverride, components: widget.componentInfo.widgets, layout:widget.componentInfo.layout,
+    return theBody(context, widget.componentInfo.state,
+        backgroundOverride: widget.componentInfo.backgroundOverride,
+        components: widget.componentInfo.widgets,
+        layout: widget.componentInfo.layout,
         gridView: widget.componentInfo.gridView);
   }
 
-  Widget theBody(BuildContext context,
-      AccessState accessState,
+  Widget theBody(BuildContext context, AccessState accessState,
       {BackgroundModel? backgroundOverride,
-        required List<Widget> components,
-        Layout? layout,
-        GridViewModel? gridView
-      }) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().pageBodyStyle().pageBody(context, backgroundOverride: backgroundOverride,
-        components: components, layout: layout, gridView: gridView);
+      required List<Widget> components,
+      Layout? layout,
+      GridViewModel? gridView}) {
+    return StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .pageBodyStyle()
+        .pageBody(context,
+            backgroundOverride: backgroundOverride,
+            components: components,
+            layout: layout,
+            gridView: gridView);
   }
-
 }

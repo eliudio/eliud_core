@@ -1,7 +1,7 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
-import 'package:eliud_core/creator/widgets/creator_mode.dart';
+import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,6 +36,17 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
       var itemList = MenuItemMapper.mapMenu(
           context, homeMenu.menu!, theState.getMember(), currentPage);
       if ((itemList != null) && (itemList.length > 2)) {
+        return Decorations.instance().decorateBottomNavigationBar(_bottomNavigationBarKey, StyleRegistry.registry()
+            .styleWithContext(context)
+            .frontEndStyle().bottomNavigationBarStyle()
+            .bottomNavigationBar(context,
+            key: _bottomNavigationBarKey,
+            items: itemList,
+            backgroundOverride: widget.homeMenu.backgroundOverride,
+            popupMenuBackgroundColorOverride:
+            widget.homeMenu.popupMenuBackgroundColorOverride), widget.homeMenu);
+
+/*
         return CreatorButton.create(label: 'Bottom Nav', toDecorate: StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle().bottomNavigationBarStyle()
@@ -45,6 +56,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
                 backgroundOverride: widget.homeMenu.backgroundOverride,
                 popupMenuBackgroundColorOverride:
                     widget.homeMenu.popupMenuBackgroundColorOverride), edit: true, toDecorateKey: _bottomNavigationBarKey,);
+*/
       } else {
         return Container(height:0);
       }

@@ -21,8 +21,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     required String title,
     required String message,
     String? closeLabel,
+    Key? key,
   }) {
     return dialogHelper.build(context,
+        key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: _frontEndStyle.textStyle().text(context, message),
@@ -36,8 +38,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     required String title,
     required String errorMessage,
     String? closeLabel,
+    Key? key,
   }) {
     return dialogHelper.build(context,
+        key: key,
         title: title,
         contents:
         _frontEndStyle.textStyle().text(context, errorMessage),
@@ -52,8 +56,11 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       required String message,
       required OnSelection onSelection,
       String? ackButtonLabel,
-      String? nackButtonLabel}) {
+      String? nackButtonLabel,
+      Key? key,
+      }) {
     return dialogHelper.build(context,
+        key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
         contents: _frontEndStyle.textStyle().text(context, message),
@@ -73,9 +80,12 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       String? nackButtonLabel,
       String? hintText,
       required Function(String? response) onPressed,
-      String? initialValue}) {
+      String? initialValue,
+      Key? key,
+    }) {
     String? feedback;
     return dialogHelper.build(context,
+        key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
         contents: dialogHelper.getListTile(
@@ -125,8 +135,11 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       {required String title,
       required List<String> options,
       required OnSelection onSelection,
-      String? buttonLabel}) {
+      String? buttonLabel,
+      Key? key,
+    }) {
     return dialogHelper.build(context,
+        key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
         buttons: dialogHelper.getCloseButton(context, onPressed: () {
@@ -156,8 +169,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     required OnSelection onSelection,
     String? ackButtonLabel,
     String? nackButtonLabel,
+    Key? key,
   }) {
     return dialogHelper.build(context,
+        key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
@@ -175,8 +190,11 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       {required String title,
       required Widget child,
       VoidCallback? onPressed,
-      String? buttonLabel}) {
+      String? buttonLabel,
+      Key? key,
+    }) {
     return dialogHelper.build(context,
+        key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
@@ -193,8 +211,11 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       {required String title,
       required Widget child,
       required List<Widget> buttons,
-      bool? includeHeading}) {
+      bool? includeHeading,
+      Key? key,
+      }) {
     return dialogHelper.build(context,
+        key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
