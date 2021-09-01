@@ -16,10 +16,10 @@ typedef CreateWidget = Widget Function();
    */
 abstract class Decoration {
   CreateWidget createDecoratedAppBar(BuildContext context, Key? originalAppBarKey, CreateWidget createOriginalAppBar, AppBarModel model);
-  Widget decorateDrawer(BuildContext context, Key? originalDrawerKey, Widget drawer, DrawerModel model);
-  Widget decorateBottomNavigationBar(BuildContext context, Key? originalBottomNavigationBarkey, Widget bottomNavigationBar, HomeMenuModel model);
-  Widget decorateApp(BuildContext context, Key? originalAppkey, Widget app, AppModel model);
-  Widget decoratePage(BuildContext context, Key? originalPageKey, Widget page, PageModel model);
-  Widget decorateDialog(BuildContext context, Key? originalDialogKey, Widget dialog, DialogModel model);
+  CreateWidget createDecoratedDrawer(BuildContext context, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model);
+  CreateWidget createDecoratedBottomNavigationBar(BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model);
+  CreateWidget createDecoratedApp(BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model);
+  CreateWidget createDecoratedPage(BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model);
+  CreateWidget createDecoratedDialog(BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model);
   CreateWidget createDecoratedBodyComponent(BuildContext context, Key? originalBodyComponentKey, CreateWidget bodyComponent, BodyComponentModel model);
 }

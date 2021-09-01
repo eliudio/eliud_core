@@ -27,7 +27,7 @@ class _DialogComponentState extends State<DialogComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Decorations.instance().decorateDialog(context, _dialogKey,
+    return Decorations.instance().createDecoratedDialog(context, _dialogKey, ()=>
         StyleRegistry.registry()
             .styleWithContext(context)
             .frontEndStyle()
@@ -45,7 +45,7 @@ class _DialogComponentState extends State<DialogComponent> {
                   .dialogButton(context,
                       label: 'Close', onPressed: () => pressed(true)),
             ]),
-        widget.dialog!);
+        widget.dialog!)();
   }
 
   Widget getContents(BuildContext context) {

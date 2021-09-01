@@ -51,7 +51,7 @@ class PageComponent extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var pageModel = snapshot.data!;
-                    return Decorations.instance().decoratePage(context, _pageKey, PageContentsWidget(
+                    return Decorations.instance().createDecoratedPage(context, _pageKey, () => PageContentsWidget(
                       key: _pageKey,
                       state: accessState,
                       pageID: pageId,
@@ -59,7 +59,7 @@ class PageComponent extends StatelessWidget {
                       parameters: parameters,
                       scaffoldKey: scaffoldKey,
                       scaffoldMessengerKey: scaffoldMessengerKey,
-                    ), pageModel);
+                    ), pageModel)();
                   }
                   return StyleRegistry.registry().styleWithContext(context)
                       .frontEndStyle().progressIndicatorStyle()

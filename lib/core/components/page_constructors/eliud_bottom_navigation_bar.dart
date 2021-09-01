@@ -13,9 +13,7 @@ class EliudBottomNavigationBar extends StatefulWidget {
   final HomeMenuModel homeMenu;
 
   EliudBottomNavigationBar(
-      {Key? key,
-      required this.homeMenu,
-      required this.currentPage})
+      {Key? key, required this.homeMenu, required this.currentPage})
       : super(key: key);
 
   @override
@@ -32,37 +30,32 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
     var currentPage = widget.currentPage;
     var theState = AccessBloc.getState(context);
     if (theState is AppLoaded) {
-      var homeMenu = widget.homeMenu;
-      var itemList = MenuItemMapper.mapMenu(
-          context, homeMenu.menu!, theState.getMember(), currentPage);
-      if ((itemList != null) && (itemList.length > 2)) {
-        return Decorations.instance().decorateBottomNavigationBar(context, _bottomNavigationBarKey, StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle().bottomNavigationBarStyle()
-            .bottomNavigationBar(context,
-            key: _bottomNavigationBarKey,
-            items: itemList,
-            backgroundOverride: widget.homeMenu.backgroundOverride,
-            popupMenuBackgroundColorOverride:
-            widget.homeMenu.popupMenuBackgroundColorOverride), widget.homeMenu);
-
-/*
-        return CreatorButton.create(label: 'Bottom Nav', toDecorate: StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle().bottomNavigationBarStyle()
-            .bottomNavigationBar(context,
-                key: _bottomNavigationBarKey,
-                items: itemList,
-                backgroundOverride: widget.homeMenu.backgroundOverride,
-                popupMenuBackgroundColorOverride:
-                    widget.homeMenu.popupMenuBackgroundColorOverride), edit: true, toDecorateKey: _bottomNavigationBarKey,);
-*/
-      } else {
-        return Container(height:0);
-      }
+      return Decorations.instance().createDecoratedBottomNavigationBar(
+          context, _bottomNavigationBarKey, () {
+        var homeMenu = widget.homeMenu;
+        var itemList = MenuItemMapper.mapMenu(
+            context, homeMenu.menu!, theState.getMember(), currentPage);
+        if ((itemList != null) && (itemList.length > 2)) {
+          return StyleRegistry.registry()
+              .styleWithContext(context)
+              .frontEndStyle()
+              .bottomNavigationBarStyle()
+              .bottomNavigationBar(context,
+                  key: _bottomNavigationBarKey,
+                  items: itemList,
+                  backgroundOverride: widget.homeMenu.backgroundOverride,
+                  popupMenuBackgroundColorOverride:
+                      widget.homeMenu.popupMenuBackgroundColorOverride);
+        } else {
+          return Container(height: 0);
+        }
+      }, widget.homeMenu)();
     } else {
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+      return StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .progressIndicatorStyle()
+          .progressIndicator(context);
     }
   }
 }
-

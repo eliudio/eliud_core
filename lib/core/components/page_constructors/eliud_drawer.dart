@@ -37,56 +37,55 @@ class _EliudDrawerState extends State<EliudDrawer> {
     var currentPage = widget.currentPage;
     var theState = AccessBloc.getState(context);
     if (theState is AppLoaded) {
-      if (drawer.menu != null) {
-        var drawerHeader1Attributes;
-        if (((drawer.headerText != null) &&
-          (drawer.headerText!.isNotEmpty)) || (drawer.headerBackgroundOverride != null)) {
-          drawerHeader1Attributes = DrawerHeader1Attributes(
-              drawer.headerHeight,
-              drawer.headerText!,
-              drawer.headerBackgroundOverride);
-        }
-        var drawerHeader2Attributes;
-        if ((drawer.secondHeaderText != null) &&
-            (drawer.secondHeaderText!.isNotEmpty)) {
-          drawerHeader2Attributes = DrawerHeader2Attributes(
-              drawer.headerHeight, processDoc(context, drawer.secondHeaderText!));
-        }
+      return Decorations.instance().createDecoratedDrawer(context, _drawerKey,
+          () {
+        if (drawer.menu != null) {
+          var drawerHeader1Attributes;
+          if (((drawer.headerText != null) &&
+                  (drawer.headerText!.isNotEmpty)) ||
+              (drawer.headerBackgroundOverride != null)) {
+            drawerHeader1Attributes = DrawerHeader1Attributes(
+                drawer.headerHeight,
+                drawer.headerText!,
+                drawer.headerBackgroundOverride);
+          }
+          var drawerHeader2Attributes;
+          if ((drawer.secondHeaderText != null) &&
+              (drawer.secondHeaderText!.isNotEmpty)) {
+            drawerHeader2Attributes = DrawerHeader2Attributes(
+                drawer.headerHeight,
+                processDoc(context, drawer.secondHeaderText!));
+          }
 
-        var itemList = MenuItemMapper.mapMenu(context, drawer.menu!, theState.getMember(), currentPage);
-        if (itemList != null) {
-          return Decorations.instance().decorateDrawer(context, _drawerKey, StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle().drawerStyle()
-              .drawer(context,
-              key: _drawerKey,
-              drawerType: widget.drawerType,
-              header1: drawerHeader1Attributes,
-              header2: drawerHeader2Attributes,
-              items: itemList,
-              popupMenuBackgroundColorOverride: widget.drawer.popupMenuBackgroundColorOverride,
-              backgroundOverride: widget.drawer.backgroundOverride), widget.drawer);
-/*
-          return CreatorButton.create(label: 'Drawer', toDecorate: StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle().drawerStyle()
-              .drawer(context,
-              key: _drawerKey,
-              drawerType: widget.drawerType,
-              header1: drawerHeader1Attributes,
-              header2: drawerHeader2Attributes,
-              items: itemList,
-              popupMenuBackgroundColorOverride: widget.drawer.popupMenuBackgroundColorOverride,
-              backgroundOverride: widget.drawer.backgroundOverride), edit: true, toDecorateKey: _drawerKey,);
-*/
+          var itemList = MenuItemMapper.mapMenu(
+              context, drawer.menu!, theState.getMember(), currentPage);
+          if (itemList != null) {
+            return StyleRegistry.registry()
+                .styleWithContext(context)
+                .frontEndStyle()
+                .drawerStyle()
+                .drawer(context,
+                    key: _drawerKey,
+                    drawerType: widget.drawerType,
+                    header1: drawerHeader1Attributes,
+                    header2: drawerHeader2Attributes,
+                    items: itemList,
+                    popupMenuBackgroundColorOverride:
+                        widget.drawer.popupMenuBackgroundColorOverride,
+                    backgroundOverride: widget.drawer.backgroundOverride);
+          } else {
+            return Text('Drawer ${drawer.documentID} has no items');
+          }
         } else {
-          return Text('Drawer ${drawer.documentID} has no items');
+          return Text('Drawer ${drawer.documentID} has no menu defined');
         }
-      } else {
-        return Text('Drawer ${drawer.documentID} has no menu defined');
-      }
+      }, widget.drawer)();
     } else {
-      return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+      return StyleRegistry.registry()
+          .styleWithContext(context)
+          .frontEndStyle()
+          .progressIndicatorStyle()
+          .progressIndicator(context);
     }
   }
 }

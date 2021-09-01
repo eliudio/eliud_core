@@ -159,7 +159,7 @@ class Registry {
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
                     builder: (context, state) {
-                  return Decorations.instance().decorateApp(context, _appKey, StyleRegistry.registry()
+                  return Decorations.instance().createDecoratedApp(context, _appKey, () => StyleRegistry.registry()
                       .styleWithContext(context)
                       .frontEndStyle()
                       .appStyle()
@@ -175,7 +175,7 @@ class Registry {
                                   title: 'Error', content: 'Page not found'));
                         },
                         title: app.title ?? 'No title',
-                      ), app);
+                      ), app)();
                 }));
           } else {
             return MaterialApp(

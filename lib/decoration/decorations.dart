@@ -26,15 +26,6 @@ class Decorations extends Decoration {
     registeredDecorations.add(decoration);
   }
 
-  @override
-  Widget decorateApp(BuildContext context, Key? key, Widget app, AppModel model) {
-    var decoratedWidget = app;
-    for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateApp(context, key, decoratedWidget, model);
-    }
-    return decoratedWidget;
-  }
-
   // return nesting of CreateWidget
   @override
   CreateWidget createDecoratedAppBar(BuildContext context, Key? key, CreateWidget createAppBar, AppBarModel model) {
@@ -57,41 +48,52 @@ class Decorations extends Decoration {
   }
 
   @override
-  Widget decorateDialog(BuildContext context, Key? key, Widget dialog, DialogModel model) {
-    var decoratedWidget = dialog;
+  CreateWidget createDecoratedDrawer(BuildContext context, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model) {
+    var createWidget = createOriginalDrawer;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateDialog(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedDrawer(context, originalDrawerKey, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 
   @override
-  Widget decorateDrawer(BuildContext context, Key? key, Widget drawer, DrawerModel model) {
-    var decoratedWidget = drawer;
+  CreateWidget createDecoratedBottomNavigationBar(BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model) {
+    var createWidget = createBottomNavigationBar;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateDrawer(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedBottomNavigationBar(context, originalBottomNavigationBarKey, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 
   @override
-  Widget decoratePage(BuildContext context, Key? key, Widget page, PageModel model) {
-    var decoratedWidget = page;
+  CreateWidget createDecoratedPage(BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model) {
+    var createWidget = createOriginalPage;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decoratePage(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedPage(context, originalPageKey, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 
   @override
-  List<Object?> get props => [];
+  CreateWidget createDecoratedApp(BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model) {
+    var createWidget = createOriginalApp;
+    for (var registeredDecoration in registeredDecorations) {
+      createWidget = registeredDecoration.createDecoratedApp(context, originalAppkey, createWidget, model);
+    }
+
+    return createWidget;
+  }
 
   @override
-  Widget decorateBottomNavigationBar(BuildContext context, Key? key, Widget bottomNavigationBar, HomeMenuModel model) {
-    var decoratedWidget = bottomNavigationBar;
+  CreateWidget createDecoratedDialog(BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model) {
+    var createWidget = createOriginalDialog;
     for (var registeredDecoration in registeredDecorations) {
-      decoratedWidget = registeredDecoration.decorateBottomNavigationBar(context, key, decoratedWidget, model);
+      createWidget = registeredDecoration.createDecoratedDialog(context, originalDialogKey, createWidget, model);
     }
-    return decoratedWidget;
+
+    return createWidget;
   }
 }
