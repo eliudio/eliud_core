@@ -82,8 +82,7 @@ class MenuItemMapper {
                 if (!PageHelper.isActivePage(currentPage, action)) {
                   eliudrouter.Router.navigateTo(context, action);
                 }
-              }
-              , isActive: PageHelper.isActivePage(currentPage, action));
+              }, isActive: PageHelper.isActivePage(currentPage, action));
         }
       }
     }
