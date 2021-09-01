@@ -77,7 +77,7 @@ class MenuItemMapper {
         if (action.hasAccess(context)) {
           return MenuItemAttributes(
               icon: item.icon,
-              label: processDoc(context, item.text!),
+              label: item.text == null ? '' : processDoc(context, item.text!),
               onTap: () {
                 if (!PageHelper.isActivePage(currentPage, action)) {
                   eliudrouter.Router.navigateTo(context, action);
