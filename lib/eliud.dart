@@ -1,3 +1,5 @@
+import 'package:eliud_core/style/style_family.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/component_registry.dart';
@@ -14,6 +16,10 @@ class Eliud {
 
   void registerDecoration(deco.Decoration decoration) {
     deco.Decorations.instance().registerDecoration(decoration);
+  }
+
+  void registerStyleFamily(StyleFamily styleFamily) {
+    StyleRegistry.registry().registerStyleFamily(styleFamily);
   }
 
   /*

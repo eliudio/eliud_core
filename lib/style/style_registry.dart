@@ -1,13 +1,13 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/_default/default_style_family.dart';
 import 'package:eliud_core/style/style.dart';
+import 'package:eliud_core/style/style_family.dart';
 import 'package:flutter/material.dart';
-
-import '_default/default_style.dart';
 
 class StyleRegistry {
   static Style? _defaultStyle;
-  Map<String, Style> registeredStyle = <String, Style>{};
+  Map<String, StyleFamily> registeredStyleFamilies = <String, StyleFamily>{};
 
   static final StyleRegistry _instance = StyleRegistry();
 
@@ -31,20 +31,25 @@ class StyleRegistry {
     return style(app.styleFamily!, app.styleName!);
   }
 
+  StyleFamily? styleFamily(String familyName) {
+    return registeredStyleFamilies[familyName];
+  }
+
   Style style(String familyName, String styleName) {
-    var style = registeredStyle[key(familyName, styleName)];
-    if (style != null) return style;
+    var _styleFamily = styleFamily(familyName);
+    if (_styleFamily != null) {
+      var style = _styleFamily.style(styleName);
+      if (style != null) return style;
+    }
     return defaultStyle();
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= DefaultStyle();
+    _defaultStyle ??= DefaultStyleFamily().defaultStyle();
     return _defaultStyle!;
   }
 
-  String key(String familyName, String styleName) => familyName + '-' + styleName;
-
-  void registerStyle(Style style) {
-    registeredStyle[key(style.familyName(), style.styleName())] = style;
+  void registerStyleFamily(StyleFamily styleFamily) {
+    registeredStyleFamilies[styleFamily.familyName] = styleFamily;
   }
 }

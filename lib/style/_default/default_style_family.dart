@@ -2,24 +2,37 @@ import 'package:eliud_core/style/admin/admin_form_style.dart';
 import 'package:eliud_core/style/admin/admin_list_style.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/style.dart';
+import 'package:flutter/widgets.dart';
+import '../style_family.dart';
 import 'admin/default_admin_form_style.dart';
 import 'admin/default_admin_list_style.dart';
 import 'frontend/default_frontend_style.dart';
 
-/*
- * This is the default style.
- * This style is used when an app refers to an non existing style or an app has not yet specified a style
- * This style is the minimum implementation of the style
- */
-class DefaultStyle extends Style {
-  static final String defaultFamilyName = 'DefaultFamily';
+class DefaultStyleFamily extends StyleFamily {
+  static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
+
+  DefaultStyleFamily() : super(defaultStyleFamilyName) {
+    register(_DefaultStyle(this));
+  }
+
+  Style defaultStyle() => styles.values.first;
+
+  /*
+   * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_decor_style
+   * will allow to create / update the style
+   */
+  @override
+  Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;
+}
+
+class _DefaultStyle extends Style {
   static final String defaultStyleName = 'DefaultStyle';
 
   late AdminFormStyle _adminFormStyle;
   late AdminListStyle _adminListStyle;
   late FrontEndStyle _frontEndFormStyle;
 
-  DefaultStyle() : super(defaultFamilyName, defaultStyleName, ) {
+  _DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, ) {
     _adminFormStyle = DefaultAdminFormStyle();
     _adminListStyle = DefaultAdminListStyle();
     _frontEndFormStyle = DefaultFrontEndStyle();

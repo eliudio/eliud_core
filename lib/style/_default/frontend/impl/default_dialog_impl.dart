@@ -17,6 +17,7 @@ class DefaultDialogImpl implements HasDialog {
     required String title,
     required String message,
     String? closeLabel,
+    double? widthFraction, // percentage of screen width
   }) {
     // MessageDialog
     DialogStatefulWidgetHelper.openIt(
@@ -25,6 +26,7 @@ class DefaultDialogImpl implements HasDialog {
         context,
         title: title,
         message: message,
+        widthFraction: widthFraction,
       ),
     );
   }
@@ -35,6 +37,7 @@ class DefaultDialogImpl implements HasDialog {
     required String title,
     required String errorMessage,
     String? closeLabel,
+    double? widthFraction, // percentage of screen width
   }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
@@ -42,6 +45,7 @@ class DefaultDialogImpl implements HasDialog {
           context,
           title: title,
           errorMessage: errorMessage,
+          widthFraction: widthFraction,
         ),
       );
 
@@ -51,7 +55,9 @@ class DefaultDialogImpl implements HasDialog {
           required String message,
           required OnSelection onSelection,
           String? ackButtonLabel,
-          String? nackButtonLabel}) =>
+          String? nackButtonLabel,
+          double? widthFraction, // percentage of screen width
+          }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
           _frontEndStyle.dialogWidgetStyle().ackNackDialog(
@@ -61,6 +67,7 @@ class DefaultDialogImpl implements HasDialog {
             onSelection: onSelection,
             ackButtonLabel: ackButtonLabel,
             nackButtonLabel: nackButtonLabel,
+            widthFraction: widthFraction,
           ));
 
   @override
@@ -70,7 +77,9 @@ class DefaultDialogImpl implements HasDialog {
           String? nackButtonLabel,
           String? hintText,
           required Function(String? response) onPressed,
-          String? initialValue}) =>
+          String? initialValue,
+          double? widthFraction, // percentage of screen width
+          }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
         _frontEndStyle.dialogWidgetStyle().entryDialog(
@@ -81,6 +90,7 @@ class DefaultDialogImpl implements HasDialog {
           hintText: hintText,
           onPressed: onPressed,
           initialValue: initialValue,
+          widthFraction: widthFraction,
         ),
       );
 
@@ -89,7 +99,9 @@ class DefaultDialogImpl implements HasDialog {
       {required String title,
       required List<String> options,
       required OnSelection onSelection,
-      String? buttonLabel}) {
+      String? buttonLabel,
+      double? widthFraction, // percentage of screen width
+      }) {
     DialogStatefulWidgetHelper.openIt(
         context,
         _frontEndStyle.dialogWidgetStyle().selectionDialog(
@@ -98,6 +110,7 @@ class DefaultDialogImpl implements HasDialog {
           options: options,
           buttonLabel: buttonLabel,
           onSelection: onSelection,
+          widthFraction: widthFraction,
         ));
   }
 
@@ -106,7 +119,9 @@ class DefaultDialogImpl implements HasDialog {
           {required String title,
           required Widget child,
           VoidCallback? onPressed,
-          String? buttonLabel}) =>
+          String? buttonLabel,
+          double? widthFraction // percentage of screen width
+          }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
           _frontEndStyle.dialogWidgetStyle().complexDialog(
@@ -115,19 +130,24 @@ class DefaultDialogImpl implements HasDialog {
             child: child,
             onPressed: onPressed,
             buttonLabel: buttonLabel,
+            widthFraction: widthFraction,
           ));
 
   @override
   void openFlexibleDialog(BuildContext context,
       {required String title,
       required Widget child,
-      required List<Widget> buttons}) {
+      required List<Widget> buttons,
+      double? widthFraction, // percentage of screen width
+      }) {
     DialogStatefulWidgetHelper.openIt(context,
-        _frontEndStyle.dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons));
+        _frontEndStyle.dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons,           widthFraction: widthFraction,
+        ));
   }
 
   @override
-  void openWidgetDialog(BuildContext context, {required Widget child}) {
-    DialogStatefulWidgetHelper.openIt(context, child);
+  void openWidgetDialog(BuildContext context, {required Widget child,
+  }) {
+    DialogStatefulWidgetHelper.openIt(context, child, );
   }
 }

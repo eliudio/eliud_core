@@ -1,6 +1,7 @@
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/types.dart';
+import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     required String message,
     String? closeLabel,
     Key? key,
+    double? widthFraction, // percentage of screen width
   }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -39,8 +42,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     required String errorMessage,
     String? closeLabel,
     Key? key,
+    double? widthFraction, // percentage of screen width
   }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         contents:
@@ -58,8 +63,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       String? ackButtonLabel,
       String? nackButtonLabel,
       Key? key,
+      double? widthFraction, // percentage of screen width
       }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
@@ -82,9 +89,11 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       required Function(String? response) onPressed,
       String? initialValue,
       Key? key,
+      double? widthFraction, // percentage of screen width
     }) {
     String? feedback;
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
@@ -113,23 +122,6 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
         ));
   }
 
-/*
-  =>
-      RequestValueDialog(
-        _eliudStyle.frontEndStyle(),
-        title: title,
-        ackButtonLabel: ackButtonLabel,
-        nackButtonLabel: nackButtonLabel,
-        hintText: hintText,
-        onPressed: (value) {
-          Navigator.of(context).pop();
-          onPressed(value);
-        },
-        initialValue: initialValue,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
-      );
-*/
-
   @override
   Widget selectionDialog(BuildContext context,
       {required String title,
@@ -137,8 +129,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       required OnSelection onSelection,
       String? buttonLabel,
       Key? key,
+      double? widthFraction, // percentage of screen width
     }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
@@ -170,8 +164,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     String? ackButtonLabel,
     String? nackButtonLabel,
     Key? key,
+    double? widthFraction, // percentage of screen width
   }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -192,8 +188,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       VoidCallback? onPressed,
       String? buttonLabel,
       Key? key,
+      double? widthFraction, // percentage of screen width
     }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -213,8 +211,10 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       required List<Widget> buttons,
       bool? includeHeading,
       Key? key,
+      double? widthFraction, // percentage of screen width
       }) {
     return dialogHelper.build(context,
+        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,

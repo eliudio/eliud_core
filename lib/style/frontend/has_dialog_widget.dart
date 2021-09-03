@@ -8,7 +8,8 @@ abstract class HasDialogWidget {
     required String title,
     required String message,
     String? closeLabel,
-    Key? key
+    Key? key,
+    double? widthFraction, // percentage of screen width
   });
   Widget errorDialog(
     BuildContext context, {
@@ -16,6 +17,7 @@ abstract class HasDialogWidget {
     required String errorMessage,
     String? closeLabel,
     Key? key,
+    double? widthFraction, // percentage of screen width
   });
   Widget ackNackDialog(BuildContext context,
           {required String title,
@@ -23,7 +25,9 @@ abstract class HasDialogWidget {
           required OnSelection onSelection,
           String? ackButtonLabel,
           String? nackButtonLabel,
-          Key? key});
+          Key? key,
+          double? widthFraction, // percentage of screen width
+          });
   Widget entryDialog(BuildContext context,
           {required String title,
           String? ackButtonLabel,
@@ -31,13 +35,16 @@ abstract class HasDialogWidget {
           String? hintText,
           required Function(String? response) onPressed,
           String? initialValue,
-          Key? key});
+          Key? key,
+            double? widthFraction, // percentage of screen width
+          });
   Widget selectionDialog(BuildContext context,
       {required String title,
       required List<String> options,
       required OnSelection onSelection,
       String? buttonLabel,
-      Key? key});
+      Key? key,    double? widthFraction, // percentage of screen width
+      });
   Widget complexAckNackDialog(
     BuildContext context, {
     required String title,
@@ -45,18 +52,23 @@ abstract class HasDialogWidget {
     required OnSelection onSelection,
     String? ackButtonLabel,
     String? nackButtonLabel,
-    Key? key
+    Key? key,
+    double? widthFraction, // percentage of screen width
   });
   Widget complexDialog(BuildContext context,
           {required String title,
           required Widget child,
           VoidCallback? onPressed,
           String? buttonLabel,
-          Key? key});
+          Key? key,
+          double? widthFraction // percentage of screen width
+          });
   Widget flexibleDialog(BuildContext context,
       {required String title,
       required Widget child,
       required List<Widget> buttons,
       bool? includeHeading,
-      Key? key});
+      Key? key,
+        double? widthFraction, // percentage of screen width
+      });
 }
