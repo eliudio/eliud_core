@@ -18,6 +18,7 @@ class DefaultDialogImpl implements HasDialog {
     required String message,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   }) {
     // MessageDialog
     DialogStatefulWidgetHelper.openIt(
@@ -27,6 +28,7 @@ class DefaultDialogImpl implements HasDialog {
         title: title,
         message: message,
         widthFraction: widthFraction,
+        includeHeading: includeHeading,
       ),
     );
   }
@@ -38,6 +40,7 @@ class DefaultDialogImpl implements HasDialog {
     required String errorMessage,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
@@ -46,6 +49,7 @@ class DefaultDialogImpl implements HasDialog {
           title: title,
           errorMessage: errorMessage,
           widthFraction: widthFraction,
+          includeHeading: includeHeading,
         ),
       );
 
@@ -57,6 +61,7 @@ class DefaultDialogImpl implements HasDialog {
           String? ackButtonLabel,
           String? nackButtonLabel,
           double? widthFraction, // percentage of screen width
+          bool? includeHeading,
           }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
@@ -68,6 +73,7 @@ class DefaultDialogImpl implements HasDialog {
             ackButtonLabel: ackButtonLabel,
             nackButtonLabel: nackButtonLabel,
             widthFraction: widthFraction,
+            includeHeading: includeHeading,
           ));
 
   @override
@@ -79,6 +85,7 @@ class DefaultDialogImpl implements HasDialog {
           required Function(String? response) onPressed,
           String? initialValue,
           double? widthFraction, // percentage of screen width
+          bool? includeHeading,
           }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
@@ -91,6 +98,7 @@ class DefaultDialogImpl implements HasDialog {
           onPressed: onPressed,
           initialValue: initialValue,
           widthFraction: widthFraction,
+          includeHeading: includeHeading,
         ),
       );
 
@@ -101,6 +109,7 @@ class DefaultDialogImpl implements HasDialog {
       required OnSelection onSelection,
       String? buttonLabel,
       double? widthFraction, // percentage of screen width
+      bool? includeHeading,
       }) {
     DialogStatefulWidgetHelper.openIt(
         context,
@@ -111,6 +120,7 @@ class DefaultDialogImpl implements HasDialog {
           buttonLabel: buttonLabel,
           onSelection: onSelection,
           widthFraction: widthFraction,
+          includeHeading: includeHeading,
         ));
   }
 
@@ -120,7 +130,8 @@ class DefaultDialogImpl implements HasDialog {
           required Widget child,
           VoidCallback? onPressed,
           String? buttonLabel,
-          double? widthFraction // percentage of screen width
+          double? widthFraction, // percentage of screen width
+          bool? includeHeading,
           }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
@@ -131,6 +142,7 @@ class DefaultDialogImpl implements HasDialog {
             onPressed: onPressed,
             buttonLabel: buttonLabel,
             widthFraction: widthFraction,
+            includeHeading: includeHeading,
           ));
 
   @override
@@ -139,15 +151,18 @@ class DefaultDialogImpl implements HasDialog {
       required Widget child,
       required List<Widget> buttons,
       double? widthFraction, // percentage of screen width
+      bool? includeHeading,
       }) {
     DialogStatefulWidgetHelper.openIt(context,
         _frontEndStyle.dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons,           widthFraction: widthFraction,
+          includeHeading: includeHeading,
         ));
   }
 
   @override
   void openWidgetDialog(BuildContext context, {required Widget child,
   }) {
-    DialogStatefulWidgetHelper.openIt(context, child, );
+    DialogStatefulWidgetHelper.openIt(context, child,
+    );
   }
 }

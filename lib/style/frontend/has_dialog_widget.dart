@@ -8,6 +8,7 @@ abstract class HasDialogWidget {
     required String title,
     required String message,
     String? closeLabel,
+    bool? includeHeading,
     Key? key,
     double? widthFraction, // percentage of screen width
   });
@@ -16,6 +17,7 @@ abstract class HasDialogWidget {
     required String title,
     required String errorMessage,
     String? closeLabel,
+    bool? includeHeading,
     Key? key,
     double? widthFraction, // percentage of screen width
   });
@@ -25,6 +27,7 @@ abstract class HasDialogWidget {
           required OnSelection onSelection,
           String? ackButtonLabel,
           String? nackButtonLabel,
+          bool? includeHeading,
           Key? key,
           double? widthFraction, // percentage of screen width
           });
@@ -35,15 +38,18 @@ abstract class HasDialogWidget {
           String? hintText,
           required Function(String? response) onPressed,
           String? initialValue,
+          bool? includeHeading,
           Key? key,
-            double? widthFraction, // percentage of screen width
+          double? widthFraction, // percentage of screen width
           });
   Widget selectionDialog(BuildContext context,
       {required String title,
       required List<String> options,
       required OnSelection onSelection,
       String? buttonLabel,
-      Key? key,    double? widthFraction, // percentage of screen width
+        bool? includeHeading,
+      Key? key,
+        double? widthFraction, // percentage of screen width
       });
   Widget complexAckNackDialog(
     BuildContext context, {
@@ -52,6 +58,7 @@ abstract class HasDialogWidget {
     required OnSelection onSelection,
     String? ackButtonLabel,
     String? nackButtonLabel,
+    bool? includeHeading,
     Key? key,
     double? widthFraction, // percentage of screen width
   });
@@ -60,6 +67,7 @@ abstract class HasDialogWidget {
           required Widget child,
           VoidCallback? onPressed,
           String? buttonLabel,
+          bool? includeHeading,
           Key? key,
           double? widthFraction // percentage of screen width
           });

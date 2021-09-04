@@ -11,6 +11,7 @@ abstract class HasDialog {
     required String message,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   });
 
   void openErrorDialog(
@@ -19,6 +20,7 @@ abstract class HasDialog {
     required String errorMessage,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   });
 
   void openAckNackDialog(
@@ -29,6 +31,7 @@ abstract class HasDialog {
     String? ackButtonLabel,
     String? nackButtonLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   });
 
   void openEntryDialog(
@@ -40,6 +43,7 @@ abstract class HasDialog {
     required Function(String? response) onPressed,
     String? initialValue,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   });
 
   void openSelectionDialog(
@@ -49,6 +53,7 @@ abstract class HasDialog {
     required OnSelection onSelection,
     String? buttonLabel,
     double? widthFraction, // percentage of screen width
+    bool? includeHeading,
   });
 
   void openComplexDialog(BuildContext context,
@@ -56,7 +61,8 @@ abstract class HasDialog {
       required Widget child,
       VoidCallback? onPressed,
       String? buttonLabel,
-      double? widthFraction // percentage of screen width
+      double? widthFraction, // percentage of screen width
+      bool? includeHeading,
       });
 
   void openFlexibleDialog(
@@ -65,6 +71,7 @@ abstract class HasDialog {
     required Widget child,
     required List<Widget> buttons,
     double? widthFraction, // percentage of screen width
+        bool? includeHeading,
   });
 
   void openWidgetDialog(
