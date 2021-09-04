@@ -11,7 +11,9 @@ import 'frontend/default_frontend_style.dart';
 class DefaultStyleFamily extends StyleFamily {
   static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
 
-  DefaultStyleFamily() : super(defaultStyleFamilyName) {
+  static DefaultStyleFamily instance = DefaultStyleFamily._();
+
+  DefaultStyleFamily._() : super(defaultStyleFamilyName) {
     register(_DefaultStyle(this));
   }
 

@@ -45,7 +45,7 @@ class StyleRegistry {
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= DefaultStyleFamily().defaultStyle();
+    _defaultStyle ??= DefaultStyleFamily.instance.defaultStyle();
     return _defaultStyle!;
   }
 
