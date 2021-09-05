@@ -13,7 +13,7 @@ class DefaultStyleFamily extends StyleFamily {
 
   static DefaultStyleFamily instance = DefaultStyleFamily._();
 
-  DefaultStyleFamily._() : super(defaultStyleFamilyName) {
+  DefaultStyleFamily._() : super(defaultStyleFamilyName, false) {
     register(_DefaultStyle(this));
   }
 
@@ -34,7 +34,7 @@ class _DefaultStyle extends Style {
   late AdminListStyle _adminListStyle;
   late FrontEndStyle _frontEndFormStyle;
 
-  _DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, ) {
+  _DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
     _adminFormStyle = DefaultAdminFormStyle();
     _adminListStyle = DefaultAdminListStyle();
     _frontEndFormStyle = DefaultFrontEndStyle();

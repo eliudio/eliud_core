@@ -1,19 +1,39 @@
 import 'package:eliud_core/style/style.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
-abstract class StyleFamily {
+abstract class StyleFamily extends Equatable {
   final String familyName;
   final Map<String, Style> styles = <String, Style>{};
+  final bool canInsert;
 
-  StyleFamily(this.familyName);
+  StyleFamily(this.familyName, this.canInsert);
 
   void register(Style style) {
     styles[style.styleName] = style;
   }
 
-  Widget? widgetToUpdateStyle(BuildContext context, Style style,);
-
   Style? style(String styleName) {
     return styles[styleName];
   }
+
+  /*
+   * Implement this methods in your style family to support inserts.
+   * This will be used from for example eliud_decor_style when StyleFamily::canInsert
+   * is true and will be used in combination with Style::update(...)
+   */
+  Style? defaultNew(String newName) => null;
+
+  @override
+  List<Object?> get props => [ familyName, styles, canInsert ];
+
+  @override
+  bool operator == (Object other) =>
+      identical(this, other) ||
+          other is StyleFamily &&
+              runtimeType == other.runtimeType &&
+              familyName == other.familyName &&
+              canInsert == other.canInsert &&
+              mapEquals(styles, other.styles);
 }
