@@ -199,7 +199,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
 class HomeMenuListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final HomeMenuModel? value;
+  final HomeMenuModel value;
 
   HomeMenuListItem({
     Key? key,
@@ -215,16 +215,7 @@ class HomeMenuListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__HomeMenuheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.name! != null) && (value!.name!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!))
-            : null,
+        title: value!.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!)) : Container(),
       ),
     );
   }

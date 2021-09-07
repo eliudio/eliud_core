@@ -199,7 +199,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
 class MemberPublicInfoListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final MemberPublicInfoModel? value;
+  final MemberPublicInfoModel value;
 
   MemberPublicInfoListItem({
     Key? key,
@@ -215,16 +215,8 @@ class MemberPublicInfoListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__MemberPublicInfoheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.name! != null) && (value!.name!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!))
-            : null,
+        title: value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container(),
+        subtitle: value!.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!)) : Container(),
       ),
     );
   }

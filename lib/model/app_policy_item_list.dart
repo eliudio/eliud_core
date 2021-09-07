@@ -199,7 +199,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
 class AppPolicyItemListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppPolicyItemModel? value;
+  final AppPolicyItemModel value;
 
   AppPolicyItemListItem({
     Key? key,
@@ -215,16 +215,7 @@ class AppPolicyItemListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__AppPolicyItemheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.documentID! != null) && (value!.documentID!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!))
-            : null,
+        title: value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container(),
       ),
     );
   }

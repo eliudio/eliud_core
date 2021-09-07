@@ -61,10 +61,10 @@ class BackgroundDropdownButtonWidgetState extends State<BackgroundDropdownButton
     super.dispose();
   }
 
-List<Widget> widgets(BackgroundModel pm) {
+List<Widget> widgets(BackgroundModel value) {
 var widgets = <Widget>[];
-if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
-if (pm.comments! != null) widgets.add(new Text(pm.comments!));
+widgets.add(value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container());
+widgets.add(value!.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.comments!)) : Container());
 return widgets;
 }
 

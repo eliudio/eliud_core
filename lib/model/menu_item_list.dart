@@ -199,7 +199,7 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
 class MenuItemListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final MenuItemModel? value;
+  final MenuItemModel value;
 
   MenuItemListItem({
     Key? key,
@@ -215,16 +215,8 @@ class MenuItemListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__MenuItemheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.text!)),
-          ),
-        ),
-        subtitle: (value!.description! != null) && (value!.description!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.description!))
-            : null,
+        title: value!.text != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.text!)) : Container(),
+        subtitle: value!.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.description!)) : Container(),
       ),
     );
   }

@@ -199,7 +199,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
 class DecorationColorListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final DecorationColorModel? value;
+  final DecorationColorModel value;
 
   DecorationColorListItem({
     Key? key,
@@ -215,16 +215,7 @@ class DecorationColorListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__DecorationColorheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.documentID! != null) && (value!.documentID!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!))
-            : null,
+        title: value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container(),
       ),
     );
   }

@@ -61,10 +61,9 @@ class FontDropdownButtonWidgetState extends State<FontDropdownButtonWidget> {
     super.dispose();
   }
 
-List<Widget> widgets(FontModel pm) {
+List<Widget> widgets(FontModel value) {
 var widgets = <Widget>[];
-if (pm.fontName! != null) widgets.add(new Text(pm.fontName!));
-if (pm.documentID! != null) widgets.add(new Text(pm.documentID!));
+widgets.add(value!.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.fontName!)) : Container());
 return widgets;
 }
 

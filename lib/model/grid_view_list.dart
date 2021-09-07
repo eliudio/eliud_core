@@ -199,7 +199,7 @@ class GridViewListWidgetState extends State<GridViewListWidget> {
 class GridViewListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final GridViewModel? value;
+  final GridViewModel value;
 
   GridViewListItem({
     Key? key,
@@ -215,16 +215,7 @@ class GridViewListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__GridViewheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.name! != null) && (value!.name!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!))
-            : null,
+        title: value!.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!)) : Container(),
       ),
     );
   }

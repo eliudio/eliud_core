@@ -61,10 +61,10 @@ class AppEntryPagesDropdownButtonWidgetState extends State<AppEntryPagesDropdown
     super.dispose();
   }
 
-List<Widget> widgets(AppEntryPagesModel pm) {
+List<Widget> widgets(AppEntryPagesModel value) {
 var widgets = <Widget>[];
-if (pm.entryPage!.documentID! != null) widgets.add(new Text(pm.entryPage!.documentID!));
-if (pm.entryPage!.title! != null) widgets.add(new Text(pm.entryPage!.title!));
+widgets.add(value!.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.documentID!)) : Container());
+widgets.add(value!.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.title!)) : Container());
 return widgets;
 }
 

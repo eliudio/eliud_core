@@ -97,7 +97,6 @@
     }
   ],
   "listFields": {
-    "title": "fontName!",
-    "subTitle": "documentID!"
+    "title": "value!.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.fontName!)) : Container()"
   }
 }

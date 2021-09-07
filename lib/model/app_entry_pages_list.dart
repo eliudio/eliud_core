@@ -199,7 +199,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
 class AppEntryPagesListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final AppEntryPagesModel? value;
+  final AppEntryPagesModel value;
 
   AppEntryPagesListItem({
     Key? key,
@@ -215,16 +215,8 @@ class AppEntryPagesListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__AppEntryPagesheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.documentID!)),
-          ),
-        ),
-        subtitle: (value!.entryPage!.title! != null) && (value!.entryPage!.title!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.title!))
-            : null,
+        title: value!.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.documentID!)) : Container(),
+        subtitle: value!.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.title!)) : Container(),
       ),
     );
   }

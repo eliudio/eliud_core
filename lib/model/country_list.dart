@@ -199,7 +199,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
 class CountryListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final CountryModel? value;
+  final CountryModel value;
 
   CountryListItem({
     Key? key,
@@ -215,16 +215,8 @@ class CountryListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__CountryheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryCode!)),
-          ),
-        ),
-        subtitle: (value!.countryName! != null) && (value!.countryName!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryName!))
-            : null,
+        title: value!.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryCode!)) : Container(),
+        subtitle: value!.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryName!)) : Container(),
       ),
     );
   }

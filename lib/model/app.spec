@@ -154,8 +154,8 @@
     }
   ],
   "listFields": {
-    "title": "documentID!",
-    "subTitle": "title!"
+    "title": "value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container()",
+    "subTitle": "value!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.title!)) : Container()"
   },
   "preToEntityCode": "logoURL = logo != null ? logo!.url : null;"
 }

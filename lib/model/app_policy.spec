@@ -59,7 +59,7 @@
     }
   ],
   "listFields": {
-    "title": "documentID!",
-    "subTitle": "comments!"
+    "title": "value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container()",
+    "subTitle": "value!.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.comments!)) : Container()"
   }
 }

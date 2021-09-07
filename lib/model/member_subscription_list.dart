@@ -199,7 +199,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
 class MemberSubscriptionListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final MemberSubscriptionModel? value;
+  final MemberSubscriptionModel value;
 
   MemberSubscriptionListItem({
     Key? key,
@@ -215,13 +215,8 @@ class MemberSubscriptionListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__MemberSubscriptionheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.app!.title!)),
-          ),
-        ),
+        title: value!.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.app!.documentID!)) : Container(),
+        subtitle: value!.app!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.app!.title!)) : Container(),
       ),
     );
   }

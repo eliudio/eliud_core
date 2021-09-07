@@ -11,7 +11,14 @@ import 'frontend/default_frontend_style.dart';
 class DefaultStyleFamily extends StyleFamily {
   static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
 
-  static DefaultStyleFamily instance = DefaultStyleFamily._();
+  static DefaultStyleFamily? _instance;
+
+  static DefaultStyleFamily instance() {
+    if (_instance == null) {
+      _instance = DefaultStyleFamily._();
+    }
+    return _instance!;
+  }
 
   DefaultStyleFamily._() : super(defaultStyleFamilyName, false) {
     register(_DefaultStyle(this));
@@ -25,6 +32,10 @@ class DefaultStyleFamily extends StyleFamily {
    */
   @override
   Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;
+
+  StyleFamily copyWithNewStyles(Map<String, Style>? styles) {
+    return DefaultStyleFamily._();
+  }
 }
 
 class _DefaultStyle extends Style {

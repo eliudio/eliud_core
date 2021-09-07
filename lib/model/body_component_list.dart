@@ -199,7 +199,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
 class BodyComponentListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final BodyComponentModel? value;
+  final BodyComponentModel value;
 
   BodyComponentListItem({
     Key? key,
@@ -215,16 +215,8 @@ class BodyComponentListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__BodyComponentheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentName!)),
-          ),
-        ),
-        subtitle: (value!.componentId! != null) && (value!.componentId!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentId!))
-            : null,
+        title: value!.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentName!)) : Container(),
+        subtitle: value!.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentId!)) : Container(),
       ),
     );
   }

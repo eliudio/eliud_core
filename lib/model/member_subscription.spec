@@ -41,7 +41,7 @@
     }
   ],
   "listFields": {
-    "title": "app!.documentID!",
-    "title": "app!.title!"
+    "title": "value!.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.app!.documentID!)) : Container()",
+    "subTitle": "value!.app!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.app!.title!)) : Container()"
   }
 }

@@ -10,8 +10,23 @@ abstract class StyleFamily extends Equatable {
 
   StyleFamily(this.familyName, this.canInsert);
 
-  void register(Style style) {
+  StyleFamily register(Style style) {
     styles[style.styleName] = style;
+    return this;
+  }
+
+  StyleFamily registerAll(List<Style> styles) {
+    for (var style in styles) {
+      register(style);
+    }
+    return this;
+  }
+
+  StyleFamily registerMap(Map<String, Style> styles) {
+    for (var style in styles.values) {
+      register(style);
+    }
+    return this;
   }
 
   Style? style(String styleName) {
@@ -24,6 +39,8 @@ abstract class StyleFamily extends Equatable {
    * is true and will be used in combination with Style::update(...)
    */
   Style? defaultNew(String newName) => null;
+
+  StyleFamily copyWithNewStyles(Map<String, Style>? styles);
 
   @override
   List<Object?> get props => [ familyName, styles, canInsert ];

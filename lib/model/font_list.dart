@@ -199,7 +199,7 @@ class FontListWidgetState extends State<FontListWidget> {
 class FontListItem extends StatelessWidget {
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
-  final FontModel? value;
+  final FontModel value;
 
   FontListItem({
     Key? key,
@@ -215,16 +215,7 @@ class FontListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag: '${value!.documentID}__FontheroTag',
-          child: Container(
-            width: fullScreenWidth(context),
-            child: Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.fontName!)),
-          ),
-        ),
-        subtitle: (value!.documentID! != null) && (value!.documentID!.isNotEmpty)
-            ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!))
-            : null,
+        title: value!.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.fontName!)) : Container(),
       ),
     );
   }

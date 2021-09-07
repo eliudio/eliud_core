@@ -52,7 +52,7 @@
     }
   ],
   "listFields": {
-    "title": "entryPage!.documentID!",
-    "subTitle": "entryPage!.title!"
+    "title": "value!.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.documentID!)) : Container()",
+    "subTitle": "value!.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.entryPage!.title!)) : Container()"
   }
 }
