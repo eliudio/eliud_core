@@ -311,7 +311,7 @@ class PopupMenuModelMapper implements ActionModelMapper {
 
 /*
  * LoginLogout = Login when logged out, Logout when logged in.
- * OtherApps = Allows to specify that an internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
+ * OtherApps = Allows to specify that n internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
  */
 enum InternalActionEnum {
   Login, Logout, Flush, OtherApps, Unknown

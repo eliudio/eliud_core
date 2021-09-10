@@ -10,6 +10,11 @@ class DefaultDividerImpl
     return Divider(
         height: 1.0,
         thickness: 1.0,
-);
+    );
   }
+
+  Widget verticalDivider(BuildContext context, double height) {
+    return Container(height: height, width: 1,);
+  }
+
 }
