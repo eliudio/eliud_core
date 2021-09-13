@@ -4,8 +4,8 @@ import 'package:eliud_core/model/app_cache.dart';
 import 'package:eliud_core/model/app_firestore.dart';
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/member_cache.dart';
-import 'package:eliud_core/model/member_firestore_bespoke.dart';
 import 'package:eliud_core/model/member_repository.dart';
+import 'bespoke_model/member_firestore_bespoke.dart';
 import 'main_abstract_repository_singleton.dart';
 
 class MainRepositorySingleton extends AbstractMainRepositorySingleton {

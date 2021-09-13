@@ -97,6 +97,6 @@
     }
   ],
   "listFields": {
-    "title": "value!.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.fontName!)) : Container()"
+    "title": "value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.fontName!)) : Container()"
   }
 }

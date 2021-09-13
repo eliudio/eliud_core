@@ -63,8 +63,8 @@ class BodyComponentDropdownButtonWidgetState extends State<BodyComponentDropdown
 
 List<Widget> widgets(BodyComponentModel value) {
 var widgets = <Widget>[];
-widgets.add(value!.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentName!)) : Container());
-widgets.add(value!.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentId!)) : Container());
+widgets.add(value.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentName!)) : Container());
+widgets.add(value.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentId!)) : Container());
 return widgets;
 }
 

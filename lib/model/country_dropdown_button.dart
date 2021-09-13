@@ -63,8 +63,8 @@ class CountryDropdownButtonWidgetState extends State<CountryDropdownButtonWidget
 
 List<Widget> widgets(CountryModel value) {
 var widgets = <Widget>[];
-widgets.add(value!.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryCode!)) : Container());
-widgets.add(value!.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryName!)) : Container());
+widgets.add(value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryCode!)) : Container());
+widgets.add(value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryName!)) : Container());
 return widgets;
 }
 

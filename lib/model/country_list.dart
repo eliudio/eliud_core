@@ -211,12 +211,12 @@ class CountryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__Country_item_${value!.documentID}'),
+      key: Key('__Country_item_${value.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value!.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryCode!)) : Container(),
-        subtitle: value!.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.countryName!)) : Container(),
+        title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryCode!)) : Container(),
+        subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryName!)) : Container(),
       ),
     );
   }

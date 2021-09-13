@@ -63,8 +63,8 @@ class ShadowDropdownButtonWidgetState extends State<ShadowDropdownButtonWidget> 
 
 List<Widget> widgets(ShadowModel value) {
 var widgets = <Widget>[];
-widgets.add(value!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.documentID!)) : Container());
-widgets.add(value!.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.comments!)) : Container());
+widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container());
+widgets.add(value.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.comments!)) : Container());
 return widgets;
 }
 

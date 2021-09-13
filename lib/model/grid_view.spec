@@ -164,6 +164,6 @@
     }
   ],
   "listFields": {
-    "title": "value!.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!)) : Container()"
+    "title": "value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.name!)) : Container()"
   }
 }

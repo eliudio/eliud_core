@@ -211,11 +211,11 @@ class HomeMenuListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__HomeMenu_item_${value!.documentID}'),
+      key: Key('__HomeMenu_item_${value.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value!.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.name!)) : Container(),
+        title: value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.name!)) : Container(),
       ),
     );
   }

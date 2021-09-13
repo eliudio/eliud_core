@@ -211,12 +211,12 @@ class BodyComponentListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__BodyComponent_item_${value!.documentID}'),
+      key: Key('__BodyComponent_item_${value.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value!.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentName!)) : Container(),
-        subtitle: value!.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.componentId!)) : Container(),
+        title: value.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentName!)) : Container(),
+        subtitle: value.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentId!)) : Container(),
       ),
     );
   }

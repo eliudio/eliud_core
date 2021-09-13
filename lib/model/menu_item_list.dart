@@ -211,12 +211,12 @@ class MenuItemListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('__MenuItem_item_${value!.documentID}'),
+      key: Key('__MenuItem_item_${value.documentID}'),
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value!.text != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.text!)) : Container(),
-        subtitle: value!.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value!.description!)) : Container(),
+        title: value.text != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.text!)) : Container(),
+        subtitle: value.description != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.description!)) : Container(),
       ),
     );
   }
