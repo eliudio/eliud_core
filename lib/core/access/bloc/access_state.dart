@@ -235,9 +235,6 @@ class AccessHelper {
 
   static Future<PagesAndDialogAccesss> _getAccess(
       MemberModel? member, AppModel app, bool isLoggedIn) async {
-    var pagesAccess = <String?, bool>{};
-    var isOwner = member != null && member.documentID == app.ownerID;
-
     var accessModel;
     if (member != null) {
       accessModel = await accessRepository(appId: app.documentID)!.get(member.documentID);
@@ -250,6 +247,14 @@ class AccessHelper {
     } else {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
+
+    return _getAccess2(member, app, isLoggedIn, privilegeLevel, isBlocked);
+  }
+
+  static Future<PagesAndDialogAccesss> _getAccess2(
+      MemberModel? member, AppModel app, bool isLoggedIn, PrivilegeLevel privilegeLevel, bool? isBlocked, ) async {
+    var pagesAccess = <String?, bool>{};
+    var isOwner = member != null && member.documentID == app.ownerID;
 
     var packageConditionsAccess = <String, PackageCondition?>{};
     {
@@ -693,6 +698,20 @@ class LoggedInWithMembership extends LoggedIn {
       MemberModel? member, AppModel? playstoreApp) {
     return getLoggedInWithMembership(
         usr, member ?? this.member, app, playstoreApp);
+  }
+
+  Future<LoggedInWithMembership> copyWithOtherPrivilege(PrivilegeLevel privilegeLevel, bool blocked) async {
+    var access = await AccessHelper._getAccess2(member, app, false, privilegeLevel, blocked);
+    return LoggedInWithMembership._(
+        usr,
+        member,
+        app,
+        playStoreApp,
+        access.pagesAccess,
+        access.dialogsAccess,
+        privilegeLevel,
+        access.packageConditionsAccess,
+        blocked);
   }
 
   @override

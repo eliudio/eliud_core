@@ -76,8 +76,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else {
         return state.app.homePages!.homePagePublic;
       }
-      if (state.isBlocked())
-        return state.app.homePages!.homePageBlockedMember;
+      if (state.isBlocked()) return state.app.homePages!.homePageBlockedMember;
       if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
           (state.app.homePages!.homePageOwner != null)) {
         return state.app.homePages!.homePageOwner;
@@ -99,7 +98,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     } else {
       print("App not loaded");
     }
-
   }
 
   void goHome(String appId, AccessState theState) {
@@ -144,11 +142,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
           if (!sameState) {
 */
-            _invokeStateChangeListenersAfter(event, toYield);
-            yield toYield;
-            if ((event.refresh != null) && event.refresh!) {
-              goHome(app.documentID!, toYield);
-            }
+          _invokeStateChangeListenersAfter(event, toYield);
+          yield toYield;
+          if ((event.refresh != null) && event.refresh!) {
+            goHome(app.documentID!, toYield);
+          }
 /*
           }
 */
@@ -157,13 +155,19 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.SwitchAppAndPage, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(
+            ProcessingType.SwitchAppAndPage,
+            theState,
+            app,
+            theState.playStoreApp);
         yield toYield;
-        add(SwitchAppAndPageProcessingEvent(event.appId, event.pageId, event.parameters));
+        add(SwitchAppAndPageProcessingEvent(
+            event.appId, event.pageId, event.parameters));
       } else if (event is SwitchAppAndPageProcessingEvent) {
         var app = await _fetchApp(event.appId);
         if (app == null) {
-          var toYield = AppError('App with ' + event.appId! + ' does not exist');
+          var toYield =
+              AppError('App with ' + event.appId! + ' does not exist');
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
         } else {
@@ -172,19 +176,21 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
           if (navigatorBloc != null)
-            navigatorBloc!
-                .add(GoToPageEvent(app.documentID!, event.pageId!, parameters: event.parameters));
+            navigatorBloc!.add(GoToPageEvent(app.documentID!, event.pageId!,
+                parameters: event.parameters));
         }
       } else if (event is SwitchAppEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(
+            ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
         yield toYield;
         add(SwitchAppProcessingEvent(event.appId));
       } else if (event is SwitchAppProcessingEvent) {
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
         if (app == null) {
-          var toYield = AppError('App with ' + event.appId! + ' does not exist');
+          var toYield =
+              AppError('App with ' + event.appId! + ' does not exist');
           _invokeStateChangeListenersAfter(event, toYield);
           yield toYield;
         } else {
@@ -198,7 +204,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
-        var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
+        var toYield = await AppProcessingState.getAppProcessingState(
+            ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
         yield toYield;
         add(LogoutProcessingEvent());
       } else if (event is LogoutProcessingEvent) {
@@ -206,7 +213,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             .userRepository()!
             .signOut();
         var toYield =
-        await _mapUsrAndApp(null, app, theState.playStoreApp, null);
+            await _mapUsrAndApp(null, app, theState.playStoreApp, null);
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
         if (navigatorBloc != null) {
@@ -219,18 +226,19 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               .userRepository()!
               .signInWithGoogle(navigatorBloc);
           if (usr != null) {
-            add(GoogleLoginProcessEvent(
-                event.actions,
-                usr));
-            var toYield = await AppProcessingState.getAppProcessingState(ProcessingType.LoginProcess, theState, app, theState.playStoreApp);
+            add(GoogleLoginProcessEvent(event.actions, usr));
+            var toYield = await AppProcessingState.getAppProcessingState(
+                ProcessingType.LoginProcess,
+                theState,
+                app,
+                theState.playStoreApp);
             yield toYield;
           }
-        } catch (_) {
-        }
+        } catch (_) {}
       } else if (event is GoogleLoginProcessEvent) {
         var usr = event.usr;
-        var accessState = await _mapUsrAndApp(
-            usr, app, theState.playStoreApp, event.actions);
+        var accessState =
+            await _mapUsrAndApp(usr, app, theState.playStoreApp, event.actions);
         var toYield = accessState;
         _invokeStateChangeListenersAfter(event, toYield);
         yield toYield;
@@ -268,6 +276,18 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         } else {
           eliud_router.Router.message(
               navigatorBloc, 'You must accept membership');
+        }
+      } else if (event is ChangePrivilegeEvent) {
+        if (state is LoggedInWithMembership) {
+          var theState = state as LoggedInWithMembership;
+          if ((state.getMember() != null) &&
+              (state.getMember()!.documentID! == theState.app.ownerID!)) {
+            // if the current member is the owner, he can change his privilege
+            // this can be done for the owner to look at the app with a different priv. to "test" that priv.
+            var toYield = await theState.copyWithOtherPrivilege(event.privilege, event.blocked);
+            goHome(app.documentID!, toYield);
+            yield toYield;
+          }
         }
       }
     }
@@ -311,8 +331,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       return await LoggedOut.getLoggedOut(app, playstoreApp);
     } else {
       var member = await firebaseToMemberModel(usr);
-      return _mapMemberAndApp(
-          usr, member, app, playstoreApp, postLoginAction);
+      return _mapMemberAndApp(usr, member, app, playstoreApp, postLoginAction);
     }
   }
 
@@ -349,7 +368,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     member = member.copyWith(subscriptions: subscriptions);
     var returnMe = await memberRepository()!.update(member);
 
-    var accessModel = await accessRepository(appId: app.documentID)!.get(member.documentID);
+    var accessModel =
+        await accessRepository(appId: app.documentID)!.get(member.documentID);
     if (accessModel == null) {
       // create an access entry. creation with privilege level 0 is allowed
       await accessRepository(appId: app.documentID)!.add(AccessModel(
@@ -457,5 +477,4 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
     return false;
   }
-
 }

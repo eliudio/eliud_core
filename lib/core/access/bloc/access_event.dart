@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -117,4 +118,14 @@ class MemberUpdated extends AccessEvent {
   List<Object?> get props => [ member, refresh ];
 }
 
+// when current member is owner he can send this event to allow to change his privilege to a lower
+class ChangePrivilegeEvent extends AccessEvent {
+  final PrivilegeLevel privilege;
+  final bool blocked;
+
+  ChangePrivilegeEvent(this.privilege, this.blocked);
+
+  @override
+  List<Object?> get props => [ privilege, blocked ];
+}
 

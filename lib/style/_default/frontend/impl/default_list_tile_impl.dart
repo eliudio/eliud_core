@@ -12,4 +12,24 @@ class DefaultListTileImpl implements HasListTile {
       subtitle: subtitle,
     );
   }
+
+  @override
+  Widget radioListTile<T>(BuildContext context, T t, T? groupValue,
+      String title, String subTitle, ValueChanged<T?>? valueChanged) {
+    return RadioListTile(
+        value: t,
+        groupValue: groupValue,
+        title: Text(title,),
+        subtitle: Text(subTitle),
+        onChanged: valueChanged);
+  }
+
+  @override
+  Widget checkboxListTile(BuildContext context, String title, bool? value,
+      ValueChanged<bool?>? onChanged) {
+    return CheckboxListTile(
+        title: Text(title,),
+        value: value,
+        onChanged: onChanged);
+  }
 }
