@@ -1,10 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 typedef RichTextFieldTrigger(String value);
 
@@ -35,12 +35,13 @@ class RichTextFieldState extends State<RichTextField> {
   @override
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().texFormFieldStyle().textFormField(context,
-    readOnly: !appState.memberIsOwner(),
-    initialValue: value,
-    onChanged: _onChanged,
-    keyboardType: TextInputType.multiline,
-    maxLines: widget.rows,
+    return textFormField(
+      context,
+      readOnly: !appState.memberIsOwner(),
+      initialValue: value,
+      onChanged: _onChanged,
+      keyboardType: TextInputType.multiline,
+      maxLines: widget.rows,
     );
   }
 

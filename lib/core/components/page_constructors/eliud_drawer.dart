@@ -5,10 +5,12 @@ import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart' as dr;
 
 class EliudDrawer extends StatefulWidget {
   final String currentPage;
@@ -60,11 +62,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
           var itemList = MenuItemMapper.mapMenu(
               context, drawer.menu!, theState.getMember(), currentPage);
           if (itemList != null) {
-            return StyleRegistry.registry()
-                .styleWithContext(context)
-                .frontEndStyle()
-                .drawerStyle()
-                .drawer(context,
+            return dr.drawer(context,
                     key: _drawerKey,
                     drawerType: widget.drawerType,
                     header1: drawerHeader1Attributes,
@@ -81,11 +79,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
         }
       }, widget.drawer)();
     } else {
-      return StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle()
-          .progressIndicatorStyle()
-          .progressIndicator(context);
+      return progressIndicator(context);
     }
   }
 }

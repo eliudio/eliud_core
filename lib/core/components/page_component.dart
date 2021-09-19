@@ -11,6 +11,7 @@ import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -61,14 +62,10 @@ class PageComponent extends StatelessWidget {
                       scaffoldMessengerKey: scaffoldMessengerKey,
                     ), pageModel)();
                   }
-                  return StyleRegistry.registry().styleWithContext(context)
-                      .frontEndStyle().progressIndicatorStyle()
-                      .progressIndicator(context);
+                  return progressIndicator(context);
                 });
           } else {
-            return StyleRegistry.registry().styleWithContext(context)
-                .frontEndStyle().progressIndicatorStyle()
-                .progressIndicator(context);
+            return progressIndicator(context);
           }
         });
   }
@@ -112,7 +109,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageID = widget.pageID;
     var parameters = widget.parameters;
     if (accessState is AppProcessingState) {
-      theBody = StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+      theBody = progressIndicator(context);
     } else if ((accessState is LoggedIn) &&
         (accessState.forceAcceptMembership())) {
       theBody =

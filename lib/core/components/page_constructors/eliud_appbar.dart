@@ -94,11 +94,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
               imageURL: playStoreApp.logoURL));
         }
 
-        return StyleRegistry.registry()
-            .styleWithContext(context)
-            .frontEndStyle()
-            .appBarStyle()
-            .appBar(context,
+        return appBar(context,
                 headerAttributes: headerAttributes,
                 key: _appBarKey,
                 backgroundOverride: value.backgroundOverride,

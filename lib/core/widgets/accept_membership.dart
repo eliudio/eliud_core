@@ -3,6 +3,9 @@ import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_container.dart';
+import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,10 +72,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   void _openPolicy(String? title, MemberMediumModel item) {
-    StyleRegistry.registry()
-        .styleWithContext(context)
-        .frontEndStyle().dialogStyle()
-        .openWidgetDialog(
+    openWidgetDialog(
           context,
           child: MemberMediumDialog(
             width: 100,
@@ -109,7 +109,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                 height: 30, width: 200, child: Center(child: Text(policy.name))),
 */
         Text(policy.name!),
-        Spacer(),StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Read',
+        Spacer(),
+        button(context, label: 'Read',
                     onPressed: () async {
                       _openPolicy(policy.name, handler.item!);
                     }),
@@ -117,10 +118,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
       i++;
     });
 
-    return StyleRegistry.registry()
-        .styleWithContext(context)
-        .frontEndStyle().containerStyle()
-        .actionContainer(context,
+    return actionContainer(context,
             child: Center(
                 child: Container(
               width: AcceptMembershipWidget.width(context),
@@ -172,7 +170,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     ];
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(
+      button(
             context,
             label: 'Accept',
             onPressed: _allEnabled(app)
@@ -183,7 +181,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                 : null,
           ),
       Spacer(),
-      StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(
+      button(
         context,
         label: 'Cancel',
         onPressed: () async {

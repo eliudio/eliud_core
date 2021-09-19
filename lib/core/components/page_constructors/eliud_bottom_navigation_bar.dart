@@ -3,6 +3,8 @@ import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
+import 'package:eliud_core/style/frontend/has_bottom_navigation_bar.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +38,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
         var itemList = MenuItemMapper.mapMenu(
             context, homeMenu.menu!, theState.getMember(), currentPage);
         if ((itemList != null) && (itemList.length > 2)) {
-          return StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle()
-              .bottomNavigationBarStyle()
-              .bottomNavigationBar(context,
+          return bottomNavigationBar(context,
                   key: _bottomNavigationBarKey,
                   items: itemList,
                   backgroundOverride: widget.homeMenu.backgroundOverride,
@@ -51,11 +49,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
         }
       }, widget.homeMenu)();
     } else {
-      return StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle()
-          .progressIndicatorStyle()
-          .progressIndicator(context);
+      return progressIndicator(context);
     }
   }
 }

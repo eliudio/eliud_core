@@ -4,6 +4,7 @@
 
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -41,7 +42,7 @@ class IconFieldState extends State<IconField> {
 
   @override
   Widget build(BuildContext context) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
+    return button(context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
   }
 
   void _pickIcon() async {

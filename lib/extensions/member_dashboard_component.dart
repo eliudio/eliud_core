@@ -11,6 +11,11 @@ import 'package:eliud_core/model/member_list_bloc.dart';
 import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
+import 'package:eliud_core/style/frontend/has_button.dart';
+import 'package:eliud_core/style/frontend/has_dialog.dart';
+import 'package:eliud_core/style/frontend/has_divider.dart';
+import 'package:eliud_core/style/frontend/has_table.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:eliud_core/tools/enums.dart';
@@ -46,14 +51,10 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   TableRow getRow(BuildContext context, AppModel app, String label,
       String description, VoidCallback action) {
     return TableRow(children: [
-        StyleRegistry.registry().styleWithContext(context).frontEndStyle().buttonStyle().button(context, label: label, onPressed: action, ),
+        button(context, label: label, onPressed: action, ),
       TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle()
-          .textStyle()
-              .text(context, description, textAlign: TextAlign.center)),
+          child: text(context, description, textAlign: TextAlign.center)),
     ]);
   }
 
@@ -84,23 +85,14 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         children: [
           Row(children: [
             Spacer(),
-            StyleRegistry.registry()
-                .styleWithContext(context)
-                .frontEndStyle().textStyle()
-                .text(context, welcomeText, textAlign: TextAlign.center),
+            text(context, welcomeText, textAlign: TextAlign.center),
             Spacer(),
             profilePhoto,
           ]),
           Container(height: 20),
-          StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle().dividerStyle()
-              .divider(context),
+          divider(context),
           Container(height: 20),
-          StyleRegistry.registry()
-              .styleWithContext(context)
-              .frontEndStyle().tableStyle()
-              .table(
+          table(
             context,
             children: [
 //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
@@ -148,7 +140,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel? app, MemberModel member) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
+    openAckNackDialog(context,
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -161,7 +153,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 dashboardModel!.retrieveDataEmailSubject,
                 app.email,
                 AccessBloc.getState(context).getMemberCollectionInfo()!);
-            StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openComplexDialog(context, title: 'Retrieve data', child: Text(
+            openComplexDialog(context, title: 'Retrieve data', child: Text(
                 'You will receive an email at your registered email address ' +
                     member.email! +
                     ' with the data you have with us.'));
@@ -171,7 +163,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
+    openAckNackDialog(context,
         title: 'Confirm. Last but 2 warnings',
         message:
         'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -190,7 +182,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
+    openAckNackDialog(context,
           title: 'Confirm. Last but 1 warning',
           message:
               'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -209,7 +201,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel? app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    StyleRegistry.registry().styleWithContext(context).frontEndStyle().dialogStyle().openAckNackDialog(context,
+    openAckNackDialog(context,
           title: 'Confirm. Last warning',
           message:
               'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',

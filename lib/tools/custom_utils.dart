@@ -1,3 +1,4 @@
+import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class Utils {
   }
 
   static Widget getShrinkedListView(BuildContext context, List<Widget> widgets) {
-    return StyleRegistry.registry().styleWithContext(context).frontEndStyle().containerStyle().topicContainer(context, children: [
+    return topicContainer(context, children: [
     ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),

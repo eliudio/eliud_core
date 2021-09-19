@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
+import '../style_registry.dart';
 import 'types.dart';
 import 'package:flutter/material.dart';
 
@@ -31,10 +32,31 @@ class DrawerItemAttributes {
 abstract class HasDrawer {
   Drawer drawer(BuildContext context,
       {required DrawerType drawerType,
-        Key? key,
+      Key? key,
       DrawerHeader1Attributes? header1,
       DrawerHeader2Attributes? header2,
       BackgroundModel? backgroundOverride,
       RgbModel? popupMenuBackgroundColorOverride,
       required List<AbstractMenuItemAttributes> items});
 }
+
+Drawer drawer(BuildContext context,
+        {required DrawerType drawerType,
+        Key? key,
+        DrawerHeader1Attributes? header1,
+        DrawerHeader2Attributes? header2,
+        BackgroundModel? backgroundOverride,
+        RgbModel? popupMenuBackgroundColorOverride,
+        required List<AbstractMenuItemAttributes> items}) =>
+    StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .drawerStyle()
+        .drawer(context,
+            drawerType: drawerType,
+            key: key,
+            header1: header1,
+            header2: header2,
+            backgroundOverride: backgroundOverride,
+            popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
+            items: items);

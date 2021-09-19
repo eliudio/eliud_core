@@ -9,6 +9,7 @@ import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/package/packages.dart';
+import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
@@ -76,21 +77,13 @@ class Registry {
     var appId = AccessBloc.appId(context);
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
-      StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle()
-          .dialogStyle()
-          .openWidgetDialog(context,
+      openWidgetDialog(context,
               child: DialogComponent(
                   dialog: dialog,
                   parameters: parameters,
                   includeHeading: dialog.includeHeading));
     } else {
-      StyleRegistry.registry()
-          .styleWithContext(context)
-          .frontEndStyle()
-          .dialogStyle()
-          .openErrorDialog(context,
+      openErrorDialog(context,
               title: 'Error',
               errorMessage: 'Widget with id $id not found in app $appId',
               closeLabel: 'Close');

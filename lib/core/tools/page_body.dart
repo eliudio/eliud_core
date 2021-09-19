@@ -64,11 +64,7 @@ class _PageBodyState extends State<PageBody> {
       required List<Widget> components,
       Layout? layout,
       GridViewModel? gridView}) {
-    return StyleRegistry.registry()
-        .styleWithContext(context)
-        .frontEndStyle()
-        .pageBodyStyle()
-        .pageBody(context,
+    return pageBody(context,
             backgroundOverride: backgroundOverride,
             components: components,
             layout: layout,

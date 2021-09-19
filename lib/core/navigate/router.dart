@@ -142,7 +142,6 @@ class Router {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-//                  StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicator(context);,
                   SizedBox(
                     height: 30,
                   ),
