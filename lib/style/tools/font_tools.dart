@@ -3,6 +3,7 @@ import 'package:eliud_core/model/model_export.dart';
 
 class FontTools {
   // Use this for reference:
+  static String decorationLabelStyleFontLabel = 'decorationLabel';
   static String h1Label = 'H1';
   static String h2Label = 'H2';
   static String h3Label = 'H3';
@@ -46,6 +47,7 @@ class FontTools {
     EliudFontDecoration.None
   ];
 
+  static final double _decorationLabelStyleFontSize = 22;
   static final double _defaultSize = 18;
   static final double _defaultSmallSize = 10;
   static final List<double> _sizes = <double>[30, 22, 20, 20, 20];
@@ -122,6 +124,22 @@ class FontTools {
     return fontModel;
   }
 
+  FontModel _getDecorationLabelStyleFont(int fontIndex) {
+    var size = _decorationLabelStyleFontSize;
+    var documentID = key(fontKeys[fontIndex], decorationLabelStyleFontLabel);
+    var fontModel = FontModel(
+      documentID: documentID,
+      fontName: fontNames[fontIndex],
+      size: size.toDouble(),
+      weight: EliudFontWeight.MostThick,
+      style: EliudFontStyle.Italic,
+      decoration: EliudFontDecoration.None,
+      color: highlightColor,
+    );
+    fonts[documentID] = fontModel;
+    return fontModel;
+  }
+
   FontModel _getHightlightFont1(int fontIndex) {
     var size = _defaultSize;
     var documentID = key(fontKeys[fontIndex], highlightLabel1);
@@ -182,7 +200,11 @@ class FontTools {
 //    }
   }
 
-  void _installSmallFontFor(int fontIndex) {
+  void _installDecorationLabelStyleFontFor(int fontIndex) {
+    _getDecorationLabelStyleFont(fontIndex);
+  }
+
+    void _installSmallFontFor(int fontIndex) {
 //    for (var i = 0; i < _weights.length; i++) {
       _getSmallFont(fontIndex);
 //    }
@@ -211,6 +233,7 @@ class FontTools {
       _installHeaderFontsFor(i);
       _installNormalFontFor(i);
       _installSmallFontFor(i);
+      _installDecorationLabelStyleFontFor(i);
       _installHighlightFont1For(i);
       _installHighlightFont2For(i);
       _installLinkFontFor(i);

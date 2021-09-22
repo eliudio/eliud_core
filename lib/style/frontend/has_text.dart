@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasText {
+  Widget smallText(
+      BuildContext context,
+      String data, {
+        TextAlign? textAlign,
+        int? maxLines,
+        bool? softWrap,
+      });
   Widget text(
-    BuildContext context,
-    String data, {
-    TextAlign? textAlign,
-    int? maxLines,
-    bool? softWrap,
-  });
+      BuildContext context,
+      String data, {
+        TextAlign? textAlign,
+        int? maxLines,
+        bool? softWrap,
+      });
   Widget highLight1(
     BuildContext context,
     String data, {
@@ -61,24 +68,43 @@ abstract class HasText {
   });
 }
 
+Widget smallText(
+    BuildContext context,
+    String data, {
+      TextAlign? textAlign,
+      int? maxLines,
+      bool? softWrap,
+    }) =>
+    StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .textStyle()
+        .smallText(
+      context,
+      data,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      softWrap: softWrap,
+    );
+
 Widget text(
-  BuildContext context,
-  String data, {
-  TextAlign? textAlign,
-  int? maxLines,
-  bool? softWrap,
-}) =>
+    BuildContext context,
+    String data, {
+      TextAlign? textAlign,
+      int? maxLines,
+      bool? softWrap,
+    }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle()
         .textStyle()
         .text(
-          context,
-          data,
-          textAlign: textAlign,
-          maxLines: maxLines,
-          softWrap: softWrap,
-        );
+      context,
+      data,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      softWrap: softWrap,
+    );
 
 Widget highLight1(
   BuildContext context,

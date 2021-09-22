@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasStyle {
+  TextStyle? inputDecorationLabelStyle(BuildContext context);
   TextStyle? styleText(BuildContext context);
   TextStyle? styleSmallText(BuildContext context);
   TextStyle? styleHighLight1(BuildContext context);
@@ -13,6 +14,12 @@ abstract class HasStyle {
   TextStyle? styleH4(BuildContext context);
   TextStyle? styleH5(BuildContext context);
 }
+
+TextStyle? styleInputDecorationLabel(BuildContext context) => StyleRegistry.registry()
+    .styleWithContext(context)
+    .frontEndStyle()
+    .textStyleStyle()
+    .styleText(context);
 
 TextStyle? styleText(BuildContext context) => StyleRegistry.registry()
     .styleWithContext(context)

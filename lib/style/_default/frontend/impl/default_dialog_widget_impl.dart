@@ -97,6 +97,21 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       bool? includeHeading,
       Key? key,
       double? widthFraction, // percentage of screen width
+
+        TextInputType? keyboardType,
+        TextCapitalization? textCapitalization,
+        TextAlign? textAlign,
+        TextAlignVertical? textAlignVertical,
+        TextDirection? textDirection,
+        bool? readOnly,
+        ToolbarOptions? toolbarOptions,
+        bool? showCursor,
+        bool? autocorrect,
+        bool? enableSuggestions,
+        int? maxLines,
+        int? minLines,
+        bool? expands,
+        int? maxLength,
     }) {
     String? feedback;
     return dialogHelper.build(context,
@@ -114,6 +129,22 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
                 hintText: hintText,
                 labelText: hintText,
               ),
+                keyboardType: keyboardType,
+                textCapitalization: textCapitalization,
+                textAlign: textAlign,
+                textAlignVertical: textAlignVertical,
+                textDirection: textDirection,
+                readOnly: readOnly,
+                toolbarOptions: toolbarOptions,
+                showCursor: showCursor,
+                autocorrect: autocorrect,
+                enableSuggestions: enableSuggestions,
+                maxLines: maxLines,
+                minLines: minLines,
+                expands: expands,
+                maxLength: maxLength,
+
+
             )),
         buttons: dialogHelper.getAckNackButtons(
           context,
