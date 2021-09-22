@@ -48,10 +48,10 @@ class Decorations extends Decoration {
   }
 
   @override
-  CreateWidget createDecoratedDrawer(BuildContext context, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model) {
+  CreateWidget createDecoratedDrawer(BuildContext context, DecorationDrawerType decorationDrawerType, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model) {
     var createWidget = createOriginalDrawer;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedDrawer(context, originalDrawerKey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedDrawer(context, decorationDrawerType, originalDrawerKey, createWidget, model);
     }
 
     return createWidget;

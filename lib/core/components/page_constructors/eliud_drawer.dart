@@ -2,6 +2,7 @@ import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
+import 'package:eliud_core/decoration/decoration.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
@@ -39,7 +40,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
     var currentPage = widget.currentPage;
     var theState = AccessBloc.getState(context);
     if (theState is AppLoaded) {
-      return Decorations.instance().createDecoratedDrawer(context, _drawerKey,
+      return Decorations.instance().createDecoratedDrawer(context, widget.drawerType == DrawerType.Left ? DecorationDrawerType.Left : DecorationDrawerType.Left,  _drawerKey,
           () {
         if (drawer.menu != null) {
           var drawerHeader1Attributes;
