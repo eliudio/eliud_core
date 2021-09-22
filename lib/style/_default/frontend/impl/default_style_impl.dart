@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class DefaultStyleImpl implements HasStyle {
   @override
-  TextStyle? inputDecorationLabelStyle(BuildContext context) {
+  TextStyle? styleInputDecorationLabel(BuildContext context) {
     return null;
   }
 

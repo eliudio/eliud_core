@@ -15,7 +15,13 @@ class DefaultTextImpl implements HasText {
 
   @override
   Widget smallText(BuildContext context, String data,
-          {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
+      {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
+      text(context, data,
+          textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
+
+  @override
+  Widget inputDecorationLabel(BuildContext context, String data,
+      {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
       text(context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
 

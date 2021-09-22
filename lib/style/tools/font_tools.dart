@@ -3,7 +3,7 @@ import 'package:eliud_core/model/model_export.dart';
 
 class FontTools {
   // Use this for reference:
-  static String decorationLabelStyleFontLabel = 'decorationLabel';
+  static String textFieldHeaderLabel = 'textFieldHeader';
   static String h1Label = 'H1';
   static String h2Label = 'H2';
   static String h3Label = 'H3';
@@ -47,7 +47,7 @@ class FontTools {
     EliudFontDecoration.None
   ];
 
-  static final double _decorationLabelStyleFontSize = 22;
+  static final double _textFieldHeaderSize = 14;
   static final double _defaultSize = 18;
   static final double _defaultSmallSize = 10;
   static final List<double> _sizes = <double>[30, 22, 20, 20, 20];
@@ -125,16 +125,16 @@ class FontTools {
   }
 
   FontModel _getDecorationLabelStyleFont(int fontIndex) {
-    var size = _decorationLabelStyleFontSize;
-    var documentID = key(fontKeys[fontIndex], decorationLabelStyleFontLabel);
+    var size = _textFieldHeaderSize;
+    var documentID = key(fontKeys[fontIndex], textFieldHeaderLabel);
     var fontModel = FontModel(
       documentID: documentID,
       fontName: fontNames[fontIndex],
       size: size.toDouble(),
-      weight: EliudFontWeight.MostThick,
-      style: EliudFontStyle.Italic,
+      weight: EliudFontWeight.Normal,
+      style: EliudFontStyle.Normal,
       decoration: EliudFontDecoration.None,
-      color: highlightColor,
+      color: defaultColor,
     );
     fonts[documentID] = fontModel;
     return fontModel;

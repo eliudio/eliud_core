@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasText {
+  Widget inputDecorationLabel(
+      BuildContext context,
+      String data, {
+        TextAlign? textAlign,
+        int? maxLines,
+        bool? softWrap,
+      });
   Widget smallText(
       BuildContext context,
       String data, {
@@ -80,6 +87,25 @@ Widget smallText(
         .frontEndStyle()
         .textStyle()
         .smallText(
+      context,
+      data,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      softWrap: softWrap,
+    );
+
+Widget inputDecorationLabel(
+    BuildContext context,
+    String data, {
+      TextAlign? textAlign,
+      int? maxLines,
+      bool? softWrap,
+    }) =>
+    StyleRegistry.registry()
+        .styleWithContext(context)
+        .frontEndStyle()
+        .textStyle()
+        .inputDecorationLabel(
       context,
       data,
       textAlign: textAlign,
