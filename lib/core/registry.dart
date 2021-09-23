@@ -25,12 +25,40 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
  * Global registry with components
  */
 
+class PluginComponent {
+  final String name;
+  final ComponentConstructor constructor;
+
+  PluginComponent(this.name, this.constructor);
+}
+
+class PluginWithComponents {
+  final String name;
+  final List<PluginComponent> components;
+
+  PluginWithComponents(this.name, this.components);
+}
+
 class Registry {
   final GlobalKey _appKey = GlobalKey();
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
+
+  List<PluginWithComponents> retrievePluginsWithComponents() =>
+      _allInternalComponents.entries.map((entry) => PluginWithComponents(entry.key, _components(entry.value))).toList();
+
+  List<PluginComponent> _components(List<String> values) {
+    List<PluginComponent> theList = [];
+    values.forEach((componentName) {
+      var component = _registryMap[componentName];
+      if (component != null) {
+        theList.add(PluginComponent(componentName, component));
+      }
+    });
+    return theList;
+  }
 
   List<String>? allInternalComponents(String pluginName) =>
       _allInternalComponents[pluginName];
@@ -78,15 +106,15 @@ class Registry {
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
       openWidgetDialog(context,
-              child: DialogComponent(
-                  dialog: dialog,
-                  parameters: parameters,
-                  includeHeading: dialog.includeHeading));
+          child: DialogComponent(
+              dialog: dialog,
+              parameters: parameters,
+              includeHeading: dialog.includeHeading));
     } else {
       openErrorDialog(context,
-              title: 'Error',
-              errorMessage: 'Widget with id $id not found in app $appId',
-              closeLabel: 'Close');
+          title: 'Error',
+          errorMessage: 'Widget with id $id not found in app $appId',
+          closeLabel: 'Close');
     }
   }
 
@@ -147,28 +175,34 @@ class Registry {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var app = snapshot.data!;
-            var initialRoute = initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
+            var initialRoute =
+                initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
             return MultiBlocProvider(
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
                     builder: (context, state) {
-                  return Decorations.instance().createDecoratedApp(context, _appKey, () => StyleRegistry.registry()
-                      .styleWithContext(context)
-                      .frontEndStyle()
-                      .appStyle()
-                      .app(
-                        key: _appKey,
-                        navigatorKey: navigatorKey,
-                        scaffoldMessengerKey: rootScaffoldMessengerKey,
-                        initialRoute: initialRoute,
-                        onGenerateRoute: eliudrouter.Router.generateRoute,
-                        onUnknownRoute: (RouteSettings setting) {
-                          return pageRouteBuilderWithAppId(appId,
-                              page: AlertWidget(
-                                  title: 'Error', content: 'Page not found'));
-                        },
-                        title: app.title ?? 'No title',
-                      ), app)();
+                  return Decorations.instance().createDecoratedApp(
+                      context,
+                      _appKey,
+                      () => StyleRegistry.registry()
+                          .styleWithContext(context)
+                          .frontEndStyle()
+                          .appStyle()
+                          .app(
+                            key: _appKey,
+                            navigatorKey: navigatorKey,
+                            scaffoldMessengerKey: rootScaffoldMessengerKey,
+                            initialRoute: initialRoute,
+                            onGenerateRoute: eliudrouter.Router.generateRoute,
+                            onUnknownRoute: (RouteSettings setting) {
+                              return pageRouteBuilderWithAppId(appId,
+                                  page: AlertWidget(
+                                      title: 'Error',
+                                      content: 'Page not found'));
+                            },
+                            title: app.title ?? 'No title',
+                          ),
+                      app)();
                 }));
           } else {
             return MaterialApp(
@@ -186,8 +220,8 @@ class Registry {
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
-        returnThis =
-            componentConstructor.createNew(key: key, id: id, parameters: parameters);
+        returnThis = componentConstructor.createNew(
+            key: key, id: id, parameters: parameters);
       }
     } catch (_) {}
     if (returnThis != null) return returnThis;
