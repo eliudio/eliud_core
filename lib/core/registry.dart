@@ -25,19 +25,6 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
  * Global registry with components
  */
 
-class PluginComponent {
-  final String name;
-  final ComponentConstructor constructor;
-
-  PluginComponent(this.name, this.constructor);
-}
-
-class PluginWithComponents {
-  final String name;
-  final List<PluginComponent> components;
-
-  PluginWithComponents(this.name, this.components);
-}
 
 class Registry {
   final GlobalKey _appKey = GlobalKey();
@@ -46,6 +33,9 @@ class Registry {
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
 
+  Map<String, List<String>> internalComponents() => _allInternalComponents;
+
+  /*
   List<PluginWithComponents> retrievePluginsWithComponents() =>
       _allInternalComponents.entries.map((entry) => PluginWithComponents(entry.key, _components(entry.value))).toList();
 
@@ -58,7 +48,7 @@ class Registry {
       }
     });
     return theList;
-  }
+  }*/
 
   List<String>? allInternalComponents(String pluginName) =>
       _allInternalComponents[pluginName];
