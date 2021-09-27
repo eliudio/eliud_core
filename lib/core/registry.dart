@@ -35,6 +35,8 @@ class Registry {
 
   Map<String, List<String>> internalComponents() => _allInternalComponents;
 
+
+
   /*
   List<PluginWithComponents> retrievePluginsWithComponents() =>
       _allInternalComponents.entries.map((entry) => PluginWithComponents(entry.key, _components(entry.value))).toList();
