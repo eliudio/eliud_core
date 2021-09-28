@@ -5,7 +5,7 @@ class ComponentSpec {
   final String name;
   final ComponentConstructor constructor;
   final ComponentSelector selector;
-  final ComponentEditor editor;
+  final ComponentEditorConstructor editor;
 
   ComponentSpec(this.name, this.constructor, this.selector, this.editor);
 }
@@ -13,9 +13,10 @@ class ComponentSpec {
 typedef SelectComponent(String componentId);
 
 abstract class ComponentSelector {
-  Widget createSelectWidget(BuildContext context, double height, SelectComponent selected);
+  Widget createSelectWidget(BuildContext context, double height, SelectComponent selected, editor);
 }
 
-abstract class ComponentEditor {
-  void updateComponent(model);
+abstract class ComponentEditorConstructor {
+  void updateComponent(BuildContext context, model);
+  void createNewComponent(BuildContext context, );
 }
