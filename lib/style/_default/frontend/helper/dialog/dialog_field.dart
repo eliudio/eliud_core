@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:eliud_core/style/frontend/has_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,6 +90,7 @@ class _DialogFieldState extends State<DialogField> {
       minLines: widget.minLines,
       expands: widget.expands == null ? false : widget.expands!,
       maxLength: widget.maxLength,
+      style: styleText(context),
     );
   }
 
