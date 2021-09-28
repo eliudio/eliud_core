@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

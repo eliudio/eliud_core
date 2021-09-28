@@ -17,7 +17,7 @@ import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_table.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
+import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/enums.dart';
 import 'package:eliud_core/tools/gdpr/gdpr_functions.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';

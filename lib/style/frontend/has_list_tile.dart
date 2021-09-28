@@ -4,7 +4,13 @@ import '../style_registry.dart';
 
 abstract class HasListTile {
   Widget getListTile(BuildContext context,
-      {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine});
+      {Key? key,
+      GestureTapCallback? onTap,
+      Widget? leading,
+      Widget? trailing,
+      Widget? title,
+      Widget? subtitle,
+      bool? isThreeLine});
   Widget radioListTile<T>(BuildContext context, T t, T? groupValue,
       String title, String? subTitle, ValueChanged<T?>? valueChanged);
   Widget checkboxListTile(BuildContext context, String title, bool? value,
@@ -12,7 +18,10 @@ abstract class HasListTile {
 }
 
 Widget getListTile(BuildContext context,
-        {Widget? leading,
+        {Key? key,
+        GestureTapCallback? onTap,
+        Widget? leading,
+        Widget? trailing,
         Widget? title,
         Widget? subtitle,
         bool? isThreeLine}) =>
@@ -21,7 +30,10 @@ Widget getListTile(BuildContext context,
         .frontEndStyle()
         .listTileStyle()
         .getListTile(context,
+            key: key,
+            onTap: onTap,
             leading: leading,
+            trailing: trailing,
             title: title,
             subtitle: subtitle,
             isThreeLine: isThreeLine);

@@ -9,10 +9,10 @@ enum DialogButtonPosition { BottomRight, TopRight }
 
 class DialogStatefulWidgetHelper {
   static double width(BuildContext context) =>
-      MediaQuery.of(context).size.width * 0.9;
+      MediaQuery.of(context).size.width * 1;
 
   static double height(BuildContext context) =>
-      MediaQuery.of(context).size.height * 0.9;
+      MediaQuery.of(context).size.height * 1;
 
   static void openIt(BuildContext context, Widget dialog,
       {double? heightValue, double? widthValue}) {
@@ -21,15 +21,27 @@ class DialogStatefulWidgetHelper {
     var _height = heightValue == null
         ? height(context)
         : min(height(context), heightValue);
-    showDialog(
+
+    showGeneralDialog(
         context: context,
-        builder: (BuildContext context) {
-          return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Align(
-                  alignment: Alignment.center,
-                  child:
-                      SizedBox(width: _width, height: _height, child: dialog)));
+        barrierDismissible: false,
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: animation,
+              child: child,
+            ),
+          );
+        },
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return SafeArea(
+              child: Container(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                          width: _width, height: _height, child: dialog))));
         });
   }
 }
@@ -40,18 +52,18 @@ class DialogStateHelper {
 
   DialogStateHelper();
 
-  Widget build(BuildContext context,
-      {required String title,
-        Key? key,
-      required Widget contents,
-      required List<Widget> buttons,
-      double? width,
-      required DialogButtonPosition dialogButtonPosition,
-      Widget? separator,
-      bool? includeHeading,
-      }) {
-    return
-      Dialog(
+  Widget build(
+    BuildContext context, {
+    required String title,
+    Key? key,
+    required Widget contents,
+    required List<Widget> buttons,
+    double? width,
+    required DialogButtonPosition dialogButtonPosition,
+    Widget? separator,
+    bool? includeHeading,
+  }) {
+    return Dialog(
         key: key,
         insetPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         shape: RoundedRectangleBorder(
@@ -124,10 +136,10 @@ class DialogStateHelper {
       }
       titleContainer = Container(
           child: ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: [titleWidget, seperatorWidget(separator)],
-          ));
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: [titleWidget, seperatorWidget(separator)],
+      ));
     }
 
     // Middle
@@ -144,16 +156,14 @@ class DialogStateHelper {
           (dialogButtonPosition == DialogButtonPosition.TopRight))) {
         footerContainer = Container(
             child: ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: [seperatorWidget(separator), _getRowWithButtons(buttons)]
-                  ,
-            ));
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [seperatorWidget(separator), _getRowWithButtons(buttons)],
+        ));
         items = [titleContainer, middle, footerContainer];
       } else {
         items = [titleContainer, middle];
       }
-
     } else {
       // Footer
       var footerContainer;
@@ -161,15 +171,13 @@ class DialogStateHelper {
           (dialogButtonPosition == DialogButtonPosition.TopRight))) {
         footerContainer = Container(
             child: ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: [_getRowWithButtons(buttons)]
-            ));
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: [_getRowWithButtons(buttons)]));
         items = [middle, footerContainer];
       } else {
         items = [middle];
       }
-
     }
 
     return Container(

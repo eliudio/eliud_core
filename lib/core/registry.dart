@@ -11,13 +11,14 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/component/component_constructor.dart';
+import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
-import 'package:eliud_core/tools/component_constructor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
@@ -32,6 +33,9 @@ class Registry {
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
+
+  // Map Plugin-Name => List ComponentSpec
+  final Map<String, List<ComponentSpec>> _allComponentSpecs = HashMap();
 
   Map<String, List<String>> internalComponents() => _allInternalComponents;
 
@@ -59,6 +63,10 @@ class Registry {
     _allInternalComponents[pluginName] = list;
   }
 
+  void addComponentSpec(String pluginName, List<ComponentSpec> specs) {
+    _allComponentSpecs[pluginName] = specs;
+  }
+
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();
   final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers =
       HashMap();
@@ -66,6 +74,7 @@ class Registry {
   static Registry? _instance;
 
   Map<String?, ComponentConstructor?> registryMap() => _registryMap;
+  Map<String, List<ComponentSpec>> componentSpecMap() => _allComponentSpecs;
 
   Registry._internal();
 

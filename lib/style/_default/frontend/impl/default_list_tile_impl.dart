@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 
 class DefaultListTileImpl implements HasListTile {
   @override
-  Widget getListTile(BuildContext context, {Widget? leading, Widget? title, Widget? subtitle, bool? isThreeLine}) {
+  Widget getListTile(BuildContext context, {Key? key, GestureTapCallback? onTap, Widget? leading, Widget? trailing, Widget? title, Widget? subtitle, bool? isThreeLine}) {
     return ListTile(
+      key: key,
+      onTap: onTap,
       isThreeLine: isThreeLine ?? false,
       leading: leading,
+      trailing: trailing,
       title: title,
       subtitle: subtitle,
     );
