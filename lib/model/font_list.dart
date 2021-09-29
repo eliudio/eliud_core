@@ -215,7 +215,7 @@ class FontListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.fontName!)) : Container(),
+        title: value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.fontName!)) : Container(),
       ),
     );
   }

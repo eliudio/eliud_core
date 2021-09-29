@@ -62,9 +62,7 @@ class PageModel {
   // Specific gridview
   GridViewModel? gridView;
 
-  // This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all
-  // components of this page. The page will wrap all it's components inside this widget. This can for example be of use when
-  // you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component
+  // This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all components of this page. The page will wrap all it's components inside this widget. This can for example be of use when you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component
   String? widgetWrapper;
   ConditionsModel? conditions;
 

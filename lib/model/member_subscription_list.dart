@@ -215,8 +215,8 @@ class MemberSubscriptionListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.app!.documentID!)) : Container(),
-        subtitle: value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.app!.title!)) : Container(),
+        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.app!.documentID!)) : Container(),
+        subtitle: value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.app!.title!)) : Container(),
       ),
     );
   }

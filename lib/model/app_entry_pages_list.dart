@@ -215,8 +215,8 @@ class AppEntryPagesListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.entryPage!.documentID!)) : Container(),
-        subtitle: value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.entryPage!.title!)) : Container(),
+        title: value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.documentID!)) : Container(),
+        subtitle: value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.title!)) : Container(),
       ),
     );
   }

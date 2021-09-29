@@ -111,7 +111,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.documentID!)) : Container()",
-    "subTitle": "value.url != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.url!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
+    "subTitle": "value.url != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.url!)) : Container()"
   }
 }

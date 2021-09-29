@@ -63,7 +63,7 @@ class FontDropdownButtonWidgetState extends State<FontDropdownButtonWidget> {
 
 List<Widget> widgets(FontModel value) {
 var widgets = <Widget>[];
-widgets.add(value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.fontName!)) : Container());
+widgets.add(value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.fontName!)) : Container());
 return widgets;
 }
 

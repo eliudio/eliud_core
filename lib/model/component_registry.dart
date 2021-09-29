@@ -16,8 +16,11 @@
 
 import '../model/internal_component.dart';
 import 'package:eliud_core/core/registry.dart';
+import 'package:eliud_core/tools/component/component_spec.dart';
 
 import '../extensions/member_dashboard_component.dart';
+import '../editors/member_dashboard_component_editor.dart';
+import 'member_dashboard_component_selector.dart';
 import 'package:eliud_core/model/internal_component.dart';
 
 
@@ -31,6 +34,9 @@ class ComponentRegistry {
     Registry.registry()!.register(componentName: "eliud_core_internalWidgets", componentConstructor: ListComponentFactory());
     Registry.registry()!.addDropDownSupporter("memberDashboards", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "memberDashboards", componentConstructor: MemberDashboardComponentConstructorDefault());
+    Registry.registry()!.addComponentSpec('eliud_core', [
+      ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ), 
+    ]);
 
   }
 }

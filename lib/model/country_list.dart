@@ -215,8 +215,8 @@ class CountryListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryCode!)) : Container(),
-        subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.countryName!)) : Container(),
+        title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryCode!)) : Container(),
+        subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryName!)) : Container(),
       ),
     );
   }

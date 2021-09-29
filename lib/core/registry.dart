@@ -76,6 +76,15 @@ class Registry {
   Map<String?, ComponentConstructor?> registryMap() => _registryMap;
   Map<String, List<ComponentSpec>> componentSpecMap() => _allComponentSpecs;
 
+  ComponentSpec? getComponentSpecs(String name) {
+    for (var componentSpec in _allComponentSpecs.values) {
+      for (var entry in componentSpec) {
+        if (entry.name == name) return entry;
+      }
+    }
+    return null;
+  }
+
   Registry._internal();
 
   static Registry? registry() {

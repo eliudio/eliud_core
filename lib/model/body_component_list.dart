@@ -215,8 +215,8 @@ class BodyComponentListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentName!)) : Container(),
-        subtitle: value.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).adminListStyle().listItem(context, value.componentId!)) : Container(),
+        title: value.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.componentName!)) : Container(),
+        subtitle: value.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.componentId!)) : Container(),
       ),
     );
   }
