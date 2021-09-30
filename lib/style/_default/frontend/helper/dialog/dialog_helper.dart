@@ -25,7 +25,7 @@ class DialogStatefulWidgetHelper {
     showGeneralDialog(
         context: context,
         barrierDismissible: false,
-        transitionDuration: Duration(milliseconds: 1000),
+        transitionDuration: Duration(milliseconds: 500),
         transitionBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
