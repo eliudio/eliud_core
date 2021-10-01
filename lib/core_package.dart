@@ -15,6 +15,8 @@ abstract class CorePackage extends PackageWithSubscription {
 
   MemberModel? stateMemberModel;
 
+  CorePackage() : super('eliud_core');
+
   void _setState(MemberModel? currentMember) {
     if (stateMemberModel != currentMember) {
       stateMemberModel = currentMember;

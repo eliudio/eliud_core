@@ -148,7 +148,45 @@ class PagesAndDialogAccesss extends Equatable {
               blocked == other.blocked;
 }
 
+class PackageInfo {
+  final String name;
+  final List<String> conditions;
+
+  PackageInfo(this.name, this.conditions);
+}
+
+class PackageInfo2 {
+  final String packageName;
+  final String packageCondition;
+
+  PackageInfo2(this.packageName, this.packageCondition);
+}
+
 class AccessHelper {
+  static List<PackageInfo2> getAllPackageConditionsAsPackageInfos2() {
+    var packageInfos = <PackageInfo2>[];
+    for (var i = 0; i < Packages.registeredPackages.length; i++) {
+      var package = Packages.registeredPackages[i];
+      var packageConditions = package.retrieveAllPackageConditions();
+      if (packageConditions != null) {
+        for (var j = 0; j < packageConditions.length; j++) {
+          packageInfos.add(PackageInfo2(package.packageName, packageConditions[j]));
+        }
+      }
+    }
+    return packageInfos;
+  }
+
+  static List<PackageInfo> getAllPackageConditionsAsPackageInfos() {
+    var packageInfos = <PackageInfo>[];
+    for (var i = 0; i < Packages.registeredPackages.length; i++) {
+      var package = Packages.registeredPackages[i];
+      var newItems = Packages.registeredPackages[i].retrieveAllPackageConditions() ?? [];
+      packageInfos.add(PackageInfo(package.packageName, newItems));
+    }
+    return packageInfos;
+  }
+
   static List<String> getAllPackageConditions() {
     var packageConditions = <String>[];
     for (var i = 0; i < Packages.registeredPackages.length; i++) {

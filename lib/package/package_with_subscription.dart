@@ -19,6 +19,8 @@ abstract class PackageWithSubscription extends Package {
   NavigatorBloc? navigatorBloc;
   StreamSubscription? subscription;
 
+  PackageWithSubscription(String packageName) : super(packageName);
+
   @override
   BlocProvider? createMainBloc(NavigatorBloc navigatorBloc, AccessBloc accessBloc) {
     // store the accessBloc

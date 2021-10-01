@@ -18,6 +18,9 @@ class MemberCollectionInfo {
 }
 
 abstract class Package extends Equatable {
+  final String packageName;
+
+  Package(this.packageName);
   /*
    * Initialise your plugin. You can use isWeb() or isMobile() to determine the context of your plugin.
    * Initialise your repositories and any other platform specifics
