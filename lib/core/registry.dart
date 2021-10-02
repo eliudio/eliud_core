@@ -159,6 +159,7 @@ class Registry {
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   Widget application({required String appId, required bool asPlaystore}) {
+    print("application");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
     var accessBloc = AccessBloc(navigatorBloc)
       ..add(InitApp(appId, asPlaystore));
@@ -180,6 +181,7 @@ class Registry {
       }
     }
 
+    print("application 2");
     return FutureBuilder<AppModel?>(
         future: getApp(appId),
         builder: (context, snapshot) {
