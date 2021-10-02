@@ -236,8 +236,11 @@ class AccessHelper {
     if (conditions == null) return true;
 
     var packageCondition = conditions.packageCondition;
-    if ((packageCondition != null) && (!packagesConditions[packageCondition]!.access!)) {
-      return false;
+    if (packageCondition != null) {
+      var packageConditionValue = packagesConditions[packageCondition];
+      if ((packageConditionValue != null) && (packageConditionValue.access != null) && (!packageConditionValue.access!)) {
+        return false;
+      }
     }
 
     if (conditions.conditionOverride != null) {
