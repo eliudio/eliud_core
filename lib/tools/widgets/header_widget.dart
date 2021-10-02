@@ -8,14 +8,14 @@ typedef VoidCallbackFutureSuccess = Future<bool> Function();
 
 class HeaderWidget extends StatefulWidget {
   final String title;
-  final VoidCallback cancelAction;
-  final VoidCallbackFutureSuccess okAction;
+  final VoidCallback? cancelAction;
+  final VoidCallbackFutureSuccess? okAction;
 
   HeaderWidget({
     Key? key,
     required this.title,
-    required this.cancelAction,
-    required this.okAction,
+    this.cancelAction,
+    this.okAction,
   }) : super(key: key);
 
   @override
@@ -31,13 +31,13 @@ class _HeaderWidgetState extends State<HeaderWidget> {
       Row(children: [
         text(context, widget.title),
         Spacer(),
-        iconButton(context, onPressed: () {
-          widget.cancelAction();
+        if (widget.cancelAction != null) iconButton(context, onPressed: () {
+          widget.cancelAction!();
           Navigator.of(context).pop();
         }, icon: Icon(Icons.cancel), tooltip: 'Cancel'),
-        iconButton(context, onPressed: () async {
+        if (widget.okAction != null) iconButton(context, onPressed: () async {
           // apply and save
-          if (await widget.okAction())
+          if (await widget.okAction!())
             Navigator.of(context).pop();
         }, icon: Icon(Icons.check), tooltip: 'Ok'),
       ]),

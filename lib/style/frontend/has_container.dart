@@ -8,7 +8,10 @@ abstract class HasContainer {
       {required List<Widget> children,
       DecorationImage? image,
       double? height,
-      double? width});
+      double? width,
+      String? title,
+      bool? collapsible,
+      bool? collapsed = false});
 
   // Format a topic. Similar to topicContainer, but simpler, without too much decoration
   Widget simpleTopicContainer(BuildContext context,
@@ -26,13 +29,22 @@ Widget topicContainer(BuildContext context,
         {required List<Widget> children,
         DecorationImage? image,
         double? height,
-        double? width}) =>
+        double? width,
+        String? title,
+        bool? collapsible,
+        bool? collapsed = false}) =>
     StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle()
         .containerStyle()
         .topicContainer(context,
-            children: children, image: image, height: height, width: width);
+            children: children,
+            image: image,
+            height: height,
+            width: width,
+            title: title,
+            collapsible: collapsible,
+            collapsed: collapsed);
 
 Widget simpleTopicContainer(BuildContext context,
         {required List<Widget> children,
