@@ -41,8 +41,22 @@ class MemberFirestore implements MemberRepository {
     var data = doc.data();
     if (data == null) return null;
     var map = data as Map<String, dynamic>;
-    return MemberModel.fromEntityPlus(
+    var memberModel = await MemberModel.fromEntityPlus(
         doc.id, MemberEntity.fromMap(map));
+    if (memberModel == null) return null;
+    // it could be that the app is deleted after a member had subscribed and then this becomes corrupt. So we verify...
+    var subscriptions = <MemberSubscriptionModel>[];
+    var subscriptionStrings = <String>[];
+    if (memberModel.subscriptions != null) {
+      for (var i = 0; i < memberModel.subscriptions!.length; i++) {
+        var theApp = memberModel.subscriptions![i].app;
+        if (theApp != null) {
+          subscriptions.add(memberModel.subscriptions![i]);
+          subscriptionStrings.add(theApp.documentID!);
+        }
+      }
+    }
+    return memberModel.copyWith(subscriptions: subscriptions, subscriptionsAsString: subscriptionStrings);
   }
 
   @override
