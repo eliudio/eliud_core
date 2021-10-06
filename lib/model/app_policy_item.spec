@@ -36,7 +36,7 @@
     {
       "fieldName": "policy",
       "association": true,
-      "fieldType": "MemberMedium",
+      "fieldType": "PlatformMedium",
       "group": "policy"
     }
   ],

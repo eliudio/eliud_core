@@ -5,6 +5,7 @@ import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
@@ -188,10 +189,10 @@ class BoxDecorationHelper {
 class ImageHelper {
   static Widget getImageFromMediumModel(
       {MemberMediumModel? memberMediumModel,
-      double? height,
-      double? width,
-      BoxFit? fit,
-      Alignment? alignment}) {
+        double? height,
+        double? width,
+        BoxFit? fit,
+        Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
         image: AssetImage('assets/images/image_not_available.png'),
@@ -205,12 +206,31 @@ class ImageHelper {
     }
   }
 
+  static Widget getImageFromPlatformModel(
+      {PlatformMediumModel? platformMediumModel,
+        double? height,
+        double? width,
+        BoxFit? fit,
+        Alignment? alignment}) {
+    if (platformMediumModel == null) {
+      return Image(
+        image: AssetImage('assets/images/image_not_available.png'),
+        height: height,
+        width: width,
+        alignment: alignment!,
+      );
+    } else {
+      return getImageFromURL(
+          url: platformMediumModel.url!, height: height, width: width);
+    }
+  }
+
   static Widget getThumbnailFromMembereMediumModel(
       {MemberMediumModel? memberMediumModel,
-      double? height,
-      double? width,
-      BoxFit? fit,
-      Alignment? alignment}) {
+        double? height,
+        double? width,
+        BoxFit? fit,
+        Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
           image: AssetImage('assets/images/image_not_available.png'),
@@ -219,6 +239,23 @@ class ImageHelper {
     } else {
       return getImageFromURL(
           url: memberMediumModel.url!, height: height, width: width);
+    }
+  }
+
+  static Widget getThumbnailFromPlatformMediumModel(
+      {PlatformMediumModel? platformMediumModel,
+        double? height,
+        double? width,
+        BoxFit? fit,
+        Alignment? alignment}) {
+    if (platformMediumModel == null) {
+      return Image(
+          image: AssetImage('assets/images/image_not_available.png'),
+          height: height,
+          width: width);
+    } else {
+      return getImageFromURL(
+          url: platformMediumModel.url!, height: height, width: width);
     }
   }
 

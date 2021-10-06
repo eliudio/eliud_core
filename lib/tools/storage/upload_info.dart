@@ -57,7 +57,7 @@ class UploadInfo {
       Map<String, String> customMetaData,
       {FeedbackProgress? feedbackProgress}) async {
     try {
-      var ref = '$appId/$directory/$packageName/$baseName';
+      var ref = '$appId/$packageName/$directory/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putData(
@@ -95,7 +95,7 @@ class UploadInfo {
     try {
       var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
       print("baseName = " + baseName);
-      var ref = '$appId/$ownerId/$packageName/$baseName';
+      var ref = '$appId/$packageName/$ownerId/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putFile(

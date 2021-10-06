@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 
 class MediumInfo {
   final int? width;
@@ -12,24 +13,37 @@ class MediumInfo {
 }
 
 class ChainOfMediumModels {
-  static void _addUrl(List<String?> urls, MemberMediumModel currentPolicy) {
+  static void _addMemberMediumUrl(List<String?> urls, MemberMediumModel currentPolicy) {
     if (currentPolicy.mediumType == MediumType.Photo) {
       urls.add(currentPolicy.url);
     }
   }
 
-  static void _addInfo(List<MediumInfo> infos, MemberMediumModel currentPolicy) {
+  static void _addPlatformMediumUrl(List<String?> urls, PlatformMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == MediumType.Photo) {
+      urls.add(currentPolicy.url);
+    }
+  }
+
+  static void _addMemberMediumInfo(List<MediumInfo> infos, MemberMediumModel currentPolicy) {
     if (currentPolicy.mediumType == MediumType.Photo) {
       infos.add(MediumInfo(currentPolicy.mediumWidth,
           currentPolicy.mediumHeight, currentPolicy.url));
     }
   }
 
-  static Future<List<String?>> getChainOfUrls(
+  static void _addPlatformMediumInfo(List<MediumInfo> infos, PlatformMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == PlatformMediumType.Photo) {
+      infos.add(MediumInfo(currentPolicy.mediumWidth,
+          currentPolicy.mediumHeight, currentPolicy.url));
+    }
+  }
+
+  static Future<List<String?>> getMemberMediumChainOfUrls(
       String appId, MemberMediumModel memberMediumModel) async {
     var urls = <String?>[];
     var currentPolicy = memberMediumModel;
-    _addUrl(urls, currentPolicy);
+    _addMemberMediumUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
       var newPolicy = await memberMediumRepository(appId: appId)!
           .get(currentPolicy.relatedMediumId);
@@ -37,17 +51,35 @@ class ChainOfMediumModels {
         print("Can't get policy");
       } else {
         currentPolicy = newPolicy;
-        _addUrl(urls, currentPolicy);
+        _addMemberMediumUrl(urls, currentPolicy);
       }
     }
     return urls;
   }
 
-  static Future<List<MediumInfo>> getChainOfMediumInfo(
+  static Future<List<String?>> getPlatformMediumChainOfUrls(
+      String appId, PlatformMediumModel platformMediumModel) async {
+    var urls = <String?>[];
+    var currentPolicy = platformMediumModel;
+    _addPlatformMediumUrl(urls, currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      var newPolicy = await platformMediumRepository(appId: appId)!
+          .get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        _addPlatformMediumUrl(urls, currentPolicy);
+      }
+    }
+    return urls;
+  }
+
+  static Future<List<MediumInfo>> getMemberMediumModelChainOfMediumInfo(
       String? appId, MemberMediumModel memberMediumModel) async {
     var infos = <MediumInfo>[];
     var currentPolicy = memberMediumModel;
-    _addInfo(infos, currentPolicy);
+    _addMemberMediumInfo(infos, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
       var newPolicy = await memberMediumRepository(appId: appId)!
           .get(currentPolicy.relatedMediumId);
@@ -55,7 +87,25 @@ class ChainOfMediumModels {
         print("Can't get policy");
       } else {
         currentPolicy = newPolicy;
-        _addInfo(infos, currentPolicy);
+        _addMemberMediumInfo(infos, currentPolicy);
+      }
+    }
+    return infos;
+  }
+
+  static Future<List<MediumInfo>> getPlatformMediumModelChainOfMediumInfo(
+      String? appId, PlatformMediumModel platformMediumModel) async {
+    var infos = <MediumInfo>[];
+    var currentPolicy = platformMediumModel;
+    _addPlatformMediumInfo(infos, currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      var newPolicy = await platformMediumRepository(appId: appId)!
+          .get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        _addPlatformMediumInfo(infos, currentPolicy);
       }
     }
     return infos;

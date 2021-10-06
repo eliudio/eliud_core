@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -6,31 +7,31 @@ import 'package:eliud_core/tools/storage/medium_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MemberMediumDialog extends StatefulWidget {
+class PlatformMediumDialog extends StatefulWidget {
   final double? width;
   final String? title;
-  final MemberMediumModel memberMediumModel;
+  final PlatformMediumModel platformMediumModel;
 
-  MemberMediumDialog({
+  PlatformMediumDialog({
     Key? key,
     this.title,
-    required this.memberMediumModel,
+    required this.platformMediumModel,
     this.width,
   }) : super(key: key);
 
   @override
-  _MemberMediumState createState() => _MemberMediumState();
+  _PlatformMediumState createState() => _PlatformMediumState();
 }
 
-class _MemberMediumState extends State<MemberMediumDialog> {
+class _PlatformMediumState extends State<PlatformMediumDialog> {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
   Future<List<MediumInfo>> buildImagesList() async {
-    var memberMediumModel = widget.memberMediumModel;
-    var appId = memberMediumModel.appId;
-    return await ChainOfMediumModels.getMemberMediumModelChainOfMediumInfo(
-        appId, memberMediumModel);
+    var platformMediumModel = widget.platformMediumModel;
+    var appId = platformMediumModel.appId;
+    return await ChainOfMediumModels.getPlatformMediumModelChainOfMediumInfo(
+        appId, platformMediumModel);
   }
 
   @override

@@ -326,7 +326,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _logo, trigger: _onLogoSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "platformMediums", value: _logo, trigger: _onLogoSelected, optional: true),
           );
 
 

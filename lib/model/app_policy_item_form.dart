@@ -178,7 +178,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _policy, trigger: _onPolicySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(id: "platformMediums", value: _policy, trigger: _onPolicySelected, optional: false),
           );
 
 

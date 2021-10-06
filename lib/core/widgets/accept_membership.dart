@@ -1,8 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
 import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/widgets/platform_medium_dialog.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -36,7 +38,7 @@ class AcceptMembershipWidget extends StatefulWidget {
 }
 
 class CheckboxHandler {
-  final MemberMediumModel? item;
+  final PlatformMediumModel? item;
   bool? value;
 
   CheckboxHandler(this.value, this.item);
@@ -71,13 +73,13 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     return true;
   }
 
-  void _openPolicy(String? title, MemberMediumModel item) {
+  void _openPolicy(String? title, PlatformMediumModel item) {
     openWidgetDialog(
           context,
-          child: MemberMediumDialog(
+          child: PlatformMediumDialog(
             width: 100,
             title: title,
-            memberMediumModel: item,
+            platformMediumModel: item,
           ),
         );
   }

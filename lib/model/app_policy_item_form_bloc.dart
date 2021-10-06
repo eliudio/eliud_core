@@ -77,7 +77,7 @@ class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFo
       }
       if (event is ChangedAppPolicyItemPolicy) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(policy: await memberMediumRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(policy: await platformMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppPolicyItemModel(
                                  documentID: currentState.value!.documentID,

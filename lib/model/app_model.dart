@@ -67,7 +67,7 @@ class AppModel {
   String? description;
   AppStatus? appStatus;
   AppHomePageReferencesModel? homePages;
-  MemberMediumModel? logo;
+  PlatformMediumModel? logo;
   PageTransitionAnimation? routeBuilder;
   int? routeAnimationDuration;
 
@@ -81,7 +81,7 @@ class AppModel {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, MemberMediumModel? logo, PageTransitionAnimation? routeBuilder, int? routeAnimationDuration, String? logoURL, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PlatformMediumModel? logo, PageTransitionAnimation? routeBuilder, int? routeAnimationDuration, String? logoURL, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
     return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
   }
 
@@ -155,13 +155,13 @@ class AppModel {
   static Future<AppModel?> fromEntityPlus(String documentID, AppEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel? logoHolder;
+    PlatformMediumModel? logoHolder;
     if (entity.logoId != null) {
       try {
-          logoHolder = await memberMediumRepository(appId: appId)!.get(entity.logoId);
+          logoHolder = await platformMediumRepository(appId: appId)!.get(entity.logoId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise logo');
-        print('Error whilst retrieving memberMedium with id ${entity.logoId}');
+        print('Error whilst retrieving platformMedium with id ${entity.logoId}');
         print('Exception: $e');
       }
     }

@@ -19,6 +19,7 @@ class UserRepository {
   User? currentSignedinUser() {
     return _firebaseAuth.currentUser;
   }
+/*
 
   Future<void> uploadExample() async {
     File file = await _localFile;
@@ -42,6 +43,7 @@ class UserRepository {
     final path = await _localPath;
     return File('$path/counter.txt');
   }
+*/
 
   Future<User?> signInWithGoogle(NavigatorBloc? navigatorBloc) async {
     try {
@@ -54,6 +56,7 @@ class UserRepository {
           idToken: googleAuth.idToken,
         );
         await _firebaseAuth.signInWithCredential(credential);
+/*
         //await uploadExample();
 
         var fileName = '/MINKEY_APP/upgrade2.txt';
@@ -62,6 +65,7 @@ class UserRepository {
 
         var localFile = await _localFile;
         await localFile.writeAsBytes(x!);
+*/
 
         return _firebaseAuth.currentUser;
       }
