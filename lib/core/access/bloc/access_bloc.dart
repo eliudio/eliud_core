@@ -374,6 +374,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       // create an access entry. creation with privilege level 0 is allowed
       await accessRepository(appId: app.documentID)!.add(AccessModel(
         documentID: member.documentID,
+        appId: app.documentID,
         privilegeLevel: PrivilegeLevel.NoPrivilege,
         points: 0,
       ));

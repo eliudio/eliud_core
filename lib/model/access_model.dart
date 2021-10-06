@@ -63,6 +63,7 @@ class AccessModel {
 
   // This is the member ID
   String? documentID;
+  String? appId;
 
   // This is the privilege level and will determine the data accessible
   PrivilegeLevel? privilegeLevel;
@@ -76,16 +77,16 @@ class AccessModel {
   // This is the privilege level before the member was blocked and allows to restore to this point
   PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked;
 
-  AccessModel({this.documentID, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, })  {
+  AccessModel({this.documentID, this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, })  {
     assert(documentID != null);
   }
 
-  AccessModel copyWith({String? documentID, PrivilegeLevel? privilegeLevel, int? points, bool? blocked, PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked, }) {
-    return AccessModel(documentID: documentID ?? this.documentID, privilegeLevel: privilegeLevel ?? this.privilegeLevel, points: points ?? this.points, blocked: blocked ?? this.blocked, privilegeLevelBeforeBlocked: privilegeLevelBeforeBlocked ?? this.privilegeLevelBeforeBlocked, );
+  AccessModel copyWith({String? documentID, String? appId, PrivilegeLevel? privilegeLevel, int? points, bool? blocked, PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked, }) {
+    return AccessModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, privilegeLevel: privilegeLevel ?? this.privilegeLevel, points: points ?? this.points, blocked: blocked ?? this.blocked, privilegeLevelBeforeBlocked: privilegeLevelBeforeBlocked ?? this.privilegeLevelBeforeBlocked, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ privilegeLevel.hashCode ^ points.hashCode ^ blocked.hashCode ^ privilegeLevelBeforeBlocked.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ privilegeLevel.hashCode ^ points.hashCode ^ blocked.hashCode ^ privilegeLevelBeforeBlocked.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -93,6 +94,7 @@ class AccessModel {
           other is AccessModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
+          appId == other.appId &&
           privilegeLevel == other.privilegeLevel &&
           points == other.points &&
           blocked == other.blocked &&
@@ -100,11 +102,12 @@ class AccessModel {
 
   @override
   String toString() {
-    return 'AccessModel{documentID: $documentID, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
+    return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
   AccessEntity toEntity({String? appId}) {
     return AccessEntity(
+          appId: (appId != null) ? appId : null, 
           privilegeLevel: (privilegeLevel != null) ? privilegeLevel!.index : null, 
           points: (points != null) ? points : null, 
           blocked: (blocked != null) ? blocked : null, 
@@ -117,6 +120,7 @@ class AccessModel {
     var counter = 0;
     return AccessModel(
           documentID: documentID, 
+          appId: entity.appId, 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 
           points: entity.points, 
           blocked: entity.blocked, 
@@ -130,6 +134,7 @@ class AccessModel {
     var counter = 0;
     return AccessModel(
           documentID: documentID, 
+          appId: entity.appId, 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 
           points: entity.points, 
           blocked: entity.blocked, 

@@ -16,36 +16,30 @@ class UploadInfo {
   UploadInfo(this.url, this.ref);
 
   /*
-   * Create custom meta data.
-   *
-   * ownerId is the memberId
-   * readAccess is the list of member IDs, or 'PUBLIC'
-   *
-   * Usage: When you need to construct meta data for a file before uploading. Set the owner and read access rights.
-   */
-  static Map<String, String> _customMetaData(
-      String ownerId, List<String> readAccess) {
-    var customMetaData = {
-      'owner': ownerId,
-      'readAccess': readAccess.join(';') + ';'
-    };
-    return customMetaData;
-  }
-
-  /*
    * Upload member data to firebase storage
    */
-  static Future<UploadInfo?> uploadData(String baseName, Uint8List fileData,
-      String appId, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
-    return _uploadData(baseName, fileData, appId, ownerId, ownerId, readAccess, feedbackProgress: feedbackProgress);
+  static Future<UploadInfo?> uploadData(
+      String baseName,
+      Uint8List fileData,
+      String appId,
+      String ownerId,
+      String packageName,
+      Map<String, String> customMetaData,
+      {FeedbackProgress? feedbackProgress}) async {
+    return _uploadData(baseName, fileData, appId, ownerId, packageName, ownerId,
+        customMetaData,
+        feedbackProgress: feedbackProgress);
   }
 
   /*
    * Upload temp data to firebase storage
    */
-  static Future<UploadInfo?> uploadTempData(Uint8List fileData,
-      String appId, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
-    return _uploadData(newRandomKey(), fileData, appId, 'temp', ownerId, readAccess, feedbackProgress: feedbackProgress);
+  static Future<UploadInfo?> uploadTempData(Uint8List fileData, String appId,
+      String ownerId, String packageName, Map<String, String> customMetaData,
+      {FeedbackProgress? feedbackProgress}) async {
+    return _uploadData(newRandomKey(), fileData, appId, 'temp', packageName,
+        ownerId, customMetaData,
+        feedbackProgress: feedbackProgress);
   }
 
   /*
@@ -53,16 +47,23 @@ class UploadInfo {
    *
    * Usage: When you need to upload data (Uint8List) to firebase storage
    */
-  static Future<UploadInfo?> _uploadData(String baseName, Uint8List fileData,
-      String appId, String directory, String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
+  static Future<UploadInfo?> _uploadData(
+      String baseName,
+      Uint8List fileData,
+      String appId,
+      String directory,
+      String packageName,
+      String ownerId,
+      Map<String, String> customMetaData,
+      {FeedbackProgress? feedbackProgress}) async {
     try {
-      var ref = '$appId/$directory/$baseName';
+      var ref = '$appId/$directory/$packageName/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putData(
-          fileData,
-          firebase_storage.SettableMetadata(
-              customMetadata: _customMetaData(ownerId, readAccess)));
+              fileData,
+              firebase_storage.SettableMetadata(
+                  customMetadata: customMetaData));
       uploadTask.snapshotEvents.listen((event) {
         if (feedbackProgress != null) {
           feedbackProgress(event.bytesTransferred / event.totalBytes);
@@ -82,19 +83,25 @@ class UploadInfo {
    *
    * Usage: When you need to upload a file to firebase storage
    */
-  static Future<UploadInfo> uploadFile(String memberMediumDocumentID, String filePath, String appId,
-      String ownerId, List<String> readAccess, {FeedbackProgress? feedbackProgress}) async {
+  static Future<UploadInfo> uploadFile(
+      String memberMediumDocumentID,
+      String filePath,
+      String appId,
+      String ownerId,
+      String packageName,
+      Map<String, String> customMetaData,
+      {FeedbackProgress? feedbackProgress}) async {
     var file = File(filePath);
     try {
       var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
       print("baseName = " + baseName);
-      var ref = '$appId/$ownerId/$baseName';
+      var ref = '$appId/$ownerId/$packageName/$baseName';
       var uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref)
           .putFile(
-          file,
-          firebase_storage.SettableMetadata(
-              customMetadata: _customMetaData(ownerId, readAccess)));
+              file,
+              firebase_storage.SettableMetadata(
+                  customMetadata: customMetaData));
       uploadTask.snapshotEvents.listen((event) {
         if (feedbackProgress != null) {
           feedbackProgress(event.bytesTransferred / event.totalBytes);

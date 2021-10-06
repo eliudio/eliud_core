@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +20,29 @@ class UserRepository {
     return _firebaseAuth.currentUser;
   }
 
+  Future<void> uploadExample() async {
+    File file = await _localFile;
+
+    var customMetaData = {
+      'privilegeRequired': '2'
+    };
+    await FirebaseStorage.instance
+        .ref('MINKEY_APP/upgrade2.txt')
+        .putFile(file, SettableMetadata(
+    customMetadata: customMetaData));
+  }
+
+  static Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  static Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
   Future<User?> signInWithGoogle(NavigatorBloc? navigatorBloc) async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -28,6 +54,15 @@ class UserRepository {
           idToken: googleAuth.idToken,
         );
         await _firebaseAuth.signInWithCredential(credential);
+        //await uploadExample();
+
+        var fileName = '/MINKEY_APP/upgrade2.txt';
+        var storageRef = FirebaseStorage.instance.ref().child(fileName);
+        var x = await storageRef.getData();
+
+        var localFile = await _localFile;
+        await localFile.writeAsBytes(x!);
+
         return _firebaseAuth.currentUser;
       }
     } catch (exception) {

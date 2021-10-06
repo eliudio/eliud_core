@@ -22,19 +22,20 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class AccessEntity {
+  final String? appId;
   final int? privilegeLevel;
   final int? points;
   final bool? blocked;
   final int? privilegeLevelBeforeBlocked;
 
-  AccessEntity({this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
+  AccessEntity({this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
 
 
-  List<Object?> get props => [privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
+  List<Object?> get props => [appId, privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
 
   @override
   String toString() {
-    return 'AccessEntity{privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
+    return 'AccessEntity{appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
   static AccessEntity? fromMap(Object? o) {
@@ -42,6 +43,7 @@ class AccessEntity {
     var map = o as Map<String, dynamic>;
 
     return AccessEntity(
+      appId: map['appId'], 
       privilegeLevel: map['privilegeLevel'], 
       points: int.tryParse(map['points'].toString()), 
       blocked: map['blocked'], 
@@ -51,6 +53,8 @@ class AccessEntity {
 
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
+    if (appId != null) theDocument["appId"] = appId;
+      else theDocument["appId"] = null;
     if (privilegeLevel != null) theDocument["privilegeLevel"] = privilegeLevel;
       else theDocument["privilegeLevel"] = null;
     if (points != null) theDocument["points"] = points;

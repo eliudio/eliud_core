@@ -30,6 +30,14 @@
       "hidden": true
     },
     {
+      "fieldName": "appId",
+      "displayName": "App ID",
+      "fieldType": "String",
+      "iconName": "vpn_key",
+      "hidden": true,
+      "group": "general"
+    },
+    {
       "fieldName": "privilegeLevel",
       "displayName": "Privilege Level",
       "remark": "This is the privilege level and will determine the data accessible",
