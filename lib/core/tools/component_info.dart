@@ -52,7 +52,7 @@ class ComponentInfo {
       GridViewModel? gridView) {
     if (componentModels == null) throw Exception("componentModels is null");
     var widgets = <Widget>[];
-    componentModels.forEach((model) {
+    for (var model in componentModels) {
       var key = GlobalKey();
       var component = Registry.registry()!.component(
           state,
@@ -63,7 +63,7 @@ class ComponentInfo {
               () => component,
           model)();
       widgets.add(bodyComponent);
-    });
+    };
 
     var hasFab = _getFab(widgets);
     return ComponentInfo(componentModels, parameters, widgets, hasFab, state,
