@@ -29,9 +29,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
+  @override
   Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
     return MemberDashboard(key: key, id: id);
   }
+
+  @override
+  Future<dynamic> getModel({required String appId, required String id}) async => await memberDashboardRepository(appId: appId)!.get(id);
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {

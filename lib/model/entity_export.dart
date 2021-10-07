@@ -40,7 +40,7 @@ export '../model/member_subscription_entity.dart';
 export '../model/menu_def_entity.dart';
 export '../model/menu_item_entity.dart';
 export '../model/page_entity.dart';
+export '../model/platform_medium_entity.dart';
 export '../model/pos_size_entity.dart';
 export '../model/rgb_entity.dart';
 export '../model/shadow_entity.dart';
-export '../model/platform_medium_entity.dart';

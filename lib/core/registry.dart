@@ -7,9 +7,13 @@ import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
+import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/conditions_simple_model.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
@@ -22,10 +26,11 @@ import 'package:eliud_core/core/components/page_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
+import 'access/bloc/access_state.dart';
+
 /*
  * Global registry with components
  */
-
 
 class Registry {
   final GlobalKey _appKey = GlobalKey();
@@ -38,8 +43,6 @@ class Registry {
   final Map<String, List<ComponentSpec>> _allComponentSpecs = HashMap();
 
   Map<String, List<String>> internalComponents() => _allInternalComponents;
-
-
 
   /*
   List<PluginWithComponents> retrievePluginsWithComponents() =>
@@ -159,7 +162,6 @@ class Registry {
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   Widget application({required String appId, required bool asPlaystore}) {
-    print("application");
     var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
     var accessBloc = AccessBloc(navigatorBloc)
       ..add(InitApp(appId, asPlaystore));
@@ -181,7 +183,6 @@ class Registry {
       }
     }
 
-    print("application 2");
     return FutureBuilder<AppModel?>(
         future: getApp(appId),
         builder: (context, snapshot) {
@@ -226,22 +227,76 @@ class Registry {
         });
   }
 
-  Widget component(String componentName, String id,
+  Widget component(AppLoaded appLoaded, String componentName, String id,
       {Map<String, dynamic>? parameters, Key? key}) {
     Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
-        returnThis = componentConstructor.createNew(
-            key: key, id: id, parameters: parameters);
+        return FutureBuilder<dynamic>(
+            future: componentConstructor.getModel(
+                appId: appLoaded.app.documentID!, id: id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var model = snapshot.data;
+                var hasAccess = componentAccessValidation(
+                    appLoaded, componentName, id, model);
+                if (hasAccess) {
+                  return componentConstructor.createNew(
+                          key: key, id: id, parameters: parameters) ??
+                      _missingComponent(componentName);
+                } else {
+                  return Container();
+                }
+              } else {
+                return Container();
+//                return progressIndicator(context);
+              }
+            });
+      } else {
+        return Container();
       }
     } catch (_) {}
-    if (returnThis != null) return returnThis;
     return _missingComponent(componentName);
   }
 
   Widget _missingComponent(String componentName) {
     return Text('Missing component with name $componentName');
+  }
+
+  bool componentAccessValidation(
+      AccessState accessState, String component, String id, dynamic model) {
+    try {
+      // if model is not found then no access for this member
+      if (model == null) {
+        print('$component with id $id not found');
+        return false;
+      }
+
+      // if no conditions set then access for this member
+      if (model.conditions == null) return true;
+      if (model.conditions!.privilegeLevelRequired == null) return true;
+
+      // if access is not set and blocked member then no access for this member
+      if ((accessState is LoggedIn) && (accessState.blocked)) return false;
+
+      // if access is set to no priv required then access for this member
+      if (model.conditions!.privilegeLevelRequired ==
+          PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple) return true;
+
+      // Given some privilege is required and access is not set then no access for this member
+      if (!(accessState is LoggedIn)) return false;
+
+      // If sufficient privilege set then access for this member
+      if (model.conditions!.privilegeLevelRequired!.index <=
+          accessState.privilegeLevel.index) return true;
+
+      // If no sufficient privileges then no access for this member
+      return false;
+    } catch (_) {
+      print('Exception whilst validating access to $component with id $id');
+      return false;
+    }
   }
 
   Widget? _missingPage() {

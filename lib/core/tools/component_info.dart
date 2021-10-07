@@ -51,15 +51,20 @@ class ComponentInfo {
       BackgroundModel? background,
       GridViewModel? gridView) {
     if (componentModels == null) throw Exception("componentModels is null");
-    var widgets = componentModels.map((model) {
+    var widgets = <Widget>[];
+    componentModels.forEach((model) {
       var key = GlobalKey();
-      return Decorations.instance().createDecoratedBodyComponent(context, key,
-          () => Registry.registry()!.component(
-              model.componentName!, model.componentId!,
-              key: key,
-              parameters: parameters),
+      var component = Registry.registry()!.component(
+          state,
+          model.componentName!, model.componentId!,
+          key: key,
+          parameters: parameters);
+      var bodyComponent = Decorations.instance().createDecoratedBodyComponent(context, key,
+              () => component,
           model)();
-    }).toList();
+      widgets.add(bodyComponent);
+    });
+
     var hasFab = _getFab(widgets);
     return ComponentInfo(componentModels, parameters, widgets, hasFab, state,
         layout, background, gridView);

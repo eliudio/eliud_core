@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 // base for all ComponentsConstructors and used to create a component of that kind
 abstract class ComponentConstructor {
   Widget? createNew({Key? key, required String id, Map<String, dynamic>? parameters});
+  dynamic getModel({required String appId, required String id});
 }
 
 // interface for the DropDownFactories to be able to find out if a factory supports a specific component with id specified.

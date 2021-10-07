@@ -412,6 +412,30 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _platformMediumsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-platformMediums", componentName: "eliud_core_internalWidgets", componentId: "platformMediums"));
+    PageModel page = PageModel(
+        conditions: ConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
+          packageCondition: null,
+          conditionOverride: null,
+        ),
+        appId: appId,
+        documentID: "eliud_core_platformmediums_page",
+        title: "PlatformMediums",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _posSizesPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -460,30 +484,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _platformMediumsPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-platformMediums", componentName: "eliud_core_internalWidgets", componentId: "platformMediums"));
-    PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
-        ),
-        appId: appId,
-        documentID: "eliud_core_platformmediums_page",
-        title: "PlatformMediums",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId)!.add(_appsPages())
@@ -516,11 +516,11 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId)!.add(_pagesPages()))
 
+        .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
+
         .then((_) => pageRepository(appId: appId)!.add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_shadowsPages()))
-
-        .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
 
     ;
   }
@@ -690,6 +690,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 
     menuItems.add(
       MenuItemModel(
+        documentID: "PlatformMediums",
+        text: "PlatformMediums",
+        description: "PlatformMediums",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_platformmediums_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
         documentID: "PosSizes",
         text: "PosSizes",
         description: "PosSizes",
@@ -705,16 +715,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(appId, pageID: "eliud_core_shadows_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "PlatformMediums",
-        text: "PlatformMediums",
-        description: "PlatformMediums",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_platformmediums_page"))
     );
 
 

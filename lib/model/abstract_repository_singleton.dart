@@ -36,9 +36,9 @@ import '../model/member_subscription_repository.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
+import '../model/platform_medium_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/shadow_repository.dart';
-import '../model/platform_medium_repository.dart';
 import 'package:eliud_core/core/access/bloc/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -59,9 +59,9 @@ MemberMediumRepository? memberMediumRepository({ String? appId }) => AbstractRep
 MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
 MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
+PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository();
-PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -85,9 +85,9 @@ abstract class AbstractRepositorySingleton {
   MemberPublicInfoRepository? memberPublicInfoRepository();
   MenuDefRepository? menuDefRepository(String? appId);
   PageRepository? pageRepository(String? appId);
+  PlatformMediumRepository? platformMediumRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
   ShadowRepository? shadowRepository();
-  PlatformMediumRepository? platformMediumRepository(String? appId);
 
   void flush(String? appId) {
     accessRepository(appId)!.flush();
@@ -101,7 +101,7 @@ abstract class AbstractRepositorySingleton {
     memberMediumRepository(appId)!.flush();
     menuDefRepository(appId)!.flush();
     pageRepository(appId)!.flush();
-    posSizeRepository(appId)!.flush();
     platformMediumRepository(appId)!.flush();
+    posSizeRepository(appId)!.flush();
   }
 }

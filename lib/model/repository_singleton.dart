@@ -77,15 +77,15 @@ import '../model/menu_item_cache.dart';
 import '../model/page_firestore.dart';
 import '../model/page_repository.dart';
 import '../model/page_cache.dart';
+import '../model/platform_medium_firestore.dart';
+import '../model/platform_medium_repository.dart';
+import '../model/platform_medium_cache.dart';
 import '../model/pos_size_firestore.dart';
 import '../model/pos_size_repository.dart';
 import '../model/pos_size_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
-import '../model/platform_medium_firestore.dart';
-import '../model/platform_medium_repository.dart';
-import '../model/platform_medium_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -115,9 +115,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _memberPublicInfoRepository = MemberPublicInfoCache(MemberPublicInfoFirestore());
     var _menuDefRepository = HashMap<String, MenuDefRepository>();
     var _pageRepository = HashMap<String, PageRepository>();
+    var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _shadowRepository = ShadowCache(ShadowFirestore());
-    var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -175,16 +175,16 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_pageRepository[appId] == null)) _pageRepository[appId] = PageCache(PageFirestore(appRepository()!.getSubCollection(appId, 'page'), appId));
       return _pageRepository[appId];
     }
+    PlatformMediumRepository? platformMediumRepository(String? appId) {
+      if ((appId != null) && (_platformMediumRepository[appId] == null)) _platformMediumRepository[appId] = PlatformMediumCache(PlatformMediumFirestore(appRepository()!.getSubCollection(appId, 'platformmedium'), appId));
+      return _platformMediumRepository[appId];
+    }
     PosSizeRepository? posSizeRepository(String? appId) {
       if ((appId != null) && (_posSizeRepository[appId] == null)) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository()!.getSubCollection(appId, 'possize'), appId));
       return _posSizeRepository[appId];
     }
     ShadowRepository? shadowRepository() {
       return _shadowRepository;
-    }
-    PlatformMediumRepository? platformMediumRepository(String? appId) {
-      if ((appId != null) && (_platformMediumRepository[appId] == null)) _platformMediumRepository[appId] = PlatformMediumCache(PlatformMediumFirestore(appRepository()!.getSubCollection(appId, 'platformmedium'), appId));
-      return _platformMediumRepository[appId];
     }
 
 }
