@@ -1,5 +1,6 @@
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/component_registry.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -60,6 +61,8 @@ abstract class CorePackage extends PackageWithSubscription {
 
   @override
   void init() {
+    ComponentRegistry().init();
+
     AbstractRepositorySingleton.singleton = RepositorySingleton();
     AbstractMainRepositorySingleton.singleton = MainRepositorySingleton();
   }
