@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentState> {
   final CountryRepository? countryRepository;
+  StreamSubscription? _countrySubscription;
+
+  Stream<CountryComponentState> _mapLoadCountryComponentUpdateToState(String documentId) async* {
+    _countrySubscription?.cancel();
+    _countrySubscription = countryRepository!.listenTo(documentId, (value) {
+      if (value != null) add(CountryComponentUpdated(value: value!));
+    });
+  }
 
   CountryComponentBloc({ this.countryRepository }): super(CountryComponentUninitialized());
+
   @override
   Stream<CountryComponentState> mapEventToState(CountryComponentEvent event) async* {
     final currentState = state;
     if (event is FetchCountryComponent) {
-      try {
-        if (currentState is CountryComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await countryRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield CountryComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield CountryComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield CountryComponentError(
-                  message: "Country with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield CountryComponentError(message: "Unknown error whilst retrieving Country");
-      }
+      yield* _mapLoadCountryComponentUpdateToState(event.id!);
+    } else if (event is CountryComponentUpdated) {
+      yield CountryComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _countrySubscription?.cancel();
     return super.close();
   }
 

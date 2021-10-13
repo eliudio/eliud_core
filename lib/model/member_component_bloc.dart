@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentState> {
   final MemberRepository? memberRepository;
+  StreamSubscription? _memberSubscription;
+
+  Stream<MemberComponentState> _mapLoadMemberComponentUpdateToState(String documentId) async* {
+    _memberSubscription?.cancel();
+    _memberSubscription = memberRepository!.listenTo(documentId, (value) {
+      if (value != null) add(MemberComponentUpdated(value: value!));
+    });
+  }
 
   MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized());
+
   @override
   Stream<MemberComponentState> mapEventToState(MemberComponentEvent event) async* {
     final currentState = state;
     if (event is FetchMemberComponent) {
-      try {
-        if (currentState is MemberComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await memberRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield MemberComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield MemberComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield MemberComponentError(
-                  message: "Member with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield MemberComponentError(message: "Unknown error whilst retrieving Member");
-      }
+      yield* _mapLoadMemberComponentUpdateToState(event.id!);
+    } else if (event is MemberComponentUpdated) {
+      yield MemberComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _memberSubscription?.cancel();
     return super.close();
   }
 

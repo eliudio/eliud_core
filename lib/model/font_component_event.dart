@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/font_model.dart';
 
 abstract class FontComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchFontComponent extends FontComponentEvent {
 
   FetchFontComponent({ this.id });
 }
+
+class FontComponentUpdated extends FontComponentEvent {
+  final FontModel value;
+
+  FontComponentUpdated({ required this.value });
+}
+
 

@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/page_model.dart';
 
 abstract class PageComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchPageComponent extends PageComponentEvent {
 
   FetchPageComponent({ this.id });
 }
+
+class PageComponentUpdated extends PageComponentEvent {
+  final PageModel value;
+
+  PageComponentUpdated({ required this.value });
+}
+
 

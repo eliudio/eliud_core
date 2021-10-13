@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
   final FontRepository? fontRepository;
+  StreamSubscription? _fontSubscription;
+
+  Stream<FontComponentState> _mapLoadFontComponentUpdateToState(String documentId) async* {
+    _fontSubscription?.cancel();
+    _fontSubscription = fontRepository!.listenTo(documentId, (value) {
+      if (value != null) add(FontComponentUpdated(value: value!));
+    });
+  }
 
   FontComponentBloc({ this.fontRepository }): super(FontComponentUninitialized());
+
   @override
   Stream<FontComponentState> mapEventToState(FontComponentEvent event) async* {
     final currentState = state;
     if (event is FetchFontComponent) {
-      try {
-        if (currentState is FontComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await fontRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield FontComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield FontComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield FontComponentError(
-                  message: "Font with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield FontComponentError(message: "Unknown error whilst retrieving Font");
-      }
+      yield* _mapLoadFontComponentUpdateToState(event.id!);
+    } else if (event is FontComponentUpdated) {
+      yield FontComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _fontSubscription?.cancel();
     return super.close();
   }
 

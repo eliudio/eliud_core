@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewComponentState> {
   final GridViewRepository? gridViewRepository;
+  StreamSubscription? _gridViewSubscription;
+
+  Stream<GridViewComponentState> _mapLoadGridViewComponentUpdateToState(String documentId) async* {
+    _gridViewSubscription?.cancel();
+    _gridViewSubscription = gridViewRepository!.listenTo(documentId, (value) {
+      if (value != null) add(GridViewComponentUpdated(value: value!));
+    });
+  }
 
   GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized());
+
   @override
   Stream<GridViewComponentState> mapEventToState(GridViewComponentEvent event) async* {
     final currentState = state;
     if (event is FetchGridViewComponent) {
-      try {
-        if (currentState is GridViewComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await gridViewRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield GridViewComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield GridViewComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield GridViewComponentError(
-                  message: "GridView with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield GridViewComponentError(message: "Unknown error whilst retrieving GridView");
-      }
+      yield* _mapLoadGridViewComponentUpdateToState(event.id!);
+    } else if (event is GridViewComponentUpdated) {
+      yield GridViewComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _gridViewSubscription?.cancel();
     return super.close();
   }
 

@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/dialog_model.dart';
 
 abstract class DialogComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchDialogComponent extends DialogComponentEvent {
 
   FetchDialogComponent({ this.id });
 }
+
+class DialogComponentUpdated extends DialogComponentEvent {
+  final DialogModel value;
+
+  DialogComponentUpdated({ required this.value });
+}
+
 

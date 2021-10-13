@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComponentState> {
   final AppPolicyRepository? appPolicyRepository;
+  StreamSubscription? _appPolicySubscription;
+
+  Stream<AppPolicyComponentState> _mapLoadAppPolicyComponentUpdateToState(String documentId) async* {
+    _appPolicySubscription?.cancel();
+    _appPolicySubscription = appPolicyRepository!.listenTo(documentId, (value) {
+      if (value != null) add(AppPolicyComponentUpdated(value: value!));
+    });
+  }
 
   AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized());
+
   @override
   Stream<AppPolicyComponentState> mapEventToState(AppPolicyComponentEvent event) async* {
     final currentState = state;
     if (event is FetchAppPolicyComponent) {
-      try {
-        if (currentState is AppPolicyComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await appPolicyRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield AppPolicyComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield AppPolicyComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield AppPolicyComponentError(
-                  message: "AppPolicy with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield AppPolicyComponentError(message: "Unknown error whilst retrieving AppPolicy");
-      }
+      yield* _mapLoadAppPolicyComponentUpdateToState(event.id!);
+    } else if (event is AppPolicyComponentUpdated) {
+      yield AppPolicyComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _appPolicySubscription?.cancel();
     return super.close();
   }
 

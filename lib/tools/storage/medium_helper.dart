@@ -12,6 +12,8 @@ import 'medium_base.dart';
 import 'medium_data.dart';
 import 'upload_info.dart';
 
+typedef void PdfAvailable(dynamic? mediumModel);
+
 abstract class MediumHelper<T> {
   final String appId;
   final String ownerId;
@@ -157,12 +159,6 @@ abstract class MediumHelper<T> {
     _feedBackAggregatedProgress(1, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
-
-
-
-/// OK ABOVE
-///
-///
 
   /*
    * Upload a photo from an asset for a given app with appId
@@ -401,11 +397,12 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID,
       String assetPath,
       String documentID,
-      {FeedbackProgress? feedbackProgress}) async {
+      {PdfAvailable? feedbackFunction,
+        FeedbackProgress? feedbackProgress}) async {
     var filePath = await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
 
     return createThumbnailUploadPdfFile(memberMediumDocumentID,
-        filePath, documentID, feedbackProgress: feedbackProgress);
+        filePath, documentID, feedbackFunction: feedbackFunction, feedbackProgress: feedbackProgress);
   }
 
   /*
@@ -418,7 +415,7 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID,
       String filePath,
       String documentID,
-      {FeedbackProgress? feedbackProgress}) async {
+      {PdfAvailable? feedbackFunction, FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     final document = await PdfDocument.openFile(filePath);
     final pageCount = await document.pagesCount;
@@ -485,6 +482,9 @@ abstract class MediumHelper<T> {
 
     taskCounter++;
     _feedBackAggregatedProgress(taskCounter, totalTasks, 1, feedbackProgress: feedbackProgress);
+    if (feedbackFunction != null) {
+      feedbackFunction(returnMe);
+    }
     return returnMe;
   }
 

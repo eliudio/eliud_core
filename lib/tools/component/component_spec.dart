@@ -18,9 +18,12 @@ abstract class ComponentSelector {
 
 abstract class ComponentEditorConstructor {
   // update the component with the component model
-  void updateComponent(BuildContext context, model);
+  void updateComponent(BuildContext context, model, EditorFeedback feedback);
 
   // update the component with component id
-  void updateComponentWithID(BuildContext context, String id);
-  void createNewComponent(BuildContext context, );
+  void updateComponentWithID(BuildContext context, String id, EditorFeedback feedback);
+  void createNewComponent(BuildContext context, EditorFeedback feedback);
 }
+
+typedef void EditorFeedback(bool status); // true is ok
+

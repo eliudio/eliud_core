@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentState> {
   final DialogRepository? dialogRepository;
+  StreamSubscription? _dialogSubscription;
+
+  Stream<DialogComponentState> _mapLoadDialogComponentUpdateToState(String documentId) async* {
+    _dialogSubscription?.cancel();
+    _dialogSubscription = dialogRepository!.listenTo(documentId, (value) {
+      if (value != null) add(DialogComponentUpdated(value: value!));
+    });
+  }
 
   DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized());
+
   @override
   Stream<DialogComponentState> mapEventToState(DialogComponentEvent event) async* {
     final currentState = state;
     if (event is FetchDialogComponent) {
-      try {
-        if (currentState is DialogComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await dialogRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield DialogComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield DialogComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield DialogComponentError(
-                  message: "Dialog with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield DialogComponentError(message: "Unknown error whilst retrieving Dialog");
-      }
+      yield* _mapLoadDialogComponentUpdateToState(event.id!);
+    } else if (event is DialogComponentUpdated) {
+      yield DialogComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _dialogSubscription?.cancel();
     return super.close();
   }
 

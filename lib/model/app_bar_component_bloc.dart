@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentState> {
   final AppBarRepository? appBarRepository;
+  StreamSubscription? _appBarSubscription;
+
+  Stream<AppBarComponentState> _mapLoadAppBarComponentUpdateToState(String documentId) async* {
+    _appBarSubscription?.cancel();
+    _appBarSubscription = appBarRepository!.listenTo(documentId, (value) {
+      if (value != null) add(AppBarComponentUpdated(value: value!));
+    });
+  }
 
   AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized());
+
   @override
   Stream<AppBarComponentState> mapEventToState(AppBarComponentEvent event) async* {
     final currentState = state;
     if (event is FetchAppBarComponent) {
-      try {
-        if (currentState is AppBarComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await appBarRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield AppBarComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield AppBarComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield AppBarComponentError(
-                  message: "AppBar with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield AppBarComponentError(message: "Unknown error whilst retrieving AppBar");
-      }
+      yield* _mapLoadAppBarComponentUpdateToState(event.id!);
+    } else if (event is AppBarComponentUpdated) {
+      yield AppBarComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _appBarSubscription?.cancel();
     return super.close();
   }
 

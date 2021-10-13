@@ -25,42 +25,30 @@ import 'package:flutter/services.dart';
 
 class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   final PageRepository? pageRepository;
+  StreamSubscription? _pageSubscription;
+
+  Stream<PageComponentState> _mapLoadPageComponentUpdateToState(String documentId) async* {
+    _pageSubscription?.cancel();
+    _pageSubscription = pageRepository!.listenTo(documentId, (value) {
+      if (value != null) add(PageComponentUpdated(value: value!));
+    });
+  }
 
   PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized());
+
   @override
   Stream<PageComponentState> mapEventToState(PageComponentEvent event) async* {
     final currentState = state;
     if (event is FetchPageComponent) {
-      try {
-        if (currentState is PageComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await pageRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield PageComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield PageComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield PageComponentError(
-                  message: "Page with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield PageComponentError(message: "Unknown error whilst retrieving Page");
-      }
+      yield* _mapLoadPageComponentUpdateToState(event.id!);
+    } else if (event is PageComponentUpdated) {
+      yield PageComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _pageSubscription?.cancel();
     return super.close();
   }
 

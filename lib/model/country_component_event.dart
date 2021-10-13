@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/country_model.dart';
 
 abstract class CountryComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchCountryComponent extends CountryComponentEvent {
 
   FetchCountryComponent({ this.id });
 }
+
+class CountryComponentUpdated extends CountryComponentEvent {
+  final CountryModel value;
+
+  CountryComponentUpdated({ required this.value });
+}
+
 

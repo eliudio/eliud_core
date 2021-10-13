@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/app_bar_model.dart';
 
 abstract class AppBarComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchAppBarComponent extends AppBarComponentEvent {
 
   FetchAppBarComponent({ this.id });
 }
+
+class AppBarComponentUpdated extends AppBarComponentEvent {
+  final AppBarModel value;
+
+  AppBarComponentUpdated({ required this.value });
+}
+
 

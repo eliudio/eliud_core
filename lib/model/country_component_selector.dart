@@ -94,7 +94,7 @@ class _SelectCountryWidgetState extends State<SelectCountryWidget> {
                     if (selectedValue == 1) {
                       widget.selected(value.documentID!);
                     } else if (selectedValue == 2) {
-                      widget.editorConstructor.updateComponent(context, value);
+                      widget.editorConstructor.updateComponent(context, value, (_) {});
                     }
                   }),
               title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryCode!)) : Container(),
@@ -129,7 +129,7 @@ class _SelectCountryWidgetState extends State<SelectCountryWidget> {
                 child: iconButton(
               context,
               onPressed: () {
-                widget.editorConstructor.createNewComponent(context);
+                widget.editorConstructor.createNewComponent(context, (_) {});
               },
               icon: Icon(Icons.add),
             ))

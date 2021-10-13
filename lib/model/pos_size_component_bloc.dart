@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentState> {
   final PosSizeRepository? posSizeRepository;
+  StreamSubscription? _posSizeSubscription;
+
+  Stream<PosSizeComponentState> _mapLoadPosSizeComponentUpdateToState(String documentId) async* {
+    _posSizeSubscription?.cancel();
+    _posSizeSubscription = posSizeRepository!.listenTo(documentId, (value) {
+      if (value != null) add(PosSizeComponentUpdated(value: value!));
+    });
+  }
 
   PosSizeComponentBloc({ this.posSizeRepository }): super(PosSizeComponentUninitialized());
+
   @override
   Stream<PosSizeComponentState> mapEventToState(PosSizeComponentEvent event) async* {
     final currentState = state;
     if (event is FetchPosSizeComponent) {
-      try {
-        if (currentState is PosSizeComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await posSizeRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield PosSizeComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield PosSizeComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield PosSizeComponentError(
-                  message: "PosSize with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield PosSizeComponentError(message: "Unknown error whilst retrieving PosSize");
-      }
+      yield* _mapLoadPosSizeComponentUpdateToState(event.id!);
+    } else if (event is PosSizeComponentUpdated) {
+      yield PosSizeComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _posSizeSubscription?.cancel();
     return super.close();
   }
 

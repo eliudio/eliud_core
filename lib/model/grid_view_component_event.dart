@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/grid_view_model.dart';
 
 abstract class GridViewComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchGridViewComponent extends GridViewComponentEvent {
 
   FetchGridViewComponent({ this.id });
 }
+
+class GridViewComponentUpdated extends GridViewComponentEvent {
+  final GridViewModel value;
+
+  GridViewComponentUpdated({ required this.value });
+}
+
 

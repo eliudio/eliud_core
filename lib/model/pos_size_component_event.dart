@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/pos_size_model.dart';
 
 abstract class PosSizeComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchPosSizeComponent extends PosSizeComponentEvent {
 
   FetchPosSizeComponent({ this.id });
 }
+
+class PosSizeComponentUpdated extends PosSizeComponentEvent {
+  final PosSizeModel value;
+
+  PosSizeComponentUpdated({ required this.value });
+}
+
 

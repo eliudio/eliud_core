@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/member_model.dart';
 
 abstract class MemberComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchMemberComponent extends MemberComponentEvent {
 
   FetchMemberComponent({ this.id });
 }
+
+class MemberComponentUpdated extends MemberComponentEvent {
+  final MemberModel value;
+
+  MemberComponentUpdated({ required this.value });
+}
+
 

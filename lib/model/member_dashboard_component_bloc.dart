@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class MemberDashboardComponentBloc extends Bloc<MemberDashboardComponentEvent, MemberDashboardComponentState> {
   final MemberDashboardRepository? memberDashboardRepository;
+  StreamSubscription? _memberDashboardSubscription;
+
+  Stream<MemberDashboardComponentState> _mapLoadMemberDashboardComponentUpdateToState(String documentId) async* {
+    _memberDashboardSubscription?.cancel();
+    _memberDashboardSubscription = memberDashboardRepository!.listenTo(documentId, (value) {
+      if (value != null) add(MemberDashboardComponentUpdated(value: value!));
+    });
+  }
 
   MemberDashboardComponentBloc({ this.memberDashboardRepository }): super(MemberDashboardComponentUninitialized());
+
   @override
   Stream<MemberDashboardComponentState> mapEventToState(MemberDashboardComponentEvent event) async* {
     final currentState = state;
     if (event is FetchMemberDashboardComponent) {
-      try {
-        if (currentState is MemberDashboardComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await memberDashboardRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield MemberDashboardComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield MemberDashboardComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield MemberDashboardComponentError(
-                  message: "MemberDashboard with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield MemberDashboardComponentError(message: "Unknown error whilst retrieving MemberDashboard");
-      }
+      yield* _mapLoadMemberDashboardComponentUpdateToState(event.id!);
+    } else if (event is MemberDashboardComponentUpdated) {
+      yield MemberDashboardComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _memberDashboardSubscription?.cancel();
     return super.close();
   }
 

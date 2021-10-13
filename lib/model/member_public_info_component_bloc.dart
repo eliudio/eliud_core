@@ -24,42 +24,30 @@ import 'package:flutter/services.dart';
 
 class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent, MemberPublicInfoComponentState> {
   final MemberPublicInfoRepository? memberPublicInfoRepository;
+  StreamSubscription? _memberPublicInfoSubscription;
+
+  Stream<MemberPublicInfoComponentState> _mapLoadMemberPublicInfoComponentUpdateToState(String documentId) async* {
+    _memberPublicInfoSubscription?.cancel();
+    _memberPublicInfoSubscription = memberPublicInfoRepository!.listenTo(documentId, (value) {
+      if (value != null) add(MemberPublicInfoComponentUpdated(value: value!));
+    });
+  }
 
   MemberPublicInfoComponentBloc({ this.memberPublicInfoRepository }): super(MemberPublicInfoComponentUninitialized());
+
   @override
   Stream<MemberPublicInfoComponentState> mapEventToState(MemberPublicInfoComponentEvent event) async* {
     final currentState = state;
     if (event is FetchMemberPublicInfoComponent) {
-      try {
-        if (currentState is MemberPublicInfoComponentUninitialized) {
-          bool permissionDenied = false;
-          final model = await memberPublicInfoRepository!.get(event.id, onError: (error) {
-            // Unfortunatly the below is currently the only way we know how to identify if a document is read protected
-            if ((error is PlatformException) &&  (error.message!.startsWith("PERMISSION_DENIED"))) {
-              permissionDenied = true;
-            }
-          });
-          if (permissionDenied) {
-            yield MemberPublicInfoComponentPermissionDenied();
-          } else {
-            if (model != null) {
-              yield MemberPublicInfoComponentLoaded(value: model);
-            } else {
-              String? id = event.id;
-              yield MemberPublicInfoComponentError(
-                  message: "MemberPublicInfo with id = '$id' not found");
-            }
-          }
-          return;
-        }
-      } catch (_) {
-        yield MemberPublicInfoComponentError(message: "Unknown error whilst retrieving MemberPublicInfo");
-      }
+      yield* _mapLoadMemberPublicInfoComponentUpdateToState(event.id!);
+    } else if (event is MemberPublicInfoComponentUpdated) {
+      yield MemberPublicInfoComponentLoaded(value: event.value);
     }
   }
 
   @override
   Future<void> close() {
+    _memberPublicInfoSubscription?.cancel();
     return super.close();
   }
 

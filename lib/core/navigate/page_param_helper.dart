@@ -1,6 +1,10 @@
 import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class PageContextInfo {
   final String appId;
@@ -17,7 +21,8 @@ class PageParamHelper {
     return getPagaContextInfoWithRoutAndApp(modalRoute, app);
   }
 
-  static PageContextInfo getPagaContextInfoWithRoutAndApp(ModalRoute modalRoute, AppModel? app) {
+  static PageContextInfo getPagaContextInfoWithRoutAndApp(
+      ModalRoute modalRoute, AppModel? app) {
     if (app == null) {
       throw Exception('No app selected');
     }
@@ -36,5 +41,17 @@ class PageParamHelper {
       parameters = settings.arguments as Map<String, dynamic>;
     }
     return PageContextInfo(appId, pageId, parameters: parameters);
+  }
+
+  static reloadCurrentPage(BuildContext context) {
+    var app = AccessBloc.app(context);
+    var modalRoute = ModalRoute.of(context) as ModalRoute;
+    var pageContextInfo =
+        PageParamHelper.getPagaContextInfoWithRoutAndApp(modalRoute, app);
+
+    var navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
+    navigatorBloc.add(GoToPageEvent(
+        pageContextInfo.appId, pageContextInfo.pageId,
+        parameters: pageContextInfo.parameters));
   }
 }

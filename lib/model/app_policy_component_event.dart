@@ -14,6 +14,7 @@
 */
 
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/app_policy_model.dart';
 
 abstract class AppPolicyComponentEvent extends Equatable {
   @override
@@ -25,4 +26,11 @@ class FetchAppPolicyComponent extends AppPolicyComponentEvent {
 
   FetchAppPolicyComponent({ this.id });
 }
+
+class AppPolicyComponentUpdated extends AppPolicyComponentEvent {
+  final AppPolicyModel value;
+
+  AppPolicyComponentUpdated({ required this.value });
+}
+
 

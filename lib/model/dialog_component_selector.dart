@@ -94,7 +94,7 @@ class _SelectDialogWidgetState extends State<SelectDialogWidget> {
                     if (selectedValue == 1) {
                       widget.selected(value.documentID!);
                     } else if (selectedValue == 2) {
-                      widget.editorConstructor.updateComponent(context, value);
+                      widget.editorConstructor.updateComponent(context, value, (_) {});
                     }
                   }),
               title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
@@ -129,7 +129,7 @@ class _SelectDialogWidgetState extends State<SelectDialogWidget> {
                 child: iconButton(
               context,
               onPressed: () {
-                widget.editorConstructor.createNewComponent(context);
+                widget.editorConstructor.createNewComponent(context, (_) {});
               },
               icon: Icon(Icons.add),
             ))
