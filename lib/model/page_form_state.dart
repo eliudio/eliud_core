@@ -239,22 +239,6 @@ class GridViewPageFormError extends PageFormError {
 }
 
 
-class WidgetWrapperPageFormError extends PageFormError { 
-  const WidgetWrapperPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''WidgetWrapperPageFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class ConditionsPageFormError extends PageFormError { 
   const ConditionsPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
 

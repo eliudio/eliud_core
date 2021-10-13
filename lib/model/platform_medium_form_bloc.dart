@@ -52,6 +52,7 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
                                                documentID: "",
                                  appId: "",
                                  authorId: "",
+                                 baseName: "",
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
@@ -93,6 +94,12 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
       }
       if (event is ChangedPlatformMediumAuthorId) {
         newValue = currentState.value!.copyWith(authorId: event.value);
+        yield SubmittablePlatformMediumForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedPlatformMediumBaseName) {
+        newValue = currentState.value!.copyWith(baseName: event.value);
         yield SubmittablePlatformMediumForm(value: newValue);
 
         return;

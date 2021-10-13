@@ -30,7 +30,7 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
   Stream<MemberComponentState> _mapLoadMemberComponentUpdateToState(String documentId) async* {
     _memberSubscription?.cancel();
     _memberSubscription = memberRepository!.listenTo(documentId, (value) {
-      if (value != null) add(MemberComponentUpdated(value: value!));
+      if (value != null) add(MemberComponentUpdated(value: value));
     });
   }
 

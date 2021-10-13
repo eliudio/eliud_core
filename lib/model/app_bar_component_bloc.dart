@@ -30,7 +30,7 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
   Stream<AppBarComponentState> _mapLoadAppBarComponentUpdateToState(String documentId) async* {
     _appBarSubscription?.cancel();
     _appBarSubscription = appBarRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppBarComponentUpdated(value: value!));
+      if (value != null) add(AppBarComponentUpdated(value: value));
     });
   }
 

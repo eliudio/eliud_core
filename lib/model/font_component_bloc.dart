@@ -29,7 +29,7 @@ class FontComponentBloc extends Bloc<FontComponentEvent, FontComponentState> {
   Stream<FontComponentState> _mapLoadFontComponentUpdateToState(String documentId) async* {
     _fontSubscription?.cancel();
     _fontSubscription = fontRepository!.listenTo(documentId, (value) {
-      if (value != null) add(FontComponentUpdated(value: value!));
+      if (value != null) add(FontComponentUpdated(value: value));
     });
   }
 

@@ -91,6 +91,18 @@ class ChangedMemberMediumAuthorId extends MemberMediumFormEvent {
   String toString() => 'ChangedMemberMediumAuthorId{ value: $value }';
 }
 
+class ChangedMemberMediumBaseName extends MemberMediumFormEvent {
+  final String? value;
+
+  ChangedMemberMediumBaseName({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumBaseName{ value: $value }';
+}
+
 class ChangedMemberMediumUrl extends MemberMediumFormEvent {
   final String? value;
 

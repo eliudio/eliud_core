@@ -119,6 +119,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _authorIdController = TextEditingController();
+  final TextEditingController _baseNameController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
@@ -140,6 +141,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
     _authorIdController.addListener(_onAuthorIdChanged);
+    _baseNameController.addListener(_onBaseNameChanged);
     _urlController.addListener(_onUrlChanged);
     _refController.addListener(_onRefChanged);
     _urlThumbnailController.addListener(_onUrlThumbnailChanged);
@@ -175,6 +177,10 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
           _authorIdController.text = state.value!.authorId.toString();
         else
           _authorIdController.text = "";
+        if (state.value!.baseName != null)
+          _baseNameController.text = state.value!.baseName.toString();
+        else
+          _baseNameController.text = "";
         if (state.value!.url != null)
           _urlController.text = state.value!.url.toString();
         else
@@ -227,6 +233,11 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Author ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _authorIdController, keyboardType: TextInputType.text, validator: (_) => state is AuthorIdMemberMediumFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Base Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _baseNameController, keyboardType: TextInputType.text, validator: (_) => state is BaseNameMemberMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -342,6 +353,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
+                              baseName: state.value!.baseName, 
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
@@ -360,6 +372,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
+                              baseName: state.value!.baseName, 
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
@@ -409,6 +422,11 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
   void _onAuthorIdChanged() {
     _myFormBloc.add(ChangedMemberMediumAuthorId(value: _authorIdController.text));
+  }
+
+
+  void _onBaseNameChanged() {
+    _myFormBloc.add(ChangedMemberMediumBaseName(value: _baseNameController.text));
   }
 
 
@@ -477,6 +495,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _documentIDController.dispose();
     _appIdController.dispose();
     _authorIdController.dispose();
+    _baseNameController.dispose();
     _urlController.dispose();
     _refController.dispose();
     _urlThumbnailController.dispose();

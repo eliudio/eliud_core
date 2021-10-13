@@ -52,6 +52,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
                                                documentID: "",
                                  appId: "",
                                  authorId: "",
+                                 baseName: "",
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
@@ -94,6 +95,12 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
       }
       if (event is ChangedMemberMediumAuthorId) {
         newValue = currentState.value!.copyWith(authorId: event.value);
+        yield SubmittableMemberMediumForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedMemberMediumBaseName) {
+        newValue = currentState.value!.copyWith(baseName: event.value);
         yield SubmittableMemberMediumForm(value: newValue);
 
         return;

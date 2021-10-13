@@ -53,7 +53,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  appId: "",
                                  title: "",
                                  bodyComponents: [],
-                                 widgetWrapper: "",
 
         ));
         yield loaded;
@@ -106,7 +105,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
@@ -129,7 +127,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
@@ -152,7 +149,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
@@ -175,7 +171,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
@@ -204,7 +199,6 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: null,
                                  layout: currentState.value!.layout,
                                  gridView: currentState.value!.gridView,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
         yield SubmittablePageForm(value: newValue);
@@ -233,15 +227,8 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  backgroundOverride: currentState.value!.backgroundOverride,
                                  layout: currentState.value!.layout,
                                  gridView: null,
-                                 widgetWrapper: currentState.value!.widgetWrapper,
                                  conditions: currentState.value!.conditions,
           );
-        yield SubmittablePageForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedPageWidgetWrapper) {
-        newValue = currentState.value!.copyWith(widgetWrapper: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;

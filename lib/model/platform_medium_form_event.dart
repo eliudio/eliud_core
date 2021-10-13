@@ -91,6 +91,18 @@ class ChangedPlatformMediumAuthorId extends PlatformMediumFormEvent {
   String toString() => 'ChangedPlatformMediumAuthorId{ value: $value }';
 }
 
+class ChangedPlatformMediumBaseName extends PlatformMediumFormEvent {
+  final String? value;
+
+  ChangedPlatformMediumBaseName({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPlatformMediumBaseName{ value: $value }';
+}
+
 class ChangedPlatformMediumUrl extends PlatformMediumFormEvent {
   final String? value;
 

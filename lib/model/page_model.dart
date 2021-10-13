@@ -61,21 +61,18 @@ class PageModel {
 
   // Specific gridview
   GridViewModel? gridView;
-
-  // This widgetWrapper can be registered by your package onto the registry and will then be used as a widget wrapper for all components of this page. The page will wrap all it's components inside this widget. This can for example be of use when you would want to use 1 bloc for several components on a page, preventing a bloc-delay for each component
-  String? widgetWrapper;
   ConditionsModel? conditions;
 
-  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.widgetWrapper, this.conditions, })  {
+  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PageModel copyWith({String? documentID, String? appId, String? title, AppBarModel? appBar, DrawerModel? drawer, DrawerModel? endDrawer, HomeMenuModel? homeMenu, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, PageLayout? layout, GridViewModel? gridView, String? widgetWrapper, ConditionsModel? conditions, }) {
-    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, widgetWrapper: widgetWrapper ?? this.widgetWrapper, conditions: conditions ?? this.conditions, );
+  PageModel copyWith({String? documentID, String? appId, String? title, AppBarModel? appBar, DrawerModel? drawer, DrawerModel? endDrawer, HomeMenuModel? homeMenu, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, PageLayout? layout, GridViewModel? gridView, ConditionsModel? conditions, }) {
+    return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ gridView.hashCode ^ widgetWrapper.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ appBar.hashCode ^ drawer.hashCode ^ endDrawer.hashCode ^ homeMenu.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ gridView.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -93,14 +90,13 @@ class PageModel {
           backgroundOverride == other.backgroundOverride &&
           layout == other.layout &&
           gridView == other.gridView &&
-          widgetWrapper == other.widgetWrapper &&
           conditions == other.conditions;
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'PageModel{documentID: $documentID, appId: $appId, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
   PageEntity toEntity({String? appId}) {
@@ -117,7 +113,6 @@ class PageModel {
           backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
           layout: (layout != null) ? layout!.index : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
-          widgetWrapper: (widgetWrapper != null) ? widgetWrapper : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
@@ -138,7 +133,6 @@ class PageModel {
             })
             .toList(), 
           layout: toPageLayout(entity.layout), 
-          widgetWrapper: entity.widgetWrapper, 
           conditions: 
             ConditionsModel.fromEntity(entity.conditions), 
     );
@@ -231,7 +225,6 @@ class PageModel {
           backgroundOverride: backgroundOverrideHolder, 
           layout: toPageLayout(entity.layout), 
           gridView: gridViewHolder, 
-          widgetWrapper: entity.widgetWrapper, 
           conditions: 
             await ConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );

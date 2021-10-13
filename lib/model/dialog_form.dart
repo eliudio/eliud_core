@@ -123,7 +123,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
   int? _layoutSelectedRadioTile;
   bool? _includeHeadingSelection;
   String? _gridView;
-  final TextEditingController _widgetWrapperController = TextEditingController();
 
 
   _MyDialogFormState(this.formAction);
@@ -137,7 +136,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
     _includeHeadingSelection = false;
-    _widgetWrapperController.addListener(_onWidgetWrapperChanged);
   }
 
   @override
@@ -179,10 +177,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _gridView= state.value!.gridView!.documentID;
         else
           _gridView= "";
-        if (state.value!.widgetWrapper != null)
-          _widgetWrapperController.text = state.value!.widgetWrapper.toString();
-        else
-          _widgetWrapperController.text = "";
       }
       if (state is DialogFormInitialized) {
         List<Widget> children = [];
@@ -216,11 +210,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Title', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleDialogFormError ? state.message : null, hintText: null)
-          );
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Shared Widget Wrapper', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widgetWrapperController, keyboardType: TextInputType.text, validator: (_) => state is WidgetWrapperDialogFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
@@ -355,7 +344,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               layout: state.value!.layout, 
                               includeHeading: state.value!.includeHeading, 
                               gridView: state.value!.gridView, 
-                              widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
                         )));
                       } else {
@@ -369,7 +357,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               layout: state.value!.layout, 
                               includeHeading: state.value!.includeHeading, 
                               gridView: state.value!.gridView, 
-                              widgetWrapper: state.value!.widgetWrapper, 
                               conditions: state.value!.conditions, 
                           )));
                       }
@@ -449,18 +436,12 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
-  void _onWidgetWrapperChanged() {
-    _myFormBloc.add(ChangedDialogWidgetWrapper(value: _widgetWrapperController.text));
-  }
-
-
 
   @override
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
-    _widgetWrapperController.dispose();
     super.dispose();
   }
 

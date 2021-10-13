@@ -116,11 +116,15 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
       var componentInfo = ComponentInfo.getComponentInfo(context, value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
+/*
       if (value.widgetWrapper != null) {
         theBody = Registry.registry()!.wrapWidgetInBloc(value.widgetWrapper!, context, componentInfo);
       } else {
+*/
         theBody = PageBody(componentInfo: componentInfo,);
+/*
       }
+*/
     }
 
     var drawer = value.drawer == null

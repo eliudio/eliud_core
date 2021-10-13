@@ -111,6 +111,22 @@ class AuthorIdMemberMediumFormError extends MemberMediumFormError {
 }
 
 
+class BaseNameMemberMediumFormError extends MemberMediumFormError { 
+  const BaseNameMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BaseNameMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class UrlMemberMediumFormError extends MemberMediumFormError { 
   const UrlMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
 

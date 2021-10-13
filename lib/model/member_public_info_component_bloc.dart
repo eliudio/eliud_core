@@ -29,7 +29,7 @@ class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent,
   Stream<MemberPublicInfoComponentState> _mapLoadMemberPublicInfoComponentUpdateToState(String documentId) async* {
     _memberPublicInfoSubscription?.cancel();
     _memberPublicInfoSubscription = memberPublicInfoRepository!.listenTo(documentId, (value) {
-      if (value != null) add(MemberPublicInfoComponentUpdated(value: value!));
+      if (value != null) add(MemberPublicInfoComponentUpdated(value: value));
     });
   }
 

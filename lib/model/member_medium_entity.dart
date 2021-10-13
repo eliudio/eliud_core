@@ -24,6 +24,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class MemberMediumEntity {
   final String? appId;
   final String? authorId;
+  final String? baseName;
   final String? url;
   final String? ref;
   final String? urlThumbnail;
@@ -36,16 +37,16 @@ class MemberMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  MemberMediumEntity({this.appId, this.authorId, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  MemberMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object?> get props => [appId, authorId, url, ref, urlThumbnail, refThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
     String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static MemberMediumEntity? fromMap(Object? o) {
@@ -55,6 +56,7 @@ class MemberMediumEntity {
     return MemberMediumEntity(
       appId: map['appId'], 
       authorId: map['authorId'], 
+      baseName: map['baseName'], 
       url: map['url'], 
       ref: map['ref'], 
       urlThumbnail: map['urlThumbnail'], 
@@ -75,6 +77,8 @@ class MemberMediumEntity {
       else theDocument["appId"] = null;
     if (authorId != null) theDocument["authorId"] = authorId;
       else theDocument["authorId"] = null;
+    if (baseName != null) theDocument["baseName"] = baseName;
+      else theDocument["baseName"] = null;
     if (url != null) theDocument["url"] = url;
       else theDocument["url"] = null;
     if (ref != null) theDocument["ref"] = ref;

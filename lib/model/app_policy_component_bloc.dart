@@ -29,7 +29,7 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
   Stream<AppPolicyComponentState> _mapLoadAppPolicyComponentUpdateToState(String documentId) async* {
     _appPolicySubscription?.cancel();
     _appPolicySubscription = appPolicyRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppPolicyComponentUpdated(value: value!));
+      if (value != null) add(AppPolicyComponentUpdated(value: value));
     });
   }
 

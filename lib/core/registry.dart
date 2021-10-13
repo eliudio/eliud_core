@@ -71,8 +71,10 @@ class Registry {
   }
 
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();
+/*
   final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers =
       HashMap();
+*/
 
   static Registry? _instance;
 
@@ -312,6 +314,7 @@ class Registry {
     _registryMap[componentName] = componentConstructor;
   }
 
+/*
   void registerPageComponentsBloc(
       String blocName, ComponentWidgetWrapper wrapper) {
     _componentWidgetWrappers[blocName] = wrapper;
@@ -328,6 +331,7 @@ class Registry {
       return null;
     }
   }
+*/
 
   void addDropDownSupporter(String componentId, ComponentDropDown support) {
     componentDropDownSupporters[componentId] = support;

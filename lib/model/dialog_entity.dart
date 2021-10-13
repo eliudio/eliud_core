@@ -29,19 +29,18 @@ class DialogEntity {
   final int? layout;
   final bool? includeHeading;
   final String? gridViewId;
-  final String? widgetWrapper;
   final ConditionsEntity? conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.includeHeading, this.gridViewId, this.widgetWrapper, this.conditions, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, bodyComponents, backgroundOverrideId, layout, includeHeading, gridViewId, widgetWrapper, conditions, ];
+  List<Object?> get props => [appId, title, bodyComponents, backgroundOverrideId, layout, includeHeading, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static DialogEntity? fromMap(Object? o) {
@@ -69,7 +68,6 @@ class DialogEntity {
       layout: map['layout'], 
       includeHeading: map['includeHeading'], 
       gridViewId: map['gridViewId'], 
-      widgetWrapper: map['widgetWrapper'], 
       conditions: conditionsFromMap, 
     );
   }
@@ -97,8 +95,6 @@ class DialogEntity {
       else theDocument["includeHeading"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
-    if (widgetWrapper != null) theDocument["widgetWrapper"] = widgetWrapper;
-      else theDocument["widgetWrapper"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

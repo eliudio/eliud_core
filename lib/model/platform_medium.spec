@@ -40,6 +40,11 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "baseName",
+      "displayName": "Base Name",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "url",
       "displayName": "Image URL",
       "fieldType": "String"

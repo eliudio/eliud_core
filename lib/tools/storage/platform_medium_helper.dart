@@ -39,6 +39,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   @override
   Future<PlatformMediumModel> photoWithThumbnailToMediumModel(
       String memberMediumDocumentId,
+      String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       PhotoWithThumbnail photoWithThumbnail,
@@ -48,6 +49,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
 
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
+      baseName: baseName,
       appId: appId,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -70,6 +72,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   @override
   Future<PlatformMediumModel> videoWithThumbnailToMediumModel(
       String memberMediumDocumentId,
+      String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       VideoWithThumbnail videoWithThumbnail,
@@ -80,6 +83,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     // Create the MemberImageModel
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
+      baseName: baseName,
       appId: appId,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -99,9 +103,10 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   }
 
   @override
-  Future<PlatformMediumModel> constructMediumModel(String newDocumentID, UploadInfo? pageImage, UploadInfo? pageThumbnail, PhotoWithThumbnail pageData, dynamic previousMediumId) async {
+  Future<PlatformMediumModel> constructMediumModel(String newDocumentID, String baseName, UploadInfo? pageImage, UploadInfo? pageThumbnail, PhotoWithThumbnail pageData, dynamic previousMediumId) async {
     var pageImageModel = PlatformMediumModel(
         documentID: newDocumentID,
+        baseName: baseName,
         appId: appId,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,

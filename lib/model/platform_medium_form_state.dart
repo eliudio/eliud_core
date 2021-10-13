@@ -111,6 +111,22 @@ class AuthorIdPlatformMediumFormError extends PlatformMediumFormError {
 }
 
 
+class BaseNamePlatformMediumFormError extends PlatformMediumFormError { 
+  const BaseNamePlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''BaseNamePlatformMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class UrlPlatformMediumFormError extends PlatformMediumFormError { 
   const UrlPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
 

@@ -32,19 +32,18 @@ class PageEntity {
   final String? backgroundOverrideId;
   final int? layout;
   final String? gridViewId;
-  final String? widgetWrapper;
   final ConditionsEntity? conditions;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.widgetWrapper, this.conditions, });
+  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverrideId, layout, gridViewId, widgetWrapper, conditions, ];
+  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverrideId, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, widgetWrapper: $widgetWrapper, conditions: $conditions}';
+    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static PageEntity? fromMap(Object? o) {
@@ -75,7 +74,6 @@ class PageEntity {
       backgroundOverrideId: map['backgroundOverrideId'], 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
-      widgetWrapper: map['widgetWrapper'], 
       conditions: conditionsFromMap, 
     );
   }
@@ -109,8 +107,6 @@ class PageEntity {
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;
       else theDocument["gridViewId"] = null;
-    if (widgetWrapper != null) theDocument["widgetWrapper"] = widgetWrapper;
-      else theDocument["widgetWrapper"] = null;
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;

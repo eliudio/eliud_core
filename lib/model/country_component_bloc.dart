@@ -29,7 +29,7 @@ class CountryComponentBloc extends Bloc<CountryComponentEvent, CountryComponentS
   Stream<CountryComponentState> _mapLoadCountryComponentUpdateToState(String documentId) async* {
     _countrySubscription?.cancel();
     _countrySubscription = countryRepository!.listenTo(documentId, (value) {
-      if (value != null) add(CountryComponentUpdated(value: value!));
+      if (value != null) add(CountryComponentUpdated(value: value));
     });
   }
 

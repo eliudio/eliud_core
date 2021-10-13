@@ -29,7 +29,7 @@ class PosSizeComponentBloc extends Bloc<PosSizeComponentEvent, PosSizeComponentS
   Stream<PosSizeComponentState> _mapLoadPosSizeComponentUpdateToState(String documentId) async* {
     _posSizeSubscription?.cancel();
     _posSizeSubscription = posSizeRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PosSizeComponentUpdated(value: value!));
+      if (value != null) add(PosSizeComponentUpdated(value: value));
     });
   }
 

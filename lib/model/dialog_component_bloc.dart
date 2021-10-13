@@ -30,7 +30,7 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
   Stream<DialogComponentState> _mapLoadDialogComponentUpdateToState(String documentId) async* {
     _dialogSubscription?.cancel();
     _dialogSubscription = dialogRepository!.listenTo(documentId, (value) {
-      if (value != null) add(DialogComponentUpdated(value: value!));
+      if (value != null) add(DialogComponentUpdated(value: value));
     });
   }
 

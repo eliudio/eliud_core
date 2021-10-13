@@ -30,7 +30,7 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   Stream<AppComponentState> _mapLoadAppComponentUpdateToState(String documentId) async* {
     _appSubscription?.cancel();
     _appSubscription = appRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppComponentUpdated(value: value!));
+      if (value != null) add(AppComponentUpdated(value: value));
     });
   }
 

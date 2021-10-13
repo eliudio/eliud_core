@@ -54,14 +54,18 @@ class _DialogComponentState extends State<DialogComponent> {
           null,
           widget.dialog!.gridView);
       var theBody;
+/*
       if (widget.dialog!.widgetWrapper != null) {
         theBody = Registry.registry()!.wrapWidgetInBloc(
             widget.dialog!.widgetWrapper!, context, componentInfo);
       } else {
+*/
         theBody = PageBody(
           componentInfo: componentInfo,
         );
+/*
       }
+*/
 
       return simpleTopicContainer(context, children: <Widget>[theBody]);
     } else {

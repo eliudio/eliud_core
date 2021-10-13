@@ -29,7 +29,7 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
   Stream<GridViewComponentState> _mapLoadGridViewComponentUpdateToState(String documentId) async* {
     _gridViewSubscription?.cancel();
     _gridViewSubscription = gridViewRepository!.listenTo(documentId, (value) {
-      if (value != null) add(GridViewComponentUpdated(value: value!));
+      if (value != null) add(GridViewComponentUpdated(value: value));
     });
   }
 

@@ -30,7 +30,7 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   Stream<PageComponentState> _mapLoadPageComponentUpdateToState(String documentId) async* {
     _pageSubscription?.cancel();
     _pageSubscription = pageRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PageComponentUpdated(value: value!));
+      if (value != null) add(PageComponentUpdated(value: value));
     });
   }
 

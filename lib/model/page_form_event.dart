@@ -187,18 +187,6 @@ class ChangedPageGridView extends PageFormEvent {
   String toString() => 'ChangedPageGridView{ value: $value }';
 }
 
-class ChangedPageWidgetWrapper extends PageFormEvent {
-  final String? value;
-
-  ChangedPageWidgetWrapper({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedPageWidgetWrapper{ value: $value }';
-}
-
 class ChangedPageConditions extends PageFormEvent {
   final ConditionsModel? value;
 
