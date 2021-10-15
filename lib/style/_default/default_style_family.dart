@@ -14,14 +14,12 @@ class DefaultStyleFamily extends StyleFamily {
   static DefaultStyleFamily? _instance;
 
   static DefaultStyleFamily instance() {
-    if (_instance == null) {
-      _instance = DefaultStyleFamily._();
-    }
+    _instance ??= DefaultStyleFamily._();
     return _instance!;
   }
 
   DefaultStyleFamily._() : super(defaultStyleFamilyName, false) {
-    register(_DefaultStyle(this));
+    register(DefaultStyle(this));
   }
 
   Style defaultStyle() => styles.values.first;
@@ -30,22 +28,22 @@ class DefaultStyleFamily extends StyleFamily {
    * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_decor_style
    * will allow to create / update the style
    */
-  @override
   Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;
 
+  @override
   StyleFamily copyWithNewStyles(Map<String, Style>? styles) {
     return DefaultStyleFamily._();
   }
 }
 
-class _DefaultStyle extends Style {
+class DefaultStyle extends Style {
   static final String defaultStyleName = 'DefaultStyle';
 
   late AdminFormStyle _adminFormStyle;
   late AdminListStyle _adminListStyle;
   late FrontEndStyle _frontEndFormStyle;
 
-  _DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
+  DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
     _adminFormStyle = DefaultAdminFormStyle();
     _adminListStyle = DefaultAdminListStyle();
     _frontEndFormStyle = DefaultFrontEndStyle();

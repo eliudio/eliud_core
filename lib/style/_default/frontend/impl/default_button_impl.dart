@@ -13,7 +13,7 @@ class DefaultButtonImpl implements HasButton {
     if (icon != null) {
       return iconButton(context, onPressed: onPressed, icon: icon);
     } else {
-      return _textButton(context, label: label);
+      return _textButton(context, label: label, onPressed: onPressed);
     }
   }
 
