@@ -134,8 +134,8 @@ class BoxDecorationHelper {
       }
     }
     if (image == null) {
-      var imageProvider = (bdm.backgroundImageURL != null)
-          ? NetworkImage(bdm.backgroundImageURL!)
+      var imageProvider = ((bdm.backgroundImage != null) && (bdm.backgroundImage!.url != null))
+          ? NetworkImage(bdm.backgroundImage!.url!)
           : null;
       image = (imageProvider != null)
           ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)

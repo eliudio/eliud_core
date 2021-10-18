@@ -118,7 +118,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
-  final TextEditingController _backgroundImageURLController = TextEditingController();
+  String? _backgroundImage;
   bool? _useProfilePhotoAsBackgroundSelection;
   int? _beginGradientPositionSelectedRadioTile;
   int? _endGradientPositionSelectedRadioTile;
@@ -134,7 +134,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     _myFormBloc = BlocProvider.of<BackgroundFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _commentsController.addListener(_onCommentsChanged);
-    _backgroundImageURLController.addListener(_onBackgroundImageURLChanged);
     _useProfilePhotoAsBackgroundSelection = false;
     _beginGradientPositionSelectedRadioTile = 0;
     _endGradientPositionSelectedRadioTile = 0;
@@ -160,10 +159,10 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           _commentsController.text = state.value!.comments.toString();
         else
           _commentsController.text = "";
-        if (state.value!.backgroundImageURL != null)
-          _backgroundImageURLController.text = state.value!.backgroundImageURL.toString();
+        if (state.value!.backgroundImage != null)
+          _backgroundImage= state.value!.backgroundImage!.documentID;
         else
-          _backgroundImageURLController.text = "";
+          _backgroundImage= "";
         if (state.value!.useProfilePhotoAsBackground != null)
         _useProfilePhotoAsBackgroundSelection = state.value!.useProfilePhotoAsBackground;
         else
@@ -256,7 +255,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Header Background Image', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _backgroundImageURLController, keyboardType: TextInputType.text, validator: (_) => state is BackgroundImageURLBackgroundFormError ? state.message : null, hintText: 'field.remark')
+                DropdownButtonComponentFactory().createNew(id: "publicMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
           );
 
 
@@ -387,7 +386,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                           UpdateBackgroundList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               comments: state.value!.comments, 
-                              backgroundImageURL: state.value!.backgroundImageURL, 
+                              backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value!.beginGradientPosition, 
                               endGradientPosition: state.value!.endGradientPosition, 
@@ -400,7 +399,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                           AddBackgroundList(value: BackgroundModel(
                               documentID: state.value!.documentID, 
                               comments: state.value!.comments, 
-                              backgroundImageURL: state.value!.backgroundImageURL, 
+                              backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
                               beginGradientPosition: state.value!.beginGradientPosition, 
                               endGradientPosition: state.value!.endGradientPosition, 
@@ -443,8 +442,11 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   }
 
 
-  void _onBackgroundImageURLChanged() {
-    _myFormBloc.add(ChangedBackgroundBackgroundImageURL(value: _backgroundImageURLController.text));
+  void _onBackgroundImageSelected(String? val) {
+    setState(() {
+      _backgroundImage = val;
+    });
+    _myFormBloc.add(ChangedBackgroundBackgroundImage(value: val));
   }
 
 
@@ -497,7 +499,6 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   void dispose() {
     _documentIDController.dispose();
     _commentsController.dispose();
-    _backgroundImageURLController.dispose();
     super.dispose();
   }
 

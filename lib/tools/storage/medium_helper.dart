@@ -13,6 +13,7 @@ import 'medium_data.dart';
 import 'upload_info.dart';
 
 typedef void PdfAvailable(dynamic? mediumModel);
+//typedef void MediumAvailable(dynamic? mediumModel);
 
 abstract class MediumHelper<T> {
   final String appId;
@@ -182,7 +183,8 @@ abstract class MediumHelper<T> {
    */
   Future<T> createThumbnailUploadPhotoAsset(
       String memberMediumDocumentID, String assetPath,
-      {FeedbackProgress? feedbackProgress}) async {
+      {FeedbackProgress? feedbackProgress,
+      }) async {
     var filePath =
         await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
     return createThumbnailUploadPhotoFile(memberMediumDocumentID, filePath,

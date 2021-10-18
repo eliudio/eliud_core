@@ -55,7 +55,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  email: "",
                                  description: "",
                                  routeAnimationDuration: 1000, 
-                                 logoURL: "",
                                  styleFamily: "",
                                  styleName: "",
 
@@ -120,7 +119,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppLogo) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(logo: await platformMediumRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(logo: await publicMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new AppModel(
                                  documentID: currentState.value!.documentID,
@@ -133,7 +132,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  logo: null,
                                  routeBuilder: currentState.value!.routeBuilder,
                                  routeAnimationDuration: currentState.value!.routeAnimationDuration,
-                                 logoURL: currentState.value!.logoURL,
                                  policies: currentState.value!.policies,
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
@@ -174,7 +172,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  logo: currentState.value!.logo,
                                  routeBuilder: currentState.value!.routeBuilder,
                                  routeAnimationDuration: currentState.value!.routeAnimationDuration,
-                                 logoURL: currentState.value!.logoURL,
                                  policies: null,
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,

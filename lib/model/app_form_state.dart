@@ -223,22 +223,6 @@ class RouteAnimationDurationAppFormError extends AppFormError {
 }
 
 
-class LogoURLAppFormError extends AppFormError { 
-  const LogoURLAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''LogoURLAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class PoliciesAppFormError extends AppFormError { 
   const PoliciesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 

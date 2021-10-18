@@ -460,6 +460,30 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _publicMediumsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-publicMediums", componentName: "eliud_core_internalWidgets", componentId: "publicMediums"));
+    PageModel page = PageModel(
+        conditions: ConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
+          packageCondition: null,
+          conditionOverride: null,
+        ),
+        appId: appId,
+        documentID: "eliud_core_publicmediums_page",
+        title: "PublicMediums",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _shadowsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -519,6 +543,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_posSizesPages()))
+
+        .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_shadowsPages()))
 
@@ -710,6 +736,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
 
     menuItems.add(
       MenuItemModel(
+        documentID: "PublicMediums",
+        text: "PublicMediums",
+        description: "PublicMediums",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(appId, pageID: "eliud_core_publicmediums_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
         documentID: "Shadows",
         text: "Shadows",
         description: "Shadows",
@@ -738,6 +774,7 @@ class AdminAppWiper extends AdminAppWiperBase {
     await countryRepository()!.deleteAll();
     await fontRepository()!.deleteAll();
     await memberPublicInfoRepository()!.deleteAll();
+    await publicMediumRepository()!.deleteAll();
     await shadowRepository()!.deleteAll();
     ;
   }

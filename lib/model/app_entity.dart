@@ -31,19 +31,18 @@ class AppEntity {
   final String? logoId;
   final int? routeBuilder;
   final int? routeAnimationDuration;
-  final String? logoURL;
   final String? policiesId;
   final String? styleFamily;
   final String? styleName;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.policiesId, this.styleFamily, this.styleName, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.routeBuilder, this.routeAnimationDuration, this.policiesId, this.styleFamily, this.styleName, });
 
 
-  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, routeBuilder, routeAnimationDuration, logoURL, policiesId, styleFamily, styleName, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, routeBuilder, routeAnimationDuration, policiesId, styleFamily, styleName, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -65,7 +64,6 @@ class AppEntity {
       logoId: map['logoId'], 
       routeBuilder: map['routeBuilder'], 
       routeAnimationDuration: int.tryParse(map['routeAnimationDuration'].toString()), 
-      logoURL: map['logoURL'], 
       policiesId: map['policiesId'], 
       styleFamily: map['styleFamily'], 
       styleName: map['styleName'], 
@@ -96,8 +94,6 @@ class AppEntity {
       else theDocument["routeBuilder"] = null;
     if (routeAnimationDuration != null) theDocument["routeAnimationDuration"] = routeAnimationDuration;
       else theDocument["routeAnimationDuration"] = null;
-    if (logoURL != null) theDocument["logoURL"] = logoURL;
-      else theDocument["logoURL"] = null;
     if (policiesId != null) theDocument["policiesId"] = policiesId;
       else theDocument["policiesId"] = null;
     if (styleFamily != null) theDocument["styleFamily"] = styleFamily;

@@ -8,7 +8,7 @@ typedef VoidCallbackFutureSuccess = Future<bool> Function();
 
 class HeaderWidget extends StatefulWidget {
   final String title;
-  final VoidCallback? cancelAction;
+  final VoidCallbackFutureSuccess? cancelAction;
   final VoidCallbackFutureSuccess? okAction;
 
   HeaderWidget({

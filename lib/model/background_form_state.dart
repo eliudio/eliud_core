@@ -95,15 +95,15 @@ class CommentsBackgroundFormError extends BackgroundFormError {
 }
 
 
-class BackgroundImageURLBackgroundFormError extends BackgroundFormError { 
-  const BackgroundImageURLBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
+class BackgroundImageBackgroundFormError extends BackgroundFormError { 
+  const BackgroundImageBackgroundFormError({ String? message, BackgroundModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BackgroundImageURLBackgroundFormError {
+    return '''BackgroundImageBackgroundFormError {
       value: $value,
       message: $message,
     }''';

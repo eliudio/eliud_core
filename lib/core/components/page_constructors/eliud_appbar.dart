@@ -86,12 +86,14 @@ class _EliudAppBarState extends State<EliudAppBar> {
         // We should probably consider to introduce an internal action for app store and allow this to be configured as part of the app. The issue to consider however is that
         var playStoreApp = state.playStoreApp;
         if ((playStoreApp != null) &&
+            (playStoreApp.logo != null) &&
+            (playStoreApp.logo!.url != null) &&
             (app.documentID != playStoreApp.documentID)) {
           items.add(MenuItemAttributes(
               isActive: false,
               onTap: () => eliudrouter.Router.navigateTo(context,
                   SwitchApp(app.documentID, toAppID: playStoreApp.documentID)),
-              imageURL: playStoreApp.logoURL));
+              imageURL: playStoreApp.logo!.url));
         }
 
         return appBar(context,

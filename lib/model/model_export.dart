@@ -42,5 +42,6 @@ export '../model/menu_item_model.dart';
 export '../model/page_model.dart';
 export '../model/platform_medium_model.dart';
 export '../model/pos_size_model.dart';
+export '../model/public_medium_model.dart';
 export '../model/rgb_model.dart';
 export '../model/shadow_model.dart';

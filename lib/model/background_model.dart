@@ -75,7 +75,7 @@ class BackgroundModel {
   String? comments;
 
   // Background Image. If you want to use an image you've uploaded to your member area then please use that public URL
-  String? backgroundImageURL;
+  PublicMediumModel? backgroundImage;
 
   // When set, the profile photo will be used as background. This takes preference over backgroundImage.
   bool? useProfilePhotoAsBackground;
@@ -89,16 +89,16 @@ class BackgroundModel {
   List<DecorationColorModel>? decorationColors;
   bool? border;
 
-  BackgroundModel({this.documentID, this.comments, this.backgroundImageURL, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, })  {
+  BackgroundModel({this.documentID, this.comments, this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, })  {
     assert(documentID != null);
   }
 
-  BackgroundModel copyWith({String? documentID, String? comments, String? backgroundImageURL, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, }) {
-    return BackgroundModel(documentID: documentID ?? this.documentID, comments: comments ?? this.comments, backgroundImageURL: backgroundImageURL ?? this.backgroundImageURL, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, );
+  BackgroundModel copyWith({String? documentID, String? comments, PublicMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, }) {
+    return BackgroundModel(documentID: documentID ?? this.documentID, comments: comments ?? this.comments, backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ comments.hashCode ^ backgroundImageURL.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ border.hashCode;
+  int get hashCode => documentID.hashCode ^ comments.hashCode ^ backgroundImage.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ border.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -107,7 +107,7 @@ class BackgroundModel {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           comments == other.comments &&
-          backgroundImageURL == other.backgroundImageURL &&
+          backgroundImage == other.backgroundImage &&
           useProfilePhotoAsBackground == other.useProfilePhotoAsBackground &&
           beginGradientPosition == other.beginGradientPosition &&
           endGradientPosition == other.endGradientPosition &&
@@ -119,13 +119,13 @@ class BackgroundModel {
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundModel{documentID: $documentID, comments: $comments, backgroundImageURL: $backgroundImageURL, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundModel{documentID: $documentID, comments: $comments, backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
   BackgroundEntity toEntity({String? appId}) {
     return BackgroundEntity(
           comments: (comments != null) ? comments : null, 
-          backgroundImageURL: (backgroundImageURL != null) ? backgroundImageURL : null, 
+          backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 
           useProfilePhotoAsBackground: (useProfilePhotoAsBackground != null) ? useProfilePhotoAsBackground : null, 
           beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition!.index : null, 
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition!.index : null, 
@@ -143,7 +143,6 @@ class BackgroundModel {
     return BackgroundModel(
           documentID: documentID, 
           comments: entity.comments, 
-          backgroundImageURL: entity.backgroundImageURL, 
           useProfilePhotoAsBackground: entity.useProfilePhotoAsBackground, 
           beginGradientPosition: toStartGradientPosition(entity.beginGradientPosition), 
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
@@ -162,6 +161,17 @@ class BackgroundModel {
   static Future<BackgroundModel?> fromEntityPlus(String documentID, BackgroundEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    PublicMediumModel? backgroundImageHolder;
+    if (entity.backgroundImageId != null) {
+      try {
+          backgroundImageHolder = await publicMediumRepository(appId: appId)!.get(entity.backgroundImageId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise backgroundImage');
+        print('Error whilst retrieving publicMedium with id ${entity.backgroundImageId}');
+        print('Exception: $e');
+      }
+    }
+
     ShadowModel? shadowHolder;
     if (entity.shadowId != null) {
       try {
@@ -177,7 +187,7 @@ class BackgroundModel {
     return BackgroundModel(
           documentID: documentID, 
           comments: entity.comments, 
-          backgroundImageURL: entity.backgroundImageURL, 
+          backgroundImage: backgroundImageHolder, 
           useProfilePhotoAsBackground: entity.useProfilePhotoAsBackground, 
           beginGradientPosition: toStartGradientPosition(entity.beginGradientPosition), 
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 

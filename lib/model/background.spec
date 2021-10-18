@@ -32,10 +32,12 @@
       "group": "general"
     },
     {
-      "fieldName": "backgroundImageURL",
+      "fieldName": "backgroundImage",
       "remark": "Background Image. If you want to use an image you've uploaded to your member area then please use that public URL",
       "displayName": "Header Background Image",
-      "fieldType": "String",
+      "fieldType": "PublicMedium",
+      "association": true,
+      "optional": true,
       "group": "image"
     },
     {

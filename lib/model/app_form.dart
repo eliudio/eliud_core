@@ -125,7 +125,6 @@ class _MyAppFormState extends State<MyAppForm> {
   String? _logo;
   int? _routeBuilderSelectedRadioTile;
   final TextEditingController _routeAnimationDurationController = TextEditingController();
-  final TextEditingController _logoURLController = TextEditingController();
   String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
   final TextEditingController _styleNameController = TextEditingController();
@@ -145,7 +144,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _appStatusSelectedRadioTile = 0;
     _routeBuilderSelectedRadioTile = 0;
     _routeAnimationDurationController.addListener(_onRouteAnimationDurationChanged);
-    _logoURLController.addListener(_onLogoURLChanged);
     _styleFamilyController.addListener(_onStyleFamilyChanged);
     _styleNameController.addListener(_onStyleNameChanged);
   }
@@ -197,10 +195,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _routeAnimationDurationController.text = state.value!.routeAnimationDuration.toString();
         else
           _routeAnimationDurationController.text = "";
-        if (state.value!.logoURL != null)
-          _logoURLController.text = state.value!.logoURL.toString();
-        else
-          _logoURLController.text = "";
         if (state.value!.policies != null)
           _policies= state.value!.policies!.documentID;
         else
@@ -326,7 +320,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "platformMediums", value: _logo, trigger: _onLogoSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(id: "publicMediums", value: _logo, trigger: _onLogoSelected, optional: true),
           );
 
 
@@ -425,7 +419,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               logo: state.value!.logo, 
                               routeBuilder: state.value!.routeBuilder, 
                               routeAnimationDuration: state.value!.routeAnimationDuration, 
-                              logoURL: state.value!.logoURL, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
@@ -443,7 +436,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               logo: state.value!.logo, 
                               routeBuilder: state.value!.routeBuilder, 
                               routeAnimationDuration: state.value!.routeAnimationDuration, 
-                              logoURL: state.value!.logoURL, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
@@ -527,11 +519,6 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
-  void _onLogoURLChanged() {
-    _myFormBloc.add(ChangedAppLogoURL(value: _logoURLController.text));
-  }
-
-
   void _onPoliciesSelected(String? val) {
     setState(() {
       _policies = val;
@@ -559,7 +546,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _emailController.dispose();
     _descriptionController.dispose();
     _routeAnimationDurationController.dispose();
-    _logoURLController.dispose();
     _styleFamilyController.dispose();
     _styleNameController.dispose();
     super.dispose();

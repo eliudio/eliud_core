@@ -11,7 +11,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   static String PACKAGENAME = 'read_access';
   final List<String> readAccess;
 
-  MemberMediumHelper(String appId, String ownerId, this.readAccess): super(appId, ownerId, PACKAGENAME);
+  MemberMediumHelper(String appId, String ownerId, this.readAccess)
+      : super(appId, ownerId, PACKAGENAME);
 
   /*
    * Create custom meta data.
@@ -22,8 +23,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    * Usage: When you need to construct meta data for a file before uploading. Set the owner and read access rights.
    */
   @override
-  Map<String, String> readAccessCustomMetaData(
-      ) {
+  Map<String, String> readAccessCustomMetaData() {
     var customMetaData = {
       'owner': ownerId,
       'readAccess': readAccess.join(';') + ';'
@@ -36,12 +36,12 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> photoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
-      String baseName,
-      UploadInfo fileInfo,
-      UploadInfo fileInfoThumbnail,
-      PhotoWithThumbnail photoWithThumbnail,
-    ) async {
+    String memberMediumDocumentId,
+    String baseName,
+    UploadInfo fileInfo,
+    UploadInfo fileInfoThumbnail,
+    PhotoWithThumbnail photoWithThumbnail,
+  ) async {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -69,12 +69,12 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> videoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
-      String baseName,
-      UploadInfo fileInfo,
-      UploadInfo fileInfoThumbnail,
-      VideoWithThumbnail videoWithThumbnail,
-      ) {
+    String memberMediumDocumentId,
+    String baseName,
+    UploadInfo fileInfo,
+    UploadInfo fileInfoThumbnail,
+    VideoWithThumbnail videoWithThumbnail,
+  ) {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -101,7 +101,13 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   }
 
   @override
-  Future<MemberMediumModel> constructMediumModel(String newDocumentID, String baseName, UploadInfo? pageImage, UploadInfo? pageThumbnail, PhotoWithThumbnail pageData, dynamic previousMediumId) async {
+  Future<MemberMediumModel> constructMediumModel(
+      String newDocumentID,
+      String baseName,
+      UploadInfo? pageImage,
+      UploadInfo? pageThumbnail,
+      PhotoWithThumbnail pageData,
+      dynamic previousMediumId) async {
     var pageImageModel = MemberMediumModel(
         documentID: newDocumentID,
         baseName: baseName,
@@ -121,4 +127,3 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     return await memberMediumRepository(appId: appId)!.add(pageImageModel);
   }
 }
-

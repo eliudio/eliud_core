@@ -79,16 +79,16 @@ class ChangedBackgroundComments extends BackgroundFormEvent {
   String toString() => 'ChangedBackgroundComments{ value: $value }';
 }
 
-class ChangedBackgroundBackgroundImageURL extends BackgroundFormEvent {
+class ChangedBackgroundBackgroundImage extends BackgroundFormEvent {
   final String? value;
 
-  ChangedBackgroundBackgroundImageURL({this.value});
+  ChangedBackgroundBackgroundImage({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedBackgroundBackgroundImageURL{ value: $value }';
+  String toString() => 'ChangedBackgroundBackgroundImage{ value: $value }';
 }
 
 class ChangedBackgroundUseProfilePhotoAsBackground extends BackgroundFormEvent {

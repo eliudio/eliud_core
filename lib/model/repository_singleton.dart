@@ -83,6 +83,9 @@ import '../model/platform_medium_cache.dart';
 import '../model/pos_size_firestore.dart';
 import '../model/pos_size_repository.dart';
 import '../model/pos_size_cache.dart';
+import '../model/public_medium_firestore.dart';
+import '../model/public_medium_repository.dart';
+import '../model/public_medium_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
@@ -117,6 +120,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
+    var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
     var _shadowRepository = ShadowCache(ShadowFirestore());
 
     AccessRepository? accessRepository(String? appId) {
@@ -182,6 +186,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     PosSizeRepository? posSizeRepository(String? appId) {
       if ((appId != null) && (_posSizeRepository[appId] == null)) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository()!.getSubCollection(appId, 'possize'), appId));
       return _posSizeRepository[appId];
+    }
+    PublicMediumRepository? publicMediumRepository() {
+      return _publicMediumRepository;
     }
     ShadowRepository? shadowRepository() {
       return _shadowRepository;

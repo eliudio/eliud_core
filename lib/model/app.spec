@@ -69,7 +69,7 @@
     },
     {
       "fieldName": "logo",
-      "fieldType": "PlatformMedium",
+      "fieldType": "PublicMedium",
       "association": true,
       "optional": true,
       "iconName": "add_a_photo",
@@ -89,12 +89,6 @@
       "fieldType": "int",
       "defaultValue": "1000",
       "group": "route"
-    },
-    {
-      "fieldName": "logoURL",
-      "remark": "This is a copy of logo.url because logo.url is not accessible as a cross-app document. Hence we copy it into this field.",
-      "fieldType": "String",
-      "hidden": true
     },
     {
       "fieldName": "policies",
@@ -156,6 +150,5 @@
   "listFields": {
     "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
     "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.title!)) : Container()"
-  },
-  "preToEntityCode": "logoURL = logo != null ? logo!.url : null;"
+  }
 }

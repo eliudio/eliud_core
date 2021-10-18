@@ -67,26 +67,23 @@ class AppModel {
   String? description;
   AppStatus? appStatus;
   AppHomePageReferencesModel? homePages;
-  PlatformMediumModel? logo;
+  PublicMediumModel? logo;
   PageTransitionAnimation? routeBuilder;
   int? routeAnimationDuration;
-
-  // This is a copy of logo.url because logo.url is not accessible as a cross-app document. Hence we copy it into this field.
-  String? logoURL;
   AppPolicyModel? policies;
   String? styleFamily;
   String? styleName;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.routeBuilder, this.routeAnimationDuration, this.logoURL, this.policies, this.styleFamily, this.styleName, })  {
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.routeBuilder, this.routeAnimationDuration, this.policies, this.styleFamily, this.styleName, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PlatformMediumModel? logo, PageTransitionAnimation? routeBuilder, int? routeAnimationDuration, String? logoURL, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, logoURL: logoURL ?? this.logoURL, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, PageTransitionAnimation? routeBuilder, int? routeAnimationDuration, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, routeBuilder: routeBuilder ?? this.routeBuilder, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ logoURL.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ routeBuilder.hashCode ^ routeAnimationDuration.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -103,18 +100,16 @@ class AppModel {
           logo == other.logo &&
           routeBuilder == other.routeBuilder &&
           routeAnimationDuration == other.routeAnimationDuration &&
-          logoURL == other.logoURL &&
           policies == other.policies &&
           styleFamily == other.styleFamily &&
           styleName == other.styleName;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, logoURL: $logoURL, policies: $policies, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, routeBuilder: $routeBuilder, routeAnimationDuration: $routeAnimationDuration, policies: $policies, styleFamily: $styleFamily, styleName: $styleName}';
   }
 
   AppEntity toEntity({String? appId}) {
-    logoURL = logo != null ? logo!.url : null;
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
@@ -125,7 +120,6 @@ class AppModel {
           logoId: (logo != null) ? logo!.documentID : null, 
           routeBuilder: (routeBuilder != null) ? routeBuilder!.index : null, 
           routeAnimationDuration: (routeAnimationDuration != null) ? routeAnimationDuration : null, 
-          logoURL: (logoURL != null) ? logoURL : null, 
           policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 
           styleName: (styleName != null) ? styleName : null, 
@@ -146,7 +140,6 @@ class AppModel {
             AppHomePageReferencesModel.fromEntity(entity.homePages), 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
-          logoURL: entity.logoURL, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
     );
@@ -155,13 +148,13 @@ class AppModel {
   static Future<AppModel?> fromEntityPlus(String documentID, AppEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    PlatformMediumModel? logoHolder;
+    PublicMediumModel? logoHolder;
     if (entity.logoId != null) {
       try {
-          logoHolder = await platformMediumRepository(appId: appId)!.get(entity.logoId);
+          logoHolder = await publicMediumRepository(appId: appId)!.get(entity.logoId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise logo');
-        print('Error whilst retrieving platformMedium with id ${entity.logoId}');
+        print('Error whilst retrieving publicMedium with id ${entity.logoId}');
         print('Exception: $e');
       }
     }
@@ -190,7 +183,6 @@ class AppModel {
           logo: logoHolder, 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
-          logoURL: entity.logoURL, 
           policies: policiesHolder, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 

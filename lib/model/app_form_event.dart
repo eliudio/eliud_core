@@ -175,18 +175,6 @@ class ChangedAppRouteAnimationDuration extends AppFormEvent {
   String toString() => 'ChangedAppRouteAnimationDuration{ value: $value }';
 }
 
-class ChangedAppLogoURL extends AppFormEvent {
-  final String? value;
-
-  ChangedAppLogoURL({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppLogoURL{ value: $value }';
-}
-
 class ChangedAppPolicies extends AppFormEvent {
   final String? value;
 

@@ -51,7 +51,6 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         BackgroundFormLoaded loaded = BackgroundFormLoaded(value: BackgroundModel(
                                                documentID: "",
                                  comments: "",
-                                 backgroundImageURL: "",
                                  decorationColors: [],
 
         ));
@@ -89,8 +88,21 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
 
         return;
       }
-      if (event is ChangedBackgroundBackgroundImageURL) {
-        newValue = currentState.value!.copyWith(backgroundImageURL: event.value);
+      if (event is ChangedBackgroundBackgroundImage) {
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(backgroundImage: await publicMediumRepository(appId: appId)!.get(event.value));
+        else
+          newValue = new BackgroundModel(
+                                 documentID: currentState.value!.documentID,
+                                 comments: currentState.value!.comments,
+                                 backgroundImage: null,
+                                 useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,
+                                 beginGradientPosition: currentState.value!.beginGradientPosition,
+                                 endGradientPosition: currentState.value!.endGradientPosition,
+                                 shadow: currentState.value!.shadow,
+                                 decorationColors: currentState.value!.decorationColors,
+                                 border: currentState.value!.border,
+          );
         yield SubmittableBackgroundForm(value: newValue);
 
         return;
@@ -120,7 +132,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
                                  comments: currentState.value!.comments,
-                                 backgroundImageURL: currentState.value!.backgroundImageURL,
+                                 backgroundImage: currentState.value!.backgroundImage,
                                  useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,
                                  beginGradientPosition: currentState.value!.beginGradientPosition,
                                  endGradientPosition: currentState.value!.endGradientPosition,
