@@ -20,7 +20,7 @@ class ChainOfMediumModels {
   }
 
   static void _addPlatformMediumUrl(List<String?> urls, PlatformMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == MediumType.Photo) {
+    if (currentPolicy.mediumType == PlatformMediumType.Photo) {
       urls.add(currentPolicy.url);
     }
   }

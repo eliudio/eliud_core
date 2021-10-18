@@ -25,7 +25,7 @@ class DefaultStyleFamily extends StyleFamily {
   Style defaultStyle() => styles.values.first;
 
   /*
-   * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_decor_style
+   * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_pkg_create
    * will allow to create / update the style
    */
   Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;

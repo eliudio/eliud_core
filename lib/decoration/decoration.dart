@@ -11,8 +11,8 @@ import 'package:flutter/cupertino.dart';
 typedef CreateWidget = Widget Function();
 
 /*
-   * Allows the package to decorate the components. This can for example be used to allow a decoration to decide to allow to update the interface ("eliud_decor_app")
-   * or adjust the style ("eliud_decor_style).
+   * Allows the package to decorate the components. This can for example be used to allow a decoration to decide to allow to update the interface
+   * or adjust the style, e.g. eliud_pkg_create.
    */
 enum DecorationDrawerType {
   Left, Right

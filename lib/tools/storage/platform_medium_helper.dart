@@ -9,6 +9,10 @@ import 'medium_base.dart';
 import 'medium_helper.dart';
 import 'upload_info.dart';
 
+PlatformMediumType platformMediumType(AbstractMediumType abstractMediumType) {
+  return toPlatformMediumType(abstractMediumType.index);
+}
+
 class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   static String PACKAGENAME = 'priv_req';
   final PrivilegeLevelRequiredSimple privilegeLevelRequired;
@@ -112,6 +116,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       UploadInfo? pageImage,
       UploadInfo? pageThumbnail,
       PhotoWithThumbnail pageData,
+      AbstractMediumType type,
       dynamic previousMediumId) async {
     var pageImageModel = PlatformMediumModel(
         documentID: newDocumentID,
@@ -124,7 +129,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
         conditions: ConditionsSimpleModel(
             privilegeLevelRequired: privilegeLevelRequired),
-        mediumType: PlatformMediumType.Photo,
+        mediumType: platformMediumType(type),
         mediumWidth: pageData.photoData.width,
         mediumHeight: pageData.photoData.height,
         thumbnailWidth: pageData.thumbNailData.width,

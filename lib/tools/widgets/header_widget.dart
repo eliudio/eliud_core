@@ -29,7 +29,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   Widget build(BuildContext context) {
     return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
       Row(children: [
-        text(context, widget.title),
+        h5(context, widget.title),
         Spacer(),
         if (widget.cancelAction != null) iconButton(context, onPressed: () {
           widget.cancelAction!();

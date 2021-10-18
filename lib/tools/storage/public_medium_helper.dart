@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 
 import 'medium_base.dart';
 import 'medium_helper.dart';
 import 'upload_info.dart';
+
+PublicMediumType publicMediumType(AbstractMediumType abstractMediumType) {
+  return toPublicMediumType(abstractMediumType.index);
+}
 
 class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
   static String PACKAGENAME = 'public';
@@ -102,6 +107,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       UploadInfo? pageImage,
       UploadInfo? pageThumbnail,
       PhotoWithThumbnail pageData,
+      AbstractMediumType type,
       dynamic previousMediumId) async {
     var pageImageModel = PublicMediumModel(
         documentID: newDocumentID,
@@ -111,7 +117,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         ref: pageImage == null ? null : pageImage.ref,
         refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
         urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
-        mediumType: PublicMediumType.Photo,
+        mediumType: publicMediumType(type),
         mediumWidth: pageData.photoData.width,
         mediumHeight: pageData.photoData.height,
         thumbnailWidth: pageData.thumbNailData.width,

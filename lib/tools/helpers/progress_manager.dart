@@ -7,7 +7,7 @@ typedef void ReportProgress(double progress);
  * the specified weightedSteps, which could be estimate to be a multitude of the standard weight of 1.
  * Progress of a step is reported with progressedNextStep. Updates in between steps can be reported with progressWithinCurrentStep.
  *
- * For example use, see package eliud_decor_creator, new_app_bloc.dart
+ * For example use, see package eliud_pkg_create, new_app_bloc.dart
  */
 class ProgressManager {
   final ReportProgress reportProgress;

@@ -24,12 +24,12 @@ class DefaultDialogImpl implements HasDialog {
     DialogStatefulWidgetHelper.openIt(
       context,
       _frontEndStyle.dialogWidgetStyle().messageDialog(
-        context,
-        title: title,
-        message: message,
-        widthFraction: widthFraction,
-        includeHeading: includeHeading,
-      ),
+            context,
+            title: title,
+            message: message,
+            widthFraction: widthFraction,
+            includeHeading: includeHeading,
+          ),
     );
   }
 
@@ -45,124 +45,139 @@ class DefaultDialogImpl implements HasDialog {
       DialogStatefulWidgetHelper.openIt(
         context,
         _frontEndStyle.dialogWidgetStyle().errorDialog(
-          context,
-          title: title,
-          errorMessage: errorMessage,
-          widthFraction: widthFraction,
-          includeHeading: includeHeading,
-        ),
+              context,
+              title: title,
+              errorMessage: errorMessage,
+              widthFraction: widthFraction,
+              includeHeading: includeHeading,
+            ),
       );
 
   @override
-  void openAckNackDialog(BuildContext context,
-          {required String title,
-          required String message,
-          required OnSelection onSelection,
-          String? ackButtonLabel,
-          String? nackButtonLabel,
-          double? widthFraction, // percentage of screen width
-          bool? includeHeading,
-          }) =>
+  void openAckNackDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required OnSelection onSelection,
+    String? ackButtonLabel,
+    String? nackButtonLabel,
+    double? widthFraction, // percentage of screen width
+    bool? includeHeading,
+  }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
           _frontEndStyle.dialogWidgetStyle().ackNackDialog(
-            context,
-            title: title,
-            message: message,
-            onSelection: onSelection,
-            ackButtonLabel: ackButtonLabel,
-            nackButtonLabel: nackButtonLabel,
-            widthFraction: widthFraction,
-            includeHeading: includeHeading,
-          ));
+                context,
+                title: title,
+                message: message,
+                onSelection: onSelection,
+                ackButtonLabel: ackButtonLabel,
+                nackButtonLabel: nackButtonLabel,
+                widthFraction: widthFraction,
+                includeHeading: includeHeading,
+              ));
 
   @override
-  void openEntryDialog(BuildContext context,
-          {required String title,
-          String? ackButtonLabel,
-          String? nackButtonLabel,
-          String? hintText,
-          required Function(String? response) onPressed,
-          String? initialValue,
-          double? widthFraction, // percentage of screen width
-          bool? includeHeading,
-          }) =>
+  void openEntryDialog(
+    BuildContext context, {
+    required String title,
+    String? ackButtonLabel,
+    String? nackButtonLabel,
+    String? hintText,
+    required Function(String? response) onPressed,
+    String? initialValue,
+    double? widthFraction, // percentage of screen width
+    bool? includeHeading,
+  }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
         _frontEndStyle.dialogWidgetStyle().entryDialog(
-          context,
-          title: title,
-          ackButtonLabel: ackButtonLabel,
-          nackButtonLabel: nackButtonLabel,
-          hintText: hintText,
-          onPressed: onPressed,
-          initialValue: initialValue,
-          widthFraction: widthFraction,
-          includeHeading: includeHeading,
-        ),
+              context,
+              title: title,
+              ackButtonLabel: ackButtonLabel,
+              nackButtonLabel: nackButtonLabel,
+              hintText: hintText,
+              onPressed: onPressed,
+              initialValue: initialValue,
+              widthFraction: widthFraction,
+              includeHeading: includeHeading,
+            ),
       );
 
   @override
-  void openSelectionDialog(BuildContext context,
-      {required String title,
-      required List<String> options,
-      required OnSelection onSelection,
-      String? buttonLabel,
-      double? widthFraction, // percentage of screen width
-      bool? includeHeading,
-      }) {
+  void openSelectionDialog(
+    BuildContext context, {
+    required String title,
+    required List<String> options,
+    required OnSelection onSelection,
+    String? buttonLabel,
+    double? widthFraction, // percentage of screen width
+    bool? includeHeading,
+  }) {
     DialogStatefulWidgetHelper.openIt(
         context,
         _frontEndStyle.dialogWidgetStyle().selectionDialog(
-          context,
-          title: title,
-          options: options,
-          buttonLabel: buttonLabel,
-          onSelection: onSelection,
-          widthFraction: widthFraction,
-          includeHeading: includeHeading,
-        ));
+              context,
+              title: title,
+              options: options,
+              buttonLabel: buttonLabel,
+              onSelection: onSelection,
+              widthFraction: widthFraction,
+              includeHeading: includeHeading,
+            ));
   }
 
   @override
-  void openComplexDialog(BuildContext context,
-          {required String title,
-          required Widget child,
-          VoidCallback? onPressed,
-          String? buttonLabel,
-          double? widthFraction, // percentage of screen width
-          bool? includeHeading,
-          }) =>
+  void openComplexDialog(
+    BuildContext context, {
+    required String title,
+    required Widget child,
+    VoidCallback? onPressed,
+    String? buttonLabel,
+    double? widthFraction, // percentage of screen width
+    bool? includeHeading,
+  }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
           _frontEndStyle.dialogWidgetStyle().complexDialog(
-            context,
-            title: title,
-            child: child,
-            onPressed: onPressed,
-            buttonLabel: buttonLabel,
-            widthFraction: widthFraction,
-            includeHeading: includeHeading,
-          ));
+                context,
+                title: title,
+                child: child,
+                onPressed: onPressed,
+                buttonLabel: buttonLabel,
+                widthFraction: widthFraction,
+                includeHeading: includeHeading,
+              ));
 
   @override
-  void openFlexibleDialog(BuildContext context,
-      {required String title,
-      required Widget child,
-      required List<Widget> buttons,
-      double? widthFraction, // percentage of screen width
-      bool? includeHeading,
-      }) {
-    DialogStatefulWidgetHelper.openIt(context,
-        _frontEndStyle.dialogWidgetStyle().flexibleDialog(context, title: title, child: child, buttons: buttons,           widthFraction: widthFraction,
-          includeHeading: includeHeading,
-        ));
+  void openFlexibleDialog(
+    BuildContext context, {
+    String? title,
+    required Widget child,
+    List<Widget>? buttons,
+    double? widthFraction, // percentage of screen width
+    bool? includeHeading,
+  }) {
+    DialogStatefulWidgetHelper.openIt(
+        context,
+        _frontEndStyle.dialogWidgetStyle().flexibleDialog(
+              context,
+              title: title,
+              child: child,
+              buttons: buttons,
+              widthFraction: widthFraction,
+              includeHeading: includeHeading,
+            ));
   }
 
   @override
-  void openWidgetDialog(BuildContext context, {required Widget child,
+  void openWidgetDialog(
+    BuildContext context, {
+    required Widget child,
   }) {
-    DialogStatefulWidgetHelper.openIt(context, child,
+    DialogStatefulWidgetHelper.openIt(
+      context,
+      child,
     );
   }
 }

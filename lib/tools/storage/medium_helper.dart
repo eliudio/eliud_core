@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:path/path.dart';
 
@@ -14,6 +15,11 @@ import 'upload_info.dart';
 
 typedef void PdfAvailable(dynamic? mediumModel);
 //typedef void MediumAvailable(dynamic? mediumModel);
+
+// This is called Abstract as it is a representation of medium type used in the abstract MediumHelper class
+enum AbstractMediumType {
+  Photo, Video, Pdf, Unknown
+}
 
 abstract class MediumHelper<T> {
   final String appId;
@@ -46,6 +52,7 @@ abstract class MediumHelper<T> {
       UploadInfo? pageImage,
       UploadInfo? pageThumbnail,
       PhotoWithThumbnail pageData,
+      AbstractMediumType type,
       dynamic previousMediumId);
   /*
    * We split task in equal parts. That's not entirely correct, but we're ok with that.
@@ -553,7 +560,7 @@ abstract class MediumHelper<T> {
 
       // Create the MediumModel representation
       await constructMediumModel(newDocumentID, newBaseName, pageImage,
-          pageThumbnail, pageData, previousMediumId);
+          pageThumbnail, pageData, AbstractMediumType.Photo, previousMediumId);
 
       previousMediumId = newDocumentID;
       taskCounter++;
@@ -563,7 +570,7 @@ abstract class MediumHelper<T> {
 
     // Create the ImageModel
     var returnMe = await constructMediumModel(documentID, baseName, fileInfo,
-        fileInfoThumbnail, photoData, previousMediumId);
+        fileInfoThumbnail, photoData, AbstractMediumType.Pdf, previousMediumId);
 
     taskCounter++;
     _feedBackAggregatedProgress(taskCounter, totalTasks, 1,

@@ -35,7 +35,7 @@ abstract class StyleFamily extends Equatable {
 
   /*
    * Implement this methods in your style family to support inserts.
-   * This will be used from for example eliud_decor_style when StyleFamily::canInsert
+   * This will be used from for example when eliud_pkg_create StyleFamily::canInsert
    * is true and will be used in combination with Style::update(...)
    */
   Style? defaultNew(String newName) => null;

@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,16 +47,14 @@ class DialogStatefulWidgetHelper {
 
 // We use this helper allowing to maintain, reuse and change common dialog behavior
 class DialogStateHelper {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   DialogStateHelper();
 
   Widget build(
     BuildContext context, {
-    required String title,
+    String? title,
     Key? key,
     required Widget contents,
-    required List<Widget> buttons,
+    List<Widget>? buttons,
     double? width,
     required DialogButtonPosition dialogButtonPosition,
     Widget? separator,
@@ -83,13 +80,15 @@ class DialogStateHelper {
                 includeHeading: includeHeading)));
   }
 
-  Widget _getRowWithButtons(List<Widget> buttons, {Widget? title}) {
+  Widget _getRowWithButtons(List<Widget>? buttons, {Widget? title}) {
     var widgets = <Widget>[];
     if (title != null) {
       widgets.add(title);
     }
     widgets.add(Spacer());
-    widgets.addAll(buttons);
+    if (buttons != null) {
+      widgets.addAll(buttons);
+    }
     return Row(
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
@@ -109,9 +108,9 @@ class DialogStateHelper {
   }
 
   Widget _titleAndFieldsAndContent(BuildContext context,
-      {required String title,
+      {String? title,
       required Widget contents,
-      required List<Widget> buttons,
+      List<Widget>? buttons,
       double? width,
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator,
@@ -119,13 +118,13 @@ class DialogStateHelper {
     var items = <Widget>[];
 
     var titleContainer;
-    if ((includeHeading == null) || (includeHeading)) {
+    if ((includeHeading != null) && (includeHeading) && (buttons != null)) {
       // Title
       var _title = StyleRegistry.registry()
           .styleWithContext(context)
           .frontEndStyle()
           .textStyle()
-          .h4(context, title);
+          .h4(context, title ?? '');
 
       var titleWidget;
       if ((dialogButtonPosition != null) &&

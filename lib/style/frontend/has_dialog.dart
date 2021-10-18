@@ -69,9 +69,9 @@ abstract class HasDialog {
 
   void openFlexibleDialog(
     BuildContext context, {
-    required String title,
+    String? title,
     required Widget child,
-    required List<Widget> buttons,
+    List<Widget>? buttons,
     double? widthFraction, // percentage of screen width
     bool? includeHeading,
   });
@@ -214,9 +214,9 @@ void openComplexDialog(
 
 void openFlexibleDialog(
   BuildContext context, {
-  required String title,
+  String? title,
   required Widget child,
-  required List<Widget> buttons,
+  List<Widget>? buttons,
   double? widthFraction, // percentage of screen width
   bool? includeHeading,
 }) =>
@@ -226,7 +226,8 @@ void openFlexibleDialog(
         .dialogStyle()
         .openFlexibleDialog(
           context, title: title,
-          child: child, buttons: buttons,
+          child: child,
+          buttons: buttons,
           widthFraction: widthFraction, // percentage of screen width
           includeHeading: includeHeading,
         );

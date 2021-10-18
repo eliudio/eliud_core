@@ -41,14 +41,14 @@ abstract class Style extends Equatable {
 
   /*
    * Implement this methods in your style to support updates.
-   * This will be used from for example eliud_decor_style when Style::allowUpdates.canUpdate
+   * This will be used from for example eliud_pkg_create when Style::allowUpdates.canUpdate
    * is true
    */
   bool update(BuildContext context) => false;
 
   /*
    * Implement this methods in your style to support updates.
-   * This will be used from for example eliud_decor_style when Style::allowUpdates.canCopy
+   * This will be used from for example eliud_pkg_create when Style::allowUpdates.canCopy
    * is true and will be used in combination with update(...)
    */
   Style? copy(String newName) => null;

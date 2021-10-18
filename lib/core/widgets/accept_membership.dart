@@ -75,13 +75,13 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   void _openPolicy(String? title, PlatformMediumModel item) {
     openWidgetDialog(
-          context,
-          child: PlatformMediumDialog(
-            width: 100,
-            title: title,
-            platformMediumModel: item,
-          ),
-        );
+      context,
+      child: PlatformMediumDialog(
+        width: 100,
+        title: title,
+        platformMediumModel: item,
+      ),
+    );
   }
 
   @override
@@ -112,33 +112,32 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 */
         Text(policy.name!),
         Spacer(),
-        button(context, label: 'Read',
-                    onPressed: () async {
-                      _openPolicy(policy.name, handler.item!);
-                    }),
+        button(context, label: 'Read', onPressed: () async {
+          _openPolicy(policy.name, handler.item!);
+        }),
       ]));
       i++;
     });
 
     return actionContainer(context,
-            child: Center(
-                child: Container(
-              width: AcceptMembershipWidget.width(context),
-              height: AcceptMembershipWidget.height(context),
-              child: addStuff(contents, app),
-              //padding: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    )
-                  ]),
-            )));
+        child: Center(
+            child: Container(
+          width: AcceptMembershipWidget.width(context),
+          height: AcceptMembershipWidget.height(context),
+          child: addStuff(contents, app),
+          //padding: EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                )
+              ]),
+        )));
   }
 
   Widget addStuff(List<Widget> content, AppModel app) {
@@ -173,23 +172,23 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
       button(
-            context,
-            label: 'Accept',
-            onPressed: _allEnabled(app)
-                ? () async {
-                    BlocProvider.of<AccessBloc>(context)
-                        .add(AcceptedMembership(widget.member, widget.usr));
-                  }
-                : null,
-          ),
-      Spacer(),
-      button(
         context,
         label: 'Cancel',
         onPressed: () async {
           BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
         },
-      )
+      ),
+      Spacer(),
+      button(
+        context,
+        label: 'Accept',
+        onPressed: _allEnabled(app)
+            ? () async {
+                BlocProvider.of<AccessBloc>(context)
+                    .add(AcceptedMembership(widget.member, widget.usr));
+              }
+            : null,
+      ),
     ]));
 
     return ListView(

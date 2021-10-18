@@ -251,9 +251,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
 
   @override
   Widget flexibleDialog(BuildContext context,
-      {required String title,
+      {String? title,
       required Widget child,
-      required List<Widget> buttons,
+      List<Widget>? buttons,
       bool? includeHeading,
       Key? key,
       double? widthFraction, // percentage of screen width
