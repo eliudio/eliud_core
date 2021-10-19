@@ -20,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../registry.dart';
 
-class PageComponent extends StatelessWidget {
+class PageComponent extends StatefulWidget {
   final GlobalKey _pageKey = GlobalKey();
 
   final GlobalKey<NavigatorState>? navigatorKey;
@@ -28,11 +28,19 @@ class PageComponent extends StatelessWidget {
   final String pageId;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
+  GlobalKey<ScaffoldMessengerState>();
   final Map<String, dynamic>? parameters;
 
   PageComponent({this.navigatorKey, required this.appId, required this.pageId, this.parameters});
 
+  @override
+  State<StatefulWidget> createState() {
+    return _PageComponentState();
+  }
+
+}
+
+class _PageComponentState extends State<PageComponent> {
   Future<PageModel?> getPage(String appId, String pageId) {
     return pageRepository(appId: appId)!.get(pageId);
   }
@@ -47,18 +55,18 @@ class PageComponent extends StatelessWidget {
           if (accessState is AppLoaded) {
             var app = accessState.app;
             return FutureBuilder<PageModel?>(
-                future: getPage(appId, pageId),
+                future: getPage(widget.appId, widget.pageId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var pageModel = snapshot.data!;
-                    return Decorations.instance().createDecoratedPage(context, _pageKey, () => PageContentsWidget(
-                      key: _pageKey,
+                    return Decorations.instance().createDecoratedPage(context, widget._pageKey, () => PageContentsWidget(
+                      key: widget._pageKey,
                       state: accessState,
-                      pageID: pageId,
+                      pageID: widget.pageId,
                       pageModel: pageModel,
-                      parameters: parameters,
-                      scaffoldKey: scaffoldKey,
-                      scaffoldMessengerKey: scaffoldMessengerKey,
+                      parameters: widget.parameters,
+                      scaffoldKey: widget.scaffoldKey,
+                      scaffoldMessengerKey: widget.scaffoldMessengerKey,
                     ), pageModel)();
                   }
                   return progressIndicator(context);
@@ -68,6 +76,7 @@ class PageComponent extends StatelessWidget {
           }
         });
   }
+
 }
 
 class PageContentsWidget extends StatefulWidget {
