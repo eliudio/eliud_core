@@ -20,7 +20,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../registry.dart';
 
-// ignore: must_be_immutable
 class PageComponent extends StatelessWidget {
   final GlobalKey _pageKey = GlobalKey();
 
@@ -108,9 +107,9 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageTitle = value.title;
     var pageID = widget.pageID;
     var parameters = widget.parameters;
-    if (accessState is AppProcessingState) {
+/*    if (accessState is AppProcessingState) {
       theBody = progressIndicator(context);
-    } else if ((accessState is LoggedIn) &&
+    } else */if ((accessState is LoggedIn) &&
         (accessState.forceAcceptMembership())) {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);

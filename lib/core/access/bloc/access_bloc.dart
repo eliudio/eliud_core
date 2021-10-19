@@ -155,6 +155,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppAndPageEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+/*
         var toYield = await AppProcessingState.getAppProcessingState(
             ProcessingType.SwitchAppAndPage,
             theState,
@@ -164,6 +165,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         add(SwitchAppAndPageProcessingEvent(
             event.appId, event.pageId, event.parameters));
       } else if (event is SwitchAppAndPageProcessingEvent) {
+*/
         var app = await _fetchApp(event.appId);
         if (app == null) {
           var toYield =
@@ -181,11 +183,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+/*
         var toYield = await AppProcessingState.getAppProcessingState(
             ProcessingType.SwitchApp, theState, app, theState.playStoreApp);
         yield toYield;
         add(SwitchAppProcessingEvent(event.appId));
       } else if (event is SwitchAppProcessingEvent) {
+*/
         _invokeStateChangeListenersBefore(event, theState);
         var app = await _fetchApp(event.appId);
         if (app == null) {
@@ -204,11 +208,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LogoutEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+/*
         var toYield = await AppProcessingState.getAppProcessingState(
             ProcessingType.LogoutProcess, theState, app, theState.playStoreApp);
         yield toYield;
         add(LogoutProcessingEvent());
       } else if (event is LogoutProcessingEvent) {
+*/
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!
             .signOut();
@@ -221,6 +227,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is LoginEvent) {
         _invokeStateChangeListenersBefore(event, theState);
+        var usr;
+        try {
+          usr = await AbstractMainRepositorySingleton.singleton
+              .userRepository()!
+              .signInWithGoogle(navigatorBloc);
+        } catch (_) {
+        }
+/*
         try {
           var usr = await AbstractMainRepositorySingleton.singleton
               .userRepository()!
@@ -237,6 +251,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         } catch (_) {}
       } else if (event is GoogleLoginProcessEvent) {
         var usr = event.usr;
+*/
         var accessState =
             await _mapUsrAndApp(usr, app, theState.playStoreApp, event.actions);
         var toYield = accessState;
@@ -310,16 +325,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   Future<AccessState> _mapOldStateToNewApp(AccessState state, AppModel app,
       AppModel? playstoreApp, PostLoginAction? postLoginAction) async {
-    if (state is AppProcessingState) {
-      state = state.stateBeforeProcessing;
-      if (state is LoggedIn) {
-        if (!isSubscibred(state.member, app)) {
-          return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
-              state.usr, state.member, app, playstoreApp, postLoginAction);
-        } else {
-          return await LoggedInWithMembership.getLoggedInWithMembership(
-              state.usr, state.member, app, playstoreApp);
-        }
+    if (state is LoggedIn) {
+      if (!isSubscibred(state.member, app)) {
+        return await LoggedInWithoutMembership.getLoggedInWithoutMembership(
+            state.usr, state.member, app, playstoreApp, postLoginAction);
+      } else {
+        return await LoggedInWithMembership.getLoggedInWithMembership(
+            state.usr, state.member, app, playstoreApp);
       }
     }
     return await LoggedOut.getLoggedOut(app, playstoreApp);

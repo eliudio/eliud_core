@@ -424,74 +424,6 @@ abstract class AppLoaded extends AccessState {
   bool isBlocked();
 }
 
-enum ProcessingType {
-  LoginProcess, LogoutProcess, SwitchApp, SwitchAppAndPage
-}
-
-class AppProcessingState extends AppLoaded {
-  ProcessingType processingType;
-  AccessState stateBeforeProcessing;
-
-  AppProcessingState._(
-      this.processingType,
-      this.stateBeforeProcessing,
-      AppModel app,
-      AppModel? playstoreApp,
-      Map<String?, bool> pagesAccess,
-      Map<String?, bool> dialogAccess,
-      Map<String, PackageCondition?> packageConditionsAccess)
-      : super(app, playstoreApp, pagesAccess, dialogAccess,
-      packageConditionsAccess);
-
-  @override
-  bool hasAccessToOtherApps() => false;
-
-  @override
-  bool isLoggedIn() => false;
-
-  @override
-  bool forceAcceptMembership() => false;
-
-  @override
-  bool memberIsOwner() => false;
-
-  @override
-  MemberModel? getMember() => null;
-
-  @override
-  PrivilegeLevel getPrivilegeLevel() => PrivilegeLevel.NoPrivilege;
-
-  @override
-  bool isBlocked() => false;
-
-  @override
-  List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
-
-  static Future<AppProcessingState> getAppProcessingState(ProcessingType processingType, AccessState stateBeforeProcessing, AppModel app, AppModel? playstoreApp) async {
-    var access = await AccessHelper._getAccess(null, app, false);
-    var appProcessingState = AppProcessingState._(processingType, stateBeforeProcessing, app, playstoreApp, access.pagesAccess,
-        access.dialogsAccess, access.packageConditionsAccess);
-    return appProcessingState;
-  }
-
-  @override
-  List<Object?> get props =>
-      [processingType, stateBeforeProcessing, app, playStoreApp, pagesAccess, dialogAccess, packageConditionsAccess];
-
-  @override
-  bool operator == (Object other) =>
-      identical(this, other) ||
-          other is AppProcessingState &&
-              runtimeType == other.runtimeType &&
-              processingType == other.processingType &&
-              stateBeforeProcessing == other.stateBeforeProcessing &&
-              app == other.app &&
-              playStoreApp == other.playStoreApp &&
-              mapEquals(pagesAccess, other.pagesAccess) &&
-              mapEquals(dialogAccess, other.dialogAccess) &&
-              mapEquals(packageConditionsAccess, other.packageConditionsAccess);
-}
-
 class LoggedOut extends AppLoaded {
   static Future<LoggedOut> getLoggedOut(
       AppModel app, AppModel? playstoreApp) async {
@@ -541,7 +473,7 @@ class LoggedOut extends AppLoaded {
   @override
   bool operator == (Object other) =>
       identical(this, other) ||
-          other is AppProcessingState &&
+          other is LoggedOut &&
               runtimeType == other.runtimeType &&
               app == other.app &&
               playStoreApp == other.playStoreApp &&
