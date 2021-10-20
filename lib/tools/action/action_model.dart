@@ -6,6 +6,7 @@ import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../common_tools.dart';
@@ -40,7 +41,7 @@ class ActionModelRegistry {
 }
 
 abstract class ActionModel {
-  final String? appID;
+  final String appID;
 
   // Action only accessible conditionally. Be careful: access conditions can also be specified on the level of the page / dialog.
   // So if an action is "goto page X", then the condition of the page X applies. The lowest condition applies
@@ -85,6 +86,9 @@ abstract class ActionModel {
     }
     return true;
   }
+
+  // used for the action to describe itself. A bit like toString but as a Widget
+  Widget describe(BuildContext context);
 }
 
 abstract class ActionModelMapper {
@@ -100,7 +104,7 @@ abstract class ActionModelMapper {
 class FunctionToRun extends ActionModel {
   final Function() actionToRun;
 
-  FunctionToRun(String? appID, {ConditionsModel? conditions, required this.actionToRun}) :
+  FunctionToRun(String appID, {ConditionsModel? conditions, required this.actionToRun}) :
         super(appID, conditions: conditions, actionType: 'FunctionToRun');
 
   @override
@@ -110,14 +114,17 @@ class FunctionToRun extends ActionModel {
   ActionEntity toEntity({String? appId}) {
     throw Exception('Not implemented, not expected');
   }
+
+  @override
+  Widget describe(BuildContext context) => text(context, 'Run a function');
 }
 
 // ********************************** GotoPage **********************************
 
 class GotoPage extends ActionModel {
-  final String? pageID;
+  final String pageID;
 
-  GotoPage(String? appID, {ConditionsModel? conditions, String? pageID}) : this.pageID = pageID?.toLowerCase(),
+  GotoPage(String appID, {ConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
         super(appID, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
@@ -130,10 +137,12 @@ class GotoPage extends ActionModel {
   }
 
   static ActionModel fromEntity(GotoPageEntity entity) {
+    if (entity.appID == null) throw Exception('entity GotoPage.appID is null');
+    if (entity.pageID == null) throw Exception('entity GotoPage.pageID is null');
     return GotoPage(
-        entity.appID,
+        entity.appID!,
         conditions: ConditionsModel.fromEntity(entity.conditions),
-        pageID: entity.pageID
+        pageID: entity.pageID!
     );
   }
 
@@ -145,6 +154,9 @@ class GotoPage extends ActionModel {
   String message() {
     return 'Switching page';
   }
+
+  @override
+  Widget describe(BuildContext context) => text(context, 'Goto page ' + pageID!);
 }
 
 class GotoPageModelMapper implements ActionModelMapper {
@@ -161,9 +173,9 @@ class GotoPageModelMapper implements ActionModelMapper {
 // ********************************** OpenDialog **********************************
 
 class OpenDialog extends ActionModel {
-  final String? dialogID;
+  final String dialogID;
 
-  OpenDialog(String? appID, { ConditionsModel? conditions, String? dialogID}) : this.dialogID = dialogID?.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
+  OpenDialog(String appID, { ConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -175,10 +187,12 @@ class OpenDialog extends ActionModel {
   }
 
   static ActionModel fromEntity(OpenDialogEntity entity) {
+    if (entity.appID == null) throw Exception('entity OpenDialog.appID is null');
+    if (entity.dialogID == null) throw Exception('entity OpenDialog.dialogID is null');
     return OpenDialog(
-        entity.appID,
+        entity.appID!,
         conditions: ConditionsModel.fromEntity(entity.conditions),
-        dialogID: entity.dialogID);
+        dialogID: entity.dialogID!);
   }
 
   static Future<ActionModel> fromEntityPlus(OpenDialogEntity entity) async {
@@ -189,6 +203,9 @@ class OpenDialog extends ActionModel {
   String message() {
     return 'Open Dialog';
   }
+
+  @override
+  Widget describe(BuildContext context) => text(context, 'Open dialog ' + dialogID!);
 }
 
 class OpenDialogModelMapper implements ActionModelMapper {
@@ -205,9 +222,9 @@ class OpenDialogModelMapper implements ActionModelMapper {
 // ********************************** SwitchApp **********************************
 
 class SwitchApp extends ActionModel {
-  final String? toAppID;
+  final String toAppID;
 
-  SwitchApp(String? appID, { ConditionsModel? conditions, this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
+  SwitchApp(String appID, { ConditionsModel? conditions, required this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -219,10 +236,12 @@ class SwitchApp extends ActionModel {
   }
 
   static ActionModel fromEntity(SwitchAppEntity entity) {
+    if (entity.appID == null) throw Exception('entity SwitchApp.appID is null');
+    if (entity.toAppID == null) throw Exception('entity SwitchApp.toAppID is null');
     return SwitchApp(
-        entity.appID,
+        entity.appID!,
         conditions: ConditionsModel.fromEntity(entity.conditions),
-        toAppID: entity.toAppID);
+        toAppID: entity.toAppID!);
   }
 
   static Future<ActionModel> fromEntityPlus(SwitchAppEntity entity) async {
@@ -235,6 +254,9 @@ class SwitchApp extends ActionModel {
   String message() {
     return msg;
   }
+
+  @override
+  Widget describe(BuildContext context) => text(context, 'Switch to app ' + toAppID);
 }
 
 class SwitchAppModelMapper implements ActionModelMapper {
@@ -253,7 +275,7 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel? menuDef;
 
-  PopupMenu(String? appID, { ConditionsModel? conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
+  PopupMenu(String appID, { ConditionsModel? conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -265,15 +287,14 @@ class PopupMenu extends ActionModel {
   }
 
   static ActionModel fromEntity(PopupMenuEntity entity) {
+    if (entity.appID == null) throw Exception('entity PopupMenu.appID is null');
     return PopupMenu(
-      entity.appID,
+      entity.appID!,
       conditions: ConditionsModel.fromEntity(entity.conditions),
     );
   }
 
   static Future<ActionModel?> fromEntityPlus(PopupMenuEntity entity) async {
-    if (entity == null) return null;
-
     MenuDefModel? menuDefModel;
     if (entity.menuDefID != null) {
       try {
@@ -283,8 +304,10 @@ class PopupMenu extends ActionModel {
       } catch (_) {}
     }
 
+    if (entity.appID == null) throw Exception('entity PopupMenu.appID is null');
+
     return PopupMenu(
-        entity.appID,
+        entity.appID!,
         conditions: ConditionsModel.fromEntity(entity.conditions),
         menuDef: menuDefModel
     );
@@ -294,6 +317,9 @@ class PopupMenu extends ActionModel {
   String message() {
     return 'Open menu';
   }
+
+  @override
+  Widget describe(BuildContext context) => text(context, 'Open popup menu');
 }
 
 class PopupMenuModelMapper implements ActionModelMapper {
@@ -320,7 +346,7 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum? internalActionEnum ;
 
-  InternalAction(String? appID, { ConditionsModel? conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
+  InternalAction(String appID, { ConditionsModel? conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -333,13 +359,14 @@ class InternalAction extends ActionModel {
 
   static ActionModel fromEntity(InternalActionEntity entity) {
     var internalAction = entity.action;
-    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Login);
-    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.Flush);
-    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID, internalActionEnum: InternalActionEnum.OtherApps);
+    if (entity.appID == null) throw Exception('entity InternalAction.appID is null');
+    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Login);
+    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Logout);
+    if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Flush);
+    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.OtherApps);
     return
       InternalAction(
-          entity.appID,
+          entity.appID!,
           conditions: ConditionsModel.fromEntity(entity.conditions),
           internalActionEnum: InternalActionEnum.Unknown
       );
@@ -361,6 +388,17 @@ class InternalAction extends ActionModel {
       case InternalActionEnum.Unknown: return unknownMsg;
     }
     return unknownMsg;
+  }
+
+  @override
+  Widget describe(BuildContext context) {
+    switch (internalActionEnum) {
+      case InternalActionEnum.Login: return text(context, 'Login');
+      case InternalActionEnum.Logout: return text(context, 'Logout');
+      case InternalActionEnum.Flush: return text(context, 'Flushing cache');
+      case InternalActionEnum.OtherApps: return text(context, 'Other apps');
+    }
+    return text(context, '?');
   }
 }
 

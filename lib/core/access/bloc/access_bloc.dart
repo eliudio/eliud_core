@@ -136,20 +136,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if ((event.member != null) && (theState is LoggedIn)) {
           var toYield =
               await theState.copyWith(event.member, theState.playStoreApp);
-
-/*
           var sameState = toYield == theState;
 
           if (!sameState) {
-*/
-          _invokeStateChangeListenersAfter(event, toYield);
-          yield toYield;
-          if ((event.refresh != null) && event.refresh!) {
-            goHome(app.documentID!, toYield);
+            _invokeStateChangeListenersAfter(event, toYield);
+            yield toYield;
+            if ((event.refresh != null) && event.refresh!) {
+              goHome(app.documentID!, toYield);
+            }
           }
-/*
-          }
-*/
         } else {
           // Assumed the result of having logged out, which has been processed separately by the bloc already
         }
@@ -232,8 +227,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           usr = await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signInWithGoogle(navigatorBloc);
-        } catch (_) {
-        }
+        } catch (_) {}
 /*
         try {
           var usr = await AbstractMainRepositorySingleton.singleton
@@ -299,7 +293,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               (state.getMember()!.documentID! == theState.app.ownerID!)) {
             // if the current member is the owner, he can change his privilege
             // this can be done for the owner to look at the app with a different priv. to "test" that priv.
-            var toYield = await theState.copyWithOtherPrivilege(event.privilege, event.blocked);
+            var toYield = await theState.copyWithOtherPrivilege(
+                event.privilege, event.blocked);
             goHome(app.documentID!, toYield);
             yield toYield;
           }

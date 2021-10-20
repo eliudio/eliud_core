@@ -12,6 +12,7 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +25,12 @@ class PageComponent extends StatefulWidget {
   final GlobalKey _pageKey = GlobalKey();
 
   final GlobalKey<NavigatorState>? navigatorKey;
-  final String appId;
-  final String pageId;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
   GlobalKey<ScaffoldMessengerState>();
   final Map<String, dynamic>? parameters;
+  final String appId;
+  final String pageId;
 
   PageComponent({this.navigatorKey, required this.appId, required this.pageId, this.parameters});
 
@@ -37,44 +38,41 @@ class PageComponent extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _PageComponentState();
   }
-
 }
 
 class _PageComponentState extends State<PageComponent> {
+  _PageComponentState();
+
   Future<PageModel?> getPage(String appId, String pageId) {
     return pageRepository(appId: appId)!.get(pageId);
   }
 
   @override
   Widget build(BuildContext context) {
-    var navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
-    return /*BlocProvider<AccessBloc >(
-      create: (context) => AccessBloc(navigatorBloc)..add(InitApp(appId, false)),
-      child: */BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-          if (accessState is AppLoaded) {
-            var app = accessState.app;
-            return FutureBuilder<PageModel?>(
-                future: getPage(widget.appId, widget.pageId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    var pageModel = snapshot.data!;
-                    return Decorations.instance().createDecoratedPage(context, widget._pageKey, () => PageContentsWidget(
-                      key: widget._pageKey,
-                      state: accessState,
-                      pageID: widget.pageId,
-                      pageModel: pageModel,
-                      parameters: widget.parameters,
-                      scaffoldKey: widget.scaffoldKey,
-                      scaffoldMessengerKey: widget.scaffoldMessengerKey,
-                    ), pageModel)();
-                  }
-                  return progressIndicator(context);
-                });
-          } else {
+    var state = AccessBloc.getState(context);
+    if (state is AppLoaded) {
+      return FutureBuilder<PageModel?>(
+          future: getPage(widget.appId, widget.pageId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var pageModel = snapshot.data!;
+              return Decorations.instance().createDecoratedPage(
+                  context, widget._pageKey, () =>
+                  PageContentsWidget(
+                    key: widget._pageKey,
+                    state: state,
+                    pageID: widget.pageId,
+                    pageModel: pageModel,
+                    parameters: widget.parameters,
+                    scaffoldKey: widget.scaffoldKey,
+                    scaffoldMessengerKey: widget.scaffoldMessengerKey,
+                  ), pageModel)();
+            }
             return progressIndicator(context);
-          }
-        });
+          });
+    }  else {
+      return text(context, 'App not loaded');
+    }
   }
 
 }
@@ -95,7 +93,8 @@ class PageContentsWidget extends StatefulWidget {
     required this.parameters,
     required this.scaffoldKey,
     required this.scaffoldMessengerKey,
-  }) : super(key: key);
+  }) : super(key: key) {
+  }
 
   @override
   _PageContentsWidgetState createState() {
@@ -116,23 +115,13 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageTitle = value.title;
     var pageID = widget.pageID;
     var parameters = widget.parameters;
-/*    if (accessState is AppProcessingState) {
-      theBody = progressIndicator(context);
-    } else */if ((accessState is LoggedIn) &&
+    if ((accessState is LoggedIn) &&
         (accessState.forceAcceptMembership())) {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
       var componentInfo = ComponentInfo.getComponentInfo(context, value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
-/*
-      if (value.widgetWrapper != null) {
-        theBody = Registry.registry()!.wrapWidgetInBloc(value.widgetWrapper!, context, componentInfo);
-      } else {
-*/
         theBody = PageBody(componentInfo: componentInfo,);
-/*
-      }
-*/
     }
 
     var drawer = value.drawer == null

@@ -44,7 +44,7 @@ class MenuItemMapper {
         var items = <MenuItemAttributes>[];
         member.subscriptions!.forEach((value) {
           if (value.app != null) {
-            items.add(MenuItemAttributes(label: value.app!.title == null ? '?' : value.app!.title!, isActive: false, onTap : () => eliudrouter.Router.navigateTo(context, SwitchApp(value.app!.documentID, toAppID: value.app!.documentID))));
+            items.add(MenuItemAttributes(label: value.app!.title == null ? '?' : value.app!.title!, isActive: false, onTap : () => eliudrouter.Router.navigateTo(context, SwitchApp(value.app!.documentID!, toAppID: value.app!.documentID!))));
           }
         });
         return MenuItemWithMenuItems(

@@ -138,9 +138,9 @@ class ActionFieldState extends State<ActionField> {
     setState(() {
       _actionSelection = val;
     });
-    if (_actionSelection == 0) widget.setActionValue(GotoPage(widget.appID));
-    if (_actionSelection == 1) widget.setActionValue(InternalAction(widget.appID));
-    if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.appID));
+    if (_actionSelection == 0) widget.setActionValue(GotoPage(widget.appID!, pageID: ''));
+    if (_actionSelection == 1) widget.setActionValue(InternalAction(widget.appID!));
+    if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.appID!));
   }
 
   void _onDocumentSelected(value) {
@@ -148,7 +148,7 @@ class ActionFieldState extends State<ActionField> {
       _pageID = value;
     });
     if (_actionSelection == 0) {
-      widget.setActionValue(new GotoPage(widget.appID, pageID: value));
+      widget.setActionValue(GotoPage(widget.appID!, pageID: value));
     }
   }
 
@@ -158,7 +158,7 @@ class ActionFieldState extends State<ActionField> {
     });
     if (_actionSelection == 2) {
       MenuDefModel? menuDef = await menuDefRepository(appId: widget.appID)!.get(value);
-      widget.setActionValue(new PopupMenu(widget.appID, menuDef: menuDef));
+      widget.setActionValue(new PopupMenu(widget.appID!, menuDef: menuDef));
     }
   }
 
@@ -167,7 +167,7 @@ class ActionFieldState extends State<ActionField> {
       _dialogID = value;
     });
     if (_actionSelection == 3) {
-      widget.setActionValue(new OpenDialog(widget.appID, dialogID: value));
+      widget.setActionValue(OpenDialog(widget.appID!, dialogID: value));
     }
   }
 
@@ -175,16 +175,18 @@ class ActionFieldState extends State<ActionField> {
     setState(() {
       _internalAction = val;
     });
-    InternalActionEnum actionEnum = InternalActionEnum.Unknown;
-    if (_internalAction == _internalActions[0])
+    var actionEnum = InternalActionEnum.Unknown;
+    if (_internalAction == _internalActions[0]) {
       actionEnum = InternalActionEnum.Login;
-    else if (_internalAction == _internalActions[1])
+    } else if (_internalAction == _internalActions[1]) {
       actionEnum = InternalActionEnum.Logout;
-    else if (_internalAction == _internalActions[2])
+    } else if (_internalAction == _internalActions[2]) {
       actionEnum = InternalActionEnum.Flush;
-    else if (_internalAction == _internalActions[3])
+    } else if (_internalAction == _internalActions[3]) {
       actionEnum = InternalActionEnum.OtherApps;
-    if (_actionSelection == 1)
-      widget.setActionValue(new InternalAction(widget.appID, internalActionEnum: actionEnum));
+    }
+    if (_actionSelection == 1) {
+      widget.setActionValue(InternalAction(widget.appID!, internalActionEnum: actionEnum));
+    }
   }
 }

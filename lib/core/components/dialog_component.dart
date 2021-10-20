@@ -18,7 +18,7 @@ class DialogComponent extends StatefulWidget {
   final Map<String, dynamic>? parameters;
   final bool? includeHeading;
 
-  DialogComponent({Key? key, this.dialog, this.parameters, this.includeHeading})
+  DialogComponent({Key? key, this.dialog, this.parameters, this.includeHeading = true})
       : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _DialogComponentState extends State<DialogComponent> {
                 key: _dialogKey,
                 title: widget.dialog!.title!,
                 child: getContents(context),
-                includeHeading: widget.includeHeading,
+                includeHeading: widget.includeHeading ?? true,
                 buttons: [
               dialogButton(context,
                       label: 'Close', onPressed: () => pressed(true)),

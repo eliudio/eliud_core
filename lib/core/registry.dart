@@ -98,7 +98,7 @@ class Registry {
     return _instance;
   }
 
-  Widget? page(
+  Widget page(
       {required String appId,
       required String pageId,
       Map<String, dynamic>? parameters}) {
@@ -196,28 +196,50 @@ class Registry {
                 providers: blocProviders,
                 child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
                     builder: (context, state) {
-                  return Decorations.instance().createDecoratedApp(
-                      context,
-                      _appKey,
-                      () => StyleRegistry.registry()
-                          .styleWithContext(context)
-                          .frontEndStyle()
-                          .appStyle()
-                          .app(
-                            key: _appKey,
-                            navigatorKey: navigatorKey,
-                            scaffoldMessengerKey: rootScaffoldMessengerKey,
-                            initialRoute: initialRoute,
-                            onGenerateRoute: eliudrouter.Router.generateRoute,
-                            onUnknownRoute: (RouteSettings setting) {
-                              return pageRouteBuilderWithAppId(appId,
-                                  page: AlertWidget(
-                                      title: 'Error',
-                                      content: 'Page not found'));
-                            },
-                            title: app.title ?? 'No title',
-                          ),
-                      app)();
+                  return BlocBuilder<AccessBloc, AccessState>(
+                      builder: (context, accessState) {
+                    if (accessState is AppLoaded) {
+                      return Decorations.instance().createDecoratedApp(
+                          context,
+                          _appKey,
+                          () => StyleRegistry.registry()
+                              .styleWithContext(context)
+                              .frontEndStyle()
+                              .appStyle()
+                              .app(
+                                key: _appKey,
+                                navigatorKey: navigatorKey,
+                                scaffoldMessengerKey: rootScaffoldMessengerKey,
+                                initialRoute: initialRoute,
+                                onGenerateRoute:
+                                    eliudrouter.Router.generateRoute,
+                                onUnknownRoute: (RouteSettings setting) {
+                                  return pageRouteBuilderWithAppId(appId,
+                                      page: AlertWidget(
+                                          title: 'Error',
+                                          content: 'Page not found'));
+                                },
+                                title: app.title ?? 'No title',
+                              ),
+                          app)();
+                    } else {
+                      return MaterialApp(
+                        key: _appKey,
+                        debugShowCheckedModeBanner: false,
+                        navigatorKey: navigatorKey,
+                        initialRoute: initialRoute,
+                        title: '',
+                        onGenerateRoute:
+                        eliudrouter.Router.generateRoute,
+                        onUnknownRoute: (RouteSettings setting) {
+                          return pageRouteBuilderWithAppId(appId,
+                              page: AlertWidget(
+                                  title: 'Error',
+                                  content: 'Page not found'));
+                        },
+                      );
+                    }
+                  });
                 }));
           } else {
             return MaterialApp(
@@ -301,12 +323,8 @@ class Registry {
     }
   }
 
-  Widget? _missingPage() {
-    try {
-      return Text('Page not available');
-    } catch (_) {
-      return null;
-    }
+  Widget _missingPage() {
+    return Text('Page not available');
   }
 
   void register(

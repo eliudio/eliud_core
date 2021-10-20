@@ -92,7 +92,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
           items.add(MenuItemAttributes(
               isActive: false,
               onTap: () => eliudrouter.Router.navigateTo(context,
-                  SwitchApp(app.documentID, toAppID: playStoreApp.documentID)),
+                  SwitchApp(app.documentID!, toAppID: playStoreApp.documentID!)),
               imageURL: playStoreApp.logo!.url));
         }
 

@@ -92,7 +92,7 @@ Widget messageDialog(
   required String title,
   required String message,
   String? closeLabel,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -113,7 +113,7 @@ Widget errorDialog(
   required String title,
   required String errorMessage,
   String? closeLabel,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -138,7 +138,7 @@ Widget ackNackDialog(
   required OnSelection onSelection,
   String? ackButtonLabel,
   String? nackButtonLabel,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -166,7 +166,7 @@ Widget entryDialog(
   String? hintText,
   required Function(String? response) onPressed,
   String? initialValue,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -191,7 +191,7 @@ Widget selectionDialog(
   required List<String> options,
   required OnSelection onSelection,
   String? buttonLabel,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -215,7 +215,7 @@ Widget complexAckNackDialog(
   required OnSelection onSelection,
   String? ackButtonLabel,
   String? nackButtonLabel,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>
@@ -239,7 +239,7 @@ Widget complexDialog(BuildContext context,
         required Widget child,
         VoidCallback? onPressed,
         String? buttonLabel,
-        bool? includeHeading,
+        bool? includeHeading = true,
         Key? key,
         double? widthFraction // percentage of screen width
         }) =>
@@ -262,7 +262,7 @@ Widget flexibleDialog(
   required String title,
   required Widget child,
   required List<Widget> buttons,
-  bool? includeHeading,
+  bool? includeHeading = true,
   Key? key,
   double? widthFraction, // percentage of screen width
 }) =>

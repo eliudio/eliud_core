@@ -88,7 +88,8 @@ class AppFirestore implements AppRepository {
     Stream<List<AppModel?>> stream;
 //  stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
 //  see comment listen(...) above
-    stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+    print("Using firebase firestore instance");
+    stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });

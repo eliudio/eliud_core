@@ -12,7 +12,7 @@ abstract class HasDialog {
     required String message,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openErrorDialog(
@@ -21,7 +21,7 @@ abstract class HasDialog {
     required String errorMessage,
     String? closeLabel,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openAckNackDialog(
@@ -32,7 +32,7 @@ abstract class HasDialog {
     String? ackButtonLabel,
     String? nackButtonLabel,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openEntryDialog(
@@ -44,7 +44,7 @@ abstract class HasDialog {
     required Function(String? response) onPressed,
     String? initialValue,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openSelectionDialog(
@@ -54,7 +54,7 @@ abstract class HasDialog {
     required OnSelection onSelection,
     String? buttonLabel,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openComplexDialog(
@@ -64,7 +64,7 @@ abstract class HasDialog {
     VoidCallback? onPressed,
     String? buttonLabel,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openFlexibleDialog(
@@ -73,7 +73,7 @@ abstract class HasDialog {
     required Widget child,
     List<Widget>? buttons,
     double? widthFraction, // percentage of screen width
-    bool? includeHeading,
+    bool? includeHeading = true,
   });
 
   void openWidgetDialog(
@@ -88,7 +88,7 @@ void openMessageDialog(
   required String message,
   String? closeLabel,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -107,7 +107,7 @@ void openErrorDialog(
   required String errorMessage,
   String? closeLabel,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -129,7 +129,7 @@ void openAckNackDialog(
   String? ackButtonLabel,
   String? nackButtonLabel,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -154,7 +154,7 @@ void openEntryDialog(
   required Function(String? response) onPressed,
   String? initialValue,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -177,7 +177,7 @@ void openSelectionDialog(
   required OnSelection onSelection,
   String? buttonLabel,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -198,7 +198,7 @@ void openComplexDialog(
   VoidCallback? onPressed,
   String? buttonLabel,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
@@ -218,7 +218,7 @@ void openFlexibleDialog(
   required Widget child,
   List<Widget>? buttons,
   double? widthFraction, // percentage of screen width
-  bool? includeHeading,
+  bool? includeHeading = true,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
