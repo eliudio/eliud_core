@@ -71,7 +71,7 @@ class _PageComponentState extends State<PageComponent> {
             return progressIndicator(context);
           });
     }  else {
-      return text(context, 'App not loaded');
+      return progressIndicator(context);
     }
   }
 

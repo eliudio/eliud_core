@@ -42,14 +42,9 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
 
   Stream<AppListState> _mapLoadAppListToState() async* {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
-    print("AmountNow = " + amountNow.toString());
     _appsListSubscription?.cancel();
-    print("Cancel");
     _appsListSubscription = _appRepository.listen(
-          (list) {
-            print("Items!");
-            add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length));
-          },
+          (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -59,15 +54,9 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
 
   Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
-    print("2AmountNow = " + amountNow.toString());
     _appsListSubscription?.cancel();
-    print("Cancel");
     _appsListSubscription = _appRepository.listenWithDetails(
-            (list) {
-              print("Items!");
-              add(AppListUpdated(
-                  value: list, mightHaveMore: amountNow != list.length));
-            },
+            (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

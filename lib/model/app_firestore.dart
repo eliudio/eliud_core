@@ -68,11 +68,10 @@ class AppFirestore implements AppRepository {
 
   StreamSubscription<List<AppModel?>> listen(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AppModel?>> stream;
-//    stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-//    The above line is replaced by the below line. The reason we had the above line is because we could not be subscribed to this collecction twice
+      stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
+//    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
-//    However... I believe this issue seems now resolved and hence we use the below. In case we do seem the issue re-occuring (in admin, then let's revisit... the above github has some other suggestions)
-      stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
+//    stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
       Iterable<AppModel?> apps  = data.docs.map((doc) {
         AppModel? value = _populateDoc(doc);
         return value;
@@ -86,10 +85,9 @@ class AppFirestore implements AppRepository {
 
   StreamSubscription<List<AppModel?>> listenWithDetails(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AppModel?>> stream;
-//  stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
-//  see comment listen(...) above
-    print("Using firebase firestore instance");
     stream = getQuery(FirebaseFirestore.instance.collection('app'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(AppCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
         .asyncMap((data) async {
       return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
     });

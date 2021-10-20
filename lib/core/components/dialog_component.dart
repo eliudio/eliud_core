@@ -7,6 +7,7 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -64,7 +65,7 @@ class _DialogComponentState extends State<DialogComponent> {
 
       return simpleTopicContainer(context, children: <Widget>[theBody]);
     } else {
-      return Text('App not loaded');
+      return progressIndicator(context);
     }
   }
 

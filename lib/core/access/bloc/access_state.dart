@@ -668,9 +668,14 @@ class LoggedInWithMembership extends LoggedIn {
 
   @override
   Future<LoggedInWithMembership> copyWith(
-      MemberModel? member, AppModel? playstoreApp) {
+      MemberModel? theMember, AppModel? thePlaystoreApp) {
+    /* we could consider optimising like this...
+    if ((member == theMember) && (playStoreApp == thePlaystoreApp)) {
+      return Future.value(this);
+    }
+    */
     return getLoggedInWithMembership(
-        usr, member ?? this.member, app, playstoreApp);
+        usr, theMember ?? this.member, app, thePlaystoreApp);
   }
 
   Future<LoggedInWithMembership> copyWithOtherPrivilege(PrivilegeLevel privilegeLevel, bool blocked) async {
