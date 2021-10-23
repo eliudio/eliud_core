@@ -166,7 +166,7 @@ class Router {
       } else if (action is GotoPage) {
         if (AccessBloc.appId(context) == action.appID) {
           BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(
-              action.appID!, action.pageID!,
+              action.appID, action.pageID,
               parameters: parameters));
         } else {
           BlocProvider.of<AccessBloc>(context).add(
@@ -214,7 +214,7 @@ class Router {
       {Map<String, dynamic>? parameters}) async {
     if (action is GotoPage) {
       bloc.add(
-          GoToPageEvent(action.appID!, action.pageID!, parameters: parameters));
+          GoToPageEvent(action.appID, action.pageID, parameters: parameters));
     } else {
       throw "I didn't expect this action type";
     }

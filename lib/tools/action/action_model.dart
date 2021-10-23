@@ -88,7 +88,7 @@ abstract class ActionModel {
   }
 
   // used for the action to describe itself. A bit like toString but as a Widget
-  Widget describe(BuildContext context);
+  String describe();
 }
 
 abstract class ActionModelMapper {
@@ -116,7 +116,7 @@ class FunctionToRun extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) => text(context, 'Run a function');
+  String describe() => 'Run a function';
 }
 
 // ********************************** GotoPage **********************************
@@ -156,7 +156,7 @@ class GotoPage extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) => text(context, 'Goto page ' + pageID!);
+  String describe() => 'Goto page ' + pageID;
 }
 
 class GotoPageModelMapper implements ActionModelMapper {
@@ -205,7 +205,7 @@ class OpenDialog extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) => text(context, 'Open dialog ' + dialogID!);
+  String describe() => 'Open dialog ' + dialogID;
 }
 
 class OpenDialogModelMapper implements ActionModelMapper {
@@ -256,7 +256,7 @@ class SwitchApp extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) => text(context, 'Switch to app ' + toAppID);
+  String describe() => 'Switch to app ' + toAppID;
 }
 
 class SwitchAppModelMapper implements ActionModelMapper {
@@ -319,7 +319,7 @@ class PopupMenu extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) => text(context, 'Open popup menu');
+  String describe() => 'Open popup menu';
 }
 
 class PopupMenuModelMapper implements ActionModelMapper {
@@ -391,14 +391,14 @@ class InternalAction extends ActionModel {
   }
 
   @override
-  Widget describe(BuildContext context) {
+  String describe() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login: return text(context, 'Login');
-      case InternalActionEnum.Logout: return text(context, 'Logout');
-      case InternalActionEnum.Flush: return text(context, 'Flushing cache');
-      case InternalActionEnum.OtherApps: return text(context, 'Other apps');
+      case InternalActionEnum.Login: return 'Login';
+      case InternalActionEnum.Logout: return 'Logout';
+      case InternalActionEnum.Flush: return 'Flushing cache';
+      case InternalActionEnum.OtherApps: return 'Other apps';
     }
-    return text(context, '?');
+    return '?';
   }
 }
 
