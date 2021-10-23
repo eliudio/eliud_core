@@ -48,10 +48,10 @@ abstract class ActionModel {
 
   // Also important to note that data access is not limited through limiting the access on the level of the action:
   // if you want to protect your data from being accessed, then you must specify these conditions on the level of the page, dialog, component, ...
-  final ConditionsModel? conditions;
+  ConditionsModel? conditions;
   final String? actionType;
 
-  const ActionModel(this.appID, {this.conditions, this.actionType} );
+  ActionModel(this.appID, {this.conditions, this.actionType} );
 
   ActionEntity toEntity({String? appId});
 
