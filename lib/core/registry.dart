@@ -301,12 +301,12 @@ class Registry {
       if (model.conditions == null) return true;
       if (model.conditions!.privilegeLevelRequired == null) return true;
 
-      // if access is not set and blocked member then no access for this member
-      if ((accessState is LoggedIn) && (accessState.blocked)) return false;
-
-      // if access is set to no priv required then access for this member
+      // if access is set to no priv required then access for this member, i.e. blocked members can see public pages
       if (model.conditions!.privilegeLevelRequired ==
           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple) return true;
+
+      // if access is not set and blocked member then no access for this member
+      if ((accessState is LoggedIn) && (accessState.blocked)) return false;
 
       // Given some privilege is required and access is not set then no access for this member
       if (!(accessState is LoggedIn)) return false;

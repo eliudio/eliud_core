@@ -27,12 +27,16 @@ class PageComponent extends StatefulWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-  GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
   final Map<String, dynamic>? parameters;
   final String appId;
   final String pageId;
 
-  PageComponent({this.navigatorKey, required this.appId, required this.pageId, this.parameters});
+  PageComponent(
+      {this.navigatorKey,
+      required this.appId,
+      required this.pageId,
+      this.parameters});
 
   @override
   State<StatefulWidget> createState() {
@@ -57,24 +61,25 @@ class _PageComponentState extends State<PageComponent> {
             if (snapshot.hasData) {
               var pageModel = snapshot.data!;
               return Decorations.instance().createDecoratedPage(
-                  context, widget._pageKey, () =>
-                  PageContentsWidget(
-                    key: widget._pageKey,
-                    state: state,
-                    pageID: widget.pageId,
-                    pageModel: pageModel,
-                    parameters: widget.parameters,
-                    scaffoldKey: widget.scaffoldKey,
-                    scaffoldMessengerKey: widget.scaffoldMessengerKey,
-                  ), pageModel)();
+                  context,
+                  widget._pageKey,
+                  () => PageContentsWidget(
+                        key: widget._pageKey,
+                        state: state,
+                        pageID: widget.pageId,
+                        pageModel: pageModel,
+                        parameters: widget.parameters,
+                        scaffoldKey: widget.scaffoldKey,
+                        scaffoldMessengerKey: widget.scaffoldMessengerKey,
+                      ),
+                  pageModel)();
             }
             return progressIndicator(context);
           });
-    }  else {
+    } else {
       return progressIndicator(context);
     }
   }
-
 }
 
 class PageContentsWidget extends StatefulWidget {
@@ -93,8 +98,7 @@ class PageContentsWidget extends StatefulWidget {
     required this.parameters,
     required this.scaffoldKey,
     required this.scaffoldMessengerKey,
-  }) : super(key: key) {
-  }
+  }) : super(key: key) {}
 
   @override
   _PageContentsWidgetState createState() {
@@ -115,24 +119,37 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     var pageTitle = value.title;
     var pageID = widget.pageID;
     var parameters = widget.parameters;
-    if ((accessState is LoggedIn) &&
-        (accessState.forceAcceptMembership())) {
+    if ((accessState is LoggedIn) && (accessState.forceAcceptMembership())) {
       theBody =
           AcceptMembershipWidget(app, accessState.member, accessState.usr);
     } else {
-      var componentInfo = ComponentInfo.getComponentInfo(context, value.bodyComponents!, parameters, accessState, fromPageLayout(value.layout), value.backgroundOverride, value.gridView);
-        theBody = PageBody(componentInfo: componentInfo,);
+      var componentInfo = ComponentInfo.getComponentInfo(
+          context,
+          value.bodyComponents!,
+          parameters,
+          accessState,
+          fromPageLayout(value.layout),
+          value.backgroundOverride,
+          value.gridView);
+      theBody = PageBody(
+        componentInfo: componentInfo,
+      );
     }
 
     var drawer = value.drawer == null
         ? null
-        : EliudDrawer(drawerType: DrawerType.Left, drawer: value.drawer!, currentPage: pageID);
+        : EliudDrawer(
+            drawerType: DrawerType.Left,
+            drawer: value.drawer!,
+            currentPage: pageID);
     var endDrawer = value.endDrawer == null
         ? null
-        : EliudDrawer(drawerType: DrawerType.Right, drawer: value.endDrawer!, currentPage: pageID);
+        : EliudDrawer(
+            drawerType: DrawerType.Right,
+            drawer: value.endDrawer!,
+            currentPage: pageID);
     var bottomNavigationBar = EliudBottomNavigationBar(
-        homeMenu: value.homeMenu!,
-        currentPage: pageID);
+        homeMenu: value.homeMenu!, currentPage: pageID);
     var appBar = value.appBar == null
         ? null
         : PreferredSize(
