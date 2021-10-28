@@ -33,6 +33,15 @@ class ListHelper {
     return newList;
   }
 
+  static List<PlatformMediumModel> getPlatformMediumModelList(
+      List<PlatformMediumModel?> list) {
+    var newList = <PlatformMediumModel>[];
+    list.forEach((element) {
+      if (element != null) newList.add(element);
+    });
+    return newList;
+  }
+
   static List<Uint8List> getUint8List(List<Uint8List?> list) {
     var newList = <Uint8List>[];
     list.forEach((element) {

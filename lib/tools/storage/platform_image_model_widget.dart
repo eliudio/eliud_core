@@ -7,13 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PlatformImageModelWidget extends StatefulWidget {
-  final PlatformMediumModel memberMediumModel;
+  final PlatformMediumModel platformMediumModel;
   final double? width;
   final double? height;
   final bool showThumbnail;
   final Widget? defaultWidget;
 
-  const PlatformImageModelWidget({Key? key, required this.memberMediumModel, this.width, this.height, required this.showThumbnail, this.defaultWidget, }) : super(key: key);
+  const PlatformImageModelWidget({Key? key, required this.platformMediumModel, this.width, this.height, required this.showThumbnail, this.defaultWidget, }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +26,9 @@ class _PlatformImageModelState extends State<PlatformImageModelWidget> {
   Widget build(BuildContext context) {
     var url;
     if (widget.showThumbnail) {
-      url = widget.memberMediumModel.urlThumbnail!;
+      url = widget.platformMediumModel.urlThumbnail!;
     } else {
-      url = widget.memberMediumModel.url!;
+      url = widget.platformMediumModel.url!;
     }
     if ((url == null) && (widget.defaultWidget != null)) {
       return widget.defaultWidget!;

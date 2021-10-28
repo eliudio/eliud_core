@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,6 @@ class _MemberImageModelState extends State<MemberImageModelWidget> {
     );
   }
 }
-
 
 // This doesn't seem to work as it seems sometimes the wrong image is picked up. Weird
 class FbStorageImageDoesntWork extends StatefulWidget {
