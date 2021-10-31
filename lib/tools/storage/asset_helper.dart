@@ -25,7 +25,6 @@ class AssetHelper {
    *
    * 3) specify 'packages/eliud_pkg_apps/assets/minkey_app/feed/abc.jpg' as value for your assetPath
    *
-   * Before: _getFileFromAssets
    */
   static Future<String> getFileFromAssets(String documentID, String path) async {
     final byteData = await rootBundle.load(path);
