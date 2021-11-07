@@ -13,7 +13,8 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -38,7 +39,7 @@ class MemberPublicInfoComponentSelector extends ComponentSelector {
     return BlocProvider<MemberPublicInfoListBloc>(
           create: (context) => MemberPublicInfoListBloc(
             memberPublicInfoRepository:
-                memberPublicInfoRepository(appId: AccessBloc.appId(context))!,
+                memberPublicInfoRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadMemberPublicInfoList()),
       child: SelectMemberPublicInfoWidget(
           height: height,

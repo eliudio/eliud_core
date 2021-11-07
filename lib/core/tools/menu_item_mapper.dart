@@ -1,5 +1,3 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/page_helper.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -15,20 +13,15 @@ import 'document_processor.dart';
 
 class MenuItemMapper {
   static List<AbstractMenuItemAttributes>? mapMenu(BuildContext context, MenuDefModel menu, MemberModel? member, String? currentPage) {
-    var state = AccessBloc.getState(context);
-    if (state is AppLoaded) {
-      var itemList = <AbstractMenuItemAttributes>[];
-      for (var i = 0; i < menu.menuItems!.length; i++) {
-        var item = menu.menuItems![i];
-        var menuItem = mapMenuItem(context, item, member, currentPage);
-        if (menuItem != null) {
-          itemList.add(menuItem);
-        }
+    var itemList = <AbstractMenuItemAttributes>[];
+    for (var i = 0; i < menu.menuItems!.length; i++) {
+      var item = menu.menuItems![i];
+      var menuItem = mapMenuItem(context, item, member, currentPage);
+      if (menuItem != null) {
+        itemList.add(menuItem);
       }
-      return itemList;
-    } else {
-      return null;
     }
+    return itemList;
   }
 
   static AbstractMenuItemAttributes? mapMenuItem(

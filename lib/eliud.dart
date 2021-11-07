@@ -1,5 +1,6 @@
 import 'package:eliud_core/style/style_family.dart';
 import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/model/component_registry.dart';
@@ -48,7 +49,13 @@ class Eliud {
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to theMinkeyApp
   void run(String appId, bool asPlaystore) async {
-    runApp(Registry.registry()!.application(appId: appId, asPlaystore: asPlaystore));
+    var app = await appRepository()!.get(appId);
+    if (app == null) {
+      print("App with appId '$appId' does not exist");
+    } else {
+      runApp(
+          Registry.registry()!.application(app: app, asPlaystore: asPlaystore));
+    }
   }
 
 }

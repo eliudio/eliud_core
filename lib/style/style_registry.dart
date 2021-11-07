@@ -1,9 +1,11 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/_default/default_style_family.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_family.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StyleRegistry {
   static Style? _defaultStyle;
@@ -18,12 +20,8 @@ class StyleRegistry {
   StyleRegistry();
 
   Style styleWithContext(BuildContext context) {
-      var app = AccessBloc.app(context);
-      if (app != null) {
-        return styleWithApp(app);
-      } else {
-        return defaultStyle();
-      }
+      var app = AppBloc.currentApp(context);
+      return styleWithApp(app);
   }
 
   Style styleWithApp(AppModel app) {

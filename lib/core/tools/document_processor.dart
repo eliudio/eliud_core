@@ -1,5 +1,6 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/widgets.dart';
 
@@ -70,9 +71,8 @@ const String SCREEN_HEIGHT_BY_FACTOR = 'screenHeightByFactor';
 
 class DocumentParameterProcessor {
   final BuildContext context;
-  final AccessState state;
 
-  DocumentParameterProcessor(this.context, this.state);
+  DocumentParameterProcessor(this.context);
 
   Param? param(String parseMe) {
     var pos = parseMe.indexOf('\${');
@@ -94,28 +94,22 @@ class DocumentParameterProcessor {
   }
 
   String? userName()  {
-    try {
-      var theState = state;
-      if (theState is LoggedIn) {
-        var member = theState.member;
-        if (member == null) {
-          return 'Error: No member object';
-        } else {
-          return member.name;
-        }
-      } else {
-        return "Not logged in";
-      }
-    } catch (_) {
+    var member = AccessBloc.member(context);
+    if (member == null) {
+      return 'Error: No member object';
+    } else {
+      return member.name;
     }
-    return 'Error retrieving username';
   }
 
   String userGroup() {
-    var theState = state;
-    if ((theState is LoggedIn) && (theState.memberIsOwner())) return 'Owner';
-    if (state.isLoggedIn()) return 'Member';
-    return 'Guest';
+    var member = AccessBloc.member(context);
+    if (AccessBloc.isOwner(context)) return 'Owner';
+    if (member != null) {
+      return 'Member';
+    } else {
+      return 'Guest';
+    }
   }
 
   String otherKeyValue(String myString, KeyValue k) { return 'unknown ' + k.key;}
@@ -157,5 +151,5 @@ class DocumentParameterProcessor {
 }
 
 String processDoc(BuildContext context, String original) {
-  return DocumentParameterProcessor(context, AccessBloc.getState(context), ).process(original);
+  return DocumentParameterProcessor(context, ).process(original);
 }

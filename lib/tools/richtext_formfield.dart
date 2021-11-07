@@ -1,5 +1,5 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
@@ -35,9 +35,10 @@ class RichTextFieldState extends State<RichTextField> {
   @override
   Widget build(BuildContext context) {
     var appState = AccessBloc.getState(context);
+    var appId = AppBloc.currentAppId(context);
     return textFormField(
       context,
-      readOnly: !appState.memberIsOwner(),
+      readOnly: !appState.memberIsOwner(appId),
       initialValue: value,
       onChanged: _onChanged,
       keyboardType: TextInputType.multiline,

@@ -1,7 +1,7 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
-import 'package:eliud_core/core/navigate/navigate_bloc.dart';
-import 'package:eliud_core/core/navigate/navigation_event.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_event.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_event.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
@@ -30,38 +30,20 @@ class Router {
   static const String justASecond = '/justASecond';
 
   static final List<PackageActionHandler> _registeredActionHandlers = [];
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   static void register(PackageActionHandler handler) {
     _registeredActionHandlers.add(handler);
   }
 
-  final AccessBloc accessBloc;
-
-  Router(this.accessBloc);
+  Router(this.navigatorKey);
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-/*
-    AccessState theState = accessBloc.state;
-    if (theState is AppLoaded) {
-*/
     Arguments? arguments;
     if (settings.arguments is Arguments) {
       arguments = settings.arguments as Arguments?;
     }
     switch (settings.name) {
-/*
-        case '':
-          // in flutterweb, the initialRoute is "", not "/"
-          return pageRouteBuilder(theState.app,
-              pageId: 'playstore', page: Registry.registry()!.page(id: 'playstore'));
-        case homeRoute:
-          return pageRouteBuilder(theState.app,
-              pageId: 'playstore', page: Registry.registry()!.page(id: 'playstore'));
-        case justASecond:
-          return pageRouteBuilder(theState.app,
-              page: justASecondWidget(
-                  arguments == null ? '?' : arguments.mainArgument!));
-*/
       case pageRoute:
         if ((arguments != null) && (arguments.mainArgument != null)) {
           return getRoute(arguments.mainArgument!, arguments.parameters);
@@ -83,11 +65,6 @@ class Router {
         return getRoute(path, parameters);
     }
     return error('No route defined for ${settings.name}!');
-/*
-    } else {
-      return error("App not loaded, so can't load page!");
-    }
-*/
   }
 
   static Route<dynamic> getRoute(String path, Map<String, dynamic>? parameters) {
@@ -164,36 +141,20 @@ class Router {
       if (action is FunctionToRun) {
         action.actionToRun();
       } else if (action is GotoPage) {
-        if (AccessBloc.appId(context) == action.appID) {
-          BlocProvider.of<NavigatorBloc>(context).add(GoToPageEvent(
-              action.appID, action.pageID,
-              parameters: parameters));
-        } else {
-          BlocProvider.of<AccessBloc>(context).add(
-              SwitchAppAndPageEvent(action.appID, action.pageID, parameters));
-        }
+        BlocProvider.of<AppBloc>(context).add(GotoPageEvent(action.appID, action.pageID, parameters));
       } else if (action is OpenDialog) {
         await Registry.registry()!
             .openDialog(context, id: action.dialogID, parameters: parameters);
       } else if (action is SwitchApp) {
         var appId = action.toAppID;
-        BlocProvider.of<AccessBloc>(context).add(SwitchAppEvent(appId));
+        BlocProvider.of<AppBloc>(context).add(SelectOtherApp(action.appID));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-/*
-            await Registry.registry()!
-                .openDialog(context, id: action.dialogID, parameters: parameters);
-*/
             BlocProvider.of<AccessBloc>(context).add(LoginEvent());
             break;
           case InternalActionEnum.Logout:
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
-            break;
-          case InternalActionEnum.Flush:
-            AbstractRepositorySingleton.singleton
-                .flush(AccessBloc.appId(context));
-//            BlocProvider.of<NavigatorBloc>(context).add(GoHome());
             break;
           default:
             return null;
@@ -210,11 +171,12 @@ class Router {
     }
   }
 
+/*
   static void navigateToPage(NavigatorBloc bloc, ActionModel action,
       {Map<String, dynamic>? parameters}) async {
     if (action is GotoPage) {
       bloc.add(
-          GoToPageEvent(action.appID, action.pageID, parameters: parameters));
+          GotoPageEvent(action.appID, action.pageID, parameters: parameters));
     } else {
       throw "I didn't expect this action type";
     }
@@ -224,6 +186,7 @@ class Router {
     if (bloc != null) bloc.add(MessageEvent(message));
   }
 
+*/
   /*
    * Sometimes we need to brute refresh the current page and do this by (re)navigating to it
    */

@@ -1,10 +1,5 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/navigate/navigation_event.dart';
 
 class PageContextInfo {
   final String appId;
@@ -15,9 +10,8 @@ class PageContextInfo {
 }
 
 class PageParamHelper {
-  static PageContextInfo getPagaContextInfo(BuildContext context) {
+  static PageContextInfo getPagaContextInfo(BuildContext context, AppModel app) {
     var modalRoute = ModalRoute.of(context) as ModalRoute;
-    var app = AccessBloc.app(context);
     return getPagaContextInfoWithRoutAndApp(modalRoute, app);
   }
 
@@ -42,9 +36,9 @@ class PageParamHelper {
     }
     return PageContextInfo(appId, pageId, parameters: parameters);
   }
+/*
 
-  static reloadCurrentPage(BuildContext context) {
-    var app = AccessBloc.app(context);
+  static reloadCurrentPage(BuildContext context, AppModel app) {
     var modalRoute = ModalRoute.of(context) as ModalRoute;
     var pageContextInfo =
         PageParamHelper.getPagaContextInfoWithRoutAndApp(modalRoute, app);
@@ -54,4 +48,5 @@ class PageParamHelper {
         pageContextInfo.appId, pageContextInfo.pageId,
         parameters: pageContextInfo.parameters));
   }
+*/
 }

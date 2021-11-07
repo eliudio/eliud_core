@@ -13,8 +13,10 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -66,11 +68,11 @@ class ShadowForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.appId(context),
+            create: (context) => ShadowFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShadowFormEvent(value: value)),
@@ -79,7 +81,7 @@ class ShadowForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.appId(context),
+            create: (context) => ShadowFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseShadowFormNoLoadEvent(value: value)),
@@ -90,7 +92,7 @@ class ShadowForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Shadow' : 'Add Shadow'),
         body: BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.appId(context),
+            create: (context) => ShadowFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseShadowFormEvent(value: value) : InitialiseNewShadowFormEvent())),
@@ -140,7 +142,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<ShadowFormBloc, ShadowFormState>(builder: (context, state) {
@@ -357,7 +359,7 @@ class _MyShadowFormState extends State<MyShadowForm> {
   }
 
   bool _readOnly(AccessState accessState, ShadowFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
   }
   
 

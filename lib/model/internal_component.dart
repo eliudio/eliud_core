@@ -15,7 +15,8 @@
 
 
 import 'package:eliud_core/tools/component/component_constructor.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -426,7 +427,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: AccessBloc.appId(context))!,
+            appBarRepository: appBarRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadAppBarList()),
         )
       ],
@@ -439,7 +440,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: AccessBloc.appId(context))!,
+            appPolicyRepository: appPolicyRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadAppPolicyList()),
         )
       ],
@@ -478,7 +479,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: AccessBloc.appId(context))!,
+            dialogRepository: dialogRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadDialogList()),
         )
       ],
@@ -491,7 +492,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: AccessBloc.appId(context))!,
+            drawerRepository: drawerRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadDrawerList()),
         )
       ],
@@ -517,7 +518,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: AccessBloc.appId(context))!,
+            gridViewRepository: gridViewRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadGridViewList()),
         )
       ],
@@ -530,7 +531,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: AccessBloc.appId(context))!,
+            homeMenuRepository: homeMenuRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -556,7 +557,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.appId(context))!,
+            memberDashboardRepository: memberDashboardRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadMemberDashboardList()),
         )
       ],
@@ -582,7 +583,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: AccessBloc.appId(context))!,
+            menuDefRepository: menuDefRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadMenuDefList()),
         )
       ],
@@ -595,7 +596,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: AccessBloc.appId(context))!,
+            pageRepository: pageRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadPageList()),
         )
       ],
@@ -608,7 +609,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: AccessBloc.appId(context))!,
+            posSizeRepository: posSizeRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadPosSizeList()),
         )
       ],
@@ -684,7 +685,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: AccessBloc.appId(context))!,
+            appBarRepository: appBarRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadAppBarList()),
         )
       ],
@@ -697,7 +698,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: AccessBloc.appId(context))!,
+            appPolicyRepository: appPolicyRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadAppPolicyList()),
         )
       ],
@@ -736,7 +737,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: AccessBloc.appId(context))!,
+            dialogRepository: dialogRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadDialogList()),
         )
       ],
@@ -749,7 +750,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: AccessBloc.appId(context))!,
+            drawerRepository: drawerRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadDrawerList()),
         )
       ],
@@ -775,7 +776,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: AccessBloc.appId(context))!,
+            gridViewRepository: gridViewRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadGridViewList()),
         )
       ],
@@ -788,7 +789,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: AccessBloc.appId(context))!,
+            homeMenuRepository: homeMenuRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -814,7 +815,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.appId(context))!,
+            memberDashboardRepository: memberDashboardRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadMemberDashboardList()),
         )
       ],
@@ -840,7 +841,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: AccessBloc.appId(context))!,
+            menuDefRepository: menuDefRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadMenuDefList()),
         )
       ],
@@ -853,7 +854,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: AccessBloc.appId(context))!,
+            pageRepository: pageRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadPageList()),
         )
       ],
@@ -866,7 +867,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: AccessBloc.appId(context))!,
+            posSizeRepository: posSizeRepository(appId: AppBloc.currentAppId(context))!,
           )..add(LoadPosSizeList()),
         )
       ],

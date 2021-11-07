@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
 import 'package:eliud_core/tools/enums.dart';

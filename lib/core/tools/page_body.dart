@@ -1,4 +1,4 @@
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
@@ -52,14 +52,14 @@ class PageBody extends StatefulWidget {
 class _PageBodyState extends State<PageBody> {
   @override
   Widget build(BuildContext context) {
-    return theBody(context, widget.componentInfo.state,
+    return theBody(context,
         backgroundOverride: widget.componentInfo.backgroundOverride,
         components: widget.componentInfo.widgets,
         layout: widget.componentInfo.layout,
         gridView: widget.componentInfo.gridView);
   }
 
-  Widget theBody(BuildContext context, AccessState accessState,
+  Widget theBody(BuildContext context,
       {BackgroundModel? backgroundOverride,
       required List<Widget> components,
       Layout? layout,

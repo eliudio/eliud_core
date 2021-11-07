@@ -1,9 +1,6 @@
 import 'dart:collection';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
 import 'package:eliud_core/core/components/dialog_component.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/core/navigate/navigate_bloc.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
@@ -26,7 +23,14 @@ import 'package:eliud_core/core/components/page_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
-import 'access/bloc/access_state.dart';
+import 'blocs/access/access_bloc.dart';
+import 'blocs/access/access_event.dart';
+import 'blocs/access/state/access_determined.dart';
+import 'blocs/access/state/access_state.dart';
+import 'blocs/access/state/logged_in.dart';
+import 'blocs/app/app_bloc.dart';
+import 'blocs/app/app_event.dart';
+import 'blocs/app/app_state.dart';
 
 /*
  * Global registry with components
@@ -44,21 +48,6 @@ class Registry {
 
   Map<String, List<String>> internalComponents() => _allInternalComponents;
 
-  /*
-  List<PluginWithComponents> retrievePluginsWithComponents() =>
-      _allInternalComponents.entries.map((entry) => PluginWithComponents(entry.key, _components(entry.value))).toList();
-
-  List<PluginComponent> _components(List<String> values) {
-    List<PluginComponent> theList = [];
-    values.forEach((componentName) {
-      var component = _registryMap[componentName];
-      if (component != null) {
-        theList.add(PluginComponent(componentName, component));
-      }
-    });
-    return theList;
-  }*/
-
   List<String>? allInternalComponents(String pluginName) =>
       _allInternalComponents[pluginName];
 
@@ -71,10 +60,6 @@ class Registry {
   }
 
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();
-/*
-  final Map<String, ComponentWidgetWrapper> _componentWidgetWrappers =
-      HashMap();
-*/
 
   static Registry? _instance;
 
@@ -117,7 +102,7 @@ class Registry {
 
   Future<void> openDialog(BuildContext context,
       {String? id, Map<String, dynamic>? parameters}) async {
-    var appId = AccessBloc.appId(context);
+    var appId = AppBloc.currentAppId(context);
     var dialog = await dialogRepository(appId: appId)!.get(id);
     if (dialog != null) {
       openWidgetDialog(context,
@@ -163,21 +148,8 @@ class Registry {
 
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  Widget application({required String appId, required bool asPlaystore}) {
-    var navigatorBloc = NavigatorBloc(navigatorKey: navigatorKey);
-    var accessBloc = AccessBloc(navigatorBloc)
-      ..add(InitApp(appId, asPlaystore));
-    var blocProviders = <BlocProvider>[
-      BlocProvider<AccessBloc>(create: (context) => accessBloc),
-      BlocProvider<NavigatorBloc>(create: (context) => navigatorBloc)
-    ];
-    Packages.registeredPackages.forEach((element) {
-      var provider = element.createMainBloc(navigatorBloc, accessBloc);
-      if (provider != null) {
-        blocProviders.add(provider);
-      }
-    });
 
+  Widget application({required AppModel app, required bool asPlaystore}) {
     String? initialFragment;
     if (kIsWeb) {
       if (Uri.base.hasFragment) {
@@ -185,73 +157,60 @@ class Registry {
       }
     }
 
-    return FutureBuilder<AppModel?>(
-        future: getApp(appId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var app = snapshot.data!;
-            var initialRoute =
-                initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
-            return MultiBlocProvider(
-                providers: blocProviders,
-                child: BlocBuilder<NavigatorBloc, TheNavigatorState>(
-                    builder: (context, state) {
-                  return BlocBuilder<AccessBloc, AccessState>(
-                      builder: (context, accessState) {
-                    if (accessState is AppLoaded) {
-                      return Decorations.instance().createDecoratedApp(
-                          context,
-                          _appKey,
-                          () => StyleRegistry.registry()
-                              .styleWithContext(context)
-                              .frontEndStyle()
-                              .appStyle()
-                              .app(
-                                key: _appKey,
-                                navigatorKey: navigatorKey,
-                                scaffoldMessengerKey: rootScaffoldMessengerKey,
-                                initialRoute: initialRoute,
-                                onGenerateRoute:
-                                    eliudrouter.Router.generateRoute,
-                                onUnknownRoute: (RouteSettings setting) {
-                                  return pageRouteBuilderWithAppId(appId,
-                                      page: AlertWidget(
-                                          title: 'Error',
-                                          content: 'Page not found'));
-                                },
-                                title: app.title ?? 'No title',
-                              ),
-                          app)();
-                    } else {
-                      return MaterialApp(
-                        key: _appKey,
-                        debugShowCheckedModeBanner: false,
-                        navigatorKey: navigatorKey,
-                        initialRoute: initialRoute,
-                        title: '',
-                        onGenerateRoute:
-                        eliudrouter.Router.generateRoute,
-                        onUnknownRoute: (RouteSettings setting) {
-                          return pageRouteBuilderWithAppId(appId,
-                              page: AlertWidget(
-                                  title: 'Error',
-                                  content: 'Page not found'));
-                        },
-                      );
-                    }
-                  });
+    var appId = app.documentID!;
+
+    var initialRoute =
+        initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
+
+    return BlocProvider<AccessBloc>(
+        create: (context) => AccessBloc()..add(AccessInit(app)),
+        child: BlocBuilder<AccessBloc, AccessState>(
+            builder: (context, accessState) {
+          if (accessState is AccessDetermined) {
+            return BlocProvider<AppBloc>(
+                create: (context) => AppBloc(BlocProvider.of<AccessBloc>(context), navigatorKey)
+                  ..add(SelectMainApp(app.documentID!)),
+                child: BlocBuilder<AppBloc, AppState>(
+                    builder: (context, appState) {
+                      if (appState is AppLoaded) {
+                        return Decorations.instance().createDecoratedApp(
+                            context,
+                            _appKey,
+                                () =>
+                                StyleRegistry.registry()
+                                    .styleWithContext(context)
+                                    .frontEndStyle()
+                                    .appStyle()
+                                    .app(
+                                  key: _appKey,
+                                  navigatorKey: navigatorKey,
+                                  scaffoldMessengerKey: rootScaffoldMessengerKey,
+                                  initialRoute: initialRoute,
+                                  onGenerateRoute: eliudrouter.Router
+                                      .generateRoute,
+                                  onUnknownRoute: (RouteSettings setting) {
+                                    return pageRouteBuilderWithAppId(appId,
+                                        page: AlertWidget(
+                                            title: 'Error',
+                                            content: 'Page not found'));
+                                  },
+                                  title: app.title ?? 'No title',
+                                ),
+                            app)();
+                      } else {
+                        //no app loaded yet
+                        return Center(child: CircularProgressIndicator());
+                      }
                 }));
           } else {
-            return MaterialApp(
-                home: Scaffold(
-              backgroundColor: Colors.black,
-              body: Text('App loading...'),
-            ));
+            // no app loaded yet, so we can't use the StyleRegistry as this is app configured
+            return Center(child: CircularProgressIndicator());
           }
-        });
+        }));
   }
 
-  Widget component(AppLoaded appLoaded, String componentName, String id,
+  Widget component(AppLoaded appState, AccessState accessState,
+      String componentName, String id,
       {Map<String, dynamic>? parameters, Key? key}) {
     Widget? returnThis;
     try {
@@ -259,12 +218,12 @@ class Registry {
       if (componentConstructor != null) {
         return FutureBuilder<dynamic>(
             future: componentConstructor.getModel(
-                appId: appLoaded.app.documentID!, id: id),
+                appId: appState.app.documentID!, id: id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var model = snapshot.data;
                 var hasAccess = componentAccessValidation(
-                    appLoaded, componentName, id, model);
+                    appState, accessState, componentName, id, model);
                 if (hasAccess) {
                   return componentConstructor.createNew(
                           key: key, id: id, parameters: parameters) ??
@@ -288,8 +247,8 @@ class Registry {
     return Text('Missing component with name $componentName');
   }
 
-  bool componentAccessValidation(
-      AccessState accessState, String component, String id, dynamic model) {
+  bool componentAccessValidation(AppLoaded appState, AccessState accessState,
+      String component, String id, dynamic model) {
     try {
       // if model is not found then no access for this member
       if (model == null) {
@@ -306,14 +265,16 @@ class Registry {
           PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple) return true;
 
       // if access is not set and blocked member then no access for this member
-      if ((accessState is LoggedIn) && (accessState.blocked)) return false;
+      if ((accessState is LoggedIn) &&
+          (accessState.isBlocked(appState.app.documentID!))) return false;
 
       // Given some privilege is required and access is not set then no access for this member
       if (!(accessState is LoggedIn)) return false;
 
       // If sufficient privilege set then access for this member
       if (model.conditions!.privilegeLevelRequired!.index <=
-          accessState.privilegeLevel.index) return true;
+          accessState.getPrivilegeLevel(appState.app.documentID!).index)
+        return true;
 
       // If no sufficient privileges then no access for this member
       return false;

@@ -1,4 +1,5 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/core/registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
+    var appId = AppBloc.currentAppId(context);
     var extensions = <String?>[];
     Registry.registry()!.registryMap().forEach((key, value) { extensions.add(key); });
     var dropDownItems = extensions
@@ -44,7 +46,7 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
         value: value,
         items: dropDownItems,
         hint: Text('Select component type'),
-        onChanged: !accessState.memberIsOwner() ? null : _onChangedDropDownItem);
+        onChanged: !accessState.memberIsOwner(appId) ? null : _onChangedDropDownItem);
   }
 
   void _onChangedDropDownItem(val) {

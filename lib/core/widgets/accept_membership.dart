@@ -1,5 +1,5 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_event.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/widgets/platform_medium_dialog.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
@@ -55,8 +55,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   @override
   void initState() {
     super.initState();
-    var app = AccessBloc.app(context)!;
-    checked = app.policies!.policies!
+    checked = widget.app.policies!.policies!
         .map((element) => CheckboxHandler(false, element.policy))
         .toList();
   }
@@ -86,12 +85,10 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context)!;
-    var accessState = AccessBloc.getState(context);
     var contents = <Widget>[];
 
     var i = 0;
-    app.policies!.policies!.forEach((policy) {
+    widget.app.policies!.policies!.forEach((policy) {
       var handler = checked[i];
       contents.add(Row(children: [
         Container(
@@ -124,7 +121,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
             child: Container(
           width: AcceptMembershipWidget.width(context),
           height: AcceptMembershipWidget.height(context),
-          child: addStuff(contents, app),
+          child: addStuff(contents, widget.app),
           //padding: EdgeInsets.all(5.0),
           decoration: BoxDecoration(
               color: Colors.grey,

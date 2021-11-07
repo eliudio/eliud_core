@@ -1,5 +1,4 @@
-import 'package:eliud_core/core/access/bloc/user_repository.dart';
-
+import 'package:eliud_core/core/blocs/access/repo/user_repository.dart';
 import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/app_repository.dart';
 

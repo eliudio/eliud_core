@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';

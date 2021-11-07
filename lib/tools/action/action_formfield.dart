@@ -1,11 +1,16 @@
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/internal_component.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef SetActionValue = Function(ActionModel value);
 
@@ -24,7 +29,12 @@ class ActionField extends StatefulWidget {
 
 class ActionFieldState extends State<ActionField> {
   int? _actionSelection;
-  final List<String> _internalActions = ['Login', 'Logout', 'Login/Logout', 'Flush', 'OtherApps' ];
+  final List<String> _internalActions = [
+    'Login',
+    'Logout',
+    'Login/Logout',
+    'OtherApps'
+  ];
   String? _internalAction;
   String? _pageID;
   String? _dialogID;
@@ -49,97 +59,109 @@ class ActionFieldState extends State<ActionField> {
         _internalAction = _internalActions[0];
       } else if (action.internalActionEnum == InternalActionEnum.Logout) {
         _internalAction = _internalActions[1];
-      } else if (action.internalActionEnum == InternalActionEnum.Flush) {
-        _internalAction = _internalActions[2];
       } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
-        _internalAction = _internalActions[3];
+        _internalAction = _internalActions[2];
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var state = AccessBloc.getState(context);
-    var widgets = <Widget>[
-      RadioListTile(
-        value: 0,
-        groupValue: _actionSelection,
-        title: Text('Goto Page'),
-        subtitle: Text('This action results in moving to another page'),
-        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
-          setSelectionDisplayMode(val);
-        },
-      ),
-      RadioListTile(
-        value: 1,
-        groupValue: _actionSelection,
-        title: Text('Internal'),
-        subtitle: Text(
-            'This action results in one of the predefined internal actions'),
-        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
-          setSelectionDisplayMode(val);
-        },
-      ),
-      RadioListTile(
-        value: 2,
-        groupValue: _actionSelection,
-        title: Text('Popup Menu'),
-        subtitle: Text('This menu item will open another popup menu'),
-        onChanged: !state.memberIsOwner() ? null : (dynamic val) {
-          setSelectionDisplayMode(val);
-        },
-      ),
-    ];
+    return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
+      return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
+      if (appState is AppLoaded) {
+        var widgets = <Widget>[
+          RadioListTile(
+            value: 0,
+            groupValue: _actionSelection,
+            title: Text('Goto Page'),
+            subtitle: Text('This action results in moving to another page'),
+            onChanged: !state.memberIsOwner(appState.app.documentID!)
+                ? null
+                : (dynamic val) {
+              setSelectionDisplayMode(val);
+            },
+          ),
+          RadioListTile(
+            value: 1,
+            groupValue: _actionSelection,
+            title: Text('Internal'),
+            subtitle: Text(
+                'This action results in one of the predefined internal actions'),
+            onChanged: !state.memberIsOwner(appState.app.documentID!)
+                ? null
+                : (dynamic val) {
+              setSelectionDisplayMode(val);
+            },
+          ),
+          RadioListTile(
+            value: 2,
+            groupValue: _actionSelection,
+            title: Text('Popup Menu'),
+            subtitle: Text('This menu item will open another popup menu'),
+            onChanged: !state.memberIsOwner(appState.app.documentID!)
+                ? null
+                : (dynamic val) {
+              setSelectionDisplayMode(val);
+            },
+          ),
+        ];
 
-    if (_actionSelection == 0) {
-      widgets.add(
-          Center(
-              child: DropdownButtonComponentFactory().createNew(id: 'pages',
+        if (_actionSelection == 0) {
+          widgets.add(Center(
+              child: DropdownButtonComponentFactory().createNew(
+                  id: 'pages',
                   value: _pageID,
                   trigger: _onDocumentSelected,
                   optional: false)));
-    } else if (_actionSelection == 2) {
-      widgets.add(
-          Center(
-              child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
+        } else if (_actionSelection == 2) {
+          widgets.add(Center(
+              child: DropdownButtonComponentFactory().createNew(
+                  id: 'menuDefs',
                   value: _menuDefID,
                   trigger: _onPopupmenuSelected,
                   optional: false)));
-    } else if (_actionSelection == 3) {
-      widgets.add(
-          Center(
-              child: DropdownButtonComponentFactory().createNew(id: 'menuDefs',
+        } else if (_actionSelection == 3) {
+          widgets.add(Center(
+              child: DropdownButtonComponentFactory().createNew(
+                  id: 'menuDefs',
                   value: _dialogID,
                   trigger: _onDialogSelected,
                   optional: false)));
-    } else {
-      List<DropdownMenuItem<String>> items = [];
-      for (var ia in _internalActions) {
-        items.add(DropdownMenuItem(value: ia, child: Text(ia)));
-      }
-      widgets.add(Center(
-          child: DropdownButton(
-        value: _internalAction,
-        items: items,
-        hint: Text('Select internal action'),
-        onChanged: _changedDropDownItem,
-      )));
-    }
+        } else {
+          List<DropdownMenuItem<String>> items = [];
+          for (var ia in _internalActions) {
+            items.add(DropdownMenuItem(value: ia, child: Text(ia)));
+          }
+          widgets.add(Center(
+              child: DropdownButton(
+                value: _internalAction,
+                items: items,
+                hint: Text('Select internal action'),
+                onChanged: _changedDropDownItem,
+              )));
+        }
 
-    return Container(
-        height: (220),
-        child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(8),
-            children: widgets));
+        return Container(
+            height: (220),
+            child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(8),
+                children: widgets));
+      } else {
+        return progressIndicator(context);
+      }});
+    });
   }
 
   void setSelectionDisplayMode(int? val) {
     setState(() {
       _actionSelection = val;
     });
-    if (_actionSelection == 0) widget.setActionValue(GotoPage(widget.appID!, pageID: ''));
-    if (_actionSelection == 1) widget.setActionValue(InternalAction(widget.appID!));
+    if (_actionSelection == 0)
+      widget.setActionValue(GotoPage(widget.appID!, pageID: ''));
+    if (_actionSelection == 1)
+      widget.setActionValue(InternalAction(widget.appID!));
     if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.appID!));
   }
 
@@ -157,7 +179,8 @@ class ActionFieldState extends State<ActionField> {
       _menuDefID = value;
     });
     if (_actionSelection == 2) {
-      MenuDefModel? menuDef = await menuDefRepository(appId: widget.appID)!.get(value);
+      MenuDefModel? menuDef =
+          await menuDefRepository(appId: widget.appID)!.get(value);
       widget.setActionValue(new PopupMenu(widget.appID!, menuDef: menuDef));
     }
   }
@@ -181,12 +204,11 @@ class ActionFieldState extends State<ActionField> {
     } else if (_internalAction == _internalActions[1]) {
       actionEnum = InternalActionEnum.Logout;
     } else if (_internalAction == _internalActions[2]) {
-      actionEnum = InternalActionEnum.Flush;
-    } else if (_internalAction == _internalActions[3]) {
       actionEnum = InternalActionEnum.OtherApps;
     }
     if (_actionSelection == 1) {
-      widget.setActionValue(InternalAction(widget.appID!, internalActionEnum: actionEnum));
+      widget.setActionValue(
+          InternalAction(widget.appID!, internalActionEnum: actionEnum));
     }
   }
 }

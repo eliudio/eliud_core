@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
-import 'package:eliud_core/core/access/bloc/access_state.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
@@ -81,7 +81,7 @@ abstract class ActionModel {
 
   bool hasAccess(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    if (accessState is AppLoaded) {
+    if (accessState is AccessDetermined) {
       return accessState.actionHasAccess(this);
     }
     return true;
@@ -340,7 +340,7 @@ class PopupMenuModelMapper implements ActionModelMapper {
  * OtherApps = Allows to specify that n internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
  */
 enum InternalActionEnum {
-  Login, Logout, Flush, OtherApps, Unknown
+  Login, Logout, OtherApps, Unknown
 }
 
 class InternalAction extends ActionModel {
@@ -362,7 +362,6 @@ class InternalAction extends ActionModel {
     if (entity.appID == null) throw Exception('entity InternalAction.appID is null');
     if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Login);
     if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.Flush.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Flush);
     if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.OtherApps);
     return
       InternalAction(
@@ -383,7 +382,6 @@ class InternalAction extends ActionModel {
     switch (internalActionEnum) {
       case InternalActionEnum.Login: return 'Logging in';
       case InternalActionEnum.Logout: return 'Logging out';
-      case InternalActionEnum.Flush: return 'Flushing cache';
       case InternalActionEnum.OtherApps: return 'Other apps';
       case InternalActionEnum.Unknown: return unknownMsg;
     }
@@ -395,7 +393,6 @@ class InternalAction extends ActionModel {
     switch (internalActionEnum) {
       case InternalActionEnum.Login: return 'Login';
       case InternalActionEnum.Logout: return 'Logout';
-      case InternalActionEnum.Flush: return 'Flushing cache';
       case InternalActionEnum.OtherApps: return 'Other apps';
     }
     return '?';

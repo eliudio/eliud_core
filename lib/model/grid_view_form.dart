@@ -13,8 +13,10 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -66,11 +68,11 @@ class GridViewForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<GridViewFormBloc >(
-            create: (context) => GridViewFormBloc(AccessBloc.appId(context),
+            create: (context) => GridViewFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseGridViewFormEvent(value: value)),
@@ -79,7 +81,7 @@ class GridViewForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<GridViewFormBloc >(
-            create: (context) => GridViewFormBloc(AccessBloc.appId(context),
+            create: (context) => GridViewFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseGridViewFormNoLoadEvent(value: value)),
@@ -90,7 +92,7 @@ class GridViewForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update GridView' : 'Add GridView'),
         body: BlocProvider<GridViewFormBloc >(
-            create: (context) => GridViewFormBloc(AccessBloc.appId(context),
+            create: (context) => GridViewFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseGridViewFormEvent(value: value) : InitialiseNewGridViewFormEvent())),
@@ -154,7 +156,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<GridViewFormBloc, GridViewFormState>(builder: (context, state) {
@@ -258,11 +260,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
 
 
@@ -278,11 +280,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _typeSelectedRadioTile, 'Count', 'Count', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _typeSelectedRadioTile, 'Count', 'Count', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _typeSelectedRadioTile, 'Extent', 'Extent', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _typeSelectedRadioTile, 'Extent', 'Extent', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionType(val))
           );
 
 
@@ -314,11 +316,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Absolute', 'Absolute', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Absolute', 'Absolute', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
           );
         if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Relative', 'Relative', !accessState.memberIsOwner() ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Relative', 'Relative', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
           );
 
 
@@ -559,7 +561,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
   }
 
   bool _readOnly(AccessState accessState, GridViewFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
   }
   
 

@@ -13,8 +13,10 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -71,11 +73,11 @@ class MemberDashboardForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberDashboardFormBloc >(
-            create: (context) => MemberDashboardFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberDashboardFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberDashboardFormEvent(value: value)),
@@ -84,7 +86,7 @@ class MemberDashboardForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberDashboardFormBloc >(
-            create: (context) => MemberDashboardFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberDashboardFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberDashboardFormNoLoadEvent(value: value)),
@@ -95,7 +97,7 @@ class MemberDashboardForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberDashboard' : 'Add MemberDashboard'),
         body: BlocProvider<MemberDashboardFormBloc >(
-            create: (context) => MemberDashboardFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberDashboardFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberDashboardFormEvent(value: value) : InitialiseNewMemberDashboardFormEvent())),
@@ -151,7 +153,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberDashboardFormBloc, MemberDashboardFormState>(builder: (context, state) {
@@ -387,7 +389,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberDashboardFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
   }
   
 

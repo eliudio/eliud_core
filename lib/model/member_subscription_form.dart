@@ -13,8 +13,10 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -66,11 +68,11 @@ class MemberSubscriptionForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AppBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberSubscriptionFormEvent(value: value)),
   
@@ -78,7 +80,7 @@ class MemberSubscriptionForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AppBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberSubscriptionFormNoLoadEvent(value: value)),
   
@@ -88,7 +90,7 @@ class MemberSubscriptionForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
         body: BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.appId(context),
+            create: (context) => MemberSubscriptionFormBloc(AppBloc.currentAppId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberSubscriptionFormEvent(value: value) : InitialiseNewMemberSubscriptionFormEvent())),
   
@@ -128,7 +130,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberSubscriptionFormBloc, MemberSubscriptionFormState>(builder: (context, state) {
@@ -239,7 +241,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberSubscriptionFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
   }
   
 

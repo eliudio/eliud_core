@@ -13,8 +13,10 @@
 
 */
 
-import 'package:eliud_core/core/access/bloc/access_state.dart';
-import 'package:eliud_core/core/access/bloc/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -66,11 +68,11 @@ class MenuDefForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MenuDefFormBloc >(
-            create: (context) => MenuDefFormBloc(AccessBloc.appId(context),
+            create: (context) => MenuDefFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMenuDefFormEvent(value: value)),
@@ -79,7 +81,7 @@ class MenuDefForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MenuDefFormBloc >(
-            create: (context) => MenuDefFormBloc(AccessBloc.appId(context),
+            create: (context) => MenuDefFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseMenuDefFormNoLoadEvent(value: value)),
@@ -90,7 +92,7 @@ class MenuDefForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MenuDef' : 'Add MenuDef'),
         body: BlocProvider<MenuDefFormBloc >(
-            create: (context) => MenuDefFormBloc(AccessBloc.appId(context),
+            create: (context) => MenuDefFormBloc(AppBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMenuDefFormEvent(value: value) : InitialiseNewMenuDefFormEvent())),
@@ -136,7 +138,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.app(context);
+    var app = AppBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MenuDefFormBloc, MenuDefFormState>(builder: (context, state) {
@@ -302,7 +304,7 @@ class _MyMenuDefFormState extends State<MyMenuDefForm> {
   }
 
   bool _readOnly(AccessState accessState, MenuDefFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner());
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
   }
   
 
