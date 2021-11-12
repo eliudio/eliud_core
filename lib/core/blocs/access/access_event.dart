@@ -48,16 +48,6 @@ class AcceptedMembership extends AccessEvent{
   List<Object> get props => [ member, usr ];
 }
 
-class MemberUpdated extends AccessEvent {
-  final MemberModel? member;
-  bool? refresh; // goto the (potentially new) homepage?
-
-  MemberUpdated(this.member, {this.refresh});
-
-  @override
-  List<Object?> get props => [ member, refresh ];
-}
-
 // when current member is owner he can send this event to allow to change his privilege to a lower
 class ChangePrivilegeEvent extends AccessEvent {
   final PrivilegeLevel privilege;
@@ -69,17 +59,36 @@ class ChangePrivilegeEvent extends AccessEvent {
   List<Object?> get props => [ privilege, blocked ];
 }
 
-class AddAppEvent extends AccessEvent {
-  final AppModel app;
-
-  AddAppEvent(this.app);
-
-}
-
 class UpdatePackageCondition extends AccessEvent {
   final AppModel app;
   final String packageCondition;
   final bool condition;
 
   UpdatePackageCondition(this.app, this.packageCondition, this.condition);
+}
+
+class SelectApp extends AccessEvent {
+  final AppModel app;
+
+  SelectApp(this.app);
+}
+
+class SelectAppWithID extends AccessEvent {
+  final String appId;
+
+  SelectAppWithID(this.appId);
+}
+
+class AppUpdated extends AccessEvent {
+  final AppModel app;
+
+  AppUpdated(this.app);
+}
+
+class GotoPageEvent extends AccessEvent {
+  final String appId;
+  final String pageId;
+  final Map<String, dynamic>? parameters;
+
+  GotoPageEvent(this.appId, this.pageId, this.parameters);
 }

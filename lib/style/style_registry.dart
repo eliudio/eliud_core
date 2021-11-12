@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/_default/default_style_family.dart';
 import 'package:eliud_core/style/style.dart';
@@ -20,7 +19,7 @@ class StyleRegistry {
   StyleRegistry();
 
   Style styleWithContext(BuildContext context) {
-      var app = AppBloc.currentApp(context);
+      var app = AccessBloc.currentApp(context);
       return styleWithApp(app);
   }
 

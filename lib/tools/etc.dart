@@ -140,6 +140,8 @@ class BoxDecorationHelper {
       if (member != null) {
         image = DecorationImage(
             image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);
+      } else {
+        image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
       }
     }
     if (image == null) {

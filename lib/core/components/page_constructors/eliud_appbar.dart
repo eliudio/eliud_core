@@ -1,8 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
@@ -45,11 +44,10 @@ class _EliudAppBarState extends State<EliudAppBar> {
     var value = widget.value;
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-        if (state is AppLoaded) {
+        if (accessState is AccessDetermined) {
           return Decorations.instance()
               .createDecoratedAppBar(context, _appBarKey, () {
-            var app = state.app;
+            var app = accessState.currentApp;
             var header = value.header!;
             var title = value.title;
             if ((title != null) &&
@@ -119,7 +117,6 @@ class _EliudAppBarState extends State<EliudAppBar> {
         } else {
           return progressIndicator(context);
         }
-      });
     });
   }
 }

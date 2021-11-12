@@ -20,21 +20,24 @@ class LoggedIn extends AccessDetermined {
       this.usr,
       this.member,
       this.postLoginAction,
+      AppModel currentApp,
       List<AppModel> apps,
       Map<String, PagesAndDialogAccesss> accesses,
       )
-      : super(apps, accesses);
+      : super(currentApp, apps, accesses);
 
   static Future<LoggedIn> getLoggedIn(
       User usr,
       MemberModel member,
+      AppModel currentApp,
       List<AppModel> apps,
       PostLoginAction? postLoginAction) async {
-    var accesses = await AccessHelper.getAccesses(null, apps, false);
+    var accesses = await AccessHelper.getAccesses(member, apps, false);
     var loggedInWithoutMembership = LoggedIn._(
         usr,
         member,
         postLoginAction,
+        currentApp,
         apps,
         accesses);
     return loggedInWithoutMembership;
@@ -58,9 +61,47 @@ class LoggedIn extends AccessDetermined {
     return member.documentID == appId;
   }
 
-  Future<LoggedIn> copyWith(MemberModel? member, ) {
-    return getLoggedIn(
-        usr, member ?? this.member, apps, postLoginAction);
+  @override
+  Future<LoggedIn> switchApp(AppModel newCurrentApp, ) {
+    if (newCurrentApp != currentApp) {
+      if (apps.contains(newCurrentApp)) {
+        return Future.value(LoggedIn._(
+          usr,
+          member,
+          postLoginAction,
+          newCurrentApp,
+          apps,
+          accesses,
+        ));
+      } else {
+        // todo: OPTIMISE THIS, REUSE THE ACCESS WE ALREADY DETERMINED FOR THE EXISTING APPS
+        var newApps = apps.map((v) => v).toList();
+        newApps.add(newCurrentApp);
+        return getLoggedIn(
+            usr,
+            member,
+            newCurrentApp,
+            newApps, null);
+      }
+    } else {
+      return Future.value(this);
+    }
+  }
+
+  @override
+  Future<LoggedIn> updateApp(AppModel newCurrentApp, ) {
+    if (newCurrentApp == currentApp) {
+      return Future.value(LoggedIn._(
+        usr,
+        member,
+        postLoginAction,
+        newCurrentApp,
+        apps,
+        accesses,
+      ));
+    } else {
+      throw Exception('');
+    }
   }
 
   @override
@@ -82,7 +123,7 @@ class LoggedIn extends AccessDetermined {
 
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() {
-    List<MemberCollectionInfo> memberCollectionInfo = [];
+    var memberCollectionInfo = <MemberCollectionInfo>[];
     for (var i = 0; i < Packages.registeredPackages.length; i++) {
       var packageCollectionInfo = Packages.registeredPackages[i].getMemberCollectionInfo();
       if (packageCollectionInfo != null) {
@@ -100,6 +141,7 @@ class LoggedIn extends AccessDetermined {
   bool operator == (Object other) =>
       identical(this, other) ||
           other is LoggedIn &&
+              currentApp == other.currentApp &&
               usr == other.usr &&
               member == other.member &&
               postLoginAction == other.postLoginAction &&

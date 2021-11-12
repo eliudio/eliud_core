@@ -9,16 +9,17 @@ import 'package:flutter/foundation.dart';
 import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
-  static Future<LoggedOut> getLoggedOut(List<AppModel> apps) async {
+  static Future<LoggedOut> getLoggedOut(AppModel currentApp, List<AppModel> apps) async {
     var accesses = await AccessHelper.getAccesses(null, apps, false);
-    var loggedOut = LoggedOut._(apps, accesses);
+    var loggedOut = LoggedOut._(currentApp, apps, accesses);
     return loggedOut;
   }
 
   LoggedOut._(
+      AppModel currentApp,
   List<AppModel> apps,
   Map<String, PagesAndDialogAccesss> accesses,)
-      : super(apps, accesses);
+      : super(currentApp, apps, accesses);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -52,7 +53,43 @@ class LoggedOut extends AccessDetermined {
   bool operator == (Object other) =>
       identical(this, other) ||
           other is LoggedOut &&
+              currentApp == other.currentApp &&
               runtimeType == other.runtimeType &&
               mapEquals(accesses, other.accesses) &&
               ListEquality().equals(apps, other.apps);
+
+  @override
+  Future<LoggedOut> switchApp(AppModel newCurrentApp, ) {
+    if (newCurrentApp != currentApp) {
+      if (apps.contains(newCurrentApp)) {
+        return Future.value(LoggedOut._(
+          newCurrentApp,
+          apps,
+          accesses,
+        ));
+      } else {
+        // todo: OPTIMISE THIS, REUSE THE ACCESS WE ALREADY DETERMINED FOR THE EXISTING APPS
+        var newApps = apps.map((v) => v).toList();
+        newApps.add(newCurrentApp);
+        return getLoggedOut(
+            newCurrentApp,
+            newApps);
+      }
+    } else {
+      return Future.value(this);
+    }
+  }
+
+  @override
+  Future<LoggedOut> updateApp(AppModel newCurrentApp, ) {
+    if (newCurrentApp == currentApp) {
+      return Future.value(LoggedOut._(
+        newCurrentApp,
+        apps,
+        accesses,
+      ));
+    } else {
+      throw Exception('Incorrectly received ');
+    }
+  }
 }

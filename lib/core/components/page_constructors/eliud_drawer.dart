@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decoration.dart';
@@ -43,8 +42,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
     var currentPage = widget.currentPage;
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, theState) {
-        if (theState is AppLoaded) {
+        if (accessState is AccessDetermined) {
           return Decorations.instance().createDecoratedDrawer(
               context,
               widget.drawerType == DrawerType.Left
@@ -92,6 +90,5 @@ class _EliudDrawerState extends State<EliudDrawer> {
           return progressIndicator(context);
         }
       });
-    });
   }
 }

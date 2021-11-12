@@ -1,8 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -76,73 +75,73 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   @override
   Widget yourWidget(
       BuildContext context, MemberDashboardModel? dashboardModel) {
-    return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
-      var member = state.getMember();
-      if (member != null) {
-        return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-          if (appState is AppLoaded) {
-            var welcomeText = 'Welcome ' +
-                member.name! +
-                '. Use the below links to maintain your account with us.';
-            var userPhotoUrl = member.photoURL;
-            Widget profilePhoto;
-            if (userPhotoUrl != null) {
-              profilePhoto = Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                      width: 30,
-                      height: 30,
-                      child: Image.network(member.photoURL!)));
-            } else {
-              profilePhoto = Container();
-            }
-            return ListView(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                Row(children: [
-                  Spacer(),
-                  text(context, welcomeText, textAlign: TextAlign.center),
-                  Spacer(),
-                  profilePhoto,
-                ]),
-                Container(height: 20),
-                divider(context),
-                Container(height: 20),
-                table(
-                  context,
-                  children: [
-                    //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
-                    getRow(
-                        context,
-                        appState.app,
-                        'Update profile',
-                        dashboardModel!.updateProfileText!,
-                        () => _updateProfile(context, appState.app, member)),
-                    getRow(
-                        context,
-                        appState.app,
-                        'Retrieve data',
-                        dashboardModel.retrieveDataText!,
-                        () => _retrieveData(
-                            context, dashboardModel, appState.app, member)),
-                    getRow(
-                        context,
-                        appState.app,
-                        'Delete account',
-                        dashboardModel.deleteDataText!,
-                        () => _deleteAccount(
-                            context, dashboardModel, appState.app, member)),
-                  ],
-                )
-              ],
-            );
+    return BlocBuilder<AccessBloc, AccessState>(
+        builder: (context, accessState) {
+      if (accessState is AccessDetermined) {
+        var member = accessState.getMember();
+        if (member != null) {
+          var welcomeText = 'Welcome ' +
+              member.name! +
+              '. Use the below links to maintain your account with us.';
+          var userPhotoUrl = member.photoURL;
+          Widget profilePhoto;
+          if (userPhotoUrl != null) {
+            profilePhoto = Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                    width: 30,
+                    height: 30,
+                    child: Image.network(member.photoURL!)));
           } else {
-            return progressIndicator(context);
+            profilePhoto = Container();
           }
-        });
+          return ListView(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              Row(children: [
+                Spacer(),
+                text(context, welcomeText, textAlign: TextAlign.center),
+                Spacer(),
+                profilePhoto,
+              ]),
+              Container(height: 20),
+              divider(context),
+              Container(height: 20),
+              table(
+                context,
+                children: [
+                  //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
+                  getRow(
+                      context,
+                      accessState.currentApp,
+                      'Update profile',
+                      dashboardModel!.updateProfileText!,
+                      () => _updateProfile(
+                          context, accessState.currentApp, member)),
+                  getRow(
+                      context,
+                      accessState.currentApp,
+                      'Retrieve data',
+                      dashboardModel.retrieveDataText!,
+                      () => _retrieveData(context, dashboardModel,
+                          accessState.currentApp, member)),
+                  getRow(
+                      context,
+                      accessState.currentApp,
+                      'Delete account',
+                      dashboardModel.deleteDataText!,
+                      () => _deleteAccount(context, dashboardModel,
+                          accessState.currentApp, member)),
+                ],
+              )
+            ],
+          );
+        } else {
+          return Text('You need to login to access your account');
+        }
       } else {
-        return Text("You need to login to access your account");
+        return progressIndicator(context);
       }
     });
   }
@@ -244,6 +243,6 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   @override
   MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
-    return memberDashboardRepository(appId: AppBloc.currentAppId(context))!;
+    return memberDashboardRepository(appId: AccessBloc.currentAppId(context))!;
   }
 }

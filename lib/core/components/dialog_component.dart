@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/decoration/decorations.dart';
@@ -53,13 +52,11 @@ class _DialogComponentState extends State<DialogComponent> {
   Widget getContents(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-        if (appState is AppLoaded) {
+        if (accessState is AccessDetermined) {
           var componentInfo = ComponentInfo.getComponentInfo(
               context,
               widget.dialog!.bodyComponents!,
               widget.parameters,
-              appState,
               accessState,
               fromDialogLayout(widget.dialog!.layout),
               null,
@@ -73,7 +70,6 @@ class _DialogComponentState extends State<DialogComponent> {
         } else {
           return progressIndicator(context);
         }
-      });
     });
   }
 

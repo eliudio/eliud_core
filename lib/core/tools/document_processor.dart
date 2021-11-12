@@ -1,6 +1,4 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/widgets.dart';
 
@@ -96,7 +94,7 @@ class DocumentParameterProcessor {
   String? userName()  {
     var member = AccessBloc.member(context);
     if (member == null) {
-      return 'Error: No member object';
+      return 'Not logged on';
     } else {
       return member.name;
     }

@@ -8,6 +8,7 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'access_state.dart';
 
 abstract class AccessDetermined extends AccessState {
+  final AppModel currentApp;
   final List<AppModel> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
 
@@ -15,7 +16,7 @@ abstract class AccessDetermined extends AccessState {
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.apps, this.accesses);
+  AccessDetermined(this.currentApp, this.apps, this.accesses);
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {
@@ -23,7 +24,7 @@ abstract class AccessDetermined extends AccessState {
       if ((theAccess != null) && (!AccessHelper.conditionOk(
           theAccess.packageConditionsAccess,
           action.conditions!,
-          getPrivilegeLevel(action.appID)!,
+          getPrivilegeLevel(action.appID),
           memberIsOwner(action.appID),
           isBlocked(action.appID),
           isLoggedIn()))) return false;
@@ -76,6 +77,12 @@ abstract class AccessDetermined extends AccessState {
 
   @override
   MemberModel? getMember();
-  PrivilegeLevel? getPrivilegeLevel(String appId);
+  PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
+  Future<AccessDetermined> switchApp(AppModel newCurrentApp, );
+  Future<AccessDetermined> updateApp(AppModel newCurrentApp, );
+
+  String currentAppId() => currentApp.documentID!;
+  bool isCurrentAppBlocked() => isBlocked(currentAppId());
+  PrivilegeLevel getPrivilegeLevelCurrentApp() => getPrivilegeLevel(currentAppId());
 }

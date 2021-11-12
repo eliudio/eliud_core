@@ -1,5 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -73,7 +73,7 @@ class ProfilePhotoHelper {
   Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
       {RgbModel? iconColor, required double radius, VoidCallback? onPressed}) {
     var state = AccessBloc.getState(context);
-    if (state is AppLoaded) {
+    if (state is AccessDetermined) {
       var member = state.getMember();
       if (member != null) {
         return getProfilePhotoButtonFromURL(context,

@@ -14,7 +14,6 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -39,7 +38,7 @@ class FontComponentSelector extends ComponentSelector {
     return BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
             fontRepository:
-                fontRepository(appId: AppBloc.currentAppId(context))!,
+                fontRepository(appId: AccessBloc.currentAppId(context))!,
           )..add(LoadFontList()),
       child: SelectFontWidget(
           height: height,

@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class AppForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppFormEvent(value: value)),
@@ -81,7 +80,7 @@ class AppForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppFormNoLoadEvent(value: value)),
@@ -92,7 +91,7 @@ class AppForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update App' : 'Add App'),
         body: BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppFormEvent(value: value) : InitialiseNewAppFormEvent())),
@@ -152,7 +151,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppFormBloc, AppFormState>(builder: (context, state) {
@@ -338,23 +337,23 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'SlideRightToLeft', 'SlideRightToLeft', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'SlideRightToLeft', 'SlideRightToLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'SlideBottomToTop', 'SlideBottomToTop', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'SlideBottomToTop', 'SlideBottomToTop', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'ScaleRoute', 'ScaleRoute', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'ScaleRoute', 'ScaleRoute', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'RotationRoute', 'RotationRoute', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'RotationRoute', 'RotationRoute', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'FadeRoute', 'FadeRoute', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _routeBuilderSelectedRadioTile, 'FadeRoute', 'FadeRoute', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionRouteBuilder(val))
           );
 
         children.add(
@@ -375,15 +374,15 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Live', 'Live', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Live', 'Live', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Offline', 'Offline', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Offline', 'Offline', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Invisible', 'Invisible', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _appStatusSelectedRadioTile, 'Invisible', 'Invisible', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
 
 
@@ -554,7 +553,7 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
   bool _readOnly(AccessState accessState, AppFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

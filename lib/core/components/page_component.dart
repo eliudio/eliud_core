@@ -1,8 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
@@ -99,79 +98,76 @@ class _PageComponentState extends State<PageComponent> {
     hasFab = null;
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-        if (appState is AppLoaded) {
-          return FutureBuilder<PageModel?>(
-              future: getPage(widget.appId, widget.pageId),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var pageModel = snapshot.data!;
-                  var value = pageModel;
-                  var pageTitle = value.title;
-                  var pageID = pageModel.documentID!;
-                  var parameters = widget.parameters;
-                  var componentInfo = ComponentInfo.getComponentInfo(
-                      context,
-                      value.bodyComponents!,
-                      parameters,
-                      appState,
-                      accessState,
-                      fromPageLayout(value.layout),
-                      value.backgroundOverride,
-                      value.gridView);
-                  theBody = PageBody(
-                    componentInfo: componentInfo,
-                  );
+      if (accessState is AccessDetermined) {
+        return FutureBuilder<PageModel?>(
+            future: getPage(widget.appId, widget.pageId),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var pageModel = snapshot.data!;
+                var value = pageModel;
+                var pageTitle = value.title;
+                var pageID = pageModel.documentID!;
+                var parameters = widget.parameters;
+                var componentInfo = ComponentInfo.getComponentInfo(
+                    context,
+                    value.bodyComponents!,
+                    parameters,
+                    accessState,
+                    fromPageLayout(value.layout),
+                    value.backgroundOverride,
+                    value.gridView);
+                theBody = PageBody(
+                  componentInfo: componentInfo,
+                );
 //    }
 
-                  var drawer = value.drawer == null
-                      ? null
-                      : EliudDrawer(
-                          drawerType: DrawerType.Left,
-                          drawer: value.drawer!,
-                          currentPage: pageID);
-                  var endDrawer = value.endDrawer == null
-                      ? null
-                      : EliudDrawer(
-                          drawerType: DrawerType.Right,
-                          drawer: value.endDrawer!,
-                          currentPage: pageID);
-                  var bottomNavigationBar = EliudBottomNavigationBar(
-                      homeMenu: value.homeMenu!, currentPage: pageID);
-                  var appBar = value.appBar == null
-                      ? null
-                      : PreferredSize(
-                          preferredSize:
-                              const Size(double.infinity, kToolbarHeight),
-                          child: EliudAppBar(
-                              pageTitle: pageTitle,
-                              currentPage: pageID,
-                              scaffoldKey: widget.scaffoldKey,
-                              theTitle: value.title == null ? '' : value.title!,
-                              value: value.appBar!));
-                  var fab = hasFab != null ? hasFab!.fab(context) : null;
-                  var scaffoldMessenger = ScaffoldMessenger(
-                      key: widget.scaffoldMessengerKey,
-                      child: Scaffold(
-                        key: widget.scaffoldKey,
-                        endDrawer: endDrawer,
-                        appBar: appBar,
-                        body: theBody,
-                        drawer: drawer,
-                        floatingActionButton: fab,
-                        floatingActionButtonLocation:
-                            FloatingActionButtonLocation.centerFloat,
-                        bottomNavigationBar: bottomNavigationBar,
-                      ));
-                  return scaffoldMessenger;
-                } else {
-                  return progressIndicator(context);
-                }
-              });
-        } else {
-          return progressIndicator(context);
-        }
-      });
+                var drawer = value.drawer == null
+                    ? null
+                    : EliudDrawer(
+                        drawerType: DrawerType.Left,
+                        drawer: value.drawer!,
+                        currentPage: pageID);
+                var endDrawer = value.endDrawer == null
+                    ? null
+                    : EliudDrawer(
+                        drawerType: DrawerType.Right,
+                        drawer: value.endDrawer!,
+                        currentPage: pageID);
+                var bottomNavigationBar = EliudBottomNavigationBar(
+                    homeMenu: value.homeMenu!, currentPage: pageID);
+                var appBar = value.appBar == null
+                    ? null
+                    : PreferredSize(
+                        preferredSize:
+                            const Size(double.infinity, kToolbarHeight),
+                        child: EliudAppBar(
+                            pageTitle: pageTitle,
+                            currentPage: pageID,
+                            scaffoldKey: widget.scaffoldKey,
+                            theTitle: value.title == null ? '' : value.title!,
+                            value: value.appBar!));
+                var fab = hasFab != null ? hasFab!.fab(context) : null;
+                var scaffoldMessenger = ScaffoldMessenger(
+                    key: widget.scaffoldMessengerKey,
+                    child: Scaffold(
+                      key: widget.scaffoldKey,
+                      endDrawer: endDrawer,
+                      appBar: appBar,
+                      body: theBody,
+                      drawer: drawer,
+                      floatingActionButton: fab,
+                      floatingActionButtonLocation:
+                          FloatingActionButtonLocation.centerFloat,
+                      bottomNavigationBar: bottomNavigationBar,
+                    ));
+                return scaffoldMessenger;
+              } else {
+                return progressIndicator(context);
+              }
+            });
+      } else {
+        return progressIndicator(context);
+      }
     });
   }
 }

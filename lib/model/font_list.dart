@@ -14,9 +14,8 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
@@ -74,71 +73,65 @@ class FontListWidget extends StatefulWidget with HasFab {
 class FontListWidgetState extends State<FontListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    if (accessState is AppLoaded) {
-      return !accessState.memberIsOwner(AppBloc.currentAppId(context)) 
-        ? null
-        : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).push(
-            pageRouteBuilder(AppBloc.currentApp(context), page: BlocProvider.value(
-                value: BlocProvider.of<FontListBloc>(context),
-                child: FontForm(
-                    value: null,
-                    formAction: FormAction.AddAction)
-            )),
-          );
-        },
-      );
-    } else {
-      return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
-    }
+    return !accessState.memberIsOwner(AccessBloc.currentAppId(context)) 
+      ? null
+      : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
+      onPressed: () {
+        Navigator.of(context).push(
+          pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+              value: BlocProvider.of<FontListBloc>(context),
+              child: FontForm(
+                  value: null,
+                  formAction: FormAction.AddAction)
+          )),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-        if (appState is AppLoaded) {
-          return BlocBuilder<FontListBloc, FontListState>(builder: (context, state) {
-            if (state is FontListLoading) {
-              return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
-            } else if (state is FontListLoaded) {
-              final values = state.values;
-              if ((widget.isEmbedded != null) && widget.isEmbedded!) {
-                var children = <Widget>[];
-                children.add(theList(context, values, accessState));
-                children.add(
-                    StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
-                        context, label: 'Add',
-                        onPressed: () {
-                          Navigator.of(context).push(
-                                    pageRouteBuilder(appState.app, page: BlocProvider.value(
-                                        value: BlocProvider.of<FontListBloc>(context),
-                                        child: FontForm(
-                                            value: null,
-                                            formAction: FormAction.AddAction)
-                                    )),
-                                  );
-                        },
-                      ));
-                return ListView(
-                  padding: const EdgeInsets.all(8),
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  children: children
-                );
-              } else {
-                return theList(context, values, accessState);
-              }
+      if (accessState is AccessDetermined) {
+        return BlocBuilder<FontListBloc, FontListState>(builder: (context, state) {
+          if (state is FontListLoading) {
+            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+          } else if (state is FontListLoaded) {
+            final values = state.values;
+            if ((widget.isEmbedded != null) && widget.isEmbedded!) {
+              var children = <Widget>[];
+              children.add(theList(context, values, accessState));
+              children.add(
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
+                      context, label: 'Add',
+                      onPressed: () {
+                        Navigator.of(context).push(
+                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                      value: BlocProvider.of<FontListBloc>(context),
+                                      child: FontForm(
+                                          value: null,
+                                          formAction: FormAction.AddAction)
+                                  )),
+                                );
+                      },
+                    ));
+              return ListView(
+                padding: const EdgeInsets.all(8),
+                physics: ScrollPhysics(),
+                shrinkWrap: true,
+                children: children
+              );
             } else {
-              return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+              return theList(context, values, accessState);
             }
-          });
-        } else {
-          return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
-        }
-      });
+          } else {
+            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+          }
+        });
+      } else {
+        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+      }
     });
   }
   
@@ -169,7 +162,7 @@ class FontListWidgetState extends State<FontListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(AppBloc.currentApp(context), page: BlocProvider.value(
+                        pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
                               value: BlocProvider.of<FontListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {

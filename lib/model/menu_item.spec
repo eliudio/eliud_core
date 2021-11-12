@@ -48,7 +48,7 @@
       "fieldName": "action",
       "group": "action",
       "fieldType": "Action",
-      "bespokeFormField": "ActionField(AppBloc.currentAppId(context), state.value!.action, _onActionChanged)"
+      "bespokeFormField": "ActionField(AccessBloc.currentAppId(context), state.value!.action, _onActionChanged)"
     }
   ],
   "groups": [

@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class PublicMediumForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AppBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePublicMediumFormEvent(value: value)),
@@ -81,7 +80,7 @@ class PublicMediumForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AppBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialisePublicMediumFormNoLoadEvent(value: value)),
@@ -92,7 +91,7 @@ class PublicMediumForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PublicMedium' : 'Add PublicMedium'),
         body: BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AppBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePublicMediumFormEvent(value: value) : InitialiseNewPublicMediumFormEvent())),
@@ -156,7 +155,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PublicMediumFormBloc, PublicMediumFormState>(builder: (context, state) {
@@ -258,15 +257,15 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
           );
 
         children.add(
@@ -489,7 +488,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
   }
 
   bool _readOnly(AccessState accessState, PublicMediumFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
@@ -34,8 +33,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
     var currentPage = widget.currentPage;
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, theState) {
-        if (theState is AppLoaded) {
+        if (accessState is AccessDetermined) {
           return Decorations.instance().createDecoratedBottomNavigationBar(
               context, _bottomNavigationBarKey, () {
             var homeMenu = widget.homeMenu;
@@ -56,6 +54,5 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
           return progressIndicator(context);
         }
       });
-    });
   }
 }

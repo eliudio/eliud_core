@@ -5,8 +5,6 @@ import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_out.dart';
 import 'package:eliud_core/core/blocs/access/state/undertermined_access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -17,12 +15,16 @@ import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 import 'access_event.dart';
 import 'state/logged_in.dart';
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
-  AccessBloc() : super(UndeterminedAccessState());
+  StreamSubscription? _appSubscription;
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  AccessBloc(this.navigatorKey) : super(UndeterminedAccessState());
 
   @override
   Stream<AccessState> mapEventToState(AccessEvent event) async* {
@@ -31,20 +33,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
-      var toYield = await _mapUsrAndApp([event.app], usr, null);
+      var toYield = await _mapUsrAndApp(event.app, [event.app], usr, null);
       yield toYield;
     } else if (theState is AccessDetermined) {
-      if (event is MemberUpdated) {
-        if ((event.member != null) && (theState is LoggedIn)) {
-          yield await theState.copyWith(event.member);
-        } else {
-          // Assumed the result of having logged out, which has been processed separately by the bloc already
-        }
-      } else if (event is LogoutEvent) {
+      if (event is LogoutEvent) {
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!
             .signOut();
-        var toYield = await _mapUsrAndApp(theState.apps, null, null);
+        var toYield = await _mapUsrAndApp(theState.currentApp, theState.apps, null, null);
         yield toYield;
       } else if (event is LoginEvent) {
         var usr;
@@ -55,17 +51,28 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         } catch (exception) {
           print('Exception during signInWithGoogle: $exception');
         }
-        yield await _mapUsrAndApp(theState.apps, usr, event.actions);
+        yield await _mapUsrAndApp(theState.currentApp, theState.apps, usr, event.actions);
         if (event.actions != null) {
           event.actions!.runTheAction();
         }
-      } else if (event is AddAppEvent) {
-        // reconstruct current state and include the new app, i.e.
-/*
-        state.copyWith(expand existing apps + the event.app)
-        this copy should make sure the page, dialog and package settings are set appropriatly but in an efficient way, ie. copy what exists and change
-*/
-      } else if (event is UpdatePackageCondition) {
+      } else if (event is SelectApp) {
+        yield await switchApp(theState, event.app);
+      } else if (event is SelectAppWithID) {
+        yield await switchApp(theState, await _fetchApp(event.appId));
+      } else if (event is AppUpdated) {
+        yield await theState.updateApp(event.app);
+      } else if (event is GotoPageEvent) {
+        var appId = event.appId;
+          if (appId == theState.currentApp.documentID) {
+            gotoPage(event.appId, event.pageId, parameters: event.parameters);
+          } else {
+            // switch app first
+            add(SelectAppWithID(event.appId));
+            // then goto the page
+            add(event);
+          }
+
+        } else if (event is UpdatePackageCondition) {
 /*
         change the condition for this package, for this app
         yield the changed access state with this condition
@@ -111,18 +118,42 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessState> _mapMemberAndApp(User usr, MemberModel member,
-      List<AppModel> apps, PostLoginAction? postLoginAction) async {
-    return await LoggedIn.getLoggedIn(usr, member, apps, postLoginAction);
+  Future<AccessState> switchApp(AccessDetermined accessState, AppModel app) async {
+    var newState = await accessState.switchApp(app);
+    var homePage = getHomepage(app, newState);
+    add(GotoPageEvent(app.documentID!, homePage, null));
+    return newState;
   }
 
-  Future<AccessState> _mapUsrAndApp(
+  Future<void> gotoPage(String appId, String pageId, { Map<String, dynamic>? parameters }) async {
+    if (navigatorKey.currentState != null) {
+      await navigatorKey.currentState!.pushNamed(
+          eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
+          appId + '/' + pageId, parameters));
+    } else {
+      throw Exception("Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
+    }
+  }
+
+  Stream<AccessState> _listenToApp(String appId) async* {
+    await _appSubscription?.cancel();
+    _appSubscription = appRepository(appId: appId)!.listenTo(appId, (value) {
+      if (value != null) add(AppUpdated(value));
+    });
+  }
+
+  Future<AccessState> _mapMemberAndApp(User usr, MemberModel member, AppModel currentApp,
+      List<AppModel> apps, PostLoginAction? postLoginAction) async {
+    return await LoggedIn.getLoggedIn(usr, member, currentApp, apps, postLoginAction);
+  }
+
+  Future<AccessState> _mapUsrAndApp(AppModel currentApp,
       List<AppModel> apps, User? usr, PostLoginAction? postLoginAction) async {
     if (usr == null) {
-      return await LoggedOut.getLoggedOut(apps);
+      return await LoggedOut.getLoggedOut(currentApp, apps);
     } else {
       var member = await firebaseToMemberModel(usr);
-      return _mapMemberAndApp(usr, member, apps, postLoginAction);
+      return _mapMemberAndApp(usr, member, currentApp, apps, postLoginAction);
     }
   }
 
@@ -213,7 +244,30 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static bool isOwner(BuildContext context) {
-    return AccessBloc.getState(context).memberIsOwner(AppBloc.currentAppId(context));
+    var theState = AccessBloc.getState(context);
+    if (theState is AccessDetermined) {
+      return theState.memberIsOwner(theState.currentApp.documentID!);
+    } else {
+      return false;
+    }
+  }
+
+  static AppModel currentApp(BuildContext context) {
+    var theState = AccessBloc.getState(context);
+    if (theState is AccessDetermined) {
+      return theState.currentApp;
+    } else {
+      throw Exception('No current app');
+    }
+  }
+
+  static String currentAppId(BuildContext context) {
+    var theState = AccessBloc.getState(context);
+    if (theState is AccessDetermined) {
+      return theState.currentApp.documentID!;
+    } else {
+      throw Exception('No current app');
+    }
   }
 
   static AccessState getState(BuildContext context) {
@@ -221,6 +275,53 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return state;
   }
 
+  Future<AppModel> _fetchApp(String id) async {
+    var appModel = await AbstractMainRepositorySingleton.singleton
+        .appRepository()!
+        .get(id);
+    if (appModel == null) {
+      throw Exception("Unable to find app with id '$id");
+    } else {
+      return appModel;
+    }
+  }
+
+
+  String getHomepage(AppModel app, AccessState accessState) {
+    var appId = app.documentID!;
+    var privilegeLevel;
+    if (accessState is LoggedIn) {
+      privilegeLevel = accessState.getPrivilegeLevel(appId);
+    } else {
+      if (app.homePages!.homePagePublic != null) return app.homePages!.homePagePublic!;
+      throw Exception("homePagePublic for app with id '$appId' is null");
+    }
+    if (accessState.isBlocked(appId)) {
+      if (app.homePages!.homePageBlockedMember != null) return app.homePages!.homePageBlockedMember!;
+      throw Exception("homePageBlockedMember for app with id '$appId' is null");
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
+        (app.homePages!.homePageOwner != null)) {
+      if (app.homePages!.homePageOwner != null) return app.homePages!.homePageOwner!;
+      throw Exception("homePageOwner for app with id '$appId' is null");
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
+        (app.homePages!.homePageLevel2Member != null)) {
+      if (app.homePages!.homePageLevel2Member != null) return app.homePages!.homePageLevel2Member!;
+      throw Exception("homePageLevel2Member for app with id '$appId' is null");
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
+        (app.homePages!.homePageLevel1Member != null)) {
+      if (app.homePages!.homePageLevel1Member != null) return app.homePages!.homePageLevel1Member!;
+      throw Exception("homePageLevel1Member for app with id '$appId' is null");
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
+        (app.homePages!.homePageSubscribedMember != null)) {
+      if (app.homePages!.homePageSubscribedMember != null) return app.homePages!.homePageSubscribedMember!;
+      throw Exception("homePageSubscribedMember for app with id '$appId' is null");
+    }
+    throw Exception("Unknown privilegeLevel $privilegeLevel for app with id '$appId'");
+  }
 /*  static AppModel? app(BuildContext context) {
     var state = BlocProvider.of<AccessBloc>(context).state;
     if (state is AppLoaded) {

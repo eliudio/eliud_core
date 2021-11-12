@@ -1,8 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_event.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
@@ -141,13 +138,12 @@ class Router {
       if (action is FunctionToRun) {
         action.actionToRun();
       } else if (action is GotoPage) {
-        BlocProvider.of<AppBloc>(context).add(GotoPageEvent(action.appID, action.pageID, parameters));
+        BlocProvider.of<AccessBloc>(context).add(GotoPageEvent(action.appID, action.pageID, parameters));
       } else if (action is OpenDialog) {
         await Registry.registry()!
             .openDialog(context, id: action.dialogID, parameters: parameters);
       } else if (action is SwitchApp) {
-        var appId = action.toAppID;
-        BlocProvider.of<AppBloc>(context).add(SelectOtherApp(action.appID));
+        BlocProvider.of<AccessBloc>(context).add(SelectAppWithID(action.toAppID));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:

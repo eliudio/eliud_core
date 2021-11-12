@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class FontForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.currentAppId(context),
+            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormEvent(value: value)),
@@ -81,7 +80,7 @@ class FontForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.currentAppId(context),
+            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormNoLoadEvent(value: value)),
@@ -92,7 +91,7 @@ class FontForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
         body: BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AppBloc.currentAppId(context),
+            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseFontFormEvent(value: value) : InitialiseNewFontFormEvent())),
@@ -142,7 +141,7 @@ class _MyFontFormState extends State<MyFontForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<FontFormBloc, FontFormState>(builder: (context, state) {
@@ -212,39 +211,39 @@ class _MyFontFormState extends State<MyFontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Thin', 'Thin', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Thin', 'Thin', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraLight', 'ExtraLight', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraLight', 'ExtraLight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Light', 'Light', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Light', 'Light', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Medium', 'Medium', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Medium', 'Medium', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'SemiBold', 'SemiBold', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'SemiBold', 'SemiBold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Bold', 'Bold', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Bold', 'Bold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraBold', 'ExtraBold', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraBold', 'ExtraBold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'MostThick', 'MostThick', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'MostThick', 'MostThick', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
           );
 
 
@@ -260,11 +259,11 @@ class _MyFontFormState extends State<MyFontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Italic', 'Italic', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Italic', 'Italic', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
           );
 
 
@@ -280,19 +279,19 @@ class _MyFontFormState extends State<MyFontForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Underline', 'Underline', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Underline', 'Underline', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Overline', 'Overline', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Overline', 'Overline', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'LineThrough', 'LineThrough', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'LineThrough', 'LineThrough', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
           );
 
 
@@ -424,7 +423,7 @@ class _MyFontFormState extends State<MyFontForm> {
   }
 
   bool _readOnly(AccessState accessState, FontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

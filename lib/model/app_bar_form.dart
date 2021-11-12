@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class AppBarForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormEvent(value: value)),
@@ -81,7 +80,7 @@ class AppBarForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormNoLoadEvent(value: value)),
@@ -92,7 +91,7 @@ class AppBarForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppBar' : 'Add AppBar'),
         body: BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AppBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppBarFormEvent(value: value) : InitialiseNewAppBarFormEvent())),
@@ -141,7 +140,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppBarFormBloc, AppBarFormState>(builder: (context, state) {
@@ -210,19 +209,19 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Title', 'Title', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Title', 'Title', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Image', 'Image', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Image', 'Image', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Icon', 'Icon', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'Icon', 'Icon', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _headerSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeader(val))
           );
 
 
@@ -484,7 +483,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
   bool _readOnly(AccessState accessState, AppBarFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

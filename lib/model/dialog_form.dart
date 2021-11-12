@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class DialogForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AppBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseDialogFormEvent(value: value)),
@@ -81,7 +80,7 @@ class DialogForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AppBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add(InitialiseDialogFormNoLoadEvent(value: value)),
@@ -92,7 +91,7 @@ class DialogForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Dialog' : 'Add Dialog'),
         body: BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AppBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseDialogFormEvent(value: value) : InitialiseNewDialogFormEvent())),
@@ -142,7 +141,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DialogFormBloc, DialogFormState>(builder: (context, state) {
@@ -273,15 +272,15 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'GridView', 'GridView', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'GridView', 'GridView', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'ListView', 'ListView', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'ListView', 'ListView', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'OnlyTheFirstComponent', 'OnlyTheFirstComponent', !accessState.memberIsOwner(AppBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _layoutSelectedRadioTile, 'OnlyTheFirstComponent', 'OnlyTheFirstComponent', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionLayout(val))
           );
 
 
@@ -448,7 +447,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
   bool _readOnly(AccessState accessState, DialogFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AppBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
   }
   
 

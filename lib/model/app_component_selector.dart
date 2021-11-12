@@ -14,7 +14,6 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -39,7 +38,7 @@ class AppComponentSelector extends ComponentSelector {
     return BlocProvider<AppListBloc>(
           create: (context) => AppListBloc(
             appRepository:
-                appRepository(appId: AppBloc.currentAppId(context))!,
+                appRepository(appId: AccessBloc.currentAppId(context))!,
           )..add(LoadAppList()),
       child: SelectAppWidget(
           height: height,

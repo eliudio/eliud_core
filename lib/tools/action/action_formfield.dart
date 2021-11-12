@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_state.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -68,15 +67,14 @@ class ActionFieldState extends State<ActionField> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
-      return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-      if (appState is AppLoaded) {
+      if (state is AccessDetermined) {
         var widgets = <Widget>[
           RadioListTile(
             value: 0,
             groupValue: _actionSelection,
             title: Text('Goto Page'),
             subtitle: Text('This action results in moving to another page'),
-            onChanged: !state.memberIsOwner(appState.app.documentID!)
+            onChanged: !state.memberIsOwner(state.currentAppId())
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -88,7 +86,7 @@ class ActionFieldState extends State<ActionField> {
             title: Text('Internal'),
             subtitle: Text(
                 'This action results in one of the predefined internal actions'),
-            onChanged: !state.memberIsOwner(appState.app.documentID!)
+            onChanged: !state.memberIsOwner(state.currentAppId())
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -99,7 +97,7 @@ class ActionFieldState extends State<ActionField> {
             groupValue: _actionSelection,
             title: Text('Popup Menu'),
             subtitle: Text('This menu item will open another popup menu'),
-            onChanged: !state.memberIsOwner(appState.app.documentID!)
+            onChanged: !state.memberIsOwner(state.currentAppId())
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -151,7 +149,6 @@ class ActionFieldState extends State<ActionField> {
       } else {
         return progressIndicator(context);
       }});
-    });
   }
 
   void setSelectionDisplayMode(int? val) {

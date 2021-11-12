@@ -17,9 +17,23 @@ abstract class ActionEntity {
   Map<String, Object?> toDocument();
 
   static ActionEntity fromMap(Map snap) {
-    var fromSnap = ActionModelRegistry.registry()!.getMapper(snap['actionType'])!.fromMap(snap);
-    if (fromSnap != null) return fromSnap;
-    throw Exception("fromSnap is null");
+    var actionType = snap['actionType'];
+    if (actionType != null) {
+      var mapper = ActionModelRegistry.registry()!.getMapper(actionType);
+      if (mapper != null) {
+        var fromSnap = ActionModelRegistry.registry()!.getMapper(actionType)!
+            .fromMap(snap);
+        if (fromSnap != null) {
+          return fromSnap;
+        } else {
+          throw Exception("fromSnap is null");
+        }
+      } else {
+        throw Exception("Mapper for $actionType is null");
+      }
+    } else {
+      throw Exception("actionType is null");
+    }
   }
 }
 

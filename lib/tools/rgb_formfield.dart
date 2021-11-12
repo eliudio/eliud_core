@@ -1,5 +1,4 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:expandable/expandable.dart';
@@ -37,13 +36,13 @@ class RgbFieldState extends State<RgbField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = AppBloc.currentAppId(context);
+    var appId = AccessBloc.currentAppId(context);
     var widgets = <Widget>[];
     if (accessState.memberIsOwner(appId)) {
       widgets.add(ExpandablePanel(
         header: Text(widget.label),
         collapsed: Center(
-            child: new Container(
+            child: Container(
               height: 20.0,
               width: fullScreenWidth(context) / 1.5,
               color: color,
@@ -56,7 +55,7 @@ class RgbFieldState extends State<RgbField> {
         )));
     }
     widgets.add(
-      new Container(
+      Container(
         height: 15.0,
       ));
 
@@ -68,7 +67,7 @@ class RgbFieldState extends State<RgbField> {
 
   void changeColor(Color c) {
     setState(() => color = c);
-    RgbModel rgbModel =
+    var rgbModel =
         RgbModel(r: c.red, g: c.green, b: c.blue, opacity: c.opacity);
     widget.trigger(rgbModel);
   }

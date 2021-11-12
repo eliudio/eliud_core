@@ -16,7 +16,6 @@
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/screen_size.dart';
@@ -68,11 +67,11 @@ class MemberForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
@@ -80,7 +79,7 @@ class MemberForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
@@ -90,7 +89,7 @@ class MemberForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
@@ -161,7 +160,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
@@ -686,11 +685,11 @@ class MemberSmallForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
@@ -698,7 +697,7 @@ class MemberSmallForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
@@ -708,7 +707,7 @@ class MemberSmallForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
@@ -747,7 +746,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
@@ -878,11 +877,11 @@ class MemberAddressForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
@@ -890,7 +889,7 @@ class MemberAddressForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
@@ -900,7 +899,7 @@ class MemberAddressForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
         body: BlocProvider<MemberFormBloc >(
-            create: (context) => MemberFormBloc(AppBloc.currentAppId(context),
+            create: (context) => MemberFormBloc(AccessBloc.currentAppId(context),
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
@@ -965,7 +964,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AppBloc.currentApp(context);
+    var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {

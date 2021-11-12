@@ -14,7 +14,6 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/app/app_bloc.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -39,7 +38,7 @@ class PageComponentSelector extends ComponentSelector {
     return BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
             pageRepository:
-                pageRepository(appId: AppBloc.currentAppId(context))!,
+                pageRepository(appId: AccessBloc.currentAppId(context))!,
           )..add(LoadPageList()),
       child: SelectPageWidget(
           height: height,
