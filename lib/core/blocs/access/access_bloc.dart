@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_out.dart';
 import 'package:eliud_core/core/blocs/access/state/undertermined_access_state.dart';
@@ -10,12 +11,12 @@ import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 
 import 'access_event.dart';
 import 'state/logged_in.dart';
@@ -62,17 +63,22 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is AppUpdated) {
         yield await theState.updateApp(event.app);
       } else if (event is GotoPageEvent) {
-        var appId = event.appId;
-          if (appId == theState.currentApp.documentID) {
-            gotoPage(event.appId, event.pageId, parameters: event.parameters);
-          } else {
-            // switch app first
-            add(SelectAppWithID(event.appId));
-            // then goto the page
-            add(event);
-          }
-
-        } else if (event is UpdatePackageCondition) {
+        var page = await pageRepository(appId: event.appId)!.get(event.pageId);
+        if (page != null) {
+          gotoPage(event.appId, event.pageId, parameters: event.parameters);
+          yield await theState.switchPage(page, parameters: event.parameters);
+        } else {
+          print('Trying to open page ' + event.pageId + ' in app ' + event.appId + "which doesn't exist");
+        }
+      } else if (event is OpenDialogEvent) {
+        var dialog = await dialogRepository(appId: theState.currentAppId())!.get(event.dialogId);
+        if (dialog != null) {
+          yield await theState.openDialog(
+              dialog, parameters: event.parameters);
+        } else {
+          print('Trying to open dialog ' + event.dialogId + ' in app ' + theState.currentAppId() + "which doesn't exist");
+        }
+      } else if (event is UpdatePackageCondition) {
 /*
         change the condition for this package, for this app
         yield the changed access state with this condition
@@ -118,14 +124,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessState> switchApp(AccessDetermined accessState, AppModel app) async {
-    var newState = await accessState.switchApp(app);
-    var homePage = getHomepage(app, newState);
-    add(GotoPageEvent(app.documentID!, homePage, null));
-    return newState;
+  Future<AccessDetermined> switchApp(AccessDetermined accessState, AppModel app) async {
+    var accessDetermined = accessState.switchApp(app);
+    var currentContext = accessState.currentContext;
+    if (currentContext is PageContext) {
+      gotoPage(app.documentID!, currentContext.page.documentID!);
+    }
+    return accessDetermined;
   }
 
   Future<void> gotoPage(String appId, String pageId, { Map<String, dynamic>? parameters }) async {
+/*
     if (navigatorKey.currentState != null) {
       await navigatorKey.currentState!.pushNamed(
           eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
@@ -133,6 +142,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     } else {
       throw Exception("Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
     }
+*/
   }
 
   Stream<AccessState> _listenToApp(String appId) async* {
@@ -286,42 +296,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-
-  String getHomepage(AppModel app, AccessState accessState) {
-    var appId = app.documentID!;
-    var privilegeLevel;
-    if (accessState is LoggedIn) {
-      privilegeLevel = accessState.getPrivilegeLevel(appId);
-    } else {
-      if (app.homePages!.homePagePublic != null) return app.homePages!.homePagePublic!;
-      throw Exception("homePagePublic for app with id '$appId' is null");
-    }
-    if (accessState.isBlocked(appId)) {
-      if (app.homePages!.homePageBlockedMember != null) return app.homePages!.homePageBlockedMember!;
-      throw Exception("homePageBlockedMember for app with id '$appId' is null");
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index) &&
-        (app.homePages!.homePageOwner != null)) {
-      if (app.homePages!.homePageOwner != null) return app.homePages!.homePageOwner!;
-      throw Exception("homePageOwner for app with id '$appId' is null");
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index) &&
-        (app.homePages!.homePageLevel2Member != null)) {
-      if (app.homePages!.homePageLevel2Member != null) return app.homePages!.homePageLevel2Member!;
-      throw Exception("homePageLevel2Member for app with id '$appId' is null");
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index) &&
-        (app.homePages!.homePageLevel1Member != null)) {
-      if (app.homePages!.homePageLevel1Member != null) return app.homePages!.homePageLevel1Member!;
-      throw Exception("homePageLevel1Member for app with id '$appId' is null");
-    }
-    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index) &&
-        (app.homePages!.homePageSubscribedMember != null)) {
-      if (app.homePages!.homePageSubscribedMember != null) return app.homePages!.homePageSubscribedMember!;
-      throw Exception("homePageSubscribedMember for app with id '$appId' is null");
-    }
-    throw Exception("Unknown privilegeLevel $privilegeLevel for app with id '$appId'");
-  }
 /*  static AppModel? app(BuildContext context) {
     var state = BlocProvider.of<AccessBloc>(context).state;
     if (state is AppLoaded) {

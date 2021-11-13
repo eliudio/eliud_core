@@ -90,5 +90,12 @@ class GotoPageEvent extends AccessEvent {
   final String pageId;
   final Map<String, dynamic>? parameters;
 
-  GotoPageEvent(this.appId, this.pageId, this.parameters);
+  GotoPageEvent(this.appId, this.pageId, {this.parameters});
+}
+
+class OpenDialogEvent extends AccessEvent {
+  final String dialogId;
+  final Map<String, dynamic>? parameters;
+
+  OpenDialogEvent(this.dialogId, {this.parameters});
 }

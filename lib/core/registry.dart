@@ -75,22 +75,7 @@ class Registry {
     return _instance;
   }
 
-  Widget page(
-      {required String appId,
-      required String pageId,
-      Map<String, dynamic>? parameters}) {
-    PageComponent? returnThis;
-    try {
-      returnThis = PageComponent(
-        navigatorKey: navigatorKey,
-        appId: appId,
-        pageId: pageId,
-        parameters: parameters,
-      );
-    } catch (_) {}
-    if (returnThis != null) return returnThis;
-    return _missingPage();
-  }
+  Widget page() => PageComponent();
 
   Future<void> openDialog(BuildContext context,
       {String? id, Map<String, dynamic>? parameters}) async {
@@ -156,8 +141,39 @@ class Registry {
 
     return BlocProvider<AccessBloc>(
         create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app)),
-        child: BlocBuilder<AccessBloc, AccessState>(
-            builder: (context, accessState) {
+        child: MaterialApp(
+          key: _appKey,
+          debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
+          scaffoldMessengerKey: rootScaffoldMessengerKey,
+          initialRoute: initialRoute,
+          onGenerateRoute: eliudrouter.Router.generateRoute,
+          onUnknownRoute: (RouteSettings setting) {
+            return pageRouteBuilderWithAppId(appId,
+                page: AlertWidget(title: 'Error', content: 'Page not found'));
+          },
+          title: 'No title',
+        ));
+
+    return BlocProvider<AccessBloc>(
+        create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app)),
+        child: BlocListener<AccessBloc, AccessState>(
+            listener: (BuildContext context, AccessState accessState) {
+          if (accessState is AccessDetermined) {
+            var currentContext = accessState.currentContext;
+            if (currentContext is PageContext) {
+              navigatorKey.currentState!.pushNamed(eliudrouter.Router.pageRoute,
+                  arguments: eliudrouter.Arguments(
+                      appId + '/' + currentContext.page.documentID!,
+                      currentContext.parameters));
+            } else if (currentContext is DialogContext) {
+              openDialog(context,
+                  id: currentContext.dialog.documentID!,
+                  parameters: currentContext.parameters);
+            }
+          }
+        }, child: BlocBuilder<AccessBloc, AccessState>(
+                builder: (context, accessState) {
           if (accessState is AccessDetermined) {
             return Decorations.instance().createDecoratedApp(
                 context,
@@ -183,7 +199,7 @@ class Registry {
           } else {
             return Center(child: CircularProgressIndicator());
           }
-        }));
+        })));
   }
 
   Widget component(

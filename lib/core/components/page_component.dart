@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
@@ -25,65 +26,17 @@ import '../registry.dart';
 class PageComponent extends StatefulWidget {
   final GlobalKey _pageKey = GlobalKey();
 
-  final GlobalKey<NavigatorState>? navigatorKey;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  final Map<String, dynamic>? parameters;
-  final String appId;
-  final String pageId;
 
-  PageComponent(
-      {this.navigatorKey,
-      required this.appId,
-      required this.pageId,
-      this.parameters});
+  PageComponent();
 
   @override
   State<StatefulWidget> createState() {
     return _PageComponentState();
   }
 }
-/*
-
-class _PageComponentState extends State<PageComponent> {
-  _PageComponentState();
-
-  Future<PageModel?> getPage(String appId, String pageId) {
-    return pageRepository(appId: appId)!.get(pageId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
-      if (state is AppLoaded) {
-        return FutureBuilder<PageModel?>(
-            future: getPage(widget.appId, widget.pageId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var pageModel = snapshot.data!;
-                return Decorations.instance().createDecoratedPage(
-                    context,
-                    widget._pageKey,
-                    () => PageContentsWidget(
-                          key: widget._pageKey,
-                          pageID: widget.pageId,
-                          pageModel: pageModel,
-                          parameters: widget.parameters,
-                          scaffoldKey: widget.scaffoldKey,
-                          scaffoldMessengerKey: widget.scaffoldMessengerKey,
-                        ),
-                    pageModel)();
-              }
-              return progressIndicator(context);
-            });
-      } else {
-        return progressIndicator(context);
-      }
-    });
-  }
-}
-*/
 
 class _PageComponentState extends State<PageComponent> {
   Widget? theBody;
@@ -96,78 +49,120 @@ class _PageComponentState extends State<PageComponent> {
   @override
   Widget build(BuildContext context) {
     hasFab = null;
-    return BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-      if (accessState is AccessDetermined) {
-        return FutureBuilder<PageModel?>(
-            future: getPage(widget.appId, widget.pageId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var pageModel = snapshot.data!;
-                var value = pageModel;
-                var pageTitle = value.title;
-                var pageID = pageModel.documentID!;
-                var parameters = widget.parameters;
-                var componentInfo = ComponentInfo.getComponentInfo(
-                    context,
-                    value.bodyComponents!,
-                    parameters,
-                    accessState,
-                    fromPageLayout(value.layout),
-                    value.backgroundOverride,
-                    value.gridView);
-                theBody = PageBody(
-                  componentInfo: componentInfo,
-                );
+    return BlocConsumer<AccessBloc, AccessState>(
+      buildWhen: (previousState, state) {
+        return state != previousState;
+      },
+      builder: (BuildContext context, accessState) {
+        if (accessState is AccessDetermined) {
+          var currentContext = accessState.currentContext;
+          if (currentContext is PageContext) {
+            var value = currentContext.page;
+            var appId = value.appId!;
+            var pageID = value.documentID!;
+            var parameters = accessState.currentContext.parameters;
+            var componentInfo = ComponentInfo.getComponentInfo(
+                context,
+                value.bodyComponents!,
+                parameters,
+                accessState,
+                fromPageLayout(value.layout),
+                value.backgroundOverride,
+                value.gridView);
+            theBody = PageBody(
+              componentInfo: componentInfo,
+            );
 //    }
 
-                var drawer = value.drawer == null
-                    ? null
-                    : EliudDrawer(
-                        drawerType: DrawerType.Left,
-                        drawer: value.drawer!,
-                        currentPage: pageID);
-                var endDrawer = value.endDrawer == null
-                    ? null
-                    : EliudDrawer(
-                        drawerType: DrawerType.Right,
-                        drawer: value.endDrawer!,
-                        currentPage: pageID);
-                var bottomNavigationBar = EliudBottomNavigationBar(
-                    homeMenu: value.homeMenu!, currentPage: pageID);
-                var appBar = value.appBar == null
-                    ? null
-                    : PreferredSize(
-                        preferredSize:
-                            const Size(double.infinity, kToolbarHeight),
-                        child: EliudAppBar(
-                            pageTitle: pageTitle,
-                            currentPage: pageID,
-                            scaffoldKey: widget.scaffoldKey,
-                            theTitle: value.title == null ? '' : value.title!,
-                            value: value.appBar!));
-                var fab = hasFab != null ? hasFab!.fab(context) : null;
-                var scaffoldMessenger = ScaffoldMessenger(
-                    key: widget.scaffoldMessengerKey,
-                    child: Scaffold(
-                      key: widget.scaffoldKey,
-                      endDrawer: endDrawer,
-                      appBar: appBar,
-                      body: theBody,
-                      drawer: drawer,
-                      floatingActionButton: fab,
-                      floatingActionButtonLocation:
-                          FloatingActionButtonLocation.centerFloat,
-                      bottomNavigationBar: bottomNavigationBar,
-                    ));
-                return scaffoldMessenger;
-              } else {
-                return progressIndicator(context);
-              }
-            });
-      } else {
-        return progressIndicator(context);
+            var drawer = value.drawer == null
+                ? null
+                : EliudDrawer(
+                drawerType: DrawerType.Left,
+                drawer: value.drawer!,
+                currentPage: pageID);
+            var endDrawer = value.endDrawer == null
+                ? null
+                : EliudDrawer(
+                drawerType: DrawerType.Right,
+                drawer: value.endDrawer!,
+                currentPage: pageID);
+            var bottomNavigationBar = EliudBottomNavigationBar(
+                homeMenu: value.homeMenu!, currentPage: pageID);
+            var appBar = value.appBar == null
+                ? null
+                : PreferredSize(
+                preferredSize: const Size(double.infinity, kToolbarHeight),
+                child: EliudAppBar(
+                    pageTitle: value.title,
+                    currentPage: pageID,
+                    scaffoldKey: widget.scaffoldKey,
+                    theTitle: value.title == null ? '' : value.title!,
+                    value: value.appBar!));
+            var fab = hasFab != null ? hasFab!.fab(context) : null;
+            var scaffold = Scaffold(
+              key: widget.scaffoldKey,
+              endDrawer: endDrawer,
+              appBar: appBar,
+              body: theBody,
+              drawer: drawer,
+              floatingActionButton: fab,
+              floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+              bottomNavigationBar: bottomNavigationBar,
+            );
+            var scaffoldMessenger = ScaffoldMessenger(
+                key: widget.scaffoldMessengerKey, child: scaffold);
+            return scaffoldMessenger;
+          } else {
+            return text(context,
+                'Error: PageComponent with context which is not a PageContext ');
+          }
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+      listener: (BuildContext context, accessState) {
+        if (accessState is AccessDetermined) {
+          var currentContext = accessState.currentContext;
+          if (currentContext is PageContext) {
+              Navigator.of(context).pushNamed(eliudrouter.Router.pageRoute,
+                  arguments: eliudrouter.Arguments(
+                      currentContext.page.appId! +
+                          '/' +
+                          currentContext.page.documentID!,
+                      currentContext.parameters));
+          } else if (currentContext is DialogContext) {
+            Registry.registry()!.openDialog(context,
+                id: currentContext.dialog.documentID!,
+                parameters: currentContext.parameters);
+          }
+        }
+      },
+    );
+
+    return /*BlocListener<AccessBloc, AccessState>(listener:
+        (BuildContext context, AccessState accessState) {
+      if (accessState is AccessDetermined) {
+        var modalRoute = ModalRoute.of(context) as ModalRoute;
+        var settings = modalRoute.settings;
+        var fullPageId = settings.name;
+        var currentContext = accessState.currentContext;
+        if (currentContext is PageContext) {
+          if (!fullPageId!.contains(currentContext.page.documentID!)) {
+            Navigator.of(context).pushNamed(eliudrouter.Router.pageRoute,
+                arguments: eliudrouter.Arguments(
+                    currentContext.page.appId! +
+                        '/' +
+                        currentContext.page.documentID!,
+                    currentContext.parameters));
+          }
+        } else if (currentContext is DialogContext) {
+          Registry.registry()!.openDialog(context,
+              id: currentContext.dialog.documentID!,
+              parameters: currentContext.parameters);
+        }
       }
-    });
+    }, child: */BlocBuilder<AccessBloc, AccessState>(builder: (context, accessState) {
+    })/*)*/;
   }
 }

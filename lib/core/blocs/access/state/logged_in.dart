@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,29 +19,34 @@ class LoggedIn extends AccessDetermined {
   final PostLoginAction? postLoginAction;
 
   LoggedIn._(
-      this.usr,
-      this.member,
-      this.postLoginAction,
-      AppModel currentApp,
-      List<AppModel> apps,
-      Map<String, PagesAndDialogAccesss> accesses,
-      )
-      : super(currentApp, apps, accesses);
+    this.usr,
+    this.member,
+    this.postLoginAction,
+    AppModel currentApp,
+    AccessContext currentContext,
+    List<AppModel> apps,
+    Map<String, PagesAndDialogAccesss> accesses,
+  ) : super(currentApp, currentContext, apps, accesses);
 
   static Future<LoggedIn> getLoggedIn(
       User usr,
       MemberModel member,
       AppModel currentApp,
       List<AppModel> apps,
-      PostLoginAction? postLoginAction) async {
+      PostLoginAction? postLoginAction, {PageModel? page, Map<String, dynamic>? parameters}) async {
     var accesses = await AccessHelper.getAccesses(member, apps, false);
-    var loggedInWithoutMembership = LoggedIn._(
-        usr,
-        member,
-        postLoginAction,
-        currentApp,
-        apps,
-        accesses);
+    var newPageContext;
+    if (page == null) {
+      var privilegeLevel = _privilegeLevel(currentApp.documentID!, accesses);
+      var isBlocked = _isBlocked(currentApp.documentID!, accesses);
+      newPageContext = PageContext(await getHomepage(currentApp, isBlocked, privilegeLevel));
+    } else {
+      assert(page.appId == currentApp.documentID);
+      newPageContext = PageContext(page, parameters: parameters);
+    }
+
+    var loggedInWithoutMembership = LoggedIn._(usr, member, postLoginAction,
+        currentApp, newPageContext, apps, accesses);
     return loggedInWithoutMembership;
   }
 
@@ -62,14 +69,21 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  Future<LoggedIn> switchApp(AppModel newCurrentApp, ) {
+  Future<LoggedIn> switchApp(AppModel newCurrentApp, {PageModel? pageModel, Map<String, dynamic>? parameters}) async {
     if (newCurrentApp != currentApp) {
       if (apps.contains(newCurrentApp)) {
+        var newPageContext = pageModel != null ? PageContext(pageModel, parameters: parameters) : PageContext(await getHomepage(
+            newCurrentApp,
+            isBlocked(
+              newCurrentApp.documentID!,
+            ),
+            getPrivilegeLevel(newCurrentApp.documentID!)));
         return Future.value(LoggedIn._(
           usr,
           member,
           postLoginAction,
           newCurrentApp,
+          newPageContext,
           apps,
           accesses,
         ));
@@ -78,10 +92,7 @@ class LoggedIn extends AccessDetermined {
         var newApps = apps.map((v) => v).toList();
         newApps.add(newCurrentApp);
         return getLoggedIn(
-            usr,
-            member,
-            newCurrentApp,
-            newApps, null);
+            usr, member, newCurrentApp, newApps, null, page: pageModel);
       }
     } else {
       return Future.value(this);
@@ -89,13 +100,16 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  Future<LoggedIn> updateApp(AppModel newCurrentApp, ) {
+  Future<LoggedIn> updateApp(
+    AppModel newCurrentApp,
+  ) {
     if (newCurrentApp == currentApp) {
       return Future.value(LoggedIn._(
         usr,
         member,
         postLoginAction,
         newCurrentApp,
+        currentContext,
         apps,
         accesses,
       ));
@@ -105,17 +119,47 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
+  Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters}) async {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      currentApp,
+      PageContext(page, parameters: parameters),
+      apps,
+      accesses,
+    );
+  }
+
+  @override
+  Future<AccessDetermined> copyWithNewDialog(DialogModel dialog, {Map<String, dynamic>? parameters}) async {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      currentApp,
+      DialogContext(dialog, parameters: parameters),
+      apps,
+      accesses,
+    );
+  }
+
+  @override
   MemberModel? getMember() => member;
 
   @override
-  PrivilegeLevel getPrivilegeLevel(String appId) {
+  PrivilegeLevel getPrivilegeLevel(String appId) => _privilegeLevel(appId, accesses);
+
+  static PrivilegeLevel _privilegeLevel(String appId, Map<String, PagesAndDialogAccesss> accesses) {
     var appAccess = accesses[appId];
     if (appAccess == null) return PrivilegeLevel.NoPrivilege;
     return appAccess.privilegeLevel ?? PrivilegeLevel.NoPrivilege;
   }
 
   @override
-  bool isBlocked(String appId) {
+  bool isBlocked(String appId) => _isBlocked(appId, accesses);
+
+  static bool _isBlocked(String appId, Map<String, PagesAndDialogAccesss>  accesses) {
     var appAccess = accesses[appId];
     if (appAccess == null) return false;
     return appAccess.blocked ?? false;
@@ -125,7 +169,8 @@ class LoggedIn extends AccessDetermined {
   List<MemberCollectionInfo> getMemberCollectionInfo() {
     var memberCollectionInfo = <MemberCollectionInfo>[];
     for (var i = 0; i < Packages.registeredPackages.length; i++) {
-      var packageCollectionInfo = Packages.registeredPackages[i].getMemberCollectionInfo();
+      var packageCollectionInfo =
+          Packages.registeredPackages[i].getMemberCollectionInfo();
       if (packageCollectionInfo != null) {
         memberCollectionInfo.addAll(packageCollectionInfo);
       }
@@ -138,15 +183,46 @@ class LoggedIn extends AccessDetermined {
   bool forceAcceptMembership(String appId) => false;
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is LoggedIn &&
-              currentApp == other.currentApp &&
-              usr == other.usr &&
-              member == other.member &&
-              postLoginAction == other.postLoginAction &&
-              mapEquals(accesses, other.accesses) &&
-              ListEquality().equals(apps, other.apps);
+      other is LoggedIn &&
+          currentApp == other.currentApp &&
+          currentContext == other.currentContext &&
+          usr == other.usr &&
+          member == other.member &&
+          postLoginAction == other.postLoginAction &&
+          mapEquals(accesses, other.accesses) &&
+          ListEquality().equals(apps, other.apps);
+
+  static Future<PageModel> getHomepage(
+      AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
+    var appId = app.documentID!;
+    if (isBlocked) {
+      return AccessDetermined.getPage(
+          appId, app.homePages!.homePageBlockedMember,
+          alternativePageId: app.homePages!.homePagePublic);
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index)) {
+      return AccessDetermined.getPage(appId, app.homePages!.homePageOwner,
+          alternativePageId: app.homePages!.homePagePublic);
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index)) {
+      return AccessDetermined.getPage(
+          appId, app.homePages!.homePageLevel2Member,
+          alternativePageId: app.homePages!.homePagePublic);
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index)) {
+      return AccessDetermined.getPage(
+          appId, app.homePages!.homePageLevel1Member,
+          alternativePageId: app.homePages!.homePagePublic);
+    }
+    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index)) {
+      return AccessDetermined.getPage(
+          appId, app.homePages!.homePageSubscribedMember,
+          alternativePageId: app.homePages!.homePagePublic);
+    }
+    return AccessDetermined.getPage(appId, app.homePages!.homePagePublic);
+  }
 }
 
 /*
@@ -243,7 +319,7 @@ class LoggedInWithMembership extends LoggedIn {
     return LoggedInWithMembership._(
         usr,
         member, apps, accesses);
-*//*
+*/ /*
 
   }
 

@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,20 +65,23 @@ class Router {
     return error('No route defined for ${settings.name}!');
   }
 
-  static Route<dynamic> getRoute(String path, Map<String, dynamic>? parameters) {
+  static Route<dynamic> getRoute(
+      String path, Map<String, dynamic>? parameters) {
     final pagePath = path.split('/');
     if ((pagePath != null) && (pagePath.length == 2)) {
       final appId = pagePath[0];
       final pageId = pagePath[1];
 
-      var page = Registry.registry()!
-          .page(appId: appId, pageId: pageId, parameters: parameters);
-      if (page != null) {
-        return pageRouteBuilderWithAppId(appId,
-            pageId: pageId, parameters: parameters, page: page);
-      }
+/*
+      return MaterialPageRoute(builder: (context) => Registry.registry()!.page());
+*/
+      return pageRouteBuilderWithAppId(appId,
+          pageId: pageId,
+          parameters: parameters,
+          page: Registry.registry()!.page());
+    } else {
+      return error('No route defined for $path');
     }
-    return error('No route defined for $path');
   }
 
   static PageRouteBuilder error(String error) {
@@ -138,12 +142,16 @@ class Router {
       if (action is FunctionToRun) {
         action.actionToRun();
       } else if (action is GotoPage) {
-        BlocProvider.of<AccessBloc>(context).add(GotoPageEvent(action.appID, action.pageID, parameters));
+        BlocProvider.of<AccessBloc>(context).add(
+            GotoPageEvent(action.appID, action.pageID, parameters: parameters));
       } else if (action is OpenDialog) {
+        BlocProvider.of<AccessBloc>(context).add(
+            OpenDialogEvent(action.dialogID, parameters: parameters));
         await Registry.registry()!
             .openDialog(context, id: action.dialogID, parameters: parameters);
       } else if (action is SwitchApp) {
-        BlocProvider.of<AccessBloc>(context).add(SelectAppWithID(action.toAppID));
+        BlocProvider.of<AccessBloc>(context)
+            .add(SelectAppWithID(action.toAppID));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
