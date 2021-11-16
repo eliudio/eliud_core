@@ -78,7 +78,7 @@ class Router {
       return pageRouteBuilderWithAppId(appId,
           pageId: pageId,
           parameters: parameters,
-          page: Registry.registry()!.page());
+          page: Registry.registry()!.page(appId: appId, pageId: pageId, parameters: parameters));
     } else {
       return error('No route defined for $path');
     }

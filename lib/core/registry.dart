@@ -32,6 +32,8 @@ class Registry {
   final GlobalKey _appKey = GlobalKey();
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+  GlobalKey<ScaffoldMessengerState>();
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
 
@@ -75,7 +77,8 @@ class Registry {
     return _instance;
   }
 
-  Widget page() => PageComponent();
+  Widget page( {required String appId, required String pageId, Map<String, dynamic>? parameters}  ) =>
+      PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,
       {String? id, Map<String, dynamic>? parameters}) async {
@@ -123,9 +126,6 @@ class Registry {
     return app;
   }
 
-  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
-
   Widget application({required AppModel app, required bool asPlaystore}) {
     String? initialFragment;
     if (kIsWeb) {
@@ -155,6 +155,7 @@ class Registry {
           title: 'No title',
         ));
 
+/*
     return BlocProvider<AccessBloc>(
         create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app)),
         child: BlocListener<AccessBloc, AccessState>(
@@ -200,6 +201,7 @@ class Registry {
             return Center(child: CircularProgressIndicator());
           }
         })));
+*/
   }
 
   Widget component(

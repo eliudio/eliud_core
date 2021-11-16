@@ -34,8 +34,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
-      var toYield = await _mapUsrAndApp(event.app, [event.app], usr, null);
-      yield toYield;
+      yield await _mapUsrAndApp(event.app, [event.app], usr, null);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
         await AbstractMainRepositorySingleton.singleton
@@ -65,8 +64,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is GotoPageEvent) {
         var page = await pageRepository(appId: event.appId)!.get(event.pageId);
         if (page != null) {
+          var newState = await theState.switchPage(page, parameters: event.parameters);
+//        newState.accessAction = null;
+          yield newState;
+/*
           gotoPage(event.appId, event.pageId, parameters: event.parameters);
           yield await theState.switchPage(page, parameters: event.parameters);
+*/
         } else {
           print('Trying to open page ' + event.pageId + ' in app ' + event.appId + "which doesn't exist");
         }
@@ -126,15 +130,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   Future<AccessDetermined> switchApp(AccessDetermined accessState, AppModel app) async {
     var accessDetermined = accessState.switchApp(app);
+/*
     var currentContext = accessState.currentContext;
     if (currentContext is PageContext) {
       gotoPage(app.documentID!, currentContext.page.documentID!);
     }
+*/
     return accessDetermined;
   }
 
-  Future<void> gotoPage(String appId, String pageId, { Map<String, dynamic>? parameters }) async {
 /*
+  Future<void> gotoPage(String appId, String pageId, { Map<String, dynamic>? parameters }) async {
     if (navigatorKey.currentState != null) {
       await navigatorKey.currentState!.pushNamed(
           eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
@@ -142,8 +148,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     } else {
       throw Exception("Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
     }
-*/
   }
+*/
 
   Stream<AccessState> _listenToApp(String appId) async* {
     await _appSubscription?.cancel();

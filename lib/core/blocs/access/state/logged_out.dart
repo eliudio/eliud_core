@@ -12,21 +12,21 @@ import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
   static Future<LoggedOut> getLoggedOut(
-      AppModel currentApp, List<AppModel> apps,
-      {PageModel? page}) async {
-    var newPage = page ?? await getHomepage(currentApp);
+      AppModel currentApp, List<AppModel> apps,) async {
+    var homePage = await getHomepage(currentApp);
     var accesses = await AccessHelper.getAccesses(null, apps, false);
     var loggedOut =
-        LoggedOut._(currentApp, PageContext(newPage), apps, accesses);
+        LoggedOut._(currentApp, homePage, apps, accesses, OpenPageAction(homePage));
     return loggedOut;
   }
 
   LoggedOut._(
     AppModel currentApp,
-    AccessContext currentContext,
+    PageModel homePage,
     List<AppModel> apps,
     Map<String, PagesAndDialogAccesss> accesses,
-  ) : super(currentApp, currentContext, apps, accesses);
+    AccessAction? accessAction,
+  ) : super(currentApp, homePage, apps, accesses, accessAction);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -60,31 +60,30 @@ class LoggedOut extends AccessDetermined {
       identical(this, other) ||
       other is LoggedOut &&
           currentApp == other.currentApp &&
-          currentContext == other.currentContext &&
+          homePage == other.homePage &&
           runtimeType == other.runtimeType &&
           mapEquals(accesses, other.accesses) &&
           ListEquality().equals(apps, other.apps);
 
   @override
-  Future<LoggedOut> switchApp(AppModel newCurrentApp,
-      {PageModel? pageModel, Map<String, dynamic>? parameters}) async {
+  Future<LoggedOut> switchApp(AppModel newCurrentApp, {PageModel? page, Map<String, dynamic>? parameters}) async {
     if (newCurrentApp != currentApp) {
       if (apps.contains(newCurrentApp)) {
-        var newPageContext = pageModel != null ? PageContext(pageModel, parameters: parameters) :
-            PageContext(await getHomepage(
+        var homePage = await getHomepage(
               newCurrentApp,
-            ));
+            );
         return Future.value(LoggedOut._(
           newCurrentApp,
-          newPageContext,
+          homePage,
           apps,
           accesses,
+          OpenPageAction(homePage, parameters: parameters),
         ));
       } else {
         // todo: OPTIMISE THIS, REUSE THE ACCESS WE ALREADY DETERMINED FOR THE EXISTING APPS
         var newApps = apps.map((v) => v).toList();
         newApps.add(newCurrentApp);
-        return getLoggedOut(newCurrentApp, newApps, page: pageModel);
+        return getLoggedOut(newCurrentApp, newApps);
       }
     } else {
       return Future.value(this);
@@ -98,9 +97,10 @@ class LoggedOut extends AccessDetermined {
     if (newCurrentApp == currentApp) {
       return Future.value(LoggedOut._(
         newCurrentApp,
-        currentContext,
+        homePage,
         apps,
         accesses,
+        accessAction,
       ));
     } else {
       throw Exception('Incorrectly received ');
@@ -111,9 +111,10 @@ class LoggedOut extends AccessDetermined {
   Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters}) async {
     return LoggedOut._(
       currentApp,
-      PageContext(page, parameters: parameters),
+      homePage,
       apps,
       accesses,
+      OpenPageAction(page, parameters: parameters),
     );
   }
 
@@ -121,9 +122,10 @@ class LoggedOut extends AccessDetermined {
   Future<AccessDetermined> copyWithNewDialog(DialogModel dialog, {Map<String, dynamic>? parameters}) async {
     return LoggedOut._(
       currentApp,
-      DialogContext(dialog, parameters: parameters),
+      homePage,
       apps,
       accesses,
+      OpenDialogAction(dialog, parameters: parameters),
     );
   }
 

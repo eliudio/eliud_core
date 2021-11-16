@@ -13,20 +13,30 @@ import 'package:flutter/foundation.dart';
 
 import 'access_state.dart';
 
-abstract class AccessContext extends Equatable {
+abstract class AccessAction extends Equatable {
   final Map<String, dynamic>? parameters;
 
-  AccessContext(this.parameters);
-  String currentAppId();
-}
-
-class PageContext extends AccessContext {
-  final PageModel page;
-
-  PageContext(this.page, {Map<String, dynamic>? parameters}): super(parameters);
+  AccessAction(this.parameters);
+  String appId();
 
   @override
-  String currentAppId() => page.appId!;
+  List<Object?> get props => [ parameters ];
+}
+
+class NoAction extends AccessAction {
+  NoAction(Map<String, dynamic>? parameters) : super(parameters);
+
+  @override
+  String appId() => throw Exception("NoAction has no appId");
+}
+
+class OpenPageAction extends AccessAction {
+  final PageModel page;
+
+  OpenPageAction(this.page, {Map<String, dynamic>? parameters}): super(parameters);
+
+  @override
+  String appId() => page.appId!;
 
   @override
   List<Object?> get props => [page, parameters];
@@ -34,18 +44,18 @@ class PageContext extends AccessContext {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PageContext &&
+          other is OpenPageAction &&
               page == other.page &&
               mapEquals(parameters, other.parameters);
 }
 
-class DialogContext extends AccessContext {
+class OpenDialogAction extends AccessAction {
   final DialogModel dialog;
 
-  DialogContext(this.dialog, {Map<String, dynamic>? parameters}): super(parameters);
+  OpenDialogAction(this.dialog, {Map<String, dynamic>? parameters}): super(parameters);
 
   @override
-  String currentAppId() => dialog.appId!;
+  String appId() => dialog.appId!;
 
   @override
   List<Object?> get props => [dialog, parameters];
@@ -53,25 +63,23 @@ class DialogContext extends AccessContext {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is DialogContext &&
+          other is OpenDialogAction &&
               dialog == other.dialog &&
               mapEquals(parameters, other.parameters);
 }
 
-
 abstract class AccessDetermined extends AccessState {
   final AppModel currentApp;
-  final AccessContext currentContext;
+  final PageModel homePage;
   final List<AppModel> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
+  AccessAction? accessAction;
 
   @override
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.currentApp, this.currentContext, this.apps, this.accesses) {
-    assert(currentApp.documentID == currentContext.currentAppId());
-  }
+  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction);
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {
@@ -134,7 +142,7 @@ abstract class AccessDetermined extends AccessState {
   MemberModel? getMember();
   PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
-  Future<AccessDetermined> switchApp(AppModel newCurrentApp, {PageModel? pageModel, Map<String, dynamic>? parameters});
+  Future<AccessDetermined> switchApp(AppModel newCurrentApp, {PageModel? page, Map<String, dynamic>? parameters});
   Future<AccessDetermined> updateApp(AppModel newCurrentApp, );
 
   String currentAppId() => currentApp.documentID!;
@@ -167,12 +175,12 @@ abstract class AccessDetermined extends AccessState {
     if (page.appId != currentApp.documentID) {
       var newCurrentApp = await appRepository()!.get(page.appId);
       if (newCurrentApp != null) {
-        return switchApp(newCurrentApp, pageModel: page);
+        return switchApp(newCurrentApp, page: page, parameters: parameters);
       } else {
         throw Exception("newCurrentApp can not be determined. appId = " + page.appId!);
       }
     } else {
-      return copyWithNewPage(page);
+      return copyWithNewPage(page, parameters: parameters);
     }
   }
 
