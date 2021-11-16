@@ -145,10 +145,10 @@ class Router {
         BlocProvider.of<AccessBloc>(context).add(
             GotoPageEvent(action.appID, action.pageID, parameters: parameters));
       } else if (action is OpenDialog) {
-        BlocProvider.of<AccessBloc>(context).add(
-            OpenDialogEvent(action.dialogID, parameters: parameters));
-        await Registry.registry()!
+        Registry.registry()!
             .openDialog(context, id: action.dialogID, parameters: parameters);
+        // NAVIGATION-USING-BLOC
+        // We should be using this instead: BlocProvider.of<AccessBloc>(context).add(OpenDialogEvent(action.dialogID, parameters: parameters));
       } else if (action is SwitchApp) {
         BlocProvider.of<AccessBloc>(context)
             .add(SelectAppWithID(action.toAppID));

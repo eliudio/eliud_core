@@ -197,6 +197,12 @@ class AccessHelper {
     return accesses;
   }
 
+  static Future<Map<String, PagesAndDialogAccesss>> extendAccesses(MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn) async {
+    var access = await AccessHelper._getAccess(member, addApp, isLoggedIn);
+    currentAccesses[addApp.documentID!] = access;
+    return currentAccesses;
+  }
+
   static Future<PagesAndDialogAccesss> _getAccess(
       MemberModel? member, AppModel app, bool isLoggedIn) async {
     var accessModel;

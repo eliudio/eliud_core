@@ -78,30 +78,41 @@ class LoggedIn extends AccessDetermined {
   Future<LoggedIn> switchApp(AppModel newCurrentApp,
       {PageModel? page, Map<String, dynamic>? parameters}) async {
     if (newCurrentApp != currentApp) {
+      var newHomePage = await getHomepage(
+          newCurrentApp,
+          isBlocked(
+            newCurrentApp.documentID!,
+          ),
+          getPrivilegeLevel(newCurrentApp.documentID!));
+      var newAccessAction = page != null
+          ? OpenPageAction(page, parameters: parameters)
+          : OpenPageAction(homePage);
       if (apps.contains(newCurrentApp)) {
-        var homePage = await getHomepage(
-            newCurrentApp,
-            isBlocked(
-              newCurrentApp.documentID!,
-            ),
-            getPrivilegeLevel(newCurrentApp.documentID!));
         return Future.value(LoggedIn._(
           usr,
           member,
           postLoginAction,
           newCurrentApp,
-          homePage,
+          newHomePage,
           apps,
           accesses,
-          page != null
-              ? OpenPageAction(page, parameters: parameters)
-              : OpenPageAction(homePage),
+          newAccessAction,
         ));
       } else {
-        // todo: OPTIMISE THIS, REUSE THE ACCESS WE ALREADY DETERMINED FOR THE EXISTING APPS
+        var newAccesses = await AccessHelper.extendAccesses(member, accesses, newCurrentApp, true);
         var newApps = apps.map((v) => v).toList();
         newApps.add(newCurrentApp);
-        return getLoggedIn(usr, member, newCurrentApp, newApps, null);
+        return Future.value(LoggedIn._(
+          usr,
+          member,
+          postLoginAction,
+          newCurrentApp,
+          newHomePage,
+          newApps,
+          newAccesses,
+          newAccessAction,
+        ));
+
       }
     } else {
       return Future.value(this);

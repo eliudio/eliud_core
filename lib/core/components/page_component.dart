@@ -62,45 +62,6 @@ class _PageComponentState extends State<PageComponent> {
                 bloc: BlocProvider.of<AccessBloc>(context),
                 builder: (BuildContext context, accessState) {
                   if (accessState is AccessDetermined) {
-                    if (accessState.accessAction != null) {
-                      var accessAction = accessState.accessAction;
-                      if (accessAction is OpenDialogAction) {
-                        var dialogId = accessAction.dialog.documentID!;
-                        var parameters = accessAction.parameters;
-                        accessState.accessAction = null;
-                        var instance = SchedulerBinding.instance;
-                        if (instance != null) {
-                          instance.addPostFrameCallback((_) {
-                            Registry.registry()!
-                                .openDialog(context, id: dialogId, parameters: parameters);
-                          });
-                        } else {
-                          print(
-                              "Can't navigate, SchedulerBinding.instance is null");
-                        }
-                      } else if (accessAction is OpenPageAction) {
-                        var gotoAppId = accessAction.page.appId!;
-                        var gotoPageId = accessAction.page.documentID!;
-                        var parameters = accessAction.parameters;
-                        accessState.accessAction = null;
-                        var instance = SchedulerBinding.instance;
-                        if (instance != null) {
-                          instance.addPostFrameCallback((_) {
-                            Navigator.push(
-                              context,MaterialPageRoute(builder: (context) =>
-                                Registry.registry()!.page(appId: gotoAppId, pageId: gotoPageId, parameters: parameters))
-                            );
-
-                            //probably want to put it in the access bloc where it was!
-                          });
-                          return Container();
-                        } else {
-                          print(
-                              "Can't navigate, SchedulerBinding.instance is null");
-                        }
-                      }
-                    }
-
                     var appId = widget.appId;
                     var pageId = widget.pageId;
                     var parameters = widget.parameters;

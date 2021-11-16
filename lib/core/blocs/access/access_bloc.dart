@@ -6,6 +6,7 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_out.dart';
 import 'package:eliud_core/core/blocs/access/state/undertermined_access_state.dart';
+import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -56,32 +57,23 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           event.actions!.runTheAction();
         }
       } else if (event is SelectApp) {
-        yield await switchApp(theState, event.app);
+        var newState = await switchApp(theState, event.app);
+        gotoPage(newState.currentApp.documentID, newState.homePage.documentID);
+        yield newState;
       } else if (event is SelectAppWithID) {
-        yield await switchApp(theState, await _fetchApp(event.appId));
+        var newState = await switchApp(theState, await _fetchApp(event.appId));
+        gotoPage(event.appId, newState.homePage.documentID);
+        yield newState;
       } else if (event is AppUpdated) {
         yield await theState.updateApp(event.app);
       } else if (event is GotoPageEvent) {
-        var page = await pageRepository(appId: event.appId)!.get(event.pageId);
-        if (page != null) {
-          var newState = await theState.switchPage(page, parameters: event.parameters);
-//        newState.accessAction = null;
-          yield newState;
-/*
-          gotoPage(event.appId, event.pageId, parameters: event.parameters);
-          yield await theState.switchPage(page, parameters: event.parameters);
-*/
-        } else {
-          print('Trying to open page ' + event.pageId + ' in app ' + event.appId + "which doesn't exist");
-        }
+        // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
+        // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
+        // and remove the navigation from here:
+        gotoPage(event.appId, event.pageId, parameters: event.parameters);
       } else if (event is OpenDialogEvent) {
-        var dialog = await dialogRepository(appId: theState.currentAppId())!.get(event.dialogId);
-        if (dialog != null) {
-          yield await theState.openDialog(
-              dialog, parameters: event.parameters);
-        } else {
-          print('Trying to open dialog ' + event.dialogId + ' in app ' + theState.currentAppId() + "which doesn't exist");
-        }
+        // See comment @ GotoPageEvent
+        // We should use theState.openDialog(`dialog, parameters: event.parameters);
       } else if (event is UpdatePackageCondition) {
 /*
         change the condition for this package, for this app
@@ -130,26 +122,27 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   Future<AccessDetermined> switchApp(AccessDetermined accessState, AppModel app) async {
     var accessDetermined = accessState.switchApp(app);
-/*
-    var currentContext = accessState.currentContext;
-    if (currentContext is PageContext) {
-      gotoPage(app.documentID!, currentContext.page.documentID!);
-    }
-*/
     return accessDetermined;
   }
 
-/*
-  Future<void> gotoPage(String appId, String pageId, { Map<String, dynamic>? parameters }) async {
-    if (navigatorKey.currentState != null) {
-      await navigatorKey.currentState!.pushNamed(
-          eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
-          appId + '/' + pageId, parameters));
+  void gotoPage(String? appId, String? pageId, { Map<String, dynamic>? parameters }) {
+    if (appId == null) {
+      throw Exception(
+          'Error: gotoPage(null)');
+    } else if (pageId == null) {
+      throw Exception(
+          'Error: gotoPage($appId, null)');
     } else {
-      throw Exception("Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
+      if (navigatorKey.currentState != null) {
+        navigatorKey.currentState!.pushNamed(
+            eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
+            appId + '/' + pageId, parameters));
+      } else {
+        throw Exception(
+            "Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
+      }
     }
   }
-*/
 
   Stream<AccessState> _listenToApp(String appId) async* {
     await _appSubscription?.cancel();
