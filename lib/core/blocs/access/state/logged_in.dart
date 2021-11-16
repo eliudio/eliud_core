@@ -27,7 +27,8 @@ class LoggedIn extends AccessDetermined {
     List<AppModel> apps,
     Map<String, PagesAndDialogAccesss> accesses,
     AccessAction? accessAction,
-  ) : super(currentApp, homePage, apps, accesses, accessAction);
+    {AppModel? playstoreApp,}
+  ) : super(currentApp, homePage, apps, accesses, accessAction, playstoreApp: playstoreApp);
 
   static Future<LoggedIn> getLoggedIn(
       User usr,
@@ -36,7 +37,8 @@ class LoggedIn extends AccessDetermined {
       List<AppModel> apps,
       PostLoginAction? postLoginAction,
       {PageModel? openThisPage,
-      Map<String, dynamic>? parameters}) async {
+      Map<String, dynamic>? parameters,
+      AppModel? playstoreApp,}) async {
     var accesses = await AccessHelper.getAccesses(member, apps, false);
     var privilegeLevel = _privilegeLevel(currentApp.documentID!, accesses);
     var isBlocked = _isBlocked(currentApp.documentID!, accesses);
@@ -52,7 +54,8 @@ class LoggedIn extends AccessDetermined {
         accesses,
         openThisPage != null
             ? OpenPageAction(openThisPage, parameters: parameters)
-            : OpenPageAction(homePage));
+            : OpenPageAction(homePage),
+        playstoreApp: playstoreApp);
     return loggedIn;
   }
 
@@ -97,6 +100,7 @@ class LoggedIn extends AccessDetermined {
           apps,
           accesses,
           newAccessAction,
+          playstoreApp: playstoreApp
         ));
       } else {
         var newAccesses = await AccessHelper.extendAccesses(member, accesses, newCurrentApp, true);
@@ -111,6 +115,7 @@ class LoggedIn extends AccessDetermined {
           newApps,
           newAccesses,
           newAccessAction,
+          playstoreApp: playstoreApp
         ));
 
       }
@@ -133,6 +138,7 @@ class LoggedIn extends AccessDetermined {
         apps,
         accesses,
         accessAction,
+        playstoreApp: playstoreApp
       ));
     } else {
       throw Exception('');
@@ -150,6 +156,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       OpenPageAction(page, parameters: parameters),
+      playstoreApp: playstoreApp
     );
   }
 
@@ -164,6 +171,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       OpenDialogAction(dialog, parameters: parameters),
+      playstoreApp: playstoreApp
     );
   }
 
@@ -219,7 +227,8 @@ class LoggedIn extends AccessDetermined {
           postLoginAction == other.postLoginAction &&
           mapEquals(accesses, other.accesses) &&
           accessAction == other.accessAction &&
-          ListEquality().equals(apps, other.apps);
+          ListEquality().equals(apps, other.apps) &&
+          playstoreApp == other.playstoreApp;
 
   @override
   List<Object?> get props => [
@@ -229,6 +238,7 @@ class LoggedIn extends AccessDetermined {
     member,
     postLoginAction,
     accesses,
+    playstoreApp,
   ];
 
   static Future<PageModel> getHomepage(

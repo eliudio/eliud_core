@@ -35,13 +35,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
-      yield await _mapUsrAndApp(event.app, [event.app], usr, null);
+      yield await _mapUsrAndApp(event.app, [event.app], usr, null, playstoreApp: event.playstoreApp);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!
             .signOut();
-        var toYield = await _mapUsrAndApp(theState.currentApp, theState.apps, null, null);
+        var toYield = await _mapUsrAndApp(theState.currentApp, theState.apps, null, null, playstoreApp: theState.playstoreApp);
         yield toYield;
       } else if (event is LoginEvent) {
         var usr;
@@ -52,7 +52,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         } catch (exception) {
           print('Exception during signInWithGoogle: $exception');
         }
-        yield await _mapUsrAndApp(theState.currentApp, theState.apps, usr, event.actions);
+        yield await _mapUsrAndApp(theState.currentApp, theState.apps, usr, event.actions, playstoreApp: theState.playstoreApp);
         if (event.actions != null) {
           event.actions!.runTheAction();
         }
@@ -152,17 +152,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessState> _mapMemberAndApp(User usr, MemberModel member, AppModel currentApp,
-      List<AppModel> apps, PostLoginAction? postLoginAction) async {
-    return await LoggedIn.getLoggedIn(usr, member, currentApp, apps, postLoginAction);
+      List<AppModel> apps, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
+    return await LoggedIn.getLoggedIn(usr, member, currentApp, apps, postLoginAction, playstoreApp: playstoreApp);
   }
 
   Future<AccessState> _mapUsrAndApp(AppModel currentApp,
-      List<AppModel> apps, User? usr, PostLoginAction? postLoginAction) async {
+      List<AppModel> apps, User? usr, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
     if (usr == null) {
-      return await LoggedOut.getLoggedOut(currentApp, apps);
+      return await LoggedOut.getLoggedOut(currentApp, apps, playstoreApp: playstoreApp);
     } else {
       var member = await firebaseToMemberModel(usr);
-      return _mapMemberAndApp(usr, member, currentApp, apps, postLoginAction);
+      return _mapMemberAndApp(usr, member, currentApp, apps, postLoginAction, playstoreApp: playstoreApp);
     }
   }
 

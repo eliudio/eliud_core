@@ -11,11 +11,12 @@ abstract class AccessEvent extends Equatable {
 
 class AccessInit extends AccessEvent {
   final AppModel app;
+  final AppModel? playstoreApp;
 
-  AccessInit(this.app);
+  AccessInit(this.app, this.playstoreApp);
 
   @override
-  List<Object?> get props => [ app ];
+  List<Object?> get props => [ app, playstoreApp ];
 }
 
 class LogoutEvent extends AccessEvent {

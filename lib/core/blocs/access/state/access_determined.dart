@@ -70,6 +70,7 @@ class OpenDialogAction extends AccessAction {
 
 abstract class AccessDetermined extends AccessState {
   final AppModel currentApp;
+  final AppModel? playstoreApp;
   final PageModel homePage;
   final List<AppModel> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
@@ -79,7 +80,7 @@ abstract class AccessDetermined extends AccessState {
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction);
+  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction, {this.playstoreApp, });
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {

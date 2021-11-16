@@ -140,7 +140,7 @@ class Registry {
         initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
 
     return BlocProvider<AccessBloc>(
-        create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app)),
+        create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app, asPlaystore ? app : null)),
         child: MaterialApp(
           key: _appKey,
           debugShowCheckedModeBanner: false,

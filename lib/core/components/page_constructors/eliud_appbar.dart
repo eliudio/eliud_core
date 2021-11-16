@@ -87,8 +87,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
                     context, value.iconMenu!, accessState.getMember(), currentPage) ??
                 [];
 
-            // We should probably consider to introduce an internal action for app store and allow this to be configured as part of the app. The issue to consider however is that
-            var playStoreApp = app; // TODO!!!!!
+            var playStoreApp = accessState.playstoreApp;
             if ((playStoreApp != null) &&
                 (playStoreApp.logo != null) &&
                 (playStoreApp.logo!.url != null) &&
