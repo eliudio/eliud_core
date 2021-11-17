@@ -75,12 +75,15 @@ abstract class AccessDetermined extends AccessState {
   final List<AppModel> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
   AccessAction? accessAction;
+  bool? isProcessing;
+
+  bool isProcessingStatus() => isProcessing ?? false;
 
   @override
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction, {this.playstoreApp, });
+  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction, {this.playstoreApp, this.isProcessing});
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {
@@ -192,4 +195,7 @@ abstract class AccessDetermined extends AccessState {
 
   Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters});
   Future<AccessDetermined> copyWithNewDialog(DialogModel dialog, {Map<String, dynamic>? parameters});
+
+  AccessDetermined asNotProcessing();
+  AccessDetermined asProcessing();
 }

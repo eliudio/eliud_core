@@ -14,7 +14,7 @@ class LoggedOut extends AccessDetermined {
   static Future<LoggedOut> getLoggedOut(
     AppModel currentApp,
     List<AppModel> apps, {
-    required AppModel? playstoreApp,
+    AppModel? playstoreApp,
   }) async {
     var homePage = await getHomepage(currentApp);
     var accesses = await AccessHelper.getAccesses(null, apps, false);
@@ -31,8 +31,9 @@ class LoggedOut extends AccessDetermined {
     Map<String, PagesAndDialogAccesss> accesses,
     AccessAction? accessAction, {
     AppModel? playstoreApp,
+    bool? isProcessing,
   }) : super(currentApp, homePage, apps, accesses, accessAction,
-            playstoreApp: playstoreApp);
+            playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -60,7 +61,7 @@ class LoggedOut extends AccessDetermined {
 
   @override
   List<Object?> get props =>
-      [currentApp, homePage, accesses, apps, playstoreApp];
+      [currentApp, homePage, accesses, apps, playstoreApp, isProcessing];
 
   @override
   bool operator ==(Object other) =>
@@ -71,7 +72,8 @@ class LoggedOut extends AccessDetermined {
           runtimeType == other.runtimeType &&
           mapEquals(accesses, other.accesses) &&
           ListEquality().equals(apps, other.apps) &&
-          playstoreApp == other.playstoreApp;
+          playstoreApp == other.playstoreApp &&
+          isProcessing == other.isProcessing;
 
   @override
   Future<LoggedOut> switchApp(AppModel newCurrentApp,
@@ -87,7 +89,7 @@ class LoggedOut extends AccessDetermined {
         );
         return Future.value(LoggedOut._(
           newCurrentApp,
-          homePage,
+          newHomePage,
           apps,
           accesses,
           newAccessAction,
@@ -99,7 +101,7 @@ class LoggedOut extends AccessDetermined {
         newApps.add(newCurrentApp);
         return Future.value(LoggedOut._(
           newCurrentApp,
-          homePage,
+          newHomePage,
           newApps,
           newAccesses,
           newAccessAction,
@@ -157,4 +159,30 @@ class LoggedOut extends AccessDetermined {
 
   static Future<PageModel> getHomepage(AppModel app) =>
       AccessDetermined.getPage(app.documentID!, app.homePages!.homePagePublic);
+
+  @override
+  AccessDetermined asNotProcessing() {
+    return LoggedOut._(
+      currentApp,
+      homePage,
+      apps,
+      accesses,
+      accessAction,
+      playstoreApp: playstoreApp,
+      isProcessing: false,
+    );
+  }
+
+  @override
+  AccessDetermined asProcessing() {
+    return LoggedOut._(
+      currentApp,
+      homePage,
+      apps,
+      accesses,
+      accessAction,
+      playstoreApp: playstoreApp,
+      isProcessing: true,
+    );
+  }
 }

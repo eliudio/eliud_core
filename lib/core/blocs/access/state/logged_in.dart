@@ -27,8 +27,8 @@ class LoggedIn extends AccessDetermined {
     List<AppModel> apps,
     Map<String, PagesAndDialogAccesss> accesses,
     AccessAction? accessAction,
-    {AppModel? playstoreApp,}
-  ) : super(currentApp, homePage, apps, accesses, accessAction, playstoreApp: playstoreApp);
+    {AppModel? playstoreApp, bool? isProcessing}
+  ) : super(currentApp, homePage, apps, accesses, accessAction, playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
       User usr,
@@ -55,7 +55,8 @@ class LoggedIn extends AccessDetermined {
         openThisPage != null
             ? OpenPageAction(openThisPage, parameters: parameters)
             : OpenPageAction(homePage),
-        playstoreApp: playstoreApp);
+        playstoreApp: playstoreApp,
+    );
     return loggedIn;
   }
 
@@ -100,7 +101,7 @@ class LoggedIn extends AccessDetermined {
           apps,
           accesses,
           newAccessAction,
-          playstoreApp: playstoreApp
+          playstoreApp: playstoreApp,
         ));
       } else {
         var newAccesses = await AccessHelper.extendAccesses(member, accesses, newCurrentApp, true);
@@ -115,7 +116,7 @@ class LoggedIn extends AccessDetermined {
           newApps,
           newAccesses,
           newAccessAction,
-          playstoreApp: playstoreApp
+          playstoreApp: playstoreApp,
         ));
 
       }
@@ -138,11 +139,43 @@ class LoggedIn extends AccessDetermined {
         apps,
         accesses,
         accessAction,
-        playstoreApp: playstoreApp
+        playstoreApp: playstoreApp,
       ));
     } else {
       throw Exception('');
     }
+  }
+
+  @override
+  AccessDetermined asNotProcessing() {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      currentApp,
+      homePage,
+      apps,
+      accesses,
+      accessAction,
+      playstoreApp: playstoreApp,
+      isProcessing: false,
+    );
+  }
+
+  @override
+  AccessDetermined asProcessing() {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      currentApp,
+      homePage,
+      apps,
+      accesses,
+      accessAction,
+      playstoreApp: playstoreApp,
+      isProcessing: true,
+    );
   }
 
   @override
@@ -156,7 +189,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       OpenPageAction(page, parameters: parameters),
-      playstoreApp: playstoreApp
+      playstoreApp: playstoreApp,
     );
   }
 
@@ -171,7 +204,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       OpenDialogAction(dialog, parameters: parameters),
-      playstoreApp: playstoreApp
+      playstoreApp: playstoreApp,
     );
   }
 
@@ -228,7 +261,8 @@ class LoggedIn extends AccessDetermined {
           mapEquals(accesses, other.accesses) &&
           accessAction == other.accessAction &&
           ListEquality().equals(apps, other.apps) &&
-          playstoreApp == other.playstoreApp;
+          playstoreApp == other.playstoreApp &&
+          isProcessing == other.isProcessing;
 
   @override
   List<Object?> get props => [

@@ -31,40 +31,68 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   @override
   Stream<AccessState> mapEventToState(AccessEvent event) async* {
     var theState = state;
-    if (event is AccessInit) {
+    if (event is AccessInitEvent) {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
       yield await _mapUsrAndApp(event.app, [event.app], usr, null, playstoreApp: event.playstoreApp);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
-        await AbstractMainRepositorySingleton.singleton
-            .userRepository()!
-            .signOut();
-        var toYield = await _mapUsrAndApp(theState.currentApp, theState.apps, null, null, playstoreApp: theState.playstoreApp);
-        yield toYield;
-      } else if (event is LoginEvent) {
-        var usr;
-        try {
-          usr = await AbstractMainRepositorySingleton.singleton
+        if (event.isProcessing()) {
+          await AbstractMainRepositorySingleton.singleton
               .userRepository()!
-              .signInWithGoogle();
-        } catch (exception) {
-          print('Exception during signInWithGoogle: $exception');
+              .signOut();
+          var toYield = await _mapUsrAndApp(
+              theState.currentApp, theState.apps, null, null,
+              playstoreApp: theState.playstoreApp);
+          gotoPage(
+              toYield.currentApp.documentID, toYield.homePage.documentID);
+          yield toYield;
+        } else {
+          add(event.asProcessing());
+          yield theState.asProcessing();
         }
-        yield await _mapUsrAndApp(theState.currentApp, theState.apps, usr, event.actions, playstoreApp: theState.playstoreApp);
-        if (event.actions != null) {
-          event.actions!.runTheAction();
+      } else if (event is LoginEvent) {
+        if (event.isProcessing()) {
+          var usr;
+          try {
+            usr = await AbstractMainRepositorySingleton.singleton
+                .userRepository()!
+                .signInWithGoogle();
+          } catch (exception) {
+            print('Exception during signInWithGoogle: $exception');
+          }
+          yield await _mapUsrAndApp(
+              theState.currentApp, theState.apps, usr, event.actions,
+              playstoreApp: theState.playstoreApp);
+          if (event.actions != null) {
+            event.actions!.runTheAction();
+          }
+        } else {
+          add(event.asProcessing());
+          yield theState.asProcessing();
         }
-      } else if (event is SelectApp) {
-        var newState = await switchApp(theState, event.app);
-        gotoPage(newState.currentApp.documentID, newState.homePage.documentID);
-        yield newState;
-      } else if (event is SelectAppWithID) {
-        var newState = await switchApp(theState, await _fetchApp(event.appId));
-        gotoPage(event.appId, newState.homePage.documentID);
-        yield newState;
-      } else if (event is AppUpdated) {
+      } else if (event is SelectAppEvent) {
+        if (event.isProcessing()) {
+          var newState = await switchApp(theState, event.app);
+          gotoPage(
+              newState.currentApp.documentID, newState.homePage.documentID);
+          yield newState;
+        } else {
+          add(event.asProcessing());
+          yield theState.asProcessing();
+        }
+      } else if (event is SelectAppWithIDEvent) {
+        if (event.isProcessing()) {
+          var newState = await switchApp(theState, await _fetchApp(event.appId));
+          gotoPage(
+              newState.currentApp.documentID, newState.homePage.documentID);
+          yield newState;
+        } else {
+          add(event.asProcessing());
+          yield theState.asProcessing();
+        }
+      } else if (event is AppUpdatedEvent) {
         yield await theState.updateApp(event.app);
       } else if (event is GotoPageEvent) {
         // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
@@ -74,7 +102,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is OpenDialogEvent) {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
-      } else if (event is UpdatePackageCondition) {
+      } else if (event is UpdatePackageConditionEvent) {
 /*
         change the condition for this package, for this app
         yield the changed access state with this condition
@@ -121,7 +149,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessDetermined> switchApp(AccessDetermined accessState, AppModel app) async {
-    var accessDetermined = accessState.switchApp(app);
+    var accessDetermined = accessState.asNotProcessing().switchApp(app);
     return accessDetermined;
   }
 
@@ -147,16 +175,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   Stream<AccessState> _listenToApp(String appId) async* {
     await _appSubscription?.cancel();
     _appSubscription = appRepository(appId: appId)!.listenTo(appId, (value) {
-      if (value != null) add(AppUpdated(value));
+      if (value != null) add(AppUpdatedEvent(value));
     });
   }
 
-  Future<AccessState> _mapMemberAndApp(User usr, MemberModel member, AppModel currentApp,
+  Future<AccessDetermined> _mapMemberAndApp(User usr, MemberModel member, AppModel currentApp,
       List<AppModel> apps, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
     return await LoggedIn.getLoggedIn(usr, member, currentApp, apps, postLoginAction, playstoreApp: playstoreApp);
   }
 
-  Future<AccessState> _mapUsrAndApp(AppModel currentApp,
+  Future<AccessDetermined> _mapUsrAndApp(AppModel currentApp,
       List<AppModel> apps, User? usr, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
     if (usr == null) {
       return await LoggedOut.getLoggedOut(currentApp, apps, playstoreApp: playstoreApp);

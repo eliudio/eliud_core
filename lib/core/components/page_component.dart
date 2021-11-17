@@ -73,9 +73,13 @@ class _PageComponentState extends State<PageComponent> {
                         fromPageLayout(page.layout),
                         page.backgroundOverride,
                         page.gridView);
-                    theBody = PageBody(
-                      componentInfo: componentInfo,
-                    );
+                    if (accessState.isProcessingStatus()) {
+                      theBody = Center(child: CircularProgressIndicator());
+                    } else {
+                      theBody = PageBody(
+                        componentInfo: componentInfo,
+                      );
+                    }
 //    }
 
                     var drawer = page.drawer == null

@@ -151,7 +151,7 @@ class Router {
         // We should be using this instead: BlocProvider.of<AccessBloc>(context).add(OpenDialogEvent(action.dialogID, parameters: parameters));
       } else if (action is SwitchApp) {
         BlocProvider.of<AccessBloc>(context)
-            .add(SelectAppWithID(action.toAppID));
+            .add(SelectAppWithIDEvent(appId: action.toAppID));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
