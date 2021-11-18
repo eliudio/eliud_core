@@ -129,7 +129,7 @@ class LoggedIn extends AccessDetermined {
   Future<LoggedIn> updateApp(
     AppModel newCurrentApp,
   ) {
-    if (newCurrentApp == currentApp) {
+    if (newCurrentApp.documentID == currentApp.documentID) {
       return Future.value(LoggedIn._(
         usr,
         member,

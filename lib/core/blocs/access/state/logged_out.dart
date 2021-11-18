@@ -117,7 +117,7 @@ class LoggedOut extends AccessDetermined {
   Future<LoggedOut> updateApp(
     AppModel newCurrentApp,
   ) {
-    if (newCurrentApp == currentApp) {
+    if (newCurrentApp.documentID == currentApp.documentID) {
       return Future.value(LoggedOut._(
         newCurrentApp,
         homePage,

@@ -36,6 +36,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           .userRepository()!
           .currentSignedinUser();
       yield await _mapUsrAndApp(event.app, [event.app], usr, null, playstoreApp: event.playstoreApp);
+      _listenToApp(event.app.documentID!);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
         if (event.isProcessing()) {
@@ -77,6 +78,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           var newState = await switchApp(theState, event.app);
           gotoPage(
               newState.currentApp.documentID, newState.homePage.documentID);
+          _listenToApp(event.app.documentID!);
           yield newState;
         } else {
           add(event.asProcessing());
@@ -87,6 +89,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           var newState = await switchApp(theState, await _fetchApp(event.appId));
           gotoPage(
               newState.currentApp.documentID, newState.homePage.documentID);
+          _listenToApp(event.appId);
           yield newState;
         } else {
           add(event.asProcessing());
@@ -172,7 +175,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Stream<AccessState> _listenToApp(String appId) async* {
+  void _listenToApp(String appId) async {
     await _appSubscription?.cancel();
     _appSubscription = appRepository(appId: appId)!.listenTo(appId, (value) {
       if (value != null) add(AppUpdatedEvent(value));
