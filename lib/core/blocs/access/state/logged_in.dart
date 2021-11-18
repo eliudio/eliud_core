@@ -75,7 +75,11 @@ class LoggedIn extends AccessDetermined {
 
   @override
   bool memberIsOwner(String appId) {
-    return member.documentID == appId;
+    var memberId = member.documentID;
+    for (var app in apps) {
+      if (app.documentID == appId) return app.ownerID == memberId;
+    }
+    return false;
   }
 
   @override

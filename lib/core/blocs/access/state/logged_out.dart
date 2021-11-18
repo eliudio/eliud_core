@@ -45,7 +45,7 @@ class LoggedOut extends AccessDetermined {
   bool forceAcceptMembership(String appId) => false;
 
   @override
-  bool memberIsOwner(String appId) => false;
+  bool memberIsOwner(String memberId) => false;
 
   @override
   MemberModel? getMember() => null;

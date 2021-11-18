@@ -286,10 +286,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static bool isOwner(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.memberIsOwner(theState.currentApp.documentID!);
-    } else {
-      return false;
+      if (theState.currentApp.ownerID != null) {
+        return theState.memberIsOwner(theState.currentAppId());
+      }
     }
+    return false;
   }
 
   static AppModel currentApp(BuildContext context) {
@@ -305,6 +306,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
       return theState.currentApp.documentID!;
+    } else {
+      throw Exception('No current app');
+    }
+  }
+
+  static String currentOwnerId(BuildContext context) {
+    var theState = AccessBloc.getState(context);
+    if (theState is AccessDetermined) {
+      return theState.currentApp.ownerID!;
     } else {
       throw Exception('No current app');
     }
