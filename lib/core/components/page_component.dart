@@ -13,6 +13,9 @@ import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/page_component_bloc.dart';
+import 'package:eliud_core/model/page_component_event.dart';
+import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -56,11 +59,13 @@ class _PageComponentState extends State<PageComponent> {
   @override
   Widget build(BuildContext context) {
     hasFab = null;
-    return FutureBuilder<PageModel?>(
-        future: getPage(widget.appId, widget.pageId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var page = snapshot.data!;
+    return BlocProvider<PageComponentBloc> (
+        create: (context) => PageComponentBloc(
+            pageRepository: pageRepository(appId: widget.appId))
+          ..add(FetchPageComponent(id: widget.pageId)),
+        child: BlocBuilder<PageComponentBloc, PageComponentState>(builder: (context, state) {
+          if (state is PageComponentLoaded) {
+            var page = state.value!;
             return BlocBuilder(
                 bloc: BlocProvider.of<AccessBloc>(context),
                 builder: (BuildContext context, accessState) {
@@ -78,7 +83,7 @@ class _PageComponentState extends State<PageComponent> {
             return Center(child: CircularProgressIndicator());
           }
         }
-    );
+    ));
   }
 }
 
