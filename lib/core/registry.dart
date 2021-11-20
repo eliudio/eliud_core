@@ -81,21 +81,13 @@ class Registry {
       PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,
-      {String? id, Map<String, dynamic>? parameters}) async {
+      {required String id, Map<String, dynamic>? parameters}) async {
     var appId = AccessBloc.currentAppId(context);
-    var dialog = await dialogRepository(appId: appId)!.get(id);
-    if (dialog != null) {
       openWidgetDialog(context,
           child: DialogComponent(
-              dialog: dialog,
-              parameters: parameters,
-              includeHeading: dialog.includeHeading));
-    } else {
-      openErrorDialog(context,
-          title: 'Error',
-          errorMessage: 'Widget with id $id not found in app $appId',
-          closeLabel: 'Close');
-    }
+            appId: appId,
+              dialogId: id,
+              parameters: parameters));
   }
 
   void snackbar(

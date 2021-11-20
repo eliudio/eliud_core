@@ -53,10 +53,7 @@ class ComponentInfo {
     var widgets = <Widget>[];
     for (var model in componentModels) {
       var key = GlobalKey();
-      var bodyComponent =
-
-
-      Decorations.instance().createDecoratedBodyComponent(
+      var bodyComponent = Decorations.instance().createDecoratedBodyComponent(
           context,
           key,
           () => Registry.registry()!.component(

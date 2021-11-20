@@ -72,9 +72,7 @@ class Router {
       final appId = pagePath[0];
       final pageId = pagePath[1];
 
-/*
-      return MaterialPageRoute(builder: (context) => Registry.registry()!.page());
-*/
+      return MaterialPageRoute(builder: (context) => Registry.registry()!.page(appId: appId, pageId: pageId, parameters: parameters));
       return pageRouteBuilderWithAppId(appId,
           pageId: pageId,
           parameters: parameters,
