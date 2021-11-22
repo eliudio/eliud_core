@@ -166,13 +166,13 @@ PageRouteBuilder pageRouteBuilderWithAppId(String appId, {String? pageId, Map<St
       case PageTransitionAnimation.SlideBottomToTop:
         return BottomToTopRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
       case PageTransitionAnimation.ScaleRoute:
-      */
         return ScaleRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-        /*
       case PageTransitionAnimation.RotationRoute:
         return RotationRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
       case PageTransitionAnimation.FadeRoute:
+      */
         return FadeRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+        /*
       default:
         return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
     }

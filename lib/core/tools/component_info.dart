@@ -14,7 +14,6 @@ import '../registry.dart';
 class ComponentInfo {
   final List<BodyComponentModel>? componentModels;
   final Map<String, dynamic>? parameters;
-  final AccessState accessState;
   final List<Widget> widgets;
   final HasFab? hasFab;
   final Layout layout;
@@ -26,7 +25,6 @@ class ComponentInfo {
       this.parameters,
       this.widgets,
       this.hasFab,
-      this.accessState,
       this.layout,
       this.backgroundOverride,
       this.gridView);
@@ -45,7 +43,9 @@ class ComponentInfo {
       BuildContext context,
       List<BodyComponentModel>? componentModels,
       Map<String, dynamic>? parameters,
+/*
       AccessDetermined accessDetermined,
+*/
       Layout layout,
       BackgroundModel? background,
       GridViewModel? gridView) {
@@ -56,8 +56,8 @@ class ComponentInfo {
       var bodyComponent = Decorations.instance().createDecoratedBodyComponent(
           context,
           key,
-          () => Registry.registry()!.component(
-              accessDetermined, model.componentName!, model.componentId!,
+          () => Registry.registry()!.component(context,
+              /*accessDetermined,*/ model.componentName!, model.componentId!,
               key: key, parameters: parameters),
           model)();
       widgets.add(bodyComponent);
@@ -65,6 +65,6 @@ class ComponentInfo {
     ;
 
     var hasFab = _getFab(widgets);
-    return ComponentInfo(componentModels, parameters, widgets, hasFab, accessDetermined, layout, background, gridView);
+    return ComponentInfo(componentModels, parameters, widgets, hasFab, layout, background, gridView);
   }
 }

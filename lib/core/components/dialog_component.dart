@@ -59,7 +59,6 @@ class _DialogComponentState extends State<DialogComponent> {
                               context,
                               dialog.bodyComponents!,
                               widget.parameters,
-                              accessState,
                               fromDialogLayout(dialog.layout),
                               null,
                               dialog.gridView);

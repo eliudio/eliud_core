@@ -33,7 +33,7 @@ class Registry {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
-  GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
 
@@ -77,17 +77,18 @@ class Registry {
     return _instance;
   }
 
-  Widget page( {required String appId, required String pageId, Map<String, dynamic>? parameters}  ) =>
+  Widget page(
+          {required String appId,
+          required String pageId,
+          Map<String, dynamic>? parameters}) =>
       PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,
       {required String id, Map<String, dynamic>? parameters}) async {
     var appId = AccessBloc.currentAppId(context);
-      openWidgetDialog(context,
-          child: DialogComponent(
-            appId: appId,
-              dialogId: id,
-              parameters: parameters));
+    openWidgetDialog(context,
+        child: DialogComponent(
+            appId: appId, dialogId: id, parameters: parameters));
   }
 
   void snackbar(
@@ -132,7 +133,8 @@ class Registry {
         initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
 
     return BlocProvider<AccessBloc>(
-        create: (context) => AccessBloc(navigatorKey)..add(AccessInitEvent(app, asPlaystore ? app : null)),
+        create: (context) => AccessBloc(navigatorKey)
+          ..add(AccessInitEvent(app, asPlaystore ? app : null)),
         child: MaterialApp(
           key: _appKey,
           debugShowCheckedModeBanner: false,
@@ -196,31 +198,39 @@ class Registry {
 */
   }
 
-  Widget component(
-      AccessDetermined accessDetermined, String componentName, String id,
+  Widget component(BuildContext context,
+      /*AccessDetermined accessDetermined, */ String componentName, String id,
       {Map<String, dynamic>? parameters, Key? key}) {
     Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
-        return FutureBuilder<dynamic>(
-            future: componentConstructor.getModel(
-                appId: accessDetermined.currentAppId(), id: id),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var model = snapshot.data;
-                var hasAccess = componentAccessValidation(
-                    accessDetermined, componentName, id, model);
-                if (hasAccess) {
-                  return componentConstructor.createNew(
-                          key: key, id: id, parameters: parameters) ??
-                      _missingComponent(componentName);
-                } else {
-                  return Container();
-                }
-              } else {
-                return Container();
+        return BlocBuilder(
+            bloc: BlocProvider.of<AccessBloc>(context),
+            builder: (BuildContext context, accessState) {
+              if (accessState is AccessDetermined) {
+                return FutureBuilder<dynamic>(
+                    future: componentConstructor.getModel(
+                        appId: accessState.currentAppId(), id: id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var model = snapshot.data;
+                        var hasAccess = componentAccessValidation(
+                            accessState, componentName, id, model);
+                        if (hasAccess) {
+                          return componentConstructor.createNew(
+                                  key: key, id: id, parameters: parameters) ??
+                              _missingComponent(componentName);
+                        } else {
+                          return Container();
+                        }
+                      } else {
+                        return Container();
 //                return progressIndicator(context);
+                      }
+                    });
+              } else {
+                return Center(child: CircularProgressIndicator());
               }
             });
       } else {
