@@ -69,6 +69,7 @@ class DrawerForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DrawerFormBloc >(
             create: (context) => DrawerFormBloc(AccessBloc.currentAppId(context),
@@ -146,6 +147,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DrawerFormBloc, DrawerFormState>(builder: (context, state) {
       if (state is DrawerFormUninitialized) return Center(
@@ -268,7 +270,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _headerBackgroundOverride, trigger: _onHeaderBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _headerBackgroundOverride, trigger: _onHeaderBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -295,7 +297,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -311,7 +313,7 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "menuDefs", value: _menu, trigger: _onMenuSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "menuDefs", value: _menu, trigger: _onMenuSelected, optional: false),
           );
 
 

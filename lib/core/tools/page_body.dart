@@ -1,3 +1,4 @@
+/*
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
@@ -9,34 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'component_info.dart';
-
-Layout fromPageLayout(PageLayout? pageLayout) {
-  switch (pageLayout) {
-    case PageLayout.GridView:
-      return Layout.GridView;
-    case PageLayout.ListView:
-      return Layout.ListView;
-    case PageLayout.OnlyTheFirstComponent:
-      return Layout.OnlyTheFirstComponent;
-    case PageLayout.Unknown:
-      return Layout.Unknown;
-  }
-  return Layout.Unknown;
-}
-
-Layout fromDialogLayout(DialogLayout? dialogLayout) {
-  switch (dialogLayout) {
-    case DialogLayout.GridView:
-      return Layout.GridView;
-    case DialogLayout.ListView:
-      return Layout.ListView;
-    case DialogLayout.OnlyTheFirstComponent:
-      return Layout.OnlyTheFirstComponent;
-    case DialogLayout.Unknown:
-      return Layout.Unknown;
-  }
-  return Layout.Unknown;
-}
 
 class PageBody extends StatefulWidget {
   final ComponentInfo componentInfo;
@@ -64,10 +37,11 @@ class _PageBodyState extends State<PageBody> {
       required List<Widget> components,
       Layout? layout,
       GridViewModel? gridView}) {
-    return pageBody(context,
+    return  pageBody(context,
             backgroundOverride: backgroundOverride,
             components: components,
             layout: layout,
             gridView: gridView);
   }
 }
+*/

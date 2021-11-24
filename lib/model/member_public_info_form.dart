@@ -69,6 +69,7 @@ class MemberPublicInfoForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberPublicInfoFormBloc >(
             create: (context) => MemberPublicInfoFormBloc(AccessBloc.currentAppId(context),
@@ -137,6 +138,7 @@ class _MyMemberPublicInfoFormState extends State<MyMemberPublicInfoForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberPublicInfoFormBloc, MemberPublicInfoFormState>(builder: (context, state) {
       if (state is MemberPublicInfoFormUninitialized) return Center(

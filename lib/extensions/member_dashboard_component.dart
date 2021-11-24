@@ -34,8 +34,8 @@ class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return MemberDashboard(key: key, id: id);
+      {Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
+    return MemberDashboard(key: key, appId: appId, id: id);
   }
 
   @override
@@ -44,8 +44,8 @@ class MemberDashboardComponentConstructorDefault
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  MemberDashboard({Key? key, required String id})
-      : super(key: key, memberDashboardID: id);
+  MemberDashboard({Key? key, required String appId, required String id})
+      : super(key: key, theAppId: appId, memberDashboardId: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
@@ -95,6 +95,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           } else {
             profilePhoto = Container();
           }
+          var currentApp = accessState.currentApp(context);
           return ListView(
             physics: ScrollPhysics(),
             shrinkWrap: true,
@@ -114,25 +115,25 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                   //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
                   getRow(
                       context,
-                      accessState.currentApp,
+                      currentApp,
                       'Update profile',
                       dashboardModel!.updateProfileText!,
                       () => _updateProfile(
-                          context, accessState.currentApp, member)),
+                          context, currentApp, member)),
                   getRow(
                       context,
-                      accessState.currentApp,
+                      currentApp,
                       'Retrieve data',
                       dashboardModel.retrieveDataText!,
                       () => _retrieveData(context, dashboardModel,
-                          accessState.currentApp, member)),
+                          currentApp, member)),
                   getRow(
                       context,
-                      accessState.currentApp,
+                      currentApp,
                       'Delete account',
                       dashboardModel.deleteDataText!,
                       () => _deleteAccount(context, dashboardModel,
-                          accessState.currentApp, member)),
+                          currentApp, member)),
                 ],
               )
             ],
@@ -236,7 +237,8 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             app.email,
             dashboardModel.deleteDataEmailMessage,
             memberCollectionInfo!);
-        BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
+        var appId = AccessBloc.currentApp(context).documentID!;
+        BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
       }
     });
   }

@@ -12,27 +12,31 @@ import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
   static Future<LoggedOut> getLoggedOut(
-    AppModel currentApp,
-    List<AppModel> apps, {
-    AppModel? playstoreApp,
-  }) async {
-    var homePage = await getHomepage(currentApp);
+      List<DeterminedApp> apps, {
+        AppModel? playstoreApp,
+      }) async {
     var accesses = await AccessHelper.getAccesses(null, apps, false);
-    var loggedOut = LoggedOut._(
-        currentApp, homePage, apps, accesses, OpenPageAction(homePage),
-        playstoreApp: playstoreApp);
+    var loggedOut = LoggedOut._(apps, accesses, playstoreApp: playstoreApp);
+    return loggedOut;
+  }
+
+  static Future<LoggedOut> getLoggedOut2(
+      AppModel app, {
+      AppModel? playstoreApp,
+      }) async {
+    var homePage = await getHomepage(app);
+    var apps = [DeterminedApp(app, homePage)];
+    var accesses = await AccessHelper.getAccesses(null, apps, false);
+    var loggedOut = LoggedOut._(apps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
 
   LoggedOut._(
-    AppModel currentApp,
-    PageModel homePage,
-    List<AppModel> apps,
-    Map<String, PagesAndDialogAccesss> accesses,
-    AccessAction? accessAction, {
+    List<DeterminedApp> apps,
+    Map<String, PagesAndDialogAccesss> accesses, {
     AppModel? playstoreApp,
     bool? isProcessing,
-  }) : super(currentApp, homePage, apps, accesses, accessAction,
+  }) : super(apps, accesses,
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   @override
@@ -61,14 +65,13 @@ class LoggedOut extends AccessDetermined {
 
   @override
   List<Object?> get props =>
-      [currentApp, homePage, accesses, apps, playstoreApp, isProcessing];
+      [currentApp, accesses, apps, playstoreApp, isProcessing];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is LoggedOut &&
           currentApp == other.currentApp &&
-          homePage == other.homePage &&
           runtimeType == other.runtimeType &&
           mapEquals(accesses, other.accesses) &&
           ListEquality().equals(apps, other.apps) &&
@@ -76,61 +79,35 @@ class LoggedOut extends AccessDetermined {
           isProcessing == other.isProcessing;
 
   @override
-  Future<LoggedOut> switchApp(AppModel newCurrentApp,
-      {PageModel? page, Map<String, dynamic>? parameters}) async {
-    if (newCurrentApp != currentApp) {
-      var newHomePage = await getHomepage(newCurrentApp);
-      var newAccessAction = page != null
-          ? OpenPageAction(page, parameters: parameters)
-          : OpenPageAction(homePage);
-      if (apps.contains(newCurrentApp)) {
-        var homePage = await getHomepage(
-          newCurrentApp,
-        );
-        return Future.value(LoggedOut._(
-          newCurrentApp,
-          newHomePage,
-          apps,
-          accesses,
-          newAccessAction,
-          playstoreApp: playstoreApp,
-        ));
-      } else {
-        var newAccesses = await AccessHelper.extendAccesses(null, accesses, newCurrentApp, false);
-        var newApps = apps.map((v) => v).toList();
-        newApps.add(newCurrentApp);
-        return Future.value(LoggedOut._(
-          newCurrentApp,
-          newHomePage,
-          newApps,
-          newAccesses,
-          newAccessAction,
-          playstoreApp: playstoreApp,
-        ));
-      }
-    } else {
+  Future<LoggedOut> addApp(AppModel newCurrentApp) async {
+    if (apps.contains(newCurrentApp)) {
       return Future.value(this);
+    } else {
+      var homePage = await getHomepage(newCurrentApp);
+      var newAccesses = await AccessHelper.extendAccesses(
+          null, accesses, newCurrentApp, false);
+      var newApps = apps.map((v) => v).toList();
+      newApps.add(DeterminedApp(newCurrentApp, homePage));
+      return Future.value(LoggedOut._(
+        newApps,
+        newAccesses,
+        playstoreApp: playstoreApp,
+      ));
     }
   }
 
   @override
-  Future<LoggedOut> updateApp(
-    AppModel newCurrentApp,
+  Future<LoggedOut> updateApps(
+    List<DeterminedApp> newApps,
   ) {
-    if (newCurrentApp.documentID == currentApp.documentID) {
-      return Future.value(LoggedOut._(
-        newCurrentApp,
-        homePage,
-        apps,
-        accesses,
-        accessAction,
-        playstoreApp: playstoreApp,
-      ));
-    } else {
-      throw Exception('Incorrectly received ');
-    }
+    return Future.value(LoggedOut._(
+      newApps,
+      accesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 
+/*
   @override
   Future<AccessDetermined> copyWithNewPage(PageModel page,
       {Map<String, dynamic>? parameters}) async {
@@ -156,6 +133,7 @@ class LoggedOut extends AccessDetermined {
       playstoreApp: playstoreApp,
     );
   }
+*/
 
   static Future<PageModel> getHomepage(AppModel app) =>
       AccessDetermined.getPage(app.documentID!, app.homePages!.homePagePublic);
@@ -163,11 +141,8 @@ class LoggedOut extends AccessDetermined {
   @override
   AccessDetermined asNotProcessing() {
     return LoggedOut._(
-      currentApp,
-      homePage,
       apps,
       accesses,
-      accessAction,
       playstoreApp: playstoreApp,
       isProcessing: false,
     );
@@ -176,11 +151,8 @@ class LoggedOut extends AccessDetermined {
   @override
   AccessDetermined asProcessing() {
     return LoggedOut._(
-      currentApp,
-      homePage,
       apps,
       accesses,
-      accessAction,
       playstoreApp: playstoreApp,
       isProcessing: true,
     );

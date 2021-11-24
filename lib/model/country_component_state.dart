@@ -35,9 +35,9 @@ class CountryComponentPermissionDenied extends CountryComponentState {
 }
 
 class CountryComponentLoaded extends CountryComponentState {
-  final CountryModel? value;
+  final CountryModel value;
 
-  const CountryComponentLoaded({ this.value });
+  const CountryComponentLoaded({ required this.value });
 
   CountryComponentLoaded copyWith({ CountryModel? copyThis }) {
     return CountryComponentLoaded(value: copyThis ?? this.value);

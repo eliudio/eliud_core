@@ -35,7 +35,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
-      yield await _mapUsrAndApp(event.app, [event.app], usr, null, playstoreApp: event.playstoreApp);
+
+      if (usr == null) {
+        yield await LoggedOut.getLoggedOut2(event.app, playstoreApp: event.playstoreApp);
+      } else {
+        var member = await firebaseToMemberModel(usr);
+        yield await LoggedIn.getLoggedIn2(usr, member, event.app, playstoreApp: event.playstoreApp);
+      }
+
       _listenToApp(event.app.documentID!);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
@@ -43,11 +50,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signOut();
-          var toYield = await _mapUsrAndApp(
-              theState.currentApp, theState.apps, null, null,
-              playstoreApp: theState.playstoreApp);
-          gotoPage(
-              toYield.currentApp.documentID, toYield.homePage.documentID);
+          var toYield = await LoggedOut.getLoggedOut(theState.apps, playstoreApp: theState.playstoreApp);
+          gotoPage(event.appId,
+              toYield.homePageForAppId(event.appId).documentID!, );
           yield toYield;
         } else {
           add(event.asProcessing());
@@ -63,9 +68,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           } catch (exception) {
             print('Exception during signInWithGoogle: $exception');
           }
-          yield await _mapUsrAndApp(
-              theState.currentApp, theState.apps, usr, event.actions,
-              playstoreApp: theState.playstoreApp);
+          var member = await firebaseToMemberModel(usr);
+          yield await LoggedIn.getLoggedIn(usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
+
           if (event.actions != null) {
             event.actions!.runTheAction();
           }
@@ -73,22 +78,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           add(event.asProcessing());
           yield theState.asProcessing();
         }
-      } else if (event is SelectAppEvent) {
+      } else if (event is SwitchAppWithIDEvent) {
         if (event.isProcessing()) {
-          var newState = await switchApp(theState, event.app);
-          gotoPage(
-              newState.currentApp.documentID, newState.homePage.documentID);
-          _listenToApp(event.app.documentID!);
-          yield newState;
-        } else {
-          add(event.asProcessing());
-          yield theState.asProcessing();
-        }
-      } else if (event is SelectAppWithIDEvent) {
-        if (event.isProcessing()) {
-          var newState = await switchApp(theState, await _fetchApp(event.appId));
-          gotoPage(
-              newState.currentApp.documentID, newState.homePage.documentID);
+          var newState = await addApp(theState, await _fetchApp(event.appId));
+          gotoPage(event.appId, newState.homePageForAppId(event.appId).documentID!);
           _listenToApp(event.appId);
           yield newState;
         } else {
@@ -120,8 +113,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           _invokeStateChangeListenersBefore(event, theState);
           var member = await _acceptMembership(_member, event.app);
           if (member != null) {
-            var newState = await _mapMemberAndApp(
-                event.usr, member, app, theState.playStoreApp, null);
+          var newState = await LoggedIn.getLoggedIn(event.usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
             if (newState is LoggedInWithoutMembership) {
               if (newState.postLoginAction != null) {
                 newState.postLoginAction!.runTheAction();
@@ -151,8 +143,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  Future<AccessDetermined> switchApp(AccessDetermined accessState, AppModel app) async {
-    var accessDetermined = accessState.asNotProcessing().switchApp(app);
+  Future<AccessDetermined> addApp(AccessDetermined accessState, AppModel app) async {
+    var accessDetermined = accessState.asNotProcessing().addApp(app);
     return accessDetermined;
   }
 
@@ -180,21 +172,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     _appSubscription = appRepository(appId: appId)!.listenTo(appId, (value) {
       if (value != null) add(AppUpdatedEvent(value));
     });
-  }
-
-  Future<AccessDetermined> _mapMemberAndApp(User usr, MemberModel member, AppModel currentApp,
-      List<AppModel> apps, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
-    return await LoggedIn.getLoggedIn(usr, member, currentApp, apps, postLoginAction, playstoreApp: playstoreApp);
-  }
-
-  Future<AccessDetermined> _mapUsrAndApp(AppModel currentApp,
-      List<AppModel> apps, User? usr, PostLoginAction? postLoginAction, {AppModel? playstoreApp}) async {
-    if (usr == null) {
-      return await LoggedOut.getLoggedOut(currentApp, apps, playstoreApp: playstoreApp);
-    } else {
-      var member = await firebaseToMemberModel(usr);
-      return _mapMemberAndApp(usr, member, currentApp, apps, postLoginAction, playstoreApp: playstoreApp);
-    }
   }
 
   static Future<MemberModel> firebaseToMemberModel(User usr) async {
@@ -286,8 +263,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static bool isOwner(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      if (theState.currentApp.ownerID != null) {
-        return theState.memberIsOwner(theState.currentAppId());
+      if (theState.currentApp(context).ownerID != null) {
+        return theState.memberIsOwner(theState.currentAppId(context));
       }
     }
     return false;
@@ -296,7 +273,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static AppModel currentApp(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp;
+      return theState.currentApp(context);
     } else {
       throw Exception('No current app');
     }
@@ -305,7 +282,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static String currentAppId(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp.documentID!;
+      return theState.currentApp(context).documentID!;
     } else {
       throw Exception('No current app');
     }
@@ -314,7 +291,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static String currentOwnerId(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp.ownerID!;
+      return theState.currentApp(context).ownerID!;
     } else {
       throw Exception('No current app');
     }

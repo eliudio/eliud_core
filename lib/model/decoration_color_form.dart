@@ -69,6 +69,7 @@ class DecorationColorForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DecorationColorFormBloc >(
             create: (context) => DecorationColorFormBloc(AccessBloc.currentAppId(context),
@@ -132,6 +133,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DecorationColorFormBloc, DecorationColorFormState>(builder: (context, state) {
       if (state is DecorationColorFormUninitialized) return Center(

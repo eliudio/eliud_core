@@ -248,8 +248,8 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget? createNew({Key? key, required String id, Map<String, dynamic>? parameters}) {
-    return ListComponent(componentId: id);
+  Widget? createNew({Key? key, required String appId,  required String id, Map<String, dynamic>? parameters}) {
+    return ListComponent(appId: appId, componentId: id);
   }
 
   @override
@@ -290,58 +290,58 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget createNew({Key? key, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "apps")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "appBars")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "appPolicys")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "backgrounds")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "countrys")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "dialogs")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "drawers")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "fonts")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "gridViews")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "homeMenus")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "members")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "memberDashboards")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "memberPublicInfos")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "menuDefs")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "pages")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "posSizes")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shadows")
-      return DropdownButtonComponent(componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
   }
@@ -349,6 +349,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
 
 
 class ListComponent extends StatelessWidget with HasFab {
+  final String appId;
   final String? componentId;
   Widget? widget;
 
@@ -361,7 +362,7 @@ class ListComponent extends StatelessWidget with HasFab {
     return null;
   }
 
-  ListComponent({this.componentId}) {
+  ListComponent({required this.appId, this.componentId}) {
     initWidget();
   }
 
@@ -426,7 +427,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: AccessBloc.currentAppId(context))!,
+            appBarRepository: appBarRepository(appId: appId)!,
           )..add(LoadAppBarList()),
         )
       ],
@@ -439,7 +440,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: AccessBloc.currentAppId(context))!,
+            appPolicyRepository: appPolicyRepository(appId: appId)!,
           )..add(LoadAppPolicyList()),
         )
       ],
@@ -478,7 +479,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: AccessBloc.currentAppId(context))!,
+            dialogRepository: dialogRepository(appId: appId)!,
           )..add(LoadDialogList()),
         )
       ],
@@ -491,7 +492,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: AccessBloc.currentAppId(context))!,
+            drawerRepository: drawerRepository(appId: appId)!,
           )..add(LoadDrawerList()),
         )
       ],
@@ -517,7 +518,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: AccessBloc.currentAppId(context))!,
+            gridViewRepository: gridViewRepository(appId: appId)!,
           )..add(LoadGridViewList()),
         )
       ],
@@ -530,7 +531,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: AccessBloc.currentAppId(context))!,
+            homeMenuRepository: homeMenuRepository(appId: appId)!,
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -556,7 +557,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.currentAppId(context))!,
+            memberDashboardRepository: memberDashboardRepository(appId: appId)!,
           )..add(LoadMemberDashboardList()),
         )
       ],
@@ -582,7 +583,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: AccessBloc.currentAppId(context))!,
+            menuDefRepository: menuDefRepository(appId: appId)!,
           )..add(LoadMenuDefList()),
         )
       ],
@@ -595,7 +596,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: AccessBloc.currentAppId(context))!,
+            pageRepository: pageRepository(appId: appId)!,
           )..add(LoadPageList()),
         )
       ],
@@ -608,7 +609,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: AccessBloc.currentAppId(context))!,
+            posSizeRepository: posSizeRepository(appId: appId)!,
           )..add(LoadPosSizeList()),
         )
       ],
@@ -635,12 +636,13 @@ class ListComponent extends StatelessWidget with HasFab {
 typedef Changed(String? value);
 
 class DropdownButtonComponent extends StatelessWidget {
+  final String appId;
   final String? componentId;
   final String? value;
   final Changed? trigger;
   final bool? optional;
 
-  DropdownButtonComponent({this.componentId, this.value, this.trigger, this.optional});
+  DropdownButtonComponent({required this.appId, this.componentId, this.value, this.trigger, this.optional});
 
   @override
   Widget build(BuildContext context) {
@@ -684,7 +686,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: AccessBloc.currentAppId(context))!,
+            appBarRepository: appBarRepository(appId: appId)!,
           )..add(LoadAppBarList()),
         )
       ],
@@ -697,7 +699,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: AccessBloc.currentAppId(context))!,
+            appPolicyRepository: appPolicyRepository(appId: appId)!,
           )..add(LoadAppPolicyList()),
         )
       ],
@@ -736,7 +738,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: AccessBloc.currentAppId(context))!,
+            dialogRepository: dialogRepository(appId: appId)!,
           )..add(LoadDialogList()),
         )
       ],
@@ -749,7 +751,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: AccessBloc.currentAppId(context))!,
+            drawerRepository: drawerRepository(appId: appId)!,
           )..add(LoadDrawerList()),
         )
       ],
@@ -775,7 +777,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: AccessBloc.currentAppId(context))!,
+            gridViewRepository: gridViewRepository(appId: appId)!,
           )..add(LoadGridViewList()),
         )
       ],
@@ -788,7 +790,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: AccessBloc.currentAppId(context))!,
+            homeMenuRepository: homeMenuRepository(appId: appId)!,
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -814,7 +816,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: AccessBloc.currentAppId(context))!,
+            memberDashboardRepository: memberDashboardRepository(appId: appId)!,
           )..add(LoadMemberDashboardList()),
         )
       ],
@@ -840,7 +842,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: AccessBloc.currentAppId(context))!,
+            menuDefRepository: menuDefRepository(appId: appId)!,
           )..add(LoadMenuDefList()),
         )
       ],
@@ -853,7 +855,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: AccessBloc.currentAppId(context))!,
+            pageRepository: pageRepository(appId: appId)!,
           )..add(LoadPageList()),
         )
       ],
@@ -866,7 +868,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: AccessBloc.currentAppId(context))!,
+            posSizeRepository: posSizeRepository(appId: appId)!,
           )..add(LoadPosSizeList()),
         )
       ],

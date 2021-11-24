@@ -35,9 +35,9 @@ class PageComponentPermissionDenied extends PageComponentState {
 }
 
 class PageComponentLoaded extends PageComponentState {
-  final PageModel? value;
+  final PageModel value;
 
-  const PageComponentLoaded({ this.value });
+  const PageComponentLoaded({ required this.value });
 
   PageComponentLoaded copyWith({ PageModel? copyThis }) {
     return PageComponentLoaded(value: copyThis ?? this.value);

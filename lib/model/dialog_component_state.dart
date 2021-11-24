@@ -35,9 +35,9 @@ class DialogComponentPermissionDenied extends DialogComponentState {
 }
 
 class DialogComponentLoaded extends DialogComponentState {
-  final DialogModel? value;
+  final DialogModel value;
 
-  const DialogComponentLoaded({ this.value });
+  const DialogComponentLoaded({ required this.value });
 
   DialogComponentLoaded copyWith({ DialogModel? copyThis }) {
     return DialogComponentLoaded(value: copyThis ?? this.value);

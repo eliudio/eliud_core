@@ -29,14 +29,15 @@ class AccessInitEvent extends AccessEvent {
 }
 
 class LogoutEvent extends AccessEvent {
+  final String appId;
   final bool _isProcessing;
 
-  LogoutEvent({bool? isProcessing}) : _isProcessing = isProcessing ?? false;
+  LogoutEvent({required this.appId, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LogoutEvent asProcessing() {
-    return LogoutEvent(isProcessing: true);
+    return LogoutEvent(appId: appId, isProcessing: true);
   }
 
   @override
@@ -127,53 +128,30 @@ class UpdatePackageConditionEvent extends AccessEvent {
   UpdatePackageConditionEvent(this.app, this.packageCondition, this.condition);
 }
 
-class SelectAppEvent extends AccessEvent {
-  final AppModel app;
-  final bool _isProcessing;
-
-  SelectAppEvent({required this.app, bool? isProcessing})
-      : _isProcessing = isProcessing ?? false;
-
-  SelectAppEvent asProcessing() {
-    return SelectAppEvent(app: app, isProcessing: true);
-  }
-
-  bool isProcessing() => _isProcessing;
-
-  @override
-  List<Object?> get props => [app, _isProcessing];
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SelectAppEvent &&
-          app == other.app &&
-          _isProcessing == other._isProcessing &&
-          runtimeType == other.runtimeType;
-}
-
-class SelectAppWithIDEvent extends AccessEvent {
+class SwitchAppWithIDEvent extends AccessEvent {
   final String appId;
   final bool _isProcessing;
+  final bool goHome;
 
-  SelectAppWithIDEvent({required this.appId, bool? isProcessing})
+  SwitchAppWithIDEvent({required this.appId, required this.goHome, bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
-  SelectAppWithIDEvent asProcessing() {
-    return SelectAppWithIDEvent(appId: appId, isProcessing: true);
+  SwitchAppWithIDEvent asProcessing() {
+    return SwitchAppWithIDEvent(appId: appId, goHome: goHome, isProcessing: true);
   }
 
   bool isProcessing() => _isProcessing;
 
   @override
-  List<Object?> get props => [appId, _isProcessing];
+  List<Object?> get props => [appId, goHome, _isProcessing];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SelectAppWithIDEvent &&
+      other is SwitchAppWithIDEvent &&
           _isProcessing == other._isProcessing &&
           appId == other.appId &&
+          goHome == other.goHome &&
           runtimeType == other.runtimeType;
 }
 

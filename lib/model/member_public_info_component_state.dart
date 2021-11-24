@@ -35,9 +35,9 @@ class MemberPublicInfoComponentPermissionDenied extends MemberPublicInfoComponen
 }
 
 class MemberPublicInfoComponentLoaded extends MemberPublicInfoComponentState {
-  final MemberPublicInfoModel? value;
+  final MemberPublicInfoModel value;
 
-  const MemberPublicInfoComponentLoaded({ this.value });
+  const MemberPublicInfoComponentLoaded({ required this.value });
 
   MemberPublicInfoComponentLoaded copyWith({ MemberPublicInfoModel? copyThis }) {
     return MemberPublicInfoComponentLoaded(value: copyThis ?? this.value);

@@ -107,7 +107,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<BodyComponentListBloc>(context),
                                       child: BodyComponentForm(
                                           value: null,

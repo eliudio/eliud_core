@@ -35,9 +35,9 @@ class GridViewComponentPermissionDenied extends GridViewComponentState {
 }
 
 class GridViewComponentLoaded extends GridViewComponentState {
-  final GridViewModel? value;
+  final GridViewModel value;
 
-  const GridViewComponentLoaded({ this.value });
+  const GridViewComponentLoaded({ required this.value });
 
   GridViewComponentLoaded copyWith({ GridViewModel? copyThis }) {
     return GridViewComponentLoaded(value: copyThis ?? this.value);

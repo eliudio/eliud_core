@@ -69,6 +69,7 @@ class AppBarForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppBarFormBloc >(
             create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
@@ -142,6 +143,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppBarFormBloc, AppBarFormState>(builder: (context, state) {
       if (state is AppBarFormUninitialized) return Center(
@@ -237,7 +239,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "memberMediums", value: _image, trigger: _onImageSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "memberMediums", value: _image, trigger: _onImageSelected, optional: true),
           );
 
 
@@ -269,7 +271,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "menuDefs", value: _iconMenu, trigger: _onIconMenuSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "menuDefs", value: _iconMenu, trigger: _onIconMenuSelected, optional: true),
           );
 
 
@@ -333,7 +335,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 

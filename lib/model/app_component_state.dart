@@ -35,9 +35,9 @@ class AppComponentPermissionDenied extends AppComponentState {
 }
 
 class AppComponentLoaded extends AppComponentState {
-  final AppModel? value;
+  final AppModel value;
 
-  const AppComponentLoaded({ this.value });
+  const AppComponentLoaded({ required this.value });
 
   AppComponentLoaded copyWith({ AppModel? copyThis }) {
     return AppComponentLoaded(value: copyThis ?? this.value);

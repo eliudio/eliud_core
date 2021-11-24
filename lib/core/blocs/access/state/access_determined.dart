@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
+import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -10,71 +11,31 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'access_state.dart';
 
-abstract class AccessAction extends Equatable {
-  final Map<String, dynamic>? parameters;
+class DeterminedApp extends Equatable {
+  final AppModel app;
+  final PageModel homePage;
 
-  AccessAction(this.parameters);
-  String appId();
-
-  @override
-  List<Object?> get props => [ parameters ];
-}
-
-class NoAction extends AccessAction {
-  NoAction(Map<String, dynamic>? parameters) : super(parameters);
+  DeterminedApp(this.app, this.homePage);
 
   @override
-  String appId() => throw Exception("NoAction has no appId");
-}
-
-class OpenPageAction extends AccessAction {
-  final PageModel page;
-
-  OpenPageAction(this.page, {Map<String, dynamic>? parameters}): super(parameters);
-
-  @override
-  String appId() => page.appId!;
-
-  @override
-  List<Object?> get props => [page, parameters];
+  List<Object?> get props => [app, homePage];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is OpenPageAction &&
-              page == other.page &&
-              mapEquals(parameters, other.parameters);
-}
-
-class OpenDialogAction extends AccessAction {
-  final DialogModel dialog;
-
-  OpenDialogAction(this.dialog, {Map<String, dynamic>? parameters}): super(parameters);
-
-  @override
-  String appId() => dialog.appId!;
-
-  @override
-  List<Object?> get props => [dialog, parameters];
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is OpenDialogAction &&
-              dialog == other.dialog &&
-              mapEquals(parameters, other.parameters);
+          other is DeterminedApp &&
+              app == other.app &&
+              homePage == other.homePage;
 }
 
 abstract class AccessDetermined extends AccessState {
-  final AppModel currentApp;
   final AppModel? playstoreApp;
-  final PageModel homePage;
-  final List<AppModel> apps;
+  final List<DeterminedApp> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
-  AccessAction? accessAction;
   bool? isProcessing;
 
   bool isProcessingStatus() => isProcessing ?? false;
@@ -83,7 +44,7 @@ abstract class AccessDetermined extends AccessState {
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.currentApp, this.homePage, this.apps, this.accesses, this.accessAction, {this.playstoreApp, this.isProcessing});
+  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {
@@ -146,12 +107,19 @@ abstract class AccessDetermined extends AccessState {
   MemberModel? getMember();
   PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
-  Future<AccessDetermined> switchApp(AppModel newCurrentApp, {PageModel? page, Map<String, dynamic>? parameters});
-  Future<AccessDetermined> updateApp(AppModel newCurrentApp, );
+  Future<AccessDetermined> addApp(AppModel newCurrentApp);
 
-  String currentAppId() => currentApp.documentID!;
-  bool isCurrentAppBlocked() => isBlocked(currentAppId());
-  PrivilegeLevel getPrivilegeLevelCurrentApp() => getPrivilegeLevel(currentAppId());
+  String currentAppId(BuildContext context) => eliud_router.Router.getCurrentAppId(context);
+  AppModel currentApp(BuildContext context) {
+    var appId = currentAppId(context);
+    for (var app in apps) {
+      if (app.app.documentID == appId) return app.app;
+    }
+    throw Exception("Can not find app with id $appId");
+  }
+
+  bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentAppId(context));
+  PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentAppId(context));
 
   static Future<PageModel> getPage(String appId, String? pageId, { String? alternativePageId }) async {
     var page;
@@ -175,11 +143,12 @@ abstract class AccessDetermined extends AccessState {
     }
   }
 
+/*
   Future<AccessDetermined> switchPage(PageModel page, {Map<String, dynamic>? parameters}) async {
     if (page.appId != currentApp.documentID) {
       var newCurrentApp = await appRepository()!.get(page.appId);
       if (newCurrentApp != null) {
-        return switchApp(newCurrentApp, page: page, parameters: parameters);
+        return addApp(newCurrentApp, page: page, parameters: parameters);
       } else {
         throw Exception("newCurrentApp can not be determined. appId = " + page.appId!);
       }
@@ -196,6 +165,34 @@ abstract class AccessDetermined extends AccessState {
   Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters});
   Future<AccessDetermined> copyWithNewDialog(DialogModel dialog, {Map<String, dynamic>? parameters});
 
+*/
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
+
+  Future<AccessDetermined> updateApp(
+      AppModel newCurrentApp,
+      ) {
+    List<DeterminedApp> newApps = [];
+    for (var app in apps) {
+      if (app.app.documentID == newCurrentApp.documentID) {
+        newApps.add(DeterminedApp(newCurrentApp, app.homePage));
+      } else {
+        newApps.add(app);
+      }
+    }
+    return updateApps(newApps);
+  }
+
+  Future<AccessDetermined> updateApps(
+      List<DeterminedApp> newApps,
+      );
+
+  PageModel homePageForAppId(String appId) {
+    for (var app in apps) {
+      if (app.app.documentID == appId) {
+        return app.homePage;
+      }
+    }
+    throw Exception('app not found when trying to find homepage');
+  }
 }

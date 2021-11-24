@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_core/model/app_bar_component_bloc.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractAppBarComponent extends StatelessWidget {
   static String componentName = "appBars";
-  final String? appBarID;
+  final String theAppId;
+  final String appBarId;
 
-  AbstractAppBarComponent({Key? key, this.appBarID}): super(key: key);
+  AbstractAppBarComponent({Key? key, required this.theAppId, required this.appBarId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBarComponentBloc> (
           create: (context) => AppBarComponentBloc(
-            appBarRepository: getAppBarRepository(context))
-        ..add(FetchAppBarComponent(id: appBarID)),
+            appBarRepository: appBarRepository(appId: theAppId)!)
+        ..add(FetchAppBarComponent(id: appBarId)),
       child: _appBarBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
     return BlocBuilder<AppBarComponentBloc, AppBarComponentState>(builder: (context, state) {
       if (state is AppBarComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No AppBar defined');
+          return AlertWidget(title: "Error", content: 'No AppBar defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is AppBarComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, AppBarModel? value);
-  Widget alertWidget({ title: String, content: String});
-  AppBarRepository getAppBarRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, AppBarModel value);
 }
 

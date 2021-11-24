@@ -35,9 +35,9 @@ class AppBarComponentPermissionDenied extends AppBarComponentState {
 }
 
 class AppBarComponentLoaded extends AppBarComponentState {
-  final AppBarModel? value;
+  final AppBarModel value;
 
-  const AppBarComponentLoaded({ this.value });
+  const AppBarComponentLoaded({ required this.value });
 
   AppBarComponentLoaded copyWith({ AppBarModel? copyThis }) {
     return AppBarComponentLoaded(value: copyThis ?? this.value);

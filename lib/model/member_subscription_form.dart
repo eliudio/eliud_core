@@ -69,6 +69,7 @@ class MemberSubscriptionForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
             create: (context) => MemberSubscriptionFormBloc(AccessBloc.currentAppId(context),
@@ -131,6 +132,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberSubscriptionFormBloc, MemberSubscriptionFormState>(builder: (context, state) {
       if (state is MemberSubscriptionFormUninitialized) return Center(
@@ -168,7 +170,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "apps", value: _app, trigger: _onAppSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "apps", value: _app, trigger: _onAppSelected, optional: false),
           );
 
 

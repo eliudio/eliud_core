@@ -107,7 +107,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<HomeMenuListBloc>(context),
                                       child: HomeMenuForm(
                                           value: null,

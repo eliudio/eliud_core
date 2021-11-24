@@ -107,7 +107,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<MemberMediumListBloc>(context),
                                       child: MemberMediumForm(
                                           value: null,

@@ -74,6 +74,7 @@ class MemberDashboardForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberDashboardFormBloc >(
             create: (context) => MemberDashboardFormBloc(AccessBloc.currentAppId(context),
@@ -154,6 +155,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberDashboardFormBloc, MemberDashboardFormState>(builder: (context, state) {
       if (state is MemberDashboardFormUninitialized) return Center(

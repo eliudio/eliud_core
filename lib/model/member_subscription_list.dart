@@ -107,7 +107,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<MemberSubscriptionListBloc>(context),
                                       child: MemberSubscriptionForm(
                                           value: null,

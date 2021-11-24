@@ -107,7 +107,7 @@ class PageListWidgetState extends State<PageListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<PageListBloc>(context),
                                       child: PageForm(
                                           value: null,

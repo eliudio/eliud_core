@@ -107,7 +107,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<AppPolicyItemListBloc>(context),
                                       child: AppPolicyItemForm(
                                           value: null,

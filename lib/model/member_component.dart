@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_core/model/member_component_bloc.dart';
 import 'package:eliud_core/model/member_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/member_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractMemberComponent extends StatelessWidget {
   static String componentName = "members";
-  final String? memberID;
+  final String theAppId;
+  final String memberId;
 
-  AbstractMemberComponent({Key? key, this.memberID}): super(key: key);
+  AbstractMemberComponent({Key? key, required this.theAppId, required this.memberId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MemberComponentBloc> (
           create: (context) => MemberComponentBloc(
-            memberRepository: getMemberRepository(context))
-        ..add(FetchMemberComponent(id: memberID)),
+            memberRepository: memberRepository(appId: theAppId)!)
+        ..add(FetchMemberComponent(id: memberId)),
       child: _memberBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractMemberComponent extends StatelessWidget {
     return BlocBuilder<MemberComponentBloc, MemberComponentState>(builder: (context, state) {
       if (state is MemberComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No Member defined');
+          return AlertWidget(title: "Error", content: 'No Member defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractMemberComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is MemberComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractMemberComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, MemberModel? value);
-  Widget alertWidget({ title: String, content: String});
-  MemberRepository getMemberRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, MemberModel value);
 }
 

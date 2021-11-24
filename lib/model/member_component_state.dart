@@ -35,9 +35,9 @@ class MemberComponentPermissionDenied extends MemberComponentState {
 }
 
 class MemberComponentLoaded extends MemberComponentState {
-  final MemberModel? value;
+  final MemberModel value;
 
-  const MemberComponentLoaded({ this.value });
+  const MemberComponentLoaded({ required this.value });
 
   MemberComponentLoaded copyWith({ MemberModel? copyThis }) {
     return MemberComponentLoaded(value: copyThis ?? this.value);

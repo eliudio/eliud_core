@@ -209,17 +209,18 @@ class Registry {
             bloc: BlocProvider.of<AccessBloc>(context),
             builder: (BuildContext context, accessState) {
               if (accessState is AccessDetermined) {
+                var appId = accessState.currentAppId(context);
                 return FutureBuilder<dynamic>(
                     future: componentConstructor.getModel(
-                        appId: accessState.currentAppId(), id: id),
+                        appId: appId, id: id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var model = snapshot.data;
                         var hasAccess = componentAccessValidation(
-                            accessState, componentName, id, model);
+                            context, accessState, componentName, id, model);
                         if (hasAccess) {
                           return componentConstructor.createNew(
-                                  key: key, id: id, parameters: parameters) ??
+                                  key: key, appId: appId, id: id, parameters: parameters) ??
                               _missingComponent(componentName);
                         } else {
                           return Container();
@@ -244,7 +245,7 @@ class Registry {
     return Text('Missing component with name $componentName');
   }
 
-  bool componentAccessValidation(AccessDetermined accessDetermined,
+  bool componentAccessValidation(BuildContext context, AccessDetermined accessDetermined,
       String component, String id, dynamic model) {
     try {
       // if model is not found then no access for this member
@@ -263,14 +264,14 @@ class Registry {
 
       // if access is not set and blocked member then no access for this member
       if ((accessDetermined is LoggedIn) &&
-          (accessDetermined.isCurrentAppBlocked())) return false;
+          (accessDetermined.isCurrentAppBlocked(context))) return false;
 
       // Given some privilege is required and access is not set then no access for this member
       if (!(accessDetermined is LoggedIn)) return false;
 
       // If sufficient privilege set then access for this member
       if (model.conditions!.privilegeLevelRequired!.index <=
-          accessDetermined.getPrivilegeLevelCurrentApp().index) return true;
+          accessDetermined.getPrivilegeLevelCurrentApp(context).index) return true;
 
       // If no sufficient privileges then no access for this member
       return false;

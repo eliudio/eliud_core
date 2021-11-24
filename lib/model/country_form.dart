@@ -69,6 +69,7 @@ class CountryForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<CountryFormBloc >(
             create: (context) => CountryFormBloc(AccessBloc.currentAppId(context),
@@ -137,6 +138,7 @@ class _MyCountryFormState extends State<MyCountryForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<CountryFormBloc, CountryFormState>(builder: (context, state) {
       if (state is CountryFormUninitialized) return Center(

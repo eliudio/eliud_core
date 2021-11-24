@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_core/model/font_component_bloc.dart';
 import 'package:eliud_core/model/font_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/font_repository.dart';
 import 'package:eliud_core/model/font_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractFontComponent extends StatelessWidget {
   static String componentName = "fonts";
-  final String? fontID;
+  final String theAppId;
+  final String fontId;
 
-  AbstractFontComponent({Key? key, this.fontID}): super(key: key);
+  AbstractFontComponent({Key? key, required this.theAppId, required this.fontId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FontComponentBloc> (
           create: (context) => FontComponentBloc(
-            fontRepository: getFontRepository(context))
-        ..add(FetchFontComponent(id: fontID)),
+            fontRepository: fontRepository(appId: theAppId)!)
+        ..add(FetchFontComponent(id: fontId)),
       child: _fontBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractFontComponent extends StatelessWidget {
     return BlocBuilder<FontComponentBloc, FontComponentState>(builder: (context, state) {
       if (state is FontComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No Font defined');
+          return AlertWidget(title: "Error", content: 'No Font defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractFontComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is FontComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractFontComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, FontModel? value);
-  Widget alertWidget({ title: String, content: String});
-  FontRepository getFontRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, FontModel value);
 }
 

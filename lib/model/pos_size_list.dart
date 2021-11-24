@@ -107,7 +107,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<PosSizeListBloc>(context),
                                       child: PosSizeForm(
                                           value: null,

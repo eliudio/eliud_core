@@ -69,6 +69,7 @@ class FontForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<FontFormBloc >(
             create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
@@ -143,6 +144,7 @@ class _MyFontFormState extends State<MyFontForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<FontFormBloc, FontFormState>(builder: (context, state) {
       if (state is FontFormUninitialized) return Center(

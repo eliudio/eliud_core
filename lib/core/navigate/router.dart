@@ -78,7 +78,8 @@ class Router {
       return pageRouteBuilderWithAppId(appId,
           pageId: pageId,
           parameters: parameters,
-          page: Registry.registry()!.page(appId: appId, pageId: pageId, parameters: parameters));
+          page: Registry.registry()!
+              .page(appId: appId, pageId: pageId, parameters: parameters));
     } else {
       return error('No route defined for $path');
     }
@@ -89,51 +90,6 @@ class Router {
         name: 'error',
         page: Scaffold(body: Center(child: Text(error))),
         milliseconds: 1000);
-  }
-
-  final List<Color> _colors = [Colors.white, Colors.grey];
-  final List<double> _stops = [0.0, 0.7];
-  Widget justASecondWidget(String message) {
-    return Material(
-        type: MaterialType.transparency,
-        child: Container(
-            child: Center(
-          child: Container(
-              height: 200,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: _colors,
-                  stops: _stops,
-                ),
-                borderRadius: BorderRadius.all(const Radius.circular(40.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white.withOpacity(.3),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: Offset(2, 2), // changes position of shadow
-                  ),
-                ],
-              ),
-              //color: Colors.white,
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(message,
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          color: Colors.black,
-                        )),
-                  )
-                ],
-              )),
-        )));
   }
 
   static void navigateTo(BuildContext context, ActionModel action,
@@ -151,14 +107,15 @@ class Router {
         // We should be using this instead: BlocProvider.of<AccessBloc>(context).add(OpenDialogEvent(action.dialogID, parameters: parameters));
       } else if (action is SwitchApp) {
         BlocProvider.of<AccessBloc>(context)
-            .add(SelectAppWithIDEvent(appId: action.toAppID));
+            .add(SwitchAppWithIDEvent(appId: action.toAppID, goHome: true));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
             BlocProvider.of<AccessBloc>(context).add(LoginEvent());
             break;
           case InternalActionEnum.Logout:
-            BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
+            var appId = AccessBloc.currentApp(context).documentID!;
+            BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
             break;
           default:
             return null;
@@ -175,34 +132,36 @@ class Router {
     }
   }
 
-/*
-  static void navigateToPage(NavigatorBloc bloc, ActionModel action,
-      {Map<String, dynamic>? parameters}) async {
-    if (action is GotoPage) {
-      bloc.add(
-          GotoPageEvent(action.appID, action.pageID, parameters: parameters));
-    } else {
-      throw "I didn't expect this action type";
-    }
+  static String getCurrentAppId(BuildContext context) {
+    return getPageContextInfo(context).appId;
   }
 
-  static void message(NavigatorBloc? bloc, String message) {
-    if (bloc != null) bloc.add(MessageEvent(message));
+  static PageContextInfo getPageContextInfo(BuildContext context) {
+    var modalRoute = ModalRoute.of(context) as ModalRoute;
+    return getPageContextInfoWithRoute(modalRoute);
   }
 
-*/
-  /*
-   * Sometimes we need to brute refresh the current page and do this by (re)navigating to it
-   */
-/*
-  static void bruteRefreshPage(BuildContext context) {
-    var appId = AccessBloc.appId(context);
-    // force goto that page
-    var modalRoute = ModalRoute.of(context) as ModalRoute<Object>;
+  static PageContextInfo getPageContextInfoWithRoute(ModalRoute modalRoute) {
     var settings = modalRoute.settings;
-    var parentPageId = settings.name;
-    var refreshPage = GotoPage(appId, pageID: parentPageId);
-    navigateTo(context, refreshPage);
+    var fullPageId = settings.name;
+    if (fullPageId == null) {
+      throw Exception('No page selected');
+    }
+    var split = fullPageId.split('/');
+    var appId = split[0];
+    var pageId = split[1];
+    Map<String, dynamic>? parameters;
+    if (settings.arguments != null) {
+      parameters = settings.arguments as Map<String, dynamic>;
+    }
+    return PageContextInfo(appId, pageId, parameters: parameters);
   }
-*/
+}
+
+class PageContextInfo {
+  final String appId;
+  final String pageId;
+  Map<String, dynamic>? parameters;
+
+  PageContextInfo(this.appId, this.pageId, {this.parameters});
 }

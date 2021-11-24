@@ -35,9 +35,9 @@ class FontComponentPermissionDenied extends FontComponentState {
 }
 
 class FontComponentLoaded extends FontComponentState {
-  final FontModel? value;
+  final FontModel value;
 
-  const FontComponentLoaded({ this.value });
+  const FontComponentLoaded({ required this.value });
 
   FontComponentLoaded copyWith({ FontModel? copyThis }) {
     return FontComponentLoaded(value: copyThis ?? this.value);

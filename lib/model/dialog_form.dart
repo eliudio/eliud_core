@@ -69,6 +69,7 @@ class DialogForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DialogFormBloc >(
             create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
@@ -143,6 +144,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DialogFormBloc, DialogFormState>(builder: (context, state) {
       if (state is DialogFormUninitialized) return Center(
@@ -256,7 +258,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -296,7 +298,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         if ((state.value!.layout == PageLayout.GridView)) children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
           );
 
 

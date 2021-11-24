@@ -74,7 +74,7 @@ class ActionFieldState extends State<ActionField> {
             groupValue: _actionSelection,
             title: Text('Goto Page'),
             subtitle: Text('This action results in moving to another page'),
-            onChanged: !state.memberIsOwner(state.currentAppId())
+            onChanged: !state.memberIsOwner(state.currentAppId(context))
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -86,7 +86,7 @@ class ActionFieldState extends State<ActionField> {
             title: Text('Internal'),
             subtitle: Text(
                 'This action results in one of the predefined internal actions'),
-            onChanged: !state.memberIsOwner(state.currentAppId())
+            onChanged: !state.memberIsOwner(state.currentAppId(context))
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -97,7 +97,7 @@ class ActionFieldState extends State<ActionField> {
             groupValue: _actionSelection,
             title: Text('Popup Menu'),
             subtitle: Text('This menu item will open another popup menu'),
-            onChanged: !state.memberIsOwner(state.currentAppId())
+            onChanged: !state.memberIsOwner(state.currentAppId(context))
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -105,9 +105,11 @@ class ActionFieldState extends State<ActionField> {
           ),
         ];
 
+        var appId = state.currentAppId(context);
         if (_actionSelection == 0) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
+                  appId: appId,
                   id: 'pages',
                   value: _pageID,
                   trigger: _onDocumentSelected,
@@ -115,6 +117,7 @@ class ActionFieldState extends State<ActionField> {
         } else if (_actionSelection == 2) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
+                  appId: appId,
                   id: 'menuDefs',
                   value: _menuDefID,
                   trigger: _onPopupmenuSelected,
@@ -122,6 +125,7 @@ class ActionFieldState extends State<ActionField> {
         } else if (_actionSelection == 3) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
+                  appId: appId,
                   id: 'menuDefs',
                   value: _dialogID,
                   trigger: _onDialogSelected,

@@ -35,9 +35,9 @@ class AppPolicyComponentPermissionDenied extends AppPolicyComponentState {
 }
 
 class AppPolicyComponentLoaded extends AppPolicyComponentState {
-  final AppPolicyModel? value;
+  final AppPolicyModel value;
 
-  const AppPolicyComponentLoaded({ this.value });
+  const AppPolicyComponentLoaded({ required this.value });
 
   AppPolicyComponentLoaded copyWith({ AppPolicyModel? copyThis }) {
     return AppPolicyComponentLoaded(value: copyThis ?? this.value);

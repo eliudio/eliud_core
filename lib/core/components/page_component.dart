@@ -11,6 +11,7 @@ import 'package:eliud_core/core/components/page_constructors/eliud_bottom_naviga
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/core/tools/page_body.dart';
+import 'package:eliud_core/core/tools/page_helper.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -19,6 +20,7 @@ import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_page_body.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -67,7 +69,7 @@ class _PageComponentState extends State<PageComponent> {
         child: BlocBuilder<PageComponentBloc, PageComponentState>(
             builder: (context, state) {
           if (state is PageComponentLoaded) {
-            var page = state.value!;
+            var page = state.value;
             var parameters = widget.parameters;
             var componentInfo = ComponentInfo.getComponentInfo(
                 context,
@@ -113,15 +115,20 @@ class _PageComponentState extends State<PageComponent> {
                                             sigmaY: 10.0,
                                           ),
                                           child: Container(
-                                            child: PageBody(
-                                              componentInfo: componentInfo,
-                                            ),
+                                            child: pageBody(context,
+                                                backgroundOverride: componentInfo.backgroundOverride,
+                                                components: componentInfo.widgets,
+                                                layout: componentInfo.layout,
+                                                gridView: componentInfo.gridView),
                                           )),
                                       progressIndicator(context),
                                     ])
-                                  : PageBody(
-                                      componentInfo: componentInfo,
-                                    ),
+                                  :
+                                pageBody(context,
+                                    backgroundOverride: componentInfo.backgroundOverride,
+                                    components: componentInfo.widgets,
+                                    layout: componentInfo.layout,
+                                    gridView: componentInfo.gridView),
                               drawer: page.drawer == null
                                   ? null
                                   : EliudDrawer(

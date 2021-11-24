@@ -35,9 +35,9 @@ class PosSizeComponentPermissionDenied extends PosSizeComponentState {
 }
 
 class PosSizeComponentLoaded extends PosSizeComponentState {
-  final PosSizeModel? value;
+  final PosSizeModel value;
 
-  const PosSizeComponentLoaded({ this.value });
+  const PosSizeComponentLoaded({ required this.value });
 
   PosSizeComponentLoaded copyWith({ PosSizeModel? copyThis }) {
     return PosSizeComponentLoaded(value: copyThis ?? this.value);

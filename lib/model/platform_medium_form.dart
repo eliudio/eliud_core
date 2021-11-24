@@ -69,6 +69,7 @@ class PlatformMediumForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PlatformMediumFormBloc >(
             create: (context) => PlatformMediumFormBloc(AccessBloc.currentAppId(context),
@@ -159,6 +160,7 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PlatformMediumFormBloc, PlatformMediumFormState>(builder: (context, state) {
       if (state is PlatformMediumFormUninitialized) return Center(

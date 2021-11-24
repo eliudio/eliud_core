@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 // base for all ComponentsConstructors and used to create a component of that kind
 abstract class ComponentConstructor {
-  Widget? createNew({Key? key, required String id, Map<String, dynamic>? parameters});
+  Widget? createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters});
   dynamic getModel({required String appId, required String id});
 }
 
@@ -14,7 +14,7 @@ abstract class ComponentDropDown extends ComponentConstructor {
   bool supports(String id);
 
   @override
-  Widget? createNew({Key? key, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional});
+  Widget? createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional});
 }
 
 // this WidgetWrapper can be registered onto the registry and can be used as a widget wrapper for a page

@@ -69,6 +69,7 @@ class AppPolicyItemForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppPolicyItemFormBloc >(
             create: (context) => AppPolicyItemFormBloc(AccessBloc.currentAppId(context),
@@ -133,6 +134,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppPolicyItemFormBloc, AppPolicyItemFormState>(builder: (context, state) {
       if (state is AppPolicyItemFormUninitialized) return Center(
@@ -179,7 +181,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "platformMediums", value: _policy, trigger: _onPolicySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "platformMediums", value: _policy, trigger: _onPolicySelected, optional: false),
           );
 
 

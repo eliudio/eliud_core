@@ -107,7 +107,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<MemberPublicInfoListBloc>(context),
                                       child: MemberPublicInfoForm(
                                           value: null,

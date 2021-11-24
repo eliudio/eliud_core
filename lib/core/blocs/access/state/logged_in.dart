@@ -18,44 +18,52 @@ class LoggedIn extends AccessDetermined {
   final MemberModel member;
   final PostLoginAction? postLoginAction;
 
-  LoggedIn._(
-    this.usr,
-    this.member,
-    this.postLoginAction,
-    AppModel currentApp,
-    PageModel homePage,
-    List<AppModel> apps,
-    Map<String, PagesAndDialogAccesss> accesses,
-    AccessAction? accessAction,
-    {AppModel? playstoreApp, bool? isProcessing}
-  ) : super(currentApp, homePage, apps, accesses, accessAction, playstoreApp: playstoreApp, isProcessing: isProcessing);
+  LoggedIn._(this.usr, this.member, this.postLoginAction,
+      List<DeterminedApp> apps, Map<String, PagesAndDialogAccesss> accesses,
+      {AppModel? playstoreApp, bool? isProcessing})
+      : super(apps, accesses,
+            playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
       User usr,
       MemberModel member,
-      AppModel currentApp,
-      List<AppModel> apps,
-      PostLoginAction? postLoginAction,
-      {PageModel? openThisPage,
-      Map<String, dynamic>? parameters,
-      AppModel? playstoreApp,}) async {
+      List<DeterminedApp> apps,
+      PostLoginAction? postLoginAction, {
+      AppModel? playstoreApp,
+      }) async {
     var accesses = await AccessHelper.getAccesses(member, apps, false);
-    var privilegeLevel = _privilegeLevel(currentApp.documentID!, accesses);
-    var isBlocked = _isBlocked(currentApp.documentID!, accesses);
-    var homePage = await getHomepage(currentApp, isBlocked, privilegeLevel);
 
     var loggedIn = LoggedIn._(
-        usr,
-        member,
-        postLoginAction,
-        currentApp,
-        homePage,
-        apps,
-        accesses,
-        openThisPage != null
-            ? OpenPageAction(openThisPage, parameters: parameters)
-            : OpenPageAction(homePage),
-        playstoreApp: playstoreApp,
+      usr,
+      member,
+      postLoginAction,
+      apps,
+      accesses,
+      playstoreApp: playstoreApp,
+    );
+    return loggedIn;
+  }
+
+  static Future<LoggedIn> getLoggedIn2(
+      User usr,
+      MemberModel member,
+      AppModel app,
+      {
+      AppModel? playstoreApp,
+      }) async {
+    var accesses = await AccessHelper.getAccesses2(member, [app], false);
+    var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
+    var appIsBlocked = _isBlocked(app.documentID!, accesses);
+    var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
+    var apps = [DeterminedApp(app, homePage)];
+
+    var loggedIn = LoggedIn._(
+      usr,
+      member,
+      null,
+      apps,
+      accesses,
+      playstoreApp: playstoreApp,
     );
     return loggedIn;
   }
@@ -77,77 +85,49 @@ class LoggedIn extends AccessDetermined {
   bool memberIsOwner(String appId) {
     var memberId = member.documentID;
     for (var app in apps) {
-      if (app.documentID == appId) return app.ownerID == memberId;
+      if (app.app.documentID == appId) return app.app.ownerID == memberId;
     }
     return false;
   }
 
   @override
-  Future<LoggedIn> switchApp(AppModel newCurrentApp,
-      {PageModel? page, Map<String, dynamic>? parameters}) async {
-    if (newCurrentApp != currentApp) {
-      var newHomePage = await getHomepage(
-          newCurrentApp,
-          isBlocked(
-            newCurrentApp.documentID!,
-          ),
-          getPrivilegeLevel(newCurrentApp.documentID!));
-      var newAccessAction = page != null
-          ? OpenPageAction(page, parameters: parameters)
-          : OpenPageAction(homePage);
-      if (apps.contains(newCurrentApp)) {
-        return Future.value(LoggedIn._(
-          usr,
-          member,
-          postLoginAction,
-          newCurrentApp,
-          newHomePage,
-          apps,
-          accesses,
-          newAccessAction,
-          playstoreApp: playstoreApp,
-        ));
-      } else {
-        var newAccesses = await AccessHelper.extendAccesses(member, accesses, newCurrentApp, true);
-        var newApps = apps.map((v) => v).toList();
-        newApps.add(newCurrentApp);
-        return Future.value(LoggedIn._(
-          usr,
-          member,
-          postLoginAction,
-          newCurrentApp,
-          newHomePage,
-          newApps,
-          newAccesses,
-          newAccessAction,
-          playstoreApp: playstoreApp,
-        ));
-
+  Future<LoggedIn> addApp(AppModel newCurrentApp) async {
+    for (var app in apps) {
+      if (app.app.documentID == newCurrentApp.documentID) {
+        return Future.value(this);
       }
-    } else {
-      return Future.value(this);
     }
+    var newAccesses = await AccessHelper.extendAccesses(
+        member, accesses, newCurrentApp, true);
+    var newApps = apps.map((v) => v).toList();
+
+    var privilegeLevel = _privilegeLevel(newCurrentApp.documentID!, newAccesses);
+    var appIsBlocked = _isBlocked(newCurrentApp.documentID!, newAccesses);
+    var homePage =
+        await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+    newApps.add(DeterminedApp(newCurrentApp, homePage));
+    return Future.value(LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      newApps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 
   @override
-  Future<LoggedIn> updateApp(
-    AppModel newCurrentApp,
+  Future<LoggedIn> updateApps(
+    List<DeterminedApp> newApps,
   ) {
-    if (newCurrentApp.documentID == currentApp.documentID) {
-      return Future.value(LoggedIn._(
-        usr,
-        member,
-        postLoginAction,
-        newCurrentApp,
-        homePage,
-        apps,
-        accesses,
-        accessAction,
-        playstoreApp: playstoreApp,
-      ));
-    } else {
-      throw Exception('');
-    }
+    return Future.value(LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      newApps,
+      accesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 
   @override
@@ -156,11 +136,8 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
-      homePage,
       apps,
       accesses,
-      accessAction,
       playstoreApp: playstoreApp,
       isProcessing: false,
     );
@@ -172,16 +149,14 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
-      homePage,
       apps,
       accesses,
-      accessAction,
       playstoreApp: playstoreApp,
       isProcessing: true,
     );
   }
 
+/*
   @override
   Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters}) async {
     return LoggedIn._(
@@ -211,6 +186,7 @@ class LoggedIn extends AccessDetermined {
       playstoreApp: playstoreApp,
     );
   }
+*/
 
   @override
   MemberModel? getMember() => member;
@@ -257,27 +233,22 @@ class LoggedIn extends AccessDetermined {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is LoggedIn &&
-          currentApp == other.currentApp &&
-          homePage == other.homePage &&
           usr == other.usr &&
           member == other.member &&
           postLoginAction == other.postLoginAction &&
           mapEquals(accesses, other.accesses) &&
-          accessAction == other.accessAction &&
           ListEquality().equals(apps, other.apps) &&
           playstoreApp == other.playstoreApp &&
           isProcessing == other.isProcessing;
 
   @override
   List<Object?> get props => [
-    currentApp,
-    homePage,
-    usr,
-    member,
-    postLoginAction,
-    accesses,
-    playstoreApp,
-  ];
+        usr,
+        member,
+        postLoginAction,
+        accesses,
+        playstoreApp,
+      ];
 
   static Future<PageModel> getHomepage(
       AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
@@ -310,121 +281,3 @@ class LoggedIn extends AccessDetermined {
   }
 }
 
-/*
-class LoggedInWithoutMembership extends LoggedIn {
-
-  static Future<LoggedInWithoutMembership> getLoggedInWithoutMembership(
-      User usr,
-      MemberModel member,
-      List<AppModel> apps,
-      PostLoginAction? postLoginAction) async {
-    var accesses = await AccessHelper.getAccesses(null, apps, false);
-    var loggedInWithoutMembership = LoggedInWithoutMembership._(
-        usr,
-        member,
-        postLoginAction,
-        apps,
-        accesses);
-    return loggedInWithoutMembership;
-  }
-
-  LoggedInWithoutMembership._(
-      User usr,
-      MemberModel member,
-      PostLoginAction? postLoginAction,
-      List<AppModel> apps,
-      Map<String, PagesAndDialogAccesss> accesses,
-      )
-      : super._(usr, member, postLoginAction, apps, accesses);
-
-  @override
-  Future<LoggedInWithoutMembership> copyWith(MemberModel? member) async {
-    return getLoggedInWithoutMembership(
-        usr, member ?? this.member, apps, postLoginAction);
-  }
-
-  @override
-  bool forceAcceptMembership(String appId) => true;
-
-  @override
-  List<Object?> get props => [
-    usr,
-    member,
-  ];
-
-  @override
-  bool operator == (Object other) =>
-      identical(this, other) ||
-          other is LoggedInWithoutMembership &&
-              usr == other.usr &&
-              member == other.member &&
-              postLoginAction == other.postLoginAction &&
-              mapEquals(accesses, other.accesses) &&
-              ListEquality().equals(apps, other.apps);
-}
-
-class LoggedInWithMembership extends LoggedIn {
-  static Future<LoggedInWithMembership> getLoggedInWithMembership(
-    User usr,
-    MemberModel member,
-    PostLoginAction? postLoginAction,
-    List<AppModel> apps,
-  ) async {
-    var accesses = await AccessHelper.getAccesses(member, apps, false);
-    var loggedInWithMembership = LoggedInWithMembership._(
-        usr,
-        member,
-        postLoginAction,
-        apps,
-        accesses,
-    );
-    return loggedInWithMembership;
-  }
-
-  LoggedInWithMembership._(
-      User usr,
-      MemberModel member,
-      PostLoginAction? postLoginAction,
-      List<AppModel> apps,
-      Map<String, PagesAndDialogAccesss> accesses,
-      )
-      : super._(usr, member, postLoginAction, apps, accesses);
-
-  @override
-  Future<LoggedInWithMembership> copyWith(
-      MemberModel? theMember) {
-    return getLoggedInWithMembership(
-        usr, member ?? this.member, postLoginAction, apps);
-  }
-
-  Future<LoggedInWithMembership> copyWithOtherPrivilege(AppModel app, PrivilegeLevel privilegeLevel, bool blocked) async {
-*/
-/*
-    var accesses = await AccessHelper.getAccesses2(member, app, false, );
-    return LoggedInWithMembership._(
-        usr,
-        member, apps, accesses);
-*/ /*
-
-  }
-
-  @override
-  bool forceAcceptMembership(String appId) => false;
-
-  @override
-  List<Object?> get props => [
-    usr,
-    member,
-  ];
-
-  @override
-  bool operator == (Object other) =>
-      identical(this, other) ||
-          other is LoggedInWithoutMembership &&
-              usr == other.usr &&
-              member == other.member &&
-              postLoginAction == other.postLoginAction &&
-              mapEquals(accesses, other.accesses) &&
-              ListEquality().equals(apps, other.apps);
-}
-*/

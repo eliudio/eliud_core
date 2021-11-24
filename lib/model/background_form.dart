@@ -69,6 +69,7 @@ class BackgroundForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BackgroundFormBloc >(
             create: (context) => BackgroundFormBloc(AccessBloc.currentAppId(context),
@@ -145,6 +146,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BackgroundFormBloc, BackgroundFormState>(builder: (context, state) {
       if (state is BackgroundFormUninitialized) return Center(
@@ -256,7 +258,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "publicMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "publicMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
           );
 
 
@@ -368,7 +370,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "shadows", value: _shadow, trigger: _onShadowSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "shadows", value: _shadow, trigger: _onShadowSelected, optional: true),
           );
 
 

@@ -13,9 +13,6 @@
 
 */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
 
 import 'package:eliud_core/model/dialog_component_bloc.dart';
 import 'package:eliud_core/model/dialog_component_event.dart';
@@ -23,18 +20,26 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
 import 'package:eliud_core/model/dialog_component_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'abstract_repository_singleton.dart';
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+
 abstract class AbstractDialogComponent extends StatelessWidget {
   static String componentName = "dialogs";
-  final String? dialogID;
+  final String theAppId;
+  final String dialogId;
 
-  AbstractDialogComponent({Key? key, this.dialogID}): super(key: key);
+  AbstractDialogComponent({Key? key, required this.theAppId, required this.dialogId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DialogComponentBloc> (
           create: (context) => DialogComponentBloc(
-            dialogRepository: getDialogRepository(context))
-        ..add(FetchDialogComponent(id: dialogID)),
+            dialogRepository: dialogRepository(appId: theAppId)!)
+        ..add(FetchDialogComponent(id: dialogId)),
       child: _dialogBlockBuilder(context),
     );
   }
@@ -43,7 +48,7 @@ abstract class AbstractDialogComponent extends StatelessWidget {
     return BlocBuilder<DialogComponentBloc, DialogComponentState>(builder: (context, state) {
       if (state is DialogComponentLoaded) {
         if (state.value == null) {
-          return alertWidget(title: 'Error', content: 'No Dialog defined');
+          return AlertWidget(title: "Error", content: 'No Dialog defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -54,7 +59,7 @@ abstract class AbstractDialogComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is DialogComponentError) {
-        return alertWidget(title: 'Error', content: state.message);
+        return AlertWidget(title: 'Error', content: state.message);
       } else {
         return Center(
           child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
@@ -63,8 +68,6 @@ abstract class AbstractDialogComponent extends StatelessWidget {
     });
   }
 
-  Widget yourWidget(BuildContext context, DialogModel? value);
-  Widget alertWidget({ title: String, content: String});
-  DialogRepository getDialogRepository(BuildContext context);
+  Widget yourWidget(BuildContext context, DialogModel value);
 }
 

@@ -172,7 +172,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
         context,
         label: 'Cancel',
         onPressed: () async {
-          BlocProvider.of<AccessBloc>(context).add(LogoutEvent());
+          var appId = AccessBloc.currentApp(context).documentID!;
+          BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
         },
       ),
       Spacer(),

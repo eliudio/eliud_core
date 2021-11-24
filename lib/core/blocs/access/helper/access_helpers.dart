@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -188,11 +189,20 @@ class AccessHelper {
     return PrivilegeLevel.NoPrivilege;
   }
 
-  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
+  static Future<Map<String, PagesAndDialogAccesss>> getAccesses2(MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
       var access = await AccessHelper._getAccess(member, app, isLoggedIn);
       accesses[app.documentID!] = access;
+    }
+    return accesses;
+  }
+
+  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(MemberModel? member, List<DeterminedApp> apps, bool isLoggedIn) async {
+    var accesses = <String, PagesAndDialogAccesss>{};
+    for (var app in apps) {
+      var access = await AccessHelper._getAccess(member, app.app, isLoggedIn);
+      accesses[app.app.documentID!] = access;
     }
     return accesses;
   }

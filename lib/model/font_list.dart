@@ -107,7 +107,7 @@ class FontListWidgetState extends State<FontListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<FontListBloc>(context),
                                       child: FontForm(
                                           value: null,

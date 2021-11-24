@@ -69,6 +69,7 @@ class AppEntryPagesForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppEntryPagesFormBloc >(
             create: (context) => AppEntryPagesFormBloc(AccessBloc.currentAppId(context),
@@ -133,6 +134,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppEntryPagesFormBloc, AppEntryPagesFormState>(builder: (context, state) {
       if (state is AppEntryPagesFormUninitialized) return Center(
@@ -163,7 +165,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
           );
 
         children.add(

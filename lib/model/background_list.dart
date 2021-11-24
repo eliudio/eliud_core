@@ -107,7 +107,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
                                       value: BlocProvider.of<BackgroundListBloc>(context),
                                       child: BackgroundForm(
                                           value: null,

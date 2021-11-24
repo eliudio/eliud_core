@@ -69,6 +69,7 @@ class HomeMenuForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<HomeMenuFormBloc >(
             create: (context) => HomeMenuFormBloc(AccessBloc.currentAppId(context),
@@ -139,6 +140,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<HomeMenuFormBloc, HomeMenuFormState>(builder: (context, state) {
       if (state is HomeMenuFormUninitialized) return Center(
@@ -214,7 +216,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "menuDefs", value: _menu, trigger: _onMenuSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "menuDefs", value: _menu, trigger: _onMenuSelected, optional: false),
           );
 
 
@@ -230,7 +232,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 

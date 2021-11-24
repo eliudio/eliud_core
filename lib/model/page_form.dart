@@ -69,6 +69,7 @@ class PageForm extends StatelessWidget {
     var accessState = AccessBloc.getState(context);
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text("No app available");
+    var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PageFormBloc >(
             create: (context) => PageFormBloc(AccessBloc.currentAppId(context),
@@ -145,6 +146,7 @@ class _MyPageFormState extends State<MyPageForm> {
   Widget build(BuildContext context) {
     var app = AccessBloc.currentApp(context);
     if (app == null) return Text('No app available');
+    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PageFormBloc, PageFormState>(builder: (context, state) {
       if (state is PageFormUninitialized) return Center(
@@ -235,7 +237,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "homeMenus", value: _homeMenu, trigger: _onHomeMenuSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "homeMenus", value: _homeMenu, trigger: _onHomeMenuSelected, optional: true),
           );
 
 
@@ -251,7 +253,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "drawers", value: _drawer, trigger: _onDrawerSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "drawers", value: _drawer, trigger: _onDrawerSelected, optional: true),
           );
 
 
@@ -267,7 +269,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "drawers", value: _endDrawer, trigger: _onEndDrawerSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "drawers", value: _endDrawer, trigger: _onEndDrawerSelected, optional: true),
           );
 
 
@@ -283,7 +285,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "appBars", value: _appBar, trigger: _onAppBarSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "appBars", value: _appBar, trigger: _onAppBarSelected, optional: true),
           );
 
 
@@ -318,7 +320,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
           );
 
 
@@ -358,7 +360,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         if ((state.value!.layout == PageLayout.GridView)) children.add(
 
-                DropdownButtonComponentFactory().createNew(id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(appId: appId, id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
           );
 
 
