@@ -13,7 +13,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openMessageDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     required String message,
     String? closeLabel,
@@ -22,7 +22,7 @@ class DefaultDialogImpl implements HasDialog {
   }) {
     // MessageDialog
     DialogStatefulWidgetHelper.openIt(
-      context,
+      context, name,
       _frontEndStyle.dialogWidgetStyle().messageDialog(
             context,
             title: title,
@@ -35,7 +35,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openErrorDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -43,7 +43,7 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) =>
       DialogStatefulWidgetHelper.openIt(
-        context,
+        context, name,
         _frontEndStyle.dialogWidgetStyle().errorDialog(
               context,
               title: title,
@@ -55,7 +55,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openAckNackDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     required String message,
     required OnSelection onSelection,
@@ -65,7 +65,7 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) =>
       DialogStatefulWidgetHelper.openIt(
-          context,
+          context, name,
           _frontEndStyle.dialogWidgetStyle().ackNackDialog(
                 context,
                 title: title,
@@ -79,7 +79,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openEntryDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     String? ackButtonLabel,
     String? nackButtonLabel,
@@ -91,6 +91,7 @@ class DefaultDialogImpl implements HasDialog {
   }) =>
       DialogStatefulWidgetHelper.openIt(
         context,
+        name,
         _frontEndStyle.dialogWidgetStyle().entryDialog(
               context,
               title: title,
@@ -106,7 +107,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openSelectionDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     required List<String> options,
     required OnSelection onSelection,
@@ -116,6 +117,7 @@ class DefaultDialogImpl implements HasDialog {
   }) {
     DialogStatefulWidgetHelper.openIt(
         context,
+        name,
         _frontEndStyle.dialogWidgetStyle().selectionDialog(
               context,
               title: title,
@@ -129,7 +131,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openComplexDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required String title,
     required Widget child,
     VoidCallback? onPressed,
@@ -139,6 +141,7 @@ class DefaultDialogImpl implements HasDialog {
   }) =>
       DialogStatefulWidgetHelper.openIt(
           context,
+          name,
           _frontEndStyle.dialogWidgetStyle().complexDialog(
                 context,
                 title: title,
@@ -151,7 +154,7 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openFlexibleDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     String? title,
     required Widget child,
     List<Widget>? buttons,
@@ -159,7 +162,7 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) {
     DialogStatefulWidgetHelper.openIt(
-        context,
+        context, name,
         _frontEndStyle.dialogWidgetStyle().flexibleDialog(
               context,
               title: title,
@@ -172,11 +175,11 @@ class DefaultDialogImpl implements HasDialog {
 
   @override
   void openWidgetDialog(
-    BuildContext context, {
+    BuildContext context, String name, {
     required Widget child,
   }) {
     DialogStatefulWidgetHelper.openIt(
-      context,
+      context, name,
       child,
     );
   }

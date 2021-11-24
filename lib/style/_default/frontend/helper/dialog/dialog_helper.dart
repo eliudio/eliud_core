@@ -13,7 +13,7 @@ class DialogStatefulWidgetHelper {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
-  static void openIt(BuildContext context, Widget dialog,
+  static void openIt(BuildContext context, String name, Widget dialog,
       {double? heightValue, double? widthValue}) {
     var _width =
         widthValue == null ? width(context) : min(width(context), widthValue);
@@ -22,6 +22,7 @@ class DialogStatefulWidgetHelper {
         : min(height(context), heightValue);
 
     showGeneralDialog(
+        routeSettings: RouteSettings(name: name),
         context: context,
         barrierDismissible: false,
         transitionDuration: Duration(milliseconds: 500),

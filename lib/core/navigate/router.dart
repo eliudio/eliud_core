@@ -72,9 +72,6 @@ class Router {
       final appId = pagePath[0];
       final pageId = pagePath[1];
 
-/*
-      return MaterialPageRoute(builder: (context) => Registry.registry()!.page(appId: appId, pageId: pageId, parameters: parameters));
-*/
       return pageRouteBuilderWithAppId(appId,
           pageId: pageId,
           parameters: parameters,
@@ -148,6 +145,9 @@ class Router {
       throw Exception('No page selected');
     }
     var split = fullPageId.split('/');
+    if (split.length < 2) {
+      throw Exception('Page name has unexpected format: $fullPageId');
+    }
     var appId = split[0];
     var pageId = split[1];
     Map<String, dynamic>? parameters;

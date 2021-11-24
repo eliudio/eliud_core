@@ -163,8 +163,8 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
-      AppModel? app, MemberModel member) {
-    openAckNackDialog(context,
+      AppModel app, MemberModel member) {
+    openAckNackDialog(context, app.documentID! + '/_retrievedata',
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -172,11 +172,11 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 '. Please confirm', onSelection: (value) async {
       if (value == 0) {
         await GDPR.dumpMemberData(
-            app!.documentID,
+            app.documentID,
             dashboardModel!.retrieveDataEmailSubject,
             app.email,
             AccessBloc.getState(context).getMemberCollectionInfo()!);
-        openComplexDialog(context,
+        openComplexDialog(context, app.documentID! + '/_retrievedata',
             title: 'Retrieve data',
             child: Text(
                 'You will receive an email at your registered email address ' +
@@ -187,8 +187,8 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   void _deleteAccount(BuildContext context,
-      MemberDashboardModel? dashboardModel, AppModel? app, MemberModel member) {
-    openAckNackDialog(context,
+      MemberDashboardModel? dashboardModel, AppModel app, MemberModel member) {
+    openAckNackDialog(context, app.documentID! + '/_deleteaccount',
         title: 'Confirm. Last but 2 warnings',
         message:
             'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -203,10 +203,10 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   void _confirmDeleteAccount(
       BuildContext context,
       MemberDashboardModel? dashboardModel,
-      AppModel? app,
+      AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(context,
+    openAckNackDialog(context, app.documentID! + '/_confirmdeleteaccount',
         title: 'Confirm. Last but 1 warning',
         message:
             'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -221,10 +221,11 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   void _reConfirmDeleteAccount(
       BuildContext context,
       MemberDashboardModel? dashboardModel,
-      AppModel? app,
+      AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
     openAckNackDialog(context,
+        app.documentID! + '/_deleteaccount',
         title: 'Confirm. Last warning',
         message:
             'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
@@ -232,7 +233,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       if (value == 0) {
         await GDPR.deleteMemberData(
             member,
-            app!.documentID,
+            app.documentID,
             dashboardModel!.deleteDataEmailSubject,
             app.email,
             dashboardModel.deleteDataEmailMessage,

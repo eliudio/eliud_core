@@ -7,7 +7,8 @@ import 'has_dialog_widget.dart';
 
 abstract class HasDialog {
   void openMessageDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     required String message,
     String? closeLabel,
@@ -16,7 +17,8 @@ abstract class HasDialog {
   });
 
   void openErrorDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -25,7 +27,8 @@ abstract class HasDialog {
   });
 
   void openAckNackDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     required String message,
     required OnSelection onSelection,
@@ -36,7 +39,8 @@ abstract class HasDialog {
   });
 
   void openEntryDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     String? ackButtonLabel,
     String? nackButtonLabel,
@@ -48,7 +52,8 @@ abstract class HasDialog {
   });
 
   void openSelectionDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     required List<String> options,
     required OnSelection onSelection,
@@ -58,7 +63,8 @@ abstract class HasDialog {
   });
 
   void openComplexDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required String title,
     required Widget child,
     VoidCallback? onPressed,
@@ -68,7 +74,8 @@ abstract class HasDialog {
   });
 
   void openFlexibleDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     String? title,
     required Widget child,
     List<Widget>? buttons,
@@ -77,13 +84,14 @@ abstract class HasDialog {
   });
 
   void openWidgetDialog(
-    BuildContext context, {
+    BuildContext context,
+    String name, {
     required Widget child,
   });
 }
 
 void openMessageDialog(
-  BuildContext context, {
+  BuildContext context, String name, {
   required String title,
   required String message,
   String? closeLabel,
@@ -95,6 +103,7 @@ void openMessageDialog(
         .frontEndStyle()
         .dialogStyle()
         .openMessageDialog(context,
+            name,
             title: title,
             message: message,
             closeLabel: closeLabel,
@@ -102,7 +111,7 @@ void openMessageDialog(
             includeHeading: includeHeading);
 
 void openErrorDialog(
-  BuildContext context, {
+  BuildContext context, String name, {
   required String title,
   required String errorMessage,
   String? closeLabel,
@@ -114,7 +123,7 @@ void openErrorDialog(
         .frontEndStyle()
         .dialogStyle()
         .openErrorDialog(
-          context, title: title,
+          context, name, title: title,
           errorMessage: errorMessage,
           closeLabel: closeLabel,
           widthFraction: widthFraction, // percentage of screen width
@@ -122,7 +131,7 @@ void openErrorDialog(
         );
 
 void openAckNackDialog(
-  BuildContext context, {
+  BuildContext context, String name, {
   required String title,
   required String message,
   required OnSelection onSelection,
@@ -136,7 +145,7 @@ void openAckNackDialog(
         .frontEndStyle()
         .dialogStyle()
         .openAckNackDialog(
-          context, title: title,
+          context, name, title: title,
           message: message,
           onSelection: onSelection,
           ackButtonLabel: ackButtonLabel,
@@ -146,7 +155,7 @@ void openAckNackDialog(
         );
 
 void openEntryDialog(
-  BuildContext context, {
+  BuildContext context, String name, {
   required String title,
   String? ackButtonLabel,
   String? nackButtonLabel,
@@ -161,7 +170,7 @@ void openEntryDialog(
         .frontEndStyle()
         .dialogStyle()
         .openEntryDialog(
-          context, title: title,
+          context, name, title: title,
           ackButtonLabel: ackButtonLabel,
           nackButtonLabel: nackButtonLabel,
           hintText: hintText, onPressed: onPressed,
@@ -171,7 +180,7 @@ void openEntryDialog(
         );
 
 void openSelectionDialog(
-  BuildContext context, {
+  BuildContext context, String name, {
   required String title,
   required List<String> options,
   required OnSelection onSelection,
@@ -184,7 +193,7 @@ void openSelectionDialog(
         .frontEndStyle()
         .dialogStyle()
         .openSelectionDialog(
-          context, title: title,
+          context, name, title: title,
           options: options, onSelection: onSelection,
           buttonLabel: buttonLabel,
           widthFraction: widthFraction, // percentage of screen width
@@ -192,7 +201,8 @@ void openSelectionDialog(
         );
 
 void openComplexDialog(
-  BuildContext context, {
+  BuildContext context,
+  String name, {
   required String title,
   required Widget child,
   VoidCallback? onPressed,
@@ -205,7 +215,7 @@ void openComplexDialog(
         .frontEndStyle()
         .dialogStyle()
         .openComplexDialog(
-          context, title: title,
+          context, name, title: title,
           child: child, onPressed: onPressed,
           buttonLabel: buttonLabel,
           widthFraction: widthFraction, // percentage of screen width
@@ -213,7 +223,8 @@ void openComplexDialog(
         );
 
 void openFlexibleDialog(
-  BuildContext context, {
+  BuildContext context,
+  String name, {
   String? title,
   required Widget child,
   List<Widget>? buttons,
@@ -225,7 +236,7 @@ void openFlexibleDialog(
         .frontEndStyle()
         .dialogStyle()
         .openFlexibleDialog(
-          context, title: title,
+          context, name, title: title,
           child: child,
           buttons: buttons,
           widthFraction: widthFraction, // percentage of screen width
@@ -233,11 +244,12 @@ void openFlexibleDialog(
         );
 
 void openWidgetDialog(
-  BuildContext context, {
+  BuildContext context,
+  String name, {
   required Widget child,
 }) =>
     StyleRegistry.registry()
         .styleWithContext(context)
         .frontEndStyle()
         .dialogStyle()
-        .openWidgetDialog(context, child: child);
+        .openWidgetDialog(context, name, child: child);

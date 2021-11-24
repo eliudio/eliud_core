@@ -85,64 +85,16 @@ class _PageComponentState extends State<PageComponent> {
                     return Decorations.instance().createDecoratedPage(
                         context,
                         widget.pageKey,
-                        () => ScaffoldMessenger(
-                            key: widget.scaffoldMessengerKey,
-                            child: Scaffold(
+                        () => PageContentsWidget(
                               key: widget.pageKey,
-                              endDrawer: page.endDrawer == null
-                                  ? null
-                                  : EliudDrawer(
-                                      drawerType: DrawerType.Right,
-                                      drawer: page.endDrawer!,
-                                      currentPage: page.documentID!),
-                              appBar: page.appBar == null
-                                  ? null
-                                  : PreferredSize(
-                                      preferredSize: const Size(
-                                          double.infinity, kToolbarHeight),
-                                      child: EliudAppBar(
-                                          pageTitle: page.title,
-                                          currentPage: page.documentID!,
-                                          scaffoldKey: widget.scaffoldKey,
-                                          theTitle: page.title ?? '',
-                                          value: page.appBar!)),
-                              body: ((accessState is AccessDetermined) &&
-                                      (accessState.isProcessingStatus()))
-                                  ? Stack(children: [
-                                      BackdropFilter(
-                                          filter: ImageFilter.blur(
-                                            sigmaX: 10.0,
-                                            sigmaY: 10.0,
-                                          ),
-                                          child: Container(
-                                            child: pageBody(context,
-                                                backgroundOverride: componentInfo.backgroundOverride,
-                                                components: componentInfo.widgets,
-                                                layout: componentInfo.layout,
-                                                gridView: componentInfo.gridView),
-                                          )),
-                                      progressIndicator(context),
-                                    ])
-                                  :
-                                pageBody(context,
-                                    backgroundOverride: componentInfo.backgroundOverride,
-                                    components: componentInfo.widgets,
-                                    layout: componentInfo.layout,
-                                    gridView: componentInfo.gridView),
-                              drawer: page.drawer == null
-                                  ? null
-                                  : EliudDrawer(
-                                      drawerType: DrawerType.Left,
-                                      drawer: page.drawer!,
-                                      currentPage: page.documentID!),
-                              floatingActionButton:
-                                  hasFab != null ? hasFab!.fab(context) : null,
-                              floatingActionButtonLocation:
-                                  FloatingActionButtonLocation.centerFloat,
-                              bottomNavigationBar: EliudBottomNavigationBar(
-                                  homeMenu: page.homeMenu!,
-                                  currentPage: page.documentID!),
-                            )),
+                              state: accessState,
+                              pageID: widget.pageId,
+                              pageModel: page,
+                              parameters: widget.parameters,
+                              scaffoldKey: widget.scaffoldKey,
+                              scaffoldMessengerKey: widget.scaffoldMessengerKey,
+                              componentInfo: componentInfo,
+                            ),
                         page)();
                   } else {
                     return Center(child: CircularProgressIndicator());
@@ -152,5 +104,95 @@ class _PageComponentState extends State<PageComponent> {
             return Center(child: CircularProgressIndicator());
           }
         }));
+  }
+}
+
+class PageContentsWidget extends StatefulWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+  final AccessDetermined state;
+  final PageModel pageModel;
+  final String pageID;
+  final Map<String, dynamic>? parameters;
+  final ComponentInfo componentInfo;
+
+  PageContentsWidget({
+    Key? key,
+    required this.state,
+    required this.pageModel,
+    required this.pageID,
+    required this.parameters,
+    required this.scaffoldKey,
+    required this.scaffoldMessengerKey,
+    required this.componentInfo,
+  }) : super(key: key) {}
+
+  @override
+  _PageContentsWidgetState createState() {
+    return _PageContentsWidgetState();
+  }
+}
+
+class _PageContentsWidgetState extends State<PageContentsWidget> {
+  Widget? theBody;
+  HasFab? hasFab;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaffoldMessenger(
+        key: widget.scaffoldMessengerKey,
+        child: Scaffold(
+          key: widget.scaffoldKey,
+          endDrawer: widget.pageModel.endDrawer == null
+              ? null
+              : EliudDrawer(
+                  drawerType: DrawerType.Right,
+                  drawer: widget.pageModel.endDrawer!,
+                  currentPage: widget.pageModel.documentID!),
+          appBar: widget.pageModel.appBar == null
+              ? null
+              : PreferredSize(
+                  preferredSize: const Size(double.infinity, kToolbarHeight),
+                  child: EliudAppBar(
+                      pageTitle: widget.pageModel.title,
+                      currentPage: widget.pageModel.documentID!,
+                      scaffoldKey: widget.scaffoldKey,
+                      theTitle: widget.pageModel.title ?? '',
+                      value: widget.pageModel.appBar!)),
+          body: ((widget.state is AccessDetermined) &&
+                  (widget.state.isProcessingStatus()))
+              ? Stack(children: [
+                  BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 10.0,
+                        sigmaY: 10.0,
+                      ),
+                      child: Container(
+                        child: pageBody(context,
+                            backgroundOverride:
+                                widget.componentInfo.backgroundOverride,
+                            components: widget.componentInfo.widgets,
+                            layout: widget.componentInfo.layout,
+                            gridView: widget.componentInfo.gridView),
+                      )),
+                  progressIndicator(context),
+                ])
+              : pageBody(context,
+                  backgroundOverride: widget.componentInfo.backgroundOverride,
+                  components: widget.componentInfo.widgets,
+                  layout: widget.componentInfo.layout,
+                  gridView: widget.componentInfo.gridView),
+          drawer: widget.pageModel.drawer == null
+              ? null
+              : EliudDrawer(
+                  drawerType: DrawerType.Left,
+                  drawer: widget.pageModel.drawer!,
+                  currentPage: widget.pageModel.documentID!),
+          floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          bottomNavigationBar: EliudBottomNavigationBar(
+              homeMenu: widget.pageModel.homeMenu!, currentPage: widget.pageModel.documentID!),
+        ));
   }
 }

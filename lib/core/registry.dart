@@ -86,7 +86,7 @@ class Registry {
   Future<void> openDialog(BuildContext context,
       {required String id, Map<String, dynamic>? parameters}) async {
     var appId = AccessBloc.currentAppId(context);
-    openWidgetDialog(context,
+    openWidgetDialog(context, appId + '/' + id,
         child: DialogComponent(
             appId: appId, dialogId: id, parameters: parameters));
   }
