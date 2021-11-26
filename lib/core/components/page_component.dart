@@ -162,19 +162,21 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           body: ((widget.state is AccessDetermined) &&
                   (widget.state.isProcessingStatus()))
               ? Stack(children: [
+                  pageBody(context,
+                      backgroundOverride:
+                          widget.componentInfo.backgroundOverride,
+                      components: widget.componentInfo.widgets,
+                      layout: widget.componentInfo.layout,
+                      gridView: widget.componentInfo.gridView),
                   BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 10.0,
-                        sigmaY: 10.0,
-                      ),
-                      child: Container(
-                        child: pageBody(context,
-                            backgroundOverride:
-                                widget.componentInfo.backgroundOverride,
-                            components: widget.componentInfo.widgets,
-                            layout: widget.componentInfo.layout,
-                            gridView: widget.componentInfo.gridView),
-                      )),
+                    filter: ImageFilter.blur(
+                      sigmaX: 5,
+                      sigmaY: 5,
+                    ),
+                    child: Container(
+                      color: Colors.black.withOpacity(.3),
+                    ),
+                  ),
                   progressIndicator(context),
                 ])
               : pageBody(context,
@@ -192,7 +194,8 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           bottomNavigationBar: EliudBottomNavigationBar(
-              homeMenu: widget.pageModel.homeMenu!, currentPage: widget.pageModel.documentID!),
+              homeMenu: widget.pageModel.homeMenu!,
+              currentPage: widget.pageModel.documentID!),
         ));
   }
 }

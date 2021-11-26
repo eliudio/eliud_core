@@ -171,7 +171,7 @@ PageRouteBuilder pageRouteBuilderWithAppId(String appId, {String? pageId, Map<St
         return RotationRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
       case PageTransitionAnimation.FadeRoute:
       */
-        return FadeRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+        return FadeRoute(name: appId + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
         /*
       default:
         return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
