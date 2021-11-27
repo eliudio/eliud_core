@@ -1,5 +1,5 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
@@ -15,13 +15,13 @@ class DefaultDrawerImpl implements HasDrawer {
   @override
   Drawer drawer(BuildContext context,
       {required DrawerType drawerType,
+      required MemberModel? member,
       DrawerHeader1Attributes? header1,
       DrawerHeader2Attributes? header2,
       BackgroundModel? backgroundOverride,
       RgbModel? popupMenuBackgroundColorOverride,
       required List<AbstractMenuItemAttributes> items,
       Key? key}) {
-    var theState = AccessBloc.getState(context);
     var widgets = <Widget>[];
     if (header1 != null) {
       widgets.add(
@@ -32,7 +32,7 @@ class DefaultDrawerImpl implements HasDrawer {
                     child:
                     _frontEndStyle.textStyle().h3(context, header1.text)),
                 decoration:
-                    BoxDecorationHelper.boxDecoration(theState, header1.backgroundOverride))),
+                    BoxDecorationHelper.boxDecoration(member, header1.backgroundOverride))),
       );
     }
 
@@ -73,7 +73,7 @@ class DefaultDrawerImpl implements HasDrawer {
     return Drawer(
         key: key,
         child: Container(
-            decoration: BoxDecorationHelper.boxDecoration(theState, background),
+            decoration: BoxDecorationHelper.boxDecoration(member, background),
             child: ListView(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,

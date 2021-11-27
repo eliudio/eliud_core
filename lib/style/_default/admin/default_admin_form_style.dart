@@ -70,7 +70,7 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       iconTheme: iconTheme,
       flexibleSpace: Container(
           decoration:
-              BoxDecorationHelper.boxDecoration(accessState, background)),
+              BoxDecorationHelper.boxDecoration(accessState.getMember(), background)),
     );
   }
 

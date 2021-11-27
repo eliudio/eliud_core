@@ -26,7 +26,7 @@ class PageBodyHelper {
           return Stack(children: <Widget>[
             Container(
               decoration:
-                  BoxDecorationHelper.boxDecoration(accessState, background),
+                  BoxDecorationHelper.boxDecoration(accessState.getMember(), background),
             ),
             _container(context, components, layout, gridView)
           ]);

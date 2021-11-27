@@ -123,6 +123,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
                       return appBar(context,
                           headerAttributes: headerAttributes,
+                          member: accessState.getMember(),
                           key: _appBarKey,
                           backgroundOverride: value.backgroundOverride,
                           menuBackgroundColorOverride:

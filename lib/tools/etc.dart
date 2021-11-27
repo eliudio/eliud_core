@@ -5,6 +5,7 @@ import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -130,13 +131,12 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration? boxDecoration(AccessState state, BackgroundModel? bdm) {
+  static BoxDecoration? boxDecoration(MemberModel? member, BackgroundModel? bdm) {
     if (bdm == null) return null;
     var border = bdm.border != null && bdm.border! ? Border.all() : null;
     var image;
     if ((bdm.useProfilePhotoAsBackground != null) &&
         bdm.useProfilePhotoAsBackground!) {
-      var member = state.getMember();
       if (member != null) {
         image = DecorationImage(
             image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);

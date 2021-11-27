@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/admin/admin_list_style.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,9 @@ class DefaultAdminListStyle extends AdminListStyle {
   }
 
   @override
-  BoxDecoration? boxDecorator(BuildContext context) {
+  BoxDecoration? boxDecorator(BuildContext context, MemberModel? member) {
     var accessState = AccessBloc.getState(context);
-    return BoxDecorationHelper.boxDecoration(accessState, null);
+    return BoxDecorationHelper.boxDecoration(member, null);
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/member_model.dart';
 
 import '../helper/appbar_helper.dart';
 import 'package:eliud_core/model/background_model.dart';
@@ -20,6 +21,7 @@ class DefaultAppBarImpl implements HasAppBar {
   PreferredSizeWidget appBar(BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,
       required String pageName,
+      required MemberModel? member,
       List<AbstractMenuItemAttributes>? items,
       BackgroundModel? backgroundOverride,
       RgbModel? menuBackgroundColorOverride,
@@ -48,7 +50,6 @@ class DefaultAppBarImpl implements HasAppBar {
     }
 
     // add profilePhoto
-    var member = AccessBloc.member(context);
     if (member != null) {
       buttons.add(_frontEndStyle
           .profilePhotoStyle()
@@ -59,13 +60,12 @@ class DefaultAppBarImpl implements HasAppBar {
               onPressed: openDrawer));
     }
 
-    var state = AccessBloc.getState(context);
     return AppBar(
         key: key,
         iconTheme: iconThemeData,
         title: _title,
         actions: buttons,
         flexibleSpace: Container(
-            decoration: BoxDecorationHelper.boxDecoration(state, backgroundOverride)));
+            decoration: BoxDecorationHelper.boxDecoration(member, backgroundOverride)));
   }
 }

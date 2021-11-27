@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_bottom_navigation_bar.dart';
@@ -29,6 +30,7 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
   @override
   Widget bottomNavigationBar(
     BuildContext context, {
+    required MemberModel? member,
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
     required List<AbstractMenuItemAttributes> items,
@@ -36,11 +38,10 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
   }) {
     var background = backgroundOverride;
 
-    var accessState = AccessBloc.getState(context);
     return Container(
         decoration: backgroundOverride == null
             ? null
-            : BoxDecorationHelper.boxDecoration(accessState, background),
+            : BoxDecorationHelper.boxDecoration(member, background),
         child: BottomNavigationBar(
               key: key,
               selectedFontSize: 18,

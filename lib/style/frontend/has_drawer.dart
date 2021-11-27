@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import '../style_registry.dart';
@@ -32,6 +33,7 @@ class DrawerItemAttributes {
 abstract class HasDrawer {
   Drawer drawer(BuildContext context,
       {required DrawerType drawerType,
+      required MemberModel? member,
       Key? key,
       DrawerHeader1Attributes? header1,
       DrawerHeader2Attributes? header2,
@@ -42,6 +44,7 @@ abstract class HasDrawer {
 
 Drawer drawer(BuildContext context,
         {required DrawerType drawerType,
+        required MemberModel? member,
         Key? key,
         DrawerHeader1Attributes? header1,
         DrawerHeader2Attributes? header2,
@@ -54,6 +57,7 @@ Drawer drawer(BuildContext context,
         .drawerStyle()
         .drawer(context,
             drawerType: drawerType,
+            member: member,
             key: key,
             header1: header1,
             header2: header2,

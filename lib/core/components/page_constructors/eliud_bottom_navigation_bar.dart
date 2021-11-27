@@ -42,6 +42,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
             if ((itemList != null) && (itemList.length > 2)) {
               return bottomNavigationBar(context,
                   key: _bottomNavigationBarKey,
+                  member: accessState.getMember(),
                   items: itemList,
                   backgroundOverride: widget.homeMenu.backgroundOverride,
                   popupMenuBackgroundColorOverride:

@@ -2,6 +2,7 @@ import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import '../style_registry.dart';
 import 'types.dart';
@@ -23,6 +24,7 @@ abstract class HasAppBar {
   PreferredSizeWidget appBar(BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,
       required String pageName,
+      required MemberModel? member,
       List<AbstractMenuItemAttributes>? items,
       BackgroundModel? backgroundOverride,
       RgbModel? menuBackgroundColorOverride,
@@ -34,6 +36,7 @@ abstract class HasAppBar {
 
 PreferredSizeWidget appBar(BuildContext context,
         {required AppbarHeaderAttributes headerAttributes,
+        required MemberModel? member,
         required String pageName,
         List<AbstractMenuItemAttributes>? items,
         BackgroundModel? backgroundOverride,
@@ -48,6 +51,7 @@ PreferredSizeWidget appBar(BuildContext context,
         .appBarStyle()
         .appBar(context,
             headerAttributes: headerAttributes,
+            member: member,
             pageName: pageName,
             items: items,
             backgroundOverride: backgroundOverride,

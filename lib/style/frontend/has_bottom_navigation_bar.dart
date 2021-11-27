@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import '../style_registry.dart';
 import 'types.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 abstract class HasBottomNavigationBar {
   Widget bottomNavigationBar(
     BuildContext context, {
+    required MemberModel? member,
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
     required List<AbstractMenuItemAttributes> items,
@@ -16,6 +18,7 @@ abstract class HasBottomNavigationBar {
 
 Widget bottomNavigationBar(
   BuildContext context, {
+  required MemberModel? member,
   BackgroundModel? backgroundOverride,
   RgbModel? popupMenuBackgroundColorOverride,
   required List<AbstractMenuItemAttributes> items,
@@ -27,6 +30,7 @@ Widget bottomNavigationBar(
         .bottomNavigationBarStyle()
         .bottomNavigationBar(
           context,
+          member: member,
           backgroundOverride: backgroundOverride,
           popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
           items: items,

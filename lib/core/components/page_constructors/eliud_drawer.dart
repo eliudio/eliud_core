@@ -72,6 +72,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
               if (itemList != null) {
                 return dr.drawer(context,
                     key: _drawerKey,
+                    member: accessState.getMember(),
                     drawerType: widget.drawerType,
                     header1: drawerHeader1Attributes,
                     header2: drawerHeader2Attributes,
