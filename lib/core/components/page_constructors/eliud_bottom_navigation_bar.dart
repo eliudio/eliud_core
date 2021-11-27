@@ -11,6 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/appbar/extended_app_bar_component_state.dart';
+import 'blocs/home_menu/extended_home_menu_component_bloc.dart';
+import 'blocs/home_menu/extended_home_menu_component_event.dart';
+import 'blocs/home_menu/extended_home_menu_component_state.dart';
+
 class EliudBottomNavigationBar extends StatefulWidget {
   final String currentPage;
   final HomeMenuModel homeMenu;
@@ -31,29 +36,41 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     var currentPage = widget.currentPage;
-    return BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-        if (accessState is AccessDetermined) {
-          return Decorations.instance().createDecoratedBottomNavigationBar(
-              context, _bottomNavigationBarKey, () {
-            var homeMenu = widget.homeMenu;
-            var itemList = MenuItemMapper.mapMenu(
-                context, homeMenu.menu!, accessState.getMember(), currentPage);
-            if ((itemList != null) && (itemList.length > 2)) {
-              return bottomNavigationBar(context,
-                  key: _bottomNavigationBarKey,
-                  member: accessState.getMember(),
-                  items: itemList,
-                  backgroundOverride: widget.homeMenu.backgroundOverride,
-                  popupMenuBackgroundColorOverride:
-                      widget.homeMenu.popupMenuBackgroundColorOverride);
-            } else {
-              return Container(height: 0);
-            }
-          }, widget.homeMenu)();
-        } else {
-          return progressIndicator(context);
-        }
-      });
+    return BlocProvider<ExtendedHomeMenuComponentBloc>(
+        create: (context) => ExtendedHomeMenuComponentBloc()
+          ..add(ExtendedHomeMenuInitEvent(value: widget.homeMenu)),
+        child: BlocBuilder<ExtendedHomeMenuComponentBloc,
+            ExtendedHomeMenuComponentState>(builder: (context, state) {
+          if ((state is ExtendedHomeMenuComponentLoaded) &&
+              (state.value != null)) {
+            return BlocBuilder<AccessBloc, AccessState>(
+                builder: (context, accessState) {
+              if (accessState is AccessDetermined) {
+                return Decorations.instance()
+                    .createDecoratedBottomNavigationBar(
+                        context, _bottomNavigationBarKey, () {
+                  var homeMenu = state.value!;
+                  var itemList = MenuItemMapper.mapMenu(context, homeMenu.menu!,
+                      accessState.getMember(), currentPage);
+                  if ((itemList != null) && (itemList.length > 2)) {
+                    return bottomNavigationBar(context,
+                        key: _bottomNavigationBarKey,
+                        member: accessState.getMember(),
+                        items: itemList,
+                        backgroundOverride: widget.homeMenu.backgroundOverride,
+                        popupMenuBackgroundColorOverride:
+                            widget.homeMenu.popupMenuBackgroundColorOverride);
+                  } else {
+                    return Container(height: 0);
+                  }
+                }, widget.homeMenu)();
+              } else {
+                return progressIndicator(context);
+              }
+            });
+          } else {
+            return progressIndicator(context);
+          }
+        }));
   }
 }

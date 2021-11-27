@@ -49,107 +49,96 @@ class _EliudAppBarState extends State<EliudAppBar> {
   @override
   Widget build(BuildContext context) {
     var currentPage = widget.currentPage;
-/*
-    return BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-      if (accessState is AccessDetermined) {
-*/
-        return BlocProvider<ExtendedAppBarComponentBloc>(
-            create: (context) => ExtendedAppBarComponentBloc()
-              ..add(ExtendedAppBarInitEvent(value: widget.value)),
-            child: BlocBuilder<ExtendedAppBarComponentBloc,
-                ExtendedAppBarComponentState>(builder: (context, state) {
-              if ((state is ExtendedAppBarComponentLoaded) && (state.value != null)) {
-                return BlocBuilder<AccessBloc, AccessState>(
-                builder: (context, accessState) {
-                if (accessState is AccessDetermined) {
-                    var value = state.value!;
-                    return Decorations.instance()
-                        .createDecoratedAppBar(context, _appBarKey, () {
-                      var app = accessState.currentApp(context);
-                      var header = value.header!;
-                      var title = value.title;
-                      if ((title != null) &&
-                          (widget.pageTitle != null) &&
-                          (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
-                        title = title.replaceAll(
-                            EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
-                      }
-                      var icon = value.icon;
-                      var memberMediumModel = value.image;
-                      if ((header == HeaderSelection.Title) && (title == null)) {
-                        if (icon != null) {
-                          header = HeaderSelection.Icon;
-                        } else {
-                          header = HeaderSelection.Image;
-                        }
-                      } else if ((header == HeaderSelection.Image) &&
-                          (icon == null)) {
-                        if (title != null) {
-                          header = HeaderSelection.Title;
-                        } else {
-                          header = HeaderSelection.Image;
-                        }
-                      } else if ((header == HeaderSelection.Image) &&
-                          (memberMediumModel == null)) {
-                        if (title != null) {
-                          header = HeaderSelection.Title;
-                        } else {
-                          header = HeaderSelection.Icon;
-                        }
-                      }
-                      var headerAttributes = AppbarHeaderAttributes(
-                          title: title,
-                          icon: value.icon,
-                          memberMediumModel: value.image,
-                          header: header);
-                      var items = MenuItemMapper.mapMenu(context, value.iconMenu!,
-                              accessState.getMember(), currentPage) ??
-                          [];
+    return BlocProvider<ExtendedAppBarComponentBloc>(
+        create: (context) => ExtendedAppBarComponentBloc()
+          ..add(ExtendedAppBarInitEvent(value: widget.value)),
+        child: BlocBuilder<ExtendedAppBarComponentBloc,
+            ExtendedAppBarComponentState>(builder: (context, state) {
+          if ((state is ExtendedAppBarComponentLoaded) && (state.value != null)) {
+            return BlocBuilder<AccessBloc, AccessState>(
+            builder: (context, accessState) {
+            if (accessState is AccessDetermined) {
+                var value = state.value!;
+                return Decorations.instance()
+                    .createDecoratedAppBar(context, _appBarKey, () {
+                  var app = accessState.currentApp(context);
+                  var header = value.header!;
+                  var title = value.title;
+                  if ((title != null) &&
+                      (widget.pageTitle != null) &&
+                      (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+                    title = title.replaceAll(
+                        EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+                  }
+                  var icon = value.icon;
+                  var memberMediumModel = value.image;
+                  if ((header == HeaderSelection.Title) && (title == null)) {
+                    if (icon != null) {
+                      header = HeaderSelection.Icon;
+                    } else {
+                      header = HeaderSelection.Image;
+                    }
+                  } else if ((header == HeaderSelection.Image) &&
+                      (icon == null)) {
+                    if (title != null) {
+                      header = HeaderSelection.Title;
+                    } else {
+                      header = HeaderSelection.Image;
+                    }
+                  } else if ((header == HeaderSelection.Image) &&
+                      (memberMediumModel == null)) {
+                    if (title != null) {
+                      header = HeaderSelection.Title;
+                    } else {
+                      header = HeaderSelection.Icon;
+                    }
+                  }
+                  var headerAttributes = AppbarHeaderAttributes(
+                      title: title,
+                      icon: value.icon,
+                      memberMediumModel: value.image,
+                      header: header);
+                  var items = MenuItemMapper.mapMenu(context, value.iconMenu!,
+                          accessState.getMember(), currentPage) ??
+                      [];
 
-                      var playStoreApp = accessState.playstoreApp;
-                      if ((playStoreApp != null) &&
-                          (playStoreApp.logo != null) &&
-                          (playStoreApp.logo!.url != null) &&
-                          (app.documentID != playStoreApp.documentID)) {
-                        items.add(MenuItemAttributes(
-                            isActive: false,
-                            onTap: () => eliudrouter.Router.navigateTo(
-                                context,
-                                SwitchApp(app.documentID!,
-                                    toAppID: playStoreApp.documentID!)),
-                            imageURL: playStoreApp.logo!.url));
-                      }
+                  var playStoreApp = accessState.playstoreApp;
+                  if ((playStoreApp != null) &&
+                      (playStoreApp.logo != null) &&
+                      (playStoreApp.logo!.url != null) &&
+                      (app.documentID != playStoreApp.documentID)) {
+                    items.add(MenuItemAttributes(
+                        isActive: false,
+                        onTap: () => eliudrouter.Router.navigateTo(
+                            context,
+                            SwitchApp(app.documentID!,
+                                toAppID: playStoreApp.documentID!)),
+                        imageURL: playStoreApp.logo!.url));
+                  }
 
-                      return appBar(context,
-                          headerAttributes: headerAttributes,
-                          member: accessState.getMember(),
-                          key: _appBarKey,
-                          backgroundOverride: value.backgroundOverride,
-                          menuBackgroundColorOverride:
-                              value.menuBackgroundColorOverride,
-                          iconColorOverride: value.iconColorOverride,
-                          selectedIconColorOverride:
-                              value.selectedIconColorOverride,
-                          pageName: widget.theTitle,
-                          items: items,
-                          openDrawer: () =>
-                              widget.scaffoldKey.currentState!.openEndDrawer());
-                    }, value)();
-                } else {
-                  return progressIndicator(context);
-                }
-                });
-              } else {
-                return progressIndicator(context);
-              }
-            }));
-/*
-      } else {
-        return progressIndicator(context);
-      }
-    });
-*/
+                  return appBar(context,
+                      headerAttributes: headerAttributes,
+                      member: accessState.getMember(),
+                      key: _appBarKey,
+                      backgroundOverride: value.backgroundOverride,
+                      menuBackgroundColorOverride:
+                          value.menuBackgroundColorOverride,
+                      iconColorOverride: value.iconColorOverride,
+                      selectedIconColorOverride:
+                          value.selectedIconColorOverride,
+                      pageName: widget.theTitle,
+                      items: items,
+                      openDrawer: () =>
+                          widget.scaffoldKey.currentState!.openEndDrawer());
+                }, value)();
+            } else {
+              return progressIndicator(context);
+            }
+            });
+          } else {
+            return progressIndicator(context);
+          }
+        }));
   }
 }
 

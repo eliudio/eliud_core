@@ -15,6 +15,10 @@ import 'package:flutter/widgets.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart' as dr;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/drawer/extended_drawer_component_bloc.dart';
+import 'blocs/drawer/extended_drawer_component_event.dart';
+import 'blocs/drawer/extended_drawer_component_state.dart';
+
 class EliudDrawer extends StatefulWidget {
   final String currentPage;
   final DrawerModel drawer;
@@ -38,58 +42,70 @@ class _EliudDrawerState extends State<EliudDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    var drawer = widget.drawer;
     var currentPage = widget.currentPage;
-    return BlocBuilder<AccessBloc, AccessState>(
-        builder: (context, accessState) {
-        if (accessState is AccessDetermined) {
-          return Decorations.instance().createDecoratedDrawer(
-              context,
-              widget.drawerType == DrawerType.Left
-                  ? DecorationDrawerType.Left
-                  : DecorationDrawerType.Left,
-              _drawerKey, () {
-            if (drawer.menu != null) {
-              var drawerHeader1Attributes;
-              if (((drawer.headerText != null) &&
-                      (drawer.headerText!.isNotEmpty)) ||
-                  (drawer.headerBackgroundOverride != null)) {
-                drawerHeader1Attributes = DrawerHeader1Attributes(
-                    drawer.headerHeight,
-                    drawer.headerText!,
-                    drawer.headerBackgroundOverride);
-              }
-              var drawerHeader2Attributes;
-              if ((drawer.secondHeaderText != null) &&
-                  (drawer.secondHeaderText!.isNotEmpty)) {
-                drawerHeader2Attributes = DrawerHeader2Attributes(
-                    drawer.headerHeight,
-                    processDoc(context, drawer.secondHeaderText!));
-              }
+    return BlocProvider<ExtendedDrawerComponentBloc>(
+        create: (context) => ExtendedDrawerComponentBloc()
+          ..add(ExtendedDrawerInitEvent(value: widget.drawer)),
+        child: BlocBuilder<ExtendedDrawerComponentBloc,
+            ExtendedDrawerComponentState>(builder: (context, state) {
+          if ((state is ExtendedDrawerComponentLoaded) &&
+              (state.value != null)) {
+            var drawer = state.value!;
+            return BlocBuilder<AccessBloc, AccessState>(
+                builder: (context, accessState) {
+              if (accessState is AccessDetermined) {
+                return Decorations.instance().createDecoratedDrawer(
+                    context,
+                    widget.drawerType == DrawerType.Left
+                        ? DecorationDrawerType.Left
+                        : DecorationDrawerType.Left,
+                    _drawerKey, () {
+                  if (drawer.menu != null) {
+                    var drawerHeader1Attributes;
+                    if (((drawer.headerText != null) &&
+                            (drawer.headerText!.isNotEmpty)) ||
+                        (drawer.headerBackgroundOverride != null)) {
+                      drawerHeader1Attributes = DrawerHeader1Attributes(
+                          drawer.headerHeight,
+                          drawer.headerText!,
+                          drawer.headerBackgroundOverride);
+                    }
+                    var drawerHeader2Attributes;
+                    if ((drawer.secondHeaderText != null) &&
+                        (drawer.secondHeaderText!.isNotEmpty)) {
+                      drawerHeader2Attributes = DrawerHeader2Attributes(
+                          drawer.headerHeight,
+                          processDoc(context, drawer.secondHeaderText!));
+                    }
 
-              var itemList = MenuItemMapper.mapMenu(
-                  context, drawer.menu!, accessState.getMember(), currentPage);
-              if (itemList != null) {
-                return dr.drawer(context,
-                    key: _drawerKey,
-                    member: accessState.getMember(),
-                    drawerType: widget.drawerType,
-                    header1: drawerHeader1Attributes,
-                    header2: drawerHeader2Attributes,
-                    items: itemList,
-                    popupMenuBackgroundColorOverride:
-                        widget.drawer.popupMenuBackgroundColorOverride,
-                    backgroundOverride: widget.drawer.backgroundOverride);
+                    var itemList = MenuItemMapper.mapMenu(context, drawer.menu!,
+                        accessState.getMember(), currentPage);
+                    if (itemList != null) {
+                      return dr.drawer(context,
+                          key: _drawerKey,
+                          member: accessState.getMember(),
+                          drawerType: widget.drawerType,
+                          header1: drawerHeader1Attributes,
+                          header2: drawerHeader2Attributes,
+                          items: itemList,
+                          popupMenuBackgroundColorOverride:
+                              drawer.popupMenuBackgroundColorOverride,
+                          backgroundOverride: drawer.backgroundOverride);
+                    } else {
+                      return Text('Drawer ${drawer.documentID} has no items');
+                    }
+                  } else {
+                    return Text(
+                        'Drawer ${drawer.documentID} has no menu defined');
+                  }
+                }, drawer)();
               } else {
-                return Text('Drawer ${drawer.documentID} has no items');
+                return progressIndicator(context);
               }
-            } else {
-              return Text('Drawer ${drawer.documentID} has no menu defined');
-            }
-          }, widget.drawer)();
-        } else {
-          return progressIndicator(context);
-        }
-      });
+            });
+          } else {
+            return progressIndicator(context);
+          }
+        }));
   }
 }
