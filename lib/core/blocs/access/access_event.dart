@@ -59,16 +59,17 @@ abstract class PostLoginAction {
 }
 
 class LoginEvent extends AccessEvent {
+  final String appId;
   final PostLoginAction? actions;
   final bool _isProcessing;
 
-  LoginEvent({this.actions, bool? isProcessing})
+  LoginEvent({required this.appId, this.actions, bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LoginEvent asProcessing() {
-    return LoginEvent(actions: actions, isProcessing: true);
+    return LoginEvent(appId: appId, actions: actions, isProcessing: true);
   }
 
   @override

@@ -51,7 +51,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               .userRepository()!
               .signOut();
           var toYield = await LoggedOut.getLoggedOut(theState.apps, playstoreApp: theState.playstoreApp);
-          gotoPage(event.appId,
+          gotoPage(true, event.appId,
               toYield.homePageForAppId(event.appId).documentID!, );
           yield toYield;
         } else {
@@ -69,10 +69,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             print('Exception during signInWithGoogle: $exception');
           }
           var member = await firebaseToMemberModel(usr);
-          yield await LoggedIn.getLoggedIn(usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
-
+          var toYield = await LoggedIn.getLoggedIn(usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
+          yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
+          } else {
+            gotoPage(true, event.appId,
+              toYield.homePageForAppId(event.appId).documentID!, );
           }
         } else {
           add(event.asProcessing());
@@ -81,7 +84,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is SwitchAppWithIDEvent) {
         if (event.isProcessing()) {
           var newState = await addApp(theState, await _fetchApp(event.appId));
-          gotoPage(event.appId, newState.homePageForAppId(event.appId).documentID!);
+          gotoPage(false, event.appId, newState.homePageForAppId(event.appId).documentID!);
           _listenToApp(event.appId);
           yield newState;
         } else {
@@ -94,7 +97,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
         // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
         // and remove the navigation from here:
-        gotoPage(event.appId, event.pageId, parameters: event.parameters);
+        gotoPage(false, event.appId, event.pageId, parameters: event.parameters);
       } else if (event is OpenDialogEvent) {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
@@ -148,7 +151,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return accessDetermined;
   }
 
-  void gotoPage(String? appId, String? pageId, { Map<String, dynamic>? parameters }) {
+  void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters }) {
     if (appId == null) {
       throw Exception(
           'Error: gotoPage(null)');
@@ -157,9 +160,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           'Error: gotoPage($appId, null)');
     } else {
       if (navigatorKey.currentState != null) {
-        navigatorKey.currentState!.pushNamed(
-            eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
-            appId + '/' + pageId, parameters));
+        if (clearHistory) {
+          navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              eliudrouter.Router.pageRoute, (_) => false, arguments: eliudrouter.Arguments(
+              appId + '/' + pageId, parameters));
+        } else {
+          navigatorKey.currentState!.pushNamed(
+              eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
+              appId + '/' + pageId, parameters));
+        }
       } else {
         throw Exception(
             "Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");

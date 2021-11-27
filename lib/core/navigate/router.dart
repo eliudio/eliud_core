@@ -108,7 +108,7 @@ class Router {
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-            BlocProvider.of<AccessBloc>(context).add(LoginEvent());
+            BlocProvider.of<AccessBloc>(context).add(LoginEvent(appId: action.appID));
             break;
           case InternalActionEnum.Logout:
             var appId = AccessBloc.currentApp(context).documentID!;
