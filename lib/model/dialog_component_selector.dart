@@ -35,10 +35,11 @@ class DialogComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
             dialogRepository:
-                dialogRepository(appId: AccessBloc.currentAppId(context))!,
+                dialogRepository(appId: appId)!,
           )..add(LoadDialogList()),
       child: SelectDialogWidget(
           height: height,

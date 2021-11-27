@@ -72,7 +72,7 @@ class PublicMediumForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePublicMediumFormEvent(value: value)),
@@ -81,7 +81,7 @@ class PublicMediumForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePublicMediumFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class PublicMediumForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PublicMedium' : 'Add PublicMedium'),
         body: BlocProvider<PublicMediumFormBloc >(
-            create: (context) => PublicMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PublicMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePublicMediumFormEvent(value: value) : InitialiseNewPublicMediumFormEvent())),

@@ -72,7 +72,7 @@ class MemberSubscriptionForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberSubscriptionFormBloc(appId,
                                        
                                                 )..add(InitialiseMemberSubscriptionFormEvent(value: value)),
   
@@ -80,7 +80,7 @@ class MemberSubscriptionForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberSubscriptionFormBloc(appId,
                                        
                                                 )..add(InitialiseMemberSubscriptionFormNoLoadEvent(value: value)),
   
@@ -90,7 +90,7 @@ class MemberSubscriptionForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
         body: BlocProvider<MemberSubscriptionFormBloc >(
-            create: (context) => MemberSubscriptionFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberSubscriptionFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberSubscriptionFormEvent(value: value) : InitialiseNewMemberSubscriptionFormEvent())),
   

@@ -35,10 +35,11 @@ class CountryComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
             countryRepository:
-                countryRepository(appId: AccessBloc.currentAppId(context))!,
+                countryRepository(appId: appId)!,
           )..add(LoadCountryList()),
       child: SelectCountryWidget(
           height: height,

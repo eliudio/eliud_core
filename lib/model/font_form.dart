@@ -72,7 +72,7 @@ class FontForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => FontFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormEvent(value: value)),
@@ -81,7 +81,7 @@ class FontForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => FontFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseFontFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class FontForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
         body: BlocProvider<FontFormBloc >(
-            create: (context) => FontFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => FontFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseFontFormEvent(value: value) : InitialiseNewFontFormEvent())),

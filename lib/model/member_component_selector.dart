@@ -35,10 +35,11 @@ class MemberComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<MemberListBloc>(
           create: (context) => MemberListBloc(
             memberRepository:
-                memberRepository(appId: AccessBloc.currentAppId(context))!,
+                memberRepository(appId: appId)!,
           )..add(LoadMemberList()),
       child: SelectMemberWidget(
           height: height,

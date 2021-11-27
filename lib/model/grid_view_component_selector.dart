@@ -35,10 +35,11 @@ class GridViewComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
             gridViewRepository:
-                gridViewRepository(appId: AccessBloc.currentAppId(context))!,
+                gridViewRepository(appId: appId)!,
           )..add(LoadGridViewList()),
       child: SelectGridViewWidget(
           height: height,

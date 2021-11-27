@@ -72,7 +72,7 @@ class PageForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PageFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePageFormEvent(value: value)),
@@ -81,7 +81,7 @@ class PageForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PageFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePageFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class PageForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Page' : 'Add Page'),
         body: BlocProvider<PageFormBloc >(
-            create: (context) => PageFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PageFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePageFormEvent(value: value) : InitialiseNewPageFormEvent())),

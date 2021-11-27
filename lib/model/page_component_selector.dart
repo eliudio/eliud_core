@@ -35,10 +35,11 @@ class PageComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
             pageRepository:
-                pageRepository(appId: AccessBloc.currentAppId(context))!,
+                pageRepository(appId: appId)!,
           )..add(LoadPageList()),
       child: SelectPageWidget(
           height: height,

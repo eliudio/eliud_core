@@ -72,7 +72,7 @@ class AppBarForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormEvent(value: value)),
@@ -81,7 +81,7 @@ class AppBarForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppBarFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class AppBarForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppBar' : 'Add AppBar'),
         body: BlocProvider<AppBarFormBloc >(
-            create: (context) => AppBarFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppBarFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppBarFormEvent(value: value) : InitialiseNewAppBarFormEvent())),

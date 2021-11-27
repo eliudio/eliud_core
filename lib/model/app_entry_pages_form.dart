@@ -72,7 +72,7 @@ class AppEntryPagesForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppEntryPagesFormBloc >(
-            create: (context) => AppEntryPagesFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppEntryPagesFormBloc(appId,
                                        
                                                 )..add(InitialiseAppEntryPagesFormEvent(value: value)),
   
@@ -80,7 +80,7 @@ class AppEntryPagesForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppEntryPagesFormBloc >(
-            create: (context) => AppEntryPagesFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppEntryPagesFormBloc(appId,
                                        
                                                 )..add(InitialiseAppEntryPagesFormNoLoadEvent(value: value)),
   
@@ -90,7 +90,7 @@ class AppEntryPagesForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppEntryPages' : 'Add AppEntryPages'),
         body: BlocProvider<AppEntryPagesFormBloc >(
-            create: (context) => AppEntryPagesFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppEntryPagesFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppEntryPagesFormEvent(value: value) : InitialiseNewAppEntryPagesFormEvent())),
   

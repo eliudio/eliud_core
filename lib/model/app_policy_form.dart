@@ -72,7 +72,7 @@ class AppPolicyForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppPolicyFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppPolicyFormEvent(value: value)),
@@ -81,7 +81,7 @@ class AppPolicyForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppPolicyFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppPolicyFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class AppPolicyForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppPolicy' : 'Add AppPolicy'),
         body: BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppPolicyFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppPolicyFormEvent(value: value) : InitialiseNewAppPolicyFormEvent())),

@@ -72,7 +72,7 @@ class MemberPublicInfoForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberPublicInfoFormBloc >(
-            create: (context) => MemberPublicInfoFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberPublicInfoFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberPublicInfoFormEvent(value: value)),
@@ -81,7 +81,7 @@ class MemberPublicInfoForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberPublicInfoFormBloc >(
-            create: (context) => MemberPublicInfoFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberPublicInfoFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberPublicInfoFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class MemberPublicInfoForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberPublicInfo' : 'Add MemberPublicInfo'),
         body: BlocProvider<MemberPublicInfoFormBloc >(
-            create: (context) => MemberPublicInfoFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberPublicInfoFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberPublicInfoFormEvent(value: value) : InitialiseNewMemberPublicInfoFormEvent())),

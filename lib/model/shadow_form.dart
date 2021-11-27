@@ -72,7 +72,7 @@ class ShadowForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShadowFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseShadowFormEvent(value: value)),
@@ -81,7 +81,7 @@ class ShadowForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShadowFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseShadowFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class ShadowForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Shadow' : 'Add Shadow'),
         body: BlocProvider<ShadowFormBloc >(
-            create: (context) => ShadowFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => ShadowFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseShadowFormEvent(value: value) : InitialiseNewShadowFormEvent())),

@@ -72,7 +72,7 @@ class DialogForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseDialogFormEvent(value: value)),
@@ -81,7 +81,7 @@ class DialogForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseDialogFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class DialogForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Dialog' : 'Add Dialog'),
         body: BlocProvider<DialogFormBloc >(
-            create: (context) => DialogFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DialogFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseDialogFormEvent(value: value) : InitialiseNewDialogFormEvent())),

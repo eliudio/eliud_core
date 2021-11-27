@@ -72,7 +72,7 @@ class PosSizeForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PosSizeFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePosSizeFormEvent(value: value)),
@@ -81,7 +81,7 @@ class PosSizeForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PosSizeFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialisePosSizeFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class PosSizeForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
         body: BlocProvider<PosSizeFormBloc >(
-            create: (context) => PosSizeFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => PosSizeFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePosSizeFormEvent(value: value) : InitialiseNewPosSizeFormEvent())),

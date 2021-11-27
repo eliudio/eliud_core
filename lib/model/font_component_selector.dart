@@ -35,10 +35,11 @@ class FontComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
             fontRepository:
-                fontRepository(appId: AccessBloc.currentAppId(context))!,
+                fontRepository(appId: appId)!,
           )..add(LoadFontList()),
       child: SelectFontWidget(
           height: height,

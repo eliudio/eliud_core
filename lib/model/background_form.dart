@@ -72,7 +72,7 @@ class BackgroundForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => BackgroundFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseBackgroundFormEvent(value: value)),
@@ -81,7 +81,7 @@ class BackgroundForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => BackgroundFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseBackgroundFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class BackgroundForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Background' : 'Add Background'),
         body: BlocProvider<BackgroundFormBloc >(
-            create: (context) => BackgroundFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => BackgroundFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseBackgroundFormEvent(value: value) : InitialiseNewBackgroundFormEvent())),

@@ -35,10 +35,11 @@ class MemberPublicInfoComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<MemberPublicInfoListBloc>(
           create: (context) => MemberPublicInfoListBloc(
             memberPublicInfoRepository:
-                memberPublicInfoRepository(appId: AccessBloc.currentAppId(context))!,
+                memberPublicInfoRepository(appId: appId)!,
           )..add(LoadMemberPublicInfoList()),
       child: SelectMemberPublicInfoWidget(
           height: height,

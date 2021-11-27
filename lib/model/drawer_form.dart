@@ -72,7 +72,7 @@ class DrawerForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DrawerFormBloc >(
-            create: (context) => DrawerFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DrawerFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseDrawerFormEvent(value: value)),
@@ -81,7 +81,7 @@ class DrawerForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<DrawerFormBloc >(
-            create: (context) => DrawerFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DrawerFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseDrawerFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class DrawerForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Drawer' : 'Add Drawer'),
         body: BlocProvider<DrawerFormBloc >(
-            create: (context) => DrawerFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => DrawerFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseDrawerFormEvent(value: value) : InitialiseNewDrawerFormEvent())),

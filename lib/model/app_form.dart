@@ -72,7 +72,7 @@ class AppForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppFormEvent(value: value)),
@@ -81,7 +81,7 @@ class AppForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseAppFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class AppForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update App' : 'Add App'),
         body: BlocProvider<AppFormBloc >(
-            create: (context) => AppFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => AppFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppFormEvent(value: value) : InitialiseNewAppFormEvent())),

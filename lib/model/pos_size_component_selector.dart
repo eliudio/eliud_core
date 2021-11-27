@@ -35,10 +35,11 @@ class PosSizeComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, double height,
       SelectComponent selected, editorConstructor) {
+    var appId = AccessBloc.currentAppId(context);
     return BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
             posSizeRepository:
-                posSizeRepository(appId: AccessBloc.currentAppId(context))!,
+                posSizeRepository(appId: appId)!,
           )..add(LoadPosSizeList()),
       child: SelectPosSizeWidget(
           height: height,

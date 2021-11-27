@@ -72,7 +72,7 @@ class MemberMediumForm extends StatelessWidget {
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberMediumFormBloc >(
-            create: (context) => MemberMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberMediumFormEvent(value: value)),
@@ -81,7 +81,7 @@ class MemberMediumForm extends StatelessWidget {
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberMediumFormBloc >(
-            create: (context) => MemberMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add(InitialiseMemberMediumFormNoLoadEvent(value: value)),
@@ -92,7 +92,7 @@ class MemberMediumForm extends StatelessWidget {
       return Scaffold(
         appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberMedium' : 'Add MemberMedium'),
         body: BlocProvider<MemberMediumFormBloc >(
-            create: (context) => MemberMediumFormBloc(AccessBloc.currentAppId(context),
+            create: (context) => MemberMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberMediumFormEvent(value: value) : InitialiseNewMemberMediumFormEvent())),
