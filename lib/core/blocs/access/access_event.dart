@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/package/package.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -123,10 +124,11 @@ class ChangePrivilegeEvent extends AccessEvent {
 
 class UpdatePackageConditionEvent extends AccessEvent {
   final AppModel app;
+  final Package package;
   final String packageCondition;
   final bool condition;
 
-  UpdatePackageConditionEvent(this.app, this.packageCondition, this.condition);
+  UpdatePackageConditionEvent(this.app, this.package, this.packageCondition, this.condition);
 }
 
 class SwitchAppWithIDEvent extends AccessEvent {

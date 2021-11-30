@@ -10,6 +10,7 @@ import 'package:eliud_core/package/packages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+import '../access_bloc.dart';
 import '../access_event.dart';
 import 'access_determined.dart';
 
@@ -25,13 +26,15 @@ class LoggedIn extends AccessDetermined {
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
-      User usr,
-      MemberModel member,
-      List<DeterminedApp> apps,
-      PostLoginAction? postLoginAction, {
-      AppModel? playstoreApp,
-      }) async {
-    var accesses = await AccessHelper.getAccesses(member, apps, false);
+    AccessBloc accessBloc,
+    User usr,
+    MemberModel member,
+    List<DeterminedApp> apps,
+    PostLoginAction? postLoginAction, {
+    AppModel? playstoreApp,
+  }) async {
+    var accesses =
+        await AccessHelper.getAccesses(accessBloc, member, apps, false);
 
     var loggedIn = LoggedIn._(
       usr,
@@ -45,13 +48,14 @@ class LoggedIn extends AccessDetermined {
   }
 
   static Future<LoggedIn> getLoggedIn2(
-      User usr,
-      MemberModel member,
-      AppModel app,
-      {
-      AppModel? playstoreApp,
-      }) async {
-    var accesses = await AccessHelper.getAccesses2(member, [app], false);
+    AccessBloc accessBloc,
+    User usr,
+    MemberModel member,
+    AppModel app, {
+    AppModel? playstoreApp,
+  }) async {
+    var accesses =
+        await AccessHelper.getAccesses2(accessBloc, member, [app], false);
     var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
     var appIsBlocked = _isBlocked(app.documentID!, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
@@ -91,17 +95,18 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  Future<LoggedIn> addApp(AppModel newCurrentApp) async {
+  Future<LoggedIn> addApp(AccessBloc accessBloc, AppModel newCurrentApp) async {
     for (var app in apps) {
       if (app.app.documentID == newCurrentApp.documentID) {
         return Future.value(this);
       }
     }
     var newAccesses = await AccessHelper.extendAccesses(
-        member, accesses, newCurrentApp, true);
+        accessBloc, member, accesses, newCurrentApp, true);
     var newApps = apps.map((v) => v).toList();
 
-    var privilegeLevel = _privilegeLevel(newCurrentApp.documentID!, newAccesses);
+    var privilegeLevel =
+        _privilegeLevel(newCurrentApp.documentID!, newAccesses);
     var appIsBlocked = _isBlocked(newCurrentApp.documentID!, newAccesses);
     var homePage =
         await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
@@ -154,6 +159,35 @@ class LoggedIn extends AccessDetermined {
       playstoreApp: playstoreApp,
       isProcessing: true,
     );
+  }
+
+  @override
+  AccessDetermined withDifferentPackageCondition(
+      String appId, Package package, String packageCondition, bool? value) {
+    var newAccesses = {...accesses};
+    if (newAccesses[appId] != null) {
+      var newPackageConditionsAccess = {
+        ...newAccesses[appId]!.packageConditionsAccess
+      };
+      newPackageConditionsAccess[packageCondition] = PackageCondition(
+          pkg: package, condition: packageCondition, access: value);
+      newAccesses[appId] = newAccesses[appId]!
+          .copyWith(packageConditionsAccess: newPackageConditionsAccess);
+
+
+
+      return LoggedIn._(
+        usr,
+        member,
+        postLoginAction,
+        apps,
+        newAccesses,
+        playstoreApp: playstoreApp,
+        isProcessing: false,
+      );
+    } else {
+      return this;
+    }
   }
 
 /*
@@ -280,4 +314,3 @@ class LoggedIn extends AccessDetermined {
     return AccessDetermined.getPage(appId, app.homePages!.homePagePublic);
   }
 }
-

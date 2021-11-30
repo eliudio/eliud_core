@@ -13,6 +13,8 @@ import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
+import '../access_bloc.dart';
+
 class PackageCondition extends Equatable {
   final Package? pkg;
   final String? condition;
@@ -63,6 +65,11 @@ class PagesAndDialogAccesss extends Equatable {
               mapEquals(packageConditionsAccess, other.packageConditionsAccess) &&
               privilegeLevel == other.privilegeLevel &&
               blocked == other.blocked;
+
+  PagesAndDialogAccesss copyWith({Map<String, bool>? pagesAccess, Map<String, bool>? dialogsAccess, Map<String, PackageCondition>? packageConditionsAccess, PrivilegeLevel? privilegeLevel, bool? blocked, }) {
+    return PagesAndDialogAccesss(pagesAccess ?? this.pagesAccess, dialogsAccess ?? this.dialogsAccess, packageConditionsAccess ?? this.packageConditionsAccess, privilegeLevel ?? this.privilegeLevel, blocked ?? this.blocked);
+  }
+
 }
 
 class PackageInfo {
@@ -115,7 +122,7 @@ class AccessHelper {
     return packageConditions;
   }
 
-  static Future<PackageCondition?> conditionOkForPackage(
+  static Future<PackageCondition?> _conditionOkForPackage(AccessBloc accessBloc,
       String packageCondition,
       AppModel app,
       MemberModel? member,
@@ -124,7 +131,7 @@ class AccessHelper {
       PrivilegeLevel? privilegeLevel) async {
     for (var i = 0; i < Packages.registeredPackages.length; i++) {
       var plg = Packages.registeredPackages[i];
-      var plgOk = await plg.isConditionOk(
+      var plgOk = await plg.isConditionOk(accessBloc,
           packageCondition, app, member, isOwner, isBlocked, privilegeLevel);
       if (plgOk != null) {
         return PackageCondition(
@@ -189,31 +196,31 @@ class AccessHelper {
     return PrivilegeLevel.NoPrivilege;
   }
 
-  static Future<Map<String, PagesAndDialogAccesss>> getAccesses2(MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
+  static Future<Map<String, PagesAndDialogAccesss>> getAccesses2(AccessBloc accessBloc, MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
-      var access = await AccessHelper._getAccess(member, app, isLoggedIn);
+      var access = await AccessHelper._getAccess(accessBloc, member, app, isLoggedIn);
       accesses[app.documentID!] = access;
     }
     return accesses;
   }
 
-  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(MemberModel? member, List<DeterminedApp> apps, bool isLoggedIn) async {
+  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(AccessBloc accessBloc, MemberModel? member, List<DeterminedApp> apps, bool isLoggedIn) async {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
-      var access = await AccessHelper._getAccess(member, app.app, isLoggedIn);
+      var access = await AccessHelper._getAccess(accessBloc, member, app.app, isLoggedIn);
       accesses[app.app.documentID!] = access;
     }
     return accesses;
   }
 
-  static Future<Map<String, PagesAndDialogAccesss>> extendAccesses(MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn) async {
-    var access = await AccessHelper._getAccess(member, addApp, isLoggedIn);
+  static Future<Map<String, PagesAndDialogAccesss>> extendAccesses(AccessBloc accessBloc, MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn) async {
+    var access = await AccessHelper._getAccess(accessBloc, member, addApp, isLoggedIn);
     currentAccesses[addApp.documentID!] = access;
     return currentAccesses;
   }
 
-  static Future<PagesAndDialogAccesss> _getAccess(
+  static Future<PagesAndDialogAccesss> _getAccess(AccessBloc accessBloc,
       MemberModel? member, AppModel app, bool isLoggedIn) async {
     var accessModel;
     if (member != null) {
@@ -228,7 +235,7 @@ class AccessHelper {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
 
-    return _getAccess2(member, app, isLoggedIn, privilegeLevel, isBlocked);
+    return _getAccess2(accessBloc, member, app, isLoggedIn, privilegeLevel, isBlocked);
   }
 /*
 
@@ -242,7 +249,7 @@ class AccessHelper {
   }
 */
 
-  static Future<PagesAndDialogAccesss> _getAccess2(
+  static Future<PagesAndDialogAccesss> _getAccess2(AccessBloc accessBloc,
       MemberModel? member, AppModel app, bool isLoggedIn, PrivilegeLevel privilegeLevel, bool? isBlocked, ) async {
     var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
@@ -252,7 +259,7 @@ class AccessHelper {
       var packageConditions = getAllPackageConditions();
       for (var i = 0; i < packageConditions.length; i++) {
         var packageCondition = packageConditions[i];
-        var value= await conditionOkForPackage(
+        var value= await _conditionOkForPackage(accessBloc,
             packageCondition, app, member, isOwner, isBlocked, privilegeLevel);
         if (value != null) {
           packageConditionsAccess[packageCondition] = value;

@@ -17,6 +17,7 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'access_event.dart';
@@ -37,10 +38,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           .currentSignedinUser();
 
       if (usr == null) {
-        yield await LoggedOut.getLoggedOut2(event.app, playstoreApp: event.playstoreApp);
+        yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
-        yield await LoggedIn.getLoggedIn2(usr, member, event.app, playstoreApp: event.playstoreApp);
+        yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, playstoreApp: event.playstoreApp);
       }
 
       _listenToApp(event.app.documentID!);
@@ -50,7 +51,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signOut();
-          var toYield = await LoggedOut.getLoggedOut(theState.apps, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedOut.getLoggedOut(this, theState.apps, playstoreApp: theState.playstoreApp);
           gotoPage(true, event.appId,
               toYield.homePageForAppId(event.appId).documentID!, );
           yield toYield;
@@ -69,7 +70,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             print('Exception during signInWithGoogle: $exception');
           }
           var member = await firebaseToMemberModel(usr);
-          var toYield = await LoggedIn.getLoggedIn(usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedIn.getLoggedIn(this, usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
           yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
@@ -102,10 +103,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
       } else if (event is UpdatePackageConditionEvent) {
-/*
-        change the condition for this package, for this app
-        yield the changed access state with this condition
-*/
+        yield theState.withDifferentPackageCondition(event.app.documentID!, event.package, event.packageCondition, event.condition);
       }
 /*
       } else if (event is AcceptedMembership) {
@@ -147,7 +145,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   Future<AccessDetermined> addApp(AccessDetermined accessState, AppModel app) async {
-    var accessDetermined = accessState.asNotProcessing().addApp(app);
+    var accessDetermined = accessState.asNotProcessing().addApp(this, app);
     return accessDetermined;
   }
 

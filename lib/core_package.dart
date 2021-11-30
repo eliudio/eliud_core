@@ -8,6 +8,7 @@ import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'core/blocs/access/access_bloc.dart';
 import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 
@@ -59,7 +60,14 @@ abstract class CorePackage extends Package {
   }
 
   @override
-  Future<bool?> isConditionOk(String packageCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) async {
+  Future<bool?> isConditionOk(
+      AccessBloc accessBloc,
+      String packageCondition,
+      AppModel app,
+      MemberModel? member,
+      bool? isOwner,
+      bool? isBlocked,
+      PrivilegeLevel? privilegeLevel) async {
     if (packageCondition == MUST_BE_LOGGED_ON) {
       return (member != null);
     }

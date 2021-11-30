@@ -8,25 +8,26 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:flutter/foundation.dart';
 
+import '../access_bloc.dart';
 import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
-  static Future<LoggedOut> getLoggedOut(
+  static Future<LoggedOut> getLoggedOut(AccessBloc accessBloc,
       List<DeterminedApp> apps, {
         AppModel? playstoreApp,
       }) async {
-    var accesses = await AccessHelper.getAccesses(null, apps, false);
+    var accesses = await AccessHelper.getAccesses(accessBloc, null, apps, false);
     var loggedOut = LoggedOut._(apps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
 
-  static Future<LoggedOut> getLoggedOut2(
+  static Future<LoggedOut> getLoggedOut2(AccessBloc accessBloc,
       AppModel app, {
       AppModel? playstoreApp,
       }) async {
     var homePage = await getHomepage(app);
     var apps = [DeterminedApp(app, homePage)];
-    var accesses = await AccessHelper.getAccesses(null, apps, false);
+    var accesses = await AccessHelper.getAccesses(accessBloc, null, apps, false);
     var loggedOut = LoggedOut._(apps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
@@ -79,12 +80,12 @@ class LoggedOut extends AccessDetermined {
           isProcessing == other.isProcessing;
 
   @override
-  Future<LoggedOut> addApp(AppModel newCurrentApp) async {
+  Future<LoggedOut> addApp(AccessBloc accessBloc, AppModel newCurrentApp) async {
     if (apps.contains(newCurrentApp)) {
       return Future.value(this);
     } else {
       var homePage = await getHomepage(newCurrentApp);
-      var newAccesses = await AccessHelper.extendAccesses(
+      var newAccesses = await AccessHelper.extendAccesses(accessBloc,
           null, accesses, newCurrentApp, false);
       var newApps = apps.map((v) => v).toList();
       newApps.add(DeterminedApp(newCurrentApp, homePage));
@@ -156,5 +157,29 @@ class LoggedOut extends AccessDetermined {
       playstoreApp: playstoreApp,
       isProcessing: true,
     );
+  }
+
+  @override
+  AccessDetermined withDifferentPackageCondition(
+      String appId, Package package, String packageCondition, bool? value) {
+    var newAccesses = {...accesses};
+    if (newAccesses[appId] != null) {
+      var newPackageConditionsAccess = {
+        ...newAccesses[appId]!.packageConditionsAccess
+      };
+      newPackageConditionsAccess[packageCondition] = PackageCondition(
+          pkg: package, condition: packageCondition, access: value);
+      newAccesses[appId] = newAccesses[appId]!
+          .copyWith(packageConditionsAccess: newPackageConditionsAccess);
+
+      return LoggedOut._(
+        apps,
+        newAccesses,
+        playstoreApp: playstoreApp,
+        isProcessing: true,
+      );
+    } else {
+      return this;
+    }
   }
 }

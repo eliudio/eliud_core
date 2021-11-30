@@ -7,12 +7,14 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../access_bloc.dart';
 import 'access_state.dart';
 
 class DeterminedApp extends Equatable {
@@ -107,7 +109,7 @@ abstract class AccessDetermined extends AccessState {
   MemberModel? getMember();
   PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
-  Future<AccessDetermined> addApp(AppModel newCurrentApp);
+  Future<AccessDetermined> addApp(AccessBloc accessBloc, AppModel newCurrentApp);
 
   String currentAppId(BuildContext context) => eliud_router.Router.getCurrentAppId(context);
   AppModel currentApp(BuildContext context) {
@@ -168,6 +170,7 @@ abstract class AccessDetermined extends AccessState {
 */
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
+  AccessDetermined withDifferentPackageCondition(String appId, Package package, String packageCondition, bool? value);
 
   Future<AccessDetermined> updateApp(
       AppModel newCurrentApp,

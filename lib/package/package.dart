@@ -1,3 +1,4 @@
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:equatable/equatable.dart';
@@ -35,7 +36,7 @@ abstract class Package extends Equatable {
    * For example: for a shop the cart page is accessible only if items are in the basket. Only the Shop plugin should implement this
    * and return true / false depending on items in the basket.
    */
-  Future<bool?> isConditionOk(String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
+  Future<bool?> isConditionOk(AccessBloc accessBloc, String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 
   List<String>? retrieveAllPackageConditions();
 
