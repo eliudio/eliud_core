@@ -15,6 +15,15 @@ class MemberCollectionInfo {
   MemberCollectionInfo(this.name, this.memberIdentifier);
 }
 
+
+class PackageConditionDetails {
+  final String conditionName;
+  final String packageName;
+  final bool value;
+
+  PackageConditionDetails({required this.packageName, required this.conditionName, required this.value});
+}
+
 abstract class Package extends Equatable {
   final String packageName;
 
@@ -24,6 +33,8 @@ abstract class Package extends Equatable {
    * Initialise your repositories and any other platform specifics
    */
   void init();
+
+  Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 
   /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.
@@ -36,7 +47,9 @@ abstract class Package extends Equatable {
    * For example: for a shop the cart page is accessible only if items are in the basket. Only the Shop plugin should implement this
    * and return true / false depending on items in the basket.
    */
+/*
   Future<bool?> isConditionOk(AccessBloc accessBloc, String pluginCondition, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
+*/
 
   List<String>? retrieveAllPackageConditions();
 

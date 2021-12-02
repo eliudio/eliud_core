@@ -15,41 +15,7 @@ import 'model/repository_singleton.dart';
 abstract class CorePackage extends Package {
   static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
 
-  MemberModel? stateMemberModel;
-  late StreamSubscription<List<MemberModel?>> subscription;
-
   CorePackage() : super('eliud_core');
-
-  void _setState(MemberModel? currentMember) {
-    if (stateMemberModel != currentMember) {
-      stateMemberModel = currentMember;
-    }
-  }
-
-  // The member subscription is an extra luxury to make sure member data is up to date
-  // But, I'm actually unsure this subscription should happen.
-  void resubscribe(AppModel app, MemberModel? currentMember) {
-    var appId = app.documentID;
-    if (currentMember != null) {
-      subscription = memberRepository(appId: appId)!.listenWithDetails((list) {
-        if (list.isNotEmpty) {
-          _setState(list.first);
-        } else {
-          _setState(null);
-        }
-      }, eliudQuery: getMemberQuery(
-          appId, currentMember.documentID));
-    }
-  }
-
-  static EliudQuery getMemberQuery(String? appId, String? memberId) {
-    return EliudQuery(
-        theConditions: [EliudQueryCondition(
-            DocumentIdField(),
-            isEqualTo: memberId
-        )]
-    );
-  }
 
   @override
   void init() {
@@ -60,18 +26,13 @@ abstract class CorePackage extends Package {
   }
 
   @override
-  Future<bool?> isConditionOk(
-      AccessBloc accessBloc,
-      String packageCondition,
-      AppModel app,
-      MemberModel? member,
-      bool? isOwner,
-      bool? isBlocked,
-      PrivilegeLevel? privilegeLevel) async {
-    if (packageCondition == MUST_BE_LOGGED_ON) {
-      return (member != null);
-    }
-    return null;
+  Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) {
+    return Future.value([
+      PackageConditionDetails(
+          packageName: packageName,
+          conditionName: MUST_BE_LOGGED_ON,
+          value:  (member != null))
+    ]);
   }
 
   @override

@@ -9,13 +9,11 @@ class CoreWebPackage extends CorePackage {
 
   @override
   List<Object?> get props => [
-    stateMemberModel,
   ];
 
   @override
   bool operator == (Object other) =>
       identical(this, other) ||
           other is CoreWebPackage &&
-              runtimeType == other.runtimeType &&
-              stateMemberModel == other.stateMemberModel;
+              runtimeType == other.runtimeType;
 }

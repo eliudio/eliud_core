@@ -163,14 +163,13 @@ class LoggedIn extends AccessDetermined {
 
   @override
   AccessDetermined withDifferentPackageCondition(
-      String appId, Package package, String packageCondition, bool? value) {
+      String appId, Package package, String packageCondition, bool value) {
     var newAccesses = {...accesses};
     if (newAccesses[appId] != null) {
       var newPackageConditionsAccess = {
         ...newAccesses[appId]!.packageConditionsAccess
       };
-      newPackageConditionsAccess[packageCondition] = PackageCondition(
-          pkg: package, condition: packageCondition, access: value);
+      newPackageConditionsAccess[packageCondition] = value;
       newAccesses[appId] = newAccesses[appId]!
           .copyWith(packageConditionsAccess: newPackageConditionsAccess);
 

@@ -170,7 +170,8 @@ abstract class AccessDetermined extends AccessState {
 */
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
-  AccessDetermined withDifferentPackageCondition(String appId, Package package, String packageCondition, bool? value);
+  AccessDetermined withDifferentPackageCondition(
+      String appId, Package package, String packageCondition, bool value);
 
   Future<AccessDetermined> updateApp(
       AppModel newCurrentApp,

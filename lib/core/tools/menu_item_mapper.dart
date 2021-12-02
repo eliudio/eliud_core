@@ -16,9 +16,6 @@ class MenuItemMapper {
     var itemList = <AbstractMenuItemAttributes>[];
     for (var i = 0; i < menu.menuItems!.length; i++) {
       var item = menu.menuItems![i];
-      if (item.text == 'Assignments') {
-        int i =0;
-      }
       var menuItem = mapMenuItem(context, item, member, currentPage);
       if (menuItem != null) {
         itemList.add(menuItem);

@@ -14,8 +14,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../access_bloc.dart';
-
-class PackageCondition extends Equatable {
+/*
+class PackageConditionX extends Equatable {
   final Package? pkg;
   final String? condition;
   final bool? access;
@@ -33,7 +33,7 @@ class PackageCondition extends Equatable {
               pkg == other.pkg && 
               condition == other.condition &&
               access == other.access;
-}
+}*/
 
 class PagesAndDialogAccesss extends Equatable {
   // Map between page-id and access
@@ -43,7 +43,7 @@ class PagesAndDialogAccesss extends Equatable {
   final Map<String, bool> dialogsAccess;
 
   // Map between packageCondition and access
-  final Map<String, PackageCondition> packageConditionsAccess;
+  final Map<String, bool> packageConditionsAccess;
 
   final PrivilegeLevel? privilegeLevel;
 
@@ -66,51 +66,14 @@ class PagesAndDialogAccesss extends Equatable {
               privilegeLevel == other.privilegeLevel &&
               blocked == other.blocked;
 
-  PagesAndDialogAccesss copyWith({Map<String, bool>? pagesAccess, Map<String, bool>? dialogsAccess, Map<String, PackageCondition>? packageConditionsAccess, PrivilegeLevel? privilegeLevel, bool? blocked, }) {
+  PagesAndDialogAccesss copyWith({Map<String, bool>? pagesAccess, Map<String, bool>? dialogsAccess, Map<String, bool>? packageConditionsAccess, PrivilegeLevel? privilegeLevel, bool? blocked, }) {
     return PagesAndDialogAccesss(pagesAccess ?? this.pagesAccess, dialogsAccess ?? this.dialogsAccess, packageConditionsAccess ?? this.packageConditionsAccess, privilegeLevel ?? this.privilegeLevel, blocked ?? this.blocked);
   }
 
 }
 
-class PackageInfo {
-  final String name;
-  final List<String> conditions;
-
-  PackageInfo(this.name, this.conditions);
-}
-
-class PackageInfo2 {
-  final String packageName;
-  final String packageCondition;
-
-  PackageInfo2(this.packageName, this.packageCondition);
-}
-
 class AccessHelper {
-  static List<PackageInfo2> getAllPackageConditionsAsPackageInfos2() {
-    var packageInfos = <PackageInfo2>[];
-    for (var i = 0; i < Packages.registeredPackages.length; i++) {
-      var package = Packages.registeredPackages[i];
-      var packageConditions = package.retrieveAllPackageConditions();
-      if (packageConditions != null) {
-        for (var j = 0; j < packageConditions.length; j++) {
-          packageInfos.add(PackageInfo2(package.packageName, packageConditions[j]));
-        }
-      }
-    }
-    return packageInfos;
-  }
-
-  static List<PackageInfo> getAllPackageConditionsAsPackageInfos() {
-    var packageInfos = <PackageInfo>[];
-    for (var i = 0; i < Packages.registeredPackages.length; i++) {
-      var package = Packages.registeredPackages[i];
-      var newItems = Packages.registeredPackages[i].retrieveAllPackageConditions() ?? [];
-      packageInfos.add(PackageInfo(package.packageName, newItems));
-    }
-    return packageInfos;
-  }
-
+/*
   static List<String> getAllPackageConditions() {
     var packageConditions = <String>[];
     for (var i = 0; i < Packages.registeredPackages.length; i++) {
@@ -121,8 +84,9 @@ class AccessHelper {
     }
     return packageConditions;
   }
+*/
 
-  static Future<PackageCondition?> _conditionOkForPackage(AccessBloc accessBloc,
+/*  static Future<PackageCondition?> _conditionOkForPackage(AccessBloc accessBloc,
       String packageCondition,
       AppModel app,
       MemberModel? member,
@@ -142,10 +106,10 @@ class AccessHelper {
       }
     }
     return null;
-  }
+  }*/
 
   static bool conditionOk(
-      Map<String, PackageCondition> packagesConditions,
+      Map<String, bool> packagesConditions,
       ConditionsModel conditions,
       PrivilegeLevel privilegedLevel,
       bool isOwner,
@@ -160,7 +124,7 @@ class AccessHelper {
     var packageCondition = conditions.packageCondition;
     if (packageCondition != null) {
       var packageConditionValue = packagesConditions[packageCondition];
-      if ((packageConditionValue != null) && (packageConditionValue.access != null) && (!packageConditionValue.access!)) {
+      if ((packageConditionValue != null) && (!packageConditionValue)) {
         return false;
       }
     }
@@ -254,15 +218,14 @@ class AccessHelper {
     var pagesAccess = <String, bool>{};
     var isOwner = member != null && member.documentID == app.ownerID;
 
-    var packageConditionsAccess = <String, PackageCondition>{};
+    var packageConditionsAccess = <String, bool>{};
     {
-      var packageConditions = getAllPackageConditions();
-      for (var i = 0; i < packageConditions.length; i++) {
-        var packageCondition = packageConditions[i];
-        var value= await _conditionOkForPackage(accessBloc,
-            packageCondition, app, member, isOwner, isBlocked, privilegeLevel);
-        if (value != null) {
-          packageConditionsAccess[packageCondition] = value;
+      for (var pkg in Packages.registeredPackages) {
+        var packageConditionDetails = await pkg.getAndSubscribe(accessBloc, app, member, isOwner, isBlocked, privilegeLevel);
+        if (packageConditionDetails != null) {
+          for (var packageConditionDetail in packageConditionDetails) {
+            packageConditionsAccess[packageConditionDetail.conditionName] = packageConditionDetail.value;
+          }
         }
       }
     }
