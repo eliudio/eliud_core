@@ -160,25 +160,24 @@ class LoggedOut extends AccessDetermined {
   }
 
   @override
-  AccessDetermined withDifferentPackageCondition(
-      String appId, Package package, String packageCondition, bool value) {
-    var newAccesses = {...accesses};
-    if (newAccesses[appId] != null) {
-      var newPackageConditionsAccess = {
-        ...newAccesses[appId]!.packageConditionsAccess
-      };
-      newPackageConditionsAccess[packageCondition] = value;
-      newAccesses[appId] = newAccesses[appId]!
-          .copyWith(packageConditionsAccess: newPackageConditionsAccess);
+  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses) {
+    return LoggedOut._(
+      apps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+    );
+  }
 
-      return LoggedOut._(
-        apps,
-        newAccesses,
-        playstoreApp: playstoreApp,
-        isProcessing: true,
-      );
-    } else {
-      return this;
-    }
+  @override
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
+    accesses.removeWhere((key, value) => key == newApp.documentID);
+    var newAccesses = await AccessHelper.extendAccesses(accessBloc,
+        null, accesses, newApp, false);
+    return Future.value(LoggedOut._(
+      apps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 }

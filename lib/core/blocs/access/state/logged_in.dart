@@ -162,31 +162,16 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  AccessDetermined withDifferentPackageCondition(
-      String appId, Package package, String packageCondition, bool value) {
-    var newAccesses = {...accesses};
-    if (newAccesses[appId] != null) {
-      var newPackageConditionsAccess = {
-        ...newAccesses[appId]!.packageConditionsAccess
-      };
-      newPackageConditionsAccess[packageCondition] = value;
-      newAccesses[appId] = newAccesses[appId]!
-          .copyWith(packageConditionsAccess: newPackageConditionsAccess);
-
-
-
-      return LoggedIn._(
-        usr,
-        member,
-        postLoginAction,
-        apps,
-        newAccesses,
-        playstoreApp: playstoreApp,
-        isProcessing: false,
-      );
-    } else {
-      return this;
-    }
+  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses) {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      apps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+    );
   }
 
 /*
@@ -311,5 +296,24 @@ class LoggedIn extends AccessDetermined {
           alternativePageId: app.homePages!.homePagePublic);
     }
     return AccessDetermined.getPage(appId, app.homePages!.homePagePublic);
+  }
+
+  @override
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
+    var newAccesses = await AccessHelper.extendAccesses(
+        accessBloc, member, accesses, newApp, true);
+    var newApps = apps.map((v) => v).toList();
+    newApps.removeWhere((element) => element.app.documentID == newApp.documentID);
+
+    var homePage = await getHomepage(newApp, blocked, privilege);
+    newApps.add(DeterminedApp(newApp, homePage));
+    return Future.value(LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      newApps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 }

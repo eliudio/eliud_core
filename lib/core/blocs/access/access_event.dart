@@ -103,23 +103,23 @@ class AcceptedMembershipEvent extends AccessEvent {
           runtimeType == other.runtimeType;
 }
 
-// when current member is owner he can send this event to allow to change his privilege to a lower
-class ChangePrivilegeEvent extends AccessEvent {
+class PrivilegeChangedEvent extends AccessEvent {
+  final AppModel app;
   final PrivilegeLevel privilege;
   final bool blocked;
 
-  ChangePrivilegeEvent(this.privilege, this.blocked);
+  PrivilegeChangedEvent(this.app, this.privilege, this.blocked);
 
   @override
   List<Object?> get props => [privilege, blocked];
 
   @override
-  bool operator ==(Object other) =>
+  bool operator == (Object other) =>
       identical(this, other) ||
-      other is ChangePrivilegeEvent &&
-          privilege == other.privilege &&
-          blocked == other.blocked &&
-          runtimeType == other.runtimeType;
+          other is PrivilegeChangedEvent &&
+              privilege == other.privilege &&
+              blocked == other.blocked &&
+              runtimeType == other.runtimeType;
 }
 
 class UpdatePackageConditionEvent extends AccessEvent {

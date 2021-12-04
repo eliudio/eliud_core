@@ -170,8 +170,25 @@ abstract class AccessDetermined extends AccessState {
 */
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
+  @override
   AccessDetermined withDifferentPackageCondition(
-      String appId, Package package, String packageCondition, bool value);
+      String appId, Package package, String packageCondition, bool value) {
+    var newAccesses = {...accesses};
+    if (newAccesses[appId] != null) {
+      var newPackageConditionsAccess = {
+        ...newAccesses[appId]!.packageConditionsAccess
+      };
+      newPackageConditionsAccess[packageCondition] = value;
+      newAccesses[appId] = newAccesses[appId]!
+          .copyWith(packageConditionsAccess: newPackageConditionsAccess);
+
+      return withNewAccesses(newAccesses);
+    } else {
+      return this;
+    }
+  }
+  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses);
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel app, PrivilegeLevel privilege, bool blocked);
 
   Future<AccessDetermined> updateApp(
       AppModel newCurrentApp,
