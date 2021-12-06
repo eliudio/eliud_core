@@ -308,8 +308,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static AccessState getState(BuildContext context) {
-    var state = BlocProvider.of<AccessBloc>(context).state;
-    return state;
+    var accessBloc = BlocProvider.of<AccessBloc>(context);
+    if (accessBloc == null) {
+      throw Exception("AccessBloc not available");
+    } else {
+      var state = accessBloc.state;
+      return state;
+      }
   }
 
   Future<AppModel> _fetchApp(String id) async {
