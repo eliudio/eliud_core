@@ -4,7 +4,8 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/conditions_simple_model.dart';
+import 'package:eliud_core/model/storage_conditions_model.dart';
+import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
@@ -132,71 +133,65 @@ class Registry {
     var initialRoute =
         initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
 
+    var accessBloc = AccessBloc(navigatorKey)..add(AccessInitEvent(app, asPlaystore ? app : null));
     return BlocProvider<AccessBloc>(
-        create: (context) => AccessBloc(navigatorKey)
-          ..add(AccessInitEvent(app, asPlaystore ? app : null)),
-        child: MaterialApp(
-          key: _appKey,
-          debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: rootScaffoldMessengerKey,
-          initialRoute: initialRoute,
-          onGenerateRoute: eliudrouter.Router.generateRoute,
-          onUnknownRoute: (RouteSettings setting) {
-            return pageRouteBuilderWithAppId(appId,
-                page: AlertWidget(title: 'Error', content: 'Page not found'));
-          },
-          title: 'No title',
-        ));
-
-/*
-    return BlocProvider<AccessBloc>(
-        create: (context) => AccessBloc(navigatorKey)..add(AccessInit(app)),
-        child: BlocListener<AccessBloc, AccessState>(
-            listener: (BuildContext context, AccessState accessState) {
-          if (accessState is AccessDetermined) {
-            var currentContext = accessState.currentContext;
-            if (currentContext is PageContext) {
-              navigatorKey.currentState!.pushNamed(eliudrouter.Router.pageRoute,
-                  arguments: eliudrouter.Arguments(
-                      appId + '/' + currentContext.page.documentID!,
-                      currentContext.parameters));
-            } else if (currentContext is DialogContext) {
-              openDialog(context,
-                  id: currentContext.dialog.documentID!,
-                  parameters: currentContext.parameters);
-            }
-          }
-        }, child: BlocBuilder<AccessBloc, AccessState>(
+        create: (context) => accessBloc,
+        child: BlocBuilder<AccessBloc, AccessState>(
                 builder: (context, accessState) {
           if (accessState is AccessDetermined) {
-            return Decorations.instance().createDecoratedApp(
-                context,
-                _appKey,
-                () => StyleRegistry.registry()
-                    .styleWithContext(context)
-                    .frontEndStyle()
-                    .appStyle()
-                    .app(
-                      key: _appKey,
-                      navigatorKey: navigatorKey,
-                      scaffoldMessengerKey: rootScaffoldMessengerKey,
-                      initialRoute: initialRoute,
-                      onGenerateRoute: eliudrouter.Router.generateRoute,
-                      onUnknownRoute: (RouteSettings setting) {
-                        return pageRouteBuilderWithAppId(appId,
-                            page: AlertWidget(
-                                title: 'Error', content: 'Page not found'));
-                      },
-                      title: app.title ?? 'No title',
-                    ),
-                app)();
+
+            AppModel currentApp;
+            var modalRoute = ModalRoute.of(context);
+            if (modalRoute == null) {
+              currentApp = app;
+            } else {
+              currentApp = accessState.currentApp(context);
+            }
+
+            var packageBlocProviders = <BlocProvider>[];
+            Packages.registeredPackages.forEach((element) {
+              var provider = element.createPackageAppBloc(currentApp.documentID!, accessBloc);
+              if (provider != null) {
+                packageBlocProviders.add(provider);
+              }
+            });
+
+            if (packageBlocProviders.isNotEmpty) {
+              return MultiBlocProvider(
+                  providers: packageBlocProviders,
+                  child: _createApp(context, accessState, currentApp, initialRoute));
+            } else {
+              return _createApp(context, accessState, currentApp, initialRoute);
+            }
           } else {
             return Center(child: CircularProgressIndicator());
           }
-        })));
-*/
+        }));
   }
+
+  Widget _createApp(BuildContext context, AccessDetermined accessState, AppModel app, String initialRoute, ) => Decorations.instance().createDecoratedApp(
+        context,
+        _appKey,
+            () {
+          return StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .appStyle()
+              .app(
+            key: _appKey,
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            initialRoute: initialRoute,
+            onGenerateRoute: eliudrouter.Router.generateRoute,
+            onUnknownRoute: (RouteSettings setting) {
+              return pageRouteBuilderWithAppId(app.documentID!,
+                  page: AlertWidget(
+                      title: 'Error', content: 'Page not found'));
+            },
+            title: app.title ?? 'No title',
+          );
+        },
+        app)();
 
   Widget component(BuildContext context,
       /*AccessDetermined accessDetermined, */ String componentName, String id,

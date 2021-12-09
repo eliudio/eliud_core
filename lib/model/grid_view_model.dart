@@ -89,13 +89,13 @@ class GridViewModel {
   double? padding;
   double? mainAxisSpacing;
   double? crossAxisSpacing;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   GridViewModel({this.documentID, this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
     assert(documentID != null);
   }
 
-  GridViewModel copyWith({String? documentID, String? appId, String? name, GridViewScrollDirection? scrollDirection, GridViewGridType? type, int? crossAxisCount, MaxCrossAxisExtentType? maxCrossAxisExtentType, double? absoluteMaxCrossAxisExtent, double? relativeMaxCrossAxisExtent, double? childAspectRatio, double? padding, double? mainAxisSpacing, double? crossAxisSpacing, ConditionsSimpleModel? conditions, }) {
+  GridViewModel copyWith({String? documentID, String? appId, String? name, GridViewScrollDirection? scrollDirection, GridViewGridType? type, int? crossAxisCount, MaxCrossAxisExtentType? maxCrossAxisExtentType, double? absoluteMaxCrossAxisExtent, double? relativeMaxCrossAxisExtent, double? childAspectRatio, double? padding, double? mainAxisSpacing, double? crossAxisSpacing, StorageConditionsModel? conditions, }) {
     return GridViewModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, scrollDirection: scrollDirection ?? this.scrollDirection, type: type ?? this.type, crossAxisCount: crossAxisCount ?? this.crossAxisCount, maxCrossAxisExtentType: maxCrossAxisExtentType ?? this.maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: absoluteMaxCrossAxisExtent ?? this.absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: relativeMaxCrossAxisExtent ?? this.relativeMaxCrossAxisExtent, childAspectRatio: childAspectRatio ?? this.childAspectRatio, padding: padding ?? this.padding, mainAxisSpacing: mainAxisSpacing ?? this.mainAxisSpacing, crossAxisSpacing: crossAxisSpacing ?? this.crossAxisSpacing, conditions: conditions ?? this.conditions, );
   }
 
@@ -163,7 +163,7 @@ class GridViewModel {
           mainAxisSpacing: entity.mainAxisSpacing, 
           crossAxisSpacing: entity.crossAxisSpacing, 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -186,7 +186,7 @@ class GridViewModel {
           mainAxisSpacing: entity.mainAxisSpacing, 
           crossAxisSpacing: entity.crossAxisSpacing, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

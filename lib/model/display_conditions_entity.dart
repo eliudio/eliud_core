@@ -7,7 +7,7 @@
   \___|_|_|\__,_|\__,_|
                        
  
- conditions_simple_entity.dart
+ display_conditions_entity.dart
                        
  This code is generated. This is read only. Don't touch!
 
@@ -21,25 +21,29 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
-class ConditionsSimpleEntity {
+class DisplayConditionsEntity {
   final int? privilegeLevelRequired;
+  final String? packageCondition;
+  final int? conditionOverride;
 
-  ConditionsSimpleEntity({this.privilegeLevelRequired, });
+  DisplayConditionsEntity({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, });
 
 
-  List<Object?> get props => [privilegeLevelRequired, ];
+  List<Object?> get props => [privilegeLevelRequired, packageCondition, conditionOverride, ];
 
   @override
   String toString() {
-    return 'ConditionsSimpleEntity{privilegeLevelRequired: $privilegeLevelRequired}';
+    return 'DisplayConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  static ConditionsSimpleEntity? fromMap(Object? o) {
+  static DisplayConditionsEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    return ConditionsSimpleEntity(
+    return DisplayConditionsEntity(
       privilegeLevelRequired: map['privilegeLevelRequired'], 
+      packageCondition: map['packageCondition'], 
+      conditionOverride: map['conditionOverride'], 
     );
   }
 
@@ -47,10 +51,14 @@ class ConditionsSimpleEntity {
     Map<String, Object?> theDocument = HashMap();
     if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
       else theDocument["privilegeLevelRequired"] = null;
+    if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
+      else theDocument["packageCondition"] = null;
+    if (conditionOverride != null) theDocument["conditionOverride"] = conditionOverride;
+      else theDocument["conditionOverride"] = null;
     return theDocument;
   }
 
-  static ConditionsSimpleEntity? fromJsonString(String json) {
+  static DisplayConditionsEntity? fromJsonString(String json) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap);
   }

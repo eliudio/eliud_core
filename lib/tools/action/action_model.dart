@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/model/conditions_model.dart';
+import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -43,12 +43,9 @@ class ActionModelRegistry {
 abstract class ActionModel {
   final String appID;
 
-  // Action only accessible conditionally. Be careful: access conditions can also be specified on the level of the page / dialog.
-  // So if an action is "goto page X", then the condition of the page X applies. The lowest condition applies
-
-  // Also important to note that data access is not limited through limiting the access on the level of the action:
-  // if you want to protect your data from being accessed, then you must specify these conditions on the level of the page, dialog, component, ...
-  ConditionsModel? conditions;
+  // Action only accessible conditionally.
+  // Be careful: the underlying page / dialog can also have StorageConditions, which also apply
+  DisplayConditionsModel? conditions;
   final String? actionType;
 
   ActionModel(this.appID, {this.conditions, this.actionType} );
@@ -104,7 +101,7 @@ abstract class ActionModelMapper {
 class FunctionToRun extends ActionModel {
   final Function() actionToRun;
 
-  FunctionToRun(String appID, {ConditionsModel? conditions, required this.actionToRun}) :
+  FunctionToRun(String appID, {DisplayConditionsModel? conditions, required this.actionToRun}) :
         super(appID, conditions: conditions, actionType: 'FunctionToRun');
 
   @override
@@ -124,7 +121,7 @@ class FunctionToRun extends ActionModel {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(String appID, {ConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
+  GotoPage(String appID, {DisplayConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
         super(appID, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
@@ -141,7 +138,7 @@ class GotoPage extends ActionModel {
     if (entity.pageID == null) throw Exception('entity GotoPage.pageID is null');
     return GotoPage(
         entity.appID!,
-        conditions: ConditionsModel.fromEntity(entity.conditions),
+        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
         pageID: entity.pageID!
     );
   }
@@ -175,7 +172,7 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(String appID, { ConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
+  OpenDialog(String appID, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -191,7 +188,7 @@ class OpenDialog extends ActionModel {
     if (entity.dialogID == null) throw Exception('entity OpenDialog.dialogID is null');
     return OpenDialog(
         entity.appID!,
-        conditions: ConditionsModel.fromEntity(entity.conditions),
+        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
         dialogID: entity.dialogID!);
   }
 
@@ -224,7 +221,7 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(String appID, { ConditionsModel? conditions, required this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
+  SwitchApp(String appID, { DisplayConditionsModel? conditions, required this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -240,7 +237,7 @@ class SwitchApp extends ActionModel {
     if (entity.toAppID == null) throw Exception('entity SwitchApp.toAppID is null');
     return SwitchApp(
         entity.appID!,
-        conditions: ConditionsModel.fromEntity(entity.conditions),
+        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
         toAppID: entity.toAppID!);
   }
 
@@ -275,7 +272,7 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel? menuDef;
 
-  PopupMenu(String appID, { ConditionsModel? conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
+  PopupMenu(String appID, { DisplayConditionsModel? conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -290,7 +287,7 @@ class PopupMenu extends ActionModel {
     if (entity.appID == null) throw Exception('entity PopupMenu.appID is null');
     return PopupMenu(
       entity.appID!,
-      conditions: ConditionsModel.fromEntity(entity.conditions),
+      conditions: DisplayConditionsModel.fromEntity(entity.conditions),
     );
   }
 
@@ -308,7 +305,7 @@ class PopupMenu extends ActionModel {
 
     return PopupMenu(
         entity.appID!,
-        conditions: ConditionsModel.fromEntity(entity.conditions),
+        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
         menuDef: menuDefModel
     );
   }
@@ -346,7 +343,7 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum? internalActionEnum ;
 
-  InternalAction(String appID, { ConditionsModel? conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
+  InternalAction(String appID, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -366,7 +363,7 @@ class InternalAction extends ActionModel {
     return
       InternalAction(
           entity.appID!,
-          conditions: ConditionsModel.fromEntity(entity.conditions),
+          conditions: DisplayConditionsModel.fromEntity(entity.conditions),
           internalActionEnum: InternalActionEnum.Unknown
       );
   }

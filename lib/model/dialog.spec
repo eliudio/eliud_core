@@ -80,7 +80,7 @@
     {
       "fieldName": "conditions",
       "displayName": "Conditions",
-      "fieldType": "Conditions",
+      "fieldType": "StorageConditions",
       "group": "conditional"
     }
   ],

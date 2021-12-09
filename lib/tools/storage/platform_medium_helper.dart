@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/conditions_simple_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
+import 'package:eliud_core/model/storage_conditions_model.dart';
 
 import 'medium_base.dart';
 import 'medium_helper.dart';
@@ -61,7 +61,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
       conditions:
-          ConditionsSimpleModel(privilegeLevelRequired: privilegeLevelRequired),
+          StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
       mediumType: PlatformMediumType.Photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
@@ -95,8 +95,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      conditions:
-          ConditionsSimpleModel(privilegeLevelRequired: privilegeLevelRequired),
+      conditions: StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
       mediumType: PlatformMediumType.Video,
       urlThumbnail: fileInfoThumbnail.url,
       /*
@@ -127,7 +126,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         ref: pageImage == null ? null : pageImage.ref,
         refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
         urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
-        conditions: ConditionsSimpleModel(
+        conditions: StorageConditionsModel(
             privilegeLevelRequired: privilegeLevelRequired),
         mediumType: platformMediumType(type),
         mediumWidth: pageData.photoData.width,

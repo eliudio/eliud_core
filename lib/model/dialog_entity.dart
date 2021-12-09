@@ -29,7 +29,7 @@ class DialogEntity {
   final int? layout;
   final bool? includeHeading;
   final String? gridViewId;
-  final ConditionsEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
@@ -58,7 +58,7 @@ class DialogEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return DialogEntity(
       appId: map['appId'], 

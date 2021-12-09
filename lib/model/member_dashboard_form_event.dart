@@ -168,7 +168,7 @@ class ChangedMemberDashboardDeleteDataEmailMessage extends MemberDashboardFormEv
 }
 
 class ChangedMemberDashboardConditions extends MemberDashboardFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedMemberDashboardConditions({this.value});
 

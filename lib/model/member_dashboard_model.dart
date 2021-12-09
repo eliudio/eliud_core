@@ -59,13 +59,13 @@ class MemberDashboardModel {
 
   // This is the message of the email informing the member that his account and all of his data has been destroyed (after requesting it)
   String? deleteDataEmailMessage;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
 
   MemberDashboardModel({this.documentID, this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
     assert(documentID != null);
   }
 
-  MemberDashboardModel copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, ConditionsSimpleModel? conditions, }) {
+  MemberDashboardModel copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, StorageConditionsModel? conditions, }) {
     return MemberDashboardModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, updateProfileText: updateProfileText ?? this.updateProfileText, retrieveDataText: retrieveDataText ?? this.retrieveDataText, deleteDataText: deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject: retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject: deleteDataEmailSubject ?? this.deleteDataEmailSubject, deleteDataEmailMessage: deleteDataEmailMessage ?? this.deleteDataEmailMessage, conditions: conditions ?? this.conditions, );
   }
 
@@ -121,7 +121,7 @@ class MemberDashboardModel {
           deleteDataEmailSubject: entity.deleteDataEmailSubject, 
           deleteDataEmailMessage: entity.deleteDataEmailMessage, 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -140,7 +140,7 @@ class MemberDashboardModel {
           deleteDataEmailSubject: entity.deleteDataEmailSubject, 
           deleteDataEmailMessage: entity.deleteDataEmailMessage, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

@@ -29,7 +29,7 @@ class PlatformMediumEntity {
   final String? ref;
   final String? urlThumbnail;
   final String? refThumbnail;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
   final int? mediumType;
   final int? mediumWidth;
   final int? mediumHeight;
@@ -54,7 +54,7 @@ class PlatformMediumEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return PlatformMediumEntity(
       appId: map['appId'], 

@@ -37,6 +37,12 @@ abstract class Package extends Equatable {
   Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 
   /*
+   * Plugins can create a bloc on the highest level by implementing this method.
+   * Example implementation: return BlocProvider<CartBloc>(create: (context) => CartBloc(appId, accessBloc));
+   */
+  BlocProvider? createPackageAppBloc(String appId, AccessBloc accessBloc) => null;
+
+    /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.
    * The plugin should respond:
    *

@@ -31,7 +31,7 @@ class MemberDashboardEntity {
   final String? retrieveDataEmailSubject;
   final String? deleteDataEmailSubject;
   final String? deleteDataEmailMessage;
-  final ConditionsSimpleEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
 
@@ -50,7 +50,7 @@ class MemberDashboardEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsSimpleEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return MemberDashboardEntity(
       appId: map['appId'], 

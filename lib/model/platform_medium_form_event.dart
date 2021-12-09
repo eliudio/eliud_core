@@ -152,7 +152,7 @@ class ChangedPlatformMediumRefThumbnail extends PlatformMediumFormEvent {
 }
 
 class ChangedPlatformMediumConditions extends PlatformMediumFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedPlatformMediumConditions({this.value});
 

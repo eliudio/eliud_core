@@ -152,7 +152,7 @@ class ChangedDialogGridView extends DialogFormEvent {
 }
 
 class ChangedDialogConditions extends DialogFormEvent {
-  final ConditionsModel? value;
+  final StorageConditionsModel? value;
 
   ChangedDialogConditions({this.value});
 

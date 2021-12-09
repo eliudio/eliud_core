@@ -1,5 +1,5 @@
 {
-  "id": "ConditionsSimple",
+  "id": "StorageConditions",
   "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {

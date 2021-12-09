@@ -1,11 +1,11 @@
-import 'package:eliud_core/model/conditions_entity.dart';
+import 'package:eliud_core/model/display_conditions_entity.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 
 abstract class ActionEntity {
   final String? appID;
   final String? actionType;
 
-  final ConditionsEntity? conditions;
+  final DisplayConditionsEntity? conditions;
 /*
   final int readCondition;
   final int privilegeLevelRequired;
@@ -41,7 +41,7 @@ class GotoPageEntity extends ActionEntity {
   static const String label = 'GotoPage';
   final String? pageID;
 
-  const GotoPageEntity(String? appID, {ConditionsEntity? conditions, this.pageID }) : super(appID, conditions: conditions, actionType : label);
+  const GotoPageEntity(String? appID, {DisplayConditionsEntity? conditions, this.pageID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -56,7 +56,7 @@ class GotoPageEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return GotoPageEntity(
       snap['appID'],
-      conditions: ConditionsEntity.fromMap(snap['conditions']),
+      conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
       pageID: snap['pageID'],
     );
   }
@@ -66,7 +66,7 @@ class OpenDialogEntity extends ActionEntity {
   static const String label = 'Dialog';
   final String? dialogID;
 
-  const OpenDialogEntity(String? appID, { ConditionsEntity? conditions, this.dialogID }) : super(appID, conditions: conditions, actionType : label);
+  const OpenDialogEntity(String? appID, { DisplayConditionsEntity? conditions, this.dialogID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -81,7 +81,7 @@ class OpenDialogEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return OpenDialogEntity(
         snap['appID'],
-        conditions: ConditionsEntity.fromMap(snap['conditions']),
+        conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         dialogID: snap['dialogID']
     );
   }
@@ -91,7 +91,7 @@ class SwitchAppEntity extends ActionEntity {
   static const String label = 'SwitchApp';
   final String? toAppID;
 
-  const SwitchAppEntity(String? appID, { ConditionsEntity? conditions, this.toAppID }) : super(appID, conditions: conditions, actionType : label);
+  const SwitchAppEntity(String? appID, { DisplayConditionsEntity? conditions, this.toAppID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -106,7 +106,7 @@ class SwitchAppEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return SwitchAppEntity(
         snap['appID'],
-        conditions: ConditionsEntity.fromMap(snap['conditions']),
+        conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         toAppID: snap['toAppID']
     );
   }
@@ -116,7 +116,7 @@ class PopupMenuEntity extends ActionEntity {
   static const String label = 'PopupMenu';
   final String? menuDefID;
 
-  const PopupMenuEntity(String? appID, { ConditionsEntity? conditions, this.menuDefID }) : super(appID, conditions: conditions, actionType : label);
+  const PopupMenuEntity(String? appID, { DisplayConditionsEntity? conditions, this.menuDefID }) : super(appID, conditions: conditions, actionType : label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -131,7 +131,7 @@ class PopupMenuEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return PopupMenuEntity(
         snap['appID'],
-        conditions: ConditionsEntity.fromMap(snap['conditions']),
+        conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         menuDefID: snap['menuDefID']
     );
   }
@@ -141,7 +141,7 @@ class InternalActionEntity extends ActionEntity {
   static const String label = 'InternalAction';
   final String? action;
 
-  const InternalActionEntity(String? appID, { ConditionsEntity? conditions, this.action }) : super(appID, conditions: conditions, actionType: label);
+  const InternalActionEntity(String? appID, { DisplayConditionsEntity? conditions, this.action }) : super(appID, conditions: conditions, actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -156,7 +156,7 @@ class InternalActionEntity extends ActionEntity {
   static ActionEntity fromMap(Map snap) {
     return InternalActionEntity(
         snap['appID'],
-        conditions: ConditionsEntity.fromMap(snap['conditions']),
+        conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         action: snap['action']
     );
   }

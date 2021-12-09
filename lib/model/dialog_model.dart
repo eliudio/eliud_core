@@ -56,13 +56,13 @@ class DialogModel {
 
   // Specific gridview
   GridViewModel? gridView;
-  ConditionsModel? conditions;
+  StorageConditionsModel? conditions;
 
   DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, bool? includeHeading, GridViewModel? gridView, ConditionsModel? conditions, }) {
+  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, bool? includeHeading, GridViewModel? gridView, StorageConditionsModel? conditions, }) {
     return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, includeHeading: includeHeading ?? this.includeHeading, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
@@ -124,7 +124,7 @@ class DialogModel {
           layout: toDialogLayout(entity.layout), 
           includeHeading: entity.includeHeading, 
           conditions: 
-            ConditionsModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -169,7 +169,7 @@ class DialogModel {
           includeHeading: entity.includeHeading, 
           gridView: gridViewHolder, 
           conditions: 
-            await ConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

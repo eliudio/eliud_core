@@ -1,5 +1,5 @@
 {
-  "id": "Conditions",
+  "id": "DisplayConditions",
   "packageName": "eliud_core",
   "isAppModel": true,
   "generate": {

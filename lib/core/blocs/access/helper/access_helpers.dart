@@ -3,8 +3,8 @@ import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/conditions_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
+import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
@@ -108,9 +108,9 @@ class AccessHelper {
     return null;
   }*/
 
-  static bool conditionOk(
+  static bool displayConditionOk(
       Map<String, bool> packagesConditions,
-      ConditionsModel conditions,
+      DisplayConditionsModel conditions,
       PrivilegeLevel privilegedLevel,
       bool isOwner,
       bool? isBlocked,
@@ -244,8 +244,7 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var page = theList[i]!;
-        pagesAccess[page.documentID!] = conditionOk(packageConditionsAccess,
-            page.conditions!, privilegeLevel, isOwner, isBlocked, isLoggedIn);
+        pagesAccess[page.documentID!] = true;
       }
     }
     var dialogsAccess = <String, bool>{};
@@ -263,8 +262,7 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var dialog = theList[i]!;
-        dialogsAccess[dialog.documentID!] = conditionOk(packageConditionsAccess,
-            dialog.conditions!, privilegeLevel, isOwner, isBlocked, isLoggedIn);
+        dialogsAccess[dialog.documentID!] = true;
       }
     }
 

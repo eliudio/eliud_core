@@ -61,13 +61,13 @@ class PageModel {
 
   // Specific gridview
   GridViewModel? gridView;
-  ConditionsModel? conditions;
+  StorageConditionsModel? conditions;
 
   PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  PageModel copyWith({String? documentID, String? appId, String? title, AppBarModel? appBar, DrawerModel? drawer, DrawerModel? endDrawer, HomeMenuModel? homeMenu, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, PageLayout? layout, GridViewModel? gridView, ConditionsModel? conditions, }) {
+  PageModel copyWith({String? documentID, String? appId, String? title, AppBarModel? appBar, DrawerModel? drawer, DrawerModel? endDrawer, HomeMenuModel? homeMenu, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, PageLayout? layout, GridViewModel? gridView, StorageConditionsModel? conditions, }) {
     return PageModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, appBar: appBar ?? this.appBar, drawer: drawer ?? this.drawer, endDrawer: endDrawer ?? this.endDrawer, homeMenu: homeMenu ?? this.homeMenu, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
@@ -134,7 +134,7 @@ class PageModel {
             .toList(), 
           layout: toPageLayout(entity.layout), 
           conditions: 
-            ConditionsModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -226,7 +226,7 @@ class PageModel {
           layout: toPageLayout(entity.layout), 
           gridView: gridViewHolder, 
           conditions: 
-            await ConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

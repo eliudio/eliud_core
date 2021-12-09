@@ -57,10 +57,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-apps", componentName: "eliud_core_internalWidgets", componentId: "apps"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_apps_page",
@@ -81,10 +79,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-appBars", componentName: "eliud_core_internalWidgets", componentId: "appBars"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_appbars_page",
@@ -105,10 +101,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-appPolicys", componentName: "eliud_core_internalWidgets", componentId: "appPolicys"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_apppolicys_page",
@@ -129,10 +123,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-backgrounds", componentName: "eliud_core_internalWidgets", componentId: "backgrounds"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_backgrounds_page",
@@ -153,10 +145,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-countrys", componentName: "eliud_core_internalWidgets", componentId: "countrys"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_countrys_page",
@@ -177,10 +167,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-dialogs", componentName: "eliud_core_internalWidgets", componentId: "dialogs"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_dialogs_page",
@@ -201,10 +189,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-drawers", componentName: "eliud_core_internalWidgets", componentId: "drawers"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_drawers_page",
@@ -225,10 +211,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-fonts", componentName: "eliud_core_internalWidgets", componentId: "fonts"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_fonts_page",
@@ -249,10 +233,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-gridViews", componentName: "eliud_core_internalWidgets", componentId: "gridViews"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_gridviews_page",
@@ -273,10 +255,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-homeMenus", componentName: "eliud_core_internalWidgets", componentId: "homeMenus"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_homemenus_page",
@@ -297,10 +277,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-members", componentName: "eliud_core_internalWidgets", componentId: "members"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_members_page",
@@ -321,10 +299,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-memberDashboards", componentName: "eliud_core_internalWidgets", componentId: "memberDashboards"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_memberdashboards_page",
@@ -345,10 +321,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-memberPublicInfos", componentName: "eliud_core_internalWidgets", componentId: "memberPublicInfos"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_memberpublicinfos_page",
@@ -369,10 +343,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-menuDefs", componentName: "eliud_core_internalWidgets", componentId: "menuDefs"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_menudefs_page",
@@ -393,10 +365,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-pages", componentName: "eliud_core_internalWidgets", componentId: "pages"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_pages_page",
@@ -417,10 +387,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-platformMediums", componentName: "eliud_core_internalWidgets", componentId: "platformMediums"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_platformmediums_page",
@@ -441,10 +409,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-posSizes", componentName: "eliud_core_internalWidgets", componentId: "posSizes"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_possizes_page",
@@ -465,10 +431,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-publicMediums", componentName: "eliud_core_internalWidgets", componentId: "publicMediums"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_publicmediums_page",
@@ -489,10 +453,8 @@ class AdminApp extends AdminAppInstallerBase {
     components.add(BodyComponentModel(
       documentID: "internalWidget-shadows", componentName: "eliud_core_internalWidgets", componentId: "shadows"));
     PageModel page = PageModel(
-        conditions: ConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequired.OwnerPrivilegeRequired,
-          packageCondition: null,
-          conditionOverride: null,
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
         ),
         appId: appId,
         documentID: "eliud_core_shadows_page",

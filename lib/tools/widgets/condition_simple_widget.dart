@@ -1,10 +1,10 @@
-import 'package:eliud_core/model/conditions_simple_model.dart';
+import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ConditionsSimpleWidget extends StatefulWidget {
-  final ConditionsSimpleModel value;
+  final StorageConditionsModel value;
   final bool? readOnly;
 
   ConditionsSimpleWidget({

@@ -32,7 +32,7 @@ class PageEntity {
   final String? backgroundOverrideId;
   final int? layout;
   final String? gridViewId;
-  final ConditionsEntity? conditions;
+  final StorageConditionsEntity? conditions;
 
   PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.conditions, });
 
@@ -61,7 +61,7 @@ class PageEntity {
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = ConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
 
     return PageEntity(
       appId: map['appId'], 

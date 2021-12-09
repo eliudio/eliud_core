@@ -7,7 +7,7 @@
   \___|_|_|\__,_|\__,_|
                        
  
- conditions_simple_model.dart
+ storage_conditions_model.dart
                        
  This code is generated. This is read only. Don't touch!
 
@@ -25,7 +25,7 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
-import 'package:eliud_core/model/conditions_simple_entity.dart';
+import 'package:eliud_core/model/storage_conditions_entity.dart';
 
 import 'package:eliud_core/tools/random.dart';
 
@@ -45,16 +45,16 @@ PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int? index) {
 }
 
 
-class ConditionsSimpleModel {
+class StorageConditionsModel {
 
   // see firestore rules
   PrivilegeLevelRequiredSimple? privilegeLevelRequired;
 
-  ConditionsSimpleModel({this.privilegeLevelRequired, })  {
+  StorageConditionsModel({this.privilegeLevelRequired, })  {
   }
 
-  ConditionsSimpleModel copyWith({PrivilegeLevelRequiredSimple? privilegeLevelRequired, }) {
-    return ConditionsSimpleModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, );
+  StorageConditionsModel copyWith({PrivilegeLevelRequiredSimple? privilegeLevelRequired, }) {
+    return StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, );
   }
 
   @override
@@ -63,34 +63,34 @@ class ConditionsSimpleModel {
   @override
   bool operator ==(Object other) =>
           identical(this, other) ||
-          other is ConditionsSimpleModel &&
+          other is StorageConditionsModel &&
           runtimeType == other.runtimeType && 
           privilegeLevelRequired == other.privilegeLevelRequired;
 
   @override
   String toString() {
-    return 'ConditionsSimpleModel{privilegeLevelRequired: $privilegeLevelRequired}';
+    return 'StorageConditionsModel{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  ConditionsSimpleEntity toEntity({String? appId}) {
-    return ConditionsSimpleEntity(
+  StorageConditionsEntity toEntity({String? appId}) {
+    return StorageConditionsEntity(
           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
     );
   }
 
-  static ConditionsSimpleModel? fromEntity(ConditionsSimpleEntity? entity) {
+  static StorageConditionsModel? fromEntity(StorageConditionsEntity? entity) {
     if (entity == null) return null;
     var counter = 0;
-    return ConditionsSimpleModel(
+    return StorageConditionsModel(
           privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
     );
   }
 
-  static Future<ConditionsSimpleModel?> fromEntityPlus(ConditionsSimpleEntity? entity, { String? appId}) async {
+  static Future<StorageConditionsModel?> fromEntityPlus(StorageConditionsEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     var counter = 0;
-    return ConditionsSimpleModel(
+    return StorageConditionsModel(
           privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
     );
   }

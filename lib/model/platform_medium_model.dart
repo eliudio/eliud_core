@@ -53,7 +53,7 @@ class PlatformMediumModel {
   String? ref;
   String? urlThumbnail;
   String? refThumbnail;
-  ConditionsSimpleModel? conditions;
+  StorageConditionsModel? conditions;
   PlatformMediumType? mediumType;
   int? mediumWidth;
   int? mediumHeight;
@@ -67,7 +67,7 @@ class PlatformMediumModel {
     assert(documentID != null);
   }
 
-  PlatformMediumModel copyWith({String? documentID, String? appId, String? authorId, String? baseName, String? url, String? ref, String? urlThumbnail, String? refThumbnail, ConditionsSimpleModel? conditions, PlatformMediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
+  PlatformMediumModel copyWith({String? documentID, String? appId, String? authorId, String? baseName, String? url, String? ref, String? urlThumbnail, String? refThumbnail, StorageConditionsModel? conditions, PlatformMediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
     return PlatformMediumModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, authorId: authorId ?? this.authorId, baseName: baseName ?? this.baseName, url: url ?? this.url, ref: ref ?? this.ref, urlThumbnail: urlThumbnail ?? this.urlThumbnail, refThumbnail: refThumbnail ?? this.refThumbnail, conditions: conditions ?? this.conditions, mediumType: mediumType ?? this.mediumType, mediumWidth: mediumWidth ?? this.mediumWidth, mediumHeight: mediumHeight ?? this.mediumHeight, thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight, relatedMediumId: relatedMediumId ?? this.relatedMediumId, );
   }
 
@@ -132,7 +132,7 @@ class PlatformMediumModel {
           urlThumbnail: entity.urlThumbnail, 
           refThumbnail: entity.refThumbnail, 
           conditions: 
-            ConditionsSimpleModel.fromEntity(entity.conditions), 
+            StorageConditionsModel.fromEntity(entity.conditions), 
           mediumType: toPlatformMediumType(entity.mediumType), 
           mediumWidth: entity.mediumWidth, 
           mediumHeight: entity.mediumHeight, 
@@ -156,7 +156,7 @@ class PlatformMediumModel {
           urlThumbnail: entity.urlThumbnail, 
           refThumbnail: entity.refThumbnail, 
           conditions: 
-            await ConditionsSimpleModel.fromEntityPlus(entity.conditions, appId: appId), 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
           mediumType: toPlatformMediumType(entity.mediumType), 
           mediumWidth: entity.mediumWidth, 
           mediumHeight: entity.mediumHeight, 

@@ -212,7 +212,7 @@ class ChangedGridViewCrossAxisSpacing extends GridViewFormEvent {
 }
 
 class ChangedGridViewConditions extends GridViewFormEvent {
-  final ConditionsSimpleModel? value;
+  final StorageConditionsModel? value;
 
   ChangedGridViewConditions({this.value});
 

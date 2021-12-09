@@ -188,7 +188,7 @@ class ChangedPageGridView extends PageFormEvent {
 }
 
 class ChangedPageConditions extends PageFormEvent {
-  final ConditionsModel? value;
+  final StorageConditionsModel? value;
 
   ChangedPageConditions({this.value});
 
