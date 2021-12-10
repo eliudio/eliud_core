@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tuple/tuple.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
@@ -169,11 +170,11 @@ class AccessHelper {
     return accesses;
   }
 
-  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(AccessBloc accessBloc, MemberModel? member, List<DeterminedApp> apps, bool isLoggedIn) async {
+  static Future<Map<String, PagesAndDialogAccesss>> getAccesses(AccessBloc accessBloc, MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
-      var access = await AccessHelper._getAccess(accessBloc, member, app.app, isLoggedIn);
-      accesses[app.app.documentID!] = access;
+      var access = await AccessHelper._getAccess(accessBloc, member, app, isLoggedIn);
+      accesses[app.documentID!] = access;
     }
     return accesses;
   }
@@ -186,20 +187,24 @@ class AccessHelper {
 
   static Future<PagesAndDialogAccesss> _getAccess(AccessBloc accessBloc,
       MemberModel? member, AppModel app, bool isLoggedIn) async {
+    var afm = await getAccessForMember(member, app.documentID!);
+    return _getAccess2(accessBloc, member, app, isLoggedIn, afm.item1, afm.item2);
+  }
+
+  static Future<Tuple2<PrivilegeLevel, bool>> getAccessForMember(MemberModel? member, String appId) async {
     var accessModel;
     if (member != null) {
-      accessModel = await accessRepository(appId: app.documentID)!.get(member.documentID);
+      accessModel = await accessRepository(appId: appId)!.get(member.documentID);
     }
     var privilegeLevel;
-    var isBlocked;
+    bool isBlocked = false;
     if (accessModel != null) {
       privilegeLevel = accessModel.privilegeLevel;
-      isBlocked = accessModel.blocked;
+      isBlocked = accessModel.blocked ?? false;
     } else {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
     }
-
-    return _getAccess2(accessBloc, member, app, isLoggedIn, privilegeLevel, isBlocked);
+    return Tuple2(privilegeLevel, isBlocked);
   }
 /*
 

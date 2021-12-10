@@ -183,7 +183,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
         onPressed: _allEnabled(app)
             ? () async {
                 BlocProvider.of<AccessBloc>(context)
-                    .add(AcceptedMembershipEvent(widget.member, widget.usr));
+                    .add(AcceptedMembershipEvent(widget.app, widget.member, widget.usr));
               }
             : null,
       ),

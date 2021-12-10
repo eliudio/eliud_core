@@ -41,7 +41,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
-        yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, playstoreApp: event.playstoreApp);
+
+        yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, getSubscriptions(member), playstoreApp: event.playstoreApp);
       }
 
       _listenToApp(event.app.documentID!);
@@ -51,7 +52,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signOut();
-          var toYield = await LoggedOut.getLoggedOut(theState.currentApp, this, theState.apps, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedOut.getLoggedOut(theState.currentApp, this, theState.apps.map((determinedApp) => determinedApp.app).toList(), playstoreApp: theState.playstoreApp);
           gotoPage(true, event.appId,
               toYield.homePageForAppId(event.appId).documentID!, );
           yield toYield;
@@ -70,7 +71,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             print('Exception during signInWithGoogle: $exception');
           }
           var member = await firebaseToMemberModel(usr);
-          var toYield = await LoggedIn.getLoggedIn(theState.currentApp, this, usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedIn.getLoggedIn(theState.currentApp, this, usr, member, theState.apps.map((determinedApp) => determinedApp.app).toList(), null, getSubscriptions(member), playstoreApp: theState.playstoreApp);
           yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
@@ -112,30 +113,20 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is PrivilegeChangedEvent) {
         yield await theState.withOtherPrivilege(this, event.app,
             event.privilege, event.blocked);
-      }
-/*
-      } else if (event is AcceptedMembership) {
-        // accept membership
-        // add app to state so that access is re-determined
-        var _member = theState.getMember();
-        if (_member != null) {
-          _invokeStateChangeListenersBefore(event, theState);
-          var member = await _acceptMembership(_member, event.app);
-          if (member != null) {
-          var newState = await LoggedIn.getLoggedIn(event.usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
-            if (newState is LoggedInWithoutMembership) {
-              if (newState.postLoginAction != null) {
-                newState.postLoginAction!.runTheAction();
-              }
+      } else if (event is AcceptedMembershipEvent) {
+        if (theState is LoggedIn) {
+          var _member = theState.getMember();
+          if (_member != null) {
+            var member = await _acceptMembership(_member, event.app);
+            var newState = await theState.withSubscriptions(
+                getSubscriptions(member));
+            if (newState.postLoginAction != null) {
+              newState.postLoginAction!.runTheAction();
             }
-            var toYield = newState;
-            _invokeStateChangeListenersAfter(event, toYield);
-            yield toYield;
-          } else {
-            eliud_router.Router.message(
-                navigationBloc, 'You must accept membership');
+            yield newState;
           }
         }
+/*
       } else if (event is ChangePrivilegeEvent) {
         if (state is LoggedInWithMembership) {
           var theState = state as LoggedInWithMembership;
@@ -149,6 +140,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
         }
 */
+      }
     }
   }
 
@@ -212,7 +204,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return futureMemberModel;
   }
 
-  Future<MemberModel?> _acceptMembership(
+  Future<MemberModel> _acceptMembership(
       MemberModel member, AppModel app) async {
     if (isSubscibred(member, app)) return member;
 
@@ -253,10 +245,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     // if (member.subscriptions.length == 0) return false;
 
     var matches = member.subscriptions!.where((subscription) =>
-        subscription.app != null
-            ? subscription.app!.documentID == app.documentID
-            : false);
+    subscription.app != null
+        ? subscription.app!.documentID == app.documentID
+        : false);
     return matches.isNotEmpty;
+  }
+
+  static List<String> getSubscriptions(MemberModel member) {
+    if (member.subscriptions == null) return [];
+
+    return member.subscriptions!.map((memberSubscriptionModel) => memberSubscriptionModel.app!.documentID!).toList();
   }
 /*
   static MemberModel? memberFor(AccessState state) {

@@ -137,65 +137,75 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
   Widget? theBody;
   HasFab? hasFab;
 
+  Widget _scaffold(Widget body) {
+return ScaffoldMessenger(
+    key: widget.scaffoldMessengerKey,
+    child: Scaffold(
+      key: widget.scaffoldKey,
+      endDrawer: widget.pageModel.endDrawer == null
+          ? null
+          : EliudDrawer(
+          drawerType: DrawerType.Right,
+          drawer: widget.pageModel.endDrawer!,
+          currentPage: widget.pageModel.documentID!),
+      appBar: widget.pageModel.appBar == null
+          ? null
+          : PreferredSize(
+          preferredSize: const Size(double.infinity, kToolbarHeight),
+          child: EliudAppBar(
+              pageTitle: widget.pageModel.title,
+              currentPage: widget.pageModel.documentID!,
+              scaffoldKey: widget.scaffoldKey,
+              theTitle: widget.pageModel.title ?? '',
+              value: widget.pageModel.appBar!)),
+      body: body,
+      drawer: widget.pageModel.drawer == null
+          ? null
+          : EliudDrawer(
+          drawerType: DrawerType.Left,
+          drawer: widget.pageModel.drawer!,
+          currentPage: widget.pageModel.documentID!),
+      floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: EliudBottomNavigationBar(
+          homeMenu: widget.pageModel.homeMenu!,
+          currentPage: widget.pageModel.documentID!),
+    ));
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-        key: widget.scaffoldMessengerKey,
-        child: Scaffold(
-          key: widget.scaffoldKey,
-          endDrawer: widget.pageModel.endDrawer == null
-              ? null
-              : EliudDrawer(
-                  drawerType: DrawerType.Right,
-                  drawer: widget.pageModel.endDrawer!,
-                  currentPage: widget.pageModel.documentID!),
-          appBar: widget.pageModel.appBar == null
-              ? null
-              : PreferredSize(
-                  preferredSize: const Size(double.infinity, kToolbarHeight),
-                  child: EliudAppBar(
-                      pageTitle: widget.pageModel.title,
-                      currentPage: widget.pageModel.documentID!,
-                      scaffoldKey: widget.scaffoldKey,
-                      theTitle: widget.pageModel.title ?? '',
-                      value: widget.pageModel.appBar!)),
-          body: ((widget.state is AccessDetermined) &&
-                  (widget.state.isProcessingStatus()))
-              ? Stack(children: [
-                  pageBody(context,
-                      backgroundOverride:
-                          widget.componentInfo.backgroundOverride,
-                      components: widget.componentInfo.widgets,
-                      layout: widget.componentInfo.layout,
-                      gridView: widget.componentInfo.gridView),
-                  BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 5,
-                      sigmaY: 5,
-                    ),
-                    child: Container(
-                      color: Colors.black.withOpacity(.3),
-                    ),
-                  ),
-                  progressIndicator(context),
-                ])
-              : pageBody(context,
-                  backgroundOverride: widget.componentInfo.backgroundOverride,
-                  components: widget.componentInfo.widgets,
-                  layout: widget.componentInfo.layout,
-                  gridView: widget.componentInfo.gridView),
-          drawer: widget.pageModel.drawer == null
-              ? null
-              : EliudDrawer(
-                  drawerType: DrawerType.Left,
-                  drawer: widget.pageModel.drawer!,
-                  currentPage: widget.pageModel.documentID!),
-          floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          bottomNavigationBar: EliudBottomNavigationBar(
-              homeMenu: widget.pageModel.homeMenu!,
-              currentPage: widget.pageModel.documentID!),
-        ));
+    var theState = widget.state;
+    if ((theState is LoggedIn) && (!theState.isSubscribedToCurrentApp())) {
+      return _scaffold(AcceptMembershipWidget(theState.currentApp, theState.member, theState.usr));
+    } else {
+      return _scaffold(((widget.state is AccessDetermined) &&
+          (widget.state.isProcessingStatus()))
+          ? Stack(children: [
+        pageBody(context,
+            backgroundOverride:
+            widget.componentInfo.backgroundOverride,
+            components: widget.componentInfo.widgets,
+            layout: widget.componentInfo.layout,
+            gridView: widget.componentInfo.gridView),
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 5,
+            sigmaY: 5,
+          ),
+          child: Container(
+            color: Colors.black.withOpacity(.3),
+          ),
+        ),
+        progressIndicator(context),
+      ])
+          : pageBody(context,
+          backgroundOverride: widget.componentInfo.backgroundOverride,
+          components: widget.componentInfo.widgets,
+          layout: widget.componentInfo.layout,
+          gridView: widget.componentInfo.gridView));
+    }
   }
 }

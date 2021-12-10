@@ -18,32 +18,50 @@ class LoggedIn extends AccessDetermined {
   final User usr;
   final MemberModel member;
   final PostLoginAction? postLoginAction;
+  final List<String> subscribedToApps;
 
-  LoggedIn._(this.usr, this.member, this.postLoginAction, AppModel currentApp,
-      List<DeterminedApp> apps, Map<String, PagesAndDialogAccesss> accesses,
-      {AppModel? playstoreApp, bool? isProcessing})
+  LoggedIn._(
+      this.usr,
+      this.member,
+      this.postLoginAction,
+      AppModel currentApp,
+      List<DeterminedApp> apps,
+      Map<String, PagesAndDialogAccesss> accesses,
+      this.subscribedToApps,
+      {AppModel? playstoreApp,
+      bool? isProcessing})
       : super(currentApp, apps, accesses,
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
-      AppModel currentApp,
+    AppModel currentApp,
     AccessBloc accessBloc,
     User usr,
     MemberModel member,
-    List<DeterminedApp> apps,
-    PostLoginAction? postLoginAction, {
+    List<AppModel> apps,
+    PostLoginAction? postLoginAction,
+    List<String> subscribedToApps, {
     AppModel? playstoreApp,
   }) async {
+
     var accesses =
-        await AccessHelper.getAccesses(accessBloc, member, apps, false);
+    await AccessHelper.getAccesses(accessBloc, member, apps, false);
+
+    var determinedApps = await Future.wait(apps.map((app) async {
+      var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
+      var appIsBlocked = _isBlocked(app.documentID!, accesses);
+      var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
+      return DeterminedApp(app, homePage);
+    }).toList());
 
     var loggedIn = LoggedIn._(
       usr,
       member,
       postLoginAction,
       currentApp,
-      apps,
+      determinedApps,
       accesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
     );
     return loggedIn;
@@ -53,7 +71,8 @@ class LoggedIn extends AccessDetermined {
     AccessBloc accessBloc,
     User usr,
     MemberModel member,
-    AppModel app, {
+    AppModel app,
+    List<String> subscribedToApps, {
     AppModel? playstoreApp,
   }) async {
     var accesses =
@@ -70,9 +89,14 @@ class LoggedIn extends AccessDetermined {
       app,
       apps,
       accesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
     );
     return loggedIn;
+  }
+
+  bool isSubscribedToCurrentApp() {
+    return subscribedToApps.contains(currentApp.documentID);
   }
 
   @override
@@ -108,6 +132,7 @@ class LoggedIn extends AccessDetermined {
           newCurrentApp,
           apps,
           accesses,
+          subscribedToApps,
           playstoreApp: playstoreApp,
           isProcessing: isProcessing,
         );
@@ -130,6 +155,7 @@ class LoggedIn extends AccessDetermined {
       newCurrentApp,
       newApps,
       newAccesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
     ));
   }
@@ -145,6 +171,7 @@ class LoggedIn extends AccessDetermined {
       currentApp,
       newApps,
       accesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
     ));
   }
@@ -158,6 +185,7 @@ class LoggedIn extends AccessDetermined {
       currentApp,
       apps,
       accesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
       isProcessing: false,
     );
@@ -172,13 +200,15 @@ class LoggedIn extends AccessDetermined {
       currentApp,
       apps,
       accesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
       isProcessing: true,
     );
   }
 
   @override
-  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses) {
+  AccessDetermined withNewAccesses(
+      Map<String, PagesAndDialogAccesss> newAccesses) {
     return LoggedIn._(
       usr,
       member,
@@ -186,6 +216,7 @@ class LoggedIn extends AccessDetermined {
       currentApp,
       apps,
       newAccesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
       isProcessing: isProcessing,
     );
@@ -273,6 +304,7 @@ class LoggedIn extends AccessDetermined {
           postLoginAction == other.postLoginAction &&
           mapEquals(accesses, other.accesses) &&
           ListEquality().equals(apps, other.apps) &&
+          ListEquality().equals(subscribedToApps, other.subscribedToApps) &&
           playstoreApp == other.playstoreApp &&
           isProcessing == other.isProcessing;
 
@@ -316,11 +348,13 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc,
+      AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
     var newAccesses = await AccessHelper.extendAccesses(
         accessBloc, member, accesses, newApp, true);
     var newApps = apps.map((v) => v).toList();
-    newApps.removeWhere((element) => element.app.documentID == newApp.documentID);
+    newApps
+        .removeWhere((element) => element.app.documentID == newApp.documentID);
 
     var homePage = await getHomepage(newApp, blocked, privilege);
     newApps.add(DeterminedApp(newApp, homePage));
@@ -331,7 +365,22 @@ class LoggedIn extends AccessDetermined {
       currentApp,
       newApps,
       newAccesses,
+      subscribedToApps,
       playstoreApp: playstoreApp,
     ));
   }
+
+  LoggedIn withSubscriptions(List<String> newSubscribedToApps) {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      currentApp,
+      apps,
+      accesses,
+      newSubscribedToApps,
+      playstoreApp: playstoreApp,
+    );
+  }
+
 }

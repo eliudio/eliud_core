@@ -86,18 +86,20 @@ class LoginEvent extends AccessEvent {
 }
 
 class AcceptedMembershipEvent extends AccessEvent {
+  final AppModel app;
   final MemberModel member;
   final User usr;
 
-  AcceptedMembershipEvent(this.member, this.usr);
+  AcceptedMembershipEvent(this.app, this.member, this.usr);
 
   @override
-  List<Object?> get props => [member, usr];
+  List<Object?> get props => [app, member, usr];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AcceptedMembershipEvent &&
+          app == other.app &&
           member == other.member &&
           usr == other.usr &&
           runtimeType == other.runtimeType;

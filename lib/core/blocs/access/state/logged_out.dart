@@ -13,11 +13,17 @@ import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
   static Future<LoggedOut> getLoggedOut(AppModel currentApp, AccessBloc accessBloc,
-      List<DeterminedApp> apps, {
+      List<AppModel> apps, {
         AppModel? playstoreApp,
       }) async {
+
+    var determinedApps = await Future.wait(apps.map((app) async {
+      var homePage = await getHomepage(app);
+      return DeterminedApp(app, homePage);
+    }).toList());
+
     var accesses = await AccessHelper.getAccesses(accessBloc, null, apps, false);
-    var loggedOut = LoggedOut._(currentApp, apps, accesses, playstoreApp: playstoreApp);
+    var loggedOut = LoggedOut._(currentApp, determinedApps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
 
@@ -27,7 +33,7 @@ class LoggedOut extends AccessDetermined {
       }) async {
     var homePage = await getHomepage(app);
     var apps = [DeterminedApp(app, homePage)];
-    var accesses = await AccessHelper.getAccesses(accessBloc, null, apps, false);
+    var accesses = await AccessHelper.getAccesses(accessBloc, null, [app], false);
     var loggedOut = LoggedOut._(app, apps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
