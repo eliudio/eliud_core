@@ -19,13 +19,14 @@ class LoggedIn extends AccessDetermined {
   final MemberModel member;
   final PostLoginAction? postLoginAction;
 
-  LoggedIn._(this.usr, this.member, this.postLoginAction,
+  LoggedIn._(this.usr, this.member, this.postLoginAction, AppModel currentApp,
       List<DeterminedApp> apps, Map<String, PagesAndDialogAccesss> accesses,
       {AppModel? playstoreApp, bool? isProcessing})
-      : super(apps, accesses,
+      : super(currentApp, apps, accesses,
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
+      AppModel currentApp,
     AccessBloc accessBloc,
     User usr,
     MemberModel member,
@@ -40,6 +41,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -65,6 +67,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       null,
+      app,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -98,7 +101,16 @@ class LoggedIn extends AccessDetermined {
   Future<LoggedIn> addApp(AccessBloc accessBloc, AppModel newCurrentApp) async {
     for (var app in apps) {
       if (app.app.documentID == newCurrentApp.documentID) {
-        return Future.value(this);
+        return LoggedIn._(
+          usr,
+          member,
+          postLoginAction,
+          newCurrentApp,
+          apps,
+          accesses,
+          playstoreApp: playstoreApp,
+          isProcessing: isProcessing,
+        );
       }
     }
     var newAccesses = await AccessHelper.extendAccesses(
@@ -115,6 +127,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      newCurrentApp,
       newApps,
       newAccesses,
       playstoreApp: playstoreApp,
@@ -129,6 +142,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       newApps,
       accesses,
       playstoreApp: playstoreApp,
@@ -141,6 +155,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -154,6 +169,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -167,6 +183,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       apps,
       newAccesses,
       playstoreApp: playstoreApp,
@@ -311,6 +328,7 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
+      currentApp,
       newApps,
       newAccesses,
       playstoreApp: playstoreApp,

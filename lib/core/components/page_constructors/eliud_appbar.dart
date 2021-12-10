@@ -61,7 +61,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
                 var value = state.value!;
                 return Decorations.instance()
                     .createDecoratedAppBar(context, _appBarKey, () {
-                  var app = accessState.currentApp(context);
+                  var app = accessState.currentApp;
                   var header = value.header!;
                   var title = value.title;
                   if ((title != null) &&

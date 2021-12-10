@@ -35,6 +35,7 @@ class DeterminedApp extends Equatable {
 }
 
 abstract class AccessDetermined extends AccessState {
+  final AppModel currentApp;
   final AppModel? playstoreApp;
   final List<DeterminedApp> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
@@ -46,7 +47,7 @@ abstract class AccessDetermined extends AccessState {
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
+  AccessDetermined(this.currentApp, this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
 
   bool actionHasAccess(ActionModel action) {
     if (action.conditions != null) {
@@ -111,17 +112,8 @@ abstract class AccessDetermined extends AccessState {
   bool isBlocked(String appId);
   Future<AccessDetermined> addApp(AccessBloc accessBloc, AppModel newCurrentApp);
 
-  String currentAppId(BuildContext context) => eliud_router.Router.getCurrentAppId(context);
-  AppModel currentApp(BuildContext context) {
-    var appId = currentAppId(context);
-    for (var app in apps) {
-      if (app.app.documentID == appId) return app.app;
-    }
-    throw Exception("Can not find app with id $appId");
-  }
-
-  bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentAppId(context));
-  PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentAppId(context));
+  bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentApp.documentID!);
+  PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentApp.documentID!);
 
   static Future<PageModel> getPage(String appId, String? pageId, { String? alternativePageId }) async {
     var page;

@@ -68,13 +68,14 @@ class ActionFieldState extends State<ActionField> {
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
       if (state is AccessDetermined) {
+        var appId = state.currentApp.documentID!;
         var widgets = <Widget>[
           RadioListTile(
             value: 0,
             groupValue: _actionSelection,
             title: Text('Goto Page'),
             subtitle: Text('This action results in moving to another page'),
-            onChanged: !state.memberIsOwner(state.currentAppId(context))
+            onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -86,7 +87,7 @@ class ActionFieldState extends State<ActionField> {
             title: Text('Internal'),
             subtitle: Text(
                 'This action results in one of the predefined internal actions'),
-            onChanged: !state.memberIsOwner(state.currentAppId(context))
+            onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -97,7 +98,7 @@ class ActionFieldState extends State<ActionField> {
             groupValue: _actionSelection,
             title: Text('Popup Menu'),
             subtitle: Text('This menu item will open another popup menu'),
-            onChanged: !state.memberIsOwner(state.currentAppId(context))
+            onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
               setSelectionDisplayMode(val);
@@ -105,7 +106,6 @@ class ActionFieldState extends State<ActionField> {
           ),
         ];
 
-        var appId = state.currentAppId(context);
         if (_actionSelection == 0) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(

@@ -51,7 +51,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signOut();
-          var toYield = await LoggedOut.getLoggedOut(this, theState.apps, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedOut.getLoggedOut(theState.currentApp, this, theState.apps, playstoreApp: theState.playstoreApp);
           gotoPage(true, event.appId,
               toYield.homePageForAppId(event.appId).documentID!, );
           yield toYield;
@@ -70,7 +70,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             print('Exception during signInWithGoogle: $exception');
           }
           var member = await firebaseToMemberModel(usr);
-          var toYield = await LoggedIn.getLoggedIn(this, usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedIn.getLoggedIn(theState.currentApp, this, usr, member, theState.apps, null, playstoreApp: theState.playstoreApp);
           yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
@@ -95,10 +95,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is AppUpdatedEvent) {
         yield await theState.updateApp(event.app);
       } else if (event is GotoPageEvent) {
-        // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
-        // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
-        // and remove the navigation from here:
-        gotoPage(false, event.appId, event.pageId, parameters: event.parameters);
+        if (event.appId != theState.currentApp.documentID!) {
+          print("Unexected");
+        } else {
+          // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
+          // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
+          // and remove the navigation from here:
+          gotoPage(
+              false, event.appId, event.pageId, parameters: event.parameters);
+        }
       } else if (event is OpenDialogEvent) {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
@@ -273,8 +278,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static bool isOwner(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      if (theState.currentApp(context).ownerID != null) {
-        return theState.memberIsOwner(theState.currentAppId(context));
+      if (theState.currentApp.ownerID != null) {
+        return theState.memberIsOwner(theState.currentApp.documentID!);
       }
     }
     return false;
@@ -283,7 +288,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static AppModel currentApp(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp(context);
+      return theState.currentApp;
     } else {
       throw Exception('No current app');
     }
@@ -292,7 +297,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static String currentAppId(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp(context).documentID!;
+      return theState.currentApp.documentID!;
     } else {
       throw Exception('No current app');
     }
@@ -301,7 +306,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static String currentOwnerId(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp(context).ownerID!;
+      return theState.currentApp.ownerID!;
     } else {
       throw Exception('No current app');
     }

@@ -107,7 +107,7 @@ class DialogListWidgetState extends State<DialogListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
                                       value: BlocProvider.of<DialogListBloc>(context),
                                       child: DialogForm(
                                           value: null,

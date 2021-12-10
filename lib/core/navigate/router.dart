@@ -129,6 +129,24 @@ class Router {
     }
   }
 
+  static AccessEvent? translate(ActionModel action, {Map<String, dynamic>? parameters}) {
+      if (action is GotoPage) {
+        return GotoPageEvent(action.appID, action.pageID, parameters: parameters);
+      } else if (action is OpenDialog) {
+      } else if (action is SwitchApp) {
+        return SwitchAppWithIDEvent(appId: action.toAppID, goHome: true);
+      } else if (action is InternalAction) {
+        switch (action.internalActionEnum) {
+          case InternalActionEnum.Login:
+            return LoginEvent(appId: action.appID);
+          case InternalActionEnum.Logout:
+            return LogoutEvent(appId: action.appID);
+          default:
+            return null;
+        }
+      }
+  }
+
   static String getCurrentAppId(BuildContext context) {
     return getPageContextInfo(context).appId;
   }

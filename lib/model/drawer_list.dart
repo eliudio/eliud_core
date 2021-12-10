@@ -107,7 +107,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
                                       value: BlocProvider.of<DrawerListBloc>(context),
                                       child: DrawerForm(
                                           value: null,

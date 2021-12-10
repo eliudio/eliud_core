@@ -140,13 +140,7 @@ class Registry {
                 builder: (context, accessState) {
           if (accessState is AccessDetermined) {
 
-            AppModel currentApp;
-            var modalRoute = ModalRoute.of(context);
-            if (modalRoute == null) {
-              currentApp = app;
-            } else {
-              currentApp = accessState.currentApp(context);
-            }
+            AppModel currentApp = accessState.currentApp;
 
             var packageBlocProviders = <BlocProvider>[];
             Packages.registeredPackages.forEach((element) {
@@ -204,7 +198,7 @@ class Registry {
             bloc: BlocProvider.of<AccessBloc>(context),
             builder: (BuildContext context, accessState) {
               if (accessState is AccessDetermined) {
-                var appId = accessState.currentAppId(context);
+                var appId = accessState.currentApp.documentID!;
                 return FutureBuilder<dynamic>(
                     future: componentConstructor.getModel(
                         appId: appId, id: id),

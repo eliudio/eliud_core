@@ -107,7 +107,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp(context), page: BlocProvider.value(
+                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
                                       value: BlocProvider.of<DecorationColorListBloc>(context),
                                       child: DecorationColorForm(
                                           value: null,

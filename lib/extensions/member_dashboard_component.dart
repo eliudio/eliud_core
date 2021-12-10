@@ -95,7 +95,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           } else {
             profilePhoto = Container();
           }
-          var currentApp = accessState.currentApp(context);
+          var currentApp = accessState.currentApp;
           return ListView(
             physics: ScrollPhysics(),
             shrinkWrap: true,
