@@ -155,7 +155,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
               BlocProvider.of<MemberMediumListBloc>(context)
                   .add(DeleteMemberMediumList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "MemberMedium " + value.,
+                message: "MemberMedium " + value.documentID,
                 onUndo: () => BlocProvider.of<MemberMediumListBloc>(context)
                     .add(AddMemberMediumList(value: value)),
               ));
@@ -168,7 +168,7 @@ class MemberMediumListWidgetState extends State<MemberMediumListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "MemberMedium " + value.,
+                        message: "MemberMedium " + value.documentID,
                             onUndo: () => BlocProvider.of<MemberMediumListBloc>(context)
                                 .add(AddMemberMediumList(value: value)),
                           ),

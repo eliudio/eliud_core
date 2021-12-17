@@ -155,7 +155,7 @@ class PageListWidgetState extends State<PageListWidget> {
               BlocProvider.of<PageListBloc>(context)
                   .add(DeletePageList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Page " + value.,
+                message: "Page " + value.documentID,
                 onUndo: () => BlocProvider.of<PageListBloc>(context)
                     .add(AddPageList(value: value)),
               ));
@@ -168,7 +168,7 @@ class PageListWidgetState extends State<PageListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Page " + value.,
+                        message: "Page " + value.documentID,
                             onUndo: () => BlocProvider.of<PageListBloc>(context)
                                 .add(AddPageList(value: value)),
                           ),

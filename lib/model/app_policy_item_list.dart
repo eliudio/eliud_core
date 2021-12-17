@@ -155,7 +155,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
               BlocProvider.of<AppPolicyItemListBloc>(context)
                   .add(DeleteAppPolicyItemList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "AppPolicyItem " + value.,
+                message: "AppPolicyItem " + value.documentID,
                 onUndo: () => BlocProvider.of<AppPolicyItemListBloc>(context)
                     .add(AddAppPolicyItemList(value: value)),
               ));
@@ -168,7 +168,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "AppPolicyItem " + value.,
+                        message: "AppPolicyItem " + value.documentID,
                             onUndo: () => BlocProvider.of<AppPolicyItemListBloc>(context)
                                 .add(AddAppPolicyItemList(value: value)),
                           ),
@@ -214,7 +214,6 @@ class AppPolicyItemListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
-        subtitle: ,
       ),
     );
   }

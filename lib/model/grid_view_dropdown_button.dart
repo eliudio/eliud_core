@@ -64,7 +64,6 @@ class GridViewDropdownButtonWidgetState extends State<GridViewDropdownButtonWidg
 List<Widget> widgets(GridViewModel value) {
 var widgets = <Widget>[];
 widgets.add(value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container());
-widgets.add();
 return widgets;
 }
 

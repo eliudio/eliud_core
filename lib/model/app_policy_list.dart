@@ -155,7 +155,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
               BlocProvider.of<AppPolicyListBloc>(context)
                   .add(DeleteAppPolicyList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "AppPolicy " + value.,
+                message: "AppPolicy " + value.documentID,
                 onUndo: () => BlocProvider.of<AppPolicyListBloc>(context)
                     .add(AddAppPolicyList(value: value)),
               ));
@@ -168,7 +168,7 @@ class AppPolicyListWidgetState extends State<AppPolicyListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "AppPolicy " + value.,
+                        message: "AppPolicy " + value.documentID,
                             onUndo: () => BlocProvider.of<AppPolicyListBloc>(context)
                                 .add(AddAppPolicyList(value: value)),
                           ),

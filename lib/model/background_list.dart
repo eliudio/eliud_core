@@ -155,7 +155,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
               BlocProvider.of<BackgroundListBloc>(context)
                   .add(DeleteBackgroundList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Background " + value.,
+                message: "Background " + value.documentID,
                 onUndo: () => BlocProvider.of<BackgroundListBloc>(context)
                     .add(AddBackgroundList(value: value)),
               ));
@@ -168,7 +168,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Background " + value.,
+                        message: "Background " + value.documentID,
                             onUndo: () => BlocProvider.of<BackgroundListBloc>(context)
                                 .add(AddBackgroundList(value: value)),
                           ),

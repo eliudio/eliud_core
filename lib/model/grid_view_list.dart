@@ -155,7 +155,7 @@ class GridViewListWidgetState extends State<GridViewListWidget> {
               BlocProvider.of<GridViewListBloc>(context)
                   .add(DeleteGridViewList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "GridView " + value.,
+                message: "GridView " + value.documentID,
                 onUndo: () => BlocProvider.of<GridViewListBloc>(context)
                     .add(AddGridViewList(value: value)),
               ));
@@ -168,7 +168,7 @@ class GridViewListWidgetState extends State<GridViewListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "GridView " + value.,
+                        message: "GridView " + value.documentID,
                             onUndo: () => BlocProvider.of<GridViewListBloc>(context)
                                 .add(AddGridViewList(value: value)),
                           ),
@@ -214,7 +214,6 @@ class GridViewListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container(),
-        subtitle: ,
       ),
     );
   }

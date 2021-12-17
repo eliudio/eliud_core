@@ -155,7 +155,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
               BlocProvider.of<PosSizeListBloc>(context)
                   .add(DeletePosSizeList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "PosSize " + value.,
+                message: "PosSize " + value.documentID,
                 onUndo: () => BlocProvider.of<PosSizeListBloc>(context)
                     .add(AddPosSizeList(value: value)),
               ));
@@ -168,7 +168,7 @@ class PosSizeListWidgetState extends State<PosSizeListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "PosSize " + value.,
+                        message: "PosSize " + value.documentID,
                             onUndo: () => BlocProvider.of<PosSizeListBloc>(context)
                                 .add(AddPosSizeList(value: value)),
                           ),

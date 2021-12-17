@@ -155,7 +155,7 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
               BlocProvider.of<MenuItemListBloc>(context)
                   .add(DeleteMenuItemList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "MenuItem " + value.,
+                message: "MenuItem " + value.documentID,
                 onUndo: () => BlocProvider.of<MenuItemListBloc>(context)
                     .add(AddMenuItemList(value: value)),
               ));
@@ -168,7 +168,7 @@ class MenuItemListWidgetState extends State<MenuItemListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "MenuItem " + value.,
+                        message: "MenuItem " + value.documentID,
                             onUndo: () => BlocProvider.of<MenuItemListBloc>(context)
                                 .add(AddMenuItemList(value: value)),
                           ),
