@@ -155,7 +155,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
               BlocProvider.of<DecorationColorListBloc>(context)
                   .add(DeleteDecorationColorList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "DecorationColor " + value.documentID,
+                message: "DecorationColor " + value.,
                 onUndo: () => BlocProvider.of<DecorationColorListBloc>(context)
                     .add(AddDecorationColorList(value: value)),
               ));
@@ -168,7 +168,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "DecorationColor " + value.documentID,
+                        message: "DecorationColor " + value.,
                             onUndo: () => BlocProvider.of<DecorationColorListBloc>(context)
                                 .add(AddDecorationColorList(value: value)),
                           ),
@@ -214,6 +214,7 @@ class DecorationColorListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
+        subtitle: ,
       ),
     );
   }

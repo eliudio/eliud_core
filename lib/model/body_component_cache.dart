@@ -118,7 +118,12 @@ class BodyComponentCache implements BodyComponentRepository {
 
   @override
   StreamSubscription<BodyComponentModel?> listenTo(String documentId, BodyComponentChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<BodyComponentModel> refreshRelations(BodyComponentModel model) async {

@@ -118,7 +118,12 @@ class PosSizeCache implements PosSizeRepository {
 
   @override
   StreamSubscription<PosSizeModel?> listenTo(String documentId, PosSizeChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<PosSizeModel> refreshRelations(PosSizeModel model) async {

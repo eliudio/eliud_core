@@ -54,3 +54,4 @@ flutter:
   assets:
     - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png
     - assets/images/avatar.png
+    - assets/images/denied.png

@@ -99,7 +99,7 @@ class _SelectFontWidgetState extends State<SelectFontWidget> {
                     }
                   }),
               title: value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.fontName!)) : Container(),
-              subtitle: null,
+              subtitle: ,
             );
           } else {
             return Container();

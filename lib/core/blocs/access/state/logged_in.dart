@@ -7,6 +7,7 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/package/packages.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -138,15 +139,21 @@ class LoggedIn extends AccessDetermined {
         );
       }
     }
+
+    return addApp2(accessBloc, accesses, apps, newCurrentApp);
+  }
+
+  @override
+  Future<LoggedIn> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp) async {
     var newAccesses = await AccessHelper.extendAccesses(
-        accessBloc, member, accesses, newCurrentApp, true);
-    var newApps = apps.map((v) => v).toList();
+        accessBloc, member, _accesses, newCurrentApp, true);
+    var newApps = _apps.map((v) => v).toList();
 
     var privilegeLevel =
-        _privilegeLevel(newCurrentApp.documentID!, newAccesses);
+    _privilegeLevel(newCurrentApp.documentID!, newAccesses);
     var appIsBlocked = _isBlocked(newCurrentApp.documentID!, newAccesses);
     var homePage =
-        await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+    await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
     newApps.add(DeterminedApp(newCurrentApp, homePage));
     return Future.value(LoggedIn._(
       usr,
@@ -162,13 +169,14 @@ class LoggedIn extends AccessDetermined {
 
   @override
   Future<LoggedIn> updateApps(
+      AppModel newCurrentApp,
     List<DeterminedApp> newApps,
   ) {
     return Future.value(LoggedIn._(
       usr,
       member,
       postLoginAction,
-      currentApp,
+      newCurrentApp,
       newApps,
       accesses,
       subscribedToApps,

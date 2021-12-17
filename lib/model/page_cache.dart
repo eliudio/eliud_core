@@ -118,7 +118,12 @@ class PageCache implements PageRepository {
 
   @override
   StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<PageModel> refreshRelations(PageModel model) async {

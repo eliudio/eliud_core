@@ -64,6 +64,7 @@ class HomeMenuDropdownButtonWidgetState extends State<HomeMenuDropdownButtonWidg
 List<Widget> widgets(HomeMenuModel value) {
 var widgets = <Widget>[];
 widgets.add(value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container());
+widgets.add();
 return widgets;
 }
 

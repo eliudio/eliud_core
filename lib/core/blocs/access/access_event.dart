@@ -171,9 +171,25 @@ class AppUpdatedEvent extends AccessEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AppUpdatedEvent &&
-          app == other.app &&
-          runtimeType == other.runtimeType;
+          other is AppUpdatedEvent &&
+              app == other.app &&
+              runtimeType == other.runtimeType;
+}
+
+class AccessUpdatedEvent extends AccessEvent {
+  final AccessModel access;
+
+  AccessUpdatedEvent(this.access);
+
+  @override
+  List<Object?> get props => [access];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is AccessUpdatedEvent &&
+              access == other.access &&
+              runtimeType == other.runtimeType;
 }
 
 class GotoPageEvent extends AccessEvent {

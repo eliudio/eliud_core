@@ -118,7 +118,12 @@ class MenuDefCache implements MenuDefRepository {
 
   @override
   StreamSubscription<MenuDefModel?> listenTo(String documentId, MenuDefChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<MenuDefModel> refreshRelations(MenuDefModel model) async {

@@ -155,7 +155,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
               BlocProvider.of<MemberPublicInfoListBloc>(context)
                   .add(DeleteMemberPublicInfoList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "MemberPublicInfo " + value.documentID,
+                message: "MemberPublicInfo " + value.,
                 onUndo: () => BlocProvider.of<MemberPublicInfoListBloc>(context)
                     .add(AddMemberPublicInfoList(value: value)),
               ));
@@ -168,7 +168,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "MemberPublicInfo " + value.documentID,
+                        message: "MemberPublicInfo " + value.,
                             onUndo: () => BlocProvider.of<MemberPublicInfoListBloc>(context)
                                 .add(AddMemberPublicInfoList(value: value)),
                           ),

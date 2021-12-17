@@ -118,7 +118,12 @@ class ShadowCache implements ShadowRepository {
 
   @override
   StreamSubscription<ShadowModel?> listenTo(String documentId, ShadowChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<ShadowModel> refreshRelations(ShadowModel model) async {

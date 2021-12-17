@@ -155,7 +155,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
               BlocProvider.of<DrawerListBloc>(context)
                   .add(DeleteDrawerList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Drawer " + value.documentID,
+                message: "Drawer " + value.,
                 onUndo: () => BlocProvider.of<DrawerListBloc>(context)
                     .add(AddDrawerList(value: value)),
               ));
@@ -168,7 +168,7 @@ class DrawerListWidgetState extends State<DrawerListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Drawer " + value.documentID,
+                        message: "Drawer " + value.,
                             onUndo: () => BlocProvider.of<DrawerListBloc>(context)
                                 .add(AddDrawerList(value: value)),
                           ),

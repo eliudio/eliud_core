@@ -155,7 +155,7 @@ class PlatformMediumListWidgetState extends State<PlatformMediumListWidget> {
               BlocProvider.of<PlatformMediumListBloc>(context)
                   .add(DeletePlatformMediumList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "PlatformMedium " + value.documentID,
+                message: "PlatformMedium " + value.,
                 onUndo: () => BlocProvider.of<PlatformMediumListBloc>(context)
                     .add(AddPlatformMediumList(value: value)),
               ));
@@ -168,7 +168,7 @@ class PlatformMediumListWidgetState extends State<PlatformMediumListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "PlatformMedium " + value.documentID,
+                        message: "PlatformMedium " + value.,
                             onUndo: () => BlocProvider.of<PlatformMediumListBloc>(context)
                                 .add(AddPlatformMediumList(value: value)),
                           ),

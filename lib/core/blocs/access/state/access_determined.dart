@@ -111,6 +111,7 @@ abstract class AccessDetermined extends AccessState {
   PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
   Future<AccessDetermined> addApp(AccessBloc accessBloc, AppModel newCurrentApp);
+  Future<AccessDetermined> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp);
 
   bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentApp.documentID!);
   PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentApp.documentID!);
@@ -162,7 +163,25 @@ abstract class AccessDetermined extends AccessState {
 */
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
-  @override
+
+  Future<AccessDetermined> withNewAccess(AccessBloc accessBloc, AccessModel access) async {
+    if (access.appId == null) {
+      throw Exception('appId is null');
+    }
+    var appId = access.appId!;
+    var newCurrentApp = await appRepository()!.get(appId);
+    if (newCurrentApp == null) {
+      throw Exception("Can't find app with id $appId");
+    }
+    var newAccesses = {...accesses};
+    newAccesses.removeWhere((key, value) => key == appId);
+
+    var newApps = [...apps];
+    newApps.removeWhere((element) => element.app.documentID! == appId);
+
+    return addApp2(accessBloc, newAccesses, newApps, newCurrentApp);
+  }
+
   AccessDetermined withDifferentPackageCondition(
       String appId, Package package, String packageCondition, bool value) {
     var newAccesses = {...accesses};
@@ -185,7 +204,7 @@ abstract class AccessDetermined extends AccessState {
   Future<AccessDetermined> updateApp(
       AppModel newCurrentApp,
       ) {
-    List<DeterminedApp> newApps = [];
+    var newApps = <DeterminedApp>[];
     for (var app in apps) {
       if (app.app.documentID == newCurrentApp.documentID) {
         newApps.add(DeterminedApp(newCurrentApp, app.homePage));
@@ -193,10 +212,11 @@ abstract class AccessDetermined extends AccessState {
         newApps.add(app);
       }
     }
-    return updateApps(newApps);
+    return updateApps(newCurrentApp, newApps);
   }
 
   Future<AccessDetermined> updateApps(
+      AppModel newCurrentApp,
       List<DeterminedApp> newApps,
       );
 

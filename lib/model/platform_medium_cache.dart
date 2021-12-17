@@ -118,7 +118,12 @@ class PlatformMediumCache implements PlatformMediumRepository {
 
   @override
   StreamSubscription<PlatformMediumModel?> listenTo(String documentId, PlatformMediumChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<PlatformMediumModel> refreshRelations(PlatformMediumModel model) async {

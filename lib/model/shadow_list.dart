@@ -155,7 +155,7 @@ class ShadowListWidgetState extends State<ShadowListWidget> {
               BlocProvider.of<ShadowListBloc>(context)
                   .add(DeleteShadowList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Shadow " + value.documentID,
+                message: "Shadow " + value.,
                 onUndo: () => BlocProvider.of<ShadowListBloc>(context)
                     .add(AddShadowList(value: value)),
               ));
@@ -168,7 +168,7 @@ class ShadowListWidgetState extends State<ShadowListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Shadow " + value.documentID,
+                        message: "Shadow " + value.,
                             onUndo: () => BlocProvider.of<ShadowListBloc>(context)
                                 .add(AddShadowList(value: value)),
                           ),

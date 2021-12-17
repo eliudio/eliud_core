@@ -24,7 +24,8 @@ import 'access_event.dart';
 import 'state/logged_in.dart';
 
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
-  StreamSubscription? _appSubscription;
+  final Map<String, StreamSubscription<AppModel?>> _appSubscription = {};
+  final Map<String, StreamSubscription<AccessModel?>> _accessSubscription = {};
   final GlobalKey<NavigatorState> navigatorKey;
 
   AccessBloc(this.navigatorKey) : super(UndeterminedAccessState());
@@ -38,14 +39,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           .currentSignedinUser();
 
       if (usr == null) {
+        _listenToApp(event.app.documentID!, null);
         yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
 
+        _listenToApp(event.app.documentID!, member);
         yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, getSubscriptions(member), playstoreApp: event.playstoreApp);
       }
 
-      _listenToApp(event.app.documentID!);
     } else if (theState is AccessDetermined) {
       if (event is LogoutEvent) {
         if (event.isProcessing()) {
@@ -72,6 +74,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
           var member = await firebaseToMemberModel(usr);
           var toYield = await LoggedIn.getLoggedIn(theState.currentApp, this, usr, member, theState.apps.map((determinedApp) => determinedApp.app).toList(), null, getSubscriptions(member), playstoreApp: theState.playstoreApp);
+          _resetAccessListeners(theState.apps.map((e) => e.app.documentID!).toList(), member.documentID!);
           yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
@@ -87,14 +90,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (event.isProcessing()) {
           var newState = await addApp(theState, await _fetchApp(event.appId));
           gotoPage(false, event.appId, newState.homePageForAppId(event.appId).documentID!);
-          _listenToApp(event.appId);
+          _listenToApp(event.appId, theState.getMember());
           yield newState;
         } else {
           add(event.asProcessing());
           yield theState.asProcessing();
         }
       } else if (event is AppUpdatedEvent) {
-        yield await theState.updateApp(event.app);
+        var oldState = state;
+        var newState = await theState.updateApp(event.app);
+        var theyEqual = oldState == newState;
+        yield newState;
       } else if (event is GotoPageEvent) {
         if (event.appId != theState.currentApp.documentID!) {
           print("Unexected");
@@ -126,20 +132,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             yield newState;
           }
         }
-/*
-      } else if (event is ChangePrivilegeEvent) {
-        if (state is LoggedInWithMembership) {
-          var theState = state as LoggedInWithMembership;
-          if ((state.getMember() != null) &&
-              (state.getMember()!.documentID! == theState.app.ownerID!)) {
-            // if the current member is the owner, he can change his privilege
-            // this can be done for the owner to look at the app with a different priv. to "test" that priv.
-            var toYield = await theState.copyWithOtherPrivilege(
-                event.privilege, event.blocked);
-            yield toYield;
-          }
-        }
-*/
+      } else if (event is AccessUpdatedEvent) {
+        yield await theState.withNewAccess(this, event.access);
       }
     }
   }
@@ -174,11 +168,29 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  void _listenToApp(String appId) async {
-    await _appSubscription?.cancel();
-    _appSubscription = appRepository(appId: appId)!.listenTo(appId, (value) {
+  void _listenToApp(String appId, MemberModel? member) async {
+    await _appSubscription[appId]?.cancel();
+    _appSubscription[appId] = appRepository(appId: appId)!.listenTo(appId, (value) {
       if (value != null) add(AppUpdatedEvent(value));
     });
+
+    if (member != null) {
+      _accessSubscription[appId] =
+          accessRepository(appId: appId)!.listenTo(member.documentID!, (value) {
+            if (value != null) add(AccessUpdatedEvent(value));
+          });
+    }
+  }
+
+  void _resetAccessListeners(List<String> apps, String memberId) async {
+    for (var _as in _accessSubscription.values) {
+      await _as.cancel();
+    }
+    for (var appId in apps) {
+      _accessSubscription[appId] = accessRepository(appId: appId)!.listenTo(memberId, (value) {
+        if (value != null) add(AccessUpdatedEvent(value));
+      });
+    }
   }
 
   static Future<MemberModel> firebaseToMemberModel(User usr) async {

@@ -181,31 +181,58 @@ return ScaffoldMessenger(
     if ((theState is LoggedIn) && (!theState.isSubscribedToCurrentApp())) {
       return _scaffold(AcceptMembershipWidget(theState.currentApp, theState.member, theState.usr));
     } else {
-      return _scaffold(((widget.state is AccessDetermined) &&
-          (widget.state.isProcessingStatus()))
-          ? Stack(children: [
-        pageBody(context,
-            backgroundOverride:
-            widget.componentInfo.backgroundOverride,
+      if (theState.isProcessingStatus()) {
+        return _scaffold(Stack(children: [
+          pageBody(context,
+              backgroundOverride:
+              widget.componentInfo.backgroundOverride,
+              components: widget.componentInfo.widgets,
+              layout: widget.componentInfo.layout,
+              gridView: widget.componentInfo.gridView),
+          BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5,
+              sigmaY: 5,
+            ),
+            child: Container(
+              color: Colors.black.withOpacity(.3),
+            ),
+          ),
+          progressIndicator(context),
+        ]));
+      } if (theState.isCurrentAppBlocked(context)) {
+        return _scaffold(Stack(children: [
+          pageBody(context,
+              backgroundOverride:
+              widget.componentInfo.backgroundOverride,
+              components: widget.componentInfo.widgets,
+              layout: widget.componentInfo.layout,
+              gridView: widget.componentInfo.gridView),
+          BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5,
+              sigmaY: 5,
+            ),
+            child: Container(
+              color: Colors.black.withOpacity(.3),
+            ),
+          ),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.contain,
+                  image: AssetImage("assets/images/denied.png", package: 'eliud_core')
+                ),
+              ),
+            )
+        ]));
+      } else {
+        return _scaffold(pageBody(context,
+            backgroundOverride: widget.componentInfo.backgroundOverride,
             components: widget.componentInfo.widgets,
             layout: widget.componentInfo.layout,
-            gridView: widget.componentInfo.gridView),
-        BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 5,
-            sigmaY: 5,
-          ),
-          child: Container(
-            color: Colors.black.withOpacity(.3),
-          ),
-        ),
-        progressIndicator(context),
-      ])
-          : pageBody(context,
-          backgroundOverride: widget.componentInfo.backgroundOverride,
-          components: widget.componentInfo.widgets,
-          layout: widget.componentInfo.layout,
-          gridView: widget.componentInfo.gridView));
+            gridView: widget.componentInfo.gridView));
+      }
     }
   }
 }

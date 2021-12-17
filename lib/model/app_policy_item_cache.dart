@@ -118,7 +118,12 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
 
   @override
   StreamSubscription<AppPolicyItemModel?> listenTo(String documentId, AppPolicyItemChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<AppPolicyItemModel> refreshRelations(AppPolicyItemModel model) async {

@@ -118,7 +118,12 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
 
   @override
   StreamSubscription<MemberSubscriptionModel?> listenTo(String documentId, MemberSubscriptionChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<MemberSubscriptionModel> refreshRelations(MemberSubscriptionModel model) async {

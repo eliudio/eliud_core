@@ -155,7 +155,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
               BlocProvider.of<CountryListBloc>(context)
                   .add(DeleteCountryList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Country " + value.documentID,
+                message: "Country " + value.,
                 onUndo: () => BlocProvider.of<CountryListBloc>(context)
                     .add(AddCountryList(value: value)),
               ));
@@ -168,7 +168,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Country " + value.documentID,
+                        message: "Country " + value.,
                             onUndo: () => BlocProvider.of<CountryListBloc>(context)
                                 .add(AddCountryList(value: value)),
                           ),

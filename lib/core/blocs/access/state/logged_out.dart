@@ -6,6 +6,7 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/foundation.dart';
 
 import '../access_bloc.dart';
@@ -95,24 +96,29 @@ class LoggedOut extends AccessDetermined {
         isProcessing: isProcessing,
       );
     } else {
+      return addApp2(accessBloc, accesses, apps, newCurrentApp);
+    }
+  }
+
+  @override
+  Future<LoggedOut> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp) async {
       var homePage = await getHomepage(newCurrentApp);
       var newAccesses = await AccessHelper.extendAccesses(accessBloc,
-          null, accesses, newCurrentApp, false);
-      var newApps = apps.map((v) => v).toList();
+          null, _accesses, newCurrentApp, false);
+      var newApps = _apps.map((v) => v).toList();
       newApps.add(DeterminedApp(newCurrentApp, homePage));
       return Future.value(LoggedOut._(newCurrentApp,
         newApps,
         newAccesses,
         playstoreApp: playstoreApp,
       ));
-    }
   }
 
   @override
-  Future<LoggedOut> updateApps(
+  Future<LoggedOut> updateApps(AppModel newCurrentApp,
     List<DeterminedApp> newApps,
   ) {
-    return Future.value(LoggedOut._(currentApp,
+    return Future.value(LoggedOut._(newCurrentApp,
       newApps,
       accesses,
       playstoreApp: playstoreApp,

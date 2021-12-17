@@ -118,7 +118,12 @@ class CountryCache implements CountryRepository {
 
   @override
   StreamSubscription<CountryModel?> listenTo(String documentId, CountryChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<CountryModel> refreshRelations(CountryModel model) async {

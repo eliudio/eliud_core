@@ -118,7 +118,12 @@ class HomeMenuCache implements HomeMenuRepository {
 
   @override
   StreamSubscription<HomeMenuModel?> listenTo(String documentId, HomeMenuChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<HomeMenuModel> refreshRelations(HomeMenuModel model) async {

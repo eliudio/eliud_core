@@ -155,7 +155,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
               BlocProvider.of<HomeMenuListBloc>(context)
                   .add(DeleteHomeMenuList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "HomeMenu " + value.documentID,
+                message: "HomeMenu " + value.,
                 onUndo: () => BlocProvider.of<HomeMenuListBloc>(context)
                     .add(AddHomeMenuList(value: value)),
               ));
@@ -168,7 +168,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "HomeMenu " + value.documentID,
+                        message: "HomeMenu " + value.,
                             onUndo: () => BlocProvider.of<HomeMenuListBloc>(context)
                                 .add(AddHomeMenuList(value: value)),
                           ),
@@ -214,6 +214,7 @@ class HomeMenuListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container(),
+        subtitle: ,
       ),
     );
   }

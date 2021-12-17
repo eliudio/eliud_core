@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
@@ -57,19 +59,22 @@ class _DialogComponentState extends State<DialogComponent> {
                   child: BlocBuilder<AccessBloc, AccessState>(
                       builder: (context, accessState) {
                         if (accessState is AccessDetermined) {
-                          var componentInfo = ComponentInfo.getComponentInfo(
-                              context,
-                              dialog.bodyComponents!,
-                              widget.parameters,
-                              fromDialogLayout(dialog.layout),
-                              null,
-                              dialog.gridView);
+                            var componentInfo = ComponentInfo.getComponentInfo(
+                                context,
+                                dialog.bodyComponents!,
+                                widget.parameters,
+                                fromDialogLayout(dialog.layout),
+                                null,
+                                dialog.gridView);
 
-                          return simpleTopicContainer(context, children: <Widget>[pageBody(context,
-                              backgroundOverride: componentInfo.backgroundOverride,
-                              components: componentInfo.widgets,
-                              layout: componentInfo.layout,
-                              gridView: componentInfo.gridView)]);
+                            return simpleTopicContainer(
+                                context, children: <Widget>[pageBody(context,
+                                backgroundOverride: componentInfo
+                                    .backgroundOverride,
+                                components: componentInfo.widgets,
+                                layout: componentInfo.layout,
+                                gridView: componentInfo.gridView)
+                            ]);
                         } else {
                           return progressIndicator(context);
                         }

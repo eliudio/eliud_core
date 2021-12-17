@@ -118,7 +118,12 @@ class FontCache implements FontRepository {
 
   @override
   StreamSubscription<FontModel?> listenTo(String documentId, FontChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<FontModel> refreshRelations(FontModel model) async {

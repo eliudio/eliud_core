@@ -34,8 +34,8 @@ class PrivilegeInfo {
 abstract class CorePackage extends Package {
   static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
   CorePackage() : super('eliud_core');
-
   Map<String, StreamSubscription<AccessModel?>> subscription = {};
+
   Map<String, PrivilegeInfo?> statePRIVILEGE = {};
 
   @override

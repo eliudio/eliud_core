@@ -118,7 +118,12 @@ class BackgroundCache implements BackgroundRepository {
 
   @override
   StreamSubscription<BackgroundModel?> listenTo(String documentId, BackgroundChanged changed) {
-    return reference.listenTo(documentId, changed);
+    return reference.listenTo(documentId, ((value) {
+      if (value != null) {
+        fullCache[value.documentID] = value;
+      }
+      changed(value);
+    }));
   }
 
   static Future<BackgroundModel> refreshRelations(BackgroundModel model) async {

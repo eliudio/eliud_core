@@ -155,7 +155,7 @@ class FontListWidgetState extends State<FontListWidget> {
               BlocProvider.of<FontListBloc>(context)
                   .add(DeleteFontList(value: value));
               Scaffold.of(context).showSnackBar(DeleteSnackBar(
-                message: "Font " + value.documentID,
+                message: "Font " + value.,
                 onUndo: () => BlocProvider.of<FontListBloc>(context)
                     .add(AddFontList(value: value)),
               ));
@@ -168,7 +168,7 @@ class FontListWidgetState extends State<FontListWidget> {
                       if (removedItem != null) {
                         Scaffold.of(context).showSnackBar(
                           DeleteSnackBar(
-                        message: "Font " + value.documentID,
+                        message: "Font " + value.,
                             onUndo: () => BlocProvider.of<FontListBloc>(context)
                                 .add(AddFontList(value: value)),
                           ),
@@ -214,6 +214,7 @@ class FontListItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.fontName!)) : Container(),
+        subtitle: ,
       ),
     );
   }
