@@ -68,7 +68,7 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
 
   StreamSubscription<List<PlatformMediumModel?>> listen(PlatformMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<PlatformMediumModel?>> stream;
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'platformmedium'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
 //    stream = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
@@ -85,7 +85,7 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
 
   StreamSubscription<List<PlatformMediumModel?>> listenWithDetails(PlatformMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<PlatformMediumModel?>> stream;
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'platformmedium'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
 //  stream = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
@@ -183,8 +183,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
 
 
   final String appId;
-  PlatformMediumFirestore(this.PlatformMediumCollection, this.appId);
+  PlatformMediumFirestore(this.getCollection, this.appId): PlatformMediumCollection = getCollection();
 
   final CollectionReference PlatformMediumCollection;
+  final GetCollection getCollection;
 }
 

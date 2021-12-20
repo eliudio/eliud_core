@@ -124,15 +124,15 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _shadowRepository = ShadowCache(ShadowFirestore());
 
     AccessRepository? accessRepository(String? appId) {
-      if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(appRepository()!.getSubCollection(appId, 'access'), appId);
+      if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
       return _accessRepository[appId];
     }
     AppBarRepository? appBarRepository(String? appId) {
-      if ((appId != null) && (_appBarRepository[appId] == null)) _appBarRepository[appId] = AppBarCache(AppBarFirestore(appRepository()!.getSubCollection(appId, 'appbar'), appId));
+      if ((appId != null) && (_appBarRepository[appId] == null)) _appBarRepository[appId] = AppBarCache(AppBarFirestore(() => appRepository()!.getSubCollection(appId, 'appbar'), appId));
       return _appBarRepository[appId];
     }
     AppPolicyRepository? appPolicyRepository(String? appId) {
-      if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
+      if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(() => appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
     }
     BackgroundRepository? backgroundRepository() {
@@ -142,49 +142,49 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       return _countryRepository;
     }
     DialogRepository? dialogRepository(String? appId) {
-      if ((appId != null) && (_dialogRepository[appId] == null)) _dialogRepository[appId] = DialogCache(DialogFirestore(appRepository()!.getSubCollection(appId, 'dialog'), appId));
+      if ((appId != null) && (_dialogRepository[appId] == null)) _dialogRepository[appId] = DialogCache(DialogFirestore(() => appRepository()!.getSubCollection(appId, 'dialog'), appId));
       return _dialogRepository[appId];
     }
     DrawerRepository? drawerRepository(String? appId) {
-      if ((appId != null) && (_drawerRepository[appId] == null)) _drawerRepository[appId] = DrawerCache(DrawerFirestore(appRepository()!.getSubCollection(appId, 'drawer'), appId));
+      if ((appId != null) && (_drawerRepository[appId] == null)) _drawerRepository[appId] = DrawerCache(DrawerFirestore(() => appRepository()!.getSubCollection(appId, 'drawer'), appId));
       return _drawerRepository[appId];
     }
     FontRepository? fontRepository() {
       return _fontRepository;
     }
     GridViewRepository? gridViewRepository(String? appId) {
-      if ((appId != null) && (_gridViewRepository[appId] == null)) _gridViewRepository[appId] = GridViewCache(GridViewFirestore(appRepository()!.getSubCollection(appId, 'gridview'), appId));
+      if ((appId != null) && (_gridViewRepository[appId] == null)) _gridViewRepository[appId] = GridViewCache(GridViewFirestore(() => appRepository()!.getSubCollection(appId, 'gridview'), appId));
       return _gridViewRepository[appId];
     }
     HomeMenuRepository? homeMenuRepository(String? appId) {
-      if ((appId != null) && (_homeMenuRepository[appId] == null)) _homeMenuRepository[appId] = HomeMenuCache(HomeMenuFirestore(appRepository()!.getSubCollection(appId, 'homemenu'), appId));
+      if ((appId != null) && (_homeMenuRepository[appId] == null)) _homeMenuRepository[appId] = HomeMenuCache(HomeMenuFirestore(() => appRepository()!.getSubCollection(appId, 'homemenu'), appId));
       return _homeMenuRepository[appId];
     }
     MemberDashboardRepository? memberDashboardRepository(String? appId) {
-      if ((appId != null) && (_memberDashboardRepository[appId] == null)) _memberDashboardRepository[appId] = MemberDashboardCache(MemberDashboardFirestore(appRepository()!.getSubCollection(appId, 'memberdashboard'), appId));
+      if ((appId != null) && (_memberDashboardRepository[appId] == null)) _memberDashboardRepository[appId] = MemberDashboardCache(MemberDashboardFirestore(() => appRepository()!.getSubCollection(appId, 'memberdashboard'), appId));
       return _memberDashboardRepository[appId];
     }
     MemberMediumRepository? memberMediumRepository(String? appId) {
-      if ((appId != null) && (_memberMediumRepository[appId] == null)) _memberMediumRepository[appId] = MemberMediumCache(MemberMediumFirestore(appRepository()!.getSubCollection(appId, 'membermedium'), appId));
+      if ((appId != null) && (_memberMediumRepository[appId] == null)) _memberMediumRepository[appId] = MemberMediumCache(MemberMediumFirestore(() => appRepository()!.getSubCollection(appId, 'membermedium'), appId));
       return _memberMediumRepository[appId];
     }
     MemberPublicInfoRepository? memberPublicInfoRepository() {
       return _memberPublicInfoRepository;
     }
     MenuDefRepository? menuDefRepository(String? appId) {
-      if ((appId != null) && (_menuDefRepository[appId] == null)) _menuDefRepository[appId] = MenuDefCache(MenuDefFirestore(appRepository()!.getSubCollection(appId, 'menudef'), appId));
+      if ((appId != null) && (_menuDefRepository[appId] == null)) _menuDefRepository[appId] = MenuDefCache(MenuDefFirestore(() => appRepository()!.getSubCollection(appId, 'menudef'), appId));
       return _menuDefRepository[appId];
     }
     PageRepository? pageRepository(String? appId) {
-      if ((appId != null) && (_pageRepository[appId] == null)) _pageRepository[appId] = PageCache(PageFirestore(appRepository()!.getSubCollection(appId, 'page'), appId));
+      if ((appId != null) && (_pageRepository[appId] == null)) _pageRepository[appId] = PageCache(PageFirestore(() => appRepository()!.getSubCollection(appId, 'page'), appId));
       return _pageRepository[appId];
     }
     PlatformMediumRepository? platformMediumRepository(String? appId) {
-      if ((appId != null) && (_platformMediumRepository[appId] == null)) _platformMediumRepository[appId] = PlatformMediumCache(PlatformMediumFirestore(appRepository()!.getSubCollection(appId, 'platformmedium'), appId));
+      if ((appId != null) && (_platformMediumRepository[appId] == null)) _platformMediumRepository[appId] = PlatformMediumCache(PlatformMediumFirestore(() => appRepository()!.getSubCollection(appId, 'platformmedium'), appId));
       return _platformMediumRepository[appId];
     }
     PosSizeRepository? posSizeRepository(String? appId) {
-      if ((appId != null) && (_posSizeRepository[appId] == null)) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(appRepository()!.getSubCollection(appId, 'possize'), appId));
+      if ((appId != null) && (_posSizeRepository[appId] == null)) _posSizeRepository[appId] = PosSizeCache(PosSizeFirestore(() => appRepository()!.getSubCollection(appId, 'possize'), appId));
       return _posSizeRepository[appId];
     }
     PublicMediumRepository? publicMediumRepository() {

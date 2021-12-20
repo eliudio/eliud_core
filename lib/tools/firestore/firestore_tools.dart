@@ -11,6 +11,8 @@ dynamic getFirestoreField(dynamic conditionField) {
   }
 }
 
+typedef GetCollection = CollectionReference Function();
+
 // process:
 // If member has privilegeLevel >= 1, then
 //     query the pages and dialogs. Pass in privilegeLevel = 3, 2 and 1 and then merge results from query with privilegeLevel = 3, privilegeLevel = 2 and privilegeLevel = 1

@@ -68,7 +68,7 @@ class AccessFirestore implements AccessRepository {
 
   StreamSubscription<List<AccessModel?>> listen(AccessModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AccessModel?>> stream;
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'access'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
 //    stream = getQuery(AccessCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
@@ -85,7 +85,7 @@ class AccessFirestore implements AccessRepository {
 
   StreamSubscription<List<AccessModel?>> listenWithDetails(AccessModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<AccessModel?>> stream;
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'access'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
 //  stream = getQuery(AccessCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
@@ -183,8 +183,9 @@ class AccessFirestore implements AccessRepository {
 
 
   final String appId;
-  AccessFirestore(this.AccessCollection, this.appId);
+  AccessFirestore(this.getCollection, this.appId): AccessCollection = getCollection();
 
   final CollectionReference AccessCollection;
+  final GetCollection getCollection;
 }
 

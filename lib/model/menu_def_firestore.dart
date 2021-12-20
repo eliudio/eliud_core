@@ -68,7 +68,7 @@ class MenuDefFirestore implements MenuDefRepository {
 
   StreamSubscription<List<MenuDefModel?>> listen(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MenuDefModel?>> stream;
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
 //    stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
@@ -85,7 +85,7 @@ class MenuDefFirestore implements MenuDefRepository {
 
   StreamSubscription<List<MenuDefModel?>> listenWithDetails(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MenuDefModel?>> stream;
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'menudef'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
 //  stream = getQuery(MenuDefCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
@@ -183,8 +183,9 @@ class MenuDefFirestore implements MenuDefRepository {
 
 
   final String appId;
-  MenuDefFirestore(this.MenuDefCollection, this.appId);
+  MenuDefFirestore(this.getCollection, this.appId): MenuDefCollection = getCollection();
 
   final CollectionReference MenuDefCollection;
+  final GetCollection getCollection;
 }
 

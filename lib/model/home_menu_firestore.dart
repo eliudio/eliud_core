@@ -68,7 +68,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<HomeMenuModel?>> stream;
-      stream = getQuery(appRepository()!.getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
+      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
 //    The above line should eventually become the below line
 //    See https://github.com/felangel/bloc/issues/2073.
 //    stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
@@ -85,7 +85,7 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   StreamSubscription<List<HomeMenuModel?>> listenWithDetails(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<HomeMenuModel?>> stream;
-    stream = getQuery(appRepository()!.getSubCollection(appId, 'homemenu'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
 //  see comment listen(...) above
 //  stream = getQuery(HomeMenuCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
@@ -183,8 +183,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
 
   final String appId;
-  HomeMenuFirestore(this.HomeMenuCollection, this.appId);
+  HomeMenuFirestore(this.getCollection, this.appId): HomeMenuCollection = getCollection();
 
   final CollectionReference HomeMenuCollection;
+  final GetCollection getCollection;
 }
 
