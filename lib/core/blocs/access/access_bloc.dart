@@ -115,7 +115,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
       } else if (event is UpdatePackageConditionEvent) {
-        yield theState.withDifferentPackageCondition(event.app.documentID!, event.package, event.packageCondition, event.condition);
+        var currentState = state;
+        var newState = theState.withDifferentPackageCondition(event.app.documentID!, event.package, event.packageCondition, event.condition);
+        var isEqual = currentState == newState;
+        yield newState;
       } else if (event is PrivilegeChangedEvent) {
         yield await theState.withOtherPrivilege(this, event.app,
             event.privilege, event.blocked);
