@@ -185,6 +185,12 @@ class AccessHelper {
     return currentAccesses;
   }
 
+  static Future<Map<String, PagesAndDialogAccesss>> extendAccesses2(AccessBloc accessBloc, MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn, PrivilegeLevel privilegeLevel, bool? isBlocked) async {
+    var access = await _getAccess2(accessBloc, member, addApp, isLoggedIn, privilegeLevel, isBlocked);
+    currentAccesses[addApp.documentID!] = access;
+    return currentAccesses;
+  }
+
   static Future<PagesAndDialogAccesss> _getAccess(AccessBloc accessBloc,
       MemberModel? member, AppModel app, bool isLoggedIn) async {
     var afm = await getAccessForMember(member, app.documentID!);

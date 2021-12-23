@@ -44,9 +44,8 @@ class LoggedIn extends AccessDetermined {
     List<String> subscribedToApps, {
     AppModel? playstoreApp,
   }) async {
-
     var accesses =
-    await AccessHelper.getAccesses(accessBloc, member, apps, false);
+        await AccessHelper.getAccesses(accessBloc, member, apps, false);
 
     var determinedApps = await Future.wait(apps.map((app) async {
       var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
@@ -144,16 +143,20 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  Future<LoggedIn> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp) async {
+  Future<LoggedIn> addApp2(
+      AccessBloc accessBloc,
+      Map<String, PagesAndDialogAccesss> _accesses,
+      List<DeterminedApp> _apps,
+      AppModel newCurrentApp) async {
     var newAccesses = await AccessHelper.extendAccesses(
         accessBloc, member, _accesses, newCurrentApp, true);
     var newApps = _apps.map((v) => v).toList();
 
     var privilegeLevel =
-    _privilegeLevel(newCurrentApp.documentID!, newAccesses);
+        _privilegeLevel(newCurrentApp.documentID!, newAccesses);
     var appIsBlocked = _isBlocked(newCurrentApp.documentID!, newAccesses);
     var homePage =
-    await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+        await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
     newApps.add(DeterminedApp(newCurrentApp, homePage));
     return Future.value(LoggedIn._(
       usr,
@@ -169,7 +172,7 @@ class LoggedIn extends AccessDetermined {
 
   @override
   Future<LoggedIn> updateApps(
-      AppModel newCurrentApp,
+    AppModel newCurrentApp,
     List<DeterminedApp> newApps,
   ) {
     return Future.value(LoggedIn._(
@@ -358,8 +361,8 @@ class LoggedIn extends AccessDetermined {
   @override
   Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc,
       AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
-    var newAccesses = await AccessHelper.extendAccesses(
-        accessBloc, member, accesses, newApp, true);
+    var newAccesses = await AccessHelper.extendAccesses2(
+        accessBloc, member, accesses, newApp, true, privilege, blocked);
     var newApps = apps.map((v) => v).toList();
     newApps
         .removeWhere((element) => element.app.documentID == newApp.documentID);
@@ -390,5 +393,4 @@ class LoggedIn extends AccessDetermined {
       playstoreApp: playstoreApp,
     );
   }
-
 }

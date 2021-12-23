@@ -13,33 +13,40 @@ import '../access_bloc.dart';
 import 'access_determined.dart';
 
 class LoggedOut extends AccessDetermined {
-  static Future<LoggedOut> getLoggedOut(AppModel currentApp, AccessBloc accessBloc,
-      List<AppModel> apps, {
-        AppModel? playstoreApp,
-      }) async {
-
+  static Future<LoggedOut> getLoggedOut(
+    AppModel currentApp,
+    AccessBloc accessBloc,
+    List<AppModel> apps, {
+    AppModel? playstoreApp,
+  }) async {
     var determinedApps = await Future.wait(apps.map((app) async {
       var homePage = await getHomepage(app);
       return DeterminedApp(app, homePage);
     }).toList());
 
-    var accesses = await AccessHelper.getAccesses(accessBloc, null, apps, false);
-    var loggedOut = LoggedOut._(currentApp, determinedApps, accesses, playstoreApp: playstoreApp);
+    var accesses =
+        await AccessHelper.getAccesses(accessBloc, null, apps, false);
+    var loggedOut = LoggedOut._(currentApp, determinedApps, accesses,
+        playstoreApp: playstoreApp);
     return loggedOut;
   }
 
-  static Future<LoggedOut> getLoggedOut2(AccessBloc accessBloc,
-      AppModel app, {
-      AppModel? playstoreApp,
-      }) async {
+  static Future<LoggedOut> getLoggedOut2(
+    AccessBloc accessBloc,
+    AppModel app, {
+    AppModel? playstoreApp,
+  }) async {
     var homePage = await getHomepage(app);
     var apps = [DeterminedApp(app, homePage)];
-    var accesses = await AccessHelper.getAccesses(accessBloc, null, [app], false);
-    var loggedOut = LoggedOut._(app, apps, accesses, playstoreApp: playstoreApp);
+    var accesses =
+        await AccessHelper.getAccesses(accessBloc, null, [app], false);
+    var loggedOut =
+        LoggedOut._(app, apps, accesses, playstoreApp: playstoreApp);
     return loggedOut;
   }
 
-  LoggedOut._(AppModel currentApp,
+  LoggedOut._(
+    AppModel currentApp,
     List<DeterminedApp> apps,
     Map<String, PagesAndDialogAccesss> accesses, {
     AppModel? playstoreApp,
@@ -87,9 +94,11 @@ class LoggedOut extends AccessDetermined {
           isProcessing == other.isProcessing;
 
   @override
-  Future<LoggedOut> addApp(AccessBloc accessBloc, AppModel newCurrentApp) async {
+  Future<LoggedOut> addApp(
+      AccessBloc accessBloc, AppModel newCurrentApp) async {
     if (apps.contains(newCurrentApp)) {
-      return LoggedOut._(newCurrentApp,
+      return LoggedOut._(
+        newCurrentApp,
         apps,
         accesses,
         playstoreApp: playstoreApp,
@@ -101,24 +110,31 @@ class LoggedOut extends AccessDetermined {
   }
 
   @override
-  Future<LoggedOut> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp) async {
-      var homePage = await getHomepage(newCurrentApp);
-      var newAccesses = await AccessHelper.extendAccesses(accessBloc,
-          null, _accesses, newCurrentApp, false);
-      var newApps = _apps.map((v) => v).toList();
-      newApps.add(DeterminedApp(newCurrentApp, homePage));
-      return Future.value(LoggedOut._(newCurrentApp,
-        newApps,
-        newAccesses,
-        playstoreApp: playstoreApp,
-      ));
+  Future<LoggedOut> addApp2(
+      AccessBloc accessBloc,
+      Map<String, PagesAndDialogAccesss> _accesses,
+      List<DeterminedApp> _apps,
+      AppModel newCurrentApp) async {
+    var homePage = await getHomepage(newCurrentApp);
+    var newAccesses = await AccessHelper.extendAccesses(
+        accessBloc, null, _accesses, newCurrentApp, false);
+    var newApps = _apps.map((v) => v).toList();
+    newApps.add(DeterminedApp(newCurrentApp, homePage));
+    return Future.value(LoggedOut._(
+      newCurrentApp,
+      newApps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+    ));
   }
 
   @override
-  Future<LoggedOut> updateApps(AppModel newCurrentApp,
+  Future<LoggedOut> updateApps(
+    AppModel newCurrentApp,
     List<DeterminedApp> newApps,
   ) {
-    return Future.value(LoggedOut._(newCurrentApp,
+    return Future.value(LoggedOut._(
+      newCurrentApp,
       newApps,
       accesses,
       playstoreApp: playstoreApp,
@@ -158,7 +174,8 @@ class LoggedOut extends AccessDetermined {
 
   @override
   AccessDetermined asNotProcessing() {
-    return LoggedOut._(currentApp,
+    return LoggedOut._(
+      currentApp,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -168,7 +185,8 @@ class LoggedOut extends AccessDetermined {
 
   @override
   AccessDetermined asProcessing() {
-    return LoggedOut._(currentApp,
+    return LoggedOut._(
+      currentApp,
       apps,
       accesses,
       playstoreApp: playstoreApp,
@@ -177,8 +195,10 @@ class LoggedOut extends AccessDetermined {
   }
 
   @override
-  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses) {
-    return LoggedOut._(currentApp,
+  AccessDetermined withNewAccesses(
+      Map<String, PagesAndDialogAccesss> newAccesses) {
+    return LoggedOut._(
+      currentApp,
       apps,
       newAccesses,
       playstoreApp: playstoreApp,
@@ -187,11 +207,13 @@ class LoggedOut extends AccessDetermined {
   }
 
   @override
-  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc,
+      AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
     accesses.removeWhere((key, value) => key == newApp.documentID);
-    var newAccesses = await AccessHelper.extendAccesses(accessBloc,
-        null, accesses, newApp, false);
-    return Future.value(LoggedOut._(currentApp,
+    var newAccesses = await AccessHelper.extendAccesses2(
+        accessBloc, null, accesses, newApp, false, privilege, blocked);
+    return Future.value(LoggedOut._(
+      currentApp,
       apps,
       newAccesses,
       playstoreApp: playstoreApp,
