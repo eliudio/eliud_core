@@ -8,6 +8,7 @@ import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,9 +56,11 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   @override
   void initState() {
     super.initState();
-    checked = widget.app.policies!.policies!
-        .map((element) => CheckboxHandler(false, element.policy))
-        .toList();
+    if ((widget.app.policies != null) && (widget.app.policies!.policies != null)) {
+      checked = widget.app.policies!.policies!
+          .map((element) => CheckboxHandler(false, element.policy))
+          .toList();
+    }
   }
 
   @override
@@ -66,8 +69,10 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   bool _allEnabled(AppModel app) {
-    for (var i = 0; i < app.policies!.policies!.length; i++) {
-      if (!checked[i].value!) return false;
+    if (app.policies != null) {
+      for (var i = 0; i < app.policies!.policies!.length; i++) {
+        if (!checked[i].value!) return false;
+      }
     }
     return true;
   }
@@ -88,33 +93,33 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     var contents = <Widget>[];
 
     var i = 0;
-    widget.app.policies!.policies!.forEach((policy) {
-      var handler = checked[i];
-      contents.add(Row(children: [
-        Container(
-            height: 40,
-            child: Center(
-                child: Checkbox(
-              value: handler.value,
-              onChanged: (newValue) {
-                setState(() {
-                  handler.value = newValue;
-                });
-              },
-            ))),
-        Spacer(),
-/*
-            Container(
-                height: 30, width: 200, child: Center(child: Text(policy.name))),
-*/
-        Text(policy.name!),
-        Spacer(),
-        button(context, label: 'Read', onPressed: () async {
-          _openPolicy(policy.name, handler.item!);
-        }),
-      ]));
-      i++;
-    });
+    if (widget.app.policies != null) {
+      widget.app.policies!.policies!.forEach((policy) {
+        var handler = checked[i];
+        contents.add(Row(children: [
+          Container(
+              height: 40,
+              child: Center(
+                  child: Checkbox(
+                    value: handler.value,
+                    onChanged: (newValue) {
+                      setState(() {
+                        handler.value = newValue;
+                      });
+                    },
+                  ))),
+          Spacer(),
+          text(context, policy.name!),
+          Spacer(),
+          button(context, label: 'Read', onPressed: () async {
+            _openPolicy(policy.name, handler.item!);
+          }),
+        ]));
+        i++;
+      });
+    } else {
+      contents.add(text(context, 'No policies to approve'));
+    }
 
     return actionContainer(context,
         child: Center(
@@ -140,17 +145,13 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   Widget addStuff(List<Widget> content, AppModel app) {
     var widgets = <Widget>[
       Center(
-          child: Text('Read and accept policies',
-              style: TextStyle(
-                  color: Colors.grey[800],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20))),
+          child: h1(context, 'Read and accept policies')),
       Divider(
         height: 10,
         color: Colors.red,
       ),
-      Text(
-          "Welcome! Please read the below policies. After reading, check the checkbox and finalise with the Accept button."),
+      text(context,
+          'Welcome! Please read the below policies. After reading, check the checkbox and finalise with the Accept button.'),
       Divider(
         height: 10,
         color: Colors.red,

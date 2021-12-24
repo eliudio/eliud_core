@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
+import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
+import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -53,6 +56,13 @@ class LoggedIn extends AccessDetermined {
       var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
       return DeterminedApp(app, homePage);
     }).toList());
+
+/*
+    if ((!(subscribedToApps.contains(currentApp.documentID!))) && (currentApp.policies == null)) {
+      // accept membership as not policies provided
+      member = await acceptMembership(member, currentApp);
+    }
+*/
 
     var loggedIn = LoggedIn._(
       usr,
@@ -393,4 +403,42 @@ class LoggedIn extends AccessDetermined {
       playstoreApp: playstoreApp,
     );
   }
+
+  static Future<MemberModel> acceptMembership(
+      MemberModel member, AppModel app) async {
+    if (isSubscibred(member, app)) return member;
+
+    var subscriptions = member.subscriptions!;
+    subscriptions
+        .add(MemberSubscriptionModel(documentID: newRandomKey(), app: app));
+    member = member.copyWith(subscriptions: subscriptions);
+    var returnMe = await memberRepository()!.update(member);
+
+    var accessModel =
+    await accessRepository(appId: app.documentID)!.get(member.documentID);
+    if (accessModel == null) {
+      // create an access entry. creation with privilege level 0 is allowed
+      await accessRepository(appId: app.documentID)!.add(AccessModel(
+        documentID: member.documentID,
+        appId: app.documentID,
+        privilegeLevel: PrivilegeLevel.NoPrivilege,
+        points: 0,
+      ));
+    }
+
+    return returnMe;
+  }
+
+  static bool isSubscibred(MemberModel? member, AppModel app) {
+    if (member == null) return false;
+    if (member.subscriptions == null) return false;
+    // if (member.subscriptions.length == 0) return false;
+
+    var matches = member.subscriptions!.where((subscription) =>
+    subscription.app != null
+        ? subscription.app!.documentID == app.documentID
+        : false);
+    return matches.isNotEmpty;
+  }
+
 }

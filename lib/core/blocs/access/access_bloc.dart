@@ -126,7 +126,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (theState is LoggedIn) {
           var _member = theState.getMember();
           if (_member != null) {
-            var member = await _acceptMembership(_member, event.app);
+            var member = await LoggedIn.acceptMembership(_member, event.app);
             var newState = await theState.withSubscriptions(
                 getSubscriptions(member));
             if (newState.postLoginAction != null) {
@@ -219,31 +219,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return futureMemberModel;
   }
 
-  Future<MemberModel> _acceptMembership(
-      MemberModel member, AppModel app) async {
-    if (isSubscibred(member, app)) return member;
-
-    var subscriptions = member.subscriptions!;
-    subscriptions
-        .add(MemberSubscriptionModel(documentID: newRandomKey(), app: app));
-    member = member.copyWith(subscriptions: subscriptions);
-    var returnMe = await memberRepository()!.update(member);
-
-    var accessModel =
-        await accessRepository(appId: app.documentID)!.get(member.documentID);
-    if (accessModel == null) {
-      // create an access entry. creation with privilege level 0 is allowed
-      await accessRepository(appId: app.documentID)!.add(AccessModel(
-        documentID: member.documentID,
-        appId: app.documentID,
-        privilegeLevel: PrivilegeLevel.NoPrivilege,
-        points: 0,
-      ));
-    }
-
-    return returnMe;
-  }
-
   @override
   Future<void> close() {
     return super.close();
@@ -254,30 +229,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return BlocProvider.of<AccessBloc>(context);
   }
 
-  static bool isSubscibred(MemberModel? member, AppModel app) {
-    if (member == null) return false;
-    if (member.subscriptions == null) return false;
-    // if (member.subscriptions.length == 0) return false;
-
-    var matches = member.subscriptions!.where((subscription) =>
-    subscription.app != null
-        ? subscription.app!.documentID == app.documentID
-        : false);
-    return matches.isNotEmpty;
-  }
-
   static List<String> getSubscriptions(MemberModel member) {
     if (member.subscriptions == null) return [];
 
     return member.subscriptions!.map((memberSubscriptionModel) => memberSubscriptionModel.app!.documentID!).toList();
   }
-/*
-  static MemberModel? memberFor(AccessState state) {
-    if (state is LoggedIn) {
-      return state.member;
-    }
-    return null;
-  }*/
 
   static MemberModel? member(BuildContext context) {
     var state = BlocProvider.of<AccessBloc>(context).state;
@@ -345,47 +301,4 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       return appModel;
     }
   }
-
-/*  static AppModel? app(BuildContext context) {
-    var state = BlocProvider.of<AccessBloc>(context).state;
-    if (state is AppLoaded) {
-      return state.app;
-    } else {
-      return null;
-    }
-  }
-
-  static String? appId(BuildContext context) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
-    if (appState is AppLoaded) {
-      return appState.app.documentID;
-    }
-    return null;
-  }
-
-  static String? playStoreApp(AccessState appState) {
-    if (appState is AppLoaded) {
-      if (appState.playStoreApp == null) return null;
-      if (appState.app.documentID == appState.playStoreApp!.documentID) {
-        return null;
-      }
-      return appState.playStoreApp!.documentID;
-    }
-    return null;
-  }
-
-  static String? addPlayStoreApp(BuildContext context) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
-    return playStoreApp(appState);
-  }
-
-  static bool isPlayStoreApp(BuildContext context, String documentID) {
-    var appState = BlocProvider.of<AccessBloc>(context).state;
-    if (appState is AppLoaded) {
-      if (appState.playStoreApp != null) {
-        return appState.playStoreApp!.documentID == documentID;
-      }
-    }
-    return false;
-  }*/
 }
