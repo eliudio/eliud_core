@@ -50,6 +50,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
       if (event is InitialiseNewBackgroundFormEvent) {
         BackgroundFormLoaded loaded = BackgroundFormLoaded(value: BackgroundModel(
                                                documentID: "",
+                                 appId: "",
                                  comments: "",
                                  decorationColors: [],
 
@@ -94,6 +95,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         else
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
                                  comments: currentState.value!.comments,
                                  backgroundImage: null,
                                  useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,
@@ -131,6 +133,7 @@ class BackgroundFormBloc extends Bloc<BackgroundFormEvent, BackgroundFormState> 
         else
           newValue = new BackgroundModel(
                                  documentID: currentState.value!.documentID,
+                                 appId: currentState.value!.appId,
                                  comments: currentState.value!.comments,
                                  backgroundImage: currentState.value!.backgroundImage,
                                  useProfilePhotoAsBackground: currentState.value!.useProfilePhotoAsBackground,

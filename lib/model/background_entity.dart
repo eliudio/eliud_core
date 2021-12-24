@@ -22,6 +22,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class BackgroundEntity {
+  final String? appId;
   final String? comments;
   final String? backgroundImageId;
   final bool? useProfilePhotoAsBackground;
@@ -31,16 +32,16 @@ class BackgroundEntity {
   final List<DecorationColorEntity>? decorationColors;
   final bool? border;
 
-  BackgroundEntity({this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, });
+  BackgroundEntity({this.appId, this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, });
 
 
-  List<Object?> get props => [comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, ];
+  List<Object?> get props => [appId, comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, ];
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundEntity{comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundEntity{appId: $appId, comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
   static BackgroundEntity? fromMap(Object? o) {
@@ -57,6 +58,7 @@ class BackgroundEntity {
         .toList();
 
     return BackgroundEntity(
+      appId: map['appId'], 
       comments: map['comments'], 
       backgroundImageId: map['backgroundImageId'], 
       useProfilePhotoAsBackground: map['useProfilePhotoAsBackground'], 
@@ -74,6 +76,8 @@ class BackgroundEntity {
         : null;
 
     Map<String, Object?> theDocument = HashMap();
+    if (appId != null) theDocument["appId"] = appId;
+      else theDocument["appId"] = null;
     if (comments != null) theDocument["comments"] = comments;
       else theDocument["comments"] = null;
     if (backgroundImageId != null) theDocument["backgroundImageId"] = backgroundImageId;

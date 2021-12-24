@@ -106,7 +106,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
-    var _backgroundRepository = BackgroundCache(BackgroundFirestore());
+    var _backgroundRepository = HashMap<String, BackgroundRepository>();
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
@@ -121,7 +121,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _posSizeRepository = HashMap<String, PosSizeRepository>();
     var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
-    var _shadowRepository = ShadowCache(ShadowFirestore());
+    var _shadowRepository = HashMap<String, ShadowRepository>();
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -135,8 +135,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(() => appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
     }
-    BackgroundRepository? backgroundRepository() {
-      return _backgroundRepository;
+    BackgroundRepository? backgroundRepository(String? appId) {
+      if ((appId != null) && (_backgroundRepository[appId] == null)) _backgroundRepository[appId] = BackgroundCache(BackgroundFirestore(() => appRepository()!.getSubCollection(appId, 'background'), appId));
+      return _backgroundRepository[appId];
     }
     CountryRepository? countryRepository() {
       return _countryRepository;
@@ -190,8 +191,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     PublicMediumRepository? publicMediumRepository() {
       return _publicMediumRepository;
     }
-    ShadowRepository? shadowRepository() {
-      return _shadowRepository;
+    ShadowRepository? shadowRepository(String? appId) {
+      if ((appId != null) && (_shadowRepository[appId] == null)) _shadowRepository[appId] = ShadowCache(ShadowFirestore(() => appRepository()!.getSubCollection(appId, 'shadow'), appId));
+      return _shadowRepository[appId];
     }
 
 }

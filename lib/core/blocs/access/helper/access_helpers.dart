@@ -116,7 +116,9 @@ class AccessHelper {
       bool isOwner,
       bool? isBlocked,
       bool isLoggedIn) {
-    if (privilegedLevel.index < conditions.privilegeLevelRequired!.index) {
+    var privilegeLevelRequiredIndex = conditions.privilegeLevelRequired == null ? PrivilegeLevelRequired.NoPrivilegeRequired.index : conditions.privilegeLevelRequired!.index;
+
+    if (privilegedLevel.index < privilegeLevelRequiredIndex) {
       return false;
     }
 
@@ -133,7 +135,7 @@ class AccessHelper {
     if (conditions.conditionOverride != null) {
       switch (conditions.conditionOverride) {
         case ConditionOverride.ExactPrivilege:
-          if (privilegedLevel.index != conditions.privilegeLevelRequired!.index) return false;
+          if (privilegedLevel.index != privilegeLevelRequiredIndex) return false;
           break;
         case ConditionOverride.InclusiveForBlockedMembers:
           if ((isBlocked != null) && (isBlocked)) return true;

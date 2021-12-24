@@ -258,6 +258,8 @@ class Registry {
       // Given some privilege is required and access is not set then no access for this member
       if (!(accessDetermined is LoggedIn)) return false;
 
+      if (model.conditions!.privilegeLevelRequired == null) return true;
+
       // If sufficient privilege set then access for this member
       if (model.conditions!.privilegeLevelRequired!.index <=
           accessDetermined.getPrivilegeLevelCurrentApp(context).index) return true;

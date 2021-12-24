@@ -72,6 +72,7 @@ EndGradientPosition toEndGradientPosition(int? index) {
 
 class BackgroundModel {
   String? documentID;
+  String? appId;
   String? comments;
 
   // Background Image. If you want to use an image you've uploaded to your member area then please use that public URL
@@ -89,16 +90,16 @@ class BackgroundModel {
   List<DecorationColorModel>? decorationColors;
   bool? border;
 
-  BackgroundModel({this.documentID, this.comments, this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, })  {
+  BackgroundModel({this.documentID, this.appId, this.comments, this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, })  {
     assert(documentID != null);
   }
 
-  BackgroundModel copyWith({String? documentID, String? comments, PublicMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, }) {
-    return BackgroundModel(documentID: documentID ?? this.documentID, comments: comments ?? this.comments, backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, );
+  BackgroundModel copyWith({String? documentID, String? appId, String? comments, PublicMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, }) {
+    return BackgroundModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ comments.hashCode ^ backgroundImage.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ border.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ comments.hashCode ^ backgroundImage.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ border.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -106,6 +107,7 @@ class BackgroundModel {
           other is BackgroundModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
+          appId == other.appId &&
           comments == other.comments &&
           backgroundImage == other.backgroundImage &&
           useProfilePhotoAsBackground == other.useProfilePhotoAsBackground &&
@@ -119,11 +121,12 @@ class BackgroundModel {
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundModel{documentID: $documentID, comments: $comments, backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundModel{documentID: $documentID, appId: $appId, comments: $comments, backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
   BackgroundEntity toEntity({String? appId}) {
     return BackgroundEntity(
+          appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
           backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 
           useProfilePhotoAsBackground: (useProfilePhotoAsBackground != null) ? useProfilePhotoAsBackground : null, 
@@ -142,6 +145,7 @@ class BackgroundModel {
     var counter = 0;
     return BackgroundModel(
           documentID: documentID, 
+          appId: entity.appId, 
           comments: entity.comments, 
           useProfilePhotoAsBackground: entity.useProfilePhotoAsBackground, 
           beginGradientPosition: toStartGradientPosition(entity.beginGradientPosition), 
@@ -186,6 +190,7 @@ class BackgroundModel {
     var counter = 0;
     return BackgroundModel(
           documentID: documentID, 
+          appId: entity.appId, 
           comments: entity.comments, 
           backgroundImage: backgroundImageHolder, 
           useProfilePhotoAsBackground: entity.useProfilePhotoAsBackground, 

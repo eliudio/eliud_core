@@ -48,7 +48,7 @@ import 'package:eliud_core/package/package.dart';
 AccessRepository? accessRepository({ String? appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
 AppBarRepository? appBarRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
 AppPolicyRepository? appPolicyRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
-BackgroundRepository? backgroundRepository({ String? appId }) => AbstractRepositorySingleton.singleton.backgroundRepository();
+BackgroundRepository? backgroundRepository({ String? appId }) => AbstractRepositorySingleton.singleton.backgroundRepository(appId);
 CountryRepository? countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
 DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
@@ -63,7 +63,7 @@ PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton
 PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 PublicMediumRepository? publicMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.publicMediumRepository();
-ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository();
+ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -75,7 +75,7 @@ abstract class AbstractRepositorySingleton {
   AccessRepository? accessRepository(String? appId);
   AppBarRepository? appBarRepository(String? appId);
   AppPolicyRepository? appPolicyRepository(String? appId);
-  BackgroundRepository? backgroundRepository();
+  BackgroundRepository? backgroundRepository(String? appId);
   CountryRepository? countryRepository();
   DialogRepository? dialogRepository(String? appId);
   DrawerRepository? drawerRepository(String? appId);
@@ -90,12 +90,13 @@ abstract class AbstractRepositorySingleton {
   PlatformMediumRepository? platformMediumRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
   PublicMediumRepository? publicMediumRepository();
-  ShadowRepository? shadowRepository();
+  ShadowRepository? shadowRepository(String? appId);
 
   void flush(String? appId) {
     accessRepository(appId)!.flush();
     appBarRepository(appId)!.flush();
     appPolicyRepository(appId)!.flush();
+    backgroundRepository(appId)!.flush();
     dialogRepository(appId)!.flush();
     drawerRepository(appId)!.flush();
     gridViewRepository(appId)!.flush();
@@ -106,5 +107,6 @@ abstract class AbstractRepositorySingleton {
     pageRepository(appId)!.flush();
     platformMediumRepository(appId)!.flush();
     posSizeRepository(appId)!.flush();
+    shadowRepository(appId)!.flush();
   }
 }

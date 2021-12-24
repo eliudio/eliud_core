@@ -79,6 +79,22 @@ class DocumentIDShadowFormError extends ShadowFormError {
 }
 
 
+class AppIdShadowFormError extends ShadowFormError { 
+  const AppIdShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppIdShadowFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class CommentsShadowFormError extends ShadowFormError { 
   const CommentsShadowFormError({ String? message, ShadowModel? value }): super(message: message, value: value);
 

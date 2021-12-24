@@ -119,6 +119,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   late BackgroundFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _commentsController = TextEditingController();
   String? _backgroundImage;
   bool? _useProfilePhotoAsBackgroundSelection;
@@ -135,6 +136,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<BackgroundFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _commentsController.addListener(_onCommentsChanged);
     _useProfilePhotoAsBackgroundSelection = false;
     _beginGradientPositionSelectedRadioTile = 0;
@@ -158,6 +160,10 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.comments != null)
           _commentsController.text = state.value!.comments.toString();
         else
@@ -388,6 +394,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                         BlocProvider.of<BackgroundListBloc>(context).add(
                           UpdateBackgroundList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
@@ -401,6 +408,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                         BlocProvider.of<BackgroundListBloc>(context).add(
                           AddBackgroundList(value: BackgroundModel(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               comments: state.value!.comments, 
                               backgroundImage: state.value!.backgroundImage, 
                               useProfilePhotoAsBackground: state.value!.useProfilePhotoAsBackground, 
@@ -437,6 +445,11 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   void _onDocumentIDChanged() {
     _myFormBloc.add(ChangedBackgroundDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedBackgroundAppId(value: _appIdController.text));
   }
 
 
@@ -501,6 +514,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
+    _appIdController.dispose();
     _commentsController.dispose();
     super.dispose();
   }

@@ -116,6 +116,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   late DecorationColorFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _stopController = TextEditingController();
 
 
@@ -126,6 +127,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<DecorationColorFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _stopController.addListener(_onStopChanged);
   }
 
@@ -145,6 +147,10 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.stop != null)
           _stopController.text = state.value!.stop.toString();
         else
@@ -173,6 +179,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                         BlocProvider.of<DecorationColorListBloc>(context).add(
                           UpdateDecorationColorList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               color: state.value!.color, 
                               stop: state.value!.stop, 
                         )));
@@ -180,6 +187,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                         BlocProvider.of<DecorationColorListBloc>(context).add(
                           AddDecorationColorList(value: DecorationColorModel(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               color: state.value!.color, 
                               stop: state.value!.stop, 
                           )));
@@ -213,6 +221,11 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   }
 
 
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedDecorationColorAppId(value: _appIdController.text));
+  }
+
+
   void _onColorChanged(value) {
     _myFormBloc.add(ChangedDecorationColorColor(value: value));
     
@@ -228,6 +241,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
+    _appIdController.dispose();
     _stopController.dispose();
     super.dispose();
   }

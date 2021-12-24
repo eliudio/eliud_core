@@ -67,6 +67,18 @@ class ChangedShadowDocumentID extends ShadowFormEvent {
   String toString() => 'ChangedShadowDocumentID{ value: $value }';
 }
 
+class ChangedShadowAppId extends ShadowFormEvent {
+  final String? value;
+
+  ChangedShadowAppId({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedShadowAppId{ value: $value }';
+}
+
 class ChangedShadowComments extends ShadowFormEvent {
   final String? value;
 

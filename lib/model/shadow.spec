@@ -1,6 +1,7 @@
 {
   "id": "Shadow",
   "packageName": "eliud_core",
+  "isAppModel": true,
   "generate": {
     "generateComponent": false,
     "generateRepository": true,
@@ -14,7 +15,8 @@
     "generateList": true,
     "generateDropDownButton": true,
     "generateInternalComponent": true,
-    "generateEmbeddedComponent": false
+    "generateEmbeddedComponent": false,
+    "documentSubCollectionOf": "app"
   },
   "fields": [
     {
@@ -23,6 +25,13 @@
       "fieldType": "String",
       "iconName": "vpn_key",
       "group": "general"
+    },
+    {
+      "fieldName": "appId",
+      "displayName": "App ID",
+      "fieldType": "String",
+      "iconName": "vpn_key",
+      "hidden": true
     },
     {
       "fieldName": "comments",
