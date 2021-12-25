@@ -12,13 +12,10 @@ import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-
 import 'blocs/access/access_bloc.dart';
 import 'blocs/access/access_event.dart';
 import 'blocs/access/state/access_determined.dart';
@@ -140,7 +137,7 @@ class Registry {
                 builder: (context, accessState) {
           if (accessState is AccessDetermined) {
 
-            AppModel currentApp = accessState.currentApp;
+            var currentApp = accessState.currentApp;
 
             var packageBlocProviders = <BlocProvider>[];
             Packages.registeredPackages.forEach((element) {
@@ -178,7 +175,7 @@ class Registry {
             initialRoute: initialRoute,
             onGenerateRoute: eliudrouter.Router.generateRoute,
             onUnknownRoute: (RouteSettings setting) {
-              return pageRouteBuilderWithAppId(app.documentID!,
+              return pageRouteBuilder(app,
                   page: AlertWidget(
                       title: 'Error', content: 'Page not found'));
             },
@@ -190,7 +187,6 @@ class Registry {
   Widget component(BuildContext context,
       /*AccessDetermined accessDetermined, */ String componentName, String id,
       {Map<String, dynamic>? parameters, Key? key}) {
-    Widget? returnThis;
     try {
       var componentConstructor = _registryMap[componentName];
       if (componentConstructor != null) {
@@ -270,10 +266,6 @@ class Registry {
       print('Exception whilst validating access to $component with id $id');
       return false;
     }
-  }
-
-  Widget _missingPage() {
-    return Text('Page not available');
   }
 
   void register(

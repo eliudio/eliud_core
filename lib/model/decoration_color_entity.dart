@@ -22,18 +22,17 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class DecorationColorEntity {
-  final String? appId;
   final RgbEntity? color;
   final double? stop;
 
-  DecorationColorEntity({this.appId, this.color, this.stop, });
+  DecorationColorEntity({this.color, this.stop, });
 
 
-  List<Object?> get props => [appId, color, stop, ];
+  List<Object?> get props => [color, stop, ];
 
   @override
   String toString() {
-    return 'DecorationColorEntity{appId: $appId, color: $color, stop: $stop}';
+    return 'DecorationColorEntity{color: $color, stop: $stop}';
   }
 
   static DecorationColorEntity? fromMap(Object? o) {
@@ -46,7 +45,6 @@ class DecorationColorEntity {
       colorFromMap = RgbEntity.fromMap(colorFromMap);
 
     return DecorationColorEntity(
-      appId: map['appId'], 
       color: colorFromMap, 
       stop: double.tryParse(map['stop'].toString()), 
     );
@@ -58,8 +56,6 @@ class DecorationColorEntity {
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
     if (color != null) theDocument["color"] = colorMap;
       else theDocument["color"] = null;
     if (stop != null) theDocument["stop"] = stop;

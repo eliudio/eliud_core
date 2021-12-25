@@ -49,7 +49,6 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
       if (event is InitialiseNewDecorationColorFormEvent) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: DecorationColorModel(
                                                documentID: "IDENTIFIER", 
-                                 appId: "",
                                  color: RgbModel(r: 64, g: 6, b: 64, opacity: 1.00), 
                                  stop: 0.1, 
 

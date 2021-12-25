@@ -67,18 +67,6 @@ class ChangedDecorationColorDocumentID extends DecorationColorFormEvent {
   String toString() => 'ChangedDecorationColorDocumentID{ value: $value }';
 }
 
-class ChangedDecorationColorAppId extends DecorationColorFormEvent {
-  final String? value;
-
-  ChangedDecorationColorAppId({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedDecorationColorAppId{ value: $value }';
-}
-
 class ChangedDecorationColorColor extends DecorationColorFormEvent {
   final RgbModel? value;
 

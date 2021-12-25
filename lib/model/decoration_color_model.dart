@@ -33,20 +33,19 @@ import 'package:eliud_core/tools/random.dart';
 
 class DecorationColorModel {
   String? documentID;
-  String? appId;
   RgbModel? color;
   double? stop;
 
-  DecorationColorModel({this.documentID, this.appId, this.color, this.stop, })  {
+  DecorationColorModel({this.documentID, this.color, this.stop, })  {
     assert(documentID != null);
   }
 
-  DecorationColorModel copyWith({String? documentID, String? appId, RgbModel? color, double? stop, }) {
-    return DecorationColorModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, color: color ?? this.color, stop: stop ?? this.stop, );
+  DecorationColorModel copyWith({String? documentID, RgbModel? color, double? stop, }) {
+    return DecorationColorModel(documentID: documentID ?? this.documentID, color: color ?? this.color, stop: stop ?? this.stop, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ color.hashCode ^ stop.hashCode;
+  int get hashCode => documentID.hashCode ^ color.hashCode ^ stop.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -54,18 +53,16 @@ class DecorationColorModel {
           other is DecorationColorModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
-          appId == other.appId &&
           color == other.color &&
           stop == other.stop;
 
   @override
   String toString() {
-    return 'DecorationColorModel{documentID: $documentID, appId: $appId, color: $color, stop: $stop}';
+    return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
   DecorationColorEntity toEntity({String? appId}) {
     return DecorationColorEntity(
-          appId: (appId != null) ? appId : null, 
           color: (color != null) ? color!.toEntity(appId: appId) : null, 
           stop: (stop != null) ? stop : null, 
     );
@@ -76,7 +73,6 @@ class DecorationColorModel {
     var counter = 0;
     return DecorationColorModel(
           documentID: documentID, 
-          appId: entity.appId, 
           color: 
             RgbModel.fromEntity(entity.color), 
           stop: entity.stop, 
@@ -89,7 +85,6 @@ class DecorationColorModel {
     var counter = 0;
     return DecorationColorModel(
           documentID: documentID, 
-          appId: entity.appId, 
           color: 
             await RgbModel.fromEntityPlus(entity.color, appId: appId), 
           stop: entity.stop, 

@@ -55,7 +55,21 @@ class Router {
             value = value! + (v as String);
           }
         }
-        return error(settings.arguments as String);
+        if (settings.arguments != null) {
+          var args = settings.arguments as eliudrouter.Arguments;
+          if (args.parameters != null) {
+            var message = args.parameters!['message'];
+            if (message != null) {
+              return error(message);
+            } else {
+              return error('Unknown error (3)');
+            }
+          } else {
+            return error('Unknown error (1)');
+          }
+        } else {
+          return error('Unknown error (2)');
+        }
       default:
         var settingsUri = Uri.parse(settings.name!);
         var path = settingsUri.path;

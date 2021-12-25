@@ -19,7 +19,7 @@ import 'access_state.dart';
 
 class DeterminedApp extends Equatable {
   final AppModel app;
-  final PageModel homePage;
+  final PageModel? homePage;
 
   DeterminedApp(this.app, this.homePage);
 
@@ -116,7 +116,7 @@ abstract class AccessDetermined extends AccessState {
   bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentApp.documentID!);
   PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentApp.documentID!);
 
-  static Future<PageModel> getPage(String appId, String? pageId, { String? alternativePageId }) async {
+  static Future<PageModel?> getPage(String appId, String? pageId, { String? alternativePageId }) async {
     var page;
     if (pageId != null) {
       page = await pageRepository(appId: appId)!.get(pageId);
@@ -131,7 +131,8 @@ abstract class AccessDetermined extends AccessState {
           return page;
         }
       } else {
-        throw Exception('Failed to retrieve the page for app with id $appId. pageId = $pageId, alternativePageId = $alternativePageId');
+        print('Failed to retrieve the page for app with id $appId. pageId = $pageId, alternativePageId = $alternativePageId');
+        return null;
       }
     } else {
       return page;
@@ -220,7 +221,7 @@ abstract class AccessDetermined extends AccessState {
       List<DeterminedApp> newApps,
       );
 
-  PageModel homePageForAppId(String appId) {
+  PageModel? homePageForAppId(String appId) {
     for (var app in apps) {
       if (app.app.documentID == appId) {
         return app.homePage;

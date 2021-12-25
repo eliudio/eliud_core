@@ -10,7 +10,6 @@ import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_bottom_navigation_bar.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_drawer.dart';
 import 'package:eliud_core/core/tools/component_info.dart';
-import 'package:eliud_core/core/tools/page_body.dart';
 import 'package:eliud_core/core/tools/page_helper.dart';
 import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/decoration/decorations.dart';
@@ -22,15 +21,10 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../registry.dart';
 
 class PageComponent extends StatefulWidget {
   final GlobalKey pageKey = GlobalKey();

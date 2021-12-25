@@ -338,7 +338,7 @@ class LoggedIn extends AccessDetermined {
         playstoreApp,
       ];
 
-  static Future<PageModel> getHomepage(
+  static Future<PageModel?> getHomepage(
       AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
     var appId = app.documentID!;
     if (isBlocked) {

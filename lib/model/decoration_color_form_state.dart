@@ -79,22 +79,6 @@ class DocumentIDDecorationColorFormError extends DecorationColorFormError {
 }
 
 
-class AppIdDecorationColorFormError extends DecorationColorFormError { 
-  const AppIdDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''AppIdDecorationColorFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class ColorDecorationColorFormError extends DecorationColorFormError { 
   const ColorDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
 

@@ -15,6 +15,7 @@ import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core/tools/router_builders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               .userRepository()!
               .signOut();
           var toYield = await LoggedOut.getLoggedOut(theState.currentApp, this, theState.apps.map((determinedApp) => determinedApp.app).toList(), playstoreApp: theState.playstoreApp);
-          gotoPage(true, event.appId,
-              toYield.homePageForAppId(event.appId).documentID!, );
+          var homePage = toYield.homePageForAppId(event.appId);
+          gotoPage(true, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
           yield toYield;
         } else {
           add(event.asProcessing());
@@ -79,8 +80,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           if (event.actions != null) {
             event.actions!.runTheAction();
           } else {
-            gotoPage(true, event.appId,
-              toYield.homePageForAppId(event.appId).documentID!, );
+            var homePage = toYield.homePageForAppId(event.appId);
+            gotoPage(true, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId
+               );
           }
         } else {
           add(event.asProcessing());
@@ -89,7 +91,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is SwitchAppWithIDEvent) {
         if (event.isProcessing()) {
           var newState = await addApp(theState, await _fetchApp(event.appId));
-          gotoPage(false, event.appId, newState.homePageForAppId(event.appId).documentID!);
+          var homePage = newState.homePageForAppId(event.appId);
+          gotoPage(false, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
+
           _listenToApp(event.appId, theState.getMember());
           yield newState;
         } else {
@@ -109,7 +113,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
           // and remove the navigation from here:
           gotoPage(
-              false, event.appId, event.pageId, parameters: event.parameters);
+              false, event.appId, event.pageId, parameters: event.parameters, errorString: 'Page not does not exist');
         }
       } else if (event is OpenDialogEvent) {
         // See comment @ GotoPageEvent
@@ -146,19 +150,18 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     return accessDetermined;
   }
 
-  void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters }) {
+  void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters, String? errorString }) {
     if (appId == null) {
       throw Exception(
           'Error: gotoPage(null)');
-    } else if (pageId == null) {
-      throw Exception(
-          'Error: gotoPage($appId, null)');
-    } else {
+    }
+    if (pageId != null) {
       if (navigatorKey.currentState != null) {
         if (clearHistory) {
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
-              eliudrouter.Router.pageRoute, (_) => false, arguments: eliudrouter.Arguments(
-              appId + '/' + pageId, parameters));
+              eliudrouter.Router.pageRoute, (_) => false,
+              arguments: eliudrouter.Arguments(
+                  appId + '/' + pageId, parameters));
         } else {
           navigatorKey.currentState!.pushNamed(
               eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
@@ -168,8 +171,28 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         throw Exception(
             "Can't pushNamed page $appId/$pageId because navigatorKey.currentState is null");
       }
+    } else {
+      if (clearHistory) {
+        navigatorKey.currentState!.pushNamedAndRemoveUntil(
+            eliudrouter.Router.messageRoute, (_) => false,
+            arguments: eliudrouter.Arguments(
+                appId, {'error': errorString}));
+      } else {
+        navigatorKey.currentState!.pushNamed(
+            eliudrouter.Router.messageRoute, arguments: eliudrouter.Arguments(
+            appId, {'message': errorString}));
+      }
     }
   }
+
+  void error(bool clearHistory, String appId, String error) {
+    if (clearHistory) {
+      navigatorKey.currentState!.pushAndRemoveUntil(pageRouteBuilderWithAppId(appId, page: Text(error)), (_) => false, );
+    } else {
+      navigatorKey.currentState!.push(pageRouteBuilderWithAppId(appId, page: Text(error)));
+    }
+  }
+
 
   void _listenToApp(String appId, MemberModel? member) async {
     await _appSubscription[appId]?.cancel();
