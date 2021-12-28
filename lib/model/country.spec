@@ -47,7 +47,7 @@
     }
   ],
   "listFields": {
-    "title": "value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryCode!)) : Container()",
-    "subTitle": "value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryName!)) : Container()"
+    "title": "value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryCode!)) : Container()",
+    "subTitle": "value.countryName != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryName!)) : Container()"
   }
 }

@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
@@ -6,13 +7,13 @@ import 'package:flutter/material.dart';
 
 class DefaultContainerImpl implements HasContainer {
   @override
-  Widget actionContainer(BuildContext context,
+  Widget actionContainer(AppModel app, BuildContext context,
       {required Widget child, double? height, double? width}) {
     return child;
   }
 
   @override
-  Widget topicContainer(BuildContext context,
+  Widget topicContainer(AppModel app, BuildContext context,
       {required List<Widget> children,
       DecorationImage? image,
       double? height,
@@ -21,7 +22,7 @@ class DefaultContainerImpl implements HasContainer {
       bool? collapsible,
       bool? collapsed = false}) {
     if (title != null) {
-      var newChildren = [text(context, title), divider(context)];
+      var newChildren = [text(app, context, title), divider(app, context)];
       newChildren.addAll(children);
       children = newChildren;
     }
@@ -38,7 +39,7 @@ class DefaultContainerImpl implements HasContainer {
   }
 
   @override
-  Widget simpleTopicContainer(BuildContext context,
+  Widget simpleTopicContainer(AppModel app, BuildContext context,
       {required List<Widget> children,
       DecorationImage? image,
       double? height,

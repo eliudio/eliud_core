@@ -37,7 +37,7 @@ class MenuItemMapper {
         var items = <MenuItemAttributes>[];
         member.subscriptions!.forEach((value) {
           if (value.app != null) {
-            items.add(MenuItemAttributes(label: value.app!.title == null ? '?' : value.app!.title!, isActive: false, onTap : () => eliudrouter.Router.navigateTo(context, SwitchApp(value.app!.documentID!, toAppID: value.app!.documentID!))));
+            items.add(MenuItemAttributes(label: value.app!.title == null ? '?' : value.app!.title!, isActive: false, onTap : () => eliudrouter.Router.navigateTo(context, SwitchApp(value.app!, toAppID: value.app!.documentID!))));
           }
         });
         return MenuItemWithMenuItems(
@@ -70,7 +70,7 @@ class MenuItemMapper {
         if (action.hasAccess(context)) {
           return MenuItemAttributes(
               icon: item.icon,
-              label: item.text == null ? '' : processDoc(context, item.text!),
+              label: item.text == null ? '' : processDoc(context, action.app, item.text!),
               onTap: () {
                 if (!PageHelper.isActivePage(currentPage, action)) {
                   eliudrouter.Router.navigateTo(context, action);

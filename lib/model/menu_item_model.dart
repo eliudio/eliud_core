@@ -74,7 +74,7 @@ class MenuItemModel {
     );
   }
 
-  static MenuItemModel? fromEntity(String documentID, MenuItemEntity? entity) {
+  static Future<MenuItemModel?> fromEntity(String documentID, MenuItemEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MenuItemModel(
@@ -82,9 +82,9 @@ class MenuItemModel {
           text: entity.text, 
           description: entity.description, 
           icon: 
-            IconModel.fromEntity(entity.icon), 
+            await IconModel.fromEntity(entity.icon), 
           action: 
-            ActionModel.fromEntity(entity.action), 
+            await ActionModel.fromEntity(entity.action), 
     );
   }
 

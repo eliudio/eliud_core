@@ -1,17 +1,18 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/types.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasTabs {
-  Widget tabBar(BuildContext context,
+  Widget tabBar(AppModel app, BuildContext context,
       {required List<String> items, required TabController tabController});
 }
 
-Widget tabBar(BuildContext context,
+Widget tabBar(AppModel app, BuildContext context,
         {required List<String> items, required TabController tabController}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .tabsStyle()
-        .tabBar(context, items: items, tabController: tabController);
+        .tabBar(app, context, items: items, tabController: tabController);

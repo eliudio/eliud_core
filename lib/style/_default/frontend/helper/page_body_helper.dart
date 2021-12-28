@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
@@ -12,7 +13,7 @@ class PageBodyHelper {
 
   PageBodyHelper(this._frontEndStyle);
 
-  Widget pageBody(BuildContext context,
+  Widget pageBody(AppModel app, BuildContext context,
       {BackgroundModel? background,
       required List<Widget> components,
       Layout? layout,
@@ -34,7 +35,7 @@ class PageBodyHelper {
       }
       return Container(color: Colors.white);
     } catch (_) {
-      return _frontEndStyle.textStyle().text(context, "Error whilst constructing the body");
+      return _frontEndStyle.textStyle().text(app, context, "Error whilst constructing the body");
     }
   }
 

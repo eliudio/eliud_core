@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:flutter/material.dart';
@@ -8,33 +9,33 @@ class DefaultButtonImpl implements HasButton {
   DefaultButtonImpl(this._frontEndStyle);
 
   @override
-  Widget button(BuildContext context,
+  Widget button(AppModel app, BuildContext context,
       {Icon? icon, required String label, VoidCallback? onPressed}) {
     if (icon != null) {
-      return iconButton(context, onPressed: onPressed, icon: icon);
+      return iconButton(app, context, onPressed: onPressed, icon: icon);
     } else {
-      return _textButton(context, label: label, onPressed: onPressed);
+      return _textButton(app, context, label: label, onPressed: onPressed);
     }
   }
 
-  Widget _textButton(BuildContext context,
+  Widget _textButton(AppModel app, BuildContext context,
   {VoidCallback? onPressed, required String label, bool? selected}) =>
     TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           primary: Colors.pink,
         ),
-        child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(context, label) : _frontEndStyle.textStyle().text(context, label)
+        child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(app, context, label) : _frontEndStyle.textStyle().text(app, context, label)
     );
 
   @override
-  Widget dialogButton(BuildContext context,
+  Widget dialogButton(AppModel app, BuildContext context,
       {VoidCallback? onPressed, required String label, bool? selected}) {
-    return _textButton(context, label: label, onPressed: onPressed, selected: selected);
+    return _textButton(app, context, label: label, onPressed: onPressed, selected: selected);
   }
 
   @override
-  List<Widget> dialogButtons(BuildContext context,
+  List<Widget> dialogButtons(AppModel app, BuildContext context,
       {required List<String> labels, required List<VoidCallback?> functions}) {
     if (labels.length != functions.length) {
       throw Exception(
@@ -44,13 +45,13 @@ class DefaultButtonImpl implements HasButton {
     for (var i = 0; i < labels.length; i++) {
       var label = labels[i];
       var function = functions[i];
-      buttons.add(dialogButton(context, onPressed: function, label: label));
+      buttons.add(dialogButton(app, context, onPressed: function, label: label));
     }
     return buttons;
   }
 
   @override
-  Widget iconButton(BuildContext context,
+  Widget iconButton(AppModel app, BuildContext context,
       {VoidCallback? onPressed,
       Color? color,
       String? tooltip,
@@ -60,7 +61,7 @@ class DefaultButtonImpl implements HasButton {
   }
 
   @override
-  Widget simpleButton(BuildContext context,
+  Widget simpleButton(AppModel app, BuildContext context,
       {VoidCallback? onPressed, required String label}) {
     throw UnimplementedError();
   }

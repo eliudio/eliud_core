@@ -5,6 +5,7 @@ import 'package:eliud_core/core/tools/document_processor.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decoration.dart';
 import 'package:eliud_core/decoration/decorations.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -21,11 +22,13 @@ import 'blocs/drawer/extended_drawer_component_state.dart';
 
 class EliudDrawer extends StatefulWidget {
   final String currentPage;
+  final AppModel app;
   final DrawerModel drawer;
   final DrawerType drawerType;
 
   EliudDrawer(
       {Key? key,
+        required this.app,
       required this.drawerType,
       required this.drawer,
       required this.currentPage})
@@ -42,6 +45,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    var app = widget.app;
     var currentPage = widget.currentPage;
     return BlocProvider<ExtendedDrawerComponentBloc>(
         create: (context) => ExtendedDrawerComponentBloc()
@@ -54,7 +58,7 @@ class _EliudDrawerState extends State<EliudDrawer> {
             return BlocBuilder<AccessBloc, AccessState>(
                 builder: (context, accessState) {
               if (accessState is AccessDetermined) {
-                return Decorations.instance().createDecoratedDrawer(
+                return Decorations.instance().createDecoratedDrawer(app,
                     context,
                     widget.drawerType == DrawerType.Left
                         ? DecorationDrawerType.Left
@@ -75,13 +79,13 @@ class _EliudDrawerState extends State<EliudDrawer> {
                         (drawer.secondHeaderText!.isNotEmpty)) {
                       drawerHeader2Attributes = DrawerHeader2Attributes(
                           drawer.headerHeight,
-                          processDoc(context, drawer.secondHeaderText!));
+                          processDoc(context, app, drawer.secondHeaderText!));
                     }
 
                     var itemList = MenuItemMapper.mapMenu(context, drawer.menu!,
                         accessState.getMember(), currentPage);
                     if (itemList != null) {
-                      return dr.drawer(context,
+                      return dr.drawer(app, context,
                           key: _drawerKey,
                           member: accessState.getMember(),
                           drawerType: widget.drawerType,
@@ -100,11 +104,11 @@ class _EliudDrawerState extends State<EliudDrawer> {
                   }
                 }, drawer)();
               } else {
-                return progressIndicator(context);
+                return progressIndicator(app, context);
               }
             });
           } else {
-            return progressIndicator(context);
+            return progressIndicator(app, context);
           }
         }));
   }

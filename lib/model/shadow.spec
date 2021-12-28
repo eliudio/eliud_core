@@ -46,7 +46,7 @@
       "defaultValue": "RgbModel(r: 211, g: 211, b: 211, opacity: 0.50)",
       "fieldType": "Rgb",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Color\", state.value!.color, _onColorChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Color\", state.value!.color, _onColorChanged)"
     },
     {
       "fieldName": "offsetDX",
@@ -92,7 +92,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.comments!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container()"
   }
 }

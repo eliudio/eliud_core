@@ -46,6 +46,7 @@ import 'member_subscription_form.dart';
 typedef MemberSubscriptionWidgetProvider(MemberSubscriptionModel? value);
 
 class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
+  AppModel app;
   BackgroundModel? listBackground;
   MemberSubscriptionWidgetProvider? widgetProvider;
   bool? readOnly;
@@ -53,7 +54,7 @@ class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
   MemberSubscriptionListWidgetState? state;
   bool? isEmbedded;
 
-  MemberSubscriptionListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  MemberSubscriptionListWidget({ Key? key, required this.app, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   MemberSubscriptionListWidgetState createState() {
@@ -73,14 +74,14 @@ class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
 class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(AccessBloc.currentAppId(context)) 
+    return !accessState.memberIsOwner(widget.app.documentID!) 
       ? null
-      : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
+      : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).push(
-          pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+          pageRouteBuilder(widget.app, page: BlocProvider.value(
               value: BlocProvider.of<MemberSubscriptionListBloc>(context),
-              child: MemberSubscriptionForm(
+              child: MemberSubscriptionForm(app:widget.app,
                   value: null,
                   formAction: FormAction.AddAction)
           )),
@@ -96,20 +97,20 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
       if (accessState is AccessDetermined) {
         return BlocBuilder<MemberSubscriptionListBloc, MemberSubscriptionListState>(builder: (context, state) {
           if (state is MemberSubscriptionListLoading) {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           } else if (state is MemberSubscriptionListLoaded) {
             final values = state.values;
             if ((widget.isEmbedded != null) && widget.isEmbedded!) {
               var children = <Widget>[];
               children.add(theList(context, values, accessState));
               children.add(
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app,
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(widget.app, page: BlocProvider.value(
                                       value: BlocProvider.of<MemberSubscriptionListBloc>(context),
-                                      child: MemberSubscriptionForm(
+                                      child: MemberSubscriptionForm(app:widget.app,
                                           value: null,
                                           formAction: FormAction.AddAction)
                                   )),
@@ -126,20 +127,20 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
               return theList(context, values, accessState);
             }
           } else {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           }
         });
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
   
   Widget theList(BuildContext context, values, AccessState accessState) {
     return Container(
-      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithContext(context).adminListStyle().boxDecorator(context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
+      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().boxDecorator(widget.app, context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
       child: ListView.separated(
-        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithContext(context).adminListStyle().divider(context),
+        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().divider(widget.app, context),
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemCount: values.length,
@@ -148,7 +149,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
           
           if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
-          return MemberSubscriptionListItem(
+          return MemberSubscriptionListItem(app: widget.app,
             value: value,
 //            app: accessState.app,
             onDismissed: (direction) {
@@ -162,7 +163,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+                        pageRouteBuilder(widget.app, page: BlocProvider.value(
                               value: BlocProvider.of<MemberSubscriptionListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -184,7 +185,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
   
   Widget? getForm(value, action) {
     if (widget.form == null) {
-      return MemberSubscriptionForm(value: value, formAction: action);
+      return MemberSubscriptionForm(app:widget.app, value: value, formAction: action);
     } else {
       return null;
     }
@@ -195,12 +196,14 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
 
 
 class MemberSubscriptionListItem extends StatelessWidget {
+  final AppModel app;
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final MemberSubscriptionModel value;
 
   MemberSubscriptionListItem({
     Key? key,
+    required this.app,
     required this.onDismissed,
     required this.onTap,
     required this.value,
@@ -213,8 +216,8 @@ class MemberSubscriptionListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.app!.documentID!)) : Container(),
-        subtitle: value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.app!.title!)) : Container(),
+        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID!)) : Container(),
+        subtitle: value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.title!)) : Container(),
       ),
     );
   }

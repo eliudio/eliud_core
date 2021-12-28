@@ -108,7 +108,7 @@ class AppBarModel {
     );
   }
 
-  static AppBarModel? fromEntity(String documentID, AppBarEntity? entity) {
+  static Future<AppBarModel?> fromEntity(String documentID, AppBarEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AppBarModel(
@@ -117,13 +117,13 @@ class AppBarModel {
           title: entity.title, 
           header: toHeaderSelection(entity.header), 
           icon: 
-            IconModel.fromEntity(entity.icon), 
+            await IconModel.fromEntity(entity.icon), 
           iconColorOverride: 
-            RgbModel.fromEntity(entity.iconColorOverride), 
+            await RgbModel.fromEntity(entity.iconColorOverride), 
           selectedIconColorOverride: 
-            RgbModel.fromEntity(entity.selectedIconColorOverride), 
+            await RgbModel.fromEntity(entity.selectedIconColorOverride), 
           menuBackgroundColorOverride: 
-            RgbModel.fromEntity(entity.menuBackgroundColorOverride), 
+            await RgbModel.fromEntity(entity.menuBackgroundColorOverride), 
     );
   }
 

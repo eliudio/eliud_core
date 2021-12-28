@@ -119,7 +119,7 @@ class PlatformMediumModel {
     );
   }
 
-  static PlatformMediumModel? fromEntity(String documentID, PlatformMediumEntity? entity) {
+  static Future<PlatformMediumModel?> fromEntity(String documentID, PlatformMediumEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return PlatformMediumModel(
@@ -132,7 +132,7 @@ class PlatformMediumModel {
           urlThumbnail: entity.urlThumbnail, 
           refThumbnail: entity.refThumbnail, 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
           mediumType: toPlatformMediumType(entity.mediumType), 
           mediumWidth: entity.mediumWidth, 
           mediumHeight: entity.mediumHeight, 

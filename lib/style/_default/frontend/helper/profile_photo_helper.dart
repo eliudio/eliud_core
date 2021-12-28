@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -47,7 +48,7 @@ class ProfilePhotoHelper {
         url: null, radius: radius, iconColor: iconColor, onPressed: onPressed);
   }
 
-  Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
+  Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
       BackupProfileURLProvider? fallBackURLProvider,
       required double radius,
@@ -66,7 +67,7 @@ class ProfilePhotoHelper {
                   Image.network(profileAttributes.url!), iconColor, radius, onPressed);
             }
           }
-          return StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context);
+          return StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context);
         });
   }
 

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/pos_size_form_state.dart';
 
 
 class PosSizeForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   PosSizeModel? value;
   ActionModel? submitAction;
 
-  PosSizeForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  PosSizeForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PosSizeFormBloc >(
@@ -77,7 +77,7 @@ class PosSizeForm extends StatelessWidget {
 
                                                 )..add(InitialisePosSizeFormEvent(value: value)),
   
-        child: MyPosSizeForm(submitAction: submitAction, formAction: formAction),
+        child: MyPosSizeForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PosSizeFormBloc >(
@@ -86,18 +86,18 @@ class PosSizeForm extends StatelessWidget {
 
                                                 )..add(InitialisePosSizeFormNoLoadEvent(value: value)),
   
-        child: MyPosSizeForm(submitAction: submitAction, formAction: formAction),
+        child: MyPosSizeForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update PosSize' : 'Add PosSize'),
         body: BlocProvider<PosSizeFormBloc >(
             create: (context) => PosSizeFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePosSizeFormEvent(value: value) : InitialiseNewPosSizeFormEvent())),
   
-        child: MyPosSizeForm(submitAction: submitAction, formAction: formAction),
+        child: MyPosSizeForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -105,10 +105,11 @@ class PosSizeForm extends StatelessWidget {
 
 
 class MyPosSizeForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPosSizeForm({this.formAction, this.submitAction});
+  MyPosSizeForm({required this.app, this.formAction, this.submitAction});
 
   _MyPosSizeFormState createState() => _MyPosSizeFormState(this.formAction);
 }
@@ -162,13 +163,10 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PosSizeFormBloc, PosSizeFormState>(builder: (context, state) {
       if (state is PosSizeFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is PosSizeFormLoaded) {
@@ -242,401 +240,401 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPosSizeFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NamePosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NamePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Clip')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Clip')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'NoClip', 'NoClip', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'NoClip', 'NoClip', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipOval', 'ClipOval', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipOval', 'ClipOval', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect5', 'ClipRRect5', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect5', 'ClipRRect5', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect10', 'ClipRRect10', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect10', 'ClipRRect10', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect15', 'ClipRRect15', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect15', 'ClipRRect15', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect20', 'ClipRRect20', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect20', 'ClipRRect20', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect30', 'ClipRRect30', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect30', 'ClipRRect30', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _clipSelectedRadioTile, 'ClipRRect40', 'ClipRRect40', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionClip(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _clipSelectedRadioTile, 'ClipRRect40', 'ClipRRect40', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionClip(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width and Height')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Width and Height')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Width when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'widthLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is WidthLandscapePosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'widthLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is WidthLandscapePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Width when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'widthPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthPortraitController, keyboardType: TextInputType.number, validator: (_) => state is WidthPortraitPosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'widthPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _widthPortraitController, keyboardType: TextInputType.number, validator: (_) => state is WidthPortraitPosSizeFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width type when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Width type when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypeLandscapeSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _widthTypeLandscapeSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypeLandscapeSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _widthTypeLandscapeSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWidthTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Width type when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Width type when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypePortraitSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _widthTypePortraitSelectedRadioTile, 'AbsoluteWidth', 'AbsoluteWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _widthTypePortraitSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _widthTypePortraitSelectedRadioTile, 'PercentageWidth', 'PercentageWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWidthTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Height when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'heightLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is HeightLandscapePosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'heightLandscape', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightLandscapeController, keyboardType: TextInputType.number, validator: (_) => state is HeightLandscapePosSizeFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Height when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'heightPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightPortraitController, keyboardType: TextInputType.number, validator: (_) => state is HeightPortraitPosSizeFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'heightPortrait', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _heightPortraitController, keyboardType: TextInputType.number, validator: (_) => state is HeightPortraitPosSizeFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height type when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Height type when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypeLandscapeSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _heightTypeLandscapeSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypeLandscapeSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _heightTypeLandscapeSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeightTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Height type when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Height type when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypePortraitSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _heightTypePortraitSelectedRadioTile, 'AbsoluteHeight', 'AbsoluteHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _heightTypePortraitSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _heightTypePortraitSelectedRadioTile, 'PercentageHeight', 'PercentageHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeightTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Box Fit when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Box Fit when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitWidth', 'LandscapeFitWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitWidth', 'LandscapeFitWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitHeight', 'LandscapeFitHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFitHeight', 'LandscapeFitHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFill', 'LandscapeFill', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeFill', 'LandscapeFill', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeNone', 'LandscapeNone', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeNone', 'LandscapeNone', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeContain', 'LandscapeContain', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeContain', 'LandscapeContain', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeCover', 'LandscapeCover', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeCover', 'LandscapeCover', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeScaleDown', 'LandscapeScaleDown', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitLandscapeSelectedRadioTile, 'LandscapeScaleDown', 'LandscapeScaleDown', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Box Fit when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Box Fit when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitWidth', 'PortraitFitWidth', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitWidth', 'PortraitFitWidth', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitHeight', 'PortraitFitHeight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitFitHeight', 'PortraitFitHeight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitFill', 'PortraitFill', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitFill', 'PortraitFill', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitNone', 'PortraitNone', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitNone', 'PortraitNone', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitContain', 'PortraitContain', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitContain', 'PortraitContain', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitCover', 'PortraitCover', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitCover', 'PortraitCover', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _fitPortraitSelectedRadioTile, 'PortraitScaleDown', 'PortraitScaleDown', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionFitPortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _fitPortraitSelectedRadioTile, 'PortraitScaleDown', 'PortraitScaleDown', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionFitPortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Align when Landscape')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Align when Landscape')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopLeft', 'LandscapeAlignTopLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopLeft', 'LandscapeAlignTopLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopCenter', 'LandscapeAlignTopCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopCenter', 'LandscapeAlignTopCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopRight', 'LandscapeAlignTopRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignTopRight', 'LandscapeAlignTopRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterLeft', 'LandscapeAlignCenterLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterLeft', 'LandscapeAlignCenterLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenter', 'LandscapeAlignCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenter', 'LandscapeAlignCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterRight', 'LandscapeAlignCenterRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignCenterRight', 'LandscapeAlignCenterRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomLeft', 'LandscapeAlignBottomLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomLeft', 'LandscapeAlignBottomLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomCenter', 'LandscapeAlignBottomCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomCenter', 'LandscapeAlignBottomCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomRight', 'LandscapeAlignBottomRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypeLandscapeSelectedRadioTile, 'LandscapeAlignBottomRight', 'LandscapeAlignBottomRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypeLandscape(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Align when Portrait')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Align when Portrait')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopLeft', 'PortraitAlignTopLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopLeft', 'PortraitAlignTopLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopCenter', 'PortraitAlignTopCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopCenter', 'PortraitAlignTopCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopRight', 'PortraitAlignTopRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignTopRight', 'PortraitAlignTopRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterLeft', 'PortraitAlignCenterLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterLeft', 'PortraitAlignCenterLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenter', 'PortraitAlignCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenter', 'PortraitAlignCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterRight', 'PortraitAlignCenterRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignCenterRight', 'PortraitAlignCenterRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomLeft', 'PortraitAlignBottomLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomLeft', 'PortraitAlignBottomLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomCenter', 'PortraitAlignBottomCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomCenter', 'PortraitAlignBottomCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomRight', 'PortraitAlignBottomRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _alignTypePortraitSelectedRadioTile, 'PortraitAlignBottomRight', 'PortraitAlignBottomRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAlignTypePortrait(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PosSizeFormError) {
                       return null;
@@ -691,7 +689,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -701,7 +699,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -827,7 +825,7 @@ class _MyPosSizeFormState extends State<MyPosSizeForm> {
   }
 
   bool _readOnly(AccessState accessState, PosSizeFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

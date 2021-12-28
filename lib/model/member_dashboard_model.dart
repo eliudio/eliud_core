@@ -107,7 +107,7 @@ class MemberDashboardModel {
     );
   }
 
-  static MemberDashboardModel? fromEntity(String documentID, MemberDashboardEntity? entity) {
+  static Future<MemberDashboardModel?> fromEntity(String documentID, MemberDashboardEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberDashboardModel(
@@ -121,7 +121,7 @@ class MemberDashboardModel {
           deleteDataEmailSubject: entity.deleteDataEmailSubject, 
           deleteDataEmailMessage: entity.deleteDataEmailMessage, 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

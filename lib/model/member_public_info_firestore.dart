@@ -44,7 +44,7 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return MemberPublicInfoCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
   }
 
-  MemberPublicInfoModel? _populateDoc(DocumentSnapshot value) {
+  Future<MemberPublicInfoModel?> _populateDoc(DocumentSnapshot value) async {
     return MemberPublicInfoModel.fromEntity(value.id, MemberPublicInfoEntity.fromMap(value.data()));
   }
 
@@ -68,16 +68,13 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
 
   StreamSubscription<List<MemberPublicInfoModel?>> listen(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<MemberPublicInfoModel?>> stream;
-      stream = getQuery(FirebaseFirestore.instance.collection('memberpublicinfo'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-//    The above line should eventually become the below line
-//    See https://github.com/felangel/bloc/issues/2073.
-//    stream = getQuery(MemberPublicInfoCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-      Iterable<MemberPublicInfoModel?> memberPublicInfos  = data.docs.map((doc) {
-        MemberPublicInfoModel? value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return memberPublicInfos as List<MemberPublicInfoModel?>;
+    stream = getQuery(FirebaseFirestore.instance.collection('memberpublicinfo'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(MemberPublicInfoCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
     });
+
     return stream.listen((listOfMemberPublicInfoModels) {
       trigger(listOfMemberPublicInfoModels);
     });
@@ -111,11 +108,12 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
 
   Stream<List<MemberPublicInfoModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     DocumentSnapshot? lastDoc;
-    Stream<List<MemberPublicInfoModel?>> _values = getQuery(MemberPublicInfoCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+    Stream<List<MemberPublicInfoModel?>> _values = getQuery(MemberPublicInfoCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();});
+      }).toList());
+    });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;
   }
@@ -136,10 +134,10 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     DocumentSnapshot? lastDoc;
     List<MemberPublicInfoModel?> _values = await getQuery(MemberPublicInfoCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.get().then((value) {
       var list = value.docs;
-      return list.map((doc) { 
+      return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();
+      }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

@@ -44,7 +44,7 @@ class DialogFirestore implements DialogRepository {
     return DialogCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  DialogModel? _populateDoc(DocumentSnapshot value) {
+  Future<DialogModel?> _populateDoc(DocumentSnapshot value) async {
     return DialogModel.fromEntity(value.id, DialogEntity.fromMap(value.data()));
   }
 
@@ -68,16 +68,13 @@ class DialogFirestore implements DialogRepository {
 
   StreamSubscription<List<DialogModel?>> listen(DialogModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<DialogModel?>> stream;
-      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-//    The above line should eventually become the below line
-//    See https://github.com/felangel/bloc/issues/2073.
-//    stream = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-      Iterable<DialogModel?> dialogs  = data.docs.map((doc) {
-        DialogModel? value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return dialogs as List<DialogModel?>;
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
     });
+
     return stream.listen((listOfDialogModels) {
       trigger(listOfDialogModels);
     });
@@ -111,11 +108,12 @@ class DialogFirestore implements DialogRepository {
 
   Stream<List<DialogModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     DocumentSnapshot? lastDoc;
-    Stream<List<DialogModel?>> _values = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+    Stream<List<DialogModel?>> _values = getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();});
+      }).toList());
+    });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;
   }
@@ -136,10 +134,10 @@ class DialogFirestore implements DialogRepository {
     DocumentSnapshot? lastDoc;
     List<DialogModel?> _values = await getQuery(DialogCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
-      return list.map((doc) { 
+      return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();
+      }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/member_form_state.dart';
 
 
 class MemberForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   MemberModel? value;
   ActionModel? submitAction;
 
-  MemberForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  MemberForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
@@ -76,7 +76,7 @@ class MemberForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
-        child: MyMemberForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
@@ -84,17 +84,17 @@ class MemberForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
-        child: MyMemberForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
-        child: MyMemberForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -102,10 +102,11 @@ class MemberForm extends StatelessWidget {
 
 
 class MyMemberForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberForm({this.formAction, this.submitAction});
+  MyMemberForm({required this.app, this.formAction, this.submitAction});
 
   _MyMemberFormState createState() => _MyMemberFormState(this.formAction);
 }
@@ -161,13 +162,10 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is MemberFormLoaded) {
@@ -249,208 +247,208 @@ class _MyMemberFormState extends State<MyMemberForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'User UUID', icon: Icons.vpn_key, readOnly: true, textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'User UUID', icon: Icons.vpn_key, readOnly: true, textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Is Anonymous', _isAnonymousSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIsAnonymous(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'Is Anonymous', _isAnonymousSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIsAnonymous(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Subscriptions')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Subscriptions')
                 ));
 
         children.add(
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(context, state.value!.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(widget.app, context, state.value!.subscriptions, _onSubscriptionsChanged)
                 )
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Cart')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Cart')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'User Group')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'User Group')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Access')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Access')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Address')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Address')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Country')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Country')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Address')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Address')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Country')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -515,7 +513,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -525,7 +523,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -678,17 +676,16 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
 
 class MemberSmallForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   MemberModel? value;
   ActionModel? submitAction;
 
-  MemberSmallForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  MemberSmallForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
@@ -696,7 +693,7 @@ class MemberSmallForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
-        child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSmallForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
@@ -704,17 +701,17 @@ class MemberSmallForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
-        child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSmallForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update Member' : 'Add Member'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
-        child: MyMemberSmallForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSmallForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -722,10 +719,11 @@ class MemberSmallForm extends StatelessWidget {
 
 
 class MyMemberSmallForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberSmallForm({this.formAction, this.submitAction});
+  MyMemberSmallForm({required this.app, this.formAction, this.submitAction});
 
   _MyMemberSmallFormState createState() => _MyMemberSmallFormState(this.formAction);
 }
@@ -749,13 +747,10 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is MemberFormLoaded) {
@@ -769,40 +764,40 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Subscriptions')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Subscriptions')
                 ));
 
         children.add(
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: memberSubscriptionsList(context, state.value!.subscriptions, _onSubscriptionsChanged)
+                    child: memberSubscriptionsList(widget.app, context, state.value!.subscriptions, _onSubscriptionsChanged)
                 )
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -829,7 +824,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -839,7 +834,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -872,17 +867,16 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
 
 class MemberAddressForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   MemberModel? value;
   ActionModel? submitAction;
 
-  MemberAddressForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  MemberAddressForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
@@ -890,7 +884,7 @@ class MemberAddressForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormEvent(value: value)),
   
-        child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberAddressForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberFormBloc >(
@@ -898,17 +892,17 @@ class MemberAddressForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberFormNoLoadEvent(value: value)),
   
-        child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberAddressForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Confirm Delivery Address' : 'Confirm Delivery Address'),
         body: BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberFormEvent(value: value) : InitialiseNewMemberFormEvent())),
   
-        child: MyMemberAddressForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberAddressForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -916,10 +910,11 @@ class MemberAddressForm extends StatelessWidget {
 
 
 class MyMemberAddressForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberAddressForm({this.formAction, this.submitAction});
+  MyMemberAddressForm({required this.app, this.formAction, this.submitAction});
 
   _MyMemberAddressFormState createState() => _MyMemberAddressFormState(this.formAction);
 }
@@ -969,13 +964,10 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberFormBloc, MemberFormState>(builder: (context, state) {
       if (state is MemberFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is MemberFormLoaded) {
@@ -1045,135 +1037,135 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Email address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _emailController, keyboardType: TextInputType.text, validator: (_) => state is EmailMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Address')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Address')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is ShipStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipCityController, keyboardType: TextInputType.text, validator: (_) => state is ShipCityMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _shipStateController, keyboardType: TextInputType.text, validator: (_) => state is ShipStateMemberFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shipping Country')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Country')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Address')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Address')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'Invoice address same as shipping address', _invoiceSameSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionInvoiceSame(val))
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet1Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet1MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Street Address Line 2', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStreet2Controller, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStreet2MemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'City', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCityController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCityMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'State/Province', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceStateController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceStateMemberFormError ? state.message : null, hintText: null)
           );
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoicePostcodeController, keyboardType: TextInputType.text, validator: (_) => state is InvoicePostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!)) children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Invoice Country')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberFormError) {
                       return null;
@@ -1226,7 +1218,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -1236,7 +1228,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }

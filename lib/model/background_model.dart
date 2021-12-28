@@ -140,7 +140,7 @@ class BackgroundModel {
     );
   }
 
-  static BackgroundModel? fromEntity(String documentID, BackgroundEntity? entity) {
+  static Future<BackgroundModel?> fromEntity(String documentID, BackgroundEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return BackgroundModel(
@@ -151,13 +151,12 @@ class BackgroundModel {
           beginGradientPosition: toStartGradientPosition(entity.beginGradientPosition), 
           endGradientPosition: toEndGradientPosition(entity.endGradientPosition), 
           decorationColors: 
-            entity.decorationColors == null ? null :
-            entity.decorationColors
+            entity.decorationColors == null ? null : List<DecorationColorModel>.from(await Future.wait(entity. decorationColors
             !.map((item) {
-              counter++; 
-              return DecorationColorModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return DecorationColorModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           border: entity.border, 
     );
   }

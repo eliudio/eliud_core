@@ -78,7 +78,7 @@ class MemberPublicInfoModel {
     );
   }
 
-  static MemberPublicInfoModel? fromEntity(String documentID, MemberPublicInfoEntity? entity) {
+  static Future<MemberPublicInfoModel?> fromEntity(String documentID, MemberPublicInfoEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberPublicInfoModel(
@@ -86,13 +86,12 @@ class MemberPublicInfoModel {
           name: entity.name, 
           photoURL: entity.photoURL, 
           subscriptions: 
-            entity.subscriptions == null ? null :
-            entity.subscriptions
+            entity.subscriptions == null ? null : List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
             !.map((item) {
-              counter++; 
-              return MemberSubscriptionModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return MemberSubscriptionModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
     );
   }
 

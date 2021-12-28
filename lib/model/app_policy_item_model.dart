@@ -68,7 +68,7 @@ class AppPolicyItemModel {
     );
   }
 
-  static AppPolicyItemModel? fromEntity(String documentID, AppPolicyItemEntity? entity) {
+  static Future<AppPolicyItemModel?> fromEntity(String documentID, AppPolicyItemEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AppPolicyItemModel(

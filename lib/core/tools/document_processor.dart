@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/widgets.dart';
 
@@ -69,8 +70,9 @@ const String SCREEN_HEIGHT_BY_FACTOR = 'screenHeightByFactor';
 
 class DocumentParameterProcessor {
   final BuildContext context;
+  final AppModel app;
 
-  DocumentParameterProcessor(this.context);
+  DocumentParameterProcessor(this.context, this.app);
 
   Param? param(String parseMe) {
     var pos = parseMe.indexOf('\${');
@@ -102,7 +104,7 @@ class DocumentParameterProcessor {
 
   String userGroup() {
     var member = AccessBloc.member(context);
-    if (AccessBloc.isOwner(context)) return 'Owner';
+    if (AccessBloc.isOwner(context, app)) return 'Owner';
     if (member != null) {
       return 'Member';
     } else {
@@ -148,6 +150,6 @@ class DocumentParameterProcessor {
   }
 }
 
-String processDoc(BuildContext context, String original) {
-  return DocumentParameterProcessor(context, ).process(original);
+String processDoc(BuildContext context, AppModel app, String original) {
+  return DocumentParameterProcessor(context, app).process(original);
 }

@@ -127,7 +127,7 @@ class FontModel {
     );
   }
 
-  static FontModel? fromEntity(String documentID, FontEntity? entity) {
+  static Future<FontModel?> fromEntity(String documentID, FontEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return FontModel(
@@ -138,7 +138,7 @@ class FontModel {
           style: toEliudFontStyle(entity.style), 
           decoration: toEliudFontDecoration(entity.decoration), 
           color: 
-            RgbModel.fromEntity(entity.color), 
+            await RgbModel.fromEntity(entity.color), 
     );
   }
 

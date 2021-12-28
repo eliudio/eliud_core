@@ -523,7 +523,7 @@ class AdminApp extends AdminAppInstallerBase {
 
 class AdminMenu extends AdminAppMenuInstallerBase {
 
-  Future<MenuDefModel> menu(String appId) async {
+  Future<MenuDefModel> menu(AppModel app) async {
     var menuItems = <MenuItemModel>[];
 
     menuItems.add(
@@ -532,7 +532,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Apps",
         description: "Apps",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_apps_page"))
+        action: GotoPage(app, pageID: "eliud_core_apps_page"))
     );
 
 
@@ -542,7 +542,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "AppBars",
         description: "AppBars",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_appbars_page"))
+        action: GotoPage(app, pageID: "eliud_core_appbars_page"))
     );
 
 
@@ -552,7 +552,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "AppPolicys",
         description: "AppPolicys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_apppolicys_page"))
+        action: GotoPage(app, pageID: "eliud_core_apppolicys_page"))
     );
 
 
@@ -562,7 +562,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Backgrounds",
         description: "Backgrounds",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_backgrounds_page"))
+        action: GotoPage(app, pageID: "eliud_core_backgrounds_page"))
     );
 
 
@@ -572,7 +572,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Countrys",
         description: "Countrys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_countrys_page"))
+        action: GotoPage(app, pageID: "eliud_core_countrys_page"))
     );
 
 
@@ -582,7 +582,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Dialogs",
         description: "Dialogs",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_dialogs_page"))
+        action: GotoPage(app, pageID: "eliud_core_dialogs_page"))
     );
 
 
@@ -592,7 +592,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Drawers",
         description: "Drawers",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_drawers_page"))
+        action: GotoPage(app, pageID: "eliud_core_drawers_page"))
     );
 
 
@@ -602,7 +602,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Fonts",
         description: "Fonts",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_fonts_page"))
+        action: GotoPage(app, pageID: "eliud_core_fonts_page"))
     );
 
 
@@ -612,7 +612,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "GridViews",
         description: "GridViews",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_gridviews_page"))
+        action: GotoPage(app, pageID: "eliud_core_gridviews_page"))
     );
 
 
@@ -622,7 +622,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "HomeMenus",
         description: "HomeMenus",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_homemenus_page"))
+        action: GotoPage(app, pageID: "eliud_core_homemenus_page"))
     );
 
 
@@ -632,7 +632,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Members",
         description: "Members",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_members_page"))
+        action: GotoPage(app, pageID: "eliud_core_members_page"))
     );
 
 
@@ -642,7 +642,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "MemberDashboards",
         description: "MemberDashboards",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_memberdashboards_page"))
+        action: GotoPage(app, pageID: "eliud_core_memberdashboards_page"))
     );
 
 
@@ -652,7 +652,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "MemberPublicInfos",
         description: "MemberPublicInfos",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_memberpublicinfos_page"))
+        action: GotoPage(app, pageID: "eliud_core_memberpublicinfos_page"))
     );
 
 
@@ -662,7 +662,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "MenuDefs",
         description: "MenuDefs",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_menudefs_page"))
+        action: GotoPage(app, pageID: "eliud_core_menudefs_page"))
     );
 
 
@@ -672,7 +672,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Pages",
         description: "Pages",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_pages_page"))
+        action: GotoPage(app, pageID: "eliud_core_pages_page"))
     );
 
 
@@ -682,7 +682,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PlatformMediums",
         description: "PlatformMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_platformmediums_page"))
+        action: GotoPage(app, pageID: "eliud_core_platformmediums_page"))
     );
 
 
@@ -692,7 +692,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PosSizes",
         description: "PosSizes",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_possizes_page"))
+        action: GotoPage(app, pageID: "eliud_core_possizes_page"))
     );
 
 
@@ -702,7 +702,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "PublicMediums",
         description: "PublicMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_publicmediums_page"))
+        action: GotoPage(app, pageID: "eliud_core_publicmediums_page"))
     );
 
 
@@ -712,18 +712,18 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         text: "Shadows",
         description: "Shadows",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(appId, pageID: "eliud_core_shadows_page"))
+        action: GotoPage(app, pageID: "eliud_core_shadows_page"))
     );
 
 
     MenuDefModel menu = MenuDefModel(
       admin: true,
       documentID: "eliud_core_admin_menu",
-      appId: appId,
+      appId: app.documentID,
       name: "eliud_core",
       menuItems: menuItems
     );
-    await menuDefRepository(appId: appId)!.add(menu);
+    await menuDefRepository(appId: app.documentID!)!.add(menu);
     return menu;
   }
 }

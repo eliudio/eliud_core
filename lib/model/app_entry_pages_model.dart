@@ -70,7 +70,7 @@ class AppEntryPagesModel {
     );
   }
 
-  static AppEntryPagesModel? fromEntity(String documentID, AppEntryPagesEntity? entity) {
+  static Future<AppEntryPagesModel?> fromEntity(String documentID, AppEntryPagesEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AppEntryPagesModel(

@@ -28,17 +28,15 @@ class LoggedIn extends AccessDetermined {
       this.usr,
       this.member,
       this.postLoginAction,
-      AppModel currentApp,
       List<DeterminedApp> apps,
       Map<String, PagesAndDialogAccesss> accesses,
       this.subscribedToApps,
       {AppModel? playstoreApp,
       bool? isProcessing})
-      : super(currentApp, apps, accesses,
+      : super(apps, accesses,
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
-    AppModel currentApp,
     AccessBloc accessBloc,
     User usr,
     MemberModel member,
@@ -68,7 +66,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       determinedApps,
       accesses,
       subscribedToApps,
@@ -96,7 +93,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       null,
-      app,
       apps,
       accesses,
       subscribedToApps,
@@ -105,8 +101,8 @@ class LoggedIn extends AccessDetermined {
     return loggedIn;
   }
 
-  bool isSubscribedToCurrentApp() {
-    return subscribedToApps.contains(currentApp.documentID);
+  bool isSubscribedToCurrentApp(String currentAppId) {
+    return subscribedToApps.contains(currentAppId);
   }
 
   @override
@@ -139,7 +135,6 @@ class LoggedIn extends AccessDetermined {
           usr,
           member,
           postLoginAction,
-          newCurrentApp,
           apps,
           accesses,
           subscribedToApps,
@@ -172,7 +167,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      newCurrentApp,
       newApps,
       newAccesses,
       subscribedToApps,
@@ -189,7 +183,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      newCurrentApp,
       newApps,
       accesses,
       subscribedToApps,
@@ -203,7 +196,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       apps,
       accesses,
       subscribedToApps,
@@ -218,7 +210,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       apps,
       accesses,
       subscribedToApps,
@@ -234,7 +225,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       apps,
       newAccesses,
       subscribedToApps,
@@ -383,7 +373,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       newApps,
       newAccesses,
       subscribedToApps,
@@ -396,7 +385,6 @@ class LoggedIn extends AccessDetermined {
       usr,
       member,
       postLoginAction,
-      currentApp,
       apps,
       accesses,
       newSubscribedToApps,

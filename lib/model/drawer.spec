@@ -76,7 +76,7 @@
       "group": "popupMenuBackgroundColor",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Popup Menu Background Color\", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Popup Menu Background Color\", state.value!.popupMenuBackgroundColor, _onPopupMenuBackgroundColorChanged)"
     },
     {
       "fieldName": "headerBackgroundOverride",
@@ -93,7 +93,7 @@
       "group": "popupMenuBackgroundColor",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Popup Menu Background Color Override\", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Popup Menu Background Color Override\", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)"
     },
     {
       "fieldName": "menu",
@@ -130,7 +130,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   }
 }

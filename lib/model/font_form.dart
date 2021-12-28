@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/font_form_state.dart';
 
 
 class FontForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   FontModel? value;
   ActionModel? submitAction;
 
-  FontForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  FontForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<FontFormBloc >(
@@ -77,7 +77,7 @@ class FontForm extends StatelessWidget {
 
                                                 )..add(InitialiseFontFormEvent(value: value)),
   
-        child: MyFontForm(submitAction: submitAction, formAction: formAction),
+        child: MyFontForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<FontFormBloc >(
@@ -86,18 +86,18 @@ class FontForm extends StatelessWidget {
 
                                                 )..add(InitialiseFontFormNoLoadEvent(value: value)),
   
-        child: MyFontForm(submitAction: submitAction, formAction: formAction),
+        child: MyFontForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update Font' : 'Add Font'),
         body: BlocProvider<FontFormBloc >(
             create: (context) => FontFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseFontFormEvent(value: value) : InitialiseNewFontFormEvent())),
   
-        child: MyFontForm(submitAction: submitAction, formAction: formAction),
+        child: MyFontForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -105,10 +105,11 @@ class FontForm extends StatelessWidget {
 
 
 class MyFontForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyFontForm({this.formAction, this.submitAction});
+  MyFontForm({required this.app, this.formAction, this.submitAction});
 
   _MyFontFormState createState() => _MyFontFormState(this.formAction);
 }
@@ -142,13 +143,10 @@ class _MyFontFormState extends State<MyFontForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<FontFormBloc, FontFormState>(builder: (context, state) {
       if (state is FontFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is FontFormLoaded) {
@@ -182,143 +180,143 @@ class _MyFontFormState extends State<MyFontForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDFontFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDFontFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Font Family Name (currently supported family is Google Fonts)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _fontNameController, keyboardType: TextInputType.text, validator: (_) => state is FontNameFontFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Font Family Name (currently supported family is Google Fonts)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _fontNameController, keyboardType: TextInputType.text, validator: (_) => state is FontNameFontFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Size', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _sizeController, keyboardType: TextInputType.number, validator: (_) => state is SizeFontFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Size', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _sizeController, keyboardType: TextInputType.number, validator: (_) => state is SizeFontFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Weight')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Weight')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Thin', 'Thin', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'Thin', 'Thin', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraLight', 'ExtraLight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'ExtraLight', 'ExtraLight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Light', 'Light', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'Light', 'Light', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Medium', 'Medium', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'Medium', 'Medium', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'SemiBold', 'SemiBold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'SemiBold', 'SemiBold', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'Bold', 'Bold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'Bold', 'Bold', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'ExtraBold', 'ExtraBold', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'ExtraBold', 'ExtraBold', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _weightSelectedRadioTile, 'MostThick', 'MostThick', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionWeight(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _weightSelectedRadioTile, 'MostThick', 'MostThick', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionWeight(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Style')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Style')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Italic', 'Italic', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _styleSelectedRadioTile, 'Italic', 'Italic', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStyle(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _styleSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionStyle(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _styleSelectedRadioTile, 'Normal', 'Normal', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionStyle(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Decoration')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Decoration')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _decorationSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Underline', 'Underline', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _decorationSelectedRadioTile, 'Underline', 'Underline', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'Overline', 'Overline', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _decorationSelectedRadioTile, 'Overline', 'Overline', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionDecoration(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _decorationSelectedRadioTile, 'LineThrough', 'LineThrough', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionDecoration(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _decorationSelectedRadioTile, 'LineThrough', 'LineThrough', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionDecoration(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Font Color')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Font Color')
                 ));
 
         children.add(
 
-                RgbField("Font Color", state.value!.color, _onColorChanged)
+                RgbField(widget.app, "Font Color", state.value!.color, _onColorChanged)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is FontFormError) {
                       return null;
@@ -355,7 +353,7 @@ class _MyFontFormState extends State<MyFontForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -365,7 +363,7 @@ class _MyFontFormState extends State<MyFontForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -425,7 +423,7 @@ class _MyFontFormState extends State<MyFontForm> {
   }
 
   bool _readOnly(AccessState accessState, FontFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

@@ -1,73 +1,74 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasText {
-  Widget inputDecorationLabel(
+  Widget inputDecorationLabel(AppModel app,
       BuildContext context,
       String data, {
         TextAlign? textAlign,
         int? maxLines,
         bool? softWrap,
       });
-  Widget smallText(
+  Widget smallText(AppModel app,
       BuildContext context,
       String data, {
         TextAlign? textAlign,
         int? maxLines,
         bool? softWrap,
       });
-  Widget text(
+  Widget text(AppModel app,
       BuildContext context,
       String data, {
         TextAlign? textAlign,
         int? maxLines,
         bool? softWrap,
       });
-  Widget highLight1(
-    BuildContext context,
+  Widget highLight1(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget highLight2(
-    BuildContext context,
+  Widget highLight2(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget h1(
-    BuildContext context,
+  Widget h1(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget h2(
-    BuildContext context,
+  Widget h2(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget h3(
-    BuildContext context,
+  Widget h3(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget h4(
-    BuildContext context,
+  Widget h4(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
     bool? softWrap,
   });
-  Widget h5(
-    BuildContext context,
+  Widget h5(AppModel app,
+      BuildContext context,
     String data, {
     TextAlign? textAlign,
     int? maxLines,
@@ -75,7 +76,7 @@ abstract class HasText {
   });
 }
 
-Widget smallText(
+Widget smallText(AppModel app,
     BuildContext context,
     String data, {
       TextAlign? textAlign,
@@ -83,10 +84,10 @@ Widget smallText(
       bool? softWrap,
     }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .smallText(
+        .smallText(app,
       context,
       data,
       textAlign: textAlign,
@@ -94,7 +95,7 @@ Widget smallText(
       softWrap: softWrap,
     );
 
-Widget inputDecorationLabel(
+Widget inputDecorationLabel(AppModel app,
     BuildContext context,
     String data, {
       TextAlign? textAlign,
@@ -102,10 +103,10 @@ Widget inputDecorationLabel(
       bool? softWrap,
     }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .inputDecorationLabel(
+        .inputDecorationLabel(app,
       context,
       data,
       textAlign: textAlign,
@@ -113,7 +114,7 @@ Widget inputDecorationLabel(
       softWrap: softWrap,
     );
 
-Widget text(
+Widget text(AppModel app,
     BuildContext context,
     String data, {
       TextAlign? textAlign,
@@ -121,10 +122,10 @@ Widget text(
       bool? softWrap,
     }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .text(
+        .text(app,
       context,
       data,
       textAlign: textAlign,
@@ -132,18 +133,18 @@ Widget text(
       softWrap: softWrap,
     );
 
-Widget highLight1(
-  BuildContext context,
+Widget highLight1(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .highLight1(
+        .highLight1(app,
           context,
           data,
           textAlign: textAlign,
@@ -151,18 +152,18 @@ Widget highLight1(
           softWrap: softWrap,
         );
 
-Widget highLight2(
-  BuildContext context,
+Widget highLight2(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .highLight2(
+        .highLight2(app,
           context,
           data,
           textAlign: textAlign,
@@ -170,18 +171,18 @@ Widget highLight2(
           softWrap: softWrap,
         );
 
-Widget h1(
-  BuildContext context,
+Widget h1(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .h1(
+        .h1(app,
           context,
           data,
           textAlign: textAlign,
@@ -189,18 +190,18 @@ Widget h1(
           softWrap: softWrap,
         );
 
-Widget h2(
-  BuildContext context,
+Widget h2(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .h2(
+        .h2(app,
           context,
           data,
           textAlign: textAlign,
@@ -208,18 +209,18 @@ Widget h2(
           softWrap: softWrap,
         );
 
-Widget h3(
-  BuildContext context,
+Widget h3(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .h3(
+        .h3(app,
           context,
           data,
           textAlign: textAlign,
@@ -227,18 +228,18 @@ Widget h3(
           softWrap: softWrap,
         );
 
-Widget h4(
-  BuildContext context,
+Widget h4(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .h4(
+        .h4(app,
           context,
           data,
           textAlign: textAlign,
@@ -246,18 +247,18 @@ Widget h4(
           softWrap: softWrap,
         );
 
-Widget h5(
-  BuildContext context,
+Widget h5(AppModel app,
+    BuildContext context,
   String data, {
   TextAlign? textAlign,
   int? maxLines,
   bool? softWrap,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .textStyle()
-        .h5(
+        .h5(app,
           context,
           data,
           textAlign: textAlign,

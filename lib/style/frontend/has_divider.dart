@@ -1,21 +1,22 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasDivider {
-  Widget divider(BuildContext context);
-  Widget verticalDivider(BuildContext context, double height);
+  Widget divider(AppModel app, BuildContext context);
+  Widget verticalDivider(AppModel app, BuildContext context, double height);
 }
 
-Widget divider(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+Widget divider(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .dividerStyle()
-    .divider(context);
+    .divider(app, context);
 
-Widget verticalDivider(BuildContext context, double height) =>
+Widget verticalDivider(AppModel app, BuildContext context, double height) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .dividerStyle()
-        .verticalDivider(context, height);
+        .verticalDivider(app, context, height);

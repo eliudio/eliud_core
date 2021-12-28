@@ -44,7 +44,7 @@ class PublicMediumFirestore implements PublicMediumRepository {
     return PublicMediumCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
   }
 
-  PublicMediumModel? _populateDoc(DocumentSnapshot value) {
+  Future<PublicMediumModel?> _populateDoc(DocumentSnapshot value) async {
     return PublicMediumModel.fromEntity(value.id, PublicMediumEntity.fromMap(value.data()));
   }
 
@@ -68,16 +68,13 @@ class PublicMediumFirestore implements PublicMediumRepository {
 
   StreamSubscription<List<PublicMediumModel?>> listen(PublicMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<PublicMediumModel?>> stream;
-      stream = getQuery(FirebaseFirestore.instance.collection('publicmedium'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-//    The above line should eventually become the below line
-//    See https://github.com/felangel/bloc/issues/2073.
-//    stream = getQuery(PublicMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-      Iterable<PublicMediumModel?> publicMediums  = data.docs.map((doc) {
-        PublicMediumModel? value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return publicMediums as List<PublicMediumModel?>;
+    stream = getQuery(FirebaseFirestore.instance.collection('publicmedium'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(PublicMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
     });
+
     return stream.listen((listOfPublicMediumModels) {
       trigger(listOfPublicMediumModels);
     });
@@ -111,11 +108,12 @@ class PublicMediumFirestore implements PublicMediumRepository {
 
   Stream<List<PublicMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     DocumentSnapshot? lastDoc;
-    Stream<List<PublicMediumModel?>> _values = getQuery(PublicMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+    Stream<List<PublicMediumModel?>> _values = getQuery(PublicMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();});
+      }).toList());
+    });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;
   }
@@ -136,10 +134,10 @@ class PublicMediumFirestore implements PublicMediumRepository {
     DocumentSnapshot? lastDoc;
     List<PublicMediumModel?> _values = await getQuery(PublicMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.get().then((value) {
       var list = value.docs;
-      return list.map((doc) { 
+      return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();
+      }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

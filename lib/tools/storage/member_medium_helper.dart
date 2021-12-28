@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 
@@ -16,8 +17,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   static String PACKAGENAME = 'read_access';
   final List<String> readAccess;
 
-  MemberMediumHelper(String appId, String ownerId, this.readAccess)
-      : super(appId, ownerId, PACKAGENAME);
+  MemberMediumHelper(AppModel app, String ownerId, this.readAccess)
+      : super(app, ownerId, PACKAGENAME);
 
   /*
    * Create custom meta data.
@@ -53,7 +54,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     memberImageModel = MemberMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: appId,
+      appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -66,7 +67,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
     );
-    return memberMediumRepository(appId: appId)!.add(memberImageModel);
+    return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   /*
@@ -87,7 +88,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     memberImageModel = MemberMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: appId,
+      appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -102,7 +103,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
     );
-    return memberMediumRepository(appId: appId)!.add(memberImageModel);
+    return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   @override
@@ -117,7 +118,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     var pageImageModel = MemberMediumModel(
         documentID: newDocumentID,
         baseName: baseName,
-        appId: appId,
+        appId: app.documentID,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
         ref: pageImage == null ? null : pageImage.ref,
@@ -130,6 +131,6 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await memberMediumRepository(appId: appId)!.add(pageImageModel);
+    return await memberMediumRepository(appId: app.documentID!)!.add(pageImageModel);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -43,11 +44,12 @@ class _MemberImageModelState extends State<MemberImageModelWidget> {
 
 // This doesn't seem to work as it seems sometimes the wrong image is picked up. Weird
 class FbStorageImageDoesntWork extends StatefulWidget {
+  final AppModel app;
   final String ref;
   final double? width;
   final double? height;
 
-  const FbStorageImageDoesntWork({Key? key, required this.ref, this.width, this.height, }) : super(key: key);
+  const FbStorageImageDoesntWork({Key? key, required this.app, required this.ref, this.width, this.height, }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -78,7 +80,7 @@ class _FbStorageImageState extends State<FbStorageImageDoesntWork> {
                   package: "eliud_pkg_feed");
             }
           }
-          return progressIndicator(context);
+          return progressIndicator(widget.app, context);
         });
   }
 }

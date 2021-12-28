@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/package/packages.dart';
 
 import 'package:flutter/material.dart';
@@ -32,11 +33,12 @@ import 'package:eliud_core/model/grid_view_model.dart';
 typedef GridViewChanged(String? value);
 
 class GridViewDropdownButtonWidget extends StatefulWidget {
+  final AppModel app;
   final String? value;
   final GridViewChanged? trigger;
   final bool? optional;
 
-  GridViewDropdownButtonWidget({ this.value, this.trigger, this.optional, Key? key }): super(key: key);
+  GridViewDropdownButtonWidget({ required this.app, this.value, this.trigger, this.optional, Key? key }): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,8 +64,9 @@ class GridViewDropdownButtonWidgetState extends State<GridViewDropdownButtonWidg
   }
 
 List<Widget> widgets(GridViewModel value) {
+var app = widget.app;
 var widgets = <Widget>[];
-widgets.add(value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container());
+widgets.add(value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container());
 return widgets;
 }
 
@@ -73,7 +76,7 @@ return widgets;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<GridViewListBloc, GridViewListState>(builder: (context, state) {
       if (state is GridViewListLoading) {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       } else if (state is GridViewListLoaded) {
         String? valueChosen;
         if (state.values!.indexWhere((v) => (v!.documentID == widget.value)) >= 0)
@@ -116,7 +119,7 @@ return widgets;
                       items: items,
                       value: valueChosen,
                       hint: Text('Select a gridView'),
-                      onChanged: !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : _onChange,
+                      onChanged: !accessState.memberIsOwner(widget.app.documentID!) ? null : _onChange,
                     );
         if (false) {
           return Container(height:48, child: Center(child: button));
@@ -124,7 +127,7 @@ return widgets;
           return Center(child: button);
         }
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }

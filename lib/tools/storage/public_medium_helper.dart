@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 
@@ -15,8 +16,8 @@ PublicMediumType publicMediumType(AbstractMediumType abstractMediumType) {
 class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
   static String PACKAGENAME = 'public';
 
-  PublicMediumHelper(String appId, String ownerId)
-      : super(appId, ownerId, PACKAGENAME);
+  PublicMediumHelper(AppModel app, String ownerId)
+      : super(app, ownerId, PACKAGENAME);
 
   /*
    * Create custom meta data.
@@ -63,7 +64,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
     );
-    return publicMediumRepository(appId: appId)!.add(memberImageModel);
+    return publicMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   /*
@@ -97,7 +98,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
     );
-    return publicMediumRepository(appId: appId)!.add(memberImageModel);
+    return publicMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   @override
@@ -123,6 +124,6 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await publicMediumRepository(appId: appId)!.add(pageImageModel);
+    return await publicMediumRepository(appId: app.documentID!)!.add(pageImageModel);
   }
 }

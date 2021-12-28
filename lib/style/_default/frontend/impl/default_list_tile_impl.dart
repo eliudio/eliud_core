@@ -1,10 +1,11 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:flutter/material.dart';
 
 class DefaultListTileImpl implements HasListTile {
   @override
-  Widget getListTile(BuildContext context, {Key? key, GestureTapCallback? onTap, Widget? leading, Widget? trailing, Widget? title, Widget? subtitle, bool? isThreeLine}) {
+  Widget getListTile(AppModel app, BuildContext context, {Key? key, GestureTapCallback? onTap, Widget? leading, Widget? trailing, Widget? title, Widget? subtitle, bool? isThreeLine}) {
     return ListTile(
       key: key,
       onTap: onTap,
@@ -17,7 +18,7 @@ class DefaultListTileImpl implements HasListTile {
   }
 
   @override
-  Widget radioListTile<T>(BuildContext context, T t, T? groupValue,
+  Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
       String title, String? subTitle, ValueChanged<T?>? valueChanged) {
     return RadioListTile(
         value: t,
@@ -28,7 +29,7 @@ class DefaultListTileImpl implements HasListTile {
   }
 
   @override
-  Widget checkboxListTile(BuildContext context, String title, bool? value,
+  Widget checkboxListTile(AppModel app, BuildContext context, String title, bool? value,
       ValueChanged<bool?>? onChanged) {
     return CheckboxListTile(
         title: Text(title,),

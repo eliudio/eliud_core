@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -12,8 +13,8 @@ class DefaultDialogImpl implements HasDialog {
   DefaultDialogImpl(this._frontEndStyle);
 
   @override
-  void openMessageDialog(
-    BuildContext context, String name, {
+  void openMessageDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     required String message,
     String? closeLabel,
@@ -23,7 +24,7 @@ class DefaultDialogImpl implements HasDialog {
     // MessageDialog
     DialogStatefulWidgetHelper.openIt(
       context, name,
-      _frontEndStyle.dialogWidgetStyle().messageDialog(
+      _frontEndStyle.dialogWidgetStyle().messageDialog(app,
             context,
             title: title,
             message: message,
@@ -34,8 +35,8 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  void openErrorDialog(
-    BuildContext context, String name, {
+  void openErrorDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -44,7 +45,7 @@ class DefaultDialogImpl implements HasDialog {
   }) =>
       DialogStatefulWidgetHelper.openIt(
         context, name,
-        _frontEndStyle.dialogWidgetStyle().errorDialog(
+        _frontEndStyle.dialogWidgetStyle().errorDialog(app,
               context,
               title: title,
               errorMessage: errorMessage,
@@ -54,8 +55,8 @@ class DefaultDialogImpl implements HasDialog {
       );
 
   @override
-  void openAckNackDialog(
-    BuildContext context, String name, {
+  void openAckNackDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     required String message,
     required OnSelection onSelection,
@@ -66,7 +67,7 @@ class DefaultDialogImpl implements HasDialog {
   }) =>
       DialogStatefulWidgetHelper.openIt(
           context, name,
-          _frontEndStyle.dialogWidgetStyle().ackNackDialog(
+          _frontEndStyle.dialogWidgetStyle().ackNackDialog(app,
                 context,
                 title: title,
                 message: message,
@@ -78,8 +79,8 @@ class DefaultDialogImpl implements HasDialog {
               ));
 
   @override
-  void openEntryDialog(
-    BuildContext context, String name, {
+  void openEntryDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     String? ackButtonLabel,
     String? nackButtonLabel,
@@ -92,7 +93,7 @@ class DefaultDialogImpl implements HasDialog {
       DialogStatefulWidgetHelper.openIt(
         context,
         name,
-        _frontEndStyle.dialogWidgetStyle().entryDialog(
+        _frontEndStyle.dialogWidgetStyle().entryDialog(app,
               context,
               title: title,
               ackButtonLabel: ackButtonLabel,
@@ -106,8 +107,8 @@ class DefaultDialogImpl implements HasDialog {
       );
 
   @override
-  void openSelectionDialog(
-    BuildContext context, String name, {
+  void openSelectionDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     required List<String> options,
     required OnSelection onSelection,
@@ -118,7 +119,7 @@ class DefaultDialogImpl implements HasDialog {
     DialogStatefulWidgetHelper.openIt(
         context,
         name,
-        _frontEndStyle.dialogWidgetStyle().selectionDialog(
+        _frontEndStyle.dialogWidgetStyle().selectionDialog(app,
               context,
               title: title,
               options: options,
@@ -130,8 +131,8 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  void openComplexDialog(
-    BuildContext context, String name, {
+  void openComplexDialog(AppModel app,
+      BuildContext context, String name, {
     required String title,
     required Widget child,
     VoidCallback? onPressed,
@@ -142,7 +143,7 @@ class DefaultDialogImpl implements HasDialog {
       DialogStatefulWidgetHelper.openIt(
           context,
           name,
-          _frontEndStyle.dialogWidgetStyle().complexDialog(
+          _frontEndStyle.dialogWidgetStyle().complexDialog(app,
                 context,
                 title: title,
                 child: child,
@@ -153,8 +154,8 @@ class DefaultDialogImpl implements HasDialog {
               ));
 
   @override
-  void openFlexibleDialog(
-    BuildContext context, String name, {
+  void openFlexibleDialog(AppModel app,
+      BuildContext context, String name, {
     String? title,
     required Widget child,
     List<Widget>? buttons,
@@ -163,7 +164,7 @@ class DefaultDialogImpl implements HasDialog {
   }) {
     DialogStatefulWidgetHelper.openIt(
         context, name,
-        _frontEndStyle.dialogWidgetStyle().flexibleDialog(
+        _frontEndStyle.dialogWidgetStyle().flexibleDialog(app,
               context,
               title: title,
               child: child,
@@ -174,8 +175,8 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  void openWidgetDialog(
-    BuildContext context, String name, {
+  void openWidgetDialog(AppModel app,
+      BuildContext context, String name, {
     required Widget child,
   }) {
     DialogStatefulWidgetHelper.openIt(

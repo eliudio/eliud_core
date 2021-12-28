@@ -14,6 +14,7 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -33,15 +34,15 @@ import 'app_bar_model.dart';
 
 class AppBarComponentSelector extends ComponentSelector {
   @override
-  Widget createSelectWidget(BuildContext context, double height,
+  Widget createSelectWidget(BuildContext context, AppModel app, double height,
       SelectComponent selected, editorConstructor) {
-    var appId = AccessBloc.currentAppId(context);
+    var appId = app.documentID!;
     return BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
             appBarRepository:
                 appBarRepository(appId: appId)!,
           )..add(LoadAppBarList()),
-      child: SelectAppBarWidget(
+      child: SelectAppBarWidget(app: app,
           height: height,
           selected: selected,
           editorConstructor: editorConstructor),
@@ -50,12 +51,14 @@ class AppBarComponentSelector extends ComponentSelector {
 }
 
 class SelectAppBarWidget extends StatefulWidget {
+  final AppModel app;
   final double height;
   final SelectComponent selected;
   final ComponentEditorConstructor editorConstructor;
 
   const SelectAppBarWidget(
       {Key? key,
+      required this.app,
       required this.height,
       required this.selected,
       required this.editorConstructor})
@@ -69,6 +72,7 @@ class SelectAppBarWidget extends StatefulWidget {
 
 class _SelectAppBarWidgetState extends State<SelectAppBarWidget> {
   Widget theList(BuildContext context, List<AppBarModel?> values) {
+    var app = widget.app; 
     return ListView.builder(
         shrinkWrap: true,
         physics: ScrollPhysics(),
@@ -78,28 +82,29 @@ class _SelectAppBarWidgetState extends State<SelectAppBarWidget> {
           if (value != null) {
             return getListTile(
               context,
+              widget.app,
               trailing: PopupMenuButton<int>(
                   child: Icon(Icons.more_vert),
                   elevation: 10,
                   itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 1,
-                          child: text(context, 'Add to page'),
+                          child: text(widget.app, context, 'Add to page'),
                         ),
                         PopupMenuItem(
                           value: 2,
-                          child: text(context, 'Update'),
+                          child: text(widget.app, context, 'Update'),
                         ),
                       ],
                   onSelected: (selectedValue) {
                     if (selectedValue == 1) {
                       widget.selected(value.documentID!);
                     } else if (selectedValue == 2) {
-                      widget.editorConstructor.updateComponent(context, value, (_) {});
+                      widget.editorConstructor.updateComponent(widget.app, context, value, (_) {});
                     }
                   }),
-              title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
-              subtitle: value.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.title!)) : Container(),
+              title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container(),
+              subtitle: value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container(),
             );
           } else {
             return Container();
@@ -112,10 +117,10 @@ class _SelectAppBarWidgetState extends State<SelectAppBarWidget> {
     return BlocBuilder<AppBarListBloc, AppBarListState>(
         builder: (context, state) {
       if (state is AppBarListLoading) {
-        return progressIndicator(context);
+        return progressIndicator(widget.app, context);
       } else if (state is AppBarListLoaded) {
         if (state.values == null) {
-          return text(context, 'No items');
+          return text(widget.app, context, 'No items');
         } else {
           var children = <Widget>[];
           children.add(Container(
@@ -125,12 +130,12 @@ class _SelectAppBarWidgetState extends State<SelectAppBarWidget> {
                 state.values!,
               )));
           children.add(Column(children: [
-            divider(context),
+            divider(widget.app, context),
             Center(
-                child: iconButton(
+                child: iconButton(widget.app, 
               context,
               onPressed: () {
-                widget.editorConstructor.createNewComponent(context, (_) {});
+                widget.editorConstructor.createNewComponent(widget.app, context, (_) {});
               },
               icon: Icon(Icons.add),
             ))

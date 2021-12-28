@@ -79,7 +79,7 @@ class MenuDefModel {
     );
   }
 
-  static MenuDefModel? fromEntity(String documentID, MenuDefEntity? entity) {
+  static Future<MenuDefModel?> fromEntity(String documentID, MenuDefEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MenuDefModel(
@@ -87,13 +87,12 @@ class MenuDefModel {
           appId: entity.appId, 
           name: entity.name, 
           menuItems: 
-            entity.menuItems == null ? null :
-            entity.menuItems
+            entity.menuItems == null ? null : List<MenuItemModel>.from(await Future.wait(entity. menuItems
             !.map((item) {
-              counter++; 
-              return MenuItemModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return MenuItemModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           admin: entity.admin, 
     );
   }

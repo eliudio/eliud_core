@@ -26,19 +26,20 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractAppPolicyComponent extends StatelessWidget {
   static String componentName = "appPolicys";
-  final String theAppId;
+  final AppModel app;
   final String appPolicyId;
 
-  AbstractAppPolicyComponent({Key? key, required this.theAppId, required this.appPolicyId}): super(key: key);
+  AbstractAppPolicyComponent({Key? key, required this.app, required this.appPolicyId}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppPolicyComponentBloc> (
           create: (context) => AppPolicyComponentBloc(
-            appPolicyRepository: appPolicyRepository(appId: theAppId)!)
+            appPolicyRepository: appPolicyRepository(appId: app.documentID!)!)
         ..add(FetchAppPolicyComponent(id: appPolicyId)),
       child: _appPolicyBlockBuilder(context),
     );
@@ -48,7 +49,7 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
     return BlocBuilder<AppPolicyComponentBloc, AppPolicyComponentState>(builder: (context, state) {
       if (state is AppPolicyComponentLoaded) {
         if (state.value == null) {
-          return AlertWidget(title: "Error", content: 'No AppPolicy defined');
+          return AlertWidget(app: app, title: "Error", content: 'No AppPolicy defined');
         } else {
           return yourWidget(context, state.value);
         }
@@ -59,10 +60,10 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
           size: 30.0,
         );
       } else if (state is AppPolicyComponentError) {
-        return AlertWidget(title: 'Error', content: state.message);
+        return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().progressIndicatorStyle().progressIndicator(context),
+          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
         );
       }
     });

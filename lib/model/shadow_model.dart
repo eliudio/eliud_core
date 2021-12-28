@@ -91,7 +91,7 @@ class ShadowModel {
     );
   }
 
-  static ShadowModel? fromEntity(String documentID, ShadowEntity? entity) {
+  static Future<ShadowModel?> fromEntity(String documentID, ShadowEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ShadowModel(
@@ -99,7 +99,7 @@ class ShadowModel {
           appId: entity.appId, 
           comments: entity.comments, 
           color: 
-            RgbModel.fromEntity(entity.color), 
+            await RgbModel.fromEntity(entity.color), 
           offsetDX: entity.offsetDX, 
           offsetDY: entity.offsetDY, 
           spreadRadius: entity.spreadRadius, 

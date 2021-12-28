@@ -14,6 +14,7 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
@@ -33,15 +34,15 @@ import 'country_model.dart';
 
 class CountryComponentSelector extends ComponentSelector {
   @override
-  Widget createSelectWidget(BuildContext context, double height,
+  Widget createSelectWidget(BuildContext context, AppModel app, double height,
       SelectComponent selected, editorConstructor) {
-    var appId = AccessBloc.currentAppId(context);
+    var appId = app.documentID!;
     return BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
             countryRepository:
                 countryRepository(appId: appId)!,
           )..add(LoadCountryList()),
-      child: SelectCountryWidget(
+      child: SelectCountryWidget(app: app,
           height: height,
           selected: selected,
           editorConstructor: editorConstructor),
@@ -50,12 +51,14 @@ class CountryComponentSelector extends ComponentSelector {
 }
 
 class SelectCountryWidget extends StatefulWidget {
+  final AppModel app;
   final double height;
   final SelectComponent selected;
   final ComponentEditorConstructor editorConstructor;
 
   const SelectCountryWidget(
       {Key? key,
+      required this.app,
       required this.height,
       required this.selected,
       required this.editorConstructor})
@@ -69,6 +72,7 @@ class SelectCountryWidget extends StatefulWidget {
 
 class _SelectCountryWidgetState extends State<SelectCountryWidget> {
   Widget theList(BuildContext context, List<CountryModel?> values) {
+    var app = widget.app; 
     return ListView.builder(
         shrinkWrap: true,
         physics: ScrollPhysics(),
@@ -78,28 +82,29 @@ class _SelectCountryWidgetState extends State<SelectCountryWidget> {
           if (value != null) {
             return getListTile(
               context,
+              widget.app,
               trailing: PopupMenuButton<int>(
                   child: Icon(Icons.more_vert),
                   elevation: 10,
                   itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 1,
-                          child: text(context, 'Add to page'),
+                          child: text(widget.app, context, 'Add to page'),
                         ),
                         PopupMenuItem(
                           value: 2,
-                          child: text(context, 'Update'),
+                          child: text(widget.app, context, 'Update'),
                         ),
                       ],
                   onSelected: (selectedValue) {
                     if (selectedValue == 1) {
                       widget.selected(value.documentID!);
                     } else if (selectedValue == 2) {
-                      widget.editorConstructor.updateComponent(context, value, (_) {});
+                      widget.editorConstructor.updateComponent(widget.app, context, value, (_) {});
                     }
                   }),
-              title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryCode!)) : Container(),
-              subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryName!)) : Container(),
+              title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryCode!)) : Container(),
+              subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryName!)) : Container(),
             );
           } else {
             return Container();
@@ -112,10 +117,10 @@ class _SelectCountryWidgetState extends State<SelectCountryWidget> {
     return BlocBuilder<CountryListBloc, CountryListState>(
         builder: (context, state) {
       if (state is CountryListLoading) {
-        return progressIndicator(context);
+        return progressIndicator(widget.app, context);
       } else if (state is CountryListLoaded) {
         if (state.values == null) {
-          return text(context, 'No items');
+          return text(widget.app, context, 'No items');
         } else {
           var children = <Widget>[];
           children.add(Container(
@@ -125,12 +130,12 @@ class _SelectCountryWidgetState extends State<SelectCountryWidget> {
                 state.values!,
               )));
           children.add(Column(children: [
-            divider(context),
+            divider(widget.app, context),
             Center(
-                child: iconButton(
+                child: iconButton(widget.app, 
               context,
               onPressed: () {
-                widget.editorConstructor.createNewComponent(context, (_) {});
+                widget.editorConstructor.createNewComponent(widget.app, context, (_) {});
               },
               icon: Icon(Icons.add),
             ))

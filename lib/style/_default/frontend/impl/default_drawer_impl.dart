@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -13,7 +14,7 @@ class DefaultDrawerImpl implements HasDrawer {
   DefaultDrawerImpl(this._frontEndStyle);
 
   @override
-  Drawer drawer(BuildContext context,
+  Drawer drawer(AppModel app, BuildContext context,
       {required DrawerType drawerType,
       required MemberModel? member,
       DrawerHeader1Attributes? header1,
@@ -30,7 +31,7 @@ class DefaultDrawerImpl implements HasDrawer {
             child: DrawerHeader(
                 child: Center(
                     child:
-                    _frontEndStyle.textStyle().h3(context, header1.text)),
+                    _frontEndStyle.textStyle().h3(app, context, header1.text)),
                 decoration:
                     BoxDecorationHelper.boxDecoration(member, header1.backgroundOverride))),
       );
@@ -41,7 +42,7 @@ class DefaultDrawerImpl implements HasDrawer {
         height: header2.height == 0 ? null : header2.height,
         child: DrawerHeader(
             child: Center(
-          child: _frontEndStyle.textStyle().h4(context, header2.text),
+          child: _frontEndStyle.textStyle().h4(app, context, header2.text),
         )),
       ));
     }
@@ -51,7 +52,7 @@ class DefaultDrawerImpl implements HasDrawer {
               ? null
               : IconHelper.getIconFromModelWithFlutterColor(
               iconModel: item.icon, );
-      var theText = item.isActive ? _frontEndStyle.textStyle().h3(context, item.label!, textAlign: TextAlign.center) : _frontEndStyle.textStyle().h4(context, item.label!, textAlign: TextAlign.center);
+      var theText = item.isActive ? _frontEndStyle.textStyle().h3(app, context, item.label!, textAlign: TextAlign.center) : _frontEndStyle.textStyle().h4(app, context, item.label!, textAlign: TextAlign.center);
       widgets.add(ListTile(
           leading: theIcon,
           title: theText,
@@ -60,7 +61,7 @@ class DefaultDrawerImpl implements HasDrawer {
               item.onTap();
             } else if (item is MenuItemWithMenuItems) {
               var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
-              _frontEndStyle.menuStyle().openMenu(context,
+              _frontEndStyle.menuStyle().openMenu(app, context,
                   position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                   menuItems: theMenuItemWithMenuItems.items,
                   popupMenuBackgroundColorOverride:

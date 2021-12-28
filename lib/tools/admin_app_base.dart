@@ -1,5 +1,6 @@
 /* Interface for AdminApp */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 abstract class AdminAppInstallerBase {
@@ -7,7 +8,7 @@ abstract class AdminAppInstallerBase {
 }
 
 abstract class AdminAppMenuInstallerBase {
-  Future<MenuDefModel> menu(String appID);
+  Future<MenuDefModel> menu(AppModel app);
 }
 
 abstract class AdminAppWiperBase {

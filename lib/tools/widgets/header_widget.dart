@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
@@ -7,12 +8,14 @@ import 'package:flutter/widgets.dart';
 typedef VoidCallbackFutureSuccess = Future<bool> Function();
 
 class HeaderWidget extends StatefulWidget {
+  final AppModel app;
   final String title;
   final VoidCallbackFutureSuccess? cancelAction;
   final VoidCallbackFutureSuccess? okAction;
 
   HeaderWidget({
     Key? key,
+    required this.app,
     required this.title,
     this.cancelAction,
     this.okAction,
@@ -29,19 +32,19 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   Widget build(BuildContext context) {
     return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
       Row(children: [
-        h5(context, widget.title),
+        h5(widget.app, context, widget.title),
         Spacer(),
-        if (widget.cancelAction != null) iconButton(context, onPressed: () {
+        if (widget.cancelAction != null) iconButton(widget.app, context, onPressed: () {
           widget.cancelAction!();
           Navigator.of(context).pop();
         }, icon: Icon(Icons.cancel), tooltip: 'Cancel'),
-        if (widget.okAction != null) iconButton(context, onPressed: () async {
+        if (widget.okAction != null) iconButton(widget.app, context, onPressed: () async {
           // apply and save
           if (await widget.okAction!())
             Navigator.of(context).pop();
         }, icon: Icon(Icons.check), tooltip: 'Ok'),
       ]),
-      divider(context)
+      divider(widget.app, context)
     ]);
   }
 }

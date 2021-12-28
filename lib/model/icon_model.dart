@@ -69,7 +69,7 @@ class IconModel {
     );
   }
 
-  static IconModel? fromEntity(IconEntity? entity) {
+  static Future<IconModel?> fromEntity(IconEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return IconModel(

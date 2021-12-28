@@ -38,7 +38,7 @@
       "group": "componentId",
       "remark": "For that specific component, e.g. 'carousel', which Component ID, i.e. which carousel to include in the page",
       "fieldType": "String",
-      "bespokeFormField": "ComponentIdField(componentName: state.value!.componentName, value: state.value!.componentId, trigger: _onComponentIdChanged)"
+      "bespokeFormField": "ComponentIdField(widget.app, componentName: state.value!.componentName, value: state.value!.componentId, trigger: _onComponentIdChanged)"
     }
   ],
   "groups": [
@@ -52,7 +52,7 @@
     }
   ],
   "listFields": {
-    "title": "value.componentName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.componentName!)) : Container()",
-    "subTitle": "value.componentId != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.componentId!)) : Container()"
+    "title": "value.componentName != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.componentName!)) : Container()",
+    "subTitle": "value.componentId != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.componentId!)) : Container()"
   }
 }

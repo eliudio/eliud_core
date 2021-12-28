@@ -106,7 +106,7 @@ class DialogModel {
     );
   }
 
-  static DialogModel? fromEntity(String documentID, DialogEntity? entity) {
+  static Future<DialogModel?> fromEntity(String documentID, DialogEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return DialogModel(
@@ -114,17 +114,16 @@ class DialogModel {
           appId: entity.appId, 
           title: entity.title, 
           bodyComponents: 
-            entity.bodyComponents == null ? null :
-            entity.bodyComponents
+            entity.bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
             !.map((item) {
-              counter++; 
-              return BodyComponentModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return BodyComponentModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           layout: toDialogLayout(entity.layout), 
           includeHeading: entity.includeHeading, 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

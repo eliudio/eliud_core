@@ -55,9 +55,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
               .signOut();
-          var toYield = await LoggedOut.getLoggedOut(theState.currentApp, this, theState.apps.map((determinedApp) => determinedApp.app).toList(), playstoreApp: theState.playstoreApp);
-          var homePage = toYield.homePageForAppId(event.appId);
-          gotoPage(true, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
+          var toYield = await LoggedOut.getLoggedOut(this, theState.apps.map((determinedApp) => determinedApp.app).toList(), playstoreApp: theState.playstoreApp);
+          var homePage = toYield.homePageForAppId(event.app.documentID!);
+          gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!);
           yield toYield;
         } else {
           add(event.asProcessing());
@@ -74,14 +74,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             print('Exception during signInWithGoogle: $exception');
           }
           var member = await firebaseToMemberModel(usr);
-          var toYield = await LoggedIn.getLoggedIn(theState.currentApp, this, usr, member, theState.apps.map((determinedApp) => determinedApp.app).toList(), null, getSubscriptions(member), playstoreApp: theState.playstoreApp);
+          var toYield = await LoggedIn.getLoggedIn(this, usr, member, theState.apps.map((determinedApp) => determinedApp.app).toList(), null, getSubscriptions(member), playstoreApp: theState.playstoreApp);
           _resetAccessListeners(theState.apps.map((e) => e.app.documentID!).toList(), member.documentID!);
           yield toYield;
           if (event.actions != null) {
             event.actions!.runTheAction();
           } else {
-            var homePage = toYield.homePageForAppId(event.appId);
-            gotoPage(true, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId
+            var homePage = toYield.homePageForAppId(event.app.documentID!);
+            gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!
                );
           }
         } else {
@@ -106,15 +106,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         var theyEqual = oldState == newState;
         yield newState;
       } else if (event is GotoPageEvent) {
-        if (event.appId != theState.currentApp.documentID!) {
-          print("Unexected");
-        } else {
           // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
           // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
           // and remove the navigation from here:
           gotoPage(
-              false, event.appId, event.pageId, parameters: event.parameters, errorString: 'Page not does not exist');
-        }
+              false, event.app.documentID!, event.pageId, parameters: event.parameters, errorString: 'Page not does not exist');
       } else if (event is OpenDialogEvent) {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
@@ -267,16 +263,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  static bool isOwner(BuildContext context) {
+  static bool isOwner(BuildContext context, AppModel app) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      if (theState.currentApp.ownerID != null) {
-        return theState.memberIsOwner(theState.currentApp.documentID!);
+      if (app.ownerID != null) {
+        return theState.memberIsOwner(app.documentID!);
       }
     }
     return false;
   }
 
+/*
   static AppModel currentApp(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
@@ -303,6 +300,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       throw Exception('No current app');
     }
   }
+*/
 
   static AccessState getState(BuildContext context) {
     var accessBloc = BlocProvider.of<AccessBloc>(context);

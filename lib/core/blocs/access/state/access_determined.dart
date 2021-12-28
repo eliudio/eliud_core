@@ -35,7 +35,7 @@ class DeterminedApp extends Equatable {
 }
 
 abstract class AccessDetermined extends AccessState {
-  final AppModel currentApp;
+//  final AppModel currentApp;
   final AppModel? playstoreApp;
   final List<DeterminedApp> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
@@ -47,28 +47,29 @@ abstract class AccessDetermined extends AccessState {
   List<Object?> get props =>
       [apps, accesses];
 
-  AccessDetermined(this.currentApp, this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
+  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
 
   bool actionHasAccess(ActionModel action) {
+    var appID = action.app.documentID!;
     if (action.conditions != null) {
-      var theAccess = accesses[action.appID];
+      var theAccess = accesses[appID];
       if ((theAccess != null) && (!AccessHelper.displayConditionOk(
           theAccess.packageConditionsAccess,
           action.conditions!,
-          getPrivilegeLevel(action.appID),
-          memberIsOwner(action.appID),
-          isBlocked(action.appID),
+          getPrivilegeLevel(appID),
+          memberIsOwner(appID),
+          isBlocked(appID),
           isLoggedIn()))) return false;
     }
     if (action is GotoPage) {
-      var theAccess = accesses[action.appID];
+      var theAccess = accesses[appID];
       if (theAccess == null) return false;
       var pageID = action.pageID;
       var access = theAccess.pagesAccess[pageID];
       if (access == null) return false;
       return access;
     } else if (action is OpenDialog) {
-      var theAccess = accesses[action.appID];
+      var theAccess = accesses[appID];
       if (theAccess == null) return false;
       var dialogID = action.dialogID;
       var access = theAccess.dialogsAccess[dialogID];
@@ -113,8 +114,8 @@ abstract class AccessDetermined extends AccessState {
   Future<AccessDetermined> addApp(AccessBloc accessBloc, AppModel newCurrentApp);
   Future<AccessDetermined> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp);
 
-  bool isCurrentAppBlocked(BuildContext context) => isBlocked(currentApp.documentID!);
-  PrivilegeLevel getPrivilegeLevelCurrentApp(BuildContext context) => getPrivilegeLevel(currentApp.documentID!);
+  bool isCurrentAppBlocked(String currentAppId) => isBlocked(currentAppId);
+  PrivilegeLevel getPrivilegeLevelCurrentApp(String currentAppId) => getPrivilegeLevel(currentAppId);
 
   static Future<PageModel?> getPage(String appId, String? pageId, { String? alternativePageId }) async {
     var page;

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/decoration_color_form_state.dart';
 
 
 class DecorationColorForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   DecorationColorModel? value;
   ActionModel? submitAction;
 
-  DecorationColorForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  DecorationColorForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DecorationColorFormBloc >(
@@ -76,7 +76,7 @@ class DecorationColorForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseDecorationColorFormEvent(value: value)),
   
-        child: MyDecorationColorForm(submitAction: submitAction, formAction: formAction),
+        child: MyDecorationColorForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<DecorationColorFormBloc >(
@@ -84,17 +84,17 @@ class DecorationColorForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseDecorationColorFormNoLoadEvent(value: value)),
   
-        child: MyDecorationColorForm(submitAction: submitAction, formAction: formAction),
+        child: MyDecorationColorForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update DecorationColor' : 'Add DecorationColor'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update DecorationColor' : 'Add DecorationColor'),
         body: BlocProvider<DecorationColorFormBloc >(
             create: (context) => DecorationColorFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseDecorationColorFormEvent(value: value) : InitialiseNewDecorationColorFormEvent())),
   
-        child: MyDecorationColorForm(submitAction: submitAction, formAction: formAction),
+        child: MyDecorationColorForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -102,10 +102,11 @@ class DecorationColorForm extends StatelessWidget {
 
 
 class MyDecorationColorForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyDecorationColorForm({this.formAction, this.submitAction});
+  MyDecorationColorForm({required this.app, this.formAction, this.submitAction});
 
   _MyDecorationColorFormState createState() => _MyDecorationColorFormState(this.formAction);
 }
@@ -131,13 +132,10 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<DecorationColorFormBloc, DecorationColorFormState>(builder: (context, state) {
       if (state is DecorationColorFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is DecorationColorFormLoaded) {
@@ -154,17 +152,17 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
         List<Widget> children = [];
         children.add(
 
-                RgbField("Background Color", state.value!.color, _onColorChanged)
+                RgbField(widget.app, "Background Color", state.value!.color, _onColorChanged)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Stop (-1 = no stop)', icon: Icons.color_lens, readOnly: _readOnly(accessState, state), textEditingController: _stopController, keyboardType: TextInputType.number, validator: (_) => state is StopDecorationColorFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Stop (-1 = no stop)', icon: Icons.color_lens, readOnly: _readOnly(accessState, state), textEditingController: _stopController, keyboardType: TextInputType.number, validator: (_) => state is StopDecorationColorFormError ? state.message : null, hintText: null)
           );
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is DecorationColorFormError) {
                       return null;
@@ -193,7 +191,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -203,7 +201,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -233,7 +231,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   }
 
   bool _readOnly(AccessState accessState, DecorationColorFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

@@ -1,10 +1,11 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasContainer {
   // Format a topic, e.g. a post in a box / container
-  Widget topicContainer(BuildContext context,
+  Widget topicContainer(AppModel app, BuildContext context,
       {required List<Widget> children,
       DecorationImage? image,
       double? height,
@@ -14,18 +15,18 @@ abstract class HasContainer {
       bool? collapsed = false});
 
   // Format a topic. Similar to topicContainer, but simpler, without too much decoration
-  Widget simpleTopicContainer(BuildContext context,
+  Widget simpleTopicContainer(AppModel app, BuildContext context,
       {required List<Widget> children,
       DecorationImage? image,
       double? height,
       double? width});
 
   // Format an action, e.g. a button, icon, combobox in a container
-  Widget actionContainer(BuildContext context,
+  Widget actionContainer(AppModel app, BuildContext context,
       {required Widget child, double? height, double? width});
 }
 
-Widget topicContainer(BuildContext context,
+Widget topicContainer(AppModel app, BuildContext context,
         {required List<Widget> children,
         DecorationImage? image,
         double? height,
@@ -34,10 +35,10 @@ Widget topicContainer(BuildContext context,
         bool? collapsible,
         bool? collapsed = false}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .containerStyle()
-        .topicContainer(context,
+        .topicContainer(app, context,
             children: children,
             image: image,
             height: height,
@@ -46,22 +47,22 @@ Widget topicContainer(BuildContext context,
             collapsible: collapsible,
             collapsed: collapsed);
 
-Widget simpleTopicContainer(BuildContext context,
+Widget simpleTopicContainer(AppModel app, BuildContext context,
         {required List<Widget> children,
         DecorationImage? image,
         double? height,
         double? width}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .containerStyle()
-        .simpleTopicContainer(context,
+        .simpleTopicContainer(app, context,
             children: children, image: image, height: height, width: width);
 
-Widget actionContainer(BuildContext context,
+Widget actionContainer(AppModel app, BuildContext context,
         {required Widget child, double? height, double? width}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .containerStyle()
-        .actionContainer(context, child: child, height: height, width: width);
+        .actionContainer(app, context, child: child, height: height, width: width);

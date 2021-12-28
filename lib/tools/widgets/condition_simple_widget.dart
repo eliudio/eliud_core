@@ -1,14 +1,17 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ConditionsSimpleWidget extends StatefulWidget {
+  final AppModel app;
   final StorageConditionsModel value;
   final bool? readOnly;
 
   ConditionsSimpleWidget({
     Key? key,
+    required this.app,
     required this.value,
     this.readOnly,
   }) : super(key: key);
@@ -30,13 +33,13 @@ class _ConditionPrivilegeState extends State<ConditionsSimpleWidget> {
       isDense: false,
       isExpanded: false,
       items: [
-        DropdownMenuItem<int>(value: 0,child: text(context, 'No Privilege Required')),
-        DropdownMenuItem<int>(value: 1, child: text(context, 'Level 1 Privilege Required')),
-        DropdownMenuItem<int>(value: 2, child: text(context, 'Level 2 Privilege Required')),
-        DropdownMenuItem<int>(value: 3, child: text(context, 'Owner Required'))
+        DropdownMenuItem<int>(value: 0,child: text(widget.app, context, 'No Privilege Required')),
+        DropdownMenuItem<int>(value: 1, child: text(widget.app, context, 'Level 1 Privilege Required')),
+        DropdownMenuItem<int>(value: 2, child: text(widget.app, context, 'Level 2 Privilege Required')),
+        DropdownMenuItem<int>(value: 3, child: text(widget.app, context, 'Owner Required'))
       ],
       value: value,
-      hint: text(context, 'Select Privilege'),
+      hint: text(widget.app, context, 'Select Privilege'),
       onChanged: widget.readOnly != null && widget.readOnly! ? null : (value) => _onChange(value),
     );
   }

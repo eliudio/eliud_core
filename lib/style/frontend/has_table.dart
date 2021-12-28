@@ -1,14 +1,15 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasTable {
-  Widget table(BuildContext context, {required List<TableRow> children});
+  Widget table(AppModel app, BuildContext context, {required List<TableRow> children});
 }
 
-Widget table(BuildContext context, {required List<TableRow> children}) =>
+Widget table(AppModel app, BuildContext context, {required List<TableRow> children}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .tableStyle()
-        .table(context, children: children);
+        .table(app, context, children: children);

@@ -1,108 +1,109 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasIcon {
-  Widget h1Icon(BuildContext context,
+  Widget h1Icon(AppModel app, BuildContext context,
       {required IconModel icon, String? semanticLabel});
-  Widget h2Icon(BuildContext context,
+  Widget h2Icon(AppModel app, BuildContext context,
       {required IconModel icon, String? semanticLabel});
-  Widget h3Icon(BuildContext context,
+  Widget h3Icon(AppModel app, BuildContext context,
       {required IconModel icon, String? semanticLabel});
-  Widget h4Icon(BuildContext context,
+  Widget h4Icon(AppModel app, BuildContext context,
       {required IconModel icon, String? semanticLabel});
-  Widget h5Icon(BuildContext context,
+  Widget h5Icon(AppModel app, BuildContext context,
       {required IconModel icon, String? semanticLabel});
 
-  Widget h1Icon2(BuildContext context,
+  Widget h1Icon2(AppModel app, BuildContext context,
       {required IconData iconData, String? semanticLabel});
-  Widget h2Icon2(BuildContext context,
+  Widget h2Icon2(AppModel app, BuildContext context,
       {required IconData iconData, String? semanticLabel});
-  Widget h3Icon2(BuildContext context,
+  Widget h3Icon2(AppModel app, BuildContext context,
       {required IconData iconData, String? semanticLabel});
-  Widget h4Icon2(BuildContext context,
+  Widget h4Icon2(AppModel app, BuildContext context,
       {required IconData iconData, String? semanticLabel});
-  Widget h5Icon2(BuildContext context,
+  Widget h5Icon2(AppModel app, BuildContext context,
       {required IconData iconData, String? semanticLabel});
 }
 
-Widget h1Icon(BuildContext context,
+Widget h1Icon(AppModel app,BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h1Icon(context, icon: icon, semanticLabel: semanticLabel);
+        .h1Icon(app, context, icon: icon, semanticLabel: semanticLabel);
 
-Widget h2Icon(BuildContext context,
+Widget h2Icon(AppModel app, BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h2Icon(context, icon: icon, semanticLabel: semanticLabel);
+        .h2Icon(app, context, icon: icon, semanticLabel: semanticLabel);
 
-Widget h3Icon(BuildContext context,
+Widget h3Icon(AppModel app, BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h3Icon(context, icon: icon, semanticLabel: semanticLabel);
+        .h3Icon(app, context, icon: icon, semanticLabel: semanticLabel);
 
-Widget h4Icon(BuildContext context,
+Widget h4Icon(AppModel app, BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h4Icon(context, icon: icon, semanticLabel: semanticLabel);
+        .h4Icon(app, context, icon: icon, semanticLabel: semanticLabel);
 
-Widget h5Icon(BuildContext context,
+Widget h5Icon(AppModel app, BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h5Icon(context, icon: icon, semanticLabel: semanticLabel);
+        .h5Icon(app, context, icon: icon, semanticLabel: semanticLabel);
 
-Widget h1Icon2(BuildContext context,
+Widget h1Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h1Icon2(context, iconData: iconData, semanticLabel: semanticLabel);
+        .h1Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
 
-Widget h2Icon2(BuildContext context,
+Widget h2Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h2Icon2(context, iconData: iconData, semanticLabel: semanticLabel);
+        .h2Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
 
-Widget h3Icon2(BuildContext context,
+Widget h3Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h3Icon2(context, iconData: iconData, semanticLabel: semanticLabel);
+        .h3Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
 
-Widget h4Icon2(BuildContext context,
+Widget h4Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h4Icon2(context, iconData: iconData, semanticLabel: semanticLabel);
+        .h4Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
 
-Widget h5Icon2(BuildContext context,
+Widget h5Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h5Icon2(context, iconData: iconData, semanticLabel: semanticLabel);
+        .h5Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);

@@ -126,7 +126,7 @@ class AppModel {
     );
   }
 
-  static AppModel? fromEntity(String documentID, AppEntity? entity) {
+  static Future<AppModel?> fromEntity(String documentID, AppEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AppModel(
@@ -137,7 +137,7 @@ class AppModel {
           description: entity.description, 
           appStatus: toAppStatus(entity.appStatus), 
           homePages: 
-            AppHomePageReferencesModel.fromEntity(entity.homePages), 
+            await AppHomePageReferencesModel.fromEntity(entity.homePages), 
           routeBuilder: toPageTransitionAnimation(entity.routeBuilder), 
           routeAnimationDuration: entity.routeAnimationDuration, 
           styleFamily: entity.styleFamily, 

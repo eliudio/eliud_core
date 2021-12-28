@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
@@ -21,7 +22,7 @@ class AppbarHeaderAttributes {
 class AppbarPlaystoreAttributes {}
 
 abstract class HasAppBar {
-  PreferredSizeWidget appBar(BuildContext context,
+  PreferredSizeWidget appBar(AppModel app, BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,
       required String pageName,
       required MemberModel? member,
@@ -34,29 +35,29 @@ abstract class HasAppBar {
       Key? key});
 }
 
-PreferredSizeWidget appBar(BuildContext context,
-        {required AppbarHeaderAttributes headerAttributes,
-        required MemberModel? member,
-        required String pageName,
-        List<AbstractMenuItemAttributes>? items,
-        BackgroundModel? backgroundOverride,
-        RgbModel? menuBackgroundColorOverride,
-        RgbModel? selectedIconColorOverride,
-        RgbModel? iconColorOverride,
-        VoidCallback? openDrawer,
-        Key? key}) =>
+PreferredSizeWidget appBar(AppModel app, BuildContext context,
+    {required AppbarHeaderAttributes headerAttributes,
+      required MemberModel? member,
+      required String pageName,
+      List<AbstractMenuItemAttributes>? items,
+      BackgroundModel? backgroundOverride,
+      RgbModel? menuBackgroundColorOverride,
+      RgbModel? selectedIconColorOverride,
+      RgbModel? iconColorOverride,
+      VoidCallback? openDrawer,
+      Key? key}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .appBarStyle()
-        .appBar(context,
-            headerAttributes: headerAttributes,
-            member: member,
-            pageName: pageName,
-            items: items,
-            backgroundOverride: backgroundOverride,
-            menuBackgroundColorOverride: menuBackgroundColorOverride,
-            selectedIconColorOverride: selectedIconColorOverride,
-            iconColorOverride: iconColorOverride,
-            openDrawer: openDrawer,
-            key: key);
+        .appBar(app, context,
+        headerAttributes: headerAttributes,
+        member: member,
+        pageName: pageName,
+        items: items,
+        backgroundOverride: backgroundOverride,
+        menuBackgroundColorOverride: menuBackgroundColorOverride,
+        selectedIconColorOverride: selectedIconColorOverride,
+        iconColorOverride: iconColorOverride,
+        openDrawer: openDrawer,
+        key: key);

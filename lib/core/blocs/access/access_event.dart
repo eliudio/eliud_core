@@ -30,15 +30,15 @@ class AccessInitEvent extends AccessEvent {
 }
 
 class LogoutEvent extends AccessEvent {
-  final String appId;
+  final AppModel app;
   final bool _isProcessing;
 
-  LogoutEvent({required this.appId, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
+  LogoutEvent({required this.app, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LogoutEvent asProcessing() {
-    return LogoutEvent(appId: appId, isProcessing: true);
+    return LogoutEvent(app: app, isProcessing: true);
   }
 
   @override
@@ -53,24 +53,26 @@ class LogoutEvent extends AccessEvent {
 }
 
 abstract class PostLoginAction {
-  PostLoginAction();
+  final AppModel app;
+
+  PostLoginAction({required this.app});
 
   // run this after login
   void runTheAction();
 }
 
 class LoginEvent extends AccessEvent {
-  final String appId;
+  final AppModel app;
   final PostLoginAction? actions;
   final bool _isProcessing;
 
-  LoginEvent({required this.appId, this.actions, bool? isProcessing})
+  LoginEvent({required this.app, this.actions, bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LoginEvent asProcessing() {
-    return LoginEvent(appId: appId, actions: actions, isProcessing: true);
+    return LoginEvent(app: app, actions: actions, isProcessing: true);
   }
 
   @override
@@ -193,21 +195,21 @@ class AccessUpdatedEvent extends AccessEvent {
 }
 
 class GotoPageEvent extends AccessEvent {
-  final String appId;
+  final AppModel app;
   final String pageId;
   final Map<String, dynamic>? parameters;
 
-  GotoPageEvent(this.appId, this.pageId, {this.parameters});
+  GotoPageEvent(this.app, this.pageId, {this.parameters});
 
   @override
-  List<Object?> get props => [appId, pageId, parameters];
+  List<Object?> get props => [app, pageId, parameters];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is GotoPageEvent &&
           mapEquals(parameters, other.parameters) &&
-          appId == other.appId &&
+          app == other.app &&
           pageId == other.pageId &&
           runtimeType == other.runtimeType;
 }

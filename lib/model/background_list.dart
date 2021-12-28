@@ -46,6 +46,7 @@ import 'background_form.dart';
 typedef BackgroundWidgetProvider(BackgroundModel? value);
 
 class BackgroundListWidget extends StatefulWidget with HasFab {
+  AppModel app;
   BackgroundModel? listBackground;
   BackgroundWidgetProvider? widgetProvider;
   bool? readOnly;
@@ -53,7 +54,7 @@ class BackgroundListWidget extends StatefulWidget with HasFab {
   BackgroundListWidgetState? state;
   bool? isEmbedded;
 
-  BackgroundListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  BackgroundListWidget({ Key? key, required this.app, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   BackgroundListWidgetState createState() {
@@ -73,14 +74,14 @@ class BackgroundListWidget extends StatefulWidget with HasFab {
 class BackgroundListWidgetState extends State<BackgroundListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(AccessBloc.currentAppId(context)) 
+    return !accessState.memberIsOwner(widget.app.documentID!) 
       ? null
-      : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
+      : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).push(
-          pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+          pageRouteBuilder(widget.app, page: BlocProvider.value(
               value: BlocProvider.of<BackgroundListBloc>(context),
-              child: BackgroundForm(
+              child: BackgroundForm(app:widget.app,
                   value: null,
                   formAction: FormAction.AddAction)
           )),
@@ -96,20 +97,20 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
       if (accessState is AccessDetermined) {
         return BlocBuilder<BackgroundListBloc, BackgroundListState>(builder: (context, state) {
           if (state is BackgroundListLoading) {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           } else if (state is BackgroundListLoaded) {
             final values = state.values;
             if ((widget.isEmbedded != null) && widget.isEmbedded!) {
               var children = <Widget>[];
               children.add(theList(context, values, accessState));
               children.add(
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app,
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(widget.app, page: BlocProvider.value(
                                       value: BlocProvider.of<BackgroundListBloc>(context),
-                                      child: BackgroundForm(
+                                      child: BackgroundForm(app:widget.app,
                                           value: null,
                                           formAction: FormAction.AddAction)
                                   )),
@@ -126,20 +127,20 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
               return theList(context, values, accessState);
             }
           } else {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           }
         });
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
   
   Widget theList(BuildContext context, values, AccessState accessState) {
     return Container(
-      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithContext(context).adminListStyle().boxDecorator(context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
+      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().boxDecorator(widget.app, context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
       child: ListView.separated(
-        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithContext(context).adminListStyle().divider(context),
+        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().divider(widget.app, context),
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemCount: values.length,
@@ -148,7 +149,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
           
           if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
-          return BackgroundListItem(
+          return BackgroundListItem(app: widget.app,
             value: value,
 //            app: accessState.app,
             onDismissed: (direction) {
@@ -162,7 +163,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+                        pageRouteBuilder(widget.app, page: BlocProvider.value(
                               value: BlocProvider.of<BackgroundListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -184,7 +185,7 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
   
   Widget? getForm(value, action) {
     if (widget.form == null) {
-      return BackgroundForm(value: value, formAction: action);
+      return BackgroundForm(app:widget.app, value: value, formAction: action);
     } else {
       return null;
     }
@@ -195,12 +196,14 @@ class BackgroundListWidgetState extends State<BackgroundListWidget> {
 
 
 class BackgroundListItem extends StatelessWidget {
+  final AppModel app;
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final BackgroundModel value;
 
   BackgroundListItem({
     Key? key,
+    required this.app,
     required this.onDismissed,
     required this.onTap,
     required this.value,
@@ -213,8 +216,8 @@ class BackgroundListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container(),
-        subtitle: value.comments != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.comments!)) : Container(),
+        title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container(),
+        subtitle: value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container(),
       ),
     );
   }

@@ -65,7 +65,7 @@ class MemberSubscriptionModel {
     );
   }
 
-  static MemberSubscriptionModel? fromEntity(String documentID, MemberSubscriptionEntity? entity) {
+  static Future<MemberSubscriptionModel?> fromEntity(String documentID, MemberSubscriptionEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberSubscriptionModel(

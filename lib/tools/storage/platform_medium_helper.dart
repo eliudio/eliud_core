@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
@@ -18,8 +19,8 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   final PrivilegeLevelRequiredSimple privilegeLevelRequired;
 
   PlatformMediumHelper(
-      String appId, String ownerId, this.privilegeLevelRequired)
-      : super(appId, ownerId, PACKAGENAME);
+      AppModel app, String ownerId, this.privilegeLevelRequired)
+      : super(app, ownerId, PACKAGENAME);
 
   /*
    * Create custom meta data.
@@ -55,7 +56,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: appId,
+      appId: app.documentID!,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -69,7 +70,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
     );
-    return platformMediumRepository(appId: appId)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   /*
@@ -90,7 +91,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: appId,
+      appId: app.documentID!,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -105,7 +106,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
     );
-    return platformMediumRepository(appId: appId)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
 
   @override
@@ -120,7 +121,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     var pageImageModel = PlatformMediumModel(
         documentID: newDocumentID,
         baseName: baseName,
-        appId: appId,
+        appId: app.documentID!,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
         ref: pageImage == null ? null : pageImage.ref,
@@ -134,6 +135,6 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await platformMediumRepository(appId: appId)!.add(pageImageModel);
+    return await platformMediumRepository(appId: app.documentID!)!.add(pageImageModel);
   }
 }

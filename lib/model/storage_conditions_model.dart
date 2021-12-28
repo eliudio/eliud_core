@@ -78,7 +78,7 @@ class StorageConditionsModel {
     );
   }
 
-  static StorageConditionsModel? fromEntity(StorageConditionsEntity? entity) {
+  static Future<StorageConditionsModel?> fromEntity(StorageConditionsEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return StorageConditionsModel(

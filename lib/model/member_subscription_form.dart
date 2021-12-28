@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/member_subscription_form_state.dart';
 
 
 class MemberSubscriptionForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   MemberSubscriptionModel? value;
   ActionModel? submitAction;
 
-  MemberSubscriptionForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  MemberSubscriptionForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
@@ -76,7 +76,7 @@ class MemberSubscriptionForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberSubscriptionFormEvent(value: value)),
   
-        child: MyMemberSubscriptionForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSubscriptionForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberSubscriptionFormBloc >(
@@ -84,17 +84,17 @@ class MemberSubscriptionForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseMemberSubscriptionFormNoLoadEvent(value: value)),
   
-        child: MyMemberSubscriptionForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSubscriptionForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update MemberSubscription' : 'Add MemberSubscription'),
         body: BlocProvider<MemberSubscriptionFormBloc >(
             create: (context) => MemberSubscriptionFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberSubscriptionFormEvent(value: value) : InitialiseNewMemberSubscriptionFormEvent())),
   
-        child: MyMemberSubscriptionForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberSubscriptionForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -102,10 +102,11 @@ class MemberSubscriptionForm extends StatelessWidget {
 
 
 class MyMemberSubscriptionForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberSubscriptionForm({this.formAction, this.submitAction});
+  MyMemberSubscriptionForm({required this.app, this.formAction, this.submitAction});
 
   _MyMemberSubscriptionFormState createState() => _MyMemberSubscriptionFormState(this.formAction);
 }
@@ -130,13 +131,10 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberSubscriptionFormBloc, MemberSubscriptionFormState>(builder: (context, state) {
       if (state is MemberSubscriptionFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is MemberSubscriptionFormLoaded) {
@@ -154,32 +152,32 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'App')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'App')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "apps", value: _app, trigger: _onAppSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "apps", value: _app, trigger: _onAppSelected, optional: false),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberSubscriptionFormError) {
                       return null;
@@ -206,7 +204,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -216,7 +214,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -242,7 +240,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberSubscriptionFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

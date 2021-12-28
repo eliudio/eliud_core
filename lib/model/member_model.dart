@@ -134,20 +134,19 @@ class MemberModel {
     );
   }
 
-  static MemberModel? fromEntity(String documentID, MemberEntity? entity) {
+  static Future<MemberModel?> fromEntity(String documentID, MemberEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberModel(
           documentID: documentID, 
           name: entity.name, 
           subscriptions: 
-            entity.subscriptions == null ? null :
-            entity.subscriptions
+            entity.subscriptions == null ? null : List<MemberSubscriptionModel>.from(await Future.wait(entity. subscriptions
             !.map((item) {
-              counter++; 
-              return MemberSubscriptionModel.fromEntity(counter.toString(), item)!;
+            counter++;
+              return MemberSubscriptionModel.fromEntity(counter.toString(), item);
             })
-            .toList(), 
+            .toList())), 
           subscriptionsAsString: entity.subscriptionsAsString, 
           photoURL: entity.photoURL, 
           shipStreet1: entity.shipStreet1, 

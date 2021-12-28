@@ -28,70 +28,70 @@ class Decorations extends Decoration {
 
   // return nesting of CreateWidget
   @override
-  CreateWidget createDecoratedAppBar(BuildContext context, Key? key, CreateWidget createAppBar, AppBarModel model) {
+  CreateWidget createDecoratedAppBar(AppModel app, BuildContext context, Key? key, CreateWidget createAppBar, AppBarModel model) {
     var createWidget = createAppBar;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedAppBar(context, key, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedAppBar(app, context, key, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedBodyComponent(BuildContext context, Key? key, CreateWidget createBodyComponent, BodyComponentModel model) {
+  CreateWidget createDecoratedBodyComponent(AppModel app, BuildContext context, Key? key, CreateWidget createBodyComponent, BodyComponentModel model) {
     var createWidget = createBodyComponent;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedBodyComponent(context, key, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedBodyComponent(app, context, key, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedDrawer(BuildContext context, DecorationDrawerType decorationDrawerType, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model) {
+  CreateWidget createDecoratedDrawer(AppModel app, BuildContext context, DecorationDrawerType decorationDrawerType, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model) {
     var createWidget = createOriginalDrawer;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedDrawer(context, decorationDrawerType, originalDrawerKey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedDrawer(app, context, decorationDrawerType, originalDrawerKey, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedBottomNavigationBar(BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model) {
+  CreateWidget createDecoratedBottomNavigationBar(AppModel app, BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model) {
     var createWidget = createBottomNavigationBar;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedBottomNavigationBar(context, originalBottomNavigationBarKey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedBottomNavigationBar(app, context, originalBottomNavigationBarKey, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedPage(BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model) {
+  CreateWidget createDecoratedPage(AppModel app, BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model) {
     var createWidget = createOriginalPage;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedPage(context, originalPageKey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedPage(app, context, originalPageKey, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedApp(BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model) {
+  CreateWidget createDecoratedApp(AppModel app, BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model) {
     var createWidget = createOriginalApp;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedApp(context, originalAppkey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedApp(app, context, originalAppkey, createWidget, model);
     }
 
     return createWidget;
   }
 
   @override
-  CreateWidget createDecoratedDialog(BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model) {
+  CreateWidget createDecoratedDialog(AppModel app, BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model) {
     var createWidget = createOriginalDialog;
     for (var registeredDecoration in registeredDecorations) {
-      createWidget = registeredDecoration.createDecoratedDialog(context, originalDialogKey, createWidget, model);
+      createWidget = registeredDecoration.createDecoratedDialog(app, context, originalDialogKey, createWidget, model);
     }
 
     return createWidget;

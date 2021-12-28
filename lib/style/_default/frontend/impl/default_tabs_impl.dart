@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_tabs.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,10 @@ class DefaultTabsImpl
   DefaultTabsImpl(this._frontEndStyle);
 
   @override
-  Widget tabBar(BuildContext context, {required List<String> items, required TabController tabController}) {
+  Widget tabBar(AppModel app, BuildContext context, {required List<String> items, required TabController tabController}) {
     var tabItems = <TabItem>[];
     for (var item in items) {
-      tabItems.add(TabItem(color: Colors.black12, title: _frontEndStyle.textStyle().text(context,
+      tabItems.add(TabItem(color: Colors.black12, title: _frontEndStyle.textStyle().text(app, context,
         item,
       )));
     }

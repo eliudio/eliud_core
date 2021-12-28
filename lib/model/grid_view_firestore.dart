@@ -44,7 +44,7 @@ class GridViewFirestore implements GridViewRepository {
     return GridViewCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
 
-  GridViewModel? _populateDoc(DocumentSnapshot value) {
+  Future<GridViewModel?> _populateDoc(DocumentSnapshot value) async {
     return GridViewModel.fromEntity(value.id, GridViewEntity.fromMap(value.data()));
   }
 
@@ -68,16 +68,13 @@ class GridViewFirestore implements GridViewRepository {
 
   StreamSubscription<List<GridViewModel?>> listen(GridViewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<GridViewModel?>> stream;
-      stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-//    The above line should eventually become the below line
-//    See https://github.com/felangel/bloc/issues/2073.
-//    stream = getQuery(GridViewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((data) {
-      Iterable<GridViewModel?> gridViews  = data.docs.map((doc) {
-        GridViewModel? value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return gridViews as List<GridViewModel?>;
+    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(GridViewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
     });
+
     return stream.listen((listOfGridViewModels) {
       trigger(listOfGridViewModels);
     });
@@ -111,11 +108,12 @@ class GridViewFirestore implements GridViewRepository {
 
   Stream<List<GridViewModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     DocumentSnapshot? lastDoc;
-    Stream<List<GridViewModel?>> _values = getQuery(GridViewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+    Stream<List<GridViewModel?>> _values = getQuery(GridViewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();});
+      }).toList());
+    });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;
   }
@@ -136,10 +134,10 @@ class GridViewFirestore implements GridViewRepository {
     DocumentSnapshot? lastDoc;
     List<GridViewModel?> _values = await getQuery(GridViewCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
       var list = value.docs;
-      return list.map((doc) { 
+      return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();
+      }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

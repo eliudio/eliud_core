@@ -46,6 +46,7 @@ import 'country_form.dart';
 typedef CountryWidgetProvider(CountryModel? value);
 
 class CountryListWidget extends StatefulWidget with HasFab {
+  AppModel app;
   BackgroundModel? listBackground;
   CountryWidgetProvider? widgetProvider;
   bool? readOnly;
@@ -53,7 +54,7 @@ class CountryListWidget extends StatefulWidget with HasFab {
   CountryListWidgetState? state;
   bool? isEmbedded;
 
-  CountryListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  CountryListWidget({ Key? key, required this.app, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   CountryListWidgetState createState() {
@@ -73,14 +74,14 @@ class CountryListWidget extends StatefulWidget with HasFab {
 class CountryListWidgetState extends State<CountryListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(AccessBloc.currentAppId(context)) 
+    return !accessState.memberIsOwner(widget.app.documentID!) 
       ? null
-      : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
+      : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).push(
-          pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+          pageRouteBuilder(widget.app, page: BlocProvider.value(
               value: BlocProvider.of<CountryListBloc>(context),
-              child: CountryForm(
+              child: CountryForm(app:widget.app,
                   value: null,
                   formAction: FormAction.AddAction)
           )),
@@ -96,20 +97,20 @@ class CountryListWidgetState extends State<CountryListWidget> {
       if (accessState is AccessDetermined) {
         return BlocBuilder<CountryListBloc, CountryListState>(builder: (context, state) {
           if (state is CountryListLoading) {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           } else if (state is CountryListLoaded) {
             final values = state.values;
             if ((widget.isEmbedded != null) && widget.isEmbedded!) {
               var children = <Widget>[];
               children.add(theList(context, values, accessState));
               children.add(
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app,
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(widget.app, page: BlocProvider.value(
                                       value: BlocProvider.of<CountryListBloc>(context),
-                                      child: CountryForm(
+                                      child: CountryForm(app:widget.app,
                                           value: null,
                                           formAction: FormAction.AddAction)
                                   )),
@@ -126,20 +127,20 @@ class CountryListWidgetState extends State<CountryListWidget> {
               return theList(context, values, accessState);
             }
           } else {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           }
         });
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
   
   Widget theList(BuildContext context, values, AccessState accessState) {
     return Container(
-      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithContext(context).adminListStyle().boxDecorator(context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
+      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().boxDecorator(widget.app, context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
       child: ListView.separated(
-        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithContext(context).adminListStyle().divider(context),
+        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().divider(widget.app, context),
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemCount: values.length,
@@ -148,7 +149,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
           
           if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
-          return CountryListItem(
+          return CountryListItem(app: widget.app,
             value: value,
 //            app: accessState.app,
             onDismissed: (direction) {
@@ -162,7 +163,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+                        pageRouteBuilder(widget.app, page: BlocProvider.value(
                               value: BlocProvider.of<CountryListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -184,7 +185,7 @@ class CountryListWidgetState extends State<CountryListWidget> {
   
   Widget? getForm(value, action) {
     if (widget.form == null) {
-      return CountryForm(value: value, formAction: action);
+      return CountryForm(app:widget.app, value: value, formAction: action);
     } else {
       return null;
     }
@@ -195,12 +196,14 @@ class CountryListWidgetState extends State<CountryListWidget> {
 
 
 class CountryListItem extends StatelessWidget {
+  final AppModel app;
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final CountryModel value;
 
   CountryListItem({
     Key? key,
+    required this.app,
     required this.onDismissed,
     required this.onTap,
     required this.value,
@@ -213,8 +216,8 @@ class CountryListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryCode!)) : Container(),
-        subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.countryName!)) : Container(),
+        title: value.countryCode != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryCode!)) : Container(),
+        subtitle: value.countryName != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.countryName!)) : Container(),
       ),
     );
   }

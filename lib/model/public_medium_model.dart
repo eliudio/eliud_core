@@ -113,7 +113,7 @@ class PublicMediumModel {
     );
   }
 
-  static PublicMediumModel? fromEntity(String documentID, PublicMediumEntity? entity) {
+  static Future<PublicMediumModel?> fromEntity(String documentID, PublicMediumEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return PublicMediumModel(

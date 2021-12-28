@@ -1,16 +1,18 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/registry.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 typedef Changed = Function(String? value);
 
 class ComponentIdField extends StatefulWidget {
+  final AppModel app;
   final String? componentName;
   String? value;
   final Changed? trigger;
 
-  ComponentIdField({this.componentName, this.value, this.trigger});
+  ComponentIdField(this.app, {this.componentName, this.value, this.trigger});
 
   @override
   State<StatefulWidget> createState() {
@@ -56,9 +58,8 @@ class ComponentIdFieldState extends State<ComponentIdField> {
         var componentDropDown = Registry.registry()!.getSupportingDropDown(
             componentName);
         if (componentDropDown != null) {
-          var appId = AccessBloc.currentAppId(context);
           var selection = componentDropDown.createNew(
-              appId: appId,
+              app: widget.app,
               id: componentName,
               value: widget.value,
               trigger: widget.trigger);

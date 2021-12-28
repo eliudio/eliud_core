@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/platform_medium_form_state.dart';
 
 
 class PlatformMediumForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   PlatformMediumModel? value;
   ActionModel? submitAction;
 
-  PlatformMediumForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  PlatformMediumForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PlatformMediumFormBloc >(
@@ -77,7 +77,7 @@ class PlatformMediumForm extends StatelessWidget {
 
                                                 )..add(InitialisePlatformMediumFormEvent(value: value)),
   
-        child: MyPlatformMediumForm(submitAction: submitAction, formAction: formAction),
+        child: MyPlatformMediumForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<PlatformMediumFormBloc >(
@@ -86,18 +86,18 @@ class PlatformMediumForm extends StatelessWidget {
 
                                                 )..add(InitialisePlatformMediumFormNoLoadEvent(value: value)),
   
-        child: MyPlatformMediumForm(submitAction: submitAction, formAction: formAction),
+        child: MyPlatformMediumForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update PlatformMedium' : 'Add PlatformMedium'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update PlatformMedium' : 'Add PlatformMedium'),
         body: BlocProvider<PlatformMediumFormBloc >(
             create: (context) => PlatformMediumFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialisePlatformMediumFormEvent(value: value) : InitialiseNewPlatformMediumFormEvent())),
   
-        child: MyPlatformMediumForm(submitAction: submitAction, formAction: formAction),
+        child: MyPlatformMediumForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -105,10 +105,11 @@ class PlatformMediumForm extends StatelessWidget {
 
 
 class MyPlatformMediumForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPlatformMediumForm({this.formAction, this.submitAction});
+  MyPlatformMediumForm({required this.app, this.formAction, this.submitAction});
 
   _MyPlatformMediumFormState createState() => _MyPlatformMediumFormState(this.formAction);
 }
@@ -158,13 +159,10 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<PlatformMediumFormBloc, PlatformMediumFormState>(builder: (context, state) {
       if (state is PlatformMediumFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is PlatformMediumFormLoaded) {
@@ -230,123 +228,123 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Author ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _authorIdController, keyboardType: TextInputType.text, validator: (_) => state is AuthorIdPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Author ID', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _authorIdController, keyboardType: TextInputType.text, validator: (_) => state is AuthorIdPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Base Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _baseNameController, keyboardType: TextInputType.text, validator: (_) => state is BaseNamePlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Base Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _baseNameController, keyboardType: TextInputType.text, validator: (_) => state is BaseNamePlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlController, keyboardType: TextInputType.text, validator: (_) => state is UrlPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Image URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlController, keyboardType: TextInputType.text, validator: (_) => state is UrlPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refController, keyboardType: TextInputType.text, validator: (_) => state is RefPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refController, keyboardType: TextInputType.text, validator: (_) => state is RefPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Thumbnail URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is UrlThumbnailPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Image Thumbnail URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _urlThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is UrlThumbnailPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is RefThumbnailPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is RefThumbnailPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionMediumType(val))
-          );
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'mediumWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumWidthController, keyboardType: TextInputType.number, validator: (_) => state is MediumWidthPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'mediumHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumHeightController, keyboardType: TextInputType.number, validator: (_) => state is MediumHeightPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'mediumWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumWidthController, keyboardType: TextInputType.number, validator: (_) => state is MediumWidthPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'thumbnailWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailWidthController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailWidthPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'mediumHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _mediumHeightController, keyboardType: TextInputType.number, validator: (_) => state is MediumHeightPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'thumbnailHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailHeightController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailHeightPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'thumbnailWidth', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailWidthController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailWidthPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'relatedMediumId', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _relatedMediumIdController, keyboardType: TextInputType.text, validator: (_) => state is RelatedMediumIdPlatformMediumFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'thumbnailHeight', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _thumbnailHeightController, keyboardType: TextInputType.number, validator: (_) => state is ThumbnailHeightPlatformMediumFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'relatedMediumId', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _relatedMediumIdController, keyboardType: TextInputType.text, validator: (_) => state is RelatedMediumIdPlatformMediumFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Source')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Source')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Photo')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Photo')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is PlatformMediumFormError) {
                       return null;
@@ -399,7 +397,7 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -409,7 +407,7 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -507,7 +505,7 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
   }
 
   bool _readOnly(AccessState accessState, PlatformMediumFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

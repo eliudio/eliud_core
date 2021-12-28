@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +51,8 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   DialogStateHelper();
 
-  Widget build(
-    BuildContext context, {
+  Widget build(AppModel app,
+      BuildContext context, {
     String? title,
     Key? key,
     required Widget contents,
@@ -71,7 +72,7 @@ class DialogStateHelper {
         backgroundColor: Colors.grey[200],
         child: Form(
             //key: _formKey,
-            child: _titleAndFieldsAndContent(context,
+            child: _titleAndFieldsAndContent(app, context,
                 title: title,
                 contents: contents,
                 buttons: buttons,
@@ -108,7 +109,7 @@ class DialogStateHelper {
     return seperatorWidget;
   }
 
-  Widget _titleAndFieldsAndContent(BuildContext context,
+  Widget _titleAndFieldsAndContent(AppModel app, BuildContext context,
       {String? title,
       required Widget contents,
       List<Widget>? buttons,
@@ -122,10 +123,10 @@ class DialogStateHelper {
     if ((includeHeading != null) && (includeHeading) && (buttons != null)) {
       // Title
       var _title = StyleRegistry.registry()
-          .styleWithContext(context)
+          .styleWithApp(app)
           .frontEndStyle()
           .textStyle()
-          .h4(context, title ?? '');
+          .h4(app, context, title ?? '');
 
       var titleWidget;
       if ((dialogButtonPosition != null) &&
@@ -198,13 +199,13 @@ class DialogStateHelper {
   }
 
   /* Helper method to format the fields */
-  Widget fieldsWidget(BuildContext context, List<Widget> widgets,
+  Widget fieldsWidget(AppModel app, BuildContext context, List<Widget> widgets,
       {double? height, double? width}) {
     return StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .containerStyle()
-        .simpleTopicContainer(context,
+        .simpleTopicContainer(app, context,
             children: widgets, height: height, width: width);
 /*
     return Container(
@@ -223,51 +224,51 @@ class DialogStateHelper {
   }
 
   /* Helper method to retrieve the button */
-  List<Widget> getCloseButton(
-    BuildContext context, {
+  List<Widget> getCloseButton(AppModel app,
+      BuildContext context, {
     required VoidCallback onPressed,
     String? buttonLabel,
   }) {
     return <Widget>[
       StyleRegistry.registry()
-          .styleWithContext(context)
+          .styleWithApp(app)
           .frontEndStyle()
           .buttonStyle()
-          .dialogButton(context,
+          .dialogButton(app, context,
               label: buttonLabel ?? 'Close', onPressed: onPressed),
     ];
   }
 
-  List<Widget> getDefaultCloseButton(BuildContext context) {
-    return getCloseButton(context,
+  List<Widget> getDefaultCloseButton(AppModel app, BuildContext context) {
+    return getCloseButton(app, context,
         buttonLabel: 'Close', onPressed: () => Navigator.pop(context));
   }
 
-  List<Widget> getAckNackButtons(BuildContext context,
+  List<Widget> getAckNackButtons(AppModel app, BuildContext context,
       {required VoidCallback ackFunction,
       required VoidCallback nackFunction,
       String? ackButtonLabel,
       String? nackButtonLabel}) {
     return <Widget>[
       StyleRegistry.registry()
-          .styleWithContext(context)
+          .styleWithApp(app)
           .frontEndStyle()
           .buttonStyle()
-          .dialogButton(
+          .dialogButton(app,
             context,
             label: nackButtonLabel ?? 'Cancel',
             onPressed: nackFunction,
           ),
       StyleRegistry.registry()
-          .styleWithContext(context)
+          .styleWithApp(app)
           .frontEndStyle()
           .buttonStyle()
-          .dialogButton(context,
+          .dialogButton(app, context,
               label: ackButtonLabel ?? 'Continue', onPressed: ackFunction),
     ];
   }
 
-  List<Widget> getButtons(BuildContext context, List<String> buttonLabels,
+  List<Widget> getButtons(AppModel app, BuildContext context, List<String> buttonLabels,
       List<VoidCallback> functions) {
     if (buttonLabels.length != functions.length) {
       throw Exception(
@@ -278,10 +279,10 @@ class DialogStateHelper {
       var label = buttonLabels[i];
       var function = functions[i];
       buttons.add(StyleRegistry.registry()
-          .styleWithContext(context)
+          .styleWithApp(app)
           .frontEndStyle()
           .buttonStyle()
-          .dialogButton(context, label: label, onPressed: function));
+          .dialogButton(app, context, label: label, onPressed: function));
     }
     return buttons;
   }

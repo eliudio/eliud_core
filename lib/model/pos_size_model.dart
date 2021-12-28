@@ -263,7 +263,7 @@ class PosSizeModel {
     );
   }
 
-  static PosSizeModel? fromEntity(String documentID, PosSizeEntity? entity) {
+  static Future<PosSizeModel?> fromEntity(String documentID, PosSizeEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return PosSizeModel(

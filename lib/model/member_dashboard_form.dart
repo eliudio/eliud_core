@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -63,17 +64,16 @@ import 'package:eliud_core/model/member_dashboard_form_state.dart';
 
 
 class MemberDashboardForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   MemberDashboardModel? value;
   ActionModel? submitAction;
 
-  MemberDashboardForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  MemberDashboardForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberDashboardFormBloc >(
@@ -82,7 +82,7 @@ class MemberDashboardForm extends StatelessWidget {
 
                                                 )..add(InitialiseMemberDashboardFormEvent(value: value)),
   
-        child: MyMemberDashboardForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberDashboardForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<MemberDashboardFormBloc >(
@@ -91,18 +91,18 @@ class MemberDashboardForm extends StatelessWidget {
 
                                                 )..add(InitialiseMemberDashboardFormNoLoadEvent(value: value)),
   
-        child: MyMemberDashboardForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberDashboardForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update MemberDashboard' : 'Add MemberDashboard'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update MemberDashboard' : 'Add MemberDashboard'),
         body: BlocProvider<MemberDashboardFormBloc >(
             create: (context) => MemberDashboardFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseMemberDashboardFormEvent(value: value) : InitialiseNewMemberDashboardFormEvent())),
   
-        child: MyMemberDashboardForm(submitAction: submitAction, formAction: formAction),
+        child: MyMemberDashboardForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -110,10 +110,11 @@ class MemberDashboardForm extends StatelessWidget {
 
 
 class MyMemberDashboardForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberDashboardForm({this.formAction, this.submitAction});
+  MyMemberDashboardForm({required this.app, this.formAction, this.submitAction});
 
   _MyMemberDashboardFormState createState() => _MyMemberDashboardFormState(this.formAction);
 }
@@ -153,13 +154,10 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<MemberDashboardFormBloc, MemberDashboardFormState>(builder: (context, state) {
       if (state is MemberDashboardFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is MemberDashboardFormLoaded) {
@@ -205,73 +203,73 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberDashboardFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberDashboardFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'App Identifier', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _appIdController, keyboardType: TextInputType.text, validator: (_) => state is AppIdMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'App Identifier', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _appIdController, keyboardType: TextInputType.text, validator: (_) => state is AppIdMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionMemberDashboardFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionMemberDashboardFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Update Profile Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _updateProfileTextController, keyboardType: TextInputType.text, validator: (_) => state is UpdateProfileTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Update Profile Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _updateProfileTextController, keyboardType: TextInputType.text, validator: (_) => state is UpdateProfileTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Retrieve Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataTextController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Retrieve Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataTextController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataTextController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Delete Data Text', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataTextController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataTextMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Retrieve Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Retrieve Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _retrieveDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is RetrieveDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Delete Data Email Subject', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailSubjectController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailSubjectMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Delete Data Email Message', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailMessageController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailMessageMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Delete Data Email Message', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _deleteDataEmailMessageController, keyboardType: TextInputType.text, validator: (_) => state is DeleteDataEmailMessageMemberDashboardFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Conditions')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Conditions')
                 ));
 
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is MemberDashboardFormError) {
                       return null;
@@ -314,7 +312,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -324,7 +322,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -390,7 +388,7 @@ class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
   }
 
   bool _readOnly(AccessState accessState, MemberDashboardFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

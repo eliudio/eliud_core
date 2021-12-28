@@ -1,10 +1,11 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasTexFormField {
-  Widget textFormField(
-    BuildContext context, {
+  Widget textFormField(AppModel app,
+      BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -17,8 +18,8 @@ abstract class HasTexFormField {
     TextEditingController? textEditingController,
   });
 
-  Widget textField(
-    BuildContext context, {
+  Widget textField(AppModel app,
+      BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -36,8 +37,8 @@ abstract class HasTexFormField {
   });
 }
 
-Widget textFormField(
-  BuildContext context, {
+Widget textFormField(AppModel app,
+    BuildContext context, {
   required bool readOnly,
   String? initialValue,
   FormFieldValidator<String>? validator,
@@ -50,10 +51,10 @@ Widget textFormField(
   TextEditingController? textEditingController,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .texFormFieldStyle()
-        .textFormField(
+        .textFormField(app,
           context,
           readOnly: readOnly,
           initialValue: initialValue,
@@ -67,8 +68,8 @@ Widget textFormField(
           textEditingController: textEditingController,
         );
 
-Widget textField(
-  BuildContext context, {
+Widget textField(AppModel app,
+    BuildContext context, {
   required bool readOnly,
   String? initialValue,
   FormFieldValidator<String>? validator,
@@ -85,10 +86,10 @@ Widget textField(
   TextEditingController? controller,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .texFormFieldStyle()
-        .textField(context,
+        .textField(app, context,
             readOnly: readOnly,
             initialValue: initialValue,
             validator: validator,

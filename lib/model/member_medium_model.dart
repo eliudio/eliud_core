@@ -122,7 +122,7 @@ class MemberMediumModel {
     );
   }
 
-  static MemberMediumModel? fromEntity(String documentID, MemberMediumEntity? entity) {
+  static Future<MemberMediumModel?> fromEntity(String documentID, MemberMediumEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return MemberMediumModel(

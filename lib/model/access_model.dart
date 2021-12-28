@@ -115,7 +115,7 @@ class AccessModel {
     );
   }
 
-  static AccessModel? fromEntity(String documentID, AccessEntity? entity) {
+  static Future<AccessModel?> fromEntity(String documentID, AccessEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AccessModel(

@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_menu.dart';
@@ -10,8 +11,7 @@ class MenuHelper {
 
   MenuHelper(this._frontEndStyle);
 
-  @override
-  Future<void> openMenu(BuildContext context,
+  Future<void> openMenu(AppModel app, BuildContext context,
       {required RelativeRect position,
       required List<AbstractMenuItemAttributes> menuItems,
       RgbModel? popupMenuBackgroundColor}) async {
@@ -22,8 +22,8 @@ class MenuHelper {
       var p = PopupMenuItem<int>(
           value: i,
           child: element.isActive
-              ? _frontEndStyle.textStyle().h3(context, label)
-              : _frontEndStyle.textStyle().h4(context, label));
+              ? _frontEndStyle.textStyle().h3(app, context, label)
+              : _frontEndStyle.textStyle().h4(app, context, label));
       popupMenuItems.add(p);
       i++;
     });
@@ -39,7 +39,7 @@ class MenuHelper {
       if (item is MenuItemAttributes) {
         item.onTap();
       } else if (item is MenuItemWithMenuItems) {
-        await openMenu(context,
+        await openMenu(app, context,
             position: position,
             menuItems: item.items,
             popupMenuBackgroundColor: popupMenuBackgroundColor);

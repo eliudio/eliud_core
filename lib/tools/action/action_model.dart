@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
@@ -10,6 +11,7 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../common_tools.dart';
+import '../main_abstract_repository_singleton.dart';
 import 'action_entity.dart';
 
 class ActionModelRegistry {
@@ -41,23 +43,29 @@ class ActionModelRegistry {
 }
 
 abstract class ActionModel {
-  final String appID;
+  final AppModel app;
 
   // Action only accessible conditionally.
   // Be careful: the underlying page / dialog can also have StorageConditions, which also apply
   DisplayConditionsModel? conditions;
   final String? actionType;
 
-  ActionModel(this.appID, {this.conditions, this.actionType} );
+  ActionModel(this.app, {this.conditions, this.actionType} );
 
   ActionEntity toEntity({String? appId});
 
-  static ActionModel? fromEntity(ActionEntity? entity) {
+  static Future<ActionModel?> fromEntity(ActionEntity? entity) async {
     if (entity == null) return null;
 
     var mapper = ActionModelRegistry.registry()!.getMapper(entity.actionType);
     if (mapper != null) {
-      return mapper.fromEntity(entity);
+      var app = await appRepository()!.get(entity.appID);
+
+      if (app != null) {
+        return mapper.fromEntity(app, entity);
+      } else {
+        throw Exception("App with id $entity.appID not found");
+      }
     }
 
     return null;
@@ -68,7 +76,13 @@ abstract class ActionModel {
 
     var mapper = ActionModelRegistry.registry()!.getMapper(entity.actionType);
     if (mapper != null) {
-      return mapper.fromEntityPlus(entity);
+      var app = await appRepository()!.get(entity.appID);
+
+      if (app != null) {
+        return mapper.fromEntityPlus(app, entity);
+      } else {
+        throw Exception("App with id $entity.appID not found");
+      }
     }
 
     return null;
@@ -89,8 +103,8 @@ abstract class ActionModel {
 }
 
 abstract class ActionModelMapper {
-  ActionModel? fromEntity(ActionEntity entity);
-  Future<ActionModel?> fromEntityPlus(ActionEntity entity);
+  Future<ActionModel?> fromEntity(AppModel app, ActionEntity entity);
+  Future<ActionModel?> fromEntityPlus(AppModel app, ActionEntity entity);
   ActionEntity? fromMap(Map snap);
 }
 
@@ -101,8 +115,8 @@ abstract class ActionModelMapper {
 class FunctionToRun extends ActionModel {
   final Function() actionToRun;
 
-  FunctionToRun(String appID, {DisplayConditionsModel? conditions, required this.actionToRun}) :
-        super(appID, conditions: conditions, actionType: 'FunctionToRun');
+  FunctionToRun(AppModel app, {DisplayConditionsModel? conditions, required this.actionToRun}) :
+        super(app, conditions: conditions, actionType: 'FunctionToRun');
 
   @override
   String message() => 'Running Function';
@@ -121,30 +135,31 @@ class FunctionToRun extends ActionModel {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(String appID, {DisplayConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
-        super(appID, conditions: conditions, actionType: GotoPageEntity.label);
+  GotoPage(AppModel app, {DisplayConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
+        super(app, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
     return GotoPageEntity(
-        appID,
+        app.documentID,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
         pageID: pageID
     );
   }
 
-  static ActionModel fromEntity(GotoPageEntity entity) {
+  static Future<ActionModel> fromEntity(AppModel app, GotoPageEntity entity) async {
     if (entity.appID == null) throw Exception('entity GotoPage.appID is null');
     if (entity.pageID == null) throw Exception('entity GotoPage.pageID is null');
+
     return GotoPage(
-        entity.appID!,
-        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
+        app,
+        conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         pageID: entity.pageID!
     );
   }
 
-  static Future<ActionModel> fromEntityPlus(GotoPageEntity entity) async {
-    return fromEntity(entity);
+  static Future<ActionModel> fromEntityPlus(AppModel app, GotoPageEntity entity) async {
+    return fromEntity(app, entity);
   }
 
   @override
@@ -158,13 +173,14 @@ class GotoPage extends ActionModel {
 
 class GotoPageModelMapper implements ActionModelMapper {
   @override
-  ActionModel fromEntity(ActionEntity entity) => GotoPage.fromEntity(entity as GotoPageEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => GotoPage.fromEntity(app, entity as GotoPageEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(ActionEntity entity) => GotoPage.fromEntityPlus(entity as GotoPageEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => GotoPage.fromEntityPlus(app, entity as GotoPageEntity);
 
   @override
   ActionEntity fromMap(Map map) => GotoPageEntity.fromMap(map);
+
 }
 
 // ********************************** OpenDialog **********************************
@@ -172,28 +188,28 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(String appID, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(appID, conditions: conditions, actionType: OpenDialogEntity.label);
+  OpenDialog(AppModel app, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(app, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
     return OpenDialogEntity(
-        appID,
+        appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
         dialogID: dialogID
     );
   }
 
-  static ActionModel fromEntity(OpenDialogEntity entity) {
+  static Future<ActionModel> fromEntity(AppModel app, OpenDialogEntity entity) async {
     if (entity.appID == null) throw Exception('entity OpenDialog.appID is null');
     if (entity.dialogID == null) throw Exception('entity OpenDialog.dialogID is null');
     return OpenDialog(
-        entity.appID!,
-        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
+        app,
+        conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         dialogID: entity.dialogID!);
   }
 
-  static Future<ActionModel> fromEntityPlus(OpenDialogEntity entity) async {
-    return fromEntity(entity);
+  static Future<ActionModel> fromEntityPlus(AppModel app, OpenDialogEntity entity) async {
+    return fromEntity(app, entity);
   }
 
   @override
@@ -207,10 +223,10 @@ class OpenDialog extends ActionModel {
 
 class OpenDialogModelMapper implements ActionModelMapper {
   @override
-  ActionModel fromEntity(ActionEntity entity) => OpenDialog.fromEntity(entity as OpenDialogEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => OpenDialog.fromEntity(app, entity as OpenDialogEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(ActionEntity entity) => OpenDialog.fromEntityPlus(entity as OpenDialogEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => OpenDialog.fromEntityPlus(app, entity as OpenDialogEntity);
 
   @override
   ActionEntity fromMap(Map map) => OpenDialogEntity.fromMap(map);
@@ -221,28 +237,28 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(String appID, { DisplayConditionsModel? conditions, required this.toAppID}) : super(appID, conditions: conditions, actionType: SwitchAppEntity.label);
+  SwitchApp(AppModel app, { DisplayConditionsModel? conditions, required this.toAppID}) : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
     return SwitchAppEntity(
-        appID,
+        appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
         toAppID: toAppID
     );
   }
 
-  static ActionModel fromEntity(SwitchAppEntity entity) {
+  static Future<ActionModel> fromEntity(AppModel app, SwitchAppEntity entity) async {
     if (entity.appID == null) throw Exception('entity SwitchApp.appID is null');
     if (entity.toAppID == null) throw Exception('entity SwitchApp.toAppID is null');
     return SwitchApp(
-        entity.appID!,
-        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
+        app,
+        conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         toAppID: entity.toAppID!);
   }
 
-  static Future<ActionModel> fromEntityPlus(SwitchAppEntity entity) async {
-    return fromEntity(entity);
+  static Future<ActionModel> fromEntityPlus(AppModel app, SwitchAppEntity entity) async {
+    return fromEntity(app, entity);
   }
 
   static String msg = 'Switching app';
@@ -258,10 +274,10 @@ class SwitchApp extends ActionModel {
 
 class SwitchAppModelMapper implements ActionModelMapper {
   @override
-  ActionModel fromEntity(ActionEntity entity) => SwitchApp.fromEntity(entity as SwitchAppEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => SwitchApp.fromEntity(app, entity as SwitchAppEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(ActionEntity entity) => SwitchApp.fromEntityPlus(entity as SwitchAppEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => SwitchApp.fromEntityPlus(app, entity as SwitchAppEntity);
 
   @override
   ActionEntity fromMap(Map map) => SwitchAppEntity.fromMap(map);
@@ -272,26 +288,18 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel? menuDef;
 
-  PopupMenu(String appID, { DisplayConditionsModel? conditions, this.menuDef }) : super(appID, conditions: conditions, actionType: PopupMenuEntity.label);
+  PopupMenu(AppModel app, { DisplayConditionsModel? conditions, this.menuDef }) : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
     return PopupMenuEntity(
-        appID,
+        appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
         menuDefID: menuDef!.documentID
     );
   }
 
-  static ActionModel fromEntity(PopupMenuEntity entity) {
-    if (entity.appID == null) throw Exception('entity PopupMenu.appID is null');
-    return PopupMenu(
-      entity.appID!,
-      conditions: DisplayConditionsModel.fromEntity(entity.conditions),
-    );
-  }
-
-  static Future<ActionModel?> fromEntityPlus(PopupMenuEntity entity) async {
+  static Future<ActionModel> fromEntity(AppModel app, PopupMenuEntity entity) async {
     MenuDefModel? menuDefModel;
     if (entity.menuDefID != null) {
       try {
@@ -303,11 +311,14 @@ class PopupMenu extends ActionModel {
 
     if (entity.appID == null) throw Exception('entity PopupMenu.appID is null');
 
-    return PopupMenu(
-        entity.appID!,
-        conditions: DisplayConditionsModel.fromEntity(entity.conditions),
+    return PopupMenu(app,
+        conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         menuDef: menuDefModel
     );
+  }
+
+  static Future<ActionModel?> fromEntityPlus(AppModel app, PopupMenuEntity entity) async {
+    return fromEntity(app, entity);
   }
 
   @override
@@ -321,10 +332,10 @@ class PopupMenu extends ActionModel {
 
 class PopupMenuModelMapper implements ActionModelMapper {
   @override
-  ActionModel fromEntity(ActionEntity entity) => PopupMenu.fromEntity(entity as PopupMenuEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => PopupMenu.fromEntity(app, entity as PopupMenuEntity);
 
   @override
-  Future<ActionModel?> fromEntityPlus(ActionEntity entity) => PopupMenu.fromEntityPlus(entity as PopupMenuEntity);
+  Future<ActionModel?> fromEntityPlus(AppModel app, ActionEntity entity) => PopupMenu.fromEntityPlus(app, entity as PopupMenuEntity);
 
   @override
   ActionEntity fromMap(Map map) => PopupMenuEntity.fromMap(map);
@@ -343,33 +354,32 @@ enum InternalActionEnum {
 class InternalAction extends ActionModel {
   final InternalActionEnum? internalActionEnum ;
 
-  InternalAction(String appID, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(appID, conditions: conditions, actionType: InternalActionEntity.label);
+  InternalAction(AppModel app, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(app, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
     return InternalActionEntity(
-          appID,
+          appId,
           conditions: (conditions != null) ? conditions!.toEntity(): null,
           action: internalActionEnum.toString()
       );
   }
 
-  static ActionModel fromEntity(InternalActionEntity entity) {
+  static Future<ActionModel> fromEntity(AppModel app, InternalActionEntity entity) async {
     var internalAction = entity.action;
     if (entity.appID == null) throw Exception('entity InternalAction.appID is null');
-    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Login);
-    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(entity.appID!, internalActionEnum: InternalActionEnum.OtherApps);
+    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Login);
+    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Logout);
+    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.OtherApps);
     return
-      InternalAction(
-          entity.appID!,
-          conditions: DisplayConditionsModel.fromEntity(entity.conditions),
+      InternalAction(app,
+          conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
           internalActionEnum: InternalActionEnum.Unknown
       );
   }
 
-  static Future<ActionModel> fromEntityPlus(InternalActionEntity entity) async {
-    return fromEntity(entity);
+  static Future<ActionModel> fromEntityPlus(AppModel app, InternalActionEntity entity) async {
+    return fromEntity(app, entity);
   }
 
   static String unknownMsg = "What's happening?";
@@ -398,10 +408,10 @@ class InternalAction extends ActionModel {
 
 class InternalActionModelMapper implements ActionModelMapper {
   @override
-  ActionModel fromEntity(ActionEntity entity) => InternalAction.fromEntity(entity as InternalActionEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => InternalAction.fromEntity(app, entity as InternalActionEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(ActionEntity entity) => InternalAction.fromEntityPlus(entity as InternalActionEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => InternalAction.fromEntityPlus(app, entity as InternalActionEntity);
 
   @override
   ActionEntity fromMap(Map map) => InternalActionEntity.fromMap(map);

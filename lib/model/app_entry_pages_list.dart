@@ -46,6 +46,7 @@ import 'app_entry_pages_form.dart';
 typedef AppEntryPagesWidgetProvider(AppEntryPagesModel? value);
 
 class AppEntryPagesListWidget extends StatefulWidget with HasFab {
+  AppModel app;
   BackgroundModel? listBackground;
   AppEntryPagesWidgetProvider? widgetProvider;
   bool? readOnly;
@@ -53,7 +54,7 @@ class AppEntryPagesListWidget extends StatefulWidget with HasFab {
   AppEntryPagesListWidgetState? state;
   bool? isEmbedded;
 
-  AppEntryPagesListWidget({ Key? key, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
+  AppEntryPagesListWidget({ Key? key, required this.app, this.readOnly, this.form, this.widgetProvider, this.isEmbedded, this.listBackground }): super(key: key);
 
   @override
   AppEntryPagesListWidgetState createState() {
@@ -73,14 +74,14 @@ class AppEntryPagesListWidget extends StatefulWidget with HasFab {
 class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(AccessBloc.currentAppId(context)) 
+    return !accessState.memberIsOwner(widget.app.documentID!) 
       ? null
-      : StyleRegistry.registry().styleWithContext(context).adminListStyle().floatingActionButton(context, 'PageFloatBtnTag', Icon(Icons.add),
+      : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).push(
-          pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+          pageRouteBuilder(widget.app, page: BlocProvider.value(
               value: BlocProvider.of<AppEntryPagesListBloc>(context),
-              child: AppEntryPagesForm(
+              child: AppEntryPagesForm(app:widget.app,
                   value: null,
                   formAction: FormAction.AddAction)
           )),
@@ -96,20 +97,20 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
       if (accessState is AccessDetermined) {
         return BlocBuilder<AppEntryPagesListBloc, AppEntryPagesListState>(builder: (context, state) {
           if (state is AppEntryPagesListLoading) {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           } else if (state is AppEntryPagesListLoaded) {
             final values = state.values;
             if ((widget.isEmbedded != null) && widget.isEmbedded!) {
               var children = <Widget>[];
               children.add(theList(context, values, accessState));
               children.add(
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app,
                       context, label: 'Add',
                       onPressed: () {
                         Navigator.of(context).push(
-                                  pageRouteBuilder(accessState.currentApp, page: BlocProvider.value(
+                                  pageRouteBuilder(widget.app, page: BlocProvider.value(
                                       value: BlocProvider.of<AppEntryPagesListBloc>(context),
-                                      child: AppEntryPagesForm(
+                                      child: AppEntryPagesForm(app:widget.app,
                                           value: null,
                                           formAction: FormAction.AddAction)
                                   )),
@@ -126,20 +127,20 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
               return theList(context, values, accessState);
             }
           } else {
-            return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+            return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
           }
         });
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
   
   Widget theList(BuildContext context, values, AccessState accessState) {
     return Container(
-      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithContext(context).adminListStyle().boxDecorator(context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
+      decoration: widget.listBackground == null ? StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().boxDecorator(widget.app, context, accessState.getMember()) : BoxDecorationHelper.boxDecoration(accessState.getMember(), widget.listBackground),
       child: ListView.separated(
-        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithContext(context).adminListStyle().divider(context),
+        separatorBuilder: (context, index) => StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().divider(widget.app, context),
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemCount: values.length,
@@ -148,7 +149,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
           
           if (widget.widgetProvider != null) return widget.widgetProvider!(value);
 
-          return AppEntryPagesListItem(
+          return AppEntryPagesListItem(app: widget.app,
             value: value,
 //            app: accessState.app,
             onDismissed: (direction) {
@@ -162,7 +163,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
             },
             onTap: () async {
                                    final removedItem = await Navigator.of(context).push(
-                        pageRouteBuilder(AccessBloc.currentApp(context), page: BlocProvider.value(
+                        pageRouteBuilder(widget.app, page: BlocProvider.value(
                               value: BlocProvider.of<AppEntryPagesListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
@@ -184,7 +185,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
   
   Widget? getForm(value, action) {
     if (widget.form == null) {
-      return AppEntryPagesForm(value: value, formAction: action);
+      return AppEntryPagesForm(app:widget.app, value: value, formAction: action);
     } else {
       return null;
     }
@@ -195,12 +196,14 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
 
 
 class AppEntryPagesListItem extends StatelessWidget {
+  final AppModel app;
   final DismissDirectionCallback onDismissed;
   final GestureTapCallback onTap;
   final AppEntryPagesModel value;
 
   AppEntryPagesListItem({
     Key? key,
+    required this.app,
     required this.onDismissed,
     required this.onTap,
     required this.value,
@@ -213,8 +216,8 @@ class AppEntryPagesListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.documentID!)) : Container(),
-        subtitle: value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.title!)) : Container(),
+        title: value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID!)) : Container(),
+        subtitle: value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.title!)) : Container(),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -31,7 +32,7 @@ class DrawerItemAttributes {
 }
 
 abstract class HasDrawer {
-  Drawer drawer(BuildContext context,
+  Drawer drawer(AppModel app, BuildContext context,
       {required DrawerType drawerType,
       required MemberModel? member,
       Key? key,
@@ -42,7 +43,7 @@ abstract class HasDrawer {
       required List<AbstractMenuItemAttributes> items});
 }
 
-Drawer drawer(BuildContext context,
+Drawer drawer(AppModel app, BuildContext context,
         {required DrawerType drawerType,
         required MemberModel? member,
         Key? key,
@@ -52,10 +53,10 @@ Drawer drawer(BuildContext context,
         RgbModel? popupMenuBackgroundColorOverride,
         required List<AbstractMenuItemAttributes> items}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .drawerStyle()
-        .drawer(context,
+        .drawer(app, context,
             drawerType: drawerType,
             member: member,
             key: key,
@@ -64,3 +65,4 @@ Drawer drawer(BuildContext context,
             backgroundOverride: backgroundOverride,
             popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
             items: items);
+

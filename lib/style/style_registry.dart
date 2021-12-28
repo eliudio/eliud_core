@@ -18,11 +18,13 @@ class StyleRegistry {
 
   StyleRegistry();
 
+/*
   Style styleWithContext(BuildContext context) {
       var app = AccessBloc.currentApp(context);
       return styleWithApp(app);
   }
 
+*/
   Style styleWithApp(AppModel app) {
     if ((app.styleFamily == null) || (app.styleName == null)) return defaultStyle();
     return style(app.styleFamily!, app.styleName!);

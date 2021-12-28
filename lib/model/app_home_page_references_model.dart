@@ -89,7 +89,7 @@ class AppHomePageReferencesModel {
     );
   }
 
-  static AppHomePageReferencesModel? fromEntity(AppHomePageReferencesEntity? entity) {
+  static Future<AppHomePageReferencesModel?> fromEntity(AppHomePageReferencesEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return AppHomePageReferencesModel(

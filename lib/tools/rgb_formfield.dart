@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:expandable/expandable.dart';
@@ -9,11 +10,12 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 typedef ChangeRgbField(RgbModel value);
 
 class RgbField extends StatefulWidget {
+  final AppModel app;
   final String label;
   final RgbModel? rgbModel;
   final ChangeRgbField trigger;
 
-  RgbField(this.label, this.rgbModel, this.trigger);
+  RgbField(this.app, this.label, this.rgbModel, this.trigger);
 
   @override
   createState() {
@@ -36,9 +38,8 @@ class RgbFieldState extends State<RgbField> {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = AccessBloc.currentAppId(context);
     var widgets = <Widget>[];
-    if (accessState.memberIsOwner(appId)) {
+    if (accessState.memberIsOwner(widget.app.documentID!)) {
       widgets.add(ExpandablePanel(
         header: Text(widget.label),
         collapsed: Center(

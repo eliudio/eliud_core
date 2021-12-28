@@ -88,7 +88,7 @@
       "fieldType": "Rgb",
       "group": "iconColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Text color\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Text color\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
     },
     {
       "fieldName": "selectedIconColorOverride",
@@ -97,7 +97,7 @@
       "group": "iconColors",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Selected Icon Color\", state.value!.selectedIconColorOverride, _onSelectedIconColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Selected Icon Color\", state.value!.selectedIconColorOverride, _onSelectedIconColorOverrideChanged)"
     },
     {
       "fieldName": "menuBackgroundColorOverride",
@@ -106,7 +106,7 @@
       "fieldType": "Rgb",
       "group": "menuColors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Background Color\", state.value!.menuBackgroundColorOverride, _onMenuBackgroundColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Background Color\", state.value!.menuBackgroundColorOverride, _onMenuBackgroundColorOverrideChanged)"
     }
   ],
   "groups": [
@@ -148,7 +148,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()",
-    "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.title!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container()"
   }
 }

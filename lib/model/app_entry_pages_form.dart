@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/app_entry_pages_form_state.dart';
 
 
 class AppEntryPagesForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   AppEntryPagesModel? value;
   ActionModel? submitAction;
 
-  AppEntryPagesForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  AppEntryPagesForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppEntryPagesFormBloc >(
@@ -76,7 +76,7 @@ class AppEntryPagesForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseAppEntryPagesFormEvent(value: value)),
   
-        child: MyAppEntryPagesForm(submitAction: submitAction, formAction: formAction),
+        child: MyAppEntryPagesForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<AppEntryPagesFormBloc >(
@@ -84,17 +84,17 @@ class AppEntryPagesForm extends StatelessWidget {
                                        
                                                 )..add(InitialiseAppEntryPagesFormNoLoadEvent(value: value)),
   
-        child: MyAppEntryPagesForm(submitAction: submitAction, formAction: formAction),
+        child: MyAppEntryPagesForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update AppEntryPages' : 'Add AppEntryPages'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update AppEntryPages' : 'Add AppEntryPages'),
         body: BlocProvider<AppEntryPagesFormBloc >(
             create: (context) => AppEntryPagesFormBloc(appId,
                                        
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseAppEntryPagesFormEvent(value: value) : InitialiseNewAppEntryPagesFormEvent())),
   
-        child: MyAppEntryPagesForm(submitAction: submitAction, formAction: formAction),
+        child: MyAppEntryPagesForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -102,10 +102,11 @@ class AppEntryPagesForm extends StatelessWidget {
 
 
 class MyAppEntryPagesForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyAppEntryPagesForm({this.formAction, this.submitAction});
+  MyAppEntryPagesForm({required this.app, this.formAction, this.submitAction});
 
   _MyAppEntryPagesFormState createState() => _MyAppEntryPagesFormState(this.formAction);
 }
@@ -132,13 +133,10 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppEntryPagesFormBloc, AppEntryPagesFormState>(builder: (context, state) {
       if (state is AppEntryPagesFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is AppEntryPagesFormLoaded) {
@@ -160,48 +158,48 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'minPrivilege', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _minPrivilegeController, keyboardType: TextInputType.number, validator: (_) => state is MinPrivilegeAppEntryPagesFormError ? state.message : null, hintText: 'field.remark')
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'minPrivilege', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _minPrivilegeController, keyboardType: TextInputType.number, validator: (_) => state is MinPrivilegeAppEntryPagesFormError ? state.message : null, hintText: 'field.remark')
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Component')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Component')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Component spec')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Component spec')
                 ));
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is AppEntryPagesFormError) {
                       return null;
@@ -230,7 +228,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -240,7 +238,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -272,7 +270,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
   }
 
   bool _readOnly(AccessState accessState, AppEntryPagesFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

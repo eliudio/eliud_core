@@ -1,9 +1,10 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasListTile {
-  Widget getListTile(BuildContext context,
+  Widget getListTile(AppModel app, BuildContext context,
       {Key? key,
       GestureTapCallback? onTap,
       Widget? leading,
@@ -11,13 +12,13 @@ abstract class HasListTile {
       Widget? title,
       Widget? subtitle,
       bool? isThreeLine});
-  Widget radioListTile<T>(BuildContext context, T t, T? groupValue,
+  Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
       String title, String? subTitle, ValueChanged<T?>? valueChanged);
-  Widget checkboxListTile(BuildContext context, String title, bool? value,
+  Widget checkboxListTile(AppModel app, BuildContext context, String title, bool? value,
       ValueChanged<bool?>? onChanged);
 }
 
-Widget getListTile(BuildContext context,
+Widget getListTile(BuildContext context,AppModel app,
         {Key? key,
         GestureTapCallback? onTap,
         Widget? leading,
@@ -26,10 +27,10 @@ Widget getListTile(BuildContext context,
         Widget? subtitle,
         bool? isThreeLine}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .listTileStyle()
-        .getListTile(context,
+        .getListTile(app, context,
             key: key,
             onTap: onTap,
             leading: leading,
@@ -38,18 +39,18 @@ Widget getListTile(BuildContext context,
             subtitle: subtitle,
             isThreeLine: isThreeLine);
 
-Widget radioListTile<T>(BuildContext context, T t, T? groupValue, String title,
+Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue, String title,
         String? subTitle, ValueChanged<T?>? valueChanged) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .listTileStyle()
-        .radioListTile(context, t, groupValue, title, subTitle, valueChanged);
+        .radioListTile(app, context, t, groupValue, title, subTitle, valueChanged);
 
-Widget checkboxListTile(BuildContext context, String title, bool? value,
+Widget checkboxListTile(AppModel app,BuildContext context, String title, bool? value,
         ValueChanged<bool?>? onChanged) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .listTileStyle()
-        .checkboxListTile(context, title, value, onChanged);
+        .checkboxListTile(app, context, title, value, onChanged);

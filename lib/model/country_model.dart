@@ -68,7 +68,7 @@ class CountryModel {
     );
   }
 
-  static CountryModel? fromEntity(String documentID, CountryEntity? entity) {
+  static Future<CountryModel?> fromEntity(String documentID, CountryEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return CountryModel(

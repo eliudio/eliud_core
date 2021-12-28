@@ -17,6 +17,7 @@
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'dart:async';
 
@@ -74,17 +75,17 @@ typedef MemberMediumListChanged(List<MemberMediumModel> values);
 typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
 typedef MenuItemListChanged(List<MenuItemModel> values);
 
-appEntryPagessList(context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(context, value, trigger);
-appPolicyItemsList(context, value, trigger) => EmbeddedComponentFactory.appPolicyItemsList(context, value, trigger);
-bodyComponentsList(context, value, trigger) => EmbeddedComponentFactory.bodyComponentsList(context, value, trigger);
-decorationColorsList(context, value, trigger) => EmbeddedComponentFactory.decorationColorsList(context, value, trigger);
-memberMediumsList(context, value, trigger) => EmbeddedComponentFactory.memberMediumsList(context, value, trigger);
-memberSubscriptionsList(context, value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(context, value, trigger);
-menuItemsList(context, value, trigger) => EmbeddedComponentFactory.menuItemsList(context, value, trigger);
+appEntryPagessList(app, context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(app, context, value, trigger);
+appPolicyItemsList(app, context, value, trigger) => EmbeddedComponentFactory.appPolicyItemsList(app, context, value, trigger);
+bodyComponentsList(app, context, value, trigger) => EmbeddedComponentFactory.bodyComponentsList(app, context, value, trigger);
+decorationColorsList(app, context, value, trigger) => EmbeddedComponentFactory.decorationColorsList(app, context, value, trigger);
+memberMediumsList(app, context, value, trigger) => EmbeddedComponentFactory.memberMediumsList(app, context, value, trigger);
+memberSubscriptionsList(app, context, value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(app, context, value, trigger);
+menuItemsList(app, context, value, trigger) => EmbeddedComponentFactory.menuItemsList(app, context, value, trigger);
 
 class EmbeddedComponentFactory {
 
-static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
+static Widget appEntryPagessList(BuildContext context, AppModel app, List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
   AppEntryPagesInMemoryRepository inMemoryRepository = AppEntryPagesInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -94,11 +95,11 @@ static Widget appEntryPagessList(BuildContext context, List<AppEntryPagesModel> 
           )..add(LoadAppEntryPagesList()),
         )
         ],
-    child: AppEntryPagesListWidget(isEmbedded: true),
+    child: AppEntryPagesListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
+static Widget appPolicyItemsList(BuildContext context, AppModel app, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
   AppPolicyItemInMemoryRepository inMemoryRepository = AppPolicyItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -108,11 +109,11 @@ static Widget appPolicyItemsList(BuildContext context, List<AppPolicyItemModel> 
           )..add(LoadAppPolicyItemList()),
         )
         ],
-    child: AppPolicyItemListWidget(isEmbedded: true),
+    child: AppPolicyItemListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
+static Widget bodyComponentsList(BuildContext context, AppModel app, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
   BodyComponentInMemoryRepository inMemoryRepository = BodyComponentInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -122,11 +123,11 @@ static Widget bodyComponentsList(BuildContext context, List<BodyComponentModel> 
           )..add(LoadBodyComponentList()),
         )
         ],
-    child: BodyComponentListWidget(isEmbedded: true),
+    child: BodyComponentListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget decorationColorsList(BuildContext context, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
+static Widget decorationColorsList(BuildContext context, AppModel app, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
   DecorationColorInMemoryRepository inMemoryRepository = DecorationColorInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -136,11 +137,11 @@ static Widget decorationColorsList(BuildContext context, List<DecorationColorMod
           )..add(LoadDecorationColorList()),
         )
         ],
-    child: DecorationColorListWidget(isEmbedded: true),
+    child: DecorationColorListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget memberMediumsList(BuildContext context, List<MemberMediumModel> values, MemberMediumListChanged trigger) {
+static Widget memberMediumsList(BuildContext context, AppModel app, List<MemberMediumModel> values, MemberMediumListChanged trigger) {
   MemberMediumInMemoryRepository inMemoryRepository = MemberMediumInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -150,11 +151,11 @@ static Widget memberMediumsList(BuildContext context, List<MemberMediumModel> va
           )..add(LoadMemberMediumList()),
         )
         ],
-    child: MemberMediumListWidget(isEmbedded: true),
+    child: MemberMediumListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
+static Widget memberSubscriptionsList(BuildContext context, AppModel app, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
   MemberSubscriptionInMemoryRepository inMemoryRepository = MemberSubscriptionInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -164,11 +165,11 @@ static Widget memberSubscriptionsList(BuildContext context, List<MemberSubscript
           )..add(LoadMemberSubscriptionList()),
         )
         ],
-    child: MemberSubscriptionListWidget(isEmbedded: true),
+    child: MemberSubscriptionListWidget(app: app, isEmbedded: true),
   );
 }
 
-static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
+static Widget menuItemsList(BuildContext context, AppModel app, List<MenuItemModel> values, MenuItemListChanged trigger) {
   MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -178,7 +179,7 @@ static Widget menuItemsList(BuildContext context, List<MenuItemModel> values, Me
           )..add(LoadMenuItemList()),
         )
         ],
-    child: MenuItemListWidget(isEmbedded: true),
+    child: MenuItemListWidget(app: app, isEmbedded: true),
   );
 }
 

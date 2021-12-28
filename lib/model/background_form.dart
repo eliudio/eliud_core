@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
@@ -58,17 +59,16 @@ import 'package:eliud_core/model/background_form_state.dart';
 
 
 class BackgroundForm extends StatelessWidget {
+  final AppModel app;
   FormAction formAction;
   BackgroundModel? value;
   ActionModel? submitAction;
 
-  BackgroundForm({Key? key, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  BackgroundForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text("No app available");
     var appId = app.documentID!;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BackgroundFormBloc >(
@@ -77,7 +77,7 @@ class BackgroundForm extends StatelessWidget {
 
                                                 )..add(InitialiseBackgroundFormEvent(value: value)),
   
-        child: MyBackgroundForm(submitAction: submitAction, formAction: formAction),
+        child: MyBackgroundForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } if (formAction == FormAction.ShowPreloadedData) {
       return BlocProvider<BackgroundFormBloc >(
@@ -86,18 +86,18 @@ class BackgroundForm extends StatelessWidget {
 
                                                 )..add(InitialiseBackgroundFormNoLoadEvent(value: value)),
   
-        child: MyBackgroundForm(submitAction: submitAction, formAction: formAction),
+        child: MyBackgroundForm(app:app, submitAction: submitAction, formAction: formAction),
           );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithContext(context).adminFormStyle().appBarWithString(context, title: formAction == FormAction.UpdateAction ? 'Update Background' : 'Add Background'),
+        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update Background' : 'Add Background'),
         body: BlocProvider<BackgroundFormBloc >(
             create: (context) => BackgroundFormBloc(appId,
                                        formAction: formAction,
 
                                                 )..add((formAction == FormAction.UpdateAction ? InitialiseBackgroundFormEvent(value: value) : InitialiseNewBackgroundFormEvent())),
   
-        child: MyBackgroundForm(submitAction: submitAction, formAction: formAction),
+        child: MyBackgroundForm(app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
@@ -105,10 +105,11 @@ class BackgroundForm extends StatelessWidget {
 
 
 class MyBackgroundForm extends StatefulWidget {
+  final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyBackgroundForm({this.formAction, this.submitAction});
+  MyBackgroundForm({required this.app, this.formAction, this.submitAction});
 
   _MyBackgroundFormState createState() => _MyBackgroundFormState(this.formAction);
 }
@@ -146,13 +147,10 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
 
   @override
   Widget build(BuildContext context) {
-    var app = AccessBloc.currentApp(context);
-    if (app == null) return Text('No app available');
-    var appId = app.documentID!;
     var accessState = AccessBloc.getState(context);
     return BlocBuilder<BackgroundFormBloc, BackgroundFormState>(builder: (context, state) {
       if (state is BackgroundFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context),
+        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
       );
 
       if (state is BackgroundFormLoaded) {
@@ -198,194 +196,194 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'Use Profile Photo As Background', _useProfilePhotoAsBackgroundSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionUseProfilePhotoAsBackground(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'Use Profile Photo As Background', _useProfilePhotoAsBackgroundSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionUseProfilePhotoAsBackground(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'General')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDBackgroundFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDBackgroundFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().textFormField(context, labelText: 'Comments', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _commentsController, keyboardType: TextInputType.text, validator: (_) => state is CommentsBackgroundFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Comments', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _commentsController, keyboardType: TextInputType.text, validator: (_) => state is CommentsBackgroundFormError ? state.message : null, hintText: null)
           );
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().checkboxListTile(context, 'border', _borderSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionBorder(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'border', _borderSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionBorder(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Colors')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Colors')
                 ));
 
         children.add(
 
                 new Container(
                     height: (fullScreenHeight(context) / 2.5), 
-                    child: decorationColorsList(context, state.value!.decorationColors, _onDecorationColorsChanged)
+                    child: decorationColorsList(widget.app, context, state.value!.decorationColors, _onDecorationColorsChanged)
                 )
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Background Image')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Background Image')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "publicMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _backgroundImage, trigger: _onBackgroundImageSelected, optional: true),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Start position of the gradient')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Start position of the gradient')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _beginGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _beginGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionBeginGradientPosition(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'End position of the gradient')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'End position of the gradient')
                 ));
 
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'TopLeft', 'TopLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'TopCenter', 'TopCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'TopRight', 'TopRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'CenterLeft', 'CenterLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'Center', 'Center', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'CenterRight', 'CenterRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'BottomLeft', 'BottomLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'BottomCenter', 'BottomCenter', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithContext(context).adminFormStyle().radioListTile(context, 0, _endGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner(AccessBloc.currentAppId(context)) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _endGradientPositionSelectedRadioTile, 'BottomRight', 'BottomRight', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionEndGradientPosition(val))
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithContext(context).adminFormStyle().groupTitle(context, 'Shadow')
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shadow')
                 ));
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(appId: appId, id: "shadows", value: _shadow, trigger: _onShadowSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "shadows", value: _shadow, trigger: _onShadowSelected, optional: true),
           );
 
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().divider(context));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
 
         if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithContext(context).adminFormStyle().button(context, label: 'Submit',
+          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
                   onPressed: _readOnly(accessState, state) ? null : () {
                     if (state is BackgroundFormError) {
                       return null;
@@ -428,7 +426,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
                   },
                 ));
 
-        return StyleRegistry.registry().styleWithContext(context).adminFormStyle().container(context, Form(
+        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
             child: ListView(
               padding: const EdgeInsets.all(8),
               physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
@@ -438,7 +436,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
           ), formAction!
         );
       } else {
-        return StyleRegistry.registry().styleWithContext(context).adminListStyle().progressIndicator(context);
+        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
       }
     });
   }
@@ -520,7 +518,7 @@ class _MyBackgroundFormState extends State<MyBackgroundForm> {
   }
 
   bool _readOnly(AccessState accessState, BackgroundFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(AccessBloc.currentAppId(context)));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
   }
   
 

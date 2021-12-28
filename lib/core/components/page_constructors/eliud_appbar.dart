@@ -10,6 +10,7 @@ import 'package:eliud_core/model/app_bar_component_bloc.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -24,6 +25,7 @@ import 'blocs/appbar/extended_app_bar_component_state.dart';
 class EliudAppBar extends StatefulWidget {
   static String PAGE_TITLE_KEYWORD = "\${PAGE_TITLE}";
 
+  final AppModel app;
   final String? pageTitle;
   final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -33,6 +35,7 @@ class EliudAppBar extends StatefulWidget {
   EliudAppBar(
       {Key? key,
       this.pageTitle,
+        required this.app,
       required this.currentPage,
       required this.scaffoldKey,
       required this.theTitle,
@@ -48,6 +51,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    var app = widget.app;
     var currentPage = widget.currentPage;
     return BlocProvider<ExtendedAppBarComponentBloc>(
         create: (context) => ExtendedAppBarComponentBloc()
@@ -60,8 +64,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
             if (accessState is AccessDetermined) {
                 var value = state.value!;
                 return Decorations.instance()
-                    .createDecoratedAppBar(context, _appBarKey, () {
-                  var app = accessState.currentApp;
+                    .createDecoratedAppBar(app, context, _appBarKey, () {
                   var header = value.header!;
                   var title = value.title;
                   if ((title != null) &&
@@ -111,12 +114,12 @@ class _EliudAppBarState extends State<EliudAppBar> {
                         isActive: false,
                         onTap: () => eliudrouter.Router.navigateTo(
                             context,
-                            SwitchApp(app.documentID!,
+                            SwitchApp(app,
                                 toAppID: playStoreApp.documentID!)),
                         imageURL: playStoreApp.logo!.url));
                   }
 
-                  return appBar(context,
+                  return appBar(app, context,
                       headerAttributes: headerAttributes,
                       member: accessState.getMember(),
                       key: _appBarKey,
@@ -132,11 +135,11 @@ class _EliudAppBarState extends State<EliudAppBar> {
                           widget.scaffoldKey.currentState!.openEndDrawer());
                 }, value)();
             } else {
-              return progressIndicator(context);
+              return progressIndicator(app, context);
             }
             });
           } else {
-            return progressIndicator(context);
+            return progressIndicator(app, context);
           }
         }));
   }

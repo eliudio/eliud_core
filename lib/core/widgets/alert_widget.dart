@@ -1,13 +1,15 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatelessWidget {
+  final AppModel app;
   final String? title;
   final String? content;
 
-  AlertWidget({this.title, this.content});
+  AlertWidget({required this.app, this.title, this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class AlertWidget extends StatelessWidget {
       title: Text(title!),
       content: Text(content!),
       actions: <Widget>[
-        button(context, label: 'Close',onPressed: () {
+        button(app, context, label: 'Close',onPressed: () {
             Navigator.of(context).pop();
           },
         ),

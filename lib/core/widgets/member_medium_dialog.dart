@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -7,11 +8,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MemberMediumDialog extends StatefulWidget {
+  final AppModel app;
   final double? width;
   final String? title;
   final MemberMediumModel memberMediumModel;
 
   MemberMediumDialog({
+    required this.app,
     Key? key,
     this.title,
     required this.memberMediumModel,
@@ -35,7 +38,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return complexDialog(context, title: widget.title!, child: FutureBuilder<List<MediumInfo>>(
+    return complexDialog(widget.app, context, title: widget.title!, child: FutureBuilder<List<MediumInfo>>(
         future: buildImagesList(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -44,7 +47,7 @@ class _MemberMediumState extends State<MemberMediumDialog> {
                 height: height(context) - 130,
                 child: getAllImages(context, snapshot.data!));
           } else {
-            return progressIndicator(context);
+            return progressIndicator(widget.app, context);
           }
         }));
   }

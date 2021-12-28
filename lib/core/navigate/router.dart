@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/cupertino.dart';
@@ -110,10 +111,10 @@ class Router {
         action.actionToRun();
       } else if (action is GotoPage) {
         BlocProvider.of<AccessBloc>(context).add(
-            GotoPageEvent(action.appID, action.pageID, parameters: parameters));
+            GotoPageEvent(action.app, action.pageID, parameters: parameters));
       } else if (action is OpenDialog) {
         Registry.registry()!
-            .openDialog(context, id: action.dialogID, parameters: parameters);
+            .openDialog(context, app: action.app, id: action.dialogID, parameters: parameters);
         // NAVIGATION-USING-BLOC
         // We should be using this instead: BlocProvider.of<AccessBloc>(context).add(OpenDialogEvent(action.dialogID, parameters: parameters));
       } else if (action is SwitchApp) {
@@ -122,11 +123,10 @@ class Router {
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-            BlocProvider.of<AccessBloc>(context).add(LoginEvent(appId: action.appID));
+            BlocProvider.of<AccessBloc>(context).add(LoginEvent(app: action.app));
             break;
           case InternalActionEnum.Logout:
-            var appId = AccessBloc.currentApp(context).documentID!;
-            BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
+            BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: action.app));
             break;
           default:
             return null;
@@ -145,16 +145,16 @@ class Router {
 
   static AccessEvent? translate(ActionModel action, {Map<String, dynamic>? parameters}) {
       if (action is GotoPage) {
-        return GotoPageEvent(action.appID, action.pageID, parameters: parameters);
+        return GotoPageEvent(action.app, action.pageID, parameters: parameters);
       } else if (action is OpenDialog) {
       } else if (action is SwitchApp) {
         return SwitchAppWithIDEvent(appId: action.toAppID, goHome: true);
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-            return LoginEvent(appId: action.appID);
+            return LoginEvent(app: action.app);
           case InternalActionEnum.Logout:
-            return LogoutEvent(appId: action.appID);
+            return LogoutEvent(app: action.app);
           default:
             return null;
         }

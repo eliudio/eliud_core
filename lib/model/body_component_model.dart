@@ -72,7 +72,7 @@ class BodyComponentModel {
     );
   }
 
-  static BodyComponentModel? fromEntity(String documentID, BodyComponentEntity? entity) {
+  static Future<BodyComponentModel?> fromEntity(String documentID, BodyComponentEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return BodyComponentModel(

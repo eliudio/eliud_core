@@ -94,7 +94,7 @@ class DrawerModel {
     );
   }
 
-  static DrawerModel? fromEntity(String documentID, DrawerEntity? entity) {
+  static Future<DrawerModel?> fromEntity(String documentID, DrawerEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return DrawerModel(
@@ -105,9 +105,9 @@ class DrawerModel {
           secondHeaderText: entity.secondHeaderText, 
           headerHeight: entity.headerHeight, 
           popupMenuBackgroundColor: 
-            RgbModel.fromEntity(entity.popupMenuBackgroundColor), 
+            await RgbModel.fromEntity(entity.popupMenuBackgroundColor), 
           popupMenuBackgroundColorOverride: 
-            RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
+            await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ class DefaultTextFormFieldImpl implements HasTexFormField {
   DefaultTextFormFieldImpl(this._frontEndStyle);
 
   @override
-  Widget textFormField(
-    BuildContext context, {
+  Widget textFormField(AppModel app,
+      BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -31,7 +32,7 @@ class DefaultTextFormFieldImpl implements HasTexFormField {
   }
 
   @override
-  Widget textField(BuildContext context,
+  Widget textField(AppModel app, BuildContext context,
       {required bool readOnly,
       String? initialValue,
       FormFieldValidator<String>? validator,

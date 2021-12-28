@@ -79,7 +79,7 @@ class RgbModel {
     );
   }
 
-  static RgbModel? fromEntity(RgbEntity? entity) {
+  static Future<RgbModel?> fromEntity(RgbEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return RgbModel(

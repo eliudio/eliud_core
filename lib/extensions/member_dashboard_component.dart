@@ -34,22 +34,22 @@ class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required String appId, required String id, Map<String, dynamic>? parameters}) {
-    return MemberDashboard(key: key, appId: appId, id: id);
+      {Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
+    return MemberDashboard(key: key, app: app, id: id);
   }
 
   @override
-  Future<dynamic> getModel({required String appId, required String id}) async =>
-      await memberDashboardRepository(appId: appId)!.get(id);
+  Future<dynamic> getModel({required AppModel app, required String id}) async =>
+      await memberDashboardRepository(appId: app.documentID!)!.get(id);
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  MemberDashboard({Key? key, required String appId, required String id})
-      : super(key: key, theAppId: appId, memberDashboardId: id);
+  MemberDashboard({Key? key, required AppModel app, required String id})
+      : super(key: key, app:app, memberDashboardId: id);
 
   @override
   Widget alertWidget({title = String, content = String}) {
-    return AlertWidget(title: title, content: content);
+    return AlertWidget(app: app, title: title, content: content);
   }
 
   static EliudQuery getSubscribedMembers(String appId) {
@@ -61,14 +61,14 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   TableRow getRow(BuildContext context, AppModel app, String label,
       String description, VoidCallback action) {
     return TableRow(children: [
-      button(
+      button(app,
         context,
         label: label,
         onPressed: action,
       ),
       TableCell(
           verticalAlignment: TableCellVerticalAlignment.middle,
-          child: text(context, description, textAlign: TextAlign.center)),
+          child: text(app, context, description, textAlign: TextAlign.center)),
     ]);
   }
 
@@ -95,21 +95,21 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           } else {
             profilePhoto = Container();
           }
-          var currentApp = accessState.currentApp;
+          var currentApp = app;
           return ListView(
             physics: ScrollPhysics(),
             shrinkWrap: true,
             children: [
               Row(children: [
                 Spacer(),
-                text(context, welcomeText, textAlign: TextAlign.center),
+                text(app, context, welcomeText, textAlign: TextAlign.center),
                 Spacer(),
                 profilePhoto,
               ]),
               Container(height: 20),
-              divider(context),
+              divider(app, context),
               Container(height: 20),
-              table(
+              table(app,
                 context,
                 children: [
                   //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
@@ -142,7 +142,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
           return Text('You need to login to access your account');
         }
       } else {
-        return progressIndicator(context);
+        return progressIndicator(app, context);
       }
     });
   }
@@ -158,13 +158,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 )..add(LoadMemberList()),
               )
             ],
-            child: MemberForm(
+            child: MemberForm(app: app,
                 value: member, formAction: FormAction.UpdateAction))));
   }
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel app, MemberModel member) {
-    openAckNackDialog(context, app.documentID! + '/_retrievedata',
+    openAckNackDialog(app, context, app.documentID! + '/_retrievedata',
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -176,7 +176,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             dashboardModel!.retrieveDataEmailSubject,
             app.email,
             AccessBloc.getState(context).getMemberCollectionInfo()!);
-        openComplexDialog(context, app.documentID! + '/_retrievedata',
+        openComplexDialog(app, context, app.documentID! + '/_retrievedata',
             title: 'Retrieve data',
             child: Text(
                 'You will receive an email at your registered email address ' +
@@ -188,7 +188,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel app, MemberModel member) {
-    openAckNackDialog(context, app.documentID! + '/_deleteaccount',
+    openAckNackDialog(app, context, app.documentID! + '/_deleteaccount',
         title: 'Confirm. Last but 2 warnings',
         message:
             'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -206,7 +206,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(context, app.documentID! + '/_confirmdeleteaccount',
+    openAckNackDialog(app, context, app.documentID! + '/_confirmdeleteaccount',
         title: 'Confirm. Last but 1 warning',
         message:
             'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -224,7 +224,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(context,
+    openAckNackDialog(app, context,
         app.documentID! + '/_deleteaccount',
         title: 'Confirm. Last warning',
         message:
@@ -238,14 +238,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             app.email,
             dashboardModel.deleteDataEmailMessage,
             memberCollectionInfo!);
-        var appId = AccessBloc.currentApp(context).documentID!;
-        BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
+        BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: app));
       }
     });
   }
 
   @override
   MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
-    return memberDashboardRepository(appId: AccessBloc.currentAppId(context))!;
+    return memberDashboardRepository(appId: app.documentID!)!;
   }
 }

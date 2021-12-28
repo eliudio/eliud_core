@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,8 @@ class Utils {
     );
   }
 
-  static Widget getShrinkedListView(BuildContext context, List<Widget> widgets) {
-    return topicContainer(context, children: [
+  static Widget getShrinkedListView(AppModel app, BuildContext context, List<Widget> widgets) {
+    return topicContainer(app, context, children: [
     ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),

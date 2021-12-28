@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -20,98 +21,98 @@ typedef ExternalProfileURLProvider = Future<ProfileAttributes> Function();
 typedef BackupProfileURLProvider = String? Function();
 
 abstract class HasProfilePhoto {
-  Widget getProfilePhotoButtonFromMember(BuildContext context,
+  Widget getProfilePhotoButtonFromMember(AppModel app, BuildContext context,
       {MemberModel? member,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
-  Widget getProfilePhotoButtonFromPublicMember(BuildContext context,
+  Widget getProfilePhotoButtonFromPublicMember(AppModel app, BuildContext context,
       {MemberPublicInfoModel? member,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
-  Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
+  Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
 
-  Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
+  Widget getProfilePhotoButtonFromCurrentMember(AppModel app, BuildContext context,
       {RgbModel? iconColor, required double radius, VoidCallback? onPressed});
 
-  Widget getProfilePhotoButtonFromURL(BuildContext context,
+  Widget getProfilePhotoButtonFromURL(AppModel app, BuildContext context,
       {String? url,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
 }
 
-Widget getProfilePhotoButtonFromMember(BuildContext context,
+Widget getProfilePhotoButtonFromMember(AppModel app, BuildContext context,
         {MemberModel? member,
         required double radius,
         RgbModel? iconColor,
         VoidCallback? onPressed}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .profilePhotoStyle()
-        .getProfilePhotoButtonFromMember(context,
+        .getProfilePhotoButtonFromMember(app, context,
             member: member,
             radius: radius,
             iconColor: iconColor,
             onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromPublicMember(BuildContext context,
+Widget getProfilePhotoButtonFromPublicMember(AppModel app, BuildContext context,
         {MemberPublicInfoModel? member,
         required double radius,
         RgbModel? iconColor,
         VoidCallback? onPressed}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .profilePhotoStyle()
-        .getProfilePhotoButtonFromPublicMember(context,
+        .getProfilePhotoButtonFromPublicMember(app, context,
             member: member,
             radius: radius,
             iconColor: iconColor,
             onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromExternalProvider(BuildContext context,
+Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
         {required ExternalProfileURLProvider externalProfileURLProvider,
         required double radius,
         RgbModel? iconColor,
         VoidCallback? onPressed}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .profilePhotoStyle()
-        .getProfilePhotoButtonFromExternalProvider(context,
+        .getProfilePhotoButtonFromExternalProvider(app, context,
             externalProfileURLProvider: externalProfileURLProvider,
             radius: radius,
             iconColor: iconColor,
             onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromCurrentMember(BuildContext context,
+Widget getProfilePhotoButtonFromCurrentMember(AppModel app, BuildContext context,
         {RgbModel? iconColor,
         required double radius,
         VoidCallback? onPressed}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .profilePhotoStyle()
-        .getProfilePhotoButtonFromCurrentMember(context,
+        .getProfilePhotoButtonFromCurrentMember(app, context,
             iconColor: iconColor, radius: radius, onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromURL(BuildContext context,
+Widget getProfilePhotoButtonFromURL(AppModel app, BuildContext context,
         {String? url,
         required double radius,
         RgbModel? iconColor,
         VoidCallback? onPressed}) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .profilePhotoStyle()
-        .getProfilePhotoButtonFromURL(context,
+        .getProfilePhotoButtonFromURL(app, context,
             url: url,
             radius: radius,
             iconColor: iconColor,

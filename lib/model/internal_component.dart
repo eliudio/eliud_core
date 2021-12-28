@@ -248,12 +248,12 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget? createNew({Key? key, required String appId,  required String id, Map<String, dynamic>? parameters}) {
-    return ListComponent(appId: appId, componentId: id);
+  Widget? createNew({Key? key, required AppModel app,  required String id, Map<String, dynamic>? parameters}) {
+    return ListComponent(app: app, componentId: id);
   }
 
   @override
-  dynamic getModel({required String appId, required String id}) {
+  dynamic getModel({required AppModel app, required String id}) {
     return null;
   }
 }
@@ -263,7 +263,7 @@ typedef DropdownButtonChanged(String? value);
 
 class DropdownButtonComponentFactory implements ComponentDropDown {
   @override
-  dynamic getModel({required String appId, required String id}) {
+  dynamic getModel({required AppModel app, required String id}) {
     return null;
   }
 
@@ -290,58 +290,58 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget createNew({Key? key, required String appId, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "apps")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "appBars")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "appPolicys")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "backgrounds")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "countrys")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "dialogs")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "drawers")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "fonts")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "gridViews")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "homeMenus")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "members")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "memberDashboards")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "memberPublicInfos")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "menuDefs")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "pages")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "posSizes")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "shadows")
-      return DropdownButtonComponent(appId: appId, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
   }
@@ -349,7 +349,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
 
 
 class ListComponent extends StatelessWidget with HasFab {
-  final String appId;
+  final AppModel app;
   final String? componentId;
   Widget? widget;
 
@@ -362,7 +362,7 @@ class ListComponent extends StatelessWidget with HasFab {
     return null;
   }
 
-  ListComponent({required this.appId, this.componentId}) {
+  ListComponent({required this.app, this.componentId}) {
     initWidget();
   }
 
@@ -390,23 +390,23 @@ class ListComponent extends StatelessWidget with HasFab {
   }
 
   void initWidget() {
-    if (componentId == 'apps') widget = AppListWidget();
-    if (componentId == 'appBars') widget = AppBarListWidget();
-    if (componentId == 'appPolicys') widget = AppPolicyListWidget();
-    if (componentId == 'backgrounds') widget = BackgroundListWidget();
-    if (componentId == 'countrys') widget = CountryListWidget();
-    if (componentId == 'dialogs') widget = DialogListWidget();
-    if (componentId == 'drawers') widget = DrawerListWidget();
-    if (componentId == 'fonts') widget = FontListWidget();
-    if (componentId == 'gridViews') widget = GridViewListWidget();
-    if (componentId == 'homeMenus') widget = HomeMenuListWidget();
-    if (componentId == 'members') widget = MemberListWidget();
-    if (componentId == 'memberDashboards') widget = MemberDashboardListWidget();
-    if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget();
-    if (componentId == 'menuDefs') widget = MenuDefListWidget();
-    if (componentId == 'pages') widget = PageListWidget();
-    if (componentId == 'posSizes') widget = PosSizeListWidget();
-    if (componentId == 'shadows') widget = ShadowListWidget();
+    if (componentId == 'apps') widget = AppListWidget(app: app);
+    if (componentId == 'appBars') widget = AppBarListWidget(app: app);
+    if (componentId == 'appPolicys') widget = AppPolicyListWidget(app: app);
+    if (componentId == 'backgrounds') widget = BackgroundListWidget(app: app);
+    if (componentId == 'countrys') widget = CountryListWidget(app: app);
+    if (componentId == 'dialogs') widget = DialogListWidget(app: app);
+    if (componentId == 'drawers') widget = DrawerListWidget(app: app);
+    if (componentId == 'fonts') widget = FontListWidget(app: app);
+    if (componentId == 'gridViews') widget = GridViewListWidget(app: app);
+    if (componentId == 'homeMenus') widget = HomeMenuListWidget(app: app);
+    if (componentId == 'members') widget = MemberListWidget(app: app);
+    if (componentId == 'memberDashboards') widget = MemberDashboardListWidget(app: app);
+    if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget(app: app);
+    if (componentId == 'menuDefs') widget = MenuDefListWidget(app: app);
+    if (componentId == 'pages') widget = PageListWidget(app: app);
+    if (componentId == 'posSizes') widget = PosSizeListWidget(app: app);
+    if (componentId == 'shadows') widget = ShadowListWidget(app: app);
   }
 
   Widget _appBuild(BuildContext context) {
@@ -427,7 +427,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: appId)!,
+            appBarRepository: appBarRepository(appId: app.documentID!)!,
           )..add(LoadAppBarList()),
         )
       ],
@@ -440,7 +440,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: appId)!,
+            appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
         )
       ],
@@ -453,7 +453,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: appId)!,
+            backgroundRepository: backgroundRepository(appId: app.documentID!)!,
           )..add(LoadBackgroundList()),
         )
       ],
@@ -479,7 +479,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: appId)!,
+            dialogRepository: dialogRepository(appId: app.documentID!)!,
           )..add(LoadDialogList()),
         )
       ],
@@ -492,7 +492,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: appId)!,
+            drawerRepository: drawerRepository(appId: app.documentID!)!,
           )..add(LoadDrawerList()),
         )
       ],
@@ -518,7 +518,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: appId)!,
+            gridViewRepository: gridViewRepository(appId: app.documentID!)!,
           )..add(LoadGridViewList()),
         )
       ],
@@ -531,7 +531,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: appId)!,
+            homeMenuRepository: homeMenuRepository(appId: app.documentID!)!,
           )..add(LoadHomeMenuList()),
         )
       ],
@@ -557,7 +557,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: appId)!,
+            memberDashboardRepository: memberDashboardRepository(appId: app.documentID!)!,
           )..add(LoadMemberDashboardList()),
         )
       ],
@@ -583,7 +583,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: appId)!,
+            menuDefRepository: menuDefRepository(appId: app.documentID!)!,
           )..add(LoadMenuDefList()),
         )
       ],
@@ -596,7 +596,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: appId)!,
+            pageRepository: pageRepository(appId: app.documentID!)!,
           )..add(LoadPageList()),
         )
       ],
@@ -609,7 +609,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: appId)!,
+            posSizeRepository: posSizeRepository(appId: app.documentID!)!,
           )..add(LoadPosSizeList()),
         )
       ],
@@ -622,7 +622,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: appId)!,
+            shadowRepository: shadowRepository(appId: app.documentID!)!,
           )..add(LoadShadowList()),
         )
       ],
@@ -636,13 +636,13 @@ class ListComponent extends StatelessWidget with HasFab {
 typedef Changed(String? value);
 
 class DropdownButtonComponent extends StatelessWidget {
-  final String appId;
+  final AppModel app;
   final String? componentId;
   final String? value;
   final Changed? trigger;
   final bool? optional;
 
-  DropdownButtonComponent({required this.appId, this.componentId, this.value, this.trigger, this.optional});
+  DropdownButtonComponent({required this.app, this.componentId, this.value, this.trigger, this.optional});
 
   @override
   Widget build(BuildContext context) {
@@ -677,7 +677,7 @@ class DropdownButtonComponent extends StatelessWidget {
           )..add(LoadAppList()),
         )
       ],
-      child: AppDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: AppDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -686,11 +686,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
-            appBarRepository: appBarRepository(appId: appId)!,
+            appBarRepository: appBarRepository(appId: app.documentID!)!,
           )..add(LoadAppBarList()),
         )
       ],
-      child: AppBarDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: AppBarDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -699,11 +699,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
-            appPolicyRepository: appPolicyRepository(appId: appId)!,
+            appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
         )
       ],
-      child: AppPolicyDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: AppPolicyDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -712,11 +712,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<BackgroundListBloc>(
           create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: appId)!,
+            backgroundRepository: backgroundRepository(appId: app.documentID!)!,
           )..add(LoadBackgroundList()),
         )
       ],
-      child: BackgroundDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: BackgroundDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -729,7 +729,7 @@ class DropdownButtonComponent extends StatelessWidget {
           )..add(LoadCountryList()),
         )
       ],
-      child: CountryDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: CountryDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -738,11 +738,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
-            dialogRepository: dialogRepository(appId: appId)!,
+            dialogRepository: dialogRepository(appId: app.documentID!)!,
           )..add(LoadDialogList()),
         )
       ],
-      child: DialogDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: DialogDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -751,11 +751,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
-            drawerRepository: drawerRepository(appId: appId)!,
+            drawerRepository: drawerRepository(appId: app.documentID!)!,
           )..add(LoadDrawerList()),
         )
       ],
-      child: DrawerDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: DrawerDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -768,7 +768,7 @@ class DropdownButtonComponent extends StatelessWidget {
           )..add(LoadFontList()),
         )
       ],
-      child: FontDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: FontDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -777,11 +777,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-            gridViewRepository: gridViewRepository(appId: appId)!,
+            gridViewRepository: gridViewRepository(appId: app.documentID!)!,
           )..add(LoadGridViewList()),
         )
       ],
-      child: GridViewDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: GridViewDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -790,11 +790,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
-            homeMenuRepository: homeMenuRepository(appId: appId)!,
+            homeMenuRepository: homeMenuRepository(appId: app.documentID!)!,
           )..add(LoadHomeMenuList()),
         )
       ],
-      child: HomeMenuDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: HomeMenuDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -807,7 +807,7 @@ class DropdownButtonComponent extends StatelessWidget {
           )..add(LoadMemberList()),
         )
       ],
-      child: MemberDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: MemberDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -816,11 +816,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: appId)!,
+            memberDashboardRepository: memberDashboardRepository(appId: app.documentID!)!,
           )..add(LoadMemberDashboardList()),
         )
       ],
-      child: MemberDashboardDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: MemberDashboardDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -833,7 +833,7 @@ class DropdownButtonComponent extends StatelessWidget {
           )..add(LoadMemberPublicInfoList()),
         )
       ],
-      child: MemberPublicInfoDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: MemberPublicInfoDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -842,11 +842,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
-            menuDefRepository: menuDefRepository(appId: appId)!,
+            menuDefRepository: menuDefRepository(appId: app.documentID!)!,
           )..add(LoadMenuDefList()),
         )
       ],
-      child: MenuDefDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: MenuDefDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -855,11 +855,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
-            pageRepository: pageRepository(appId: appId)!,
+            pageRepository: pageRepository(appId: app.documentID!)!,
           )..add(LoadPageList()),
         )
       ],
-      child: PageDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: PageDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -868,11 +868,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PosSizeListBloc>(
           create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: appId)!,
+            posSizeRepository: posSizeRepository(appId: app.documentID!)!,
           )..add(LoadPosSizeList()),
         )
       ],
-      child: PosSizeDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: PosSizeDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 
@@ -881,11 +881,11 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<ShadowListBloc>(
           create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: appId)!,
+            shadowRepository: shadowRepository(appId: app.documentID!)!,
           )..add(LoadShadowList()),
         )
       ],
-      child: ShadowDropdownButtonWidget(value: value, trigger: trigger, optional: optional),
+      child: ShadowDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 

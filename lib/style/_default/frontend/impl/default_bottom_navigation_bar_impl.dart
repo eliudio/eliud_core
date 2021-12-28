@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
@@ -13,23 +14,23 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
 
   DefaultBottomNavigationBarImpl(this._frontEndStyle);
 
-  Widget getIconExcl(BuildContext context, AbstractMenuItemAttributes item) {
+  Widget getIconExcl(AppModel app, BuildContext context, AbstractMenuItemAttributes item) {
     if (item.icon != null) {
       return item.isActive
           ? _frontEndStyle
               .iconStyle()
-              .h3Icon(context, icon: item.icon!)
+              .h3Icon(app, context, icon: item.icon!)
           : _frontEndStyle
               .iconStyle()
-              .h4Icon(context, icon: item.icon!);
+              .h4Icon(app, context, icon: item.icon!);
     } else {
       return Icon(Icons.circle, );
     }
   }
 
   @override
-  Widget bottomNavigationBar(
-    BuildContext context, {
+  Widget bottomNavigationBar(AppModel app,
+      BuildContext context, {
     required MemberModel? member,
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
@@ -53,7 +54,7 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
                   if (theItem is MenuItemAttributes) {
                     theItem.onTap();
                   } else if (theItem is MenuItemWithMenuItems) {
-                    _frontEndStyle.menuStyle().openMenu(context,
+                    _frontEndStyle.menuStyle().openMenu(app, context,
                         position:
                             RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                         menuItems: theItem.items,
@@ -66,7 +67,7 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
                 items: items.map((item) {
                   return BottomNavigationBarItem(
                     label: item.label,
-                    icon: getIconExcl(context, item),
+                    icon: getIconExcl(app, context, item),
                   );
                 }).toList()));
   }

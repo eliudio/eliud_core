@@ -1,11 +1,12 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasDialogField {
-  Widget dialogField(
-    BuildContext context, {
+  Widget dialogField(AppModel app,
+      BuildContext context, {
     InputDecoration? decoration,
     required ValueChanged<String> valueChanged,
     String? initialValue,
@@ -26,7 +27,7 @@ abstract class HasDialogField {
   });
 }
 
-Widget dialogField(
+Widget dialogField(AppModel app,
   BuildContext context, {
   InputDecoration? decoration,
   required ValueChanged<String> valueChanged,
@@ -47,10 +48,10 @@ Widget dialogField(
   int? maxLength,
 }) =>
     StyleRegistry.registry()
-        .styleWithContext(context)
+        .styleWithApp(app)
         .frontEndStyle()
         .dialogFieldStyle()
-        .dialogField(
+        .dialogField(app,
           context,
           decoration: decoration,
           valueChanged: valueChanged,

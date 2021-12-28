@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/app_bar_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
@@ -14,21 +15,21 @@ class AppBarHelper {
 
   AppBarHelper(this._frontEndStyle, this._hasMenu);
 
-  Widget title(BuildContext context, AppbarHeaderAttributes headerAttributes,
+  Widget title(AppModel app, BuildContext context, AppbarHeaderAttributes headerAttributes,
       String _pageName) {
     switch (headerAttributes.header) {
       case HeaderSelection.Title:
         if (headerAttributes.title != null) {
-          return constructTitle(
+          return constructTitle(app,
               context,
-              _frontEndStyle.textStyle().h1(context, headerAttributes.title!),
+              _frontEndStyle.textStyle().h1(app, context, headerAttributes.title!),
               null);
         }
         break;
       case HeaderSelection.Image:
         if ((headerAttributes.memberMediumModel != null) &&
             (headerAttributes.memberMediumModel!.url != null)) {
-          return constructTitle(
+          return constructTitle(app,
               context,
               FadeInImage.memoryNetwork(
                 placeholder: kTransparentImage,
@@ -43,29 +44,29 @@ class AppBarHelper {
           var icon =
               IconHelper.getIconFromModel(iconModel: headerAttributes.icon);
           if (icon != null) {
-            return constructTitle(context, icon, _pageName);
+            return constructTitle(app, context, icon, _pageName);
           }
         }
         break;
     }
-    return pageName(context, _pageName);
+    return pageName(app, context, _pageName);
   }
 
-  Widget pageName(BuildContext context, String pageName) {
-    return _frontEndStyle.textStyle().h1(context, pageName);
+  Widget pageName(AppModel app, BuildContext context, String pageName) {
+    return _frontEndStyle.textStyle().h1(app, context, pageName);
   }
 
-  Widget constructTitle(
+  Widget constructTitle(AppModel app,
       BuildContext context, Widget widget, String? _pageName) {
     return Row(children: [
       widget,
       Container(width: 20),
-      if (_pageName != null) pageName(context, _pageName)
+      if (_pageName != null) pageName(app, context, _pageName)
     ]);
   }
 
-  Widget button(
-    BuildContext context,
+  Widget button(AppModel app,
+      BuildContext context,
     AbstractMenuItemAttributes item,
     RgbModel? menuBackgroundColor,
     RgbModel? selectedIconColor,
@@ -89,7 +90,7 @@ class AppBarHelper {
             onPressed: item.onTap);
       } else {
         return Center(
-            child: _frontEndStyle.buttonStyle().button(
+            child: _frontEndStyle.buttonStyle().button(app,
                   context,
                   label: item.label == null ? '?' : item.label!,
                   onPressed: item.onTap,
@@ -98,14 +99,14 @@ class AppBarHelper {
     } else if (item is MenuItemWithMenuItems) {
       var icon =
           IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
-      var text = _frontEndStyle.textStyle().text(context, (item.label!));
+      var text = _frontEndStyle.textStyle().text(app, context, (item.label!));
       var popupMenu = PopupMenuButton<int>(
           icon: icon,
           child: icon == null ? text : null,
           onSelected: (int result) {
             var thisItem = item.items[result];
             if (thisItem is MenuItemWithMenuItems) {
-              _hasMenu.openMenu(context,
+              _hasMenu.openMenu(app, context,
                   position: RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
                   menuItems: thisItem.items,
                   popupMenuBackgroundColorOverride: menuBackgroundColor);
@@ -118,12 +119,12 @@ class AppBarHelper {
             var index = 0;
             item.items.forEach((thisItem) {
               var style = thisItem.isActive
-                  ? _frontEndStyle.textStyleStyle().styleH3(context)
-                  : _frontEndStyle.textStyleStyle().styleH4(context);
+                  ? _frontEndStyle.textStyleStyle().styleH3(app, context)
+                  : _frontEndStyle.textStyleStyle().styleH4(app, context);
               var label = thisItem.label!;
               var menuItem = PopupMenuItem<int>(
                 value: index,
-                child: _frontEndStyle.textStyle().text(context, label),
+                child: _frontEndStyle.textStyle().text(app, context, label),
                 textStyle: style,
               );
               entries.add(menuItem);

@@ -52,7 +52,7 @@
     }
   ],
   "listFields": {
-    "title": "value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.documentID!)) : Container()",
-    "subTitle": "value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.entryPage!.title!)) : Container()"
+    "title": "value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID!)) : Container()",
+    "subTitle": "value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.title!)) : Container()"
   }
 }

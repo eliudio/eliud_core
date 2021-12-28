@@ -44,7 +44,7 @@ class FontFirestore implements FontRepository {
     return FontCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
   }
 
-  FontModel? _populateDoc(DocumentSnapshot value) {
+  Future<FontModel?> _populateDoc(DocumentSnapshot value) async {
     return FontModel.fromEntity(value.id, FontEntity.fromMap(value.data()));
   }
 
@@ -68,16 +68,13 @@ class FontFirestore implements FontRepository {
 
   StreamSubscription<List<FontModel?>> listen(FontModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
     Stream<List<FontModel?>> stream;
-      stream = getQuery(FirebaseFirestore.instance.collection('font'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-//    The above line should eventually become the below line
-//    See https://github.com/felangel/bloc/issues/2073.
-//    stream = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((data) {
-      Iterable<FontModel?> fonts  = data.docs.map((doc) {
-        FontModel? value = _populateDoc(doc);
-        return value;
-      }).toList();
-      return fonts as List<FontModel?>;
+    stream = getQuery(FirebaseFirestore.instance.collection('font'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+//  see comment listen(...) above
+//  stream = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
     });
+
     return stream.listen((listOfFontModels) {
       trigger(listOfFontModels);
     });
@@ -111,11 +108,12 @@ class FontFirestore implements FontRepository {
 
   Stream<List<FontModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
     DocumentSnapshot? lastDoc;
-    Stream<List<FontModel?>> _values = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
+    Stream<List<FontModel?>> _values = getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().asyncMap((snapshot) {
+      return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();});
+      }).toList());
+    });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;
   }
@@ -136,10 +134,10 @@ class FontFirestore implements FontRepository {
     DocumentSnapshot? lastDoc;
     List<FontModel?> _values = await getQuery(FontCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.get().then((value) {
       var list = value.docs;
-      return list.map((doc) { 
+      return Future.wait(list.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
-      }).toList();
+      }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
     return _values;

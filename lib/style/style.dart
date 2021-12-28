@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_family.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
@@ -44,7 +45,7 @@ abstract class Style extends Equatable {
    * This will be used from for example eliud_pkg_create when Style::allowUpdates.canUpdate
    * is true
    */
-  bool update(BuildContext context) => false;
+  bool update(AppModel app, BuildContext context) => false;
 
   /*
    * Implement this methods in your style to support updates.

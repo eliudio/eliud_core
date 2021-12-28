@@ -1,3 +1,4 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -17,8 +18,8 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget messageDialog(
-    BuildContext context, {
+  Widget messageDialog(AppModel app,
+      BuildContext context, {
     required String title,
     required String message,
     String? closeLabel,
@@ -26,20 +27,20 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         includeHeading: includeHeading,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
-        contents: _frontEndStyle.textStyle().text(context, message),
-        buttons: dialogHelper.getCloseButton(context,
+        contents: _frontEndStyle.textStyle().text(app, context, message),
+        buttons: dialogHelper.getCloseButton(app, context,
             onPressed: () => Navigator.pop(context), buttonLabel: closeLabel));
   }
 
   @override
-  Widget errorDialog(
-    BuildContext context, {
+  Widget errorDialog(AppModel app,
+      BuildContext context, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -47,20 +48,20 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         includeHeading: includeHeading,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         contents:
-        _frontEndStyle.textStyle().text(context, errorMessage),
+        _frontEndStyle.textStyle().text(app, context, errorMessage),
         dialogButtonPosition: DialogButtonPosition.TopRight,
-        buttons: dialogHelper.getCloseButton(context,
+        buttons: dialogHelper.getCloseButton(app, context,
             buttonLabel: closeLabel, onPressed: () => Navigator.pop(context)));
   }
 
   @override
-  Widget ackNackDialog(BuildContext context,
+  Widget ackNackDialog(AppModel app, BuildContext context,
       {required String title,
       required String message,
       required OnSelection onSelection,
@@ -70,14 +71,14 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       Key? key,
       double? widthFraction, // percentage of screen width
       }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         includeHeading: includeHeading,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
-        contents: _frontEndStyle.textStyle().text(context, message),
-        buttons: dialogHelper.getAckNackButtons(context, ackFunction: () {
+        contents: _frontEndStyle.textStyle().text(app, context, message),
+        buttons: dialogHelper.getAckNackButtons(app, context, ackFunction: () {
           Navigator.of(context).pop();
           onSelection(0);
         }, nackFunction: () {
@@ -87,7 +88,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget entryDialog(BuildContext context,
+  Widget entryDialog(AppModel app, BuildContext context,
       {required String title,
       String? ackButtonLabel,
       String? nackButtonLabel,
@@ -114,7 +115,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
         int? maxLength,
     }) {
     String? feedback;
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         includeHeading: includeHeading,
@@ -122,7 +123,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
         title: title,
         contents: dialogHelper.getListTile(
             leading: Icon(Icons.message),
-            title: DialogField(
+            title: DialogField(app: app,
               valueChanged: (value) => feedback = value,
               initialValue: initialValue,
               decoration: InputDecoration(
@@ -146,7 +147,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
 
 
             )),
-        buttons: dialogHelper.getAckNackButtons(
+        buttons: dialogHelper.getAckNackButtons(app,
           context,
           ackFunction: () {
             Navigator.of(context).pop();
@@ -162,7 +163,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget selectionDialog(BuildContext context,
+  Widget selectionDialog(AppModel app, BuildContext context,
       {required String title,
       required List<String> options,
       required OnSelection onSelection,
@@ -171,13 +172,13 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       Key? key,
       double? widthFraction, // percentage of screen width
     }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         includeHeading: includeHeading,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
-        buttons: dialogHelper.getCloseButton(context, onPressed: () {
+        buttons: dialogHelper.getCloseButton(app, context, onPressed: () {
           Navigator.of(context).pop();
         }),
         contents: ListView.builder(
@@ -185,7 +186,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             shrinkWrap: true,
             itemCount: options.length,
             itemBuilder: (context, i) {
-              return _frontEndStyle.buttonStyle().dialogButton(
+              return _frontEndStyle.buttonStyle().dialogButton(app,
                 context,
                 label: options[i],
                 onPressed: () {
@@ -197,8 +198,8 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget complexAckNackDialog(
-    BuildContext context, {
+  Widget complexAckNackDialog(AppModel app,
+      BuildContext context, {
     required String title,
     required Widget child,
     required OnSelection onSelection,
@@ -208,14 +209,14 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         includeHeading: includeHeading,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
-        buttons: dialogHelper.getAckNackButtons(context, ackFunction: () {
+        buttons: dialogHelper.getAckNackButtons(app, context, ackFunction: () {
           Navigator.of(context).pop();
           onSelection(0);
         }, nackFunction: () {
@@ -225,7 +226,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget complexDialog(BuildContext context,
+  Widget complexDialog(AppModel app, BuildContext context,
       {required String title,
       required Widget child,
       VoidCallback? onPressed,
@@ -234,14 +235,14 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       Key? key,
       double? widthFraction, // percentage of screen width
     }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         includeHeading: includeHeading,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         contents: child,
-        buttons: dialogHelper.getCloseButton(context, onPressed: () {
+        buttons: dialogHelper.getCloseButton(app, context, onPressed: () {
           Navigator.of(context).pop();
           if (onPressed != null) {
             onPressed();
@@ -250,7 +251,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget flexibleDialog(BuildContext context,
+  Widget flexibleDialog(AppModel app, BuildContext context,
       {String? title,
       required Widget child,
       List<Widget>? buttons,
@@ -258,7 +259,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
       Key? key,
       double? widthFraction, // percentage of screen width
       }) {
-    return dialogHelper.build(context,
+    return dialogHelper.build(app, context,
         width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,

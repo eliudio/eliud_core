@@ -31,7 +31,7 @@
       "defaultValue": "RgbModel(r: 64, g: 6, b: 64, opacity: 1.00)",
       "fieldType": "Rgb",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Background Color\", state.value!.color, _onColorChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Background Color\", state.value!.color, _onColorChanged)"
     },
     {
       "fieldName": "stop",
@@ -42,6 +42,6 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.documentID!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()"
   }
 }

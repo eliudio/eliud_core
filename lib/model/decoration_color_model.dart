@@ -68,13 +68,13 @@ class DecorationColorModel {
     );
   }
 
-  static DecorationColorModel? fromEntity(String documentID, DecorationColorEntity? entity) {
+  static Future<DecorationColorModel?> fromEntity(String documentID, DecorationColorEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return DecorationColorModel(
           documentID: documentID, 
           color: 
-            RgbModel.fromEntity(entity.color), 
+            await RgbModel.fromEntity(entity.color), 
           stop: entity.stop, 
     );
   }

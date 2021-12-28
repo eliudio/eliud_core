@@ -78,9 +78,9 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   void _openPolicy(String? title, PlatformMediumModel item) {
-    openWidgetDialog(
+    openWidgetDialog(widget.app,
       context, (widget.app.documentID! + '/_policy'),
-      child: PlatformMediumDialog(
+      child: PlatformMediumDialog(app: widget.app,
         width: 100,
         title: title,
         platformMediumModel: item,
@@ -109,19 +109,19 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                     },
                   ))),
           Spacer(),
-          text(context, policy.name!),
+          text(widget.app, context, policy.name!),
           Spacer(),
-          button(context, label: 'Read', onPressed: () async {
+          button(widget.app, context, label: 'Read', onPressed: () async {
             _openPolicy(policy.name, handler.item!);
           }),
         ]));
         i++;
       });
     } else {
-      contents.add(text(context, 'No policies to approve'));
+      contents.add(text(widget.app, context, 'No policies to approve'));
     }
 
-    return actionContainer(context,
+    return actionContainer(widget.app, context,
         child: Center(
             child: Container(
           width: AcceptMembershipWidget.width(context),
@@ -145,12 +145,12 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   Widget addStuff(List<Widget> content, AppModel app) {
     var widgets = <Widget>[
       Center(
-          child: h1(context, 'Read and accept policies')),
+          child: h1(widget.app, context, 'Read and accept policies')),
       Divider(
         height: 10,
         color: Colors.red,
       ),
-      text(context,
+      text(widget.app, context,
           'Welcome! Please read the below policies. After reading, check the checkbox and finalise with the Accept button.'),
       Divider(
         height: 10,
@@ -170,15 +170,14 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
       button(
-        context,
+        widget.app, context,
         label: 'Cancel',
         onPressed: () async {
-          var appId = AccessBloc.currentApp(context).documentID!;
-          BlocProvider.of<AccessBloc>(context).add(LogoutEvent(appId: appId));
+          BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: widget.app));
         },
       ),
       Spacer(),
-      button(
+      button(widget.app,
         context,
         label: 'Accept',
         onPressed: _allEnabled(app)

@@ -1,9 +1,10 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 
 class DefaultTextImpl implements HasText {
   @override
-  Widget text(BuildContext context, String data,
+  Widget text(AppModel app, BuildContext context, String data,
       {TextAlign? textAlign, int? maxLines, bool? softWrap}) {
     return Text(
       data,
@@ -14,19 +15,19 @@ class DefaultTextImpl implements HasText {
   }
 
   @override
-  Widget smallText(BuildContext context, String data,
+  Widget smallText(AppModel app, BuildContext context, String data,
       {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
 
   @override
-  Widget inputDecorationLabel(BuildContext context, String data,
+  Widget inputDecorationLabel(AppModel app, BuildContext context, String data,
       {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
 
   @override
-  Widget highLight1(BuildContext context, String data,
+  Widget highLight1(AppModel app, BuildContext context, String data,
       {TextAlign? textAlign, int? maxLines, bool? softWrap}) {
     return Text(data,
         textAlign: textAlign,
@@ -36,33 +37,33 @@ class DefaultTextImpl implements HasText {
   }
 
   @override
-  Widget highLight2(BuildContext context, String data,
+  Widget highLight2(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override
-  Widget h1(BuildContext context, String data,
+  Widget h1(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override
-  Widget h2(BuildContext context, String data,
+  Widget h2(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override
-  Widget h3(BuildContext context, String data,
+  Widget h3(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override
-  Widget h4(BuildContext context, String data,
+  Widget h4(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
   @override
-  Widget h5(BuildContext context, String data,
+  Widget h5(AppModel app, BuildContext context, String data,
           {TextAlign? textAlign, int? maxLines, bool? softWrap}) =>
-      text(context, data,
+      text(app, context, data,
           textAlign: textAlign, maxLines: maxLines, softWrap: softWrap);
 }

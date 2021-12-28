@@ -82,7 +82,7 @@ class HomeMenuModel {
     );
   }
 
-  static HomeMenuModel? fromEntity(String documentID, HomeMenuEntity? entity) {
+  static Future<HomeMenuModel?> fromEntity(String documentID, HomeMenuEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return HomeMenuModel(
@@ -90,9 +90,9 @@ class HomeMenuModel {
           appId: entity.appId, 
           name: entity.name, 
           iconColorOverride: 
-            RgbModel.fromEntity(entity.iconColorOverride), 
+            await RgbModel.fromEntity(entity.iconColorOverride), 
           popupMenuBackgroundColorOverride: 
-            RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
+            await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
     );
   }
 

@@ -145,7 +145,7 @@ class GridViewModel {
     );
   }
 
-  static GridViewModel? fromEntity(String documentID, GridViewEntity? entity) {
+  static Future<GridViewModel?> fromEntity(String documentID, GridViewEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return GridViewModel(
@@ -163,7 +163,7 @@ class GridViewModel {
           mainAxisSpacing: entity.mainAxisSpacing, 
           crossAxisSpacing: entity.crossAxisSpacing, 
           conditions: 
-            StorageConditionsModel.fromEntity(entity.conditions), 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 

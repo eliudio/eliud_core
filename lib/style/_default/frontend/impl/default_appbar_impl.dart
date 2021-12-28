@@ -1,4 +1,5 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 
 import '../helper/appbar_helper.dart';
@@ -18,7 +19,7 @@ class DefaultAppBarImpl implements HasAppBar {
   DefaultAppBarImpl(this._frontEndStyle);
 
   @override
-  PreferredSizeWidget appBar(BuildContext context,
+  PreferredSizeWidget appBar(AppModel app, BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,
       required String pageName,
       required MemberModel? member,
@@ -34,7 +35,7 @@ class DefaultAppBarImpl implements HasAppBar {
     var menuBackgroundColor = menuBackgroundColorOverride ?? EliudColors.white;
 
     var appBarHelper = AppBarHelper(_frontEndStyle, DefaultMenuImpl(_frontEndStyle));
-    var _title = appBarHelper.title(context, headerAttributes, pageName);
+    var _title = appBarHelper.title(app, context, headerAttributes, pageName);
 
     var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: iconColor));
 
@@ -42,7 +43,7 @@ class DefaultAppBarImpl implements HasAppBar {
     List<Widget>? buttons;
     if (items != null) {
       buttons = items
-          .map((item) => appBarHelper.button(
+          .map((item) => appBarHelper.button(app,
               context, item, menuBackgroundColor, selectedIconColor, iconColor))
           .toList();
     } else {
@@ -53,7 +54,7 @@ class DefaultAppBarImpl implements HasAppBar {
     if (member != null) {
       buttons.add(_frontEndStyle
           .profilePhotoStyle()
-          .getProfilePhotoButtonFromMember(context,
+          .getProfilePhotoButtonFromMember(app, context,
               member: member,
               radius: 20,
               iconColor: EliudColors.white,

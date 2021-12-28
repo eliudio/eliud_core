@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
@@ -16,9 +17,9 @@ typedef SetActionValue = Function(ActionModel value);
 class ActionField extends StatefulWidget {
   final ActionModel? action;
   final SetActionValue setActionValue;
-  final String? appID;
+  final AppModel app;
 
-  ActionField(this.appID, this.action, this.setActionValue);
+  ActionField(this.app, this.action, this.setActionValue);
 
   @override
   State<StatefulWidget> createState() {
@@ -68,7 +69,7 @@ class ActionFieldState extends State<ActionField> {
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
       if (state is AccessDetermined) {
-        var appId = state.currentApp.documentID!;
+        var appId = widget.app.documentID!;
         var widgets = <Widget>[
           RadioListTile(
             value: 0,
@@ -109,7 +110,7 @@ class ActionFieldState extends State<ActionField> {
         if (_actionSelection == 0) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
-                  appId: appId,
+                  app: widget.app,
                   id: 'pages',
                   value: _pageID,
                   trigger: _onDocumentSelected,
@@ -117,7 +118,7 @@ class ActionFieldState extends State<ActionField> {
         } else if (_actionSelection == 2) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
-                  appId: appId,
+                  app: widget.app,
                   id: 'menuDefs',
                   value: _menuDefID,
                   trigger: _onPopupmenuSelected,
@@ -125,7 +126,7 @@ class ActionFieldState extends State<ActionField> {
         } else if (_actionSelection == 3) {
           widgets.add(Center(
               child: DropdownButtonComponentFactory().createNew(
-                  appId: appId,
+                  app: widget.app,
                   id: 'menuDefs',
                   value: _dialogID,
                   trigger: _onDialogSelected,
@@ -151,7 +152,7 @@ class ActionFieldState extends State<ActionField> {
                 padding: const EdgeInsets.all(8),
                 children: widgets));
       } else {
-        return progressIndicator(context);
+        return progressIndicator(widget.app, context);
       }});
   }
 
@@ -160,10 +161,10 @@ class ActionFieldState extends State<ActionField> {
       _actionSelection = val;
     });
     if (_actionSelection == 0)
-      widget.setActionValue(GotoPage(widget.appID!, pageID: ''));
+      widget.setActionValue(GotoPage(widget.app, pageID: ''));
     if (_actionSelection == 1)
-      widget.setActionValue(InternalAction(widget.appID!));
-    if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.appID!));
+      widget.setActionValue(InternalAction(widget.app));
+    if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.app));
   }
 
   void _onDocumentSelected(value) {
@@ -171,7 +172,7 @@ class ActionFieldState extends State<ActionField> {
       _pageID = value;
     });
     if (_actionSelection == 0) {
-      widget.setActionValue(GotoPage(widget.appID!, pageID: value));
+      widget.setActionValue(GotoPage(widget.app, pageID: value));
     }
   }
 
@@ -181,8 +182,8 @@ class ActionFieldState extends State<ActionField> {
     });
     if (_actionSelection == 2) {
       MenuDefModel? menuDef =
-          await menuDefRepository(appId: widget.appID)!.get(value);
-      widget.setActionValue(new PopupMenu(widget.appID!, menuDef: menuDef));
+          await menuDefRepository(appId: widget.app.documentID)!.get(value);
+      widget.setActionValue(new PopupMenu(widget.app, menuDef: menuDef));
     }
   }
 
@@ -191,7 +192,7 @@ class ActionFieldState extends State<ActionField> {
       _dialogID = value;
     });
     if (_actionSelection == 3) {
-      widget.setActionValue(OpenDialog(widget.appID!, dialogID: value));
+      widget.setActionValue(OpenDialog(widget.app, dialogID: value));
     }
   }
 
@@ -209,7 +210,7 @@ class ActionFieldState extends State<ActionField> {
     }
     if (_actionSelection == 1) {
       widget.setActionValue(
-          InternalAction(widget.appID!, internalActionEnum: actionEnum));
+          InternalAction(widget.app, internalActionEnum: actionEnum));
     }
   }
 }

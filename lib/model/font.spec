@@ -71,7 +71,7 @@
       "fieldType": "Rgb",
       "group": "fontColor",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Font Color\", state.value!.color, _onColorChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Font Color\", state.value!.color, _onColorChanged)"
     }
   ],
   "groups": [
@@ -97,6 +97,6 @@
     }
   ],
   "listFields": {
-    "title": "value.fontName != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.fontName!)) : Container()"
+    "title": "value.fontName != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.fontName!)) : Container()"
   }
 }

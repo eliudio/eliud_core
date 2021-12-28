@@ -58,7 +58,7 @@
       "fieldType": "Rgb",
       "group": "colors",
       "iconName": "color_lens",
-      "bespokeFormField": "RgbField(\"Icon Color Override\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Icon Color Override\", state.value!.iconColorOverride, _onIconColorOverrideChanged)"
     },
     {
       "fieldName": "backgroundOverride",
@@ -76,7 +76,7 @@
       "group": "popupMenuBackgroundColor",
       "iconName": "color_lens",
       "defaultValue": "RgbModel(r: 255, g: 255, b: 255, opacity: 1.00)",
-      "bespokeFormField": "RgbField(\"Popup Menu Background Color Override\", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)"
+      "bespokeFormField": "RgbField(widget.app, \"Popup Menu Background Color Override\", state.value!.popupMenuBackgroundColorOverride, _onPopupMenuBackgroundColorOverrideChanged)"
     }
   ],
   "groups": [
@@ -102,6 +102,6 @@
     }
   ],
   "listFields": {
-    "title": "value.name != null ? Center(child: StyleRegistry.registry().styleWithContext(context).frontEndStyle().textStyle().text(context, value.name!)) : Container()"
+    "title": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   }
 }

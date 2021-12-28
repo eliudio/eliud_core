@@ -1,76 +1,77 @@
+import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
 abstract class HasStyle {
-  TextStyle? styleInputDecorationLabel(BuildContext context);
-  TextStyle? styleText(BuildContext context);
-  TextStyle? styleSmallText(BuildContext context);
-  TextStyle? styleHighLight1(BuildContext context);
-  TextStyle? styleHighLight2(BuildContext context);
-  TextStyle? styleH1(BuildContext context);
-  TextStyle? styleH2(BuildContext context);
-  TextStyle? styleH3(BuildContext context);
-  TextStyle? styleH4(BuildContext context);
-  TextStyle? styleH5(BuildContext context);
+  TextStyle? styleInputDecorationLabel(AppModel app, BuildContext context);
+  TextStyle? styleText(AppModel app, BuildContext context);
+  TextStyle? styleSmallText(AppModel app, BuildContext context);
+  TextStyle? styleHighLight1(AppModel app, BuildContext context);
+  TextStyle? styleHighLight2(AppModel app, BuildContext context);
+  TextStyle? styleH1(AppModel app, BuildContext context);
+  TextStyle? styleH2(AppModel app, BuildContext context);
+  TextStyle? styleH3(AppModel app, BuildContext context);
+  TextStyle? styleH4(AppModel app, BuildContext context);
+  TextStyle? styleH5(AppModel app, BuildContext context);
 }
 
-TextStyle? styleInputDecorationLabel(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleInputDecorationLabel(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleInputDecorationLabel(context);
+    .styleInputDecorationLabel(app, context);
 
-TextStyle? styleText(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleText(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleText(context);
+    .styleText(app, context);
 
-TextStyle? styleSmallText(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleSmallText(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleSmallText(context);
+    .styleSmallText(app, context);
 
-TextStyle? styleHighLight1(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleHighLight1(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleHighLight1(context);
+    .styleHighLight1(app, context);
 
-TextStyle? styleHighLight2(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleHighLight2(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleHighLight2(context);
+    .styleHighLight2(app, context);
 
-TextStyle? styleH1(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleH1(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleH1(context);
+    .styleH1(app, context);
 
-TextStyle? styleH2(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleH2(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleH2(context);
+    .styleH2(app, context);
 
-TextStyle? styleH3(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleH3(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleH3(context);
+    .styleH3(app, context);
 
-TextStyle? styleH4(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleH4(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleH4(context);
+    .styleH4(app, context);
 
-TextStyle? styleH5(BuildContext context) => StyleRegistry.registry()
-    .styleWithContext(context)
+TextStyle? styleH5(AppModel app, BuildContext context) => StyleRegistry.registry()
+    .styleWithApp(app)
     .frontEndStyle()
     .textStyleStyle()
-    .styleH5(context);
+    .styleH5(app, context);

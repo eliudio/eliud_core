@@ -19,11 +19,11 @@ enum DecorationDrawerType {
 }
 
 abstract class Decoration {
-  CreateWidget createDecoratedAppBar(BuildContext context, Key? originalAppBarKey, CreateWidget createOriginalAppBar, AppBarModel model);
-  CreateWidget createDecoratedDrawer(BuildContext context, DecorationDrawerType decorationDrawerType, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model);
-  CreateWidget createDecoratedBottomNavigationBar(BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model);
-  CreateWidget createDecoratedApp(BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model);
-  CreateWidget createDecoratedPage(BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model);
-  CreateWidget createDecoratedDialog(BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model);
-  CreateWidget createDecoratedBodyComponent(BuildContext context, Key? originalBodyComponentKey, CreateWidget bodyComponent, BodyComponentModel model);
+  CreateWidget createDecoratedAppBar(AppModel app, BuildContext context, Key? originalAppBarKey, CreateWidget createOriginalAppBar, AppBarModel model);
+  CreateWidget createDecoratedDrawer(AppModel app, BuildContext context, DecorationDrawerType decorationDrawerType, Key? originalDrawerKey, CreateWidget createOriginalDrawer, DrawerModel model);
+  CreateWidget createDecoratedBottomNavigationBar(AppModel app, BuildContext context, Key? originalBottomNavigationBarKey, CreateWidget createBottomNavigationBar, HomeMenuModel model);
+  CreateWidget createDecoratedApp(AppModel app, BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model);
+  CreateWidget createDecoratedPage(AppModel app, BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage, PageModel model);
+  CreateWidget createDecoratedDialog(AppModel app, BuildContext context, Key? originalDialogKey, CreateWidget createOriginalDialog, DialogModel model);
+  CreateWidget createDecoratedBodyComponent(AppModel app, BuildContext context, Key? originalBodyComponentKey, CreateWidget bodyComponent, BodyComponentModel model);
 }

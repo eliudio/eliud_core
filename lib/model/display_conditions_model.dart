@@ -101,7 +101,7 @@ class DisplayConditionsModel {
     );
   }
 
-  static DisplayConditionsModel? fromEntity(DisplayConditionsEntity? entity) {
+  static Future<DisplayConditionsModel?> fromEntity(DisplayConditionsEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return DisplayConditionsModel(

@@ -2,6 +2,7 @@
  Bespoke code Icon
 */
 
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_registry.dart';
@@ -15,10 +16,11 @@ import '../model/icon_model.dart';
 typedef ChangeIconField = Function(IconModel value);
 
 class IconField extends StatefulWidget {
+  final AppModel app;
   final IconModel? iconModel;
   final ChangeIconField trigger;
 
-  IconField(this.iconModel, this.trigger);
+  IconField(this.app, this.iconModel, this.trigger);
 
   @override
   State<IconField> createState() {
@@ -40,7 +42,7 @@ class IconFieldState extends State<IconField> {
 
   @override
   Widget build(BuildContext context) {
-    return button(context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
+    return button(widget.app, context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
   }
 
   void _pickIcon() async {
