@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/page/current_page_bloc.dart';
-import 'package:eliud_core/core/blocs/access/page/current_page_event.dart';
-import 'package:eliud_core/core/blocs/access/page/current_page_state.dart';
+import 'package:eliud_core/core/blocs/page/current_page_bloc.dart';
+import 'package:eliud_core/core/blocs/page/current_page_event.dart';
+import 'package:eliud_core/core/blocs/page/current_page_state.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/components/page_constructors/eliud_appbar.dart';
@@ -80,13 +80,12 @@ class _PageComponentState extends State<PageComponent> {
 
   Widget createPage(BuildContext context) {
     return BlocProvider<CurrentPageBloc>(
-        create: (context) => CurrentPageBloc(
-            pageRepository: pageRepository(appId: widget.appId))
-          ..add(FetchCurrentPage(id: widget.pageId)),
+        create: (context) => CurrentPageBloc()
+          ..add(FetchCurrentPage(appId: widget.appId, pageId: widget.pageId)),
         child: BlocBuilder<CurrentPageBloc, CurrentPageState>(
             builder: (context, state) {
           if (state is CurrentPageLoaded) {
-            var page = state.value;
+            var page = state.page;
             var parameters = widget.parameters;
             var componentInfo = ComponentInfo.getComponentInfo(
                 context,

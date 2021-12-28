@@ -21,19 +21,19 @@ class CurrentPagePermissionDenied extends CurrentPageState {
 }
 
 class CurrentPageLoaded extends CurrentPageState {
-  final PageModel value;
+  final PageModel page;
   final AppModel app;
 
-  const CurrentPageLoaded({ required this.value, required this.app, });
+  const CurrentPageLoaded({ required this.page, required this.app, });
 
   CurrentPageLoaded copyWith({ PageModel? copyThis }) {
-    return CurrentPageLoaded(value: copyThis ?? this.value, app: this.app);
+    return CurrentPageLoaded(page: copyThis ?? this.page, app: this.app);
   }
 
   @override
-  List<Object?> get props => [value, app];
+  List<Object?> get props => [page, app];
 
   @override
-  String toString() => 'CurrentPageLoaded { value: $value }';
+  String toString() => 'CurrentPageLoaded { value: $page }';
 }
 
