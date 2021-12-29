@@ -85,7 +85,7 @@ menuItemsList(app, context, value, trigger) => EmbeddedComponentFactory.menuItem
 
 class EmbeddedComponentFactory {
 
-static Widget appEntryPagessList(BuildContext context, AppModel app, List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
+static Widget appEntryPagessList(AppModel app, BuildContext context, List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
   AppEntryPagesInMemoryRepository inMemoryRepository = AppEntryPagesInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -99,7 +99,7 @@ static Widget appEntryPagessList(BuildContext context, AppModel app, List<AppEnt
   );
 }
 
-static Widget appPolicyItemsList(BuildContext context, AppModel app, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
+static Widget appPolicyItemsList(AppModel app, BuildContext context, List<AppPolicyItemModel> values, AppPolicyItemListChanged trigger) {
   AppPolicyItemInMemoryRepository inMemoryRepository = AppPolicyItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -113,7 +113,7 @@ static Widget appPolicyItemsList(BuildContext context, AppModel app, List<AppPol
   );
 }
 
-static Widget bodyComponentsList(BuildContext context, AppModel app, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
+static Widget bodyComponentsList(AppModel app, BuildContext context, List<BodyComponentModel> values, BodyComponentListChanged trigger) {
   BodyComponentInMemoryRepository inMemoryRepository = BodyComponentInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -127,7 +127,7 @@ static Widget bodyComponentsList(BuildContext context, AppModel app, List<BodyCo
   );
 }
 
-static Widget decorationColorsList(BuildContext context, AppModel app, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
+static Widget decorationColorsList(AppModel app, BuildContext context, List<DecorationColorModel> values, DecorationColorListChanged trigger) {
   DecorationColorInMemoryRepository inMemoryRepository = DecorationColorInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -141,7 +141,7 @@ static Widget decorationColorsList(BuildContext context, AppModel app, List<Deco
   );
 }
 
-static Widget memberMediumsList(BuildContext context, AppModel app, List<MemberMediumModel> values, MemberMediumListChanged trigger) {
+static Widget memberMediumsList(AppModel app, BuildContext context, List<MemberMediumModel> values, MemberMediumListChanged trigger) {
   MemberMediumInMemoryRepository inMemoryRepository = MemberMediumInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -155,7 +155,7 @@ static Widget memberMediumsList(BuildContext context, AppModel app, List<MemberM
   );
 }
 
-static Widget memberSubscriptionsList(BuildContext context, AppModel app, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
+static Widget memberSubscriptionsList(AppModel app, BuildContext context, List<MemberSubscriptionModel> values, MemberSubscriptionListChanged trigger) {
   MemberSubscriptionInMemoryRepository inMemoryRepository = MemberSubscriptionInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [
@@ -169,7 +169,7 @@ static Widget memberSubscriptionsList(BuildContext context, AppModel app, List<M
   );
 }
 
-static Widget menuItemsList(BuildContext context, AppModel app, List<MenuItemModel> values, MenuItemListChanged trigger) {
+static Widget menuItemsList(AppModel app, BuildContext context, List<MenuItemModel> values, MenuItemListChanged trigger) {
   MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(trigger, values,);
   return MultiBlocProvider(
     providers: [

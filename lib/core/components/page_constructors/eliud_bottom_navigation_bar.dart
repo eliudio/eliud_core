@@ -21,9 +21,10 @@ class EliudBottomNavigationBar extends StatefulWidget {
   final AppModel app;
   final String currentPage;
   final HomeMenuModel homeMenu;
+  final AccessState accessState;
 
   EliudBottomNavigationBar(
-      {Key? key, required this.app, required this.homeMenu, required this.currentPage})
+      {Key? key, required this.app, required this.accessState, required this.homeMenu, required this.currentPage})
       : super(key: key);
 
   @override
@@ -46,19 +47,16 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
             ExtendedHomeMenuComponentState>(builder: (context, state) {
           if ((state is ExtendedHomeMenuComponentLoaded) &&
               (state.value != null)) {
-            return BlocBuilder<AccessBloc, AccessState>(
-                builder: (context, accessState) {
-              if (accessState is AccessDetermined) {
                 return Decorations.instance()
                     .createDecoratedBottomNavigationBar(app,
                     context, _bottomNavigationBarKey, () {
                   var homeMenu = state.value!;
                   var itemList = MenuItemMapper.mapMenu(context, homeMenu.menu!,
-                      accessState.getMember(), currentPage);
+                      widget.accessState.getMember(), currentPage);
                   if ((itemList != null) && (itemList.length > 2)) {
                     return bottomNavigationBar(app, context,
                         key: _bottomNavigationBarKey,
-                        member: accessState.getMember(),
+                        member: widget.accessState.getMember(),
                         items: itemList,
                         backgroundOverride: widget.homeMenu.backgroundOverride,
                         popupMenuBackgroundColorOverride:
@@ -67,10 +65,6 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
                     return Container(height: 0);
                   }
                 }, widget.homeMenu)();
-              } else {
-                return progressIndicator(app, context);
-              }
-            });
           } else {
             return progressIndicator(app, context);
           }

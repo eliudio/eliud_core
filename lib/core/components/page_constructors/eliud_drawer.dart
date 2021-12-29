@@ -25,10 +25,12 @@ class EliudDrawer extends StatefulWidget {
   final AppModel app;
   final DrawerModel drawer;
   final DrawerType drawerType;
+  final AccessState accessState;
 
   EliudDrawer(
       {Key? key,
         required this.app,
+        required this.accessState,
       required this.drawerType,
       required this.drawer,
       required this.currentPage})
@@ -55,9 +57,6 @@ class _EliudDrawerState extends State<EliudDrawer> {
           if ((state is ExtendedDrawerComponentLoaded) &&
               (state.value != null)) {
             var drawer = state.value!;
-            return BlocBuilder<AccessBloc, AccessState>(
-                builder: (context, accessState) {
-              if (accessState is AccessDetermined) {
                 return Decorations.instance().createDecoratedDrawer(app,
                     context,
                     widget.drawerType == DrawerType.Left
@@ -83,11 +82,11 @@ class _EliudDrawerState extends State<EliudDrawer> {
                     }
 
                     var itemList = MenuItemMapper.mapMenu(context, drawer.menu!,
-                        accessState.getMember(), currentPage);
+                        widget.accessState.getMember(), currentPage);
                     if (itemList != null) {
                       return dr.drawer(app, context,
                           key: _drawerKey,
-                          member: accessState.getMember(),
+                          member: widget.accessState.getMember(),
                           drawerType: widget.drawerType,
                           header1: drawerHeader1Attributes,
                           header2: drawerHeader2Attributes,
@@ -103,10 +102,6 @@ class _EliudDrawerState extends State<EliudDrawer> {
                         'Drawer ${drawer.documentID} has no menu defined');
                   }
                 }, drawer)();
-              } else {
-                return progressIndicator(app, context);
-              }
-            });
           } else {
             return progressIndicator(app, context);
           }

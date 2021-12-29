@@ -11,6 +11,7 @@ import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/types.dart';
@@ -26,16 +27,20 @@ class EliudAppBar extends StatefulWidget {
   static String PAGE_TITLE_KEYWORD = "\${PAGE_TITLE}";
 
   final AppModel app;
+  final MemberModel? member;
   final String? pageTitle;
   final String currentPage;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String theTitle;
   final AppBarModel value;
+  final AppModel? playstoreApp;
 
   EliudAppBar(
       {Key? key,
       this.pageTitle,
-        required this.app,
+      required this.app,
+      required this.playstoreApp,
+      required this.member,
       required this.currentPage,
       required this.scaffoldKey,
       required this.theTitle,
@@ -59,9 +64,6 @@ class _EliudAppBarState extends State<EliudAppBar> {
         child: BlocBuilder<ExtendedAppBarComponentBloc,
             ExtendedAppBarComponentState>(builder: (context, state) {
           if ((state is ExtendedAppBarComponentLoaded) && (state.value != null)) {
-            return BlocBuilder<AccessBloc, AccessState>(
-            builder: (context, accessState) {
-            if (accessState is AccessDetermined) {
                 var value = state.value!;
                 return Decorations.instance()
                     .createDecoratedAppBar(app, context, _appBarKey, () {
@@ -102,10 +104,10 @@ class _EliudAppBarState extends State<EliudAppBar> {
                       memberMediumModel: value.image,
                       header: header);
                   var items = MenuItemMapper.mapMenu(context, value.iconMenu!,
-                          accessState.getMember(), currentPage) ??
+                          widget.member, currentPage) ??
                       [];
 
-                  var playStoreApp = accessState.playstoreApp;
+                  var playStoreApp = widget.playstoreApp;
                   if ((playStoreApp != null) &&
                       (playStoreApp.logo != null) &&
                       (playStoreApp.logo!.url != null) &&
@@ -121,7 +123,7 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
                   return appBar(app, context,
                       headerAttributes: headerAttributes,
-                      member: accessState.getMember(),
+                      member: widget.member,
                       key: _appBarKey,
                       backgroundOverride: value.backgroundOverride,
                       menuBackgroundColorOverride:
@@ -134,10 +136,6 @@ class _EliudAppBarState extends State<EliudAppBar> {
                       openDrawer: () =>
                           widget.scaffoldKey.currentState!.openEndDrawer());
                 }, value)();
-            } else {
-              return progressIndicator(app, context);
-            }
-            });
           } else {
             return progressIndicator(app, context);
           }
