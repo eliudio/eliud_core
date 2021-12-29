@@ -126,7 +126,6 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _descriptionController = TextEditingController();
   int? _appStatusSelectedRadioTile;
   String? _logo;
-  int? _routeBuilderSelectedRadioTile;
   final TextEditingController _routeAnimationDurationController = TextEditingController();
   String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
@@ -145,7 +144,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _emailController.addListener(_onEmailChanged);
     _descriptionController.addListener(_onDescriptionChanged);
     _appStatusSelectedRadioTile = 0;
-    _routeBuilderSelectedRadioTile = 0;
     _routeAnimationDurationController.addListener(_onRouteAnimationDurationChanged);
     _styleFamilyController.addListener(_onStyleFamilyChanged);
     _styleNameController.addListener(_onStyleNameChanged);
@@ -188,10 +186,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _logo= state.value!.logo!.documentID;
         else
           _logo= "";
-        if (state.value!.routeBuilder != null)
-          _routeBuilderSelectedRadioTile = state.value!.routeBuilder!.index;
-        else
-          _routeBuilderSelectedRadioTile = 0;
         if (state.value!.routeAnimationDuration != null)
           _routeAnimationDurationController.text = state.value!.routeAnimationDuration.toString();
         else
@@ -337,27 +331,6 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _routeBuilderSelectedRadioTile, 'SlideRightToLeft', 'SlideRightToLeft', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionRouteBuilder(val))
-          );
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _routeBuilderSelectedRadioTile, 'SlideBottomToTop', 'SlideBottomToTop', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionRouteBuilder(val))
-          );
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _routeBuilderSelectedRadioTile, 'ScaleRoute', 'ScaleRoute', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionRouteBuilder(val))
-          );
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _routeBuilderSelectedRadioTile, 'RotationRoute', 'RotationRoute', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionRouteBuilder(val))
-          );
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _routeBuilderSelectedRadioTile, 'FadeRoute', 'FadeRoute', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionRouteBuilder(val))
-          );
-
-        children.add(
-
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Page Animation (millisec)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _routeAnimationDurationController, keyboardType: TextInputType.number, validator: (_) => state is RouteAnimationDurationAppFormError ? state.message : null, hintText: null)
           );
 
@@ -418,7 +391,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value!.appStatus, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              routeBuilder: state.value!.routeBuilder, 
                               routeAnimationDuration: state.value!.routeAnimationDuration, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
@@ -435,7 +407,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value!.appStatus, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              routeBuilder: state.value!.routeBuilder, 
                               routeAnimationDuration: state.value!.routeAnimationDuration, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
@@ -504,14 +475,6 @@ class _MyAppFormState extends State<MyAppForm> {
       _logo = val;
     });
     _myFormBloc.add(ChangedAppLogo(value: val));
-  }
-
-
-  void setSelectionRouteBuilder(int? val) {
-    setState(() {
-      _routeBuilderSelectedRadioTile = val;
-    });
-    _myFormBloc.add(ChangedAppRouteBuilder(value: toPageTransitionAnimation(val)));
   }
 
 

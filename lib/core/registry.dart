@@ -82,10 +82,11 @@ class Registry {
       PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,
-      {required AppModel app, required String id, Map<String, dynamic>? parameters}) async {
+      {required AppModel app,
+      required String id,
+      Map<String, dynamic>? parameters}) async {
     openWidgetDialog(app, context, app.documentID! + '/' + id,
-        child: DialogComponent(
-            app: app, dialogId: id, parameters: parameters));
+        child: DialogComponent(app: app, dialogId: id, parameters: parameters));
   }
 
   void snackbar(
@@ -132,43 +133,24 @@ class Registry {
     var accessBloc = AccessBloc(navigatorKey)
       ..add(AccessInitEvent(app, asPlaystore ? app : null));
 
+    var myRouter = eliudrouter.Router(accessBloc);
+
     return BlocProvider<AccessBloc>(
         create: (context) => accessBloc,
-        child: BlocBuilder<AccessBloc, AccessState>(
-            builder: (context, accessState) {
-          if (accessState is AccessDetermined) {
-            return _createApp(context, accessState, app, initialRoute);
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        }));
+        child: MaterialApp(
+            key: _appKey,
+            debugShowCheckedModeBanner: false,
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: rootScaffoldMessengerKey,
+            initialRoute: initialRoute,
+            onGenerateRoute: myRouter.generateRoute,
+            onUnknownRoute: (RouteSettings setting) {
+              return pageRouteBuilder(app,
+                  page: AlertWidget(
+                      app: app, title: 'Error', content: 'Page not found'));
+            },
+            title: app.title ?? 'No name'));
   }
-
-  Widget _createApp(
-    BuildContext context,
-    AccessDetermined accessState,
-    AppModel app,
-    String initialRoute,
-  ) =>
-      Decorations.instance().createDecoratedApp(app, context, _appKey, () {
-        return StyleRegistry.registry()
-            .styleWithApp(app)
-            .frontEndStyle()
-            .appStyle()
-            .app(
-              key: _appKey,
-              navigatorKey: navigatorKey,
-              scaffoldMessengerKey: rootScaffoldMessengerKey,
-              initialRoute: initialRoute,
-              onGenerateRoute: eliudrouter.Router.generateRoute,
-              onUnknownRoute: (RouteSettings setting) {
-                return pageRouteBuilder(app,
-                    page:
-                        AlertWidget(app: app, title: 'Error', content: 'Page not found'));
-              },
-              title: app.title ?? 'No title',
-            );
-      }, app)();
 
   Widget component(
       BuildContext context, AppModel app, String componentName, String id,
@@ -185,8 +167,8 @@ class Registry {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var model = snapshot.data;
-                        var hasAccess = componentAccessValidation(
-                            context, accessState, app, componentName, id, model);
+                        var hasAccess = componentAccessValidation(context,
+                            accessState, app, componentName, id, model);
                         if (hasAccess) {
                           return componentConstructor.createNew(
                                   key: key,
@@ -241,7 +223,8 @@ class Registry {
 
       // if access is not set and blocked member then no access for this member
       if ((accessDetermined is LoggedIn) &&
-          (accessDetermined.isCurrentAppBlocked(currentApp.documentID!))) return false;
+          (accessDetermined.isCurrentAppBlocked(currentApp.documentID!)))
+        return false;
 
       // Given some privilege is required and access is not set then no access for this member
       if (!(accessDetermined is LoggedIn)) return false;
@@ -250,8 +233,9 @@ class Registry {
 
       // If sufficient privilege set then access for this member
       if (model.conditions!.privilegeLevelRequired!.index <=
-          accessDetermined.getPrivilegeLevelCurrentApp(currentApp.documentID!).index)
-        return true;
+          accessDetermined
+              .getPrivilegeLevelCurrentApp(currentApp.documentID!)
+              .index) return true;
 
       // If no sufficient privileges then no access for this member
       return false;

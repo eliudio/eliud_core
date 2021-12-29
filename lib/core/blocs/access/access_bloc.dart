@@ -181,15 +181,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  void error(bool clearHistory, String appId, String error) {
-    if (clearHistory) {
-      navigatorKey.currentState!.pushAndRemoveUntil(pageRouteBuilderWithAppId(appId, page: Text(error)), (_) => false, );
-    } else {
-      navigatorKey.currentState!.push(pageRouteBuilderWithAppId(appId, page: Text(error)));
-    }
-  }
-
-
   void _listenToApp(String appId, MemberModel? member) async {
     await _appSubscription[appId]?.cancel();
     _appSubscription[appId] = appRepository(appId: appId)!.listenTo(appId, (value) {

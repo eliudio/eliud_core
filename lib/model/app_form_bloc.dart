@@ -130,18 +130,11 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value!.appStatus,
                                  homePages: currentState.value!.homePages,
                                  logo: null,
-                                 routeBuilder: currentState.value!.routeBuilder,
                                  routeAnimationDuration: currentState.value!.routeAnimationDuration,
                                  policies: currentState.value!.policies,
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
           );
-        yield SubmittableAppForm(value: newValue);
-
-        return;
-      }
-      if (event is ChangedAppRouteBuilder) {
-        newValue = currentState.value!.copyWith(routeBuilder: event.value);
         yield SubmittableAppForm(value: newValue);
 
         return;
@@ -170,7 +163,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value!.appStatus,
                                  homePages: currentState.value!.homePages,
                                  logo: currentState.value!.logo,
-                                 routeBuilder: currentState.value!.routeBuilder,
                                  routeAnimationDuration: currentState.value!.routeAnimationDuration,
                                  policies: null,
                                  styleFamily: currentState.value!.styleFamily,

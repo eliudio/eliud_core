@@ -1,7 +1,8 @@
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/app_model.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:eliud_core/style/frontend/has_page_route_builder.dart' as pr;
 
 // fadeTransition
 abstract class SlideRoute extends PageRouteBuilder {
@@ -152,32 +153,18 @@ class FadeRoute extends PageRouteBuilder {
         );
 }
 
+String getName(String appId, String? pageId) => appId + ((pageId == null) ? '/?' : '/' + pageId);
 
-PageRouteBuilder pageRouteBuilderWithAppId(String appId, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
-  return FadeRoute(name: appId + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+PageRouteBuilder pageRouteBuilderWithAppId(AccessState state, String appId, {String? pageId, Map<String, dynamic>? parameters, required Widget page}) {
+  var name = getName(appId, pageId);
+  if (state is AccessDetermined) {
+    var app = state.getApp(appId);
+    return pr.pageRoute(app, name, parameters, page);
+  } else {
+    return FadeRoute(name: name, parameters: parameters, page: page, milliseconds: 1000);
+  }
 }
 
-PageRouteBuilder pageRouteBuilder(AppModel app, {String? pageId, Map<String, dynamic>? parameters, Widget? page}) {
-/*
-  var milliseconds = app != null ? app.routeAnimationDuration : 1000;
-  if (app != null) {
-    switch (app.routeBuilder) {
-      case PageTransitionAnimation.SlideRightToLeft:
-        return RightToLeftRoute(name: app.documentID! + ((pageId == null) ? '' : ((pageId == null) ? '' : '/' + pageId)), parameters: parameters, page: page, milliseconds: milliseconds!);
-      case PageTransitionAnimation.SlideBottomToTop:
-        return BottomToTopRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: milliseconds!);
-      case PageTransitionAnimation.ScaleRoute:
-        return ScaleRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-      case PageTransitionAnimation.RotationRoute:
-        return RotationRoute(name: appId + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-      case PageTransitionAnimation.FadeRoute:
-      */
-        return FadeRoute(name: app.documentID! + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-        /*
-      default:
-        return FadeRoute(name: app.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-    }
-  }
-  return FadeRoute(name: app!.documentID! + ((pageId == null) ? '' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
-*/
+PageRouteBuilder pageRouteBuilder(AppModel app, {String? pageId, Map<String, dynamic>? parameters, required Widget page}) {
+  return FadeRoute(name: app.documentID! + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
 }

@@ -191,22 +191,6 @@ class LogoAppFormError extends AppFormError {
 }
 
 
-class RouteBuilderAppFormError extends AppFormError { 
-  const RouteBuilderAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''RouteBuilderAppFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class RouteAnimationDurationAppFormError extends AppFormError { 
   const RouteAnimationDurationAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 

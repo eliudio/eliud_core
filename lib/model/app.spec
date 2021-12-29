@@ -76,21 +76,6 @@
       "group": "logo"
     },
     {
-      "fieldName": "routeBuilder",
-      "displayName": "Page Route Builder",
-      "fieldType": "enum",
-      "enumName": "PageTransitionAnimation",
-      "enumValues" : [ "SlideRightToLeft", "SlideBottomToTop", "ScaleRoute", "RotationRoute", "FadeRoute" ],
-      "group": "route"
-    },
-    {
-      "fieldName": "routeAnimationDuration",
-      "displayName": "Page Animation (millisec)",
-      "fieldType": "int",
-      "defaultValue": "1000",
-      "group": "route"
-    },
-    {
       "fieldName": "policies",
       "displayName": "Policy",
       "fieldType": "AppPolicy",

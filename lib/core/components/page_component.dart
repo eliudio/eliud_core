@@ -16,10 +16,6 @@ import 'package:eliud_core/core/widgets/accept_membership.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/page_component_bloc.dart';
-import 'package:eliud_core/model/page_component_event.dart';
-import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
@@ -70,35 +66,40 @@ class _PageComponentState extends State<PageComponent> {
       }
     });
 
-    if (packageBlocProviders.isNotEmpty) {
-      return MultiBlocProvider(
-          providers: packageBlocProviders, child: createPage(context));
-    } else {
-      return createPage(context);
-    }
+    return BlocBuilder(
+        bloc: BlocProvider.of<AccessBloc>(context),
+        builder: (BuildContext context, accessState) {
+          if (accessState is AccessDetermined) {
+            if (packageBlocProviders.isNotEmpty) {
+              return MultiBlocProvider(
+                  providers: packageBlocProviders, child: createPage(context, accessState));
+            } else {
+              return createPage(context, accessState);
+            }
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
-  Widget createPage(BuildContext context) {
-    return BlocProvider<CurrentPageBloc>(
-        create: (context) => CurrentPageBloc()
-          ..add(FetchCurrentPage(appId: widget.appId, pageId: widget.pageId)),
-        child: BlocBuilder<CurrentPageBloc, CurrentPageState>(
-            builder: (context, state) {
-          if (state is CurrentPageLoaded) {
-            var page = state.page;
-            var parameters = widget.parameters;
-            var componentInfo = ComponentInfo.getComponentInfo(
-                context,
-                state.app,
-                page.bodyComponents!,
-                parameters,
-                fromPageLayout(page.layout),
-                page.backgroundOverride,
-                page.gridView);
-            return BlocBuilder(
-                bloc: BlocProvider.of<AccessBloc>(context),
-                builder: (BuildContext context, accessState) {
-                  if (accessState is AccessDetermined) {
+  Widget createPage(BuildContext context, AccessDetermined accessState) {
+            return BlocProvider<CurrentPageBloc>(
+                create: (context) => CurrentPageBloc()
+                  ..add(FetchCurrentPage(
+                      appId: widget.appId, pageId: widget.pageId)),
+                child: BlocBuilder<CurrentPageBloc, CurrentPageState>(
+                    builder: (context, state) {
+                  if (state is CurrentPageLoaded) {
+                    var page = state.page;
+                    var parameters = widget.parameters;
+                    var componentInfo = ComponentInfo.getComponentInfo(
+                        context,
+                        state.app,
+                        page.bodyComponents!,
+                        parameters,
+                        fromPageLayout(page.layout),
+                        page.backgroundOverride,
+                        page.gridView);
                     return Decorations.instance().createDecoratedPage(
                         state.app,
                         context,
@@ -117,11 +118,7 @@ class _PageComponentState extends State<PageComponent> {
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }
-                });
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        }));
+                }));
   }
 }
 
@@ -152,7 +149,6 @@ class PageContentsWidget extends StatefulWidget {
 }
 
 class _PageContentsWidgetState extends State<PageContentsWidget> {
-  Widget? theBody;
   HasFab? hasFab;
 
   Widget _scaffold(Widget body) {

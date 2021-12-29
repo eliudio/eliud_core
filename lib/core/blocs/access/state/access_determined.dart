@@ -1,9 +1,7 @@
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
-import 'package:eliud_core/core/navigate/router.dart' as eliud_router;
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/page_model.dart';
@@ -11,8 +9,6 @@ import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 import '../access_bloc.dart';
 import 'access_state.dart';
@@ -48,6 +44,13 @@ abstract class AccessDetermined extends AccessState {
       [apps, accesses];
 
   AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
+
+  AppModel getApp(String appId) {
+    for (var app in apps) {
+      if (app.app.documentID! == appId) return app.app;
+    }
+    throw Exception('App with ID = $appId not found');
+  }
 
   bool actionHasAccess(ActionModel action) {
     var appID = action.app.documentID!;

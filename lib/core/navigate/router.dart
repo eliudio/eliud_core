@@ -1,5 +1,6 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
+import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
@@ -29,15 +30,16 @@ class Router {
   static const String justASecond = '/justASecond';
 
   static final List<PackageActionHandler> _registeredActionHandlers = [];
-  final GlobalKey<NavigatorState>? navigatorKey;
 
   static void register(PackageActionHandler handler) {
     _registeredActionHandlers.add(handler);
   }
 
-  Router(this.navigatorKey);
+  final AccessBloc accessBloc;
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  Router(this.accessBloc);
+
+  Route<dynamic> generateRoute(RouteSettings settings) {
     Arguments? arguments;
     if (settings.arguments is Arguments) {
       arguments = settings.arguments as Arguments?;
@@ -80,18 +82,14 @@ class Router {
     return error('No route defined for ${settings.name}!');
   }
 
-  static Route<dynamic> getRoute(
+  Route<dynamic> getRoute(
       String path, Map<String, dynamic>? parameters) {
     final pagePath = path.split('/');
     if ((pagePath != null) && (pagePath.length == 2)) {
       final appId = pagePath[0];
       final pageId = pagePath[1];
-
-      return pageRouteBuilderWithAppId(appId,
-          pageId: pageId,
-          parameters: parameters,
-          page: Registry.registry()!
-              .page(appId: appId, pageId: pageId, parameters: parameters));
+      return pageRouteBuilderWithAppId(accessBloc.state, appId, pageId: pageId, parameters: parameters, page: Registry.registry()!
+          .page(appId: appId, pageId: pageId, parameters: parameters));
     } else {
       return error('No route defined for $path');
     }

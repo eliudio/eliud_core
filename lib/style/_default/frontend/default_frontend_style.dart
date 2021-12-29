@@ -13,6 +13,7 @@ import 'package:eliud_core/style/frontend/has_icon.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_menu.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
+import 'package:eliud_core/style/frontend/has_page_route_builder.dart';
 import 'package:eliud_core/style/frontend/has_profile_photo.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_style.dart';
@@ -23,6 +24,7 @@ import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 
 import 'impl/default_button_impl.dart';
 import 'impl/default_list_tile_impl.dart';
+import 'impl/default_page_route_builder_impl.dart';
 import 'impl/default_tabs_impl.dart';
 import 'impl/default_app_impl.dart';
 import 'impl/default_appbar_impl.dart';
@@ -65,6 +67,7 @@ class DefaultFrontEndStyle implements FrontEndStyle {
   late HasIcon defaultIconImpl;
   late HasDivider defaultDividerImpl;
   late HasTabs defaultTabsImpl;
+  late HasPageRouteBuilder defaultPageRouteBuilderImpl;
 
   DefaultFrontEndStyle() {
     defaultPageBodyImpl = DefaultPageBodyImpl(this);
@@ -88,6 +91,8 @@ class DefaultFrontEndStyle implements FrontEndStyle {
     defaultIconImpl = DefaultIconImpl();
     defaultDividerImpl = DefaultDividerImpl();
     defaultTabsImpl = DefaultTabsImpl(this);
+    defaultTabsImpl = DefaultTabsImpl(this);
+    defaultPageRouteBuilderImpl = DefaultPageRouteBuilderImpl();
   }
 
   @override
@@ -152,4 +157,8 @@ class DefaultFrontEndStyle implements FrontEndStyle {
 
   @override
   HasTabs tabsStyle() => defaultTabsImpl;
+
+  @override
+  HasPageRouteBuilder pageRoutBuilder() => defaultPageRouteBuilderImpl;
 }
+

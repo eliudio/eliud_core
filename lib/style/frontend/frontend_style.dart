@@ -12,6 +12,7 @@ import 'has_icon.dart';
 import 'has_list_tile.dart';
 import 'has_menu.dart';
 import 'has_page_body.dart';
+import 'has_page_route_builder.dart';
 import 'has_profile_photo.dart';
 import 'has_progress_indicator.dart';
 import 'has_style.dart';
@@ -43,4 +44,5 @@ abstract class FrontEndStyle {
     HasDialogField dialogFieldStyle();
     HasDialogWidget dialogWidgetStyle();
     HasTabs tabsStyle();
+    HasPageRouteBuilder pageRoutBuilder();
 }
