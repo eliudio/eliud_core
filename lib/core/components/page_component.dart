@@ -66,59 +66,58 @@ class _PageComponentState extends State<PageComponent> {
       }
     });
 
-    return BlocBuilder(
-        bloc: BlocProvider.of<AccessBloc>(context),
-        builder: (BuildContext context, accessState) {
-          if (accessState is AccessDetermined) {
-            if (packageBlocProviders.isNotEmpty) {
-              return MultiBlocProvider(
-                  providers: packageBlocProviders, child: createPage(context, accessState));
-            } else {
-              return createPage(context, accessState);
-            }
+    if (packageBlocProviders.isNotEmpty) {
+      return MultiBlocProvider(
+          providers: packageBlocProviders, child: createPage(context));
+    } else {
+      return createPage(context);
+    }
+  }
+
+  Widget createPage(BuildContext context) {
+    return BlocProvider<CurrentPageBloc>(
+        create: (context) => CurrentPageBloc()
+          ..add(FetchCurrentPage(appId: widget.appId, pageId: widget.pageId)),
+        child: BlocBuilder<CurrentPageBloc, CurrentPageState>(
+            builder: (context, state) {
+          if (state is CurrentPageLoaded) {
+            var page = state.page;
+            var parameters = widget.parameters;
+            var componentInfo = ComponentInfo.getComponentInfo(
+                context,
+                state.app,
+                page.bodyComponents!,
+                parameters,
+                fromPageLayout(page.layout),
+                page.backgroundOverride,
+                page.gridView);
+            return Decorations.instance().createDecoratedPage(
+                state.app,
+                context,
+                widget.pageKey,
+                () => BlocBuilder(
+                    bloc: BlocProvider.of<AccessBloc>(context),
+                    builder: (BuildContext context, accessState) {
+                      if (accessState is AccessDetermined) {
+                        return PageContentsWidget(
+                          key: widget.pageKey,
+                          state: accessState,
+                          app: state.app,
+                          pageModel: page,
+                          parameters: widget.parameters,
+                          scaffoldKey: widget.scaffoldKey,
+                          scaffoldMessengerKey: widget.scaffoldMessengerKey,
+                          componentInfo: componentInfo,
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
+                page)();
           } else {
             return Center(child: CircularProgressIndicator());
           }
-        });
-  }
-
-  Widget createPage(BuildContext context, AccessDetermined accessState) {
-            return BlocProvider<CurrentPageBloc>(
-                create: (context) => CurrentPageBloc()
-                  ..add(FetchCurrentPage(
-                      appId: widget.appId, pageId: widget.pageId)),
-                child: BlocBuilder<CurrentPageBloc, CurrentPageState>(
-                    builder: (context, state) {
-                  if (state is CurrentPageLoaded) {
-                    var page = state.page;
-                    var parameters = widget.parameters;
-                    var componentInfo = ComponentInfo.getComponentInfo(
-                        context,
-                        state.app,
-                        page.bodyComponents!,
-                        parameters,
-                        fromPageLayout(page.layout),
-                        page.backgroundOverride,
-                        page.gridView);
-                    return Decorations.instance().createDecoratedPage(
-                        state.app,
-                        context,
-                        widget.pageKey,
-                        () => PageContentsWidget(
-                              key: widget.pageKey,
-                              state: accessState,
-                              app: state.app,
-                              pageModel: page,
-                              parameters: widget.parameters,
-                              scaffoldKey: widget.scaffoldKey,
-                              scaffoldMessengerKey: widget.scaffoldMessengerKey,
-                              componentInfo: componentInfo,
-                            ),
-                        page)();
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                }));
+        }));
   }
 }
 
