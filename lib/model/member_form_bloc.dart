@@ -64,7 +64,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  invoiceCity: "",
                                  invoiceState: "",
                                  invoicePostcode: "",
-                                 readAccess: [],
                                  email: "",
 
         ));
@@ -156,7 +155,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  invoiceState: currentState.value!.invoiceState,
                                  invoicePostcode: currentState.value!.invoicePostcode,
                                  invoiceCountry: currentState.value!.invoiceCountry,
-                                 readAccess: currentState.value!.readAccess,
                                  email: currentState.value!.email,
                                  isAnonymous: currentState.value!.isAnonymous,
           );
@@ -223,7 +221,6 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  invoiceState: currentState.value!.invoiceState,
                                  invoicePostcode: currentState.value!.invoicePostcode,
                                  invoiceCountry: null,
-                                 readAccess: currentState.value!.readAccess,
                                  email: currentState.value!.email,
                                  isAnonymous: currentState.value!.isAnonymous,
           );

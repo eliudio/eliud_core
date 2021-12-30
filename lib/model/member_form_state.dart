@@ -351,22 +351,6 @@ class InvoiceCountryMemberFormError extends MemberFormError {
 }
 
 
-class ReadAccessMemberFormError extends MemberFormError { 
-  const ReadAccessMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
-
-  @override
-  List<Object?> get props => [ message, value ];
-
-  @override
-  String toString() {
-    return '''ReadAccessMemberFormError {
-      value: $value,
-      message: $message,
-    }''';
-  }
-}
-
-
 class EmailMemberFormError extends MemberFormError { 
   const EmailMemberFormError({ String? message, MemberModel? value }): super(message: message, value: value);
 

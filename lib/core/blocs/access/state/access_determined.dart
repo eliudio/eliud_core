@@ -45,11 +45,11 @@ abstract class AccessDetermined extends AccessState {
 
   AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
 
-  AppModel getApp(String appId) {
+  AppModel? getApp(String appId) {
     for (var app in apps) {
       if (app.app.documentID! == appId) return app.app;
     }
-    throw Exception('App with ID = $appId not found');
+    return null;
   }
 
   bool actionHasAccess(ActionModel action) {

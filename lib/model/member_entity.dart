@@ -39,22 +39,20 @@ class MemberEntity {
   final String? invoiceState;
   final String? invoicePostcode;
   final String? invoiceCountryId;
-  final List<String>? readAccess;
   final String? email;
   final bool? isAnonymous;
 
-  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.readAccess, this.email, this.isAnonymous, });
+  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.email, this.isAnonymous, });
 
 
-  List<Object?> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, readAccess, email, isAnonymous, ];
+  List<Object?> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, email, isAnonymous, ];
 
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
     String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString!.join(', ');
-    String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
+    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, email: $email, isAnonymous: $isAnonymous}';
   }
 
   static MemberEntity? fromMap(Object? o) {
@@ -88,7 +86,6 @@ class MemberEntity {
       invoiceState: map['invoiceState'], 
       invoicePostcode: map['invoicePostcode'], 
       invoiceCountryId: map['invoiceCountryId'], 
-      readAccess: map['readAccess'] == null ? null : List.from(map['readAccess']), 
       email: map['email'], 
       isAnonymous: map['isAnonymous'], 
     );
@@ -134,8 +131,6 @@ class MemberEntity {
       else theDocument["invoicePostcode"] = null;
     if (invoiceCountryId != null) theDocument["invoiceCountryId"] = invoiceCountryId;
       else theDocument["invoiceCountryId"] = null;
-    if (readAccess != null) theDocument["readAccess"] = readAccess!.toList();
-      else theDocument["readAccess"] = null;
     if (email != null) theDocument["email"] = email;
       else theDocument["email"] = null;
     if (isAnonymous != null) theDocument["isAnonymous"] = isAnonymous;

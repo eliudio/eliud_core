@@ -53,20 +53,19 @@ class MemberModel {
   String? invoiceState;
   String? invoicePostcode;
   CountryModel? invoiceCountry;
-  List<String>? readAccess;
   String? email;
   bool? isAnonymous;
 
-  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.readAccess, this.email, this.isAnonymous, })  {
+  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsString, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, List<String>? readAccess, String? email, bool? isAnonymous, }) {
-    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsString: subscriptionsAsString ?? this.subscriptionsAsString, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, readAccess: readAccess ?? this.readAccess, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
+  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsString, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, String? email, bool? isAnonymous, }) {
+    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsString: subscriptionsAsString ?? this.subscriptionsAsString, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsString.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ readAccess.hashCode ^ email.hashCode ^ isAnonymous.hashCode;
+  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsString.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ email.hashCode ^ isAnonymous.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -91,7 +90,6 @@ class MemberModel {
           invoiceState == other.invoiceState &&
           invoicePostcode == other.invoicePostcode &&
           invoiceCountry == other.invoiceCountry &&
-          ListEquality().equals(readAccess, other.readAccess) &&
           email == other.email &&
           isAnonymous == other.isAnonymous;
 
@@ -99,15 +97,11 @@ class MemberModel {
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
     String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString!.join(', ');
-    String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, readAccess: String[] { $readAccessCsv }, email: $email, isAnonymous: $isAnonymous}';
+    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
   MemberEntity toEntity({String? appId}) {
-       readAccess = subscriptions!.map((subscription) => subscription.app!.ownerID!).toList();
-    subscriptionsAsString = subscriptions!.map((subscription) => subscription.app!.documentID!).toList();
-
     return MemberEntity(
           name: (name != null) ? name : null, 
           subscriptions: (subscriptions != null) ? subscriptions
@@ -128,7 +122,6 @@ class MemberModel {
           invoiceState: (invoiceState != null) ? invoiceState : null, 
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
           invoiceCountryId: (invoiceCountry != null) ? invoiceCountry!.documentID : null, 
-          readAccess: (readAccess != null) ? readAccess : null, 
           email: (email != null) ? email : null, 
           isAnonymous: (isAnonymous != null) ? isAnonymous : null, 
     );
@@ -160,7 +153,6 @@ class MemberModel {
           invoiceCity: entity.invoiceCity, 
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
-          readAccess: entity.readAccess, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
     );
@@ -216,7 +208,6 @@ class MemberModel {
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
           invoiceCountry: invoiceCountryHolder, 
-          readAccess: entity.readAccess, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
     );

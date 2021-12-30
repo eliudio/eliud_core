@@ -33,7 +33,7 @@ class _PublicMediumState extends State<PublicMediumDialog> {
 
   Future<List<MediumInfo>> buildImagesList() async {
     var publicMediumModel = widget.publicMediumModel;
-    var appId = publicMediumModel.appId;
+    var appId = widget.app.documentID!;
     return await ChainOfMediumModels.getPublicMediumModelChainOfMediumInfo(
         appId, publicMediumModel);
   }

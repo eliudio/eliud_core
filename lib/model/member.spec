@@ -156,14 +156,6 @@
       "group": "invoiceCountry"
     },
     {
-      "fieldName": "readAccess",
-      "displayName": "Members that can read the data of this user",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "arrayType": "Array",
-      "hidden": true
-    },
-    {
       "fieldName": "email",
       "displayName": "Email address",
       "fieldType": "String",
@@ -220,8 +212,6 @@
     "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
     "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   },
-  "preToEntityCode": "   readAccess = subscriptions!.map((subscription) => subscription.app!.ownerID!).toList();\n    subscriptionsAsString = subscriptions!.map((subscription) => subscription.app!.documentID!).toList();\n",
-  "preMapUpdateCode": "    var state = accessBloc.state;\n    if (state is LoggedIn) {\n        // normally I can only update myself, but checking regardless\n        if (event.value.documentID == state.member.documentID) {\n            await accessBloc.add(MemberUpdated(event.value));\n        }\n    }",
   "extraImports": {
     "list_bloc": "import 'package:eliud_core/core/access/bloc/access_state.dart';"
   },

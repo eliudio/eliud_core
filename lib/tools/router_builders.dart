@@ -159,10 +159,11 @@ PageRouteBuilder pageRouteBuilderWithAppId(AccessState state, String appId, {Str
   var name = getName(appId, pageId);
   if (state is AccessDetermined) {
     var app = state.getApp(appId);
-    return pr.pageRoute(app, name, parameters, page);
-  } else {
-    return FadeRoute(name: name, parameters: parameters, page: page, milliseconds: 1000);
+    if (app != null) {
+      return pr.pageRoute(app, name, parameters, page);
+    }
   }
+  return FadeRoute(name: name, parameters: parameters, page: page, milliseconds: 1000);
 }
 
 PageRouteBuilder pageRouteBuilder(AppModel app, {String? pageId, Map<String, dynamic>? parameters, required Widget page}) {

@@ -271,18 +271,6 @@ class ChangedMemberInvoiceCountry extends MemberFormEvent {
   String toString() => 'ChangedMemberInvoiceCountry{ value: $value }';
 }
 
-class ChangedMemberReadAccess extends MemberFormEvent {
-  final String? value;
-
-  ChangedMemberReadAccess({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedMemberReadAccess{ value: $value }';
-}
-
 class ChangedMemberEmail extends MemberFormEvent {
   final String? value;
 

@@ -474,7 +474,6 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               invoiceState: state.value!.invoiceState, 
                               invoicePostcode: state.value!.invoicePostcode, 
                               invoiceCountry: state.value!.invoiceCountry, 
-                              readAccess: state.value!.readAccess, 
                               email: state.value!.email, 
                               isAnonymous: state.value!.isAnonymous, 
                         )));
@@ -499,7 +498,6 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               invoiceState: state.value!.invoiceState, 
                               invoicePostcode: state.value!.invoicePostcode, 
                               invoiceCountry: state.value!.invoiceCountry, 
-                              readAccess: state.value!.readAccess, 
                               email: state.value!.email, 
                               isAnonymous: state.value!.isAnonymous, 
                           )));
@@ -625,12 +623,6 @@ class _MyMemberFormState extends State<MyMemberForm> {
       _invoiceCountry = val;
     });
     _myFormBloc.add(ChangedMemberInvoiceCountry(value: val));
-  }
-
-
-  void _onReadAccessChanged(value) {
-    _myFormBloc.add(ChangedMemberReadAccess(value: value));
-    setState(() {});
   }
 
 
