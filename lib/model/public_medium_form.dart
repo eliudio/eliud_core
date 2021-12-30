@@ -120,6 +120,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
   late PublicMediumFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _authorIdController = TextEditingController();
   final TextEditingController _baseNameController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
@@ -141,6 +142,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<PublicMediumFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _authorIdController.addListener(_onAuthorIdChanged);
     _baseNameController.addListener(_onBaseNameChanged);
     _urlController.addListener(_onUrlChanged);
@@ -168,6 +170,10 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.authorId != null)
           _authorIdController.text = state.value!.authorId.toString();
         else
@@ -346,6 +352,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
                         BlocProvider.of<PublicMediumListBloc>(context).add(
                           UpdatePublicMediumList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
                               baseName: state.value!.baseName, 
                               url: state.value!.url, 
@@ -363,6 +370,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
                         BlocProvider.of<PublicMediumListBloc>(context).add(
                           AddPublicMediumList(value: PublicMediumModel(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
                               baseName: state.value!.baseName, 
                               url: state.value!.url, 
@@ -403,6 +411,11 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
 
   void _onDocumentIDChanged() {
     _myFormBloc.add(ChangedPublicMediumDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedPublicMediumAppId(value: _appIdController.text));
   }
 
 
@@ -473,6 +486,7 @@ class _MyPublicMediumFormState extends State<MyPublicMediumForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
+    _appIdController.dispose();
     _authorIdController.dispose();
     _baseNameController.dispose();
     _urlController.dispose();

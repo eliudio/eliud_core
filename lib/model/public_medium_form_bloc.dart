@@ -50,6 +50,7 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
       if (event is InitialiseNewPublicMediumFormEvent) {
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: PublicMediumModel(
                                                documentID: "",
+                                 appId: "",
                                  authorId: "",
                                  baseName: "",
                                  url: "",

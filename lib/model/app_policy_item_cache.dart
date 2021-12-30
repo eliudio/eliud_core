@@ -128,10 +128,10 @@ class AppPolicyItemCache implements AppPolicyItemRepository {
 
   static Future<AppPolicyItemModel> refreshRelations(AppPolicyItemModel model) async {
 
-    PlatformMediumModel? policyHolder;
+    PublicMediumModel? policyHolder;
     if (model.policy != null) {
       try {
-        await platformMediumRepository()!.get(model.policy!.documentID).then((val) {
+        await publicMediumRepository()!.get(model.policy!.documentID).then((val) {
           policyHolder = val;
         }).catchError((error) {});
       } catch (_) {}

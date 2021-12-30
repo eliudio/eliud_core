@@ -29,19 +29,18 @@ class AppEntity {
   final int? appStatus;
   final AppHomePageReferencesEntity? homePages;
   final String? logoId;
-  final int? routeAnimationDuration;
   final String? policiesId;
   final String? styleFamily;
   final String? styleName;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.routeAnimationDuration, this.policiesId, this.styleFamily, this.styleName, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, });
 
 
-  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, routeAnimationDuration, policiesId, styleFamily, styleName, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, policiesId, styleFamily, styleName, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, routeAnimationDuration: $routeAnimationDuration, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -61,7 +60,6 @@ class AppEntity {
       appStatus: map['appStatus'], 
       homePages: homePagesFromMap, 
       logoId: map['logoId'], 
-      routeAnimationDuration: int.tryParse(map['routeAnimationDuration'].toString()), 
       policiesId: map['policiesId'], 
       styleFamily: map['styleFamily'], 
       styleName: map['styleName'], 
@@ -88,8 +86,6 @@ class AppEntity {
       else theDocument["homePages"] = null;
     if (logoId != null) theDocument["logoId"] = logoId;
       else theDocument["logoId"] = null;
-    if (routeAnimationDuration != null) theDocument["routeAnimationDuration"] = routeAnimationDuration;
-      else theDocument["routeAnimationDuration"] = null;
     if (policiesId != null) theDocument["policiesId"] = policiesId;
       else theDocument["policiesId"] = null;
     if (styleFamily != null) theDocument["styleFamily"] = styleFamily;

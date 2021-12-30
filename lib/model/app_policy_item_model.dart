@@ -34,13 +34,13 @@ import 'package:eliud_core/tools/random.dart';
 class AppPolicyItemModel {
   String? documentID;
   String? name;
-  PlatformMediumModel? policy;
+  PublicMediumModel? policy;
 
   AppPolicyItemModel({this.documentID, this.name, this.policy, })  {
     assert(documentID != null);
   }
 
-  AppPolicyItemModel copyWith({String? documentID, String? name, PlatformMediumModel? policy, }) {
+  AppPolicyItemModel copyWith({String? documentID, String? name, PublicMediumModel? policy, }) {
     return AppPolicyItemModel(documentID: documentID ?? this.documentID, name: name ?? this.name, policy: policy ?? this.policy, );
   }
 
@@ -80,13 +80,13 @@ class AppPolicyItemModel {
   static Future<AppPolicyItemModel?> fromEntityPlus(String documentID, AppPolicyItemEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    PlatformMediumModel? policyHolder;
+    PublicMediumModel? policyHolder;
     if (entity.policyId != null) {
       try {
-          policyHolder = await platformMediumRepository(appId: appId)!.get(entity.policyId);
+          policyHolder = await publicMediumRepository(appId: appId)!.get(entity.policyId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise policy');
-        print('Error whilst retrieving platformMedium with id ${entity.policyId}');
+        print('Error whilst retrieving publicMedium with id ${entity.policyId}');
         print('Exception: $e');
       }
     }

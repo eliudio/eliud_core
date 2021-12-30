@@ -13,6 +13,9 @@ PublicMediumType publicMediumType(AbstractMediumType abstractMediumType) {
   return toPublicMediumType(abstractMediumType.index);
 }
 
+/*
+ * This helper allows to upload PublicMediumModel, i.e. files in the category "public"
+ */
 class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
   static String PACKAGENAME = 'public';
 

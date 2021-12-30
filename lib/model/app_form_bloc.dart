@@ -54,7 +54,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  title: "",
                                  email: "",
                                  description: "",
-                                 routeAnimationDuration: 1000, 
                                  styleFamily: "",
                                  styleName: "",
 
@@ -130,24 +129,12 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value!.appStatus,
                                  homePages: currentState.value!.homePages,
                                  logo: null,
-                                 routeAnimationDuration: currentState.value!.routeAnimationDuration,
                                  policies: currentState.value!.policies,
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
           );
         yield SubmittableAppForm(value: newValue);
 
-        return;
-      }
-      if (event is ChangedAppRouteAnimationDuration) {
-        if (isInt(event.value)) {
-          newValue = currentState.value!.copyWith(routeAnimationDuration: int.parse(event.value!));
-          yield SubmittableAppForm(value: newValue);
-
-        } else {
-          newValue = currentState.value!.copyWith(routeAnimationDuration: 0);
-          yield RouteAnimationDurationAppFormError(message: "Value should be a number", value: newValue);
-        }
         return;
       }
       if (event is ChangedAppPolicies) {
@@ -163,7 +150,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  appStatus: currentState.value!.appStatus,
                                  homePages: currentState.value!.homePages,
                                  logo: currentState.value!.logo,
-                                 routeAnimationDuration: currentState.value!.routeAnimationDuration,
                                  policies: null,
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,

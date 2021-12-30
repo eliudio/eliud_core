@@ -79,6 +79,22 @@ class DocumentIDPublicMediumFormError extends PublicMediumFormError {
 }
 
 
+class AppIdPublicMediumFormError extends PublicMediumFormError { 
+  const AppIdPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppIdPublicMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AuthorIdPublicMediumFormError extends PublicMediumFormError { 
   const AuthorIdPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
 

@@ -126,7 +126,6 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _descriptionController = TextEditingController();
   int? _appStatusSelectedRadioTile;
   String? _logo;
-  final TextEditingController _routeAnimationDurationController = TextEditingController();
   String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
   final TextEditingController _styleNameController = TextEditingController();
@@ -144,7 +143,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _emailController.addListener(_onEmailChanged);
     _descriptionController.addListener(_onDescriptionChanged);
     _appStatusSelectedRadioTile = 0;
-    _routeAnimationDurationController.addListener(_onRouteAnimationDurationChanged);
     _styleFamilyController.addListener(_onStyleFamilyChanged);
     _styleNameController.addListener(_onStyleNameChanged);
   }
@@ -186,10 +184,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _logo= state.value!.logo!.documentID;
         else
           _logo= "";
-        if (state.value!.routeAnimationDuration != null)
-          _routeAnimationDurationController.text = state.value!.routeAnimationDuration.toString();
-        else
-          _routeAnimationDurationController.text = "";
         if (state.value!.policies != null)
           _policies= state.value!.policies!.documentID;
         else
@@ -329,11 +323,6 @@ class _MyAppFormState extends State<MyAppForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Page Route Builder')
                 ));
 
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Page Animation (millisec)', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _routeAnimationDurationController, keyboardType: TextInputType.number, validator: (_) => state is RouteAnimationDurationAppFormError ? state.message : null, hintText: null)
-          );
-
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -391,7 +380,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value!.appStatus, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              routeAnimationDuration: state.value!.routeAnimationDuration, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
@@ -407,7 +395,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               appStatus: state.value!.appStatus, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              routeAnimationDuration: state.value!.routeAnimationDuration, 
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
@@ -478,11 +465,6 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
 
-  void _onRouteAnimationDurationChanged() {
-    _myFormBloc.add(ChangedAppRouteAnimationDuration(value: _routeAnimationDurationController.text));
-  }
-
-
   void _onPoliciesSelected(String? val) {
     setState(() {
       _policies = val;
@@ -509,7 +491,6 @@ class _MyAppFormState extends State<MyAppForm> {
     _titleController.dispose();
     _emailController.dispose();
     _descriptionController.dispose();
-    _routeAnimationDurationController.dispose();
     _styleFamilyController.dispose();
     _styleNameController.dispose();
     super.dispose();

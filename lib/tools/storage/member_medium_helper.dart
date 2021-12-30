@@ -13,6 +13,9 @@ MediumType memberMediumType(AbstractMediumType abstractMediumType) {
   return toMediumType(abstractMediumType.index);
 }
 
+/*
+ * This helper allows to upload MemberMediumFiles, i.e. files in the category "read_access"
+ */
 class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   static String PACKAGENAME = 'read_access';
   final List<String> readAccess;

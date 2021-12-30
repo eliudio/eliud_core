@@ -1,10 +1,12 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/widgets/platform_medium_dialog.dart';
+import 'package:eliud_core/core/widgets/public_medium_dialog.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
+import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -39,7 +41,7 @@ class AcceptMembershipWidget extends StatefulWidget {
 }
 
 class CheckboxHandler {
-  final PlatformMediumModel? item;
+  final PublicMediumModel item;
   bool? value;
 
   CheckboxHandler(this.value, this.item);
@@ -58,7 +60,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     super.initState();
     if ((widget.app.policies != null) && (widget.app.policies!.policies != null)) {
       checked = widget.app.policies!.policies!
-          .map((element) => CheckboxHandler(false, element.policy))
+          .map((element) => CheckboxHandler(false, element.policy!))
           .toList();
     }
   }
@@ -77,13 +79,13 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     return true;
   }
 
-  void _openPolicy(String? title, PlatformMediumModel item) {
+  void _openPolicy(String? title, PublicMediumModel item) {
     openWidgetDialog(widget.app,
       context, (widget.app.documentID! + '/_policy'),
-      child: PlatformMediumDialog(app: widget.app,
+      child: PublicMediumDialog(app: widget.app,
         width: 100,
         title: title,
-        platformMediumModel: item,
+        publicMediumModel: item,
       ),
     );
   }
@@ -112,7 +114,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
           text(widget.app, context, policy.name!),
           Spacer(),
           button(widget.app, context, label: 'Read', onPressed: () async {
-            _openPolicy(policy.name, handler.item!);
+            _openPolicy(policy.name, handler.item);
           }),
         ]));
         i++;

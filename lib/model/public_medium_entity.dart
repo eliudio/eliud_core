@@ -22,6 +22,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class PublicMediumEntity {
+  final String? appId;
   final String? authorId;
   final String? baseName;
   final String? url;
@@ -35,14 +36,14 @@ class PublicMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  PublicMediumEntity({this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  PublicMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object?> get props => [authorId, baseName, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
-    return 'PublicMediumEntity{authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'PublicMediumEntity{appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static PublicMediumEntity? fromMap(Object? o) {
@@ -50,6 +51,7 @@ class PublicMediumEntity {
     var map = o as Map<String, dynamic>;
 
     return PublicMediumEntity(
+      appId: map['appId'], 
       authorId: map['authorId'], 
       baseName: map['baseName'], 
       url: map['url'], 
@@ -67,6 +69,8 @@ class PublicMediumEntity {
 
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
+    if (appId != null) theDocument["appId"] = appId;
+      else theDocument["appId"] = null;
     if (authorId != null) theDocument["authorId"] = authorId;
       else theDocument["authorId"] = null;
     if (baseName != null) theDocument["baseName"] = baseName;

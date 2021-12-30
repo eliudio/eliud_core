@@ -14,6 +14,9 @@ PlatformMediumType platformMediumType(AbstractMediumType abstractMediumType) {
   return toPlatformMediumType(abstractMediumType.index);
 }
 
+/*
+ * This helper allows to upload PlatformMediumModel, i.e. files in the category "priv_req"
+ */
 class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
   static String PACKAGENAME = 'priv_req';
   final PrivilegeLevelRequiredSimple privilegeLevelRequired;

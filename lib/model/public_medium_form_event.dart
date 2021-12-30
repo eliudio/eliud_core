@@ -67,6 +67,18 @@ class ChangedPublicMediumDocumentID extends PublicMediumFormEvent {
   String toString() => 'ChangedPublicMediumDocumentID{ value: $value }';
 }
 
+class ChangedPublicMediumAppId extends PublicMediumFormEvent {
+  final String? value;
+
+  ChangedPublicMediumAppId({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPublicMediumAppId{ value: $value }';
+}
+
 class ChangedPublicMediumAuthorId extends PublicMediumFormEvent {
   final String? value;
 

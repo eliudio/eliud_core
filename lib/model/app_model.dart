@@ -53,21 +53,20 @@ class AppModel {
   AppStatus? appStatus;
   AppHomePageReferencesModel? homePages;
   PublicMediumModel? logo;
-  int? routeAnimationDuration;
   AppPolicyModel? policies;
   String? styleFamily;
   String? styleName;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.routeAnimationDuration, this.policies, this.styleFamily, this.styleName, })  {
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, int? routeAnimationDuration, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, routeAnimationDuration: routeAnimationDuration ?? this.routeAnimationDuration, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ routeAnimationDuration.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -82,14 +81,13 @@ class AppModel {
           appStatus == other.appStatus &&
           homePages == other.homePages &&
           logo == other.logo &&
-          routeAnimationDuration == other.routeAnimationDuration &&
           policies == other.policies &&
           styleFamily == other.styleFamily &&
           styleName == other.styleName;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, routeAnimationDuration: $routeAnimationDuration, policies: $policies, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName}';
   }
 
   AppEntity toEntity({String? appId}) {
@@ -101,7 +99,6 @@ class AppModel {
           appStatus: (appStatus != null) ? appStatus!.index : null, 
           homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
           logoId: (logo != null) ? logo!.documentID : null, 
-          routeAnimationDuration: (routeAnimationDuration != null) ? routeAnimationDuration : null, 
           policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 
           styleName: (styleName != null) ? styleName : null, 
@@ -120,7 +117,6 @@ class AppModel {
           appStatus: toAppStatus(entity.appStatus), 
           homePages: 
             await AppHomePageReferencesModel.fromEntity(entity.homePages), 
-          routeAnimationDuration: entity.routeAnimationDuration, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
     );
@@ -162,7 +158,6 @@ class AppModel {
           homePages: 
             await AppHomePageReferencesModel.fromEntityPlus(entity.homePages, appId: appId), 
           logo: logoHolder, 
-          routeAnimationDuration: entity.routeAnimationDuration, 
           policies: policiesHolder, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
