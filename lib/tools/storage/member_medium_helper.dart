@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
-
 import 'medium_base.dart';
 import 'medium_helper.dart';
 import 'upload_info.dart';
@@ -18,9 +16,11 @@ MediumType memberMediumType(AbstractMediumType abstractMediumType) {
  */
 class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   static String PACKAGENAME = 'read_access';
-  final List<String> readAccess;
+//  final List<String> readAccess;
+  MemberMediumAccessibleByGroup accessibleByGroup;
+  List<String>? accessibleByMembers;
 
-  MemberMediumHelper(AppModel app, String ownerId, this.readAccess)
+  MemberMediumHelper(AppModel app, String ownerId, /*this.readAccess, */this.accessibleByGroup, {this.accessibleByMembers})
       : super(app, ownerId, PACKAGENAME);
 
   /*
@@ -33,10 +33,23 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Map<String, String> readAccessCustomMetaData() {
+    // there's basically onlythe need to have owner and readAccess as part of the meta data when it comes to the rules
+    // and these are also set by the firebase functions. However, we set owner and readAccess here because
+    // that firebase function runs when creating the document, not when creating the file. Hence
+    // why we provide a default value to allow the owner to read the file after it was created, allowing the retrieve the downloadURL.
+    // We could the accessibleByGroup and accessibleByMember to not be part of metadata as it's actually not
+    // currently used for anything
     var customMetaData = {
       'owner': ownerId,
-      'readAccess': readAccess.join(';') + ';'
+//      'accessibleByGroup': accessibleByGroup.index.toString(),
+      'readAccess': ownerId + ";",
     };
+/*
+    if (accessibleByMembers != null) {
+      customMetaData['accessibleByMembers'] =
+          accessibleByMembers!.join(';') + ';';
+    }
+*/
     return customMetaData;
   }
 
@@ -62,13 +75,15 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      readAccess: readAccess,
+      accessibleByGroup: accessibleByGroup,
+      accessibleByMembers: accessibleByMembers,
       mediumType: MediumType.Photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
       mediumHeight: photoWithThumbnail.photoData.height,
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
+      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
     return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
@@ -96,7 +111,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      readAccess: readAccess,
+      accessibleByGroup: accessibleByGroup,
+      accessibleByMembers: accessibleByMembers,
       mediumType: MediumType.Video,
       urlThumbnail: fileInfoThumbnail.url,
       /*
@@ -105,6 +121,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       */
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
+      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
     return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
   }
@@ -130,10 +147,13 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         mediumType: memberMediumType(type),
         mediumWidth: pageData.photoData.width,
         mediumHeight: pageData.photoData.height,
-        readAccess: readAccess,
+        accessibleByGroup: accessibleByGroup,
+        accessibleByMembers: accessibleByMembers,
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
-        relatedMediumId: previousMediumId);
+        relatedMediumId: previousMediumId,
+        readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+    );
     return await memberMediumRepository(appId: app.documentID!)!.add(pageImageModel);
   }
 }

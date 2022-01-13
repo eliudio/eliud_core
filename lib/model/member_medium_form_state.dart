@@ -191,6 +191,38 @@ class RefThumbnailMemberMediumFormError extends MemberMediumFormError {
 }
 
 
+class AccessibleByGroupMemberMediumFormError extends MemberMediumFormError { 
+  const AccessibleByGroupMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AccessibleByGroupMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class AccessibleByMembersMemberMediumFormError extends MemberMediumFormError { 
+  const AccessibleByMembersMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AccessibleByMembersMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class ReadAccessMemberMediumFormError extends MemberMediumFormError { 
   const ReadAccessMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
 

@@ -66,8 +66,23 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "accessibleByGroup",
+      "fieldType": "enum",
+      "enumName": "MemberMediumAccessibleByGroup",
+      "enumValues" : [ "Public", "Followers", "Me", "SpecificMembers" ]
+    },
+    {
+      "fieldName": "accessibleByMembers",
+      "remark": "In case accessibleByGroup == SpecificMembers, then these are the members",
+      "displayName": "Accessible By Members",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "arrayType": "Array",
+      "hidden": true
+    },
+    {
       "fieldName": "readAccess",
-      "displayName": "Members that can read this post. Array can contain 'public'",
+      "displayName": "Members that can read this detail of the chat. This is determined in functions, based on accessibleByGroup and accessibleByMembers",
       "fieldType": "String",
       "iconName": "text_format",
       "arrayType": "Array",

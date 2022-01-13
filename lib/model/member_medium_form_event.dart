@@ -151,6 +151,30 @@ class ChangedMemberMediumRefThumbnail extends MemberMediumFormEvent {
   String toString() => 'ChangedMemberMediumRefThumbnail{ value: $value }';
 }
 
+class ChangedMemberMediumAccessibleByGroup extends MemberMediumFormEvent {
+  final MemberMediumAccessibleByGroup? value;
+
+  ChangedMemberMediumAccessibleByGroup({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumAccessibleByGroup{ value: $value }';
+}
+
+class ChangedMemberMediumAccessibleByMembers extends MemberMediumFormEvent {
+  final String? value;
+
+  ChangedMemberMediumAccessibleByMembers({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumAccessibleByMembers{ value: $value }';
+}
+
 class ChangedMemberMediumReadAccess extends MemberMediumFormEvent {
   final String? value;
 

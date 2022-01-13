@@ -127,6 +127,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
   final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
   final TextEditingController _refThumbnailController = TextEditingController();
+  int? _accessibleByGroupSelectedRadioTile;
   int? _mediumTypeSelectedRadioTile;
   final TextEditingController _mediumWidthController = TextEditingController();
   final TextEditingController _mediumHeightController = TextEditingController();
@@ -149,6 +150,7 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
     _refController.addListener(_onRefChanged);
     _urlThumbnailController.addListener(_onUrlThumbnailChanged);
     _refThumbnailController.addListener(_onRefThumbnailChanged);
+    _accessibleByGroupSelectedRadioTile = 0;
     _mediumTypeSelectedRadioTile = 0;
     _mediumWidthController.addListener(_onMediumWidthChanged);
     _mediumHeightController.addListener(_onMediumHeightChanged);
@@ -198,6 +200,10 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
           _refThumbnailController.text = state.value!.refThumbnail.toString();
         else
           _refThumbnailController.text = "";
+        if (state.value!.accessibleByGroup != null)
+          _accessibleByGroupSelectedRadioTile = state.value!.accessibleByGroup!.index;
+        else
+          _accessibleByGroupSelectedRadioTile = 0;
         if (state.value!.mediumType != null)
           _mediumTypeSelectedRadioTile = state.value!.mediumType!.index;
         else
@@ -259,6 +265,23 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Image Ref on Firebase Storage', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _refThumbnailController, keyboardType: TextInputType.text, validator: (_) => state is RefThumbnailMemberMediumFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _accessibleByGroupSelectedRadioTile, 'Public', 'Public', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAccessibleByGroup(val))
+          );
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _accessibleByGroupSelectedRadioTile, 'Followers', 'Followers', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAccessibleByGroup(val))
+          );
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _accessibleByGroupSelectedRadioTile, 'Me', 'Me', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAccessibleByGroup(val))
+          );
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _accessibleByGroupSelectedRadioTile, 'SpecificMembers', 'SpecificMembers', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAccessibleByGroup(val))
           );
 
         children.add(
@@ -359,6 +382,8 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
                               refThumbnail: state.value!.refThumbnail, 
+                              accessibleByGroup: state.value!.accessibleByGroup, 
+                              accessibleByMembers: state.value!.accessibleByMembers, 
                               readAccess: state.value!.readAccess, 
                               mediumType: state.value!.mediumType, 
                               mediumWidth: state.value!.mediumWidth, 
@@ -378,6 +403,8 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
                               refThumbnail: state.value!.refThumbnail, 
+                              accessibleByGroup: state.value!.accessibleByGroup, 
+                              accessibleByMembers: state.value!.accessibleByMembers, 
                               readAccess: state.value!.readAccess, 
                               mediumType: state.value!.mediumType, 
                               mediumWidth: state.value!.mediumWidth, 
@@ -448,6 +475,20 @@ class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
 
   void _onRefThumbnailChanged() {
     _myFormBloc.add(ChangedMemberMediumRefThumbnail(value: _refThumbnailController.text));
+  }
+
+
+  void setSelectionAccessibleByGroup(int? val) {
+    setState(() {
+      _accessibleByGroupSelectedRadioTile = val;
+    });
+    _myFormBloc.add(ChangedMemberMediumAccessibleByGroup(value: toMemberMediumAccessibleByGroup(val)));
+  }
+
+
+  void _onAccessibleByMembersChanged(value) {
+    _myFormBloc.add(ChangedMemberMediumAccessibleByMembers(value: value));
+    setState(() {});
   }
 
 

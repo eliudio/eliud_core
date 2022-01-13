@@ -29,6 +29,8 @@ class MemberMediumEntity {
   final String? ref;
   final String? urlThumbnail;
   final String? refThumbnail;
+  final int? accessibleByGroup;
+  final List<String>? accessibleByMembers;
   final List<String>? readAccess;
   final int? mediumType;
   final int? mediumWidth;
@@ -37,16 +39,17 @@ class MemberMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  MemberMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  MemberMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, accessibleByGroup, accessibleByMembers, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
+    String accessibleByMembersCsv = (accessibleByMembers == null) ? '' : accessibleByMembers!.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static MemberMediumEntity? fromMap(Object? o) {
@@ -61,6 +64,8 @@ class MemberMediumEntity {
       ref: map['ref'], 
       urlThumbnail: map['urlThumbnail'], 
       refThumbnail: map['refThumbnail'], 
+      accessibleByGroup: map['accessibleByGroup'], 
+      accessibleByMembers: map['accessibleByMembers'] == null ? null : List.from(map['accessibleByMembers']), 
       readAccess: map['readAccess'] == null ? null : List.from(map['readAccess']), 
       mediumType: map['mediumType'], 
       mediumWidth: int.tryParse(map['mediumWidth'].toString()), 
@@ -87,6 +92,10 @@ class MemberMediumEntity {
       else theDocument["urlThumbnail"] = null;
     if (refThumbnail != null) theDocument["refThumbnail"] = refThumbnail;
       else theDocument["refThumbnail"] = null;
+    if (accessibleByGroup != null) theDocument["accessibleByGroup"] = accessibleByGroup;
+      else theDocument["accessibleByGroup"] = null;
+    if (accessibleByMembers != null) theDocument["accessibleByMembers"] = accessibleByMembers!.toList();
+      else theDocument["accessibleByMembers"] = null;
     if (readAccess != null) theDocument["readAccess"] = readAccess!.toList();
       else theDocument["readAccess"] = null;
     if (mediumType != null) theDocument["mediumType"] = mediumType;
