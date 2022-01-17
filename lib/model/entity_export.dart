@@ -45,3 +45,4 @@ export '../model/public_medium_entity.dart';
 export '../model/rgb_entity.dart';
 export '../model/shadow_entity.dart';
 export '../model/storage_conditions_entity.dart';
+export '../model/member_medium_container_entity.dart';

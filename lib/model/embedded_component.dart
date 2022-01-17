@@ -67,6 +67,12 @@ import '../model/menu_item_list_event.dart';
 import '../model/menu_item_model.dart';
 import '../model/menu_item_repository.dart';
 
+import '../model/member_medium_container_list_bloc.dart';
+import '../model/member_medium_container_list.dart';
+import '../model/member_medium_container_list_event.dart';
+import '../model/member_medium_container_model.dart';
+import '../model/member_medium_container_repository.dart';
+
 typedef AppEntryPagesListChanged(List<AppEntryPagesModel> values);
 typedef AppPolicyItemListChanged(List<AppPolicyItemModel> values);
 typedef BodyComponentListChanged(List<BodyComponentModel> values);
@@ -74,6 +80,7 @@ typedef DecorationColorListChanged(List<DecorationColorModel> values);
 typedef MemberMediumListChanged(List<MemberMediumModel> values);
 typedef MemberSubscriptionListChanged(List<MemberSubscriptionModel> values);
 typedef MenuItemListChanged(List<MenuItemModel> values);
+typedef MemberMediumContainerListChanged(List<MemberMediumContainerModel> values);
 
 appEntryPagessList(app, context, value, trigger) => EmbeddedComponentFactory.appEntryPagessList(app, context, value, trigger);
 appPolicyItemsList(app, context, value, trigger) => EmbeddedComponentFactory.appPolicyItemsList(app, context, value, trigger);
@@ -82,6 +89,7 @@ decorationColorsList(app, context, value, trigger) => EmbeddedComponentFactory.d
 memberMediumsList(app, context, value, trigger) => EmbeddedComponentFactory.memberMediumsList(app, context, value, trigger);
 memberSubscriptionsList(app, context, value, trigger) => EmbeddedComponentFactory.memberSubscriptionsList(app, context, value, trigger);
 menuItemsList(app, context, value, trigger) => EmbeddedComponentFactory.menuItemsList(app, context, value, trigger);
+memberMediumContainersList(app, context, value, trigger) => EmbeddedComponentFactory.memberMediumContainersList(app, context, value, trigger);
 
 class EmbeddedComponentFactory {
 
@@ -180,6 +188,20 @@ static Widget menuItemsList(AppModel app, BuildContext context, List<MenuItemMod
         )
         ],
     child: MenuItemListWidget(app: app, isEmbedded: true),
+  );
+}
+
+static Widget memberMediumContainersList(AppModel app, BuildContext context, List<MemberMediumContainerModel> values, MemberMediumContainerListChanged trigger) {
+  MemberMediumContainerInMemoryRepository inMemoryRepository = MemberMediumContainerInMemoryRepository(trigger, values,);
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider<MemberMediumContainerListBloc>(
+        create: (context) => MemberMediumContainerListBloc(
+          memberMediumContainerRepository: inMemoryRepository,
+          )..add(LoadMemberMediumContainerList()),
+        )
+        ],
+    child: MemberMediumContainerListWidget(app: app, isEmbedded: true),
   );
 }
 
@@ -900,6 +922,109 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
 
   @override
   Future<MenuItemModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
+    throw UnimplementedError();
+  }
+  
+
+    Future<void> deleteAll() async {}
+}
+
+class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRepository {
+    final List<MemberMediumContainerModel> items;
+    final MemberMediumContainerListChanged trigger;
+    Stream<List<MemberMediumContainerModel>>? theValues;
+
+    MemberMediumContainerInMemoryRepository(this.trigger, this.items) {
+        List<List<MemberMediumContainerModel>> myList = <List<MemberMediumContainerModel>>[];
+        if (items != null) myList.add(items);
+        theValues = Stream<List<MemberMediumContainerModel>>.fromIterable(myList);
+    }
+
+    int _index(String documentID) {
+      int i = 0;
+      for (final item in items) {
+        if (item.documentID == documentID) {
+          return i;
+        }
+        i++;
+      }
+      return -1;
+    }
+
+    Future<MemberMediumContainerModel> add(MemberMediumContainerModel value) {
+        items.add(value.copyWith(documentID: newRandomKey()));
+        trigger(items);
+        return Future.value(value);
+    }
+
+    Future<void> delete(MemberMediumContainerModel value) {
+      int index = _index(value.documentID!);
+      if (index >= 0) items.removeAt(index);
+      trigger(items);
+      return Future.value(value);
+    }
+
+    Future<MemberMediumContainerModel> update(MemberMediumContainerModel value) {
+      int index = _index(value.documentID!);
+      if (index >= 0) {
+        items.replaceRange(index, index+1, [value]);
+        trigger(items);
+      }
+      return Future.value(value);
+    }
+
+    Future<MemberMediumContainerModel> get(String? id, { Function(Exception)? onError }) {
+      int index = _index(id!);
+      var completer = new Completer<MemberMediumContainerModel>();
+      completer.complete(items[index]);
+      return completer.future;
+    }
+
+    Stream<List<MemberMediumContainerModel>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
+    }
+    
+    Stream<List<MemberMediumContainerModel>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!;
+    }
+    
+    @override
+    StreamSubscription<List<MemberMediumContainerModel>> listen(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
+    }
+  
+    @override
+    StreamSubscription<List<MemberMediumContainerModel>> listenWithDetails(trigger, { String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return theValues!.listen((theList) => trigger(theList));
+    }
+    
+    void flush() {}
+
+    Future<List<MemberMediumContainerModel>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return Future.value(items);
+    }
+    
+    Future<List<MemberMediumContainerModel>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+      return Future.value(items);
+    }
+
+    @override
+    getSubCollection(String documentId, String name) {
+      throw UnimplementedError();
+    }
+
+  @override
+  String timeStampToString(timeStamp) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  StreamSubscription<MemberMediumContainerModel> listenTo(String documentId, MemberMediumContainerChanged changed) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<MemberMediumContainerModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
     throw UnimplementedError();
   }
   

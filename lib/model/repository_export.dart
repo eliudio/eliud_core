@@ -40,3 +40,4 @@ export '../model/platform_medium_repository.dart';
 export '../model/pos_size_repository.dart';
 export '../model/public_medium_repository.dart';
 export '../model/shadow_repository.dart';
+export '../model/member_medium_container_repository.dart';

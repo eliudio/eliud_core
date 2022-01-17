@@ -89,6 +89,8 @@ import '../model/public_medium_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
+import '../model/member_medium_container_repository.dart';
+import '../model/member_medium_container_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -101,6 +103,7 @@ import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
+import '../model/member_medium_container_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
