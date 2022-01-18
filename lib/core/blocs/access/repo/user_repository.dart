@@ -28,6 +28,22 @@ class UserRepository {
     }
   }
 
+/*
+  Future<User?> refreshUsr() async {
+    final googleUser = await _googleSignIn.currentUser;
+    if (googleUser != null) {
+      await googleUser.clearAuthCache();
+      final googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _firebaseAuth.signInWithCredential(credential);
+      if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
+    }
+  }
+
+*/
   Future<List<void>> signOut() async {
     return Future.wait([
       _firebaseAuth.signOut(),

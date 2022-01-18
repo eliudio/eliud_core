@@ -369,6 +369,12 @@ class LoggedIn extends AccessDetermined {
 
     var homePage = await getHomepage(newApp, blocked, privilege);
     newApps.add(DeterminedApp(newApp, homePage));
+
+    // reload for custom claims to take effect:
+    await usr.reload();
+    var idTokenResult = await usr.getIdTokenResult(true);
+    print('Claims after claiming access: ' + idTokenResult.claims.toString());
+
     return Future.value(LoggedIn._(
       usr,
       member,
