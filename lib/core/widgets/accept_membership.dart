@@ -160,7 +160,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
       ),
       Container(
           width: AcceptMembershipWidget.width(context),
-          height: AcceptMembershipWidget.height(context) - 150,
+          height: AcceptMembershipWidget.height(context) - 175,
           child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: content)),

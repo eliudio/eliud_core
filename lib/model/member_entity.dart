@@ -24,7 +24,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class MemberEntity {
   final String? name;
   final List<MemberSubscriptionEntity>? subscriptions;
-  final List<String>? subscriptionsAsString;
+  final List<String>? subscriptionsAsStrArr;
   final String? photoURL;
   final String? shipStreet1;
   final String? shipStreet2;
@@ -42,17 +42,17 @@ class MemberEntity {
   final String? email;
   final bool? isAnonymous;
 
-  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsString, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.email, this.isAnonymous, });
+  MemberEntity({this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.countryId, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountryId, this.email, this.isAnonymous, });
 
 
-  List<Object?> get props => [name, subscriptions, subscriptionsAsString, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, email, isAnonymous, ];
+  List<Object?> get props => [name, subscriptions, subscriptionsAsStrArr, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, countryId, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountryId, email, isAnonymous, ];
 
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
-    String subscriptionsAsStringCsv = (subscriptionsAsString == null) ? '' : subscriptionsAsString!.join(', ');
+    String subscriptionsAsStrArrCsv = (subscriptionsAsStrArr == null) ? '' : subscriptionsAsStrArr!.join(', ');
 
-    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsString: String[] { $subscriptionsAsStringCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, email: $email, isAnonymous: $isAnonymous}';
+    return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, countryId: $countryId, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountryId: $invoiceCountryId, email: $email, isAnonymous: $isAnonymous}';
   }
 
   static MemberEntity? fromMap(Object? o) {
@@ -71,7 +71,7 @@ class MemberEntity {
     return MemberEntity(
       name: map['name'], 
       subscriptions: subscriptionsList, 
-      subscriptionsAsString: map['subscriptionsAsString'] == null ? null : List.from(map['subscriptionsAsString']), 
+      subscriptionsAsStrArr: map['subscriptionsAsStrArr'] == null ? null : List.from(map['subscriptionsAsStrArr']), 
       photoURL: map['photoURL'], 
       shipStreet1: map['shipStreet1'], 
       shipStreet2: map['shipStreet2'], 
@@ -101,8 +101,8 @@ class MemberEntity {
       else theDocument["name"] = null;
     if (subscriptions != null) theDocument["subscriptions"] = subscriptionsListMap;
       else theDocument["subscriptions"] = null;
-    if (subscriptionsAsString != null) theDocument["subscriptionsAsString"] = subscriptionsAsString!.toList();
-      else theDocument["subscriptionsAsString"] = null;
+    if (subscriptionsAsStrArr != null) theDocument["subscriptionsAsStrArr"] = subscriptionsAsStrArr!.toList();
+      else theDocument["subscriptionsAsStrArr"] = null;
     if (photoURL != null) theDocument["photoURL"] = photoURL;
       else theDocument["photoURL"] = null;
     if (shipStreet1 != null) theDocument["shipStreet1"] = shipStreet1;

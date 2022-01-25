@@ -54,7 +54,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   static EliudQuery getSubscribedMembers(String appId) {
     return EliudQuery(theConditions: [
-      EliudQueryCondition('subscriptionsAsString', arrayContains: appId),
+      EliudQueryCondition('subscriptionsAsStrArr', arrayContains: appId),
     ]);
   }
 

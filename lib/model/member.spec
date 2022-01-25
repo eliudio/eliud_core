@@ -41,7 +41,7 @@
       "group": "subscriptions"
     },
     {
-      "fieldName": "subscriptionsAsString",
+      "fieldName": "subscriptionsAsStrArr",
       "displayName": "Subscriptions, but as string array for simple filtering",
       "fieldType": "String",
       "iconName": "text_format",

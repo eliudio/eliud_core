@@ -56,7 +56,7 @@ class MemberFirestore implements MemberRepository {
         }
       }
     }
-    return memberModel.copyWith(subscriptions: subscriptions, subscriptionsAsString: subscriptionStrings);
+    return memberModel.copyWith(subscriptions: subscriptions);
   }
 
   @override
