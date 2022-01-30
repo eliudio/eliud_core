@@ -120,6 +120,7 @@ class _MyFontFormState extends State<MyFontForm> {
   late FontFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _fontNameController = TextEditingController();
   final TextEditingController _sizeController = TextEditingController();
   int? _weightSelectedRadioTile;
@@ -134,6 +135,7 @@ class _MyFontFormState extends State<MyFontForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<FontFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _appIdController.addListener(_onAppIdChanged);
     _fontNameController.addListener(_onFontNameChanged);
     _sizeController.addListener(_onSizeChanged);
     _weightSelectedRadioTile = 0;
@@ -154,6 +156,10 @@ class _MyFontFormState extends State<MyFontForm> {
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value!.appId != null)
+          _appIdController.text = state.value!.appId.toString();
+        else
+          _appIdController.text = "";
         if (state.value!.fontName != null)
           _fontNameController.text = state.value!.fontName.toString();
         else
@@ -177,6 +183,17 @@ class _MyFontFormState extends State<MyFontForm> {
       }
       if (state is FontFormInitialized) {
         List<Widget> children = [];
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
+                ));
+
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
+
+
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -325,6 +342,7 @@ class _MyFontFormState extends State<MyFontForm> {
                         BlocProvider.of<FontListBloc>(context).add(
                           UpdateFontList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               fontName: state.value!.fontName, 
                               size: state.value!.size, 
                               weight: state.value!.weight, 
@@ -336,6 +354,7 @@ class _MyFontFormState extends State<MyFontForm> {
                         BlocProvider.of<FontListBloc>(context).add(
                           AddFontList(value: FontModel(
                               documentID: state.value!.documentID, 
+                              appId: state.value!.appId, 
                               fontName: state.value!.fontName, 
                               size: state.value!.size, 
                               weight: state.value!.weight, 
@@ -370,6 +389,11 @@ class _MyFontFormState extends State<MyFontForm> {
 
   void _onDocumentIDChanged() {
     _myFormBloc.add(ChangedFontDocumentID(value: _documentIDController.text));
+  }
+
+
+  void _onAppIdChanged() {
+    _myFormBloc.add(ChangedFontAppId(value: _appIdController.text));
   }
 
 
@@ -417,6 +441,7 @@ class _MyFontFormState extends State<MyFontForm> {
   @override
   void dispose() {
     _documentIDController.dispose();
+    _appIdController.dispose();
     _fontNameController.dispose();
     _sizeController.dispose();
     super.dispose();

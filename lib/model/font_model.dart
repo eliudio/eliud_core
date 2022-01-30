@@ -78,6 +78,7 @@ EliudFontDecoration toEliudFontDecoration(int? index) {
 
 class FontModel {
   String? documentID;
+  String? appId;
 
   // See https://fonts.google.com/
   String? fontName;
@@ -87,16 +88,16 @@ class FontModel {
   EliudFontDecoration? decoration;
   RgbModel? color;
 
-  FontModel({this.documentID, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, })  {
+  FontModel({this.documentID, this.appId, this.fontName, this.size, this.weight, this.style, this.decoration, this.color, })  {
     assert(documentID != null);
   }
 
-  FontModel copyWith({String? documentID, String? fontName, double? size, EliudFontWeight? weight, EliudFontStyle? style, EliudFontDecoration? decoration, RgbModel? color, }) {
-    return FontModel(documentID: documentID ?? this.documentID, fontName: fontName ?? this.fontName, size: size ?? this.size, weight: weight ?? this.weight, style: style ?? this.style, decoration: decoration ?? this.decoration, color: color ?? this.color, );
+  FontModel copyWith({String? documentID, String? appId, String? fontName, double? size, EliudFontWeight? weight, EliudFontStyle? style, EliudFontDecoration? decoration, RgbModel? color, }) {
+    return FontModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, fontName: fontName ?? this.fontName, size: size ?? this.size, weight: weight ?? this.weight, style: style ?? this.style, decoration: decoration ?? this.decoration, color: color ?? this.color, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ fontName.hashCode ^ size.hashCode ^ weight.hashCode ^ style.hashCode ^ decoration.hashCode ^ color.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ fontName.hashCode ^ size.hashCode ^ weight.hashCode ^ style.hashCode ^ decoration.hashCode ^ color.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -104,6 +105,7 @@ class FontModel {
           other is FontModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
+          appId == other.appId &&
           fontName == other.fontName &&
           size == other.size &&
           weight == other.weight &&
@@ -113,11 +115,12 @@ class FontModel {
 
   @override
   String toString() {
-    return 'FontModel{documentID: $documentID, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
+    return 'FontModel{documentID: $documentID, appId: $appId, fontName: $fontName, size: $size, weight: $weight, style: $style, decoration: $decoration, color: $color}';
   }
 
   FontEntity toEntity({String? appId}) {
     return FontEntity(
+          appId: (appId != null) ? appId : null, 
           fontName: (fontName != null) ? fontName : null, 
           size: (size != null) ? size : null, 
           weight: (weight != null) ? weight!.index : null, 
@@ -132,6 +135,7 @@ class FontModel {
     var counter = 0;
     return FontModel(
           documentID: documentID, 
+          appId: entity.appId, 
           fontName: entity.fontName, 
           size: entity.size, 
           weight: toEliudFontWeight(entity.weight), 
@@ -148,6 +152,7 @@ class FontModel {
     var counter = 0;
     return FontModel(
           documentID: documentID, 
+          appId: entity.appId, 
           fontName: entity.fontName, 
           size: entity.size, 
           weight: toEliudFontWeight(entity.weight), 

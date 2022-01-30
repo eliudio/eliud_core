@@ -79,6 +79,22 @@ class DocumentIDFontFormError extends FontFormError {
 }
 
 
+class AppIdFontFormError extends FontFormError { 
+  const AppIdFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AppIdFontFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class FontNameFontFormError extends FontFormError { 
   const FontNameFontFormError({ String? message, FontModel? value }): super(message: message, value: value);
 

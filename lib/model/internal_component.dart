@@ -505,7 +505,7 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository()!,
+            fontRepository: fontRepository(appId: app.documentID!)!,
           )..add(LoadFontList()),
         )
       ],
@@ -764,7 +764,7 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<FontListBloc>(
           create: (context) => FontListBloc(
-            fontRepository: fontRepository()!,
+            fontRepository: fontRepository(appId: app.documentID!)!,
           )..add(LoadFontList()),
         )
       ],

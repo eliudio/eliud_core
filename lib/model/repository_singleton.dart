@@ -113,7 +113,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
-    var _fontRepository = FontCache(FontFirestore());
+    var _fontRepository = HashMap<String, FontRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
     var _homeMenuRepository = HashMap<String, HomeMenuRepository>();
     var _memberDashboardRepository = HashMap<String, MemberDashboardRepository>();
@@ -153,8 +153,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
       if ((appId != null) && (_drawerRepository[appId] == null)) _drawerRepository[appId] = DrawerCache(DrawerFirestore(() => appRepository()!.getSubCollection(appId, 'drawer'), appId));
       return _drawerRepository[appId];
     }
-    FontRepository? fontRepository() {
-      return _fontRepository;
+    FontRepository? fontRepository(String? appId) {
+      if ((appId != null) && (_fontRepository[appId] == null)) _fontRepository[appId] = FontCache(FontFirestore(() => appRepository()!.getSubCollection(appId, 'font'), appId));
+      return _fontRepository[appId];
     }
     GridViewRepository? gridViewRepository(String? appId) {
       if ((appId != null) && (_gridViewRepository[appId] == null)) _gridViewRepository[appId] = GridViewCache(GridViewFirestore(() => appRepository()!.getSubCollection(appId, 'gridview'), appId));

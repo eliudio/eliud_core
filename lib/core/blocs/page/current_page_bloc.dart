@@ -1,14 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/model/page_component_event.dart';
-import 'package:eliud_core/model/page_component_state.dart';
-import 'package:eliud_core/model/page_repository.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:flutter/services.dart';
-
 import 'current_page_event.dart';
 import 'current_page_state.dart';
 
@@ -18,9 +11,18 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
 
   Stream<CurrentPageState> _mapLoadCurrentPageUpdateToState(String appId, String pageId) async* {
     _pageSubscription?.cancel();
+//    final waitForFirstToComplete = Completer<void>();
     _pageSubscription = pageRepository(appId: appId)!.listenTo(pageId, (value) {
       if (value != null) add(CurrentPageUpdated(page: value));
+/*
+      if (!waitForFirstToComplete.isCompleted) {
+        waitForFirstToComplete.complete();
+      }
+*/
     });
+/*
+    await waitForFirstToComplete.future;
+*/
 
     _appSubscription = appRepository()!.listenTo(appId, (value) {
       if (value != null) add(CurrentAppUpdated(app: value));

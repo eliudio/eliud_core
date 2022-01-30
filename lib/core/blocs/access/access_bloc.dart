@@ -13,6 +13,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/router_builders.dart';
@@ -40,10 +41,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           .currentSignedinUser();
 
       if (usr == null) {
+        await StyleRegistry.registry().addApp(null, event.app);
         _listenToApp(event.app.documentID!, null);
         yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
+        await StyleRegistry.registry().addApp(member, event.app);
 
         _listenToApp(event.app.documentID!, member);
         yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, getSubscriptions(member), playstoreApp: event.playstoreApp);
@@ -90,7 +93,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
       } else if (event is SwitchAppWithIDEvent) {
         if (event.isProcessing()) {
-          var newState = await addApp(theState, await _fetchApp(event.appId));
+          var app = await _fetchApp(event.appId);
+          await StyleRegistry.registry().addApp(state.getMember(), app);
+          var newState = await theState.asNotProcessing().addApp(this, app);
           var homePage = newState.homePageForAppId(event.appId);
           gotoPage(false, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
 
@@ -139,11 +144,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         yield await theState.withNewAccess(this, event.access);
       }
     }
-  }
-
-  Future<AccessDetermined> addApp(AccessDetermined accessState, AppModel app) async {
-    var accessDetermined = accessState.asNotProcessing().addApp(this, app);
-    return accessDetermined;
   }
 
   void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters, String? errorString }) {

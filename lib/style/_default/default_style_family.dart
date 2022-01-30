@@ -1,3 +1,5 @@
+import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
 import 'package:eliud_core/style/admin/admin_list_style.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
@@ -12,17 +14,19 @@ class DefaultStyleFamily extends StyleFamily {
   static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
 
   static DefaultStyleFamily? _instance;
+  static DefaultStyle? _defaultStyle;
 
   static DefaultStyleFamily instance() {
     _instance ??= DefaultStyleFamily._();
     return _instance!;
   }
 
-  DefaultStyleFamily._() : super(defaultStyleFamilyName, false) {
-    register(DefaultStyle(this));
-  }
+  DefaultStyleFamily._() : super(defaultStyleFamilyName, false);
 
-  Style defaultStyle() => styles.values.first;
+  Style defaultStyle() {
+    _defaultStyle ??= DefaultStyle(this);
+    return _defaultStyle!;
+  }
 
   /*
    * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_pkg_create
@@ -31,9 +35,14 @@ class DefaultStyleFamily extends StyleFamily {
   Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;
 
   @override
-  StyleFamily copyWithNewStyles(Map<String, Style>? styles) {
-    return DefaultStyleFamily._();
+  Future<void> addApp(MemberModel? currentMember, AppModel app) async {
   }
+
+  @override
+  Map<String, Style> allStylesMap(AppModel app) => { defaultStyleFamilyName: _defaultStyle! };
+
+  @override
+  Style? style(AppModel currentApp, String styleName) => _defaultStyle;
 }
 
 class DefaultStyle extends Style {
