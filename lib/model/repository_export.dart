@@ -25,7 +25,6 @@ export '../model/country_repository.dart';
 export '../model/decoration_color_repository.dart';
 export '../model/dialog_repository.dart';
 export '../model/drawer_repository.dart';
-export '../model/font_repository.dart';
 export '../model/grid_view_repository.dart';
 export '../model/home_menu_repository.dart';
 export '../model/member_repository.dart';

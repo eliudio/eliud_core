@@ -24,7 +24,6 @@ export '../model/country_cache.dart';
 export '../model/decoration_color_cache.dart';
 export '../model/dialog_cache.dart';
 export '../model/drawer_cache.dart';
-export '../model/font_cache.dart';
 export '../model/grid_view_cache.dart';
 export '../model/home_menu_cache.dart';
 export '../model/member_cache.dart';

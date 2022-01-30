@@ -25,7 +25,6 @@ import '../model/country_repository.dart';
 import '../model/decoration_color_repository.dart';
 import '../model/dialog_repository.dart';
 import '../model/drawer_repository.dart';
-import '../model/font_repository.dart';
 import '../model/grid_view_repository.dart';
 import '../model/home_menu_repository.dart';
 import '../model/member_repository.dart';
@@ -53,7 +52,6 @@ BackgroundRepository? backgroundRepository({ String? appId }) => AbstractReposit
 CountryRepository? countryRepository({ String? appId }) => AbstractRepositorySingleton.singleton.countryRepository();
 DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
 DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
-FontRepository? fontRepository({ String? appId }) => AbstractRepositorySingleton.singleton.fontRepository(appId);
 GridViewRepository? gridViewRepository({ String? appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
 HomeMenuRepository? homeMenuRepository({ String? appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
 MemberDashboardRepository? memberDashboardRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
@@ -80,7 +78,6 @@ abstract class AbstractRepositorySingleton {
   CountryRepository? countryRepository();
   DialogRepository? dialogRepository(String? appId);
   DrawerRepository? drawerRepository(String? appId);
-  FontRepository? fontRepository(String? appId);
   GridViewRepository? gridViewRepository(String? appId);
   HomeMenuRepository? homeMenuRepository(String? appId);
   MemberDashboardRepository? memberDashboardRepository(String? appId);
@@ -100,7 +97,6 @@ abstract class AbstractRepositorySingleton {
     backgroundRepository(appId)!.flush();
     dialogRepository(appId)!.flush();
     drawerRepository(appId)!.flush();
-    fontRepository(appId)!.flush();
     gridViewRepository(appId)!.flush();
     homeMenuRepository(appId)!.flush();
     memberDashboardRepository(appId)!.flush();

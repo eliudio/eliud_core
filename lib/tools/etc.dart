@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/font_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
@@ -471,44 +470,6 @@ class BoxFitHelper {
       }
     }
     return null;
-  }
-}
-
-class FontTools {
-  static FontWeight toFontWeight(EliudFontWeight? eliudFontWeight) {
-    if (eliudFontWeight == null) return FontWeight.w400;
-    switch (eliudFontWeight) {
-      case EliudFontWeight.Thin:
-        return FontWeight.w100;
-      case EliudFontWeight.ExtraLight:
-        return FontWeight.w200;
-      case EliudFontWeight.Light:
-        return FontWeight.w300;
-      case EliudFontWeight.Normal:
-        return FontWeight.w400;
-      case EliudFontWeight.Medium:
-        return FontWeight.w500;
-      case EliudFontWeight.SemiBold:
-        return FontWeight.w600;
-      case EliudFontWeight.Bold:
-        return FontWeight.w700;
-      case EliudFontWeight.ExtraBold:
-        return FontWeight.w800;
-      case EliudFontWeight.MostThick:
-        return FontWeight.w900;
-      case EliudFontWeight.Unknown:
-        return FontWeight.w900;
-    }
-    return FontWeight.w400;
-  }
-
-  static TextStyle? textStyle(FontModel? fontModel) {
-    if (fontModel == null) return null;
-    return GoogleFonts.getFont(fontModel.fontName!,
-        fontSize: fontModel.size,
-        fontWeight: FontTools.toFontWeight(fontModel.weight),
-        color: RgbHelper.color(rgbo: fontModel.color),
-        fontStyle: FontStyle.italic);
   }
 }
 

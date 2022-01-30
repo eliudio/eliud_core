@@ -113,19 +113,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/font_list_bloc.dart';
-import 'package:eliud_core/model/font_list.dart';
-import 'package:eliud_core/model/font_dropdown_button.dart';
-import 'package:eliud_core/model/font_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/grid_view_list_bloc.dart';
 import 'package:eliud_core/model/grid_view_list.dart';
 import 'package:eliud_core/model/grid_view_dropdown_button.dart';
@@ -277,7 +264,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "countrys") return true;
     if (id == "dialogs") return true;
     if (id == "drawers") return true;
-    if (id == "fonts") return true;
     if (id == "gridViews") return true;
     if (id == "homeMenus") return true;
     if (id == "members") return true;
@@ -311,9 +297,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "drawers")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
-
-    if (id == "fonts")
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "gridViews")
@@ -376,7 +359,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
-    if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
     if (componentId == 'members') return _memberBuild(context);
@@ -397,7 +379,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'countrys') widget = CountryListWidget(app: app);
     if (componentId == 'dialogs') widget = DialogListWidget(app: app);
     if (componentId == 'drawers') widget = DrawerListWidget(app: app);
-    if (componentId == 'fonts') widget = FontListWidget(app: app);
     if (componentId == 'gridViews') widget = GridViewListWidget(app: app);
     if (componentId == 'homeMenus') widget = HomeMenuListWidget(app: app);
     if (componentId == 'members') widget = MemberListWidget(app: app);
@@ -494,19 +475,6 @@ class ListComponent extends StatelessWidget with HasFab {
           create: (context) => DrawerListBloc(
             drawerRepository: drawerRepository(appId: app.documentID!)!,
           )..add(LoadDrawerList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
-  Widget _fontBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<FontListBloc>(
-          create: (context) => FontListBloc(
-            fontRepository: fontRepository(appId: app.documentID!)!,
-          )..add(LoadFontList()),
         )
       ],
       child: widget!,
@@ -654,7 +622,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
-    if (componentId == 'fonts') return _fontBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
     if (componentId == 'homeMenus') return _homeMenuBuild(context);
     if (componentId == 'members') return _memberBuild(context);
@@ -756,19 +723,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: DrawerDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _fontBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<FontListBloc>(
-          create: (context) => FontListBloc(
-            fontRepository: fontRepository(appId: app.documentID!)!,
-          )..add(LoadFontList()),
-        )
-      ],
-      child: FontDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 

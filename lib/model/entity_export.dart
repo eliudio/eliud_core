@@ -27,7 +27,6 @@ export '../model/decoration_color_entity.dart';
 export '../model/dialog_entity.dart';
 export '../model/display_conditions_entity.dart';
 export '../model/drawer_entity.dart';
-export '../model/font_entity.dart';
 export '../model/grid_view_entity.dart';
 export '../model/home_menu_entity.dart';
 export '../model/icon_entity.dart';

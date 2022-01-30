@@ -206,28 +206,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _fontsPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-fonts", componentName: "eliud_core_internalWidgets", componentId: "fonts"));
-    PageModel page = PageModel(
-        conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
-        ),
-        appId: appId,
-        documentID: "eliud_core_fonts_page",
-        title: "Fonts",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _gridViewsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -486,8 +464,6 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId)!.add(_drawersPages()))
 
-        .then((_) => pageRepository(appId: appId)!.add(_fontsPages()))
-
         .then((_) => pageRepository(appId: appId)!.add(_gridViewsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_homeMenusPages()))
@@ -593,16 +569,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Drawers",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_drawers_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Fonts",
-        text: "Fonts",
-        description: "Fonts",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(app, pageID: "eliud_core_fonts_page"))
     );
 
 
