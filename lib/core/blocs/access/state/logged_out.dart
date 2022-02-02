@@ -88,6 +88,7 @@ class LoggedOut extends AccessDetermined {
           mapEquals(accesses, other.accesses) &&
           ListEquality().equals(apps, other.apps) &&
           playstoreApp == other.playstoreApp &&
+          newVersion == other.newVersion &&
           isProcessing == other.isProcessing;
 
   @override
@@ -208,5 +209,17 @@ class LoggedOut extends AccessDetermined {
       newAccesses,
       playstoreApp: playstoreApp,
     ));
+  }
+
+  @override
+  AccessDetermined newVersion() {
+    var newVersion = LoggedOut._(
+      apps,
+      accesses,
+      playstoreApp: playstoreApp,
+      isProcessing: false,
+    );
+    newVersion.forceRefresh = forceRefresh + 1;
+    return newVersion;
   }
 }

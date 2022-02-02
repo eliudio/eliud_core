@@ -122,7 +122,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  String? _backgroundOverride;
   int? _layoutSelectedRadioTile;
   bool? _includeHeadingSelection;
   String? _gridView;
@@ -162,10 +161,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
-        if (state.value!.backgroundOverride != null)
-          _backgroundOverride= state.value!.backgroundOverride!.documentID;
-        else
-          _backgroundOverride= "";
         if (state.value!.layout != null)
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
@@ -254,10 +249,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -403,14 +394,6 @@ class _MyDialogFormState extends State<MyDialogForm> {
   void _onBodyComponentsChanged(value) {
     _myFormBloc.add(ChangedDialogBodyComponents(value: value));
     setState(() {});
-  }
-
-
-  void _onBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _backgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedDialogBackgroundOverride(value: val));
   }
 
 

@@ -126,7 +126,6 @@ class _MyPageFormState extends State<MyPageForm> {
   String? _drawer;
   String? _endDrawer;
   String? _homeMenu;
-  String? _backgroundOverride;
   int? _layoutSelectedRadioTile;
   String? _gridView;
 
@@ -180,10 +179,6 @@ class _MyPageFormState extends State<MyPageForm> {
           _homeMenu= state.value!.homeMenu!.documentID;
         else
           _homeMenu= "";
-        if (state.value!.backgroundOverride != null)
-          _backgroundOverride= state.value!.backgroundOverride!.documentID;
-        else
-          _backgroundOverride= "";
         if (state.value!.layout != null)
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
@@ -316,10 +311,6 @@ class _MyPageFormState extends State<MyPageForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -491,14 +482,6 @@ class _MyPageFormState extends State<MyPageForm> {
   void _onBodyComponentsChanged(value) {
     _myFormBloc.add(ChangedPageBodyComponents(value: value));
     setState(() {});
-  }
-
-
-  void _onBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _backgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedPageBackgroundOverride(value: val));
   }
 
 

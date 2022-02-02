@@ -101,7 +101,7 @@ class AppBarModel {
           icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
           imageId: (image != null) ? image!.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu!.documentID : null, 
-          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId) : null, 
           selectedIconColorOverride: (selectedIconColorOverride != null) ? selectedIconColorOverride!.toEntity(appId: appId) : null, 
           menuBackgroundColorOverride: (menuBackgroundColorOverride != null) ? menuBackgroundColorOverride!.toEntity(appId: appId) : null, 
@@ -118,6 +118,8 @@ class AppBarModel {
           header: toHeaderSelection(entity.header), 
           icon: 
             await IconModel.fromEntity(entity.icon), 
+          backgroundOverride: 
+            await BackgroundModel.fromEntity(entity.backgroundOverride), 
           iconColorOverride: 
             await RgbModel.fromEntity(entity.iconColorOverride), 
           selectedIconColorOverride: 
@@ -152,17 +154,6 @@ class AppBarModel {
       }
     }
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (entity.backgroundOverrideId != null) {
-      try {
-          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise backgroundOverride');
-        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return AppBarModel(
           documentID: documentID, 
@@ -173,7 +164,8 @@ class AppBarModel {
             await IconModel.fromEntityPlus(entity.icon, appId: appId), 
           image: imageHolder, 
           iconMenu: iconMenuHolder, 
-          backgroundOverride: backgroundOverrideHolder, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
           iconColorOverride: 
             await RgbModel.fromEntityPlus(entity.iconColorOverride, appId: appId), 
           selectedIconColorOverride: 

@@ -92,7 +92,7 @@ class ChangedDrawerName extends DrawerFormEvent {
 }
 
 class ChangedDrawerBackgroundOverride extends DrawerFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedDrawerBackgroundOverride({this.value});
 
@@ -152,7 +152,7 @@ class ChangedDrawerPopupMenuBackgroundColor extends DrawerFormEvent {
 }
 
 class ChangedDrawerHeaderBackgroundOverride extends DrawerFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedDrawerHeaderBackgroundOverride({this.value});
 

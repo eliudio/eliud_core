@@ -98,7 +98,7 @@ class DialogModel {
           bodyComponents: (bodyComponents != null) ? bodyComponents
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
           includeHeading: (includeHeading != null) ? includeHeading : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
@@ -120,6 +120,8 @@ class DialogModel {
               return BodyComponentModel.fromEntity(counter.toString(), item);
             })
             .toList())), 
+          backgroundOverride: 
+            await BackgroundModel.fromEntity(entity.backgroundOverride), 
           layout: toDialogLayout(entity.layout), 
           includeHeading: entity.includeHeading, 
           conditions: 
@@ -129,17 +131,6 @@ class DialogModel {
 
   static Future<DialogModel?> fromEntityPlus(String documentID, DialogEntity? entity, { String? appId}) async {
     if (entity == null) return null;
-
-    BackgroundModel? backgroundOverrideHolder;
-    if (entity.backgroundOverrideId != null) {
-      try {
-          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise backgroundOverride');
-        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
 
     GridViewModel? gridViewHolder;
     if (entity.gridViewId != null) {
@@ -163,7 +154,8 @@ class DialogModel {
             counter++;
             return BodyComponentModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
-          backgroundOverride: backgroundOverrideHolder, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
           layout: toDialogLayout(entity.layout), 
           includeHeading: entity.includeHeading, 
           gridView: gridViewHolder, 

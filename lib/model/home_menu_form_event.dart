@@ -116,7 +116,7 @@ class ChangedHomeMenuIconColorOverride extends HomeMenuFormEvent {
 }
 
 class ChangedHomeMenuBackgroundOverride extends HomeMenuFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedHomeMenuBackgroundOverride({this.value});
 

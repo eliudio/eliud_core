@@ -152,7 +152,7 @@ class ChangedPageBodyComponents extends PageFormEvent {
 }
 
 class ChangedPageBackgroundOverride extends PageFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedPageBackgroundOverride({this.value});
 

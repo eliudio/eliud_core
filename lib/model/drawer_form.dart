@@ -122,11 +122,9 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  String? _backgroundOverride;
   final TextEditingController _headerTextController = TextEditingController();
   final TextEditingController _secondHeaderTextController = TextEditingController();
   final TextEditingController _headerHeightController = TextEditingController();
-  String? _headerBackgroundOverride;
   String? _menu;
 
 
@@ -165,10 +163,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
-        if (state.value!.backgroundOverride != null)
-          _backgroundOverride= state.value!.backgroundOverride!.documentID;
-        else
-          _backgroundOverride= "";
         if (state.value!.headerText != null)
           _headerTextController.text = state.value!.headerText.toString();
         else
@@ -181,10 +175,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
           _headerHeightController.text = state.value!.headerHeight.toString();
         else
           _headerHeightController.text = "";
-        if (state.value!.headerBackgroundOverride != null)
-          _headerBackgroundOverride= state.value!.headerBackgroundOverride!.documentID;
-        else
-          _headerBackgroundOverride= "";
         if (state.value!.menu != null)
           _menu= state.value!.menu!.documentID;
         else
@@ -266,10 +256,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Header Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _headerBackgroundOverride, trigger: _onHeaderBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -293,10 +279,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -395,14 +377,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   }
 
 
-  void _onBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _backgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedDrawerBackgroundOverride(value: val));
-  }
-
-
   void _onHeaderTextChanged() {
     _myFormBloc.add(ChangedDrawerHeaderText(value: _headerTextController.text));
   }
@@ -421,14 +395,6 @@ class _MyDrawerFormState extends State<MyDrawerForm> {
   void _onPopupMenuBackgroundColorChanged(value) {
     _myFormBloc.add(ChangedDrawerPopupMenuBackgroundColor(value: value));
     
-  }
-
-
-  void _onHeaderBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _headerBackgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedDrawerHeaderBackgroundOverride(value: val));
   }
 
 

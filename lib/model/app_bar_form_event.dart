@@ -140,7 +140,7 @@ class ChangedAppBarIconMenu extends AppBarFormEvent {
 }
 
 class ChangedAppBarBackgroundOverride extends AppBarFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedAppBarBackgroundOverride({this.value});
 

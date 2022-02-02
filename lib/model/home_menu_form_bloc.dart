@@ -118,18 +118,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
         return;
       }
       if (event is ChangedHomeMenuBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new HomeMenuModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 name: currentState.value!.name,
-                                 menu: currentState.value!.menu,
-                                 iconColorOverride: currentState.value!.iconColorOverride,
-                                 backgroundOverride: null,
-                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
-          );
+        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         yield SubmittableHomeMenuForm(value: newValue);
 
         return;

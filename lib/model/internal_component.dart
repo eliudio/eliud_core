@@ -61,19 +61,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/background_list_bloc.dart';
-import 'package:eliud_core/model/background_list.dart';
-import 'package:eliud_core/model/background_dropdown_button.dart';
-import 'package:eliud_core/model/background_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/country_list_bloc.dart';
 import 'package:eliud_core/model/country_list.dart';
 import 'package:eliud_core/model/country_dropdown_button.dart';
@@ -260,7 +247,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "apps") return true;
     if (id == "appBars") return true;
     if (id == "appPolicys") return true;
-    if (id == "backgrounds") return true;
     if (id == "countrys") return true;
     if (id == "dialogs") return true;
     if (id == "drawers") return true;
@@ -285,9 +271,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "appPolicys")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
-
-    if (id == "backgrounds")
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
     if (id == "countrys")
@@ -355,7 +338,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'apps') return _appBuild(context);
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
-    if (componentId == 'backgrounds') return _backgroundBuild(context);
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
@@ -375,7 +357,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'apps') widget = AppListWidget(app: app);
     if (componentId == 'appBars') widget = AppBarListWidget(app: app);
     if (componentId == 'appPolicys') widget = AppPolicyListWidget(app: app);
-    if (componentId == 'backgrounds') widget = BackgroundListWidget(app: app);
     if (componentId == 'countrys') widget = CountryListWidget(app: app);
     if (componentId == 'dialogs') widget = DialogListWidget(app: app);
     if (componentId == 'drawers') widget = DrawerListWidget(app: app);
@@ -423,19 +404,6 @@ class ListComponent extends StatelessWidget with HasFab {
           create: (context) => AppPolicyListBloc(
             appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
-  Widget _backgroundBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BackgroundListBloc>(
-          create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: app.documentID!)!,
-          )..add(LoadBackgroundList()),
         )
       ],
       child: widget!,
@@ -618,7 +586,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'apps') return _appBuild(context);
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
-    if (componentId == 'backgrounds') return _backgroundBuild(context);
     if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
@@ -671,19 +638,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: AppPolicyDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _backgroundBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BackgroundListBloc>(
-          create: (context) => BackgroundListBloc(
-            backgroundRepository: backgroundRepository(appId: app.documentID!)!,
-          )..add(LoadBackgroundList()),
-        )
-      ],
-      child: BackgroundDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 

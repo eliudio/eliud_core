@@ -128,24 +128,6 @@ class DrawerCache implements DrawerRepository {
 
   static Future<DrawerModel> refreshRelations(DrawerModel model) async {
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (model.backgroundOverride != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.backgroundOverride!.documentID).then((val) {
-          backgroundOverrideHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
-    BackgroundModel? headerBackgroundOverrideHolder;
-    if (model.headerBackgroundOverride != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.headerBackgroundOverride!.documentID).then((val) {
-          headerBackgroundOverrideHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     MenuDefModel? menuHolder;
     if (model.menu != null) {
       try {
@@ -156,10 +138,6 @@ class DrawerCache implements DrawerRepository {
     }
 
     return model.copyWith(
-        backgroundOverride: backgroundOverrideHolder,
-
-        headerBackgroundOverride: headerBackgroundOverrideHolder,
-
         menu: menuHolder,
 
 

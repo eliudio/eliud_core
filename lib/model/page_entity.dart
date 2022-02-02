@@ -29,21 +29,21 @@ class PageEntity {
   final String? endDrawerId;
   final String? homeMenuId;
   final List<BodyComponentEntity>? bodyComponents;
-  final String? backgroundOverrideId;
+  final BackgroundEntity? backgroundOverride;
   final int? layout;
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverrideId, this.layout, this.gridViewId, this.conditions, });
+  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverrideId, layout, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverride, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
+    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static PageEntity? fromMap(Object? o) {
@@ -58,6 +58,10 @@ class PageEntity {
         .map((dynamic item) =>
         BodyComponentEntity.fromMap(item as Map)!)
         .toList();
+    var backgroundOverrideFromMap;
+    backgroundOverrideFromMap = map['backgroundOverride'];
+    if (backgroundOverrideFromMap != null)
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -71,7 +75,7 @@ class PageEntity {
       endDrawerId: map['endDrawerId'], 
       homeMenuId: map['homeMenuId'], 
       bodyComponents: bodyComponentsList, 
-      backgroundOverrideId: map['backgroundOverrideId'], 
+      backgroundOverride: backgroundOverrideFromMap, 
       layout: map['layout'], 
       gridViewId: map['gridViewId'], 
       conditions: conditionsFromMap, 
@@ -81,6 +85,9 @@ class PageEntity {
   Map<String, Object?> toDocument() {
     final List<Map<String?, dynamic>>? bodyComponentsListMap = bodyComponents != null 
         ? bodyComponents!.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic>? backgroundOverrideMap = backgroundOverride != null 
+        ? backgroundOverride!.toDocument()
         : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
@@ -101,8 +108,8 @@ class PageEntity {
       else theDocument["homeMenuId"] = null;
     if (bodyComponents != null) theDocument["bodyComponents"] = bodyComponentsListMap;
       else theDocument["bodyComponents"] = null;
-    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
-      else theDocument["backgroundOverrideId"] = null;
+    if (backgroundOverride != null) theDocument["backgroundOverride"] = backgroundOverrideMap;
+      else theDocument["backgroundOverride"] = null;
     if (layout != null) theDocument["layout"] = layout;
       else theDocument["layout"] = null;
     if (gridViewId != null) theDocument["gridViewId"] = gridViewId;

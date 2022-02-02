@@ -137,19 +137,8 @@ class HomeMenuCache implements HomeMenuRepository {
       } catch (_) {}
     }
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (model.backgroundOverride != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.backgroundOverride!.documentID).then((val) {
-          backgroundOverrideHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     return model.copyWith(
         menu: menuHolder,
-
-        backgroundOverride: backgroundOverrideHolder,
 
 
     );

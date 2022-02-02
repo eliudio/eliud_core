@@ -6,17 +6,12 @@ import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_out.dart';
 import 'package:eliud_core/core/blocs/access/state/undertermined_access_state.dart';
-import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/member_subscription_model.dart';
-import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_core/tools/router_builders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +36,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           .currentSignedinUser();
 
       if (usr == null) {
-        await StyleRegistry.registry().addApp(null, event.app);
+        await StyleRegistry.registry().addApp(null, event.app, () => _currentStyleChanged(event.app));
         _listenToApp(event.app.documentID!, null);
         yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
-        await StyleRegistry.registry().addApp(member, event.app);
+        await StyleRegistry.registry().addApp(member, event.app, () => _currentStyleChanged(event.app));
 
         _listenToApp(event.app.documentID!, member);
         yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, getSubscriptions(member), playstoreApp: event.playstoreApp);
@@ -94,7 +89,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       } else if (event is SwitchAppWithIDEvent) {
         if (event.isProcessing()) {
           var app = await _fetchApp(event.appId);
-          await StyleRegistry.registry().addApp(state.getMember(), app);
+          await StyleRegistry.registry().addApp(state.getMember(), app, ()=> _currentStyleChanged(app));
           var newState = await theState.asNotProcessing().addApp(this, app);
           var homePage = newState.homePageForAppId(event.appId);
           gotoPage(false, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
@@ -106,10 +101,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           yield theState.asProcessing();
         }
       } else if (event is AppUpdatedEvent) {
-        var oldState = state;
         var newState = await theState.updateApp(event.app);
-        var theyEqual = oldState == newState;
+        await StyleRegistry.registry().addApp(
+            state.getMember(), event.app, () =>
+            _currentStyleChanged(event.app));
         yield newState;
+      } else if (event is RefreshAppEvent) {
+        if (state is AccessDetermined) {
+          var theState = state as AccessDetermined;
+          var newState = theState.newVersion();
+          yield newState;
+        }
       } else if (event is GotoPageEvent) {
           // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
           // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
@@ -120,9 +122,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         // See comment @ GotoPageEvent
         // We should use theState.openDialog(`dialog, parameters: event.parameters);
       } else if (event is UpdatePackageConditionEvent) {
-        var currentState = state;
         var newState = theState.withDifferentPackageCondition(event.app.documentID!, event.package, event.packageCondition, event.condition);
-        var isEqual = currentState == newState;
         yield newState;
       } else if (event is PrivilegeChangedEvent) {
         yield await theState.withOtherPrivilege(this, event.app,
@@ -144,6 +144,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         yield await theState.withNewAccess(this, event.access);
       }
     }
+  }
+
+  void _currentStyleChanged(AppModel app) {
+    add(RefreshAppEvent(app));
   }
 
   void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters, String? errorString }) {
@@ -224,7 +228,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         return member;
       }
     }).catchError((onError) {
-      return null;
+      print('Exception in firebaseToMemberModel ' + onError.toString());
     });
     return futureMemberModel;
   }
@@ -295,12 +299,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   static AccessState getState(BuildContext context) {
     var accessBloc = BlocProvider.of<AccessBloc>(context);
-    if (accessBloc == null) {
-      throw Exception("AccessBloc not available");
-    } else {
-      var state = accessBloc.state;
-      return state;
-      }
+    var state = accessBloc.state;
+    return state;
   }
 
   Future<AppModel> _fetchApp(String id) async {

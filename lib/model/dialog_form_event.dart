@@ -104,7 +104,7 @@ class ChangedDialogBodyComponents extends DialogFormEvent {
 }
 
 class ChangedDialogBackgroundOverride extends DialogFormEvent {
-  final String? value;
+  final BackgroundModel? value;
 
   ChangedDialogBackgroundOverride({this.value});
 

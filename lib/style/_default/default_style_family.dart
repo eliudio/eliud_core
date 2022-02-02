@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/admin/admin_form_style.dart';
@@ -14,35 +16,61 @@ class DefaultStyleFamily extends StyleFamily {
   static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
 
   static DefaultStyleFamily? _instance;
-  static DefaultStyle? _defaultStyle;
+  late DefaultStyle defaultStyle;
 
   static DefaultStyleFamily instance() {
     _instance ??= DefaultStyleFamily._();
     return _instance!;
   }
 
-  DefaultStyleFamily._() : super(defaultStyleFamilyName, false);
-
-  Style defaultStyle() {
-    _defaultStyle ??= DefaultStyle(this);
-    return _defaultStyle!;
+  DefaultStyleFamily._() : super(defaultStyleFamilyName, false, false) {
+    defaultStyle = DefaultStyle(this);
   }
 
   /*
    * A StyleFamily can implement the widgetToUpdateStyle. If so, the eliud_pkg_create
    * will allow to create / update the style
    */
-  Widget? widgetToUpdateStyle(BuildContext context, Style style,) => null;
+  Widget? widgetToUpdateStyle(
+    BuildContext context,
+    Style style,
+  ) =>
+      null;
 
   @override
-  Future<void> addApp(MemberModel? currentMember, AppModel app) async {
-  }
+  Future<void> addApp(MemberModel? currentMember, AppModel app) async {}
 
+/*
   @override
   Map<String, Style> allStylesMap(AppModel app) => { defaultStyleFamilyName: _defaultStyle! };
 
+*/
   @override
-  Style? style(AppModel currentApp, String styleName) => _defaultStyle;
+  Future<List<Style>> allStyles(AppModel app) => Future.value([defaultStyle]);
+
+  @override
+  Style? getStyle(AppModel currentApp, String styleName) {
+    return defaultStyle;
+  }
+
+  @override
+  Future<void> installDefaults(AppModel app) async {}
+
+  @override
+  StreamSubscription? listenToStyles(
+      String appId, StylesTrigger stylesTrigger) {
+    stylesTrigger([defaultStyle]);
+    return null;
+  }
+
+  @override
+  void delete(AppModel app, Style style) {}
+
+  @override
+  void subscribeForChange(CurrentStyleTrigger? currentStyleTrigger) {}
+
+  @override
+  void update(AppModel app, Style style) {}
 }
 
 class DefaultStyle extends Style {
@@ -52,7 +80,8 @@ class DefaultStyle extends Style {
   late AdminListStyle _adminListStyle;
   late FrontEndStyle _frontEndFormStyle;
 
-  DefaultStyle(StyleFamily styleFamily) : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
+  DefaultStyle(StyleFamily styleFamily)
+      : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
     _adminFormStyle = DefaultAdminFormStyle();
     _adminListStyle = DefaultAdminListStyle();
     _frontEndFormStyle = DefaultFrontEndStyle();

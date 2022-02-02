@@ -8,6 +8,7 @@ import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core/tools/random.dart';
 import 'package:equatable/equatable.dart';
 
 import '../access_bloc.dart';
@@ -37,11 +38,16 @@ abstract class AccessDetermined extends AccessState {
   final Map<String, PagesAndDialogAccesss> accesses;
   bool? isProcessing;
 
+  // flag to allow to force a new version of accessDetermined
+  int forceRefresh = 0;
+
   bool isProcessingStatus() => isProcessing ?? false;
 
   @override
   List<Object?> get props =>
       [apps, accesses];
+
+  AccessDetermined newVersion();
 
   AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
 

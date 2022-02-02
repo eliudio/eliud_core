@@ -25,22 +25,22 @@ class DialogEntity {
   final String? appId;
   final String? title;
   final List<BodyComponentEntity>? bodyComponents;
-  final String? backgroundOverrideId;
+  final BackgroundEntity? backgroundOverride;
   final int? layout;
   final bool? includeHeading;
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverrideId, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
+  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, bodyComponents, backgroundOverrideId, layout, includeHeading, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, bodyComponents, backgroundOverride, layout, includeHeading, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverrideId: $backgroundOverrideId, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
+    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static DialogEntity? fromMap(Object? o) {
@@ -55,6 +55,10 @@ class DialogEntity {
         .map((dynamic item) =>
         BodyComponentEntity.fromMap(item as Map)!)
         .toList();
+    var backgroundOverrideFromMap;
+    backgroundOverrideFromMap = map['backgroundOverride'];
+    if (backgroundOverrideFromMap != null)
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
@@ -64,7 +68,7 @@ class DialogEntity {
       appId: map['appId'], 
       title: map['title'], 
       bodyComponents: bodyComponentsList, 
-      backgroundOverrideId: map['backgroundOverrideId'], 
+      backgroundOverride: backgroundOverrideFromMap, 
       layout: map['layout'], 
       includeHeading: map['includeHeading'], 
       gridViewId: map['gridViewId'], 
@@ -75,6 +79,9 @@ class DialogEntity {
   Map<String, Object?> toDocument() {
     final List<Map<String?, dynamic>>? bodyComponentsListMap = bodyComponents != null 
         ? bodyComponents!.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic>? backgroundOverrideMap = backgroundOverride != null 
+        ? backgroundOverride!.toDocument()
         : null;
     final Map<String, dynamic>? conditionsMap = conditions != null 
         ? conditions!.toDocument()
@@ -87,8 +94,8 @@ class DialogEntity {
       else theDocument["title"] = null;
     if (bodyComponents != null) theDocument["bodyComponents"] = bodyComponentsListMap;
       else theDocument["bodyComponents"] = null;
-    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
-      else theDocument["backgroundOverrideId"] = null;
+    if (backgroundOverride != null) theDocument["backgroundOverride"] = backgroundOverrideMap;
+      else theDocument["backgroundOverride"] = null;
     if (layout != null) theDocument["layout"] = layout;
       else theDocument["layout"] = null;
     if (includeHeading != null) theDocument["includeHeading"] = includeHeading;

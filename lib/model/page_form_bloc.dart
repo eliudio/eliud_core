@@ -184,23 +184,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
         return;
       }
       if (event is ChangedPageBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: currentState.value!.appBar,
-                                 drawer: currentState.value!.drawer,
-                                 endDrawer: currentState.value!.endDrawer,
-                                 homeMenu: currentState.value!.homeMenu,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: null,
-                                 layout: currentState.value!.layout,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         yield SubmittablePageForm(value: newValue);
 
         return;

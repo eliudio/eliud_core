@@ -28,19 +28,19 @@ class AppBarEntity {
   final IconEntity? icon;
   final String? imageId;
   final String? iconMenuId;
-  final String? backgroundOverrideId;
+  final BackgroundEntity? backgroundOverride;
   final RgbEntity? iconColorOverride;
   final RgbEntity? selectedIconColorOverride;
   final RgbEntity? menuBackgroundColorOverride;
 
-  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverrideId, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
+  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
 
 
-  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverrideId, iconColorOverride, selectedIconColorOverride, menuBackgroundColorOverride, ];
+  List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverride, iconColorOverride, selectedIconColorOverride, menuBackgroundColorOverride, ];
 
   @override
   String toString() {
-    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverrideId: $backgroundOverrideId, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
+    return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
   static AppBarEntity? fromMap(Object? o) {
@@ -51,6 +51,10 @@ class AppBarEntity {
     iconFromMap = map['icon'];
     if (iconFromMap != null)
       iconFromMap = IconEntity.fromMap(iconFromMap);
+    var backgroundOverrideFromMap;
+    backgroundOverrideFromMap = map['backgroundOverride'];
+    if (backgroundOverrideFromMap != null)
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
     var iconColorOverrideFromMap;
     iconColorOverrideFromMap = map['iconColorOverride'];
     if (iconColorOverrideFromMap != null)
@@ -71,7 +75,7 @@ class AppBarEntity {
       icon: iconFromMap, 
       imageId: map['imageId'], 
       iconMenuId: map['iconMenuId'], 
-      backgroundOverrideId: map['backgroundOverrideId'], 
+      backgroundOverride: backgroundOverrideFromMap, 
       iconColorOverride: iconColorOverrideFromMap, 
       selectedIconColorOverride: selectedIconColorOverrideFromMap, 
       menuBackgroundColorOverride: menuBackgroundColorOverrideFromMap, 
@@ -81,6 +85,9 @@ class AppBarEntity {
   Map<String, Object?> toDocument() {
     final Map<String, dynamic>? iconMap = icon != null 
         ? icon!.toDocument()
+        : null;
+    final Map<String, dynamic>? backgroundOverrideMap = backgroundOverride != null 
+        ? backgroundOverride!.toDocument()
         : null;
     final Map<String, dynamic>? iconColorOverrideMap = iconColorOverride != null 
         ? iconColorOverride!.toDocument()
@@ -105,8 +112,8 @@ class AppBarEntity {
       else theDocument["imageId"] = null;
     if (iconMenuId != null) theDocument["iconMenuId"] = iconMenuId;
       else theDocument["iconMenuId"] = null;
-    if (backgroundOverrideId != null) theDocument["backgroundOverrideId"] = backgroundOverrideId;
-      else theDocument["backgroundOverrideId"] = null;
+    if (backgroundOverride != null) theDocument["backgroundOverride"] = backgroundOverrideMap;
+      else theDocument["backgroundOverride"] = null;
     if (iconColorOverride != null) theDocument["iconColorOverride"] = iconColorOverrideMap;
       else theDocument["iconColorOverride"] = null;
     if (selectedIconColorOverride != null) theDocument["selectedIconColorOverride"] = selectedIconColorOverrideMap;

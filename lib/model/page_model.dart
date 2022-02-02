@@ -110,7 +110,7 @@ class PageModel {
           bodyComponents: (bodyComponents != null) ? bodyComponents
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
           conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
@@ -131,6 +131,8 @@ class PageModel {
               return BodyComponentModel.fromEntity(counter.toString(), item);
             })
             .toList())), 
+          backgroundOverride: 
+            await BackgroundModel.fromEntity(entity.backgroundOverride), 
           layout: toPageLayout(entity.layout), 
           conditions: 
             await StorageConditionsModel.fromEntity(entity.conditions), 
@@ -184,17 +186,6 @@ class PageModel {
       }
     }
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (entity.backgroundOverrideId != null) {
-      try {
-          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise backgroundOverride');
-        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
-
     GridViewModel? gridViewHolder;
     if (entity.gridViewId != null) {
       try {
@@ -221,7 +212,8 @@ class PageModel {
             counter++;
             return BodyComponentModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
-          backgroundOverride: backgroundOverrideHolder, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
           layout: toPageLayout(entity.layout), 
           gridView: gridViewHolder, 
           conditions: 

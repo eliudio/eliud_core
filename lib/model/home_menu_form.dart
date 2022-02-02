@@ -123,7 +123,6 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   String? _menu;
-  String? _backgroundOverride;
 
 
   _MyHomeMenuFormState(this.formAction);
@@ -162,10 +161,6 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
           _menu= state.value!.menu!.documentID;
         else
           _menu= "";
-        if (state.value!.backgroundOverride != null)
-          _backgroundOverride= state.value!.backgroundOverride!.documentID;
-        else
-          _backgroundOverride= "";
       }
       if (state is HomeMenuFormInitialized) {
         List<Widget> children = [];
@@ -228,10 +223,6 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -333,14 +324,6 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   void _onIconColorOverrideChanged(value) {
     _myFormBloc.add(ChangedHomeMenuIconColorOverride(value: value));
     
-  }
-
-
-  void _onBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _backgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedHomeMenuBackgroundOverride(value: val));
   }
 
 

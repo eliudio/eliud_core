@@ -77,7 +77,7 @@ class HomeMenuModel {
           name: (name != null) ? name : null, 
           menuId: (menu != null) ? menu!.documentID : null, 
           iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId) : null, 
-          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
     );
   }
@@ -91,6 +91,8 @@ class HomeMenuModel {
           name: entity.name, 
           iconColorOverride: 
             await RgbModel.fromEntity(entity.iconColorOverride), 
+          backgroundOverride: 
+            await BackgroundModel.fromEntity(entity.backgroundOverride), 
           popupMenuBackgroundColorOverride: 
             await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
     );
@@ -110,17 +112,6 @@ class HomeMenuModel {
       }
     }
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (entity.backgroundOverrideId != null) {
-      try {
-          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise backgroundOverride');
-        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return HomeMenuModel(
           documentID: documentID, 
@@ -129,7 +120,8 @@ class HomeMenuModel {
           menu: menuHolder, 
           iconColorOverride: 
             await RgbModel.fromEntityPlus(entity.iconColorOverride, appId: appId), 
-          backgroundOverride: backgroundOverrideHolder, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
           popupMenuBackgroundColorOverride: 
             await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColorOverride, appId: appId), 
     );

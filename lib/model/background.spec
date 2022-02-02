@@ -1,38 +1,22 @@
 {
   "id": "Background",
   "packageName": "eliud_core",
-  "isAppModel": true,
   "generate": {
     "generateComponent": false,
-    "generateRepository": true,
-    "generateCache": true,
-	"hasPersistentRepository": true,
-    "generateFirestoreRepository": true,
-    "generateRepositorySingleton": true,
-	"generateModel": true,
+    "generateRepository": false,
+    "generateCache": false,
+	"hasPersistentRepository": false,
+    "generateFirestoreRepository": false,
+    "generateRepositorySingleton": false,
+    "generateModel": true,
     "generateEntity": true,
-    "generateForm": true,
-    "generateList": true,
-    "generateDropDownButton": true,
-    "generateInternalComponent": true,
-    "generateEmbeddedComponent": false,
-    "documentSubCollectionOf": "app"
+    "generateForm": false,
+    "generateList": false,
+    "generateDropDownButton": false,
+    "generateInternalComponent": false,
+    "generateEmbeddedComponent": false
   },
   "fields": [
-    {
-      "fieldName": "documentID",
-      "displayName": "Document ID",
-      "fieldType": "String",
-      "iconName": "vpn_key",
-      "group": "general"
-    },
-    {
-      "fieldName": "appId",
-      "displayName": "App ID",
-      "fieldType": "String",
-      "iconName": "vpn_key",
-      "hidden": true
-    },
     {
       "fieldName": "comments",
       "displayName": "Comments",

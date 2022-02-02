@@ -31,9 +31,6 @@ import '../model/app_policy_repository.dart';
 import '../model/app_policy_cache.dart';
 import '../model/app_policy_item_repository.dart';
 import '../model/app_policy_item_cache.dart';
-import '../model/background_firestore.dart';
-import '../model/background_repository.dart';
-import '../model/background_cache.dart';
 import '../model/body_component_repository.dart';
 import '../model/body_component_cache.dart';
 import '../model/country_firestore.dart';
@@ -61,6 +58,8 @@ import '../model/member_dashboard_cache.dart';
 import '../model/member_medium_firestore.dart';
 import '../model/member_medium_repository.dart';
 import '../model/member_medium_cache.dart';
+import '../model/member_medium_container_repository.dart';
+import '../model/member_medium_container_cache.dart';
 import '../model/member_public_info_firestore.dart';
 import '../model/member_public_info_repository.dart';
 import '../model/member_public_info_cache.dart';
@@ -86,8 +85,6 @@ import '../model/public_medium_cache.dart';
 import '../model/shadow_firestore.dart';
 import '../model/shadow_repository.dart';
 import '../model/shadow_cache.dart';
-import '../model/member_medium_container_repository.dart';
-import '../model/member_medium_container_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -98,15 +95,14 @@ import '../model/dialog_model.dart';
 import '../model/drawer_model.dart';
 import '../model/home_menu_model.dart';
 import '../model/member_model.dart';
+import '../model/member_medium_container_model.dart';
 import '../model/member_subscription_model.dart';
 import '../model/page_model.dart';
-import '../model/member_medium_container_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
-    var _backgroundRepository = HashMap<String, BackgroundRepository>();
     var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
@@ -133,10 +129,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     AppPolicyRepository? appPolicyRepository(String? appId) {
       if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(() => appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
-    }
-    BackgroundRepository? backgroundRepository(String? appId) {
-      if ((appId != null) && (_backgroundRepository[appId] == null)) _backgroundRepository[appId] = BackgroundCache(BackgroundFirestore(() => appRepository()!.getSubCollection(appId, 'background'), appId));
-      return _backgroundRepository[appId];
     }
     CountryRepository? countryRepository() {
       return _countryRepository;

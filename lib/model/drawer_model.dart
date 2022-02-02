@@ -83,12 +83,12 @@ class DrawerModel {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          backgroundOverrideId: (backgroundOverride != null) ? backgroundOverride!.documentID : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
           popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
-          headerBackgroundOverrideId: (headerBackgroundOverride != null) ? headerBackgroundOverride!.documentID : null, 
+          headerBackgroundOverride: (headerBackgroundOverride != null) ? headerBackgroundOverride!.toEntity(appId: appId) : null, 
           popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
           menuId: (menu != null) ? menu!.documentID : null, 
     );
@@ -101,11 +101,15 @@ class DrawerModel {
           documentID: documentID, 
           appId: entity.appId, 
           name: entity.name, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntity(entity.backgroundOverride), 
           headerText: entity.headerText, 
           secondHeaderText: entity.secondHeaderText, 
           headerHeight: entity.headerHeight, 
           popupMenuBackgroundColor: 
             await RgbModel.fromEntity(entity.popupMenuBackgroundColor), 
+          headerBackgroundOverride: 
+            await BackgroundModel.fromEntity(entity.headerBackgroundOverride), 
           popupMenuBackgroundColorOverride: 
             await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
     );
@@ -113,28 +117,6 @@ class DrawerModel {
 
   static Future<DrawerModel?> fromEntityPlus(String documentID, DrawerEntity? entity, { String? appId}) async {
     if (entity == null) return null;
-
-    BackgroundModel? backgroundOverrideHolder;
-    if (entity.backgroundOverrideId != null) {
-      try {
-          backgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.backgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise backgroundOverride');
-        print('Error whilst retrieving background with id ${entity.backgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
-
-    BackgroundModel? headerBackgroundOverrideHolder;
-    if (entity.headerBackgroundOverrideId != null) {
-      try {
-          headerBackgroundOverrideHolder = await backgroundRepository(appId: appId)!.get(entity.headerBackgroundOverrideId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise headerBackgroundOverride');
-        print('Error whilst retrieving background with id ${entity.headerBackgroundOverrideId}');
-        print('Exception: $e');
-      }
-    }
 
     MenuDefModel? menuHolder;
     if (entity.menuId != null) {
@@ -152,13 +134,15 @@ class DrawerModel {
           documentID: documentID, 
           appId: entity.appId, 
           name: entity.name, 
-          backgroundOverride: backgroundOverrideHolder, 
+          backgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
           headerText: entity.headerText, 
           secondHeaderText: entity.secondHeaderText, 
           headerHeight: entity.headerHeight, 
           popupMenuBackgroundColor: 
             await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor, appId: appId), 
-          headerBackgroundOverride: headerBackgroundOverrideHolder, 
+          headerBackgroundOverride: 
+            await BackgroundModel.fromEntityPlus(entity.headerBackgroundOverride, appId: appId), 
           popupMenuBackgroundColorOverride: 
             await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColorOverride, appId: appId), 
           menu: menuHolder, 

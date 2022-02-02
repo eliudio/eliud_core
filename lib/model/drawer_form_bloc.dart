@@ -94,22 +94,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new DrawerModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 name: currentState.value!.name,
-                                 backgroundOverride: null,
-                                 headerText: currentState.value!.headerText,
-                                 secondHeaderText: currentState.value!.secondHeaderText,
-                                 headerHeight: currentState.value!.headerHeight,
-                                 popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
-                                 headerBackgroundOverride: currentState.value!.headerBackgroundOverride,
-                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
-                                 menu: currentState.value!.menu,
-          );
+        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;
@@ -144,22 +129,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
         return;
       }
       if (event is ChangedDrawerHeaderBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(headerBackgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new DrawerModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 name: currentState.value!.name,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 headerText: currentState.value!.headerText,
-                                 secondHeaderText: currentState.value!.secondHeaderText,
-                                 headerHeight: currentState.value!.headerHeight,
-                                 popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
-                                 headerBackgroundOverride: null,
-                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
-                                 menu: currentState.value!.menu,
-          );
+        newValue = currentState.value!.copyWith(headerBackgroundOverride: event.value);
         yield SubmittableDrawerForm(value: newValue);
 
         return;

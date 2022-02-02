@@ -178,6 +178,22 @@ class AppUpdatedEvent extends AccessEvent {
               runtimeType == other.runtimeType;
 }
 
+class RefreshAppEvent extends AccessEvent {
+  final AppModel app;
+
+  RefreshAppEvent(this.app);
+
+  @override
+  List<Object?> get props => [app];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is RefreshAppEvent &&
+              app == other.app &&
+              runtimeType == other.runtimeType;
+}
+
 class AccessUpdatedEvent extends AccessEvent {
   final AccessModel access;
 

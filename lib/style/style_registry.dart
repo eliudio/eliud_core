@@ -1,11 +1,8 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/_default/default_style_family.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_family.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StyleRegistry {
   static Style? _defaultStyle;
@@ -26,14 +23,26 @@ class StyleRegistry {
   }
 
 */
-  Future<void> addApp(MemberModel? currentMember, AppModel app) async {
+  Future<void> addApp(MemberModel? currentMember, AppModel app,
+      CurrentStyleTrigger currentStyleTrigger) async {
+    for (var value in registeredStyleFamilies.values) {
+      await value.addApp(currentMember, app);
+      value.subscribeForChange(currentStyleTrigger);
+    }
+/*
     var futures = <Future<void>>[];
-    registeredStyleFamilies.forEach((key, value) async { futures.add(value.addApp(currentMember, app));});
-    await Future.wait(futures);
+    registeredStyleFamilies.forEach((key, value) async {
+      futures.add(await value.addApp(currentMember, app);
+      value.subscribeForChange(currentStyleTrigger);
+    });
+*/
+//    await Future.wait(futures);
   }
 
   Style styleWithApp(AppModel app) {
-    if ((app.styleFamily == null) || (app.styleName == null)) return defaultStyle();
+    if ((app.styleFamily == null) || (app.styleName == null)) {
+      return defaultStyle();
+    }
     return style(app, app.styleFamily!, app.styleName!);
   }
 
@@ -44,14 +53,14 @@ class StyleRegistry {
   Style style(AppModel app, String familyName, String styleName) {
     var _styleFamily = styleFamily(familyName);
     if (_styleFamily != null) {
-      var style = _styleFamily.style(app, styleName);
+      var style = _styleFamily.getStyle(app, styleName);
       if (style != null) return style;
     }
     return defaultStyle();
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= DefaultStyleFamily.instance().defaultStyle();
+    _defaultStyle ??= DefaultStyleFamily.instance().defaultStyle;
     return _defaultStyle!;
   }
 

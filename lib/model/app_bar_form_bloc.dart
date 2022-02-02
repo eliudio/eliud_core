@@ -146,22 +146,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
         return;
       }
       if (event is ChangedAppBarBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppBarModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 header: currentState.value!.header,
-                                 icon: currentState.value!.icon,
-                                 image: currentState.value!.image,
-                                 iconMenu: currentState.value!.iconMenu,
-                                 backgroundOverride: null,
-                                 iconColorOverride: currentState.value!.iconColorOverride,
-                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
-                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
-          );
+        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         yield SubmittableAppBarForm(value: newValue);
 
         return;

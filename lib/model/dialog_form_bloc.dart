@@ -96,20 +96,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
         return;
       }
       if (event is ChangedDialogBackgroundOverride) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(backgroundOverride: await backgroundRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new DialogModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: null,
-                                 layout: currentState.value!.layout,
-                                 includeHeading: currentState.value!.includeHeading,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
+        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         yield SubmittableDialogForm(value: newValue);
 
         return;

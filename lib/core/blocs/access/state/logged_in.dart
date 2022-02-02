@@ -32,7 +32,8 @@ class LoggedIn extends AccessDetermined {
       Map<String, PagesAndDialogAccesss> accesses,
       this.subscribedToApps,
       {AppModel? playstoreApp,
-      bool? isProcessing})
+      bool? isProcessing,
+      })
       : super(apps, accesses,
             playstoreApp: playstoreApp, isProcessing: isProcessing);
 
@@ -317,6 +318,7 @@ class LoggedIn extends AccessDetermined {
           ListEquality().equals(apps, other.apps) &&
           ListEquality().equals(subscribedToApps, other.subscribedToApps) &&
           playstoreApp == other.playstoreApp &&
+          newVersion == other.newVersion &&
           isProcessing == other.isProcessing;
 
   @override
@@ -433,6 +435,21 @@ class LoggedIn extends AccessDetermined {
         ? subscription.app!.documentID == app.documentID
         : false);
     return matches.isNotEmpty;
+  }
+
+  @override
+  AccessDetermined newVersion() {
+    var newVersion = LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      apps,
+      accesses,
+      subscribedToApps,
+      playstoreApp: playstoreApp,
+    );
+    newVersion.forceRefresh = forceRefresh + 1;
+    return newVersion;
   }
 
 }

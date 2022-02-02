@@ -128,15 +128,6 @@ class DialogCache implements DialogRepository {
 
   static Future<DialogModel> refreshRelations(DialogModel model) async {
 
-    BackgroundModel? backgroundOverrideHolder;
-    if (model.backgroundOverride != null) {
-      try {
-        await backgroundRepository(appId: model.appId)!.get(model.backgroundOverride!.documentID).then((val) {
-          backgroundOverrideHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     GridViewModel? gridViewHolder;
     if (model.gridView != null) {
       try {
@@ -154,8 +145,6 @@ class DialogCache implements DialogRepository {
     }
 
     return model.copyWith(
-        backgroundOverride: backgroundOverrideHolder,
-
         gridView: gridViewHolder,
 
         bodyComponents: bodyComponentsHolder,

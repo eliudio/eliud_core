@@ -125,7 +125,6 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   int? _headerSelectedRadioTile;
   String? _image;
   String? _iconMenu;
-  String? _backgroundOverride;
 
 
   _MyAppBarFormState(this.formAction);
@@ -173,10 +172,6 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
           _iconMenu= state.value!.iconMenu!.documentID;
         else
           _iconMenu= "";
-        if (state.value!.backgroundOverride != null)
-          _backgroundOverride= state.value!.backgroundOverride!.documentID;
-        else
-          _backgroundOverride= "";
       }
       if (state is AppBarFormInitialized) {
         List<Widget> children = [];
@@ -331,10 +326,6 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Header Background')
                 ));
 
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "backgrounds", value: _backgroundOverride, trigger: _onBackgroundOverrideSelected, optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -444,14 +435,6 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
       _iconMenu = val;
     });
     _myFormBloc.add(ChangedAppBarIconMenu(value: val));
-  }
-
-
-  void _onBackgroundOverrideSelected(String? val) {
-    setState(() {
-      _backgroundOverride = val;
-    });
-    _myFormBloc.add(ChangedAppBarBackgroundOverride(value: val));
   }
 
 

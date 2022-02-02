@@ -51,7 +51,6 @@
       "fieldName": "backgroundOverride",
       "displayName": "Background Override",
       "fieldType": "Background",
-      "association": true,
       "optional": true,
       "group": "background"
     },
