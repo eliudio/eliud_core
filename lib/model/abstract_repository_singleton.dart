@@ -38,7 +38,6 @@ import '../model/page_repository.dart';
 import '../model/platform_medium_repository.dart';
 import '../model/pos_size_repository.dart';
 import '../model/public_medium_repository.dart';
-import '../model/shadow_repository.dart';
 import 'package:eliud_core/core/blocs/access/repo/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -60,7 +59,6 @@ PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton
 PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
 PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 PublicMediumRepository? publicMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.publicMediumRepository();
-ShadowRepository? shadowRepository({ String? appId }) => AbstractRepositorySingleton.singleton.shadowRepository(appId);
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
@@ -85,7 +83,6 @@ abstract class AbstractRepositorySingleton {
   PlatformMediumRepository? platformMediumRepository(String? appId);
   PosSizeRepository? posSizeRepository(String? appId);
   PublicMediumRepository? publicMediumRepository();
-  ShadowRepository? shadowRepository(String? appId);
 
   void flush(String? appId) {
     accessRepository(appId)!.flush();
@@ -101,6 +98,5 @@ abstract class AbstractRepositorySingleton {
     pageRepository(appId)!.flush();
     platformMediumRepository(appId)!.flush();
     posSizeRepository(appId)!.flush();
-    shadowRepository(appId)!.flush();
   }
 }

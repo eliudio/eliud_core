@@ -18,13 +18,6 @@
   },
   "fields": [
     {
-      "fieldName": "comments",
-      "displayName": "Comments",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "group": "general"
-    },
-    {
       "fieldName": "backgroundImage",
       "remark": "Background Image. If you want to use an image you've uploaded to your member area then please use that public URL",
       "displayName": "Header Background Image",
@@ -60,7 +53,7 @@
     {
       "fieldName": "shadow",
       "fieldType": "Shadow",
-      "association": true,
+      "association": false,
       "optional": true,
       "iconName": "wb_sunny",
       "group": "shadow"
@@ -104,7 +97,6 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
-    "subTitle": "value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container()"
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()"
   }
 }

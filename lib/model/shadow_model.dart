@@ -32,7 +32,6 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ShadowModel {
-  String? documentID;
   String? appId;
   String? comments;
   RgbModel? color;
@@ -49,23 +48,21 @@ class ShadowModel {
   // The standard deviation of the Gaussian to convolve with the shadow's shape.
   double? blurRadius;
 
-  ShadowModel({this.documentID, this.appId, this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
-    assert(documentID != null);
+  ShadowModel({this.appId, this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
   }
 
-  ShadowModel copyWith({String? documentID, String? appId, String? comments, RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
-    return ShadowModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
+  ShadowModel copyWith({String? appId, String? comments, RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
+    return ShadowModel(appId: appId ?? this.appId, comments: comments ?? this.comments, color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ comments.hashCode ^ color.hashCode ^ offsetDX.hashCode ^ offsetDY.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
+  int get hashCode => appId.hashCode ^ comments.hashCode ^ color.hashCode ^ offsetDX.hashCode ^ offsetDY.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
 
   @override
   bool operator ==(Object other) =>
           identical(this, other) ||
           other is ShadowModel &&
           runtimeType == other.runtimeType && 
-          documentID == other.documentID &&
           appId == other.appId &&
           comments == other.comments &&
           color == other.color &&
@@ -76,7 +73,7 @@ class ShadowModel {
 
   @override
   String toString() {
-    return 'ShadowModel{documentID: $documentID, appId: $appId, comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
+    return 'ShadowModel{appId: $appId, comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
   ShadowEntity toEntity({String? appId}) {
@@ -91,11 +88,10 @@ class ShadowModel {
     );
   }
 
-  static Future<ShadowModel?> fromEntity(String documentID, ShadowEntity? entity) async {
+  static Future<ShadowModel?> fromEntity(ShadowEntity? entity) async {
     if (entity == null) return null;
     var counter = 0;
     return ShadowModel(
-          documentID: documentID, 
           appId: entity.appId, 
           comments: entity.comments, 
           color: 
@@ -107,12 +103,11 @@ class ShadowModel {
     );
   }
 
-  static Future<ShadowModel?> fromEntityPlus(String documentID, ShadowEntity? entity, { String? appId}) async {
+  static Future<ShadowModel?> fromEntityPlus(ShadowEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
     var counter = 0;
     return ShadowModel(
-          documentID: documentID, 
           appId: entity.appId, 
           comments: entity.comments, 
           color: 

@@ -208,19 +208,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/shadow_list_bloc.dart';
-import 'package:eliud_core/model/shadow_list.dart';
-import 'package:eliud_core/model/shadow_dropdown_button.dart';
-import 'package:eliud_core/model/shadow_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 class ListComponentFactory implements ComponentConstructor {
   Widget? createNew({Key? key, required AppModel app,  required String id, Map<String, dynamic>? parameters}) {
     return ListComponent(app: app, componentId: id);
@@ -258,7 +245,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
     if (id == "posSizes") return true;
-    if (id == "shadows") return true;
     return false;
   }
 
@@ -306,9 +292,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "posSizes")
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
-    if (id == "shadows")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
-
     return Text("Id $id not found");
   }
 }
@@ -349,7 +332,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
-    if (componentId == 'shadows') return _shadowBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -368,7 +350,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'menuDefs') widget = MenuDefListWidget(app: app);
     if (componentId == 'pages') widget = PageListWidget(app: app);
     if (componentId == 'posSizes') widget = PosSizeListWidget(app: app);
-    if (componentId == 'shadows') widget = ShadowListWidget(app: app);
   }
 
   Widget _appBuild(BuildContext context) {
@@ -553,19 +534,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _shadowBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ShadowListBloc>(
-          create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: app.documentID!)!,
-          )..add(LoadShadowList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
 }
 
 
@@ -597,7 +565,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
     if (componentId == 'posSizes') return _posSizeBuild(context);
-    if (componentId == 'shadows') return _shadowBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -781,19 +748,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: PosSizeDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _shadowBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ShadowListBloc>(
-          create: (context) => ShadowListBloc(
-            shadowRepository: shadowRepository(appId: app.documentID!)!,
-          )..add(LoadShadowList()),
-        )
-      ],
-      child: ShadowDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 

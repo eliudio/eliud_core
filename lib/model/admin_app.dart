@@ -404,28 +404,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _shadowsPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-shadows", componentName: "eliud_core_internalWidgets", componentId: "shadows"));
-    PageModel page = PageModel(
-        conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
-        ),
-        appId: appId,
-        documentID: "eliud_core_shadows_page",
-        title: "Shadows",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId)!.add(_appsPages())
@@ -459,8 +437,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
-
-        .then((_) => pageRepository(appId: appId)!.add(_shadowsPages()))
 
     ;
   }
@@ -635,16 +611,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "PublicMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_publicmediums_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Shadows",
-        text: "Shadows",
-        description: "Shadows",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(app, pageID: "eliud_core_shadows_page"))
     );
 
 

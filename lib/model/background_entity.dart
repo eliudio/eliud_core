@@ -22,31 +22,34 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class BackgroundEntity {
-  final String? comments;
   final String? backgroundImageId;
   final bool? useProfilePhotoAsBackground;
   final int? beginGradientPosition;
   final int? endGradientPosition;
-  final String? shadowId;
+  final ShadowEntity? shadow;
   final List<DecorationColorEntity>? decorationColors;
   final bool? border;
 
-  BackgroundEntity({this.comments, this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadowId, this.decorationColors, this.border, });
+  BackgroundEntity({this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, });
 
 
-  List<Object?> get props => [comments, backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadowId, decorationColors, border, ];
+  List<Object?> get props => [backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadow, decorationColors, border, ];
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundEntity{comments: $comments, backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadowId: $shadowId, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundEntity{backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
   }
 
   static BackgroundEntity? fromMap(Object? o) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var shadowFromMap;
+    shadowFromMap = map['shadow'];
+    if (shadowFromMap != null)
+      shadowFromMap = ShadowEntity.fromMap(shadowFromMap);
     var decorationColorsFromMap;
     decorationColorsFromMap = map['decorationColors'];
     var decorationColorsList;
@@ -57,25 +60,25 @@ class BackgroundEntity {
         .toList();
 
     return BackgroundEntity(
-      comments: map['comments'], 
       backgroundImageId: map['backgroundImageId'], 
       useProfilePhotoAsBackground: map['useProfilePhotoAsBackground'], 
       beginGradientPosition: map['beginGradientPosition'], 
       endGradientPosition: map['endGradientPosition'], 
-      shadowId: map['shadowId'], 
+      shadow: shadowFromMap, 
       decorationColors: decorationColorsList, 
       border: map['border'], 
     );
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? shadowMap = shadow != null 
+        ? shadow!.toDocument()
+        : null;
     final List<Map<String?, dynamic>>? decorationColorsListMap = decorationColors != null 
         ? decorationColors!.map((item) => item.toDocument()).toList()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (comments != null) theDocument["comments"] = comments;
-      else theDocument["comments"] = null;
     if (backgroundImageId != null) theDocument["backgroundImageId"] = backgroundImageId;
       else theDocument["backgroundImageId"] = null;
     if (useProfilePhotoAsBackground != null) theDocument["useProfilePhotoAsBackground"] = useProfilePhotoAsBackground;
@@ -84,8 +87,8 @@ class BackgroundEntity {
       else theDocument["beginGradientPosition"] = null;
     if (endGradientPosition != null) theDocument["endGradientPosition"] = endGradientPosition;
       else theDocument["endGradientPosition"] = null;
-    if (shadowId != null) theDocument["shadowId"] = shadowId;
-      else theDocument["shadowId"] = null;
+    if (shadow != null) theDocument["shadow"] = shadowMap;
+      else theDocument["shadow"] = null;
     if (decorationColors != null) theDocument["decorationColors"] = decorationColorsListMap;
       else theDocument["decorationColors"] = null;
     if (border != null) theDocument["border"] = border;
