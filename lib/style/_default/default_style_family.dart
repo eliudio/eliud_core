@@ -64,13 +64,22 @@ class DefaultStyleFamily extends StyleFamily {
   }
 
   @override
-  void delete(AppModel app, Style style) {}
+  Future<void> delete(AppModel app, Style style) {
+    throw Exception('Readonly style');
+  }
 
   @override
   void subscribeForChange(CurrentStyleTrigger? currentStyleTrigger) {}
 
   @override
-  void update(AppModel app, Style style) {}
+  Future<void> update(AppModel app, Style style) {
+    throw Exception('Readonly style');
+  }
+
+  @override
+  Future<Style> newStyle(AppModel app, String newName) {
+    throw Exception('Readonly style');
+  }
 }
 
 class DefaultStyle extends Style {
@@ -93,4 +102,9 @@ class DefaultStyle extends Style {
   AdminListStyle adminListStyle() => _adminListStyle;
   @override
   FrontEndStyle frontEndStyle() => _frontEndFormStyle;
+
+  @override
+  Future<Style> copy(AppModel app, String newName) {
+    throw Exception('Readonly style');
+  }
 }

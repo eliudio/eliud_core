@@ -131,67 +131,74 @@ class BoxDecorationHelper {
   }
 
   static BoxDecoration? boxDecoration(MemberModel? member, BackgroundModel? bdm) {
-    if (bdm == null) return null;
-    var border = bdm.border != null && bdm.border! ? Border.all() : null;
-    var image;
-    if ((bdm.useProfilePhotoAsBackground != null) &&
-        bdm.useProfilePhotoAsBackground!) {
-      if (member != null) {
-        image = DecorationImage(
-            image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);
-      } else {
-        image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
+    try {
+      if (bdm == null) return null;
+      var border = bdm.border != null && bdm.border! ? Border.all() : null;
+      var image;
+      if ((bdm.useProfilePhotoAsBackground != null) &&
+          bdm.useProfilePhotoAsBackground!) {
+        if (member != null) {
+          image = DecorationImage(
+              image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);
+        } else {
+          image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
+        }
       }
-    }
-    if (image == null) {
-      var imageProvider = ((bdm.backgroundImage != null) && (bdm.backgroundImage!.url != null))
-          ? NetworkImage(bdm.backgroundImage!.url!)
-          : null;
-      image = (imageProvider != null)
-          ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
-          : null;
-    }
-    if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
       if (image == null) {
-        return null;
-      } else {
+        var imageProvider = ((bdm.backgroundImage != null) && (bdm.backgroundImage!.url != null))
+            ? NetworkImage(bdm.backgroundImage!.url!)
+            : null;
+        image = (imageProvider != null)
+            ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
+            : null;
+      }
+      if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
+        if (image == null) {
+          return null;
+        } else {
+          return BoxDecoration(
+            image: image,
+          );
+        }
+      } else if (bdm.decorationColors!.length == 1) {
         return BoxDecoration(
+          color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
           image: image,
         );
-      }
-    } else if (bdm.decorationColors!.length == 1) {
-      return BoxDecoration(
-        color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
-        image: image,
-      );
-    } else {
-      var colors = bdm.decorationColors!
-          .map((color) => RgbHelper.color(rgbo: color.color))
-          .toList();
-      var stops = bdm.decorationColors!.map((stop) => stop.stop).toList();
-      var noStops =
-          stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
-      var gradient = LinearGradient(
-          begin: startAlignment(bdm.beginGradientPosition),
-          end: endAlignment(bdm.endGradientPosition),
-          colors: colors,
-          stops: noStops ? null : stops as List<double>?);
+      } else {
+        var colors = bdm.decorationColors!
+            .map((color) => RgbHelper.color(rgbo: color.color))
+            .toList();
+//        var stops = bdm.decorationColors!.map((stop) => stop.stop).toList();
+        var stops = bdm.decorationColors!.map((stop) => stop.stop ?? 0).toList();
+        var noStops =
+            stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
+        var gradient = LinearGradient(
+            begin: startAlignment(bdm.beginGradientPosition),
+            end: endAlignment(bdm.endGradientPosition),
+            colors: colors,
+            stops: noStops ? null : stops as List<double>?);
 
-      List<BoxShadow>? boxShadows;
-      if (bdm.shadow != null) {
-        boxShadows = [];
-        boxShadows.add(BoxShadow(
-          color: RgbHelper.color(rgbo: bdm.shadow!.color),
-          spreadRadius: bdm.shadow!.spreadRadius!,
-          blurRadius: bdm.shadow!.blurRadius!,
-          offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
-        ));
+        List<BoxShadow>? boxShadows;
+        if (bdm.shadow != null) {
+          boxShadows = [];
+          boxShadows.add(BoxShadow(
+            color: RgbHelper.color(rgbo: bdm.shadow!.color),
+            spreadRadius: bdm.shadow!.spreadRadius!,
+            blurRadius: bdm.shadow!.blurRadius!,
+            offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
+          ));
+        }
+        return BoxDecoration(
+            gradient: gradient,
+            image: image,
+            border: border,
+            boxShadow: boxShadows);
       }
-      return BoxDecoration(
-          gradient: gradient,
-          image: image,
-          border: border,
-          boxShadow: boxShadows);
+    } catch (e) {
+      print("Error constructing the decoration: " + e.toString());
+      // error constructing the decoration >> return null
+      return null;
     }
   }
 }

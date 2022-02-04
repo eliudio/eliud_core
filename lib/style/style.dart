@@ -52,7 +52,7 @@ abstract class Style extends Equatable {
    * This will be used from for example eliud_pkg_create when Style::allowUpdates.canCopy
    * is true and will be used in combination with update(...)
    */
-  Style? copy(String newName) => null;
+  Future<Style?> copy(AppModel app, String newName);
 
   @override
   List<Object?> get props => [ styleFamily, styleName, allowedUpdates ];

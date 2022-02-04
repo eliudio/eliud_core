@@ -39,12 +39,17 @@ abstract class StyleFamily extends Equatable {
   /*
    * Delete style
    */
-  void delete(AppModel app, Style style);
+  Future<void> delete(AppModel app, Style style);
 
   /*
    * Update style
    */
-  void update(AppModel app, Style style);
+  Future<void> update(AppModel app, Style style);
+
+  /*
+   * Create a new style
+   */
+  Future<Style> newStyle(AppModel app, String newName);
 
   /*
    * Install "factory" default styles

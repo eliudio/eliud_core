@@ -18,20 +18,6 @@
   },
   "fields": [
     {
-      "fieldName": "appId",
-      "displayName": "App ID",
-      "fieldType": "String",
-      "iconName": "vpn_key",
-      "hidden": true
-    },
-    {
-      "fieldName": "comments",
-      "displayName": "Comments",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "group": "general"
-    },
-    {
       "fieldName": "color",
       "displayName": "Color",
       "defaultValue": "RgbModel(r: 211, g: 211, b: 211, opacity: 0.50)",

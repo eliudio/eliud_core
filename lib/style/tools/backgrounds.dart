@@ -7,11 +7,13 @@ class Backgrounds {
     var decorationColorModel1 = DecorationColorModel(
       documentID: "1",
       color: fromColor,
+      stop: .1
     );
     decorationColorModels.add(decorationColorModel1);
     var decorationColorModel2 = DecorationColorModel(
       documentID: "2",
       color: toColor,
+      stop: .9
     );
 
     decorationColorModels.add(decorationColorModel2);
