@@ -23,7 +23,7 @@ class DefaultStyleFamily extends StyleFamily {
     return _instance!;
   }
 
-  DefaultStyleFamily._() : super(defaultStyleFamilyName, false, false) {
+  DefaultStyleFamily._() : super(defaultStyleFamilyName, false, ) {
     defaultStyle = DefaultStyle(this);
   }
 
@@ -40,21 +40,10 @@ class DefaultStyleFamily extends StyleFamily {
   @override
   Future<void> addApp(MemberModel? currentMember, AppModel app) async {}
 
-/*
-  @override
-  Map<String, Style> allStylesMap(AppModel app) => { defaultStyleFamilyName: _defaultStyle! };
-
-*/
-  @override
-  Future<List<Style>> allStyles(AppModel app) => Future.value([defaultStyle]);
-
   @override
   Style? getStyle(AppModel currentApp, String styleName) {
     return defaultStyle;
   }
-
-  @override
-  Future<void> installDefaults(AppModel app) async {}
 
   @override
   StreamSubscription? listenToStyles(

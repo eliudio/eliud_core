@@ -14,6 +14,7 @@ class AllowedUpdates extends Equatable {
   AllowedUpdates(this.canUpdate, this.canCopy, this.canDelete);
 
   static AllowedUpdates allAllowed() => AllowedUpdates(true, true, true);
+  static AllowedUpdates readOnly() => AllowedUpdates(false, true, false);
   static AllowedUpdates noneAllowed() => AllowedUpdates(false, false, false);
 
   @override

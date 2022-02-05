@@ -13,9 +13,8 @@ typedef CurrentStyleTrigger();
 abstract class StyleFamily extends Equatable {
   final String familyName;
   final bool canInsert;
-  final bool canGenerateDefaults;
 
-  StyleFamily(this.familyName, this.canInsert, this.canGenerateDefaults);
+  StyleFamily(this.familyName, this.canInsert);
 
   Style? getStyle(AppModel currentApp, String styleName);
 
@@ -51,12 +50,7 @@ abstract class StyleFamily extends Equatable {
    */
   Future<Style> newStyle(AppModel app, String newName);
 
-  /*
-   * Install "factory" default styles
-   */
-  Future<void> installDefaults(AppModel app);
-
-    /* inform the style family that there user switched to a new app and
+  /* inform the style family that there user switched to a new app and
    * hence need to prepare, ie. have styles in memory, ...
    */
   Future<void> addApp(MemberModel? currentMember, AppModel app);
