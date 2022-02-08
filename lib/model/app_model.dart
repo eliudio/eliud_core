@@ -57,16 +57,19 @@ class AppModel {
   String? styleFamily;
   String? styleName;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, })  {
+  // When set, any new joining member will have privilegeLevel = 1
+  bool? autoPrivileged1;
+
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -83,11 +86,12 @@ class AppModel {
           logo == other.logo &&
           policies == other.policies &&
           styleFamily == other.styleFamily &&
-          styleName == other.styleName;
+          styleName == other.styleName &&
+          autoPrivileged1 == other.autoPrivileged1;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
   }
 
   AppEntity toEntity({String? appId}) {
@@ -102,6 +106,7 @@ class AppModel {
           policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 
           styleName: (styleName != null) ? styleName : null, 
+          autoPrivileged1: (autoPrivileged1 != null) ? autoPrivileged1 : null, 
     );
   }
 
@@ -119,6 +124,7 @@ class AppModel {
             await AppHomePageReferencesModel.fromEntity(entity.homePages), 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
+          autoPrivileged1: entity.autoPrivileged1, 
     );
   }
 
@@ -161,6 +167,7 @@ class AppModel {
           policies: policiesHolder, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
+          autoPrivileged1: entity.autoPrivileged1, 
     );
   }
 

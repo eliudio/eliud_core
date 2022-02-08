@@ -239,6 +239,22 @@ class StyleNameAppFormError extends AppFormError {
 }
 
 
+class AutoPrivileged1AppFormError extends AppFormError { 
+  const AutoPrivileged1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AutoPrivileged1AppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppFormLoaded extends AppFormInitialized { 
   const AppFormLoaded({ AppModel? value }): super(value: value);
 

@@ -129,6 +129,7 @@ class _MyAppFormState extends State<MyAppForm> {
   String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
   final TextEditingController _styleNameController = TextEditingController();
+  bool? _autoPrivileged1Selection;
 
 
   _MyAppFormState(this.formAction);
@@ -145,6 +146,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _appStatusSelectedRadioTile = 0;
     _styleFamilyController.addListener(_onStyleFamilyChanged);
     _styleNameController.addListener(_onStyleNameChanged);
+    _autoPrivileged1Selection = false;
   }
 
   @override
@@ -196,6 +198,10 @@ class _MyAppFormState extends State<MyAppForm> {
           _styleNameController.text = state.value!.styleName.toString();
         else
           _styleNameController.text = "";
+        if (state.value!.autoPrivileged1 != null)
+        _autoPrivileged1Selection = state.value!.autoPrivileged1;
+        else
+        _autoPrivileged1Selection = false;
       }
       if (state is AppFormInitialized) {
         List<Widget> children = [];
@@ -213,6 +219,11 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Style Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _styleNameController, keyboardType: TextInputType.text, validator: (_) => state is StyleNameAppFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'autoPrivileged1', _autoPrivileged1Selection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionAutoPrivileged1(val))
           );
 
 
@@ -383,6 +394,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
+                              autoPrivileged1: state.value!.autoPrivileged1, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -398,6 +410,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
+                              autoPrivileged1: state.value!.autoPrivileged1, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -482,6 +495,13 @@ class _MyAppFormState extends State<MyAppForm> {
     _myFormBloc.add(ChangedAppStyleName(value: _styleNameController.text));
   }
 
+
+  void setSelectionAutoPrivileged1(bool? val) {
+    setState(() {
+      _autoPrivileged1Selection = val;
+    });
+    _myFormBloc.add(ChangedAppAutoPrivileged1(value: val));
+  }
 
 
   @override

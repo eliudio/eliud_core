@@ -32,15 +32,16 @@ class AppEntity {
   final String? policiesId;
   final String? styleFamily;
   final String? styleName;
+  final bool? autoPrivileged1;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, });
 
 
-  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, policiesId, styleFamily, styleName, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -63,6 +64,7 @@ class AppEntity {
       policiesId: map['policiesId'], 
       styleFamily: map['styleFamily'], 
       styleName: map['styleName'], 
+      autoPrivileged1: map['autoPrivileged1'], 
     );
   }
 
@@ -92,6 +94,8 @@ class AppEntity {
       else theDocument["styleFamily"] = null;
     if (styleName != null) theDocument["styleName"] = styleName;
       else theDocument["styleName"] = null;
+    if (autoPrivileged1 != null) theDocument["autoPrivileged1"] = autoPrivileged1;
+      else theDocument["autoPrivileged1"] = null;
     return theDocument;
   }
 

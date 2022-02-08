@@ -22,21 +22,20 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class ShadowEntity {
-  final String? comments;
   final RgbEntity? color;
   final double? offsetDX;
   final double? offsetDY;
   final double? spreadRadius;
   final double? blurRadius;
 
-  ShadowEntity({this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, });
+  ShadowEntity({this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, });
 
 
-  List<Object?> get props => [comments, color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
+  List<Object?> get props => [color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
 
   @override
   String toString() {
-    return 'ShadowEntity{comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
+    return 'ShadowEntity{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
   static ShadowEntity? fromMap(Object? o) {
@@ -49,7 +48,6 @@ class ShadowEntity {
       colorFromMap = RgbEntity.fromMap(colorFromMap);
 
     return ShadowEntity(
-      comments: map['comments'], 
       color: colorFromMap, 
       offsetDX: double.tryParse(map['offsetDX'].toString()), 
       offsetDY: double.tryParse(map['offsetDY'].toString()), 
@@ -64,8 +62,6 @@ class ShadowEntity {
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (comments != null) theDocument["comments"] = comments;
-      else theDocument["comments"] = null;
     if (color != null) theDocument["color"] = colorMap;
       else theDocument["color"] = null;
     if (offsetDX != null) theDocument["offsetDX"] = offsetDX;

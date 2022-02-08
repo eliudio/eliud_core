@@ -32,7 +32,6 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ShadowModel {
-  String? comments;
   RgbModel? color;
 
   // The first argument sets [dx], the horizontal component of the offset
@@ -47,22 +46,21 @@ class ShadowModel {
   // The standard deviation of the Gaussian to convolve with the shadow's shape.
   double? blurRadius;
 
-  ShadowModel({this.comments, this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
+  ShadowModel({this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
   }
 
-  ShadowModel copyWith({String? comments, RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
-    return ShadowModel(comments: comments ?? this.comments, color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
+  ShadowModel copyWith({RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
+    return ShadowModel(color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
   }
 
   @override
-  int get hashCode => comments.hashCode ^ color.hashCode ^ offsetDX.hashCode ^ offsetDY.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
+  int get hashCode => color.hashCode ^ offsetDX.hashCode ^ offsetDY.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
 
   @override
   bool operator ==(Object other) =>
           identical(this, other) ||
           other is ShadowModel &&
           runtimeType == other.runtimeType && 
-          comments == other.comments &&
           color == other.color &&
           offsetDX == other.offsetDX &&
           offsetDY == other.offsetDY &&
@@ -71,12 +69,11 @@ class ShadowModel {
 
   @override
   String toString() {
-    return 'ShadowModel{comments: $comments, color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
+    return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
   ShadowEntity toEntity({String? appId}) {
     return ShadowEntity(
-          comments: (comments != null) ? comments : null, 
           color: (color != null) ? color!.toEntity(appId: appId) : null, 
           offsetDX: (offsetDX != null) ? offsetDX : null, 
           offsetDY: (offsetDY != null) ? offsetDY : null, 
@@ -89,7 +86,6 @@ class ShadowModel {
     if (entity == null) return null;
     var counter = 0;
     return ShadowModel(
-          comments: entity.comments, 
           color: 
             await RgbModel.fromEntity(entity.color), 
           offsetDX: entity.offsetDX, 
@@ -104,7 +100,6 @@ class ShadowModel {
 
     var counter = 0;
     return ShadowModel(
-          comments: entity.comments, 
           color: 
             await RgbModel.fromEntityPlus(entity.color, appId: appId), 
           offsetDX: entity.offsetDX, 

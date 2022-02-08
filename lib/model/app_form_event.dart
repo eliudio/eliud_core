@@ -187,3 +187,15 @@ class ChangedAppStyleName extends AppFormEvent {
   String toString() => 'ChangedAppStyleName{ value: $value }';
 }
 
+class ChangedAppAutoPrivileged1 extends AppFormEvent {
+  final bool? value;
+
+  ChangedAppAutoPrivileged1({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppAutoPrivileged1{ value: $value }';
+}
+

@@ -92,6 +92,11 @@
       "fieldName": "styleName",
       "displayName": "Style Name",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "autoPrivileged1",
+      "remark": "When set, any new joining member will have privilegeLevel = 1",
+      "fieldType": "bool"
     }
   ],
   "groups": [
