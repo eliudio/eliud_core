@@ -41,6 +41,7 @@ class PageBodyHelper {
 
   Widget _container(BuildContext context, List<Widget> components,
       Layout? layout, GridViewModel? gridView) {
+    // for PolicyPresentation /
 //    if (components.length == 1) return _justTheFirst(components);
     switch (layout) {
       case Layout.GridView:

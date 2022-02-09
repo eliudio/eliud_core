@@ -15,7 +15,6 @@ class MemberCollectionInfo {
   MemberCollectionInfo(this.name, this.memberIdentifier);
 }
 
-
 class PackageConditionDetails {
   final String conditionName;
   final String packageName;
