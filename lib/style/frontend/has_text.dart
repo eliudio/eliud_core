@@ -120,18 +120,22 @@ Widget text(AppModel app,
       TextAlign? textAlign,
       int? maxLines,
       bool? softWrap,
-    }) =>
-    StyleRegistry.registry()
-        .styleWithApp(app)
-        .frontEndStyle()
-        .textStyle()
-        .text(app,
-      context,
-      data,
-      textAlign: textAlign,
-      maxLines: maxLines,
-      softWrap: softWrap,
-    );
+    }) {
+  if (data.startsWith('Unexpected class')) {
+    int i = 0;
+  }
+  return StyleRegistry.registry()
+      .styleWithApp(app)
+      .frontEndStyle()
+      .textStyle()
+      .text(app,
+    context,
+    data,
+    textAlign: textAlign,
+    maxLines: maxLines,
+    softWrap: softWrap,
+  );
+}
 
 Widget highLight1(AppModel app,
     BuildContext context,

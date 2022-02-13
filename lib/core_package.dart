@@ -10,8 +10,10 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core/wizards/member_dashboard_dialog_wizard.dart';
 import 'core/blocs/access/access_bloc.dart';
 import 'core/blocs/access/access_event.dart';
+import 'core/wizards/registry/registry.dart';
 import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 
@@ -43,6 +45,9 @@ abstract class CorePackage extends Package {
   @override
   void init() {
     ComponentRegistry().init();
+
+    // wizards
+    NewAppWizardRegistry.registry().register(MemberDashboardDialogWizard());
 
     AbstractRepositorySingleton.singleton = RepositorySingleton();
     AbstractMainRepositorySingleton.singleton = MainRepositorySingleton();
