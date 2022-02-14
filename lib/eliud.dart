@@ -39,6 +39,7 @@ class Eliud {
 
     } catch (error) {
       print (error);
+      throw(error);
     }
   }
 

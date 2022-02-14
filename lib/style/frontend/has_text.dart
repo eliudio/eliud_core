@@ -121,9 +121,6 @@ Widget text(AppModel app,
       int? maxLines,
       bool? softWrap,
     }) {
-  if (data.startsWith('Unexpected class')) {
-    int i = 0;
-  }
   return StyleRegistry.registry()
       .styleWithApp(app)
       .frontEndStyle()

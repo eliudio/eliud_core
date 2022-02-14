@@ -5,6 +5,7 @@ import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 
 import 'action_specification.dart';
 
@@ -88,7 +89,12 @@ abstract class NewAppWizardInfo {
    * For the page type we use a hard coded string, rather than using a const, to avoid introducing dependencies
    *
    */
-   String? getPageID(String pageType);
+  String? getPageID(String pageType);
+
+  @override
+  String toString() {
+    return this.runtimeType.toString() + '{newAppWizardName: $newAppWizardName, displayName: $displayName}';
+  }
 }
 
 /*
@@ -111,6 +117,10 @@ class NewAppWizardRegistry {
   List<NewAppWizardInfo> registeredNewAppWizardInfos = [];
 
   void register(NewAppWizardInfo newAppWizardInfo) {
+    var found = registeredNewAppWizardInfos.firstWhereOrNull((NewAppWizardInfo? element) => element != null && element.newAppWizardName == newAppWizardInfo.newAppWizardName);
+    if (found !=  null) {
+      throw Exception("Adding " + newAppWizardInfo.toString() + " clashes with existing entry " + found.toString() + ". Both have the same newAppWizardName. These must be unique");
+    }
     registeredNewAppWizardInfos.add(newAppWizardInfo);
   }
 
