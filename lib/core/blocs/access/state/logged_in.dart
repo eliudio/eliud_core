@@ -333,6 +333,10 @@ class LoggedIn extends AccessDetermined {
   static Future<PageModel?> getHomepage(
       AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
     var appId = app.documentID!;
+    if (app.homePages == null) {
+      return AccessDetermined.getPage(appId, null,
+          alternativePageId: null);
+    }
     if (isBlocked) {
       return AccessDetermined.getPage(
           appId, app.homePages!.homePageBlockedMember,

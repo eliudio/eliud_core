@@ -27,6 +27,8 @@ class AssetHelper {
    *
    */
   static Future<String> getFileFromAssets(String documentID, String path) async {
+    // on web we copy the assets from asset directory into web directory.
+    // therefore on web the implementation of getFileFromAssets should return path
     final byteData = await rootBundle.load(path);
 
     final newFileName = documentID + '-' + context.basenameWithoutExtension(path) +

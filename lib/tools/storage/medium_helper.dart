@@ -5,8 +5,8 @@ import 'dart:typed_data';
 
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:path/path.dart';
+import 'package:pdf_render/pdf_render.dart';
 
 import 'asset_helper.dart';
 import 'basename_helper.dart';
@@ -465,6 +465,7 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID, String assetPath, String documentID,
       {PdfAvailable? feedbackFunction,
       FeedbackProgress? feedbackProgress}) async {
+    print('createThumbnailUploadPdfAsset');
     var filePath =
         await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
 
@@ -483,9 +484,10 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID, String filePath, String documentID,
       {PdfAvailable? feedbackFunction,
       FeedbackProgress? feedbackProgress}) async {
+    print('createThumbnailUploadPdfFile');
     // First, upload the file
     final document = await PdfDocument.openFile(filePath);
-    final pageCount = await document.pagesCount;
+    final pageCount = await document.pageCount;
     var taskCounter = 1;
     var totalTasks = 4 + (pageCount * 4);
 
