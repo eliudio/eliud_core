@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:image/image.dart';
 import 'package:image/image.dart' as imgpackage;
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:pdf_render/pdf_render.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'basename_helper.dart';
@@ -191,11 +191,12 @@ abstract class MediumData {
       String filePath, String name, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
-    final pageImage = await page.render(width: page.width.toInt(), height: page.height.toInt());
+    final pageImage = await page.render(width: page.width, height: page.height, format: PdfPageImageFormat.png);
+    await page.close();
     if (pageImage == null) {
       throw Exception("Can't find render image $filePath");
     }
-    var img = imgpackage.decodeImage(pageImage.pixels);
+    var img = imgpackage.decodeImage(pageImage.bytes);
     if (img == null) {
       throw Exception('Could not decode image');
     }
@@ -215,7 +216,7 @@ abstract class MediumData {
     return PhotoWithThumbnail(
         photoData: ImageData(
             baseName: baseName,
-            data: pageImage.pixels,
+            data: pageImage.bytes,
             width: img.width,
             height: img.height),
         thumbNailData: ImageData(
@@ -233,12 +234,13 @@ abstract class MediumData {
       String filePath, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
-    final pageImage = await page.render(width: page.width.toInt(), height: page.height.toInt());
+    final pageImage = await page.render(width: page.width, height: page.height);
+    await page.close();
     if (pageImage == null) {
       throw Exception("Can't find render image $filePath");
     }
 
-    var img = imgpackage.decodeImage(pageImage.pixels);
+    var img = imgpackage.decodeImage(pageImage.bytes);
     if (img == null) {
       throw Exception('Could not decode image');
     }
@@ -247,7 +249,7 @@ abstract class MediumData {
         baseName: BaseNameHelper.baseName(memberMediumDocumentID, filePath),
         width: img.width,
         height: img.height,
-        data: pageImage.pixels);
+        data: pageImage.bytes);
   }
 }
 
