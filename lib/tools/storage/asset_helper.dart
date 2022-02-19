@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'dart:io';
 import 'package:eliud_core/tools/random.dart';
@@ -27,17 +28,21 @@ class AssetHelper {
    *
    */
   static Future<String> getFileFromAssets(String documentID, String path) async {
-    // on web we copy the assets from asset directory into web directory.
-    // therefore on web the implementation of getFileFromAssets should return path
-    final byteData = await rootBundle.load(path);
+    if (kIsWeb) {
+      return Future.value(path);
+    } else {
+      // on web we copy the assets from asset directory into web directory.
+      // therefore on web the implementation of getFileFromAssets should return path
+      final byteData = await rootBundle.load(path);
 
-    final newFileName = documentID + '-' + context.basenameWithoutExtension(path) +
-        '-' +
-        context.extension(path); // make sure it's a unique filename
-    final newFile = File(Directory.systemTemp.path + '/' + newFileName);
-    await newFile.writeAsBytes(byteData.buffer
-        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      final newFileName = documentID + '-' + context.basenameWithoutExtension(path) +
+          '-' +
+          context.extension(path); // make sure it's a unique filename
+      final newFile = File(Directory.systemTemp.path + '/' + newFileName);
+      await newFile.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
-    return newFile.path;
+      return newFile.path;
+    }
   }
 }

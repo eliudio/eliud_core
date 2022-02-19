@@ -145,21 +145,27 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID, String filePath,
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
+    print('UploadInfo.uploadFile');
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID!, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
 
+    print('UploadInfo.uploadFile 222222222222222222');
     // Second, create the thumbnail
     var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
+    print('UploadInfo.uploadFile 3333');
     var thumbnailBaseName =
         BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
 
+    print('UploadInfo.uploadFile 4');
     var enrichedPhoto = await MediumData.enrichPhoto(
-        baseName, thumbnailBaseName, File(filePath).readAsBytesSync());
+        baseName, thumbnailBaseName, fileInfo.item2);
+    print('UploadInfo.uploadFile 5');
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
+    print('UploadInfo.uploadFile 6');
     // Third, upload the thumbnail
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
@@ -172,12 +178,14 @@ abstract class MediumHelper<T> {
             3, 4, progress,
             feedbackProgress: feedbackProgress));
 
+    print('UploadInfo.uploadFile 7');
     if (fileInfoThumbnail == null) {
       throw Exception('fileInfoThumbnail is null');
     }
 
+    print('UploadInfo.uploadFile 8');
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentID,
-        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto);
+        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto);
 
     _feedBackAggregatedProgress(1, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -192,10 +200,15 @@ abstract class MediumHelper<T> {
       String memberMediumDocumentID, String assetPath,
       {FeedbackProgress? feedbackProgress,
       }) async {
+    print('createThumbnailUploadPhotoAsset');
     var filePath =
         await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
-    return createThumbnailUploadPhotoFile(memberMediumDocumentID, filePath,
+    print('createThumbnailUploadPhotoAsset 2');
+    var returnMe = createThumbnailUploadPhotoFile(memberMediumDocumentID, filePath,
         feedbackProgress: feedbackProgress);
+    print('createThumbnailUploadPhotoAsset 3');
+    print('returnMe = ' + returnMe.toString());
+    return returnMe;
   }
 
   /*
@@ -317,7 +330,7 @@ abstract class MediumHelper<T> {
         BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
 
     var enrichedPhoto = await MediumData.enrichPhoto(
-        baseName, thumbnailBaseName, File(filePath).readAsBytesSync());
+        baseName, thumbnailBaseName, fileInfo.item2);
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
     // Third, upload the thumbnail;
@@ -338,7 +351,7 @@ abstract class MediumHelper<T> {
     }
 
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentID,
-        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto);
+        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
@@ -399,7 +412,7 @@ abstract class MediumHelper<T> {
     }
 
     var returnMe = await videoWithThumbnailToMediumModel(memberMediumDocumentID,
-        enrichedVideo.thumbNailData.baseName, fileInfo, fileInfoThumbnail, enrichedVideo);
+        enrichedVideo.thumbNailData.baseName, fileInfo.item1, fileInfoThumbnail, enrichedVideo);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
@@ -571,7 +584,7 @@ abstract class MediumHelper<T> {
     }
 
     // Create the ImageModel
-    var returnMe = await constructMediumModel(documentID, baseName, fileInfo,
+    var returnMe = await constructMediumModel(documentID, baseName, fileInfo.item1,
         fileInfoThumbnail, photoData, AbstractMediumType.Pdf, previousMediumId);
 
     taskCounter++;
