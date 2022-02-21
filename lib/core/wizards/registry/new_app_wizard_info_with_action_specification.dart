@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/core/wizards/widgets/action_specification_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ abstract class NewAppWizardInfoWithActionSpecification extends NewAppWizardInfo 
   List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type) {
     if (parameters is ActionSpecificationParametersBase) {
       var feedSpecifications = parameters.actionSpecifications;
-      bool generate = (type == MenuType.leftDrawerMenu) && feedSpecifications.availableInLeftDrawer ||
+      var generate = (type == MenuType.leftDrawerMenu) && feedSpecifications.availableInLeftDrawer ||
           (type == MenuType.rightDrawerMenu) && feedSpecifications.availableInRightDrawer ||
           (type == MenuType.bottomNavBarMenu) && feedSpecifications.availableInHomeMenu ||
           (type == MenuType.appBarMenu) && feedSpecifications.availableInAppBar;

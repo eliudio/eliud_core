@@ -4,6 +4,7 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 
@@ -91,6 +92,11 @@ abstract class NewAppWizardInfo {
    */
   String? getPageID(String pageType);
 
+  /*
+   * getAction serves the same purpose as getPageID but then for an action.
+   */
+  ActionModel? getAction(AppModel app, String actionType);
+
   @override
   String toString() {
     return this.runtimeType.toString() + '{newAppWizardName: $newAppWizardName, displayName: $displayName}';
@@ -131,6 +137,17 @@ class NewAppWizardRegistry {
     for (var wizard in registeredNewAppWizardInfos) {
       var pageID = wizard.getPageID(pageType);
       if (pageID != null) return pageID;
+    }
+    return null;
+  }
+
+  /*
+   * See comments NewAppWizardInfo::getAction
+   */
+  ActionModel? getAction(AppModel app, String actionType) {
+    for (var wizard in registeredNewAppWizardInfos) {
+      var action = wizard.getAction(app, actionType);
+      if (action != null) return action;
     }
     return null;
   }
