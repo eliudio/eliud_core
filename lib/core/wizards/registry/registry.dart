@@ -95,7 +95,7 @@ abstract class NewAppWizardInfo {
   /*
    * getAction serves the same purpose as getPageID but then for an action.
    */
-  ActionModel? getAction(AppModel app, String actionType);
+  ActionModel? getAction(AppModel app, String actionType, );
 
   @override
   String toString() {
@@ -146,7 +146,7 @@ class NewAppWizardRegistry {
    */
   ActionModel? getAction(AppModel app, String actionType) {
     for (var wizard in registeredNewAppWizardInfos) {
-      var action = wizard.getAction(app, actionType);
+      var action = wizard.getAction(app, actionType, );
       if (action != null) return action;
     }
     return null;

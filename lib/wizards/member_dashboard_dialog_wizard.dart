@@ -76,5 +76,5 @@ class MemberDashboardDialogWizard extends NewAppWizardInfoWithActionSpecificatio
   AppModel updateApp(NewAppWizardParameters parameters, AppModel adjustMe, ) => adjustMe;
 
   @override
-  ActionModel? getAction(AppModel app, String actionType) => null;
+  ActionModel? getAction(AppModel app, String actionType, ) => null;
 }
