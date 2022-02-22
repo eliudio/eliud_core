@@ -1,3 +1,5 @@
+import 'package:eliud_core/core/wizards/registry/registry.dart';
+
 class ActionSpecification {
   bool requiresAccessToLocalFileSystem;
   bool availableInLeftDrawer;
@@ -7,13 +9,12 @@ class ActionSpecification {
   bool available; // available but not from any menu
 
   ActionSpecification(
-      {
-        required this.requiresAccessToLocalFileSystem,
-        required this.availableInLeftDrawer,
+      {required this.requiresAccessToLocalFileSystem,
+      required this.availableInLeftDrawer,
       required this.availableInRightDrawer,
-        required this.availableInAppBar,
-        required this.availableInHomeMenu,
-        required this.available});
+      required this.availableInAppBar,
+      required this.availableInHomeMenu,
+      required this.available});
 
   bool shouldCreatePageDialogOrWorkflow() =>
       availableInLeftDrawer ||
@@ -21,50 +22,13 @@ class ActionSpecification {
       availableInAppBar ||
       availableInHomeMenu ||
       available;
-}
 
-enum ShopPaymentType { Manual, Card }
-
-class ShopActionSpecifications extends ActionSpecification {
-  final ShopPaymentType paymentType;
-
-  ShopActionSpecifications({
-    required this.paymentType,
-    required bool requiresAccessToLocalFileSystem,
-    required bool availableInLeftDrawer,
-    required bool availableInRightDrawer,
-    required bool availableInAppBar,
-    required bool availableInHomeMenu,
-    required bool available,
-  }) : super(
-      requiresAccessToLocalFileSystem: requiresAccessToLocalFileSystem,
-      availableInLeftDrawer: availableInLeftDrawer,
-      availableInRightDrawer: availableInRightDrawer,
-      availableInAppBar: availableInAppBar,
-      availableInHomeMenu: availableInHomeMenu,
-      available: available);
-}
-
-
-
-enum JoinPaymentType { Manual, Card }
-
-class JoinActionSpecifications extends ActionSpecification {
-  final JoinPaymentType paymentType;
-
-  JoinActionSpecifications({
-    required this.paymentType,
-    required bool requiresAccessToLocalFileSystem,
-    required bool availableInLeftDrawer,
-    required bool availableInRightDrawer,
-    required bool availableInAppBar,
-    required bool availableInHomeMenu,
-    required bool available,
-  }) : super(
-      requiresAccessToLocalFileSystem: requiresAccessToLocalFileSystem,
-      availableInLeftDrawer: availableInLeftDrawer,
-      availableInRightDrawer: availableInRightDrawer,
-      availableInAppBar: availableInAppBar,
-      availableInHomeMenu: availableInHomeMenu,
-      available: available);
+  /*
+   * Do these specifications indacte we should generate the menu for a specific menu type?
+   */
+  bool should(MenuType type) =>
+      (type == MenuType.leftDrawerMenu) && availableInLeftDrawer ||
+      (type == MenuType.rightDrawerMenu) && availableInRightDrawer ||
+      (type == MenuType.bottomNavBarMenu) && availableInHomeMenu ||
+      (type == MenuType.appBarMenu) && availableInAppBar;
 }

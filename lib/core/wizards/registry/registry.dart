@@ -39,6 +39,8 @@ enum MenuType { leftDrawerMenu, rightDrawerMenu, appBarMenu, bottomNavBarMenu }
 typedef HomeMenuModel HomeMenuProvider();
 typedef AppBarModel AppBarProvider();
 typedef DrawerModel DrawerProvider();
+typedef String? PageProvider(String pageType);
+typedef ActionModel? ActionProvider(AppModel app, String actionType);
 
 typedef NewAppTask = Future<void> Function();
 
@@ -51,15 +53,27 @@ abstract class NewAppWizardInfo {
   Widget wizardParametersWidget(
       AppModel app, BuildContext context, NewAppWizardParameters parameters);
 
-  /* a new instance of this wizard is initialised, e.g. because we create a new app
+  /*
+   * A new instance of this wizard is initialised, e.g. because we create a new app
    * create the new parameters, allowing to maintain, update, and use during build
+   *
    */
   NewAppWizardParameters newAppWizardParameters();
 
-  // create a menu item for a specific menu
+  /*
+   * create a menu item for a specific menu
+   *
+   */
   List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type);
 
-  // create the tasks for creating the app, i.e. the portion of the app for which this wizard is for
+  /*
+   * Create the tasks for creating the app, i.e. the portion of the app for which this wizard is for
+   * pageProvider is the function that is passed in to allow to retrieve pages from other wizards.
+   * See comments NewAppWizardInfo::getPageID
+   * actionProvider is the function that is passed in to allow to retrieve actions from other wizards.
+   * See comments NewAppWizardInfo::getAction
+   *
+   */
   List<NewAppTask>? getCreateTasks(
     AppModel app,
     NewAppWizardParameters parameters,
@@ -68,9 +82,14 @@ abstract class NewAppWizardInfo {
     AppBarProvider appBarProvider,
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
+    PageProvider pageProvider,
+    ActionProvider actionProvider,
   );
 
-  // adjust the app
+  /*
+   * adjust the app
+   *
+   */
   AppModel updateApp(NewAppWizardParameters parameters, AppModel adjustMe);
 
   /*
@@ -90,12 +109,13 @@ abstract class NewAppWizardInfo {
    * For the page type we use a hard coded string, rather than using a const, to avoid introducing dependencies
    *
    */
-  String? getPageID(String pageType);
+  String? getPageID(NewAppWizardParameters parameters, String pageType);
 
   /*
    * getAction serves the same purpose as getPageID but then for an action.
+   *
    */
-  ActionModel? getAction(AppModel app, String actionType, );
+  ActionModel? getAction(NewAppWizardParameters parameters, AppModel app, String actionType, );
 
   @override
   String toString() {
@@ -128,27 +148,5 @@ class NewAppWizardRegistry {
       throw Exception("Adding " + newAppWizardInfo.toString() + " clashes with existing entry " + found.toString() + ". Both have the same newAppWizardName. These must be unique");
     }
     registeredNewAppWizardInfos.add(newAppWizardInfo);
-  }
-
-  /*
-   * See comments NewAppWizardInfo::getPageID
-   */
-  String? getPageID(String pageType) {
-    for (var wizard in registeredNewAppWizardInfos) {
-      var pageID = wizard.getPageID(pageType);
-      if (pageID != null) return pageID;
-    }
-    return null;
-  }
-
-  /*
-   * See comments NewAppWizardInfo::getAction
-   */
-  ActionModel? getAction(AppModel app, String actionType) {
-    for (var wizard in registeredNewAppWizardInfos) {
-      var action = wizard.getAction(app, actionType, );
-      if (action != null) return action;
-    }
-    return null;
   }
 }

@@ -14,12 +14,7 @@ abstract class NewAppWizardInfoWithActionSpecification extends NewAppWizardInfo 
   @override
   List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type) {
     if (parameters is ActionSpecificationParametersBase) {
-      var feedSpecifications = parameters.actionSpecifications;
-      var generate = (type == MenuType.leftDrawerMenu) && feedSpecifications.availableInLeftDrawer ||
-          (type == MenuType.rightDrawerMenu) && feedSpecifications.availableInRightDrawer ||
-          (type == MenuType.bottomNavBarMenu) && feedSpecifications.availableInHomeMenu ||
-          (type == MenuType.appBarMenu) && feedSpecifications.availableInAppBar;
-      if (generate) {
+      if (parameters.actionSpecifications.should(type)) {
         return getThoseMenuItems(app);
       }
     } else {
@@ -47,5 +42,5 @@ abstract class NewAppWizardInfoWithActionSpecification extends NewAppWizardInfo 
   AppModel updateApp(NewAppWizardParameters parameters, AppModel adjustMe, ) => adjustMe;
 
   @override
-  String? getPageID(String pageType) => null;
+  String? getPageID(NewAppWizardParameters parameters, String pageType) => null;
 }
