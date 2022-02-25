@@ -21,6 +21,7 @@ import 'blocs/access/access_event.dart';
 import 'blocs/access/state/access_determined.dart';
 import 'blocs/access/state/access_state.dart';
 import 'blocs/access/state/logged_in.dart';
+import 'components/error_component.dart';
 
 /*
  * Global registry with components
@@ -75,10 +76,26 @@ class Registry {
     return _instance;
   }
 
+  Widget error(
+      {required String appId,
+        required String error}) {
+    return FutureBuilder<dynamic>(
+        future: getApp(appId),
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        var app = snapshot.data;
+        return ErrorComponent(app: app, error: error);
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
+    }
+      );
+  }
+
   Widget page(
-          {required String appId,
-          required String pageId,
-          Map<String, dynamic>? parameters}) =>
+      {required String appId,
+        required String pageId,
+        Map<String, dynamic>? parameters}) =>
       PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,

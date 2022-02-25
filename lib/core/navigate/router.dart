@@ -51,27 +51,19 @@ class Router {
         }
         break;
       case messageRoute:
-        var value = settings.name;
         if (arguments != null) {
-          value = value! + arguments.mainArgument!;
-          for (var v in arguments.parameters!.values) {
-            value = value! + (v as String);
-          }
-        }
-        if (settings.arguments != null) {
-          var args = settings.arguments as eliudrouter.Arguments;
-          if (args.parameters != null) {
-            var message = args.parameters!['message'];
+          if (arguments.parameters != null) {
+            var message = arguments.parameters!['message'];
             if (message != null) {
-              return error(message);
+              return error(arguments.mainArgument!, message);
             } else {
-              return error('Unknown error (3)');
+              return error(arguments.mainArgument!, 'Unknown error (3)');
             }
           } else {
-            return error('Unknown error (1)');
+            return error2('Unknown error (1)');
           }
         } else {
-          return error('Unknown error (2)');
+          return error2('Unknown error (2)');
         }
       default:
         var settingsUri = Uri.parse(settings.name!);
@@ -79,7 +71,7 @@ class Router {
         var parameters = settingsUri.queryParameters;
         return getRoute(path, parameters);
     }
-    return error('No route defined for ${settings.name}!');
+    return error2('No route defined for ${settings.name}!');
   }
 
   Route<dynamic> getRoute(
@@ -91,11 +83,17 @@ class Router {
       return pageRouteBuilderWithAppId(accessBloc.state, appId, pageId: pageId, parameters: parameters, page: Registry.registry()!
           .page(appId: appId, pageId: pageId, parameters: parameters));
     } else {
-      return error('No route defined for $path');
+      return error2('No route defined for $path');
     }
   }
 
-  static PageRouteBuilder error(String error) {
+  PageRouteBuilder error(String path, String error) {
+    final appId = path;
+    return pageRouteBuilderWithAppId(accessBloc.state, appId, page: Registry.registry()!
+        .error(appId: appId, error: error));
+  }
+
+  static PageRouteBuilder error2(String error) {
     return FadeRoute(
         name: 'error',
         page: Scaffold(body: Center(child: Text(error))),

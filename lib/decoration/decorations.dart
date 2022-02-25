@@ -78,6 +78,16 @@ class Decorations extends Decoration {
   }
 
   @override
+  CreateWidget createDecoratedErrorPage(AppModel app, BuildContext context, Key? originalPageKey, CreateWidget createOriginalPage) {
+    var createWidget = createOriginalPage;
+    for (var registeredDecoration in registeredDecorations) {
+      createWidget = registeredDecoration.createDecoratedErrorPage(app, context, originalPageKey, createWidget);
+    }
+
+    return createWidget;
+  }
+
+  @override
   CreateWidget createDecoratedApp(AppModel app, BuildContext context, Key? originalAppkey, CreateWidget createOriginalApp, AppModel model) {
     var createWidget = createOriginalApp;
     for (var registeredDecoration in registeredDecorations) {
@@ -96,4 +106,5 @@ class Decorations extends Decoration {
 
     return createWidget;
   }
+
 }

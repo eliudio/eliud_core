@@ -29,6 +29,29 @@ class AccessInitEvent extends AccessEvent {
           runtimeType == other.runtimeType;
 }
 
+class GoHome extends AccessEvent {
+  final AppModel app;
+  final bool _isProcessing;
+
+  GoHome({required this.app, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
+
+  bool isProcessing() => _isProcessing;
+
+  LogoutEvent asProcessing() {
+    return LogoutEvent(app: app, isProcessing: true);
+  }
+
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is GoHome &&
+              _isProcessing == other._isProcessing &&
+              runtimeType == other.runtimeType;
+}
+
 class LogoutEvent extends AccessEvent {
   final AppModel app;
   final bool _isProcessing;

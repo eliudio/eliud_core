@@ -48,7 +48,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       }
 
     } else if (theState is AccessDetermined) {
-      if (event is LogoutEvent) {
+      if (event is GoHome) {
+        var homePage = theState.homePageForAppId(event.app.documentID!);
+        gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!);
+      } else if (event is LogoutEvent) {
         if (event.isProcessing()) {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
@@ -176,7 +179,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         navigatorKey.currentState!.pushNamedAndRemoveUntil(
             eliudrouter.Router.messageRoute, (_) => false,
             arguments: eliudrouter.Arguments(
-                appId, {'error': errorString}));
+                appId, {'message': errorString}));
       } else {
         navigatorKey.currentState!.pushNamed(
             eliudrouter.Router.messageRoute, arguments: eliudrouter.Arguments(
