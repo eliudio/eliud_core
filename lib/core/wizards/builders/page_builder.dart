@@ -5,6 +5,7 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 
 class PageBuilder {
+  final String uniqueId;
   final String pageId;
   final AppModel app;
   final String memberId;
@@ -15,5 +16,5 @@ class PageBuilder {
   final PageProvider pageProvider;
   final ActionProvider actionProvider;
 
-  PageBuilder(this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, this.pageProvider, this.actionProvider);
+  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, this.pageProvider, this.actionProvider);
 }

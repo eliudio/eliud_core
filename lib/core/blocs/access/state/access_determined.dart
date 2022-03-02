@@ -133,45 +133,14 @@ abstract class AccessDetermined extends AccessState {
     }
     if (page == null) {
       if (alternativePageId != null) {
-        page = await pageRepository(appId: appId)!.get(alternativePageId);
-        if (page == null) {
-          throw Exception('Failed to retrieve the page for app with id $appId. pageId = $pageId, alternativePageId = $alternativePageId');
-        } else {
-          print('Warning: Failed to retrieve the page for app with id $appId. pageId = $pageId. Using the alternativePageId = $alternativePageId');
-          return page;
-        }
-      } else {
-        print('Failed to retrieve the page for app with id $appId. pageId = $pageId, alternativePageId = $alternativePageId');
-        return null;
+        return await pageRepository(appId: appId)!.get(alternativePageId);
       }
     } else {
       return page;
     }
+    return null;
   }
 
-/*
-  Future<AccessDetermined> switchPage(PageModel page, {Map<String, dynamic>? parameters}) async {
-    if (page.appId != currentApp.documentID) {
-      var newCurrentApp = await appRepository()!.get(page.appId);
-      if (newCurrentApp != null) {
-        return addApp(newCurrentApp, page: page, parameters: parameters);
-      } else {
-        throw Exception("newCurrentApp can not be determined. appId = " + page.appId!);
-      }
-    } else {
-      return copyWithNewPage(page, parameters: parameters);
-    }
-  }
-
-  Future<AccessDetermined> openDialog(DialogModel dialog, {Map<String, dynamic>? parameters}) async {
-    assert(dialog.appId == currentApp.documentID);
-    return copyWithNewDialog(dialog, parameters: parameters);
-  }
-
-  Future<AccessDetermined> copyWithNewPage(PageModel page, {Map<String, dynamic>? parameters});
-  Future<AccessDetermined> copyWithNewDialog(DialogModel dialog, {Map<String, dynamic>? parameters});
-
-*/
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
 

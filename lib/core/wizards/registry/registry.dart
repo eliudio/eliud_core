@@ -4,6 +4,7 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
+import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
@@ -12,17 +13,16 @@ import 'action_specification.dart';
 
 abstract class NewAppWizardParameters {}
 
-class ActionSpecificationParametersBase
-    extends NewAppWizardParameters {
+class ActionSpecificationParametersBase extends NewAppWizardParameters {
   late ActionSpecification actionSpecifications;
 
   ActionSpecificationParametersBase(
       {required bool requiresAccessToLocalFileSystem,
-        required bool availableInLeftDrawer,
-        required bool availableInRightDrawer,
-        required bool availableInAppBar,
-        required bool availableInHomeMenu,
-        required bool available}) {
+      required bool availableInLeftDrawer,
+      required bool availableInRightDrawer,
+      required bool availableInAppBar,
+      required bool availableInHomeMenu,
+      required bool available}) {
     actionSpecifications = ActionSpecification(
       requiresAccessToLocalFileSystem: requiresAccessToLocalFileSystem,
       availableInLeftDrawer: availableInLeftDrawer,
@@ -50,8 +50,8 @@ abstract class NewAppWizardInfo {
 
   NewAppWizardInfo(this.newAppWizardName, this.displayName);
 
-  Widget wizardParametersWidget(
-      AppModel app, BuildContext context, NewAppWizardParameters parameters);
+  Widget wizardParametersWidget(AppModel app,
+      BuildContext context, NewAppWizardParameters parameters);
 
   /*
    * A new instance of this wizard is initialised, e.g. because we create a new app
@@ -64,7 +64,8 @@ abstract class NewAppWizardInfo {
    * create a menu item for a specific menu
    *
    */
-  List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type);
+  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app,
+      NewAppWizardParameters parameters, MenuType type);
 
   /*
    * Create the tasks for creating the app, i.e. the portion of the app for which this wizard is for
@@ -75,6 +76,7 @@ abstract class NewAppWizardInfo {
    *
    */
   List<NewAppTask>? getCreateTasks(
+    String uniqueId,
     AppModel app,
     NewAppWizardParameters parameters,
     MemberModel member,
@@ -90,7 +92,8 @@ abstract class NewAppWizardInfo {
    * adjust the app
    *
    */
-  AppModel updateApp(NewAppWizardParameters parameters, AppModel adjustMe);
+  AppModel updateApp(
+      String uniqueId, NewAppWizardParameters parameters, AppModel adjustMe);
 
   /*
    * Get pageID for a page type.
@@ -109,18 +112,60 @@ abstract class NewAppWizardInfo {
    * For the page type we use a hard coded string, rather than using a const, to avoid introducing dependencies
    *
    */
-  String? getPageID(NewAppWizardParameters parameters, String pageType);
+  String? getPageID(
+      String uniqueId, NewAppWizardParameters parameters, String pageType);
 
   /*
    * getAction serves the same purpose as getPageID but then for an action.
    *
    */
-  ActionModel? getAction(NewAppWizardParameters parameters, AppModel app, String actionType, );
+  ActionModel? getAction(
+      String uniqueId,
+      NewAppWizardParameters parameters,
+      AppModel app,
+      String actionType,
+      );
+
+  /*
+   * getPublicMediumModel serves the same purpose as getPageID but then for a public image.
+   *
+   */
+  PublicMediumModel? getPublicMediumModel(
+      String uniqueId, NewAppWizardParameters parameters, String pageType);
 
   @override
   String toString() {
-    return this.runtimeType.toString() + '{newAppWizardName: $newAppWizardName, displayName: $displayName}';
+    return this.runtimeType.toString() +
+        '{newAppWizardName: $newAppWizardName, displayName: $displayName}';
   }
+}
+
+abstract class NewAppWizardInfoDefaultImpl extends NewAppWizardInfo {
+  NewAppWizardInfoDefaultImpl(String newAppWizardName, String displayName) : super(newAppWizardName, displayName);
+
+  @override
+  ActionModel? getAction(String uniqueId, NewAppWizardParameters parameters, AppModel app, String actionType) => null;
+
+  @override
+  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, PageProvider pageProvider, ActionProvider actionProvider) => null;
+
+  @override
+  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app, NewAppWizardParameters parameters, MenuType type) => null;
+
+  @override
+  String? getPageID(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+
+  @override
+  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+
+  @override
+  AppModel updateApp(String uniqueId, NewAppWizardParameters parameters, AppModel adjustMe) => adjustMe;
+
+  @override
+  Widget wizardParametersWidget(AppModel app, BuildContext context, NewAppWizardParameters parameters) {
+    throw UnimplementedError();
+  }
+
 }
 
 /*
@@ -143,9 +188,16 @@ class NewAppWizardRegistry {
   List<NewAppWizardInfo> registeredNewAppWizardInfos = [];
 
   void register(NewAppWizardInfo newAppWizardInfo) {
-    var found = registeredNewAppWizardInfos.firstWhereOrNull((NewAppWizardInfo? element) => element != null && element.newAppWizardName == newAppWizardInfo.newAppWizardName);
-    if (found !=  null) {
-      throw Exception("Adding " + newAppWizardInfo.toString() + " clashes with existing entry " + found.toString() + ". Both have the same newAppWizardName. These must be unique");
+    var found = registeredNewAppWizardInfos.firstWhereOrNull(
+        (NewAppWizardInfo? element) =>
+            element != null &&
+            element.newAppWizardName == newAppWizardInfo.newAppWizardName);
+    if (found != null) {
+      throw Exception("Adding " +
+          newAppWizardInfo.toString() +
+          " clashes with existing entry " +
+          found.toString() +
+          ". Both have the same newAppWizardName. These must be unique");
     }
     registeredNewAppWizardInfos.add(newAppWizardInfo);
   }

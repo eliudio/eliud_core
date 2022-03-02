@@ -6,27 +6,33 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-abstract class NewAppWizardInfoWithActionSpecification extends NewAppWizardInfo {
+abstract class NewAppWizardInfoWithActionSpecification
+    extends NewAppWizardInfo {
   final String wizardWidgetLabel;
 
-  NewAppWizardInfoWithActionSpecification(String newAppWizardName, String displayName, this.wizardWidgetLabel) : super(newAppWizardName, displayName);
+  NewAppWizardInfoWithActionSpecification(
+      String newAppWizardName, String displayName, this.wizardWidgetLabel)
+      : super(newAppWizardName, displayName);
 
   @override
-  List<MenuItemModel>? getMenuItemsFor(AppModel app, NewAppWizardParameters parameters, MenuType type) {
+  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app,
+      NewAppWizardParameters parameters, MenuType type) {
     if (parameters is ActionSpecificationParametersBase) {
       if (parameters.actionSpecifications.should(type)) {
-        return getThoseMenuItems(app);
+        return getThoseMenuItems(uniqueId, app);
       }
     } else {
-      throw Exception('Unexpected class for parameters: ' + parameters.toString());
+      throw Exception(
+          'Unexpected class for parameters: ' + parameters.toString());
     }
     return null;
   }
 
-  List<MenuItemModel>? getThoseMenuItems(AppModel app);
+  List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app);
 
   @override
-  Widget wizardParametersWidget(AppModel app, BuildContext context, NewAppWizardParameters parameters) {
+  Widget wizardParametersWidget(
+      AppModel app, BuildContext context, NewAppWizardParameters parameters) {
     if (parameters is ActionSpecificationParametersBase) {
       return ActionSpecificationWidget(
           app: app,
@@ -34,13 +40,21 @@ abstract class NewAppWizardInfoWithActionSpecification extends NewAppWizardInfo 
           actionSpecification: parameters.actionSpecifications,
           label: wizardWidgetLabel);
     } else {
-      return text(app, context, 'Unexpected class for parameters: ' + parameters.toString());
+      return text(app, context,
+          'Unexpected class for parameters: ' + parameters.toString());
     }
   }
 
   @override
-  AppModel updateApp(NewAppWizardParameters parameters, AppModel adjustMe, ) => adjustMe;
+  AppModel updateApp(
+    String uniqueId,
+    NewAppWizardParameters parameters,
+    AppModel adjustMe,
+  ) =>
+      adjustMe;
 
   @override
-  String? getPageID(NewAppWizardParameters parameters, String pageType) => null;
+  String? getPageID(String uniqueId, NewAppWizardParameters parameters,
+          String pageType) =>
+      null;
 }
