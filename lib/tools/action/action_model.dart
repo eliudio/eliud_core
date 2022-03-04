@@ -90,7 +90,7 @@ abstract class ActionModel {
 
   String message();
 
-  bool hasAccess(BuildContext context) {
+  Future<bool> hasAccess(BuildContext context) async {
     var accessState = AccessBloc.getState(context);
     if (accessState is AccessDetermined) {
       return accessState.actionHasAccess(this);

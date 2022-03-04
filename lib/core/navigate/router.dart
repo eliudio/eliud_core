@@ -100,9 +100,9 @@ class Router {
         milliseconds: 1000);
   }
 
-  static void navigateTo(BuildContext context, ActionModel action,
+  static Future<void> navigateTo(BuildContext context, ActionModel action,
       {Map<String, dynamic>? parameters}) async {
-    if (action.hasAccess(context)) {
+    if (await action.hasAccess(context)) {
       if (action is FunctionToRun) {
         action.actionToRun();
       } else if (action is GotoPage) {

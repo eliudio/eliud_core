@@ -45,90 +45,17 @@ class EliudAppBar extends StatefulWidget {
 }
 
 class _EliudAppBarState extends State<EliudAppBar> {
-  final GlobalKey _appBarKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     var app = widget.app;
-    var currentPage = widget.currentPage;
     return BlocProvider<ExtendedAppBarComponentBloc>(
         create: (context) => ExtendedAppBarComponentBloc()
           ..add(ExtendedAppBarInitEvent(value: widget.value)),
         child: BlocBuilder<ExtendedAppBarComponentBloc,
             ExtendedAppBarComponentState>(builder: (context, state) {
           if ((state is ExtendedAppBarComponentLoaded) && (state.value != null)) {
-                var value = state.value!;
-                return Decorations.instance()
-                    .createDecoratedAppBar(app, context, _appBarKey, () {
-                  var header = value.header!;
-                  var title = value.title;
-                  if ((title != null) &&
-                      (widget.pageTitle != null) &&
-                      (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
-                    title = title.replaceAll(
-                        EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
-                  }
-                  var icon = value.icon;
-                  var memberMediumModel = value.image;
-                  if ((header == HeaderSelection.Title) && (title == null)) {
-                    if (icon != null) {
-                      header = HeaderSelection.Icon;
-                    } else {
-                      header = HeaderSelection.Image;
-                    }
-                  } else if ((header == HeaderSelection.Image) &&
-                      (icon == null)) {
-                    if (title != null) {
-                      header = HeaderSelection.Title;
-                    } else {
-                      header = HeaderSelection.Image;
-                    }
-                  } else if ((header == HeaderSelection.Image) &&
-                      (memberMediumModel == null)) {
-                    if (title != null) {
-                      header = HeaderSelection.Title;
-                    } else {
-                      header = HeaderSelection.Icon;
-                    }
-                  }
-                  var headerAttributes = AppbarHeaderAttributes(
-                      title: title,
-                      icon: value.icon,
-                      memberMediumModel: value.image,
-                      header: header);
-                  var items = MenuItemMapper.mapMenu(context, value.iconMenu!,
-                          widget.member, currentPage) ??
-                      [];
-
-                  var playStoreApp = widget.playstoreApp;
-                  if ((playStoreApp != null) &&
-                      (playStoreApp.logo != null) &&
-                      (playStoreApp.logo!.url != null) &&
-                      (app.documentID != playStoreApp.documentID)) {
-                    items.add(MenuItemAttributes(
-                        isActive: false,
-                        onTap: () => eliudrouter.Router.navigateTo(
-                            context,
-                            SwitchApp(app,
-                                toAppID: playStoreApp.documentID!)),
-                        imageURL: playStoreApp.logo!.url));
-                  }
-
-                  return appBar(app, context,
-                      headerAttributes: headerAttributes,
-                      member: widget.member,
-                      key: _appBarKey,
-                      backgroundOverride: value.backgroundOverride,
-                      menuBackgroundColorOverride:
-                          value.menuBackgroundColorOverride,
-                      iconColorOverride: value.iconColorOverride,
-                      selectedIconColorOverride:
-                          value.selectedIconColorOverride,
-                      pageName: widget.theTitle,
-                      items: items,
-                      openDrawer: () =>
-                          widget.scaffoldKey.currentState!.openEndDrawer());
-                }, value)();
+                var value = state;
+                return EliudAppBarWithItems(state: state, pageTitle: widget.pageTitle, app: widget.app, playstoreApp: widget.playstoreApp, member: widget.member, currentPage: widget.currentPage, theTitle: widget.theTitle, scaffoldKey: widget.scaffoldKey, );
           } else {
             return progressIndicator(app, context);
           }
@@ -138,3 +65,117 @@ class _EliudAppBarState extends State<EliudAppBar> {
 
 
 
+class EliudAppBarWithItems extends StatefulWidget {
+  final String? pageTitle;
+  final ExtendedAppBarComponentLoaded state;
+  final AppModel app;
+  final String currentPage;
+  final MemberModel? member;
+  final AppModel? playstoreApp;
+  final String theTitle;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  EliudAppBarWithItems(
+      {Key? key, required this.state,
+        this.pageTitle,
+        required this.app,
+        required this.playstoreApp,
+        required this.member,
+        required this.currentPage,
+        required this.scaffoldKey,
+        required this.theTitle,
+      })
+      : super(key: key);
+
+  @override
+  _EliudAppBarWithItemsState createState() => _EliudAppBarWithItemsState();
+}
+
+class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
+  final GlobalKey _appBarKey = GlobalKey();
+  @override
+  Widget build(BuildContext context) {
+    var value = widget.state.value;
+    var currentPage = widget.currentPage;
+    var app = widget.app;
+
+
+    return FutureBuilder<List<AbstractMenuItemAttributes>?>(
+        future: MenuItemMapper.mapMenu(context, value.iconMenu!,
+            widget.member, currentPage),
+        builder: (context, snapshot) {
+          var items = <AbstractMenuItemAttributes>[];
+          if (snapshot.hasData) {
+            items = snapshot.data!;
+          }
+          return Decorations.instance()
+              .createDecoratedAppBar(app, context, _appBarKey, () {
+            var header = value.header!;
+            var title = value.title;
+            if ((title != null) &&
+                (widget.pageTitle != null) &&
+                (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+              title = title.replaceAll(
+                  EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+            }
+            var icon = value.icon;
+            var memberMediumModel = value.image;
+            if ((header == HeaderSelection.Title) && (title == null)) {
+              if (icon != null) {
+                header = HeaderSelection.Icon;
+              } else {
+                header = HeaderSelection.Image;
+              }
+            } else if ((header == HeaderSelection.Image) &&
+                (icon == null)) {
+              if (title != null) {
+                header = HeaderSelection.Title;
+              } else {
+                header = HeaderSelection.Image;
+              }
+            } else if ((header == HeaderSelection.Image) &&
+                (memberMediumModel == null)) {
+              if (title != null) {
+                header = HeaderSelection.Title;
+              } else {
+                header = HeaderSelection.Icon;
+              }
+            }
+            var headerAttributes = AppbarHeaderAttributes(
+                title: title,
+                icon: value.icon,
+                memberMediumModel: value.image,
+                header: header);
+
+            var playStoreApp = widget.playstoreApp;
+            if ((playStoreApp != null) &&
+                (playStoreApp.logo != null) &&
+                (playStoreApp.logo!.url != null) &&
+                (app.documentID != playStoreApp.documentID)) {
+              items.add(MenuItemAttributes(
+                  isActive: false,
+                  onTap: () => eliudrouter.Router.navigateTo(
+                      context,
+                      SwitchApp(app,
+                          toAppID: playStoreApp.documentID!)),
+                  imageURL: playStoreApp.logo!.url));
+            }
+
+            return appBar(app, context,
+                headerAttributes: headerAttributes,
+                member: widget.member,
+                key: _appBarKey,
+                backgroundOverride: value.backgroundOverride,
+                menuBackgroundColorOverride:
+                value.menuBackgroundColorOverride,
+                iconColorOverride: value.iconColorOverride,
+                selectedIconColorOverride:
+                value.selectedIconColorOverride,
+                pageName: widget.theTitle,
+                items: items,
+                openDrawer: () =>
+                    widget.scaffoldKey.currentState!.openEndDrawer());
+          }, value)();
+        });
+  }
+}

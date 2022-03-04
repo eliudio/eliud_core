@@ -58,7 +58,7 @@ abstract class AccessDetermined extends AccessState {
     return null;
   }
 
-  bool actionHasAccess(ActionModel action) {
+  Future<bool> actionHasAccess(ActionModel action) async {
     var appID = action.app.documentID!;
     if (action.conditions != null) {
       var theAccess = accesses[appID];
@@ -75,19 +75,28 @@ abstract class AccessDetermined extends AccessState {
       if (theAccess == null) return false;
       var pageID = action.pageID;
       var access = theAccess.pagesAccess[pageID];
-      if (access == null) return false;
+      if (access == null) {
+        access = (await pageRepository(appId: action.app.documentID)!.get(pageID) != null);
+        theAccess.pagesAccess[pageID] = access;
+        return access;
+      }
       return access;
     } else if (action is OpenDialog) {
       var theAccess = accesses[appID];
       if (theAccess == null) return false;
       var dialogID = action.dialogID;
       var access = theAccess.dialogsAccess[dialogID];
-      if (access == null) return false;
+      if (access == null) {
+        access = (await dialogRepository(appId: action.app.documentID)!.get(dialogID) != null);
+        theAccess.dialogsAccess[dialogID] = access;
+        return access;
+      }
       return access;
     } else if (action is PopupMenu) {
       var access = false;
-      action.menuDef!.menuItems!.forEach((item) {
-        if (menuItemHasAccess(item)) access = true;
+      action.menuDef!.menuItems!.forEach((item) async {
+        var hasAccess = await menuItemHasAccess(item);
+        if (hasAccess) access = true;
       });
       return access;
     } else if (action is InternalAction) {
@@ -103,7 +112,7 @@ abstract class AccessDetermined extends AccessState {
     return true;
   }
 
-  bool menuItemHasAccess(MenuItemModel item) {
+  Future<bool> menuItemHasAccess(MenuItemModel item) async {
     try {
       var action = item.action!;
       return actionHasAccess(action);
@@ -112,8 +121,8 @@ abstract class AccessDetermined extends AccessState {
     }
   }
 
-  List<bool> hasNAccess(AccessState state, List<MenuItemModel> items) {
-    return items.map((e) => menuItemHasAccess(e)).toList();
+  Future<List<bool>> hasNAccess(List<MenuItemModel> items) async {
+    return await Future.wait(items.map((e) => menuItemHasAccess(e)).toList());
   }
 
   @override
