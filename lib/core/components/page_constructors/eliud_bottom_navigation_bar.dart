@@ -100,21 +100,23 @@ class _EliudBottomNavigationBarWithItemsState
           var itemList = <AbstractMenuItemAttributes>[];
           if (snapshot.hasData) {
             itemList = snapshot.data!;
+            return Decorations.instance().createDecoratedBottomNavigationBar(
+                app, context, _bottomNavigationBarKey, () {
+              if (itemList.length > 2) {
+                return bottomNavigationBar(app, context,
+                    key: _bottomNavigationBarKey,
+                    member: widget.accessState.getMember(),
+                    items: itemList,
+                    backgroundOverride: widget.homeMenu.backgroundOverride,
+                    popupMenuBackgroundColorOverride:
+                    widget.homeMenu.popupMenuBackgroundColorOverride);
+              } else {
+                return Container(height: 0);
+              }
+            }, widget.homeMenu)();
+          } else {
+            return Container(height: 0);
           }
-          return Decorations.instance().createDecoratedBottomNavigationBar(
-              app, context, _bottomNavigationBarKey, () {
-            if ((itemList != null) && (itemList.length > 2)) {
-              return bottomNavigationBar(app, context,
-                  key: _bottomNavigationBarKey,
-                  member: widget.accessState.getMember(),
-                  items: itemList,
-                  backgroundOverride: widget.homeMenu.backgroundOverride,
-                  popupMenuBackgroundColorOverride:
-                      widget.homeMenu.popupMenuBackgroundColorOverride);
-            } else {
-              return Container(height: 0);
-            }
-          }, widget.homeMenu)();
         });
   }
 }

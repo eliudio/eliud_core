@@ -45,7 +45,7 @@ class MemberDashboardDialogBuilder extends DialogBuilder {
     components.add(BodyComponentModel(
         documentID: '1',
         componentName: AbstractMemberDashboardComponent.componentName,
-        componentId: dialogDocumentId));
+        componentId: constructDocumentId(uniqueId: uniqueId, documentId: dialogDocumentId)));
 
     return DialogModel(
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: dialogDocumentId),

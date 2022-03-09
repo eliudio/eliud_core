@@ -94,42 +94,40 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
   @override
   Widget build(BuildContext context) {
     var drawer = widget.state.value!;
-    var app = widget.app;
-    var currentPage = widget.currentPage;
-    return FutureBuilder<List<AbstractMenuItemAttributes>?>(
-        future: MenuItemMapper.mapMenu(
-            context, drawer.menu!, widget.accessState.getMember(), currentPage),
-        builder: (context, snapshot) {
-          var itemList = <AbstractMenuItemAttributes>[];
-          if (snapshot.hasData) {
-            itemList = snapshot.data!;
-          }
-          return Decorations.instance().createDecoratedDrawer(
-              app,
-              context,
-              widget.drawerType == DrawerType.Left
-                  ? DecorationDrawerType.Left
-                  : DecorationDrawerType.Left,
-              _drawerKey, () {
-            if (drawer.menu != null) {
-              var drawerHeader1Attributes;
-              if (((drawer.headerText != null) &&
-                      (drawer.headerText!.isNotEmpty)) ||
-                  (drawer.headerBackgroundOverride != null)) {
-                drawerHeader1Attributes = DrawerHeader1Attributes(
-                    drawer.headerHeight,
-                    drawer.headerText!,
-                    drawer.headerBackgroundOverride);
-              }
-              var drawerHeader2Attributes;
-              if ((drawer.secondHeaderText != null) &&
-                  (drawer.secondHeaderText!.isNotEmpty)) {
-                drawerHeader2Attributes = DrawerHeader2Attributes(
-                    drawer.headerHeight,
-                    processDoc(context, app, drawer.secondHeaderText!));
-              }
+    if (drawer.menu != null) {
+      var app = widget.app;
+      var currentPage = widget.currentPage;
+      var drawerHeader1Attributes;
+      if (((drawer.headerText != null) &&
+          (drawer.headerText!.isNotEmpty)) ||
+          (drawer.headerBackgroundOverride != null)) {
+        drawerHeader1Attributes = DrawerHeader1Attributes(
+            drawer.headerHeight,
+            drawer.headerText!,
+            drawer.headerBackgroundOverride);
+      }
+      var drawerHeader2Attributes;
+      if ((drawer.secondHeaderText != null) &&
+          (drawer.secondHeaderText!.isNotEmpty)) {
+        drawerHeader2Attributes = DrawerHeader2Attributes(
+            drawer.headerHeight,
+            processDoc(context, app, drawer.secondHeaderText!));
+      }
 
-              if (itemList != null) {
+      return FutureBuilder<List<AbstractMenuItemAttributes>?>(
+          future: MenuItemMapper.mapMenu(
+              context, drawer.menu!, widget.accessState.getMember(), currentPage),
+          builder: (context, snapshot) {
+            var itemList = <AbstractMenuItemAttributes>[];
+            if (snapshot.hasData) {
+              itemList = snapshot.data!;
+              return Decorations.instance().createDecoratedDrawer(
+                  app,
+                  context,
+                  widget.drawerType == DrawerType.Left
+                      ? DecorationDrawerType.Left
+                      : DecorationDrawerType.Left,
+                  _drawerKey, () {
                 return dr.drawer(app, context,
                     key: _drawerKey,
                     member: widget.accessState.getMember(),
@@ -138,15 +136,32 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
                     header2: drawerHeader2Attributes,
                     items: itemList,
                     popupMenuBackgroundColorOverride:
-                        drawer.popupMenuBackgroundColorOverride,
+                    drawer.popupMenuBackgroundColorOverride,
                     backgroundOverride: drawer.backgroundOverride);
-              } else {
-                return Text('Drawer ${drawer.documentID} has no items');
-              }
+              }, drawer)();
             } else {
-              return Text('Drawer ${drawer.documentID} has no menu defined');
+              return Decorations.instance().createDecoratedDrawer(
+                  app,
+                  context,
+                  widget.drawerType == DrawerType.Left
+                      ? DecorationDrawerType.Left
+                      : DecorationDrawerType.Left,
+                  _drawerKey, () {
+                return dr.drawer(app, context,
+                    key: _drawerKey,
+                    member: widget.accessState.getMember(),
+                    drawerType: widget.drawerType,
+                    header1: drawerHeader1Attributes,
+                    header2: drawerHeader2Attributes,
+                    items: [],
+                    popupMenuBackgroundColorOverride:
+                    drawer.popupMenuBackgroundColorOverride,
+                    backgroundOverride: drawer.backgroundOverride);
+              }, drawer)();
             }
-          }, drawer)();
-        });
+          });
+    } else {
+      return Text('Drawer ${drawer.documentID} has no menu defined');
+    }
   }
 }

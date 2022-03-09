@@ -341,7 +341,7 @@ class IconHelper {
 }
 
 class BoxFitHelper {
-  static BoxFit? toBoxFit(PosSizeModel posSizeModel, Orientation orientation) {
+  static BoxFit? toBoxFit(PosSizeModel? posSizeModel, Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.fitLandscape) {
@@ -385,7 +385,7 @@ class BoxFitHelper {
     return null;
   }
 
-  static double? toWidth(PosSizeModel posSizeModel, BuildContext context,
+  static double? toWidth(PosSizeModel? posSizeModel, BuildContext context,
       Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
@@ -405,7 +405,7 @@ class BoxFitHelper {
     }
   }
 
-  static double? toHeight(PosSizeModel posSizeModel, BuildContext context,
+  static double? toHeight(PosSizeModel? posSizeModel, BuildContext context,
       Orientation orientation) {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
@@ -428,7 +428,8 @@ class BoxFitHelper {
   }
 
   static Alignment? toAlignment(
-      PosSizeModel posSizeModel, Orientation orientation) {
+      PosSizeModel? posSizeModel, Orientation orientation) {
+    if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.alignTypeLandscape) {
         case LandscapeAlignType.LandscapeAlignTopLeft:

@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'document_processor.dart';
 
 class MenuItemMapper {
-  static Future<List<AbstractMenuItemAttributes>?> mapMenu(BuildContext context, MenuDefModel menu, MemberModel? member, String? currentPage) async {
+  static Future<List<AbstractMenuItemAttributes>> mapMenu(BuildContext context, MenuDefModel menu, MemberModel? member, String? currentPage) async {
     var itemList = <AbstractMenuItemAttributes>[];
     for (var i = 0; i < menu.menuItems!.length; i++) {
       var item = menu.menuItems![i];
