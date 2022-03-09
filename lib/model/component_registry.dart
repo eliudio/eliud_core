@@ -29,7 +29,7 @@ import 'package:eliud_core/model/internal_component.dart';
 class ComponentRegistry {
 
   void init() {
-    Registry.registry()!.addInternalComponents('eliud_core', ["apps", "appBars", "appPolicys", "countrys", "dialogs", "drawers", "gridViews", "homeMenus", "members", "memberDashboards", "memberPublicInfos", "menuDefs", "pages", "posSizes", ]);
+    Registry.registry()!.addInternalComponents('eliud_core', ["apps", "appBars", "appPolicys", "countrys", "dialogs", "drawers", "gridViews", "homeMenus", "members", "memberDashboards", "memberPublicInfos", "menuDefs", "pages", ]);
 
     Registry.registry()!.register(componentName: "eliud_core_internalWidgets", componentConstructor: ListComponentFactory());
     Registry.registry()!.addDropDownSupporter("memberDashboards", DropdownButtonComponentFactory());

@@ -195,19 +195,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/pos_size_list_bloc.dart';
-import 'package:eliud_core/model/pos_size_list.dart';
-import 'package:eliud_core/model/pos_size_dropdown_button.dart';
-import 'package:eliud_core/model/pos_size_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 class ListComponentFactory implements ComponentConstructor {
   Widget? createNew({Key? key, required AppModel app,  required String id, Map<String, dynamic>? parameters}) {
     return ListComponent(app: app, componentId: id);
@@ -244,7 +231,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "memberPublicInfos") return true;
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
-    if (id == "posSizes") return true;
     return false;
   }
 
@@ -289,9 +275,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "pages")
       return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
 
-    if (id == "posSizes")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
-
     return Text("Id $id not found");
   }
 }
@@ -331,7 +314,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'posSizes') return _posSizeBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -349,7 +331,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget(app: app);
     if (componentId == 'menuDefs') widget = MenuDefListWidget(app: app);
     if (componentId == 'pages') widget = PageListWidget(app: app);
-    if (componentId == 'posSizes') widget = PosSizeListWidget(app: app);
   }
 
   Widget _appBuild(BuildContext context) {
@@ -521,19 +502,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _posSizeBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PosSizeListBloc>(
-          create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: app.documentID!)!,
-          )..add(LoadPosSizeList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
 }
 
 
@@ -564,7 +532,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'posSizes') return _posSizeBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -735,19 +702,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: PageDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _posSizeBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PosSizeListBloc>(
-          create: (context) => PosSizeListBloc(
-            posSizeRepository: posSizeRepository(appId: app.documentID!)!,
-          )..add(LoadPosSizeList()),
-        )
-      ],
-      child: PosSizeDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
     );
   }
 

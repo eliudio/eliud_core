@@ -36,7 +36,6 @@ import '../model/menu_def_repository.dart';
 import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/platform_medium_repository.dart';
-import '../model/pos_size_repository.dart';
 import '../model/public_medium_repository.dart';
 import 'package:eliud_core/core/blocs/access/repo/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
@@ -57,7 +56,6 @@ MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => Abs
 MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
-PosSizeRepository? posSizeRepository({ String? appId }) => AbstractRepositorySingleton.singleton.posSizeRepository(appId);
 PublicMediumRepository? publicMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.publicMediumRepository();
 
 abstract class AbstractRepositorySingleton {
@@ -81,7 +79,6 @@ abstract class AbstractRepositorySingleton {
   MenuDefRepository? menuDefRepository(String? appId);
   PageRepository? pageRepository(String? appId);
   PlatformMediumRepository? platformMediumRepository(String? appId);
-  PosSizeRepository? posSizeRepository(String? appId);
   PublicMediumRepository? publicMediumRepository();
 
   void flush(String? appId) {
@@ -97,6 +94,5 @@ abstract class AbstractRepositorySingleton {
     menuDefRepository(appId)!.flush();
     pageRepository(appId)!.flush();
     platformMediumRepository(appId)!.flush();
-    posSizeRepository(appId)!.flush();
   }
 }

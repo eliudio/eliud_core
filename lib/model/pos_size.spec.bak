@@ -18,6 +18,21 @@
   },
   "fields": [
     {
+      "fieldName": "documentID",
+      "displayName": "Document ID",
+      "fieldType": "String",
+      "iconName": "vpn_key",
+      "group": "general"
+    },
+    {
+      "fieldName": "appId",
+      "displayName": "App ID",
+      "fieldType": "String",
+      "iconName": "vpn_key",
+      "hidden": true,
+      "group": "general"
+    },
+    {
       "fieldName": "name",
       "displayName": "Name",
       "fieldType": "String",

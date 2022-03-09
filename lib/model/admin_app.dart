@@ -360,28 +360,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _posSizesPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-posSizes", componentName: "eliud_core_internalWidgets", componentId: "posSizes"));
-    PageModel page = PageModel(
-        conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
-        ),
-        appId: appId,
-        documentID: "eliud_core_possizes_page",
-        title: "PosSizes",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _publicMediumsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -433,8 +411,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_pagesPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
-
-        .then((_) => pageRepository(appId: appId)!.add(_posSizesPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
 
@@ -591,16 +567,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "PlatformMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_platformmediums_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "PosSizes",
-        text: "PosSizes",
-        description: "PosSizes",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(app, pageID: "eliud_core_possizes_page"))
     );
 
 
