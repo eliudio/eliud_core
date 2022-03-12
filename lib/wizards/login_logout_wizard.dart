@@ -55,6 +55,9 @@ class LoginWizard extends AccessWizard {
       : super('signinbutton', 'Sign-in Button', 'Generate a sign-in button');
 
   @override
+  String getPackageName() => "eliud_core";
+
+  @override
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) => [
         MenuItemModel(
             documentID: newRandomKey(),
@@ -82,6 +85,9 @@ class LoginWizard extends AccessWizard {
 class LogoutWizard extends AccessWizard {
   LogoutWizard()
       : super('signoubutton', 'Sign-out Button', 'Generate a sign-out button');
+
+  @override
+  String getPackageName() => "eliud_core";
 
   @override
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) => [

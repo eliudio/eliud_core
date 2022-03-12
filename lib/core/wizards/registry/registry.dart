@@ -47,6 +47,8 @@ abstract class NewAppWizardInfo {
   final String newAppWizardName; // e.g. policy
   final String displayName;
 
+  String getPackageName();
+
   NewAppWizardInfo(this.newAppWizardName, this.displayName);
 
   Widget wizardParametersWidget(AppModel app,

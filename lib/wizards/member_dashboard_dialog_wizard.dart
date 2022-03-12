@@ -29,6 +29,9 @@ class MemberDashboardDialogWizard extends NewAppWizardInfoWithActionSpecificatio
   );
 
   @override
+  String getPackageName() => "eliud_core";
+
+  @override
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) =>[
     menuItemManageAccount(uniqueId, app, MEMBER_DASHBOARD_DIALOG_ID),
   ];
