@@ -222,4 +222,9 @@ class LoggedOut extends AccessDetermined {
     newVersion.forceRefresh = forceRefresh + 1;
     return newVersion;
   }
+
+  @override
+  Future<PageModel?> reterminedHomePageForAppId(AppModel app) async {
+    return await getHomepage(app);
+  }
 }

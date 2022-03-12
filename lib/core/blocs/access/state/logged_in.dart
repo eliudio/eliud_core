@@ -280,6 +280,7 @@ class LoggedIn extends AccessDetermined {
     return appAccess.privilegeLevel ?? PrivilegeLevel.NoPrivilege;
   }
 
+
   @override
   bool isBlocked(String appId) => _isBlocked(appId, accesses);
 
@@ -456,4 +457,11 @@ class LoggedIn extends AccessDetermined {
     return newVersion;
   }
 
+  @override
+  Future<PageModel?> reterminedHomePageForAppId(AppModel app) async {
+    var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
+    var appIsBlocked = _isBlocked(app.documentID!, accesses);
+    var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
+    return homePage;
+  }
 }

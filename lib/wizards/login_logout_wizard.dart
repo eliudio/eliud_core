@@ -87,8 +87,8 @@ class LogoutWizard extends AccessWizard {
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) => [
         MenuItemModel(
             documentID: newRandomKey(),
-            text: "Sign out",
-            description: "Sign out",
+            text: 'Sign out',
+            description: 'Sign out',
             icon: IconModel(
                 codePoint: Icons.power_settings_new.codePoint,
                 fontFamily: Icons.settings.fontFamily),

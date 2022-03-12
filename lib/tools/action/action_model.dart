@@ -348,7 +348,7 @@ class PopupMenuModelMapper implements ActionModelMapper {
  * OtherApps = Allows to specify that n internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
  */
 enum InternalActionEnum {
-  Login, Logout, OtherApps, Unknown
+  Login, Logout, GoHome, OtherApps, Unknown
 }
 
 class InternalAction extends ActionModel {
@@ -370,6 +370,7 @@ class InternalAction extends ActionModel {
     if (entity.appID == null) throw Exception('entity InternalAction.appID is null');
     if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Login);
     if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Logout);
+    if (internalAction == InternalActionEnum.GoHome.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.GoHome);
     if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.OtherApps);
     return
       InternalAction(app,
@@ -389,6 +390,7 @@ class InternalAction extends ActionModel {
     switch (internalActionEnum) {
       case InternalActionEnum.Login: return 'Logging in';
       case InternalActionEnum.Logout: return 'Logging out';
+      case InternalActionEnum.GoHome: return 'Go Home';
       case InternalActionEnum.OtherApps: return 'Other apps';
       case InternalActionEnum.Unknown: return unknownMsg;
     }
@@ -400,6 +402,7 @@ class InternalAction extends ActionModel {
     switch (internalActionEnum) {
       case InternalActionEnum.Login: return 'Login';
       case InternalActionEnum.Logout: return 'Logout';
+      case InternalActionEnum.GoHome: return 'Go Home';
       case InternalActionEnum.OtherApps: return 'Other apps';
     }
     return '?';

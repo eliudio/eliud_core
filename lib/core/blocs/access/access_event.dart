@@ -32,17 +32,18 @@ class AccessInitEvent extends AccessEvent {
 class GoHome extends AccessEvent {
   final AppModel app;
   final bool _isProcessing;
+  final bool redetermine; // for redetermining the homepage before goint
 
-  GoHome({required this.app, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
+  GoHome({required this.app, bool? isProcessing, this.redetermine = false}) : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
-  LogoutEvent asProcessing() {
-    return LogoutEvent(app: app, isProcessing: true);
+  GoHome asProcessing() {
+    return GoHome(app: app, isProcessing: true, redetermine: redetermine);
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ app, _isProcessing, redetermine];
 
   @override
   bool operator ==(Object other) =>

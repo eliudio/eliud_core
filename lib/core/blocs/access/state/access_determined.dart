@@ -104,6 +104,8 @@ abstract class AccessDetermined extends AccessState {
         return !isLoggedIn();
       } else if (action.internalActionEnum == InternalActionEnum.Logout) {
         return isLoggedIn();
+      } else if (action.internalActionEnum == InternalActionEnum.GoHome) {
+        return true;
       } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
         return hasAccessToOtherApps();
       }
@@ -217,4 +219,6 @@ abstract class AccessDetermined extends AccessState {
     }
     throw Exception('app not found when trying to find homepage');
   }
+
+  Future<PageModel?> reterminedHomePageForAppId(AppModel app);
 }

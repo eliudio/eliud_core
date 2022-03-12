@@ -49,8 +49,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
     } else if (theState is AccessDetermined) {
       if (event is GoHome) {
-        var homePage = theState.homePageForAppId(event.app.documentID!);
-        gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!);
+        if (event.isProcessing()) {
+          var homePage = event.redetermine ? await theState.reterminedHomePageForAppId(event.app) : theState.homePageForAppId(event.app.documentID!);
+          gotoPage(true, event.app.documentID!,
+              homePage == null ? null : homePage.documentID!,
+              errorString: 'Homepage not set correct for app ' +
+                  event.app.documentID!);
+          yield theState.asNotProcessing();
+        } else {
+          add(event.asProcessing());
+          yield theState.asProcessing();
+        }
       } else if (event is LogoutEvent) {
         if (event.isProcessing()) {
           await AbstractMainRepositorySingleton.singleton

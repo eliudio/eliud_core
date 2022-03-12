@@ -32,7 +32,7 @@ class ActionFieldState extends State<ActionField> {
   final List<String> _internalActions = [
     'Login',
     'Logout',
-    'Login/Logout',
+    'GoHome',
     'OtherApps'
   ];
   String? _internalAction;
@@ -59,8 +59,10 @@ class ActionFieldState extends State<ActionField> {
         _internalAction = _internalActions[0];
       } else if (action.internalActionEnum == InternalActionEnum.Logout) {
         _internalAction = _internalActions[1];
-      } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
+      } else if (action.internalActionEnum == InternalActionEnum.GoHome) {
         _internalAction = _internalActions[2];
+      } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
+        _internalAction = _internalActions[3];
       }
     }
   }
@@ -96,6 +98,18 @@ class ActionFieldState extends State<ActionField> {
           ),
           RadioListTile(
             value: 2,
+            groupValue: _actionSelection,
+            title: Text('Internal'),
+            subtitle: Text(
+                'This action is the go home action'),
+            onChanged: !state.memberIsOwner(appId)
+                ? null
+                : (dynamic val) {
+              setSelectionDisplayMode(val);
+            },
+          ),
+          RadioListTile(
+            value: 3,
             groupValue: _actionSelection,
             title: Text('Popup Menu'),
             subtitle: Text('This menu item will open another popup menu'),
@@ -206,6 +220,8 @@ class ActionFieldState extends State<ActionField> {
     } else if (_internalAction == _internalActions[1]) {
       actionEnum = InternalActionEnum.Logout;
     } else if (_internalAction == _internalActions[2]) {
+      actionEnum = InternalActionEnum.GoHome;
+    } else if (_internalAction == _internalActions[3]) {
       actionEnum = InternalActionEnum.OtherApps;
     }
     if (_actionSelection == 1) {

@@ -124,6 +124,9 @@ class Router {
           case InternalActionEnum.Logout:
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: action.app));
             break;
+          case InternalActionEnum.GoHome:
+            BlocProvider.of<AccessBloc>(context).add(GoHome(app: action.app));
+            break;
           default:
             return null;
         }
@@ -151,6 +154,8 @@ class Router {
             return LoginEvent(app: action.app);
           case InternalActionEnum.Logout:
             return LogoutEvent(app: action.app);
+          case InternalActionEnum.GoHome:
+            return GoHome(app: action.app);
           default:
             return null;
         }
