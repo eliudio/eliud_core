@@ -14,7 +14,6 @@ class PageBuilder {
   final DrawerModel leftDrawer;
   final DrawerModel rightDrawer;
   final PageProvider pageProvider;
-  final ActionProvider actionProvider;
 
-  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, this.pageProvider, this.actionProvider);
+  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, this.pageProvider, );
 }

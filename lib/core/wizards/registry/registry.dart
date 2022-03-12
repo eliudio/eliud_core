@@ -40,7 +40,6 @@ typedef HomeMenuModel HomeMenuProvider();
 typedef AppBarModel AppBarProvider();
 typedef DrawerModel DrawerProvider();
 typedef String? PageProvider(String pageType);
-typedef ActionModel? ActionProvider(AppModel app, String actionType);
 
 typedef NewAppTask = Future<void> Function();
 
@@ -85,7 +84,6 @@ abstract class NewAppWizardInfo {
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
     PageProvider pageProvider,
-    ActionProvider actionProvider,
   );
 
   /*
@@ -129,9 +127,11 @@ abstract class NewAppWizardInfo {
   /*
    * getPublicMediumModel serves the same purpose as getPageID but then for a public image.
    *
+   * known mediumType:
+   * 'logo': implement when you wizard provides the logo for the app
    */
   PublicMediumModel? getPublicMediumModel(
-      String uniqueId, NewAppWizardParameters parameters, String pageType);
+      String uniqueId, NewAppWizardParameters parameters, String mediumType);
 
   @override
   String toString() {
@@ -147,7 +147,7 @@ abstract class NewAppWizardInfoDefaultImpl extends NewAppWizardInfo {
   ActionModel? getAction(String uniqueId, NewAppWizardParameters parameters, AppModel app, String actionType) => null;
 
   @override
-  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, PageProvider pageProvider, ActionProvider actionProvider) => null;
+  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, PageProvider pageProvider) => null;
 
   @override
   List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app, NewAppWizardParameters parameters, MenuType type) => null;
