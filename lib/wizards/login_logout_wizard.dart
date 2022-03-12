@@ -111,3 +111,4 @@ class LogoutWizard extends AccessWizard {
   @override
   PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
 }
+

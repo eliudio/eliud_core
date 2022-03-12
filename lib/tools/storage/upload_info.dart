@@ -150,8 +150,7 @@ class UploadInfo {
             'Exception during file upload. Could not upload file ' + filePath);
       }
     } on firebase_storage.FirebaseException catch (e) {
-      throw Exception(
-          'Exception during file upload. code = $e.code,  message = $e.message');
+      throw Exception('Exception during file upload. code = $e.code,  message = $e.message');
     }
   }
 }

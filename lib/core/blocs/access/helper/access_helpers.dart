@@ -116,7 +116,7 @@ class AccessHelper {
       bool isOwner,
       bool? isBlocked,
       bool isLoggedIn) {
-    var privilegeLevelRequiredIndex = conditions.privilegeLevelRequired == null ? PrivilegeLevelRequired.NoPrivilegeRequired.index : conditions.privilegeLevelRequired!.index;
+    var privilegeLevelRequiredIndex = conditions.privilegeLevelRequired == null || conditions.privilegeLevelRequired == PrivilegeLevelRequired.Unknown ? PrivilegeLevelRequired.NoPrivilegeRequired.index : conditions.privilegeLevelRequired!.index;
 
     if (privilegedLevel.index < privilegeLevelRequiredIndex) {
       return false;
