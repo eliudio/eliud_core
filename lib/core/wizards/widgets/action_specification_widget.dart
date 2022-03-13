@@ -40,11 +40,11 @@ class ActionSpecificationWidget extends StatefulWidget {
 class _ActionSpecificationWidgetState extends State<ActionSpecificationWidget> {
   @override
   Widget build(BuildContext context) {
-    return topicContainer(widget.app, context,
-        title: widget.label,
-        collapsible: true,
-        collapsed: true,
+    return ListView(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
         children: [
+          h4(widget.app, context, widget.label),
           checkboxListTile(
               widget.app,
               context,

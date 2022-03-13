@@ -221,4 +221,5 @@ abstract class AccessDetermined extends AccessState {
   }
 
   Future<PageModel?> reterminedHomePageForAppId(AppModel app);
+
 }

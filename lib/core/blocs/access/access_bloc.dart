@@ -50,7 +50,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     } else if (theState is AccessDetermined) {
       if (event is GoHome) {
         if (event.isProcessing()) {
-          var homePage = event.redetermine ? await theState.reterminedHomePageForAppId(event.app) : theState.homePageForAppId(event.app.documentID!);
+          var appId = event.app.documentID!;
+          var app = theState.getApp(appId);
+          var homePage = (event.redetermine && (app != null)) ? await theState.reterminedHomePageForAppId(app) : theState.homePageForAppId(appId);
           gotoPage(true, event.app.documentID!,
               homePage == null ? null : homePage.documentID!,
               errorString: 'Homepage not set correct for app ' +
