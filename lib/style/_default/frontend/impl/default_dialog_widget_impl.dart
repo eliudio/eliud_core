@@ -5,6 +5,7 @@ import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../helper/dialog/dialog_field.dart';
 import '../helper/dialog/dialog_helper.dart';
@@ -18,8 +19,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget messageDialog(AppModel app,
-      BuildContext context, {
+  Widget messageDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required String message,
     String? closeLabel,
@@ -29,7 +31,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }) {
     return dialogHelper.build(app, context,
         includeHeading: includeHeading,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -39,8 +43,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget errorDialog(AppModel app,
-      BuildContext context, {
+  Widget errorDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -50,30 +55,35 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }) {
     return dialogHelper.build(app, context,
         includeHeading: includeHeading,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
-        contents:
-        _frontEndStyle.textStyle().text(app, context, errorMessage),
+        contents: _frontEndStyle.textStyle().text(app, context, errorMessage),
         dialogButtonPosition: DialogButtonPosition.TopRight,
         buttons: dialogHelper.getCloseButton(app, context,
             buttonLabel: closeLabel, onPressed: () => Navigator.pop(context)));
   }
 
   @override
-  Widget ackNackDialog(AppModel app, BuildContext context,
-      {required String title,
-      required String message,
-      required OnSelection onSelection,
-      String? ackButtonLabel,
-      String? nackButtonLabel,
-      bool? includeHeading,
-      Key? key,
-      double? widthFraction, // percentage of screen width
-      }) {
+  Widget ackNackDialog(
+    AppModel app,
+    BuildContext context, {
+    required String title,
+    required String message,
+    required OnSelection onSelection,
+    String? ackButtonLabel,
+    String? nackButtonLabel,
+    bool? includeHeading,
+    Key? key,
+    double? widthFraction, // percentage of screen width
+  }) {
     return dialogHelper.build(app, context,
         includeHeading: includeHeading,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
@@ -88,66 +98,71 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget entryDialog(AppModel app, BuildContext context,
-      {required String title,
-      String? ackButtonLabel,
-      String? nackButtonLabel,
-      String? hintText,
-      required Function(String? response) onPressed,
-      String? initialValue,
-      bool? includeHeading,
-      Key? key,
-      double? widthFraction, // percentage of screen width
-
-        TextInputType? keyboardType,
-        TextCapitalization? textCapitalization,
-        TextAlign? textAlign,
-        TextAlignVertical? textAlignVertical,
-        TextDirection? textDirection,
-        bool? readOnly,
-        ToolbarOptions? toolbarOptions,
-        bool? showCursor,
-        bool? autocorrect,
-        bool? enableSuggestions,
-        int? maxLines,
-        int? minLines,
-        bool? expands,
-        int? maxLength,
-    }) {
+  Widget entryDialog(
+    AppModel app,
+    BuildContext context, {
+    required String title,
+    String? ackButtonLabel,
+    String? nackButtonLabel,
+    List<TextInputFormatter>? inputFormatters,
+    String? hintText,
+    required Function(String? response) onPressed,
+    String? initialValue,
+    bool? includeHeading,
+    Key? key,
+    double? widthFraction, // percentage of screen width
+    TextInputType? keyboardType,
+    TextCapitalization? textCapitalization,
+    TextAlign? textAlign,
+    TextAlignVertical? textAlignVertical,
+    TextDirection? textDirection,
+    bool? readOnly,
+    ToolbarOptions? toolbarOptions,
+    bool? showCursor,
+    bool? autocorrect,
+    bool? enableSuggestions,
+    int? maxLines,
+    int? minLines,
+    bool? expands,
+    int? maxLength,
+  }) {
     String? feedback;
     return dialogHelper.build(app, context,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         includeHeading: includeHeading,
         dialogButtonPosition: DialogButtonPosition.TopRight,
         title: title,
         contents: dialogHelper.getListTile(
             leading: Icon(Icons.message),
-            title: DialogField(app: app,
+            title: DialogField(
+              app: app,
               valueChanged: (value) => feedback = value,
+              inputFormatters: inputFormatters,
               initialValue: initialValue,
               decoration: InputDecoration(
                 hintText: hintText,
                 labelText: hintText,
               ),
-                keyboardType: keyboardType,
-                textCapitalization: textCapitalization,
-                textAlign: textAlign,
-                textAlignVertical: textAlignVertical,
-                textDirection: textDirection,
-                readOnly: readOnly,
-                toolbarOptions: toolbarOptions,
-                showCursor: showCursor,
-                autocorrect: autocorrect,
-                enableSuggestions: enableSuggestions,
-                maxLines: maxLines,
-                minLines: minLines,
-                expands: expands,
-                maxLength: maxLength,
-
-
+              keyboardType: keyboardType,
+              textCapitalization: textCapitalization,
+              textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
+              textDirection: textDirection,
+              readOnly: readOnly,
+              toolbarOptions: toolbarOptions,
+              showCursor: showCursor,
+              autocorrect: autocorrect,
+              enableSuggestions: enableSuggestions,
+              maxLines: maxLines,
+              minLines: minLines,
+              expands: expands,
+              maxLength: maxLength,
             )),
-        buttons: dialogHelper.getAckNackButtons(app,
+        buttons: dialogHelper.getAckNackButtons(
+          app,
           context,
           ackFunction: () {
             Navigator.of(context).pop();
@@ -163,17 +178,21 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget selectionDialog(AppModel app, BuildContext context,
-      {required String title,
-      required List<String> options,
-      required OnSelection onSelection,
-      String? buttonLabel,
-      bool? includeHeading,
-      Key? key,
-      double? widthFraction, // percentage of screen width
-    }) {
+  Widget selectionDialog(
+    AppModel app,
+    BuildContext context, {
+    required String title,
+    required List<String> options,
+    required OnSelection onSelection,
+    String? buttonLabel,
+    bool? includeHeading,
+    Key? key,
+    double? widthFraction, // percentage of screen width
+  }) {
     return dialogHelper.build(app, context,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         includeHeading: includeHeading,
         key: key,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -186,7 +205,8 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             shrinkWrap: true,
             itemCount: options.length,
             itemBuilder: (context, i) {
-              return _frontEndStyle.buttonStyle().dialogButton(app,
+              return _frontEndStyle.buttonStyle().dialogButton(
+                app,
                 context,
                 label: options[i],
                 onPressed: () {
@@ -198,8 +218,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget complexAckNackDialog(AppModel app,
-      BuildContext context, {
+  Widget complexAckNackDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required Widget child,
     required OnSelection onSelection,
@@ -210,7 +231,9 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     double? widthFraction, // percentage of screen width
   }) {
     return dialogHelper.build(app, context,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         includeHeading: includeHeading,
         key: key,
         title: title,
@@ -226,18 +249,22 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget complexDialog(AppModel app, BuildContext context,
-      {required String title,
-      required Widget child,
-      VoidCallback? onPressed,
-      String? buttonLabel,
-      bool? includeHeading,
-      Key? key,
-      double? widthFraction, // percentage of screen width
-    }) {
+  Widget complexDialog(
+    AppModel app,
+    BuildContext context, {
+    required String title,
+    required Widget child,
+    VoidCallback? onPressed,
+    String? buttonLabel,
+    bool? includeHeading,
+    Key? key,
+    double? widthFraction, // percentage of screen width
+  }) {
     return dialogHelper.build(app, context,
         includeHeading: includeHeading,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,
@@ -251,16 +278,20 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
   }
 
   @override
-  Widget flexibleDialog(AppModel app, BuildContext context,
-      {String? title,
-      required Widget child,
-      List<Widget>? buttons,
-      bool? includeHeading,
-      Key? key,
-      double? widthFraction, // percentage of screen width
-      }) {
+  Widget flexibleDialog(
+    AppModel app,
+    BuildContext context, {
+    String? title,
+    required Widget child,
+    List<Widget>? buttons,
+    bool? includeHeading,
+    Key? key,
+    double? widthFraction, // percentage of screen width
+  }) {
     return dialogHelper.build(app, context,
-        width: widthFraction == null ? null : fullScreenWidth(context) * widthFraction,
+        width: widthFraction == null
+            ? null
+            : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
         dialogButtonPosition: DialogButtonPosition.TopRight,

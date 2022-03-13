@@ -14,6 +14,7 @@ class DialogField extends StatefulWidget {
 
   TextInputType? keyboardType;
   TextCapitalization? textCapitalization;
+  List<TextInputFormatter>? inputFormatters;
   TextAlign? textAlign;
   TextAlignVertical? textAlignVertical;
   TextDirection? textDirection;
@@ -32,6 +33,7 @@ class DialogField extends StatefulWidget {
     required this.app,
     this.decoration,
     required this.valueChanged,
+    this.inputFormatters,
     this.initialValue,
     this.keyboardType,
     this.textCapitalization,
@@ -77,6 +79,7 @@ class _DialogFieldState extends State<DialogField> {
       decoration: widget.decoration,
       controller: myController,
       keyboardType: widget.keyboardType,
+      inputFormatters: widget.inputFormatters,
       textCapitalization: widget.textCapitalization == null
           ? TextCapitalization.none
           : widget.textCapitalization!,

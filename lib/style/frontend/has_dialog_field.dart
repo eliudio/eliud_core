@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../style_registry.dart';
 
@@ -12,6 +13,7 @@ abstract class HasDialogField {
     String? initialValue,
     TextInputType? keyboardType,
     TextCapitalization? textCapitalization,
+    List<TextInputFormatter>? inputFormatters,
     TextAlign? textAlign,
     TextAlignVertical? textAlignVertical,
     TextDirection? textDirection,
@@ -34,6 +36,7 @@ Widget dialogField(AppModel app,
   String? initialValue,
   TextInputType? keyboardType,
   TextCapitalization? textCapitalization,
+  List<TextInputFormatter>? inputFormatters,
   TextAlign? textAlign,
   TextAlignVertical? textAlignVertical,
   TextDirection? textDirection,
@@ -58,6 +61,7 @@ Widget dialogField(AppModel app,
           initialValue: initialValue,
           keyboardType: keyboardType,
           textCapitalization: textCapitalization,
+          inputFormatters: inputFormatters,
           textAlign: textAlign,
           textAlignVertical: textAlignVertical,
           textDirection: textDirection,

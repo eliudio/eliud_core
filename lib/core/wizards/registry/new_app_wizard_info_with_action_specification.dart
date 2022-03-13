@@ -36,7 +36,6 @@ abstract class NewAppWizardInfoWithActionSpecification
     if (parameters is ActionSpecificationParametersBase) {
       return ActionSpecificationWidget(
           app: app,
-          enabled: true,
           actionSpecification: parameters.actionSpecifications,
           label: wizardWidgetLabel);
     } else {

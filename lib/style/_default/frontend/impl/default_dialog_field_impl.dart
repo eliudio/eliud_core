@@ -1,4 +1,5 @@
 import 'package:eliud_core/model/app_model.dart';
+import 'package:flutter/services.dart';
 
 import '../helper/dialog/dialog_field.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
@@ -13,6 +14,7 @@ class DefaultDialogFieldImpl implements HasDialogField {
     InputDecoration? decoration,
     required ValueChanged<String> valueChanged,
     String? initialValue,
+    List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType,
     TextCapitalization? textCapitalization,
     TextAlign? textAlign,
@@ -32,6 +34,7 @@ class DefaultDialogFieldImpl implements HasDialogField {
       decoration: decoration,
       valueChanged: valueChanged,
       initialValue: initialValue,
+      inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
       textAlign: textAlign,
