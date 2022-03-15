@@ -116,35 +116,32 @@ class _SelectAppWidgetState extends State<SelectAppWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<AppListBloc, AppListState>(
         builder: (context, state) {
-      if (state is AppListLoading) {
-        return progressIndicator(widget.app, context);
-      } else if (state is AppListLoaded) {
-        if (state.values == null) {
-          return text(widget.app, context, 'No items');
-        } else {
-          var children = <Widget>[];
-          children.add(Container(
-              height: widget.height - 45,
-              child: theList(
-                context,
-                state.values!,
-              )));
-          children.add(Column(children: [
-            divider(widget.app, context),
-            Center(
-                child: iconButton(widget.app, 
+      var children = <Widget>[];
+      if ((state is AppListLoaded) && (state.values != null)) {
+        children.add(Container(
+            height: widget.height - 45,
+            child: theList(
               context,
-              onPressed: () {
-                widget.editorConstructor.createNewComponent(widget.app, context, (_) {});
-              },
-              icon: Icon(Icons.add),
-            ))
-          ]));
-          return ListView(
-              physics: ScrollPhysics(), shrinkWrap: true, children: children);
-        }
+              state.values!,
+            )));
+      } else {
+        children.add(Container(
+            height: widget.height - 45,
+            ));
       }
-      return Text("nothing");
+      children.add(Column(children: [
+        divider(widget.app, context),
+        Center(
+            child: iconButton(widget.app, 
+          context,
+          onPressed: () {
+            widget.editorConstructor.createNewComponent(widget.app, context, (_) {});
+          },
+          icon: Icon(Icons.add),
+        ))
+      ]));
+      return ListView(
+          physics: ScrollPhysics(), shrinkWrap: true, children: children);
     });
   }
 }

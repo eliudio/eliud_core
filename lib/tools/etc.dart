@@ -7,6 +7,7 @@ import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
+import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -36,6 +37,15 @@ class ListHelper {
   static List<PlatformMediumModel> getPlatformMediumModelList(
       List<PlatformMediumModel?> list) {
     var newList = <PlatformMediumModel>[];
+    list.forEach((element) {
+      if (element != null) newList.add(element);
+    });
+    return newList;
+  }
+
+  static List<PublicMediumModel> getPublicMediumModelList(
+      List<PublicMediumModel?> list) {
+    var newList = <PublicMediumModel>[];
     list.forEach((element) {
       if (element != null) newList.add(element);
     });
