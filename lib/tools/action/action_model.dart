@@ -169,6 +169,9 @@ class GotoPage extends ActionModel {
 
   @override
   String describe() => 'Goto page ' + pageID;
+
+  @override
+  String toString() => describe();
 }
 
 class GotoPageModelMapper implements ActionModelMapper {
@@ -219,6 +222,9 @@ class OpenDialog extends ActionModel {
 
   @override
   String describe() => 'Open dialog ' + dialogID;
+
+  @override
+  String toString() => describe();
 }
 
 class OpenDialogModelMapper implements ActionModelMapper {

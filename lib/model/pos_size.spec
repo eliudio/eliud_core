@@ -18,13 +18,6 @@
   },
   "fields": [
     {
-      "fieldName": "name",
-      "displayName": "Name",
-      "fieldType": "String",
-      "iconName": "text_format",
-      "group": "general"
-    },
-    {
       "fieldName": "widthPortrait",
       "fieldType": "double",
       "group": "widthPortrait",
