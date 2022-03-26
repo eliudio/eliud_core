@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef MemberPublicInfoModelTrigger(List<MemberPublicInfoModel?> list);
 typedef MemberPublicInfoChanged(MemberPublicInfoModel? value);
 
-abstract class MemberPublicInfoRepository {
+abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel> {
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value);
   Future<void> delete(MemberPublicInfoModel value);
   Future<MemberPublicInfoModel?> get(String? id, { Function(Exception)? onError });

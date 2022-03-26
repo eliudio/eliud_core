@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef AppPolicyModelTrigger(List<AppPolicyModel?> list);
 typedef AppPolicyChanged(AppPolicyModel? value);
 
-abstract class AppPolicyRepository {
+abstract class AppPolicyRepository extends RepositoryBase<AppPolicyModel> {
   Future<AppPolicyModel> add(AppPolicyModel value);
   Future<void> delete(AppPolicyModel value);
   Future<AppPolicyModel?> get(String? id, { Function(Exception)? onError });

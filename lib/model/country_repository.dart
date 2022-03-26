@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef CountryModelTrigger(List<CountryModel?> list);
 typedef CountryChanged(CountryModel? value);
 
-abstract class CountryRepository {
+abstract class CountryRepository extends RepositoryBase<CountryModel> {
   Future<CountryModel> add(CountryModel value);
   Future<void> delete(CountryModel value);
   Future<CountryModel?> get(String? id, { Function(Exception)? onError });

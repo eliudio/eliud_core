@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef DrawerModelTrigger(List<DrawerModel?> list);
 typedef DrawerChanged(DrawerModel? value);
 
-abstract class DrawerRepository {
+abstract class DrawerRepository extends RepositoryBase<DrawerModel> {
   Future<DrawerModel> add(DrawerModel value);
   Future<void> delete(DrawerModel value);
   Future<DrawerModel?> get(String? id, { Function(Exception)? onError });

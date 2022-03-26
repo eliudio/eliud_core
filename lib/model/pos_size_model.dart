@@ -170,7 +170,6 @@ ClipType toClipType(int? index) {
 
 
 class PosSizeModel {
-  String? name;
   double? widthPortrait;
 
   // Is width an absolute value or a percentage of the device width?
@@ -203,22 +202,21 @@ class PosSizeModel {
   // Clip
   ClipType? clip;
 
-  PosSizeModel({this.name, this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, })  {
+  PosSizeModel({this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, })  {
   }
 
-  PosSizeModel copyWith({String? name, double? widthPortrait, WidthTypePortrait? widthTypePortrait, double? widthLandscape, WidthTypeLandscape? widthTypeLandscape, double? heightPortrait, HeightTypePortrait? heightTypePortrait, double? heightLandscape, HeightTypeLandscape? heightTypeLandscape, PortraitFitType? fitPortrait, LandscapeFitType? fitLandscape, PortraitAlignType? alignTypePortrait, LandscapeAlignType? alignTypeLandscape, ClipType? clip, }) {
-    return PosSizeModel(name: name ?? this.name, widthPortrait: widthPortrait ?? this.widthPortrait, widthTypePortrait: widthTypePortrait ?? this.widthTypePortrait, widthLandscape: widthLandscape ?? this.widthLandscape, widthTypeLandscape: widthTypeLandscape ?? this.widthTypeLandscape, heightPortrait: heightPortrait ?? this.heightPortrait, heightTypePortrait: heightTypePortrait ?? this.heightTypePortrait, heightLandscape: heightLandscape ?? this.heightLandscape, heightTypeLandscape: heightTypeLandscape ?? this.heightTypeLandscape, fitPortrait: fitPortrait ?? this.fitPortrait, fitLandscape: fitLandscape ?? this.fitLandscape, alignTypePortrait: alignTypePortrait ?? this.alignTypePortrait, alignTypeLandscape: alignTypeLandscape ?? this.alignTypeLandscape, clip: clip ?? this.clip, );
+  PosSizeModel copyWith({double? widthPortrait, WidthTypePortrait? widthTypePortrait, double? widthLandscape, WidthTypeLandscape? widthTypeLandscape, double? heightPortrait, HeightTypePortrait? heightTypePortrait, double? heightLandscape, HeightTypeLandscape? heightTypeLandscape, PortraitFitType? fitPortrait, LandscapeFitType? fitLandscape, PortraitAlignType? alignTypePortrait, LandscapeAlignType? alignTypeLandscape, ClipType? clip, }) {
+    return PosSizeModel(widthPortrait: widthPortrait ?? this.widthPortrait, widthTypePortrait: widthTypePortrait ?? this.widthTypePortrait, widthLandscape: widthLandscape ?? this.widthLandscape, widthTypeLandscape: widthTypeLandscape ?? this.widthTypeLandscape, heightPortrait: heightPortrait ?? this.heightPortrait, heightTypePortrait: heightTypePortrait ?? this.heightTypePortrait, heightLandscape: heightLandscape ?? this.heightLandscape, heightTypeLandscape: heightTypeLandscape ?? this.heightTypeLandscape, fitPortrait: fitPortrait ?? this.fitPortrait, fitLandscape: fitLandscape ?? this.fitLandscape, alignTypePortrait: alignTypePortrait ?? this.alignTypePortrait, alignTypeLandscape: alignTypeLandscape ?? this.alignTypeLandscape, clip: clip ?? this.clip, );
   }
 
   @override
-  int get hashCode => name.hashCode ^ widthPortrait.hashCode ^ widthTypePortrait.hashCode ^ widthLandscape.hashCode ^ widthTypeLandscape.hashCode ^ heightPortrait.hashCode ^ heightTypePortrait.hashCode ^ heightLandscape.hashCode ^ heightTypeLandscape.hashCode ^ fitPortrait.hashCode ^ fitLandscape.hashCode ^ alignTypePortrait.hashCode ^ alignTypeLandscape.hashCode ^ clip.hashCode;
+  int get hashCode => widthPortrait.hashCode ^ widthTypePortrait.hashCode ^ widthLandscape.hashCode ^ widthTypeLandscape.hashCode ^ heightPortrait.hashCode ^ heightTypePortrait.hashCode ^ heightLandscape.hashCode ^ heightTypeLandscape.hashCode ^ fitPortrait.hashCode ^ fitLandscape.hashCode ^ alignTypePortrait.hashCode ^ alignTypeLandscape.hashCode ^ clip.hashCode;
 
   @override
   bool operator ==(Object other) =>
           identical(this, other) ||
           other is PosSizeModel &&
           runtimeType == other.runtimeType && 
-          name == other.name &&
           widthPortrait == other.widthPortrait &&
           widthTypePortrait == other.widthTypePortrait &&
           widthLandscape == other.widthLandscape &&
@@ -235,12 +233,11 @@ class PosSizeModel {
 
   @override
   String toString() {
-    return 'PosSizeModel{name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
+    return 'PosSizeModel{widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
   PosSizeEntity toEntity({String? appId}) {
     return PosSizeEntity(
-          name: (name != null) ? name : null, 
           widthPortrait: (widthPortrait != null) ? widthPortrait : null, 
           widthTypePortrait: (widthTypePortrait != null) ? widthTypePortrait!.index : null, 
           widthLandscape: (widthLandscape != null) ? widthLandscape : null, 
@@ -261,7 +258,6 @@ class PosSizeModel {
     if (entity == null) return null;
     var counter = 0;
     return PosSizeModel(
-          name: entity.name, 
           widthPortrait: entity.widthPortrait, 
           widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait), 
           widthLandscape: entity.widthLandscape, 
@@ -283,7 +279,6 @@ class PosSizeModel {
 
     var counter = 0;
     return PosSizeModel(
-          name: entity.name, 
           widthPortrait: entity.widthPortrait, 
           widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait), 
           widthLandscape: entity.widthLandscape, 

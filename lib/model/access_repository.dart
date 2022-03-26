@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef AccessModelTrigger(List<AccessModel?> list);
 typedef AccessChanged(AccessModel? value);
 
-abstract class AccessRepository {
+abstract class AccessRepository extends RepositoryBase<AccessModel> {
   Future<AccessModel> add(AccessModel value);
   Future<void> delete(AccessModel value);
   Future<AccessModel?> get(String? id, { Function(Exception)? onError });

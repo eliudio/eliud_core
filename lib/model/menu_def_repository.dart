@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef MenuDefModelTrigger(List<MenuDefModel?> list);
 typedef MenuDefChanged(MenuDefModel? value);
 
-abstract class MenuDefRepository {
+abstract class MenuDefRepository extends RepositoryBase<MenuDefModel> {
   Future<MenuDefModel> add(MenuDefModel value);
   Future<void> delete(MenuDefModel value);
   Future<MenuDefModel?> get(String? id, { Function(Exception)? onError });

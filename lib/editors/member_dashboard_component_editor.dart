@@ -1,5 +1,7 @@
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
+import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_dashboard_model.dart';
@@ -19,8 +21,6 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'member_dashboard_bloc/member_dashboard_bloc.dart';
-import 'member_dashboard_bloc/member_dashboard_state.dart';
-import 'member_dashboard_bloc/member_dashoard_event.dart';
 
 class MemberDashboardComponentEditorConstructor
     extends ComponentEditorConstructor {
@@ -78,7 +78,7 @@ class MemberDashboardComponentEditorConstructor
                 /*create,
             */
                 feedback,
-              )..add(MemberDashboardInitialise(model)),
+              )..add(EditorBaseInitialise<MemberDashboardModel>(model)),
           child: MemberDashboardComponentEditor(
             app: app,
           )),
@@ -106,9 +106,9 @@ class _MemberDashboardComponentEditorState
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
-        return BlocBuilder<MemberDashboardBloc, MemberDashboardState>(
+        return BlocBuilder<MemberDashboardBloc, EditorBaseState<MemberDashboardModel>>(
             builder: (ppContext, memberDashboardState) {
-          if (memberDashboardState is MemberDashboardInitialised) {
+          if (memberDashboardState is EditorBaseInitialised<MemberDashboardModel>) {
             return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
@@ -118,7 +118,7 @@ class _MemberDashboardComponentEditorState
                     title: 'MemberDashboard',
                     okAction: () async {
                       await BlocProvider.of<MemberDashboardBloc>(context)
-                          .save(MemberDashboardApplyChanges(
+                          .save(EditorBaseApplyChanges(
                               model: memberDashboardState.model));
                       return true;
                     },

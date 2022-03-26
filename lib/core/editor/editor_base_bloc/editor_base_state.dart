@@ -1,0 +1,50 @@
+import 'package:equatable/equatable.dart';
+
+abstract class EditorBaseState<T> extends Equatable {
+  const EditorBaseState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class EditorBaseUninitialised<T> extends EditorBaseState<T> {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is EditorBaseUninitialised;
+}
+
+class EditorBaseInitialised<T> extends EditorBaseState<T> {
+  final T model;
+
+  const EditorBaseInitialised(
+      {required this.model});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EditorBaseInitialised &&
+          model == other.model;
+
+  @override
+  List<Object?> get props => [model, ];
+}
+
+class EditorBaseLoaded<T> extends EditorBaseInitialised<T> {
+  const EditorBaseLoaded(
+      {required T model, })
+      : super(model: model, );
+}
+
+class EditorBaseError<T> extends EditorBaseInitialised<T> {
+  final String error;
+
+  const EditorBaseError({
+    required this.error,
+    required T model,
+      }) : super(
+          model: model,
+        );
+}

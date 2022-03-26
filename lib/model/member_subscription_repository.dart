@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel?> list);
 typedef MemberSubscriptionChanged(MemberSubscriptionModel? value);
 
-abstract class MemberSubscriptionRepository {
+abstract class MemberSubscriptionRepository extends RepositoryBase<MemberSubscriptionModel> {
   Future<MemberSubscriptionModel> add(MemberSubscriptionModel value);
   Future<void> delete(MemberSubscriptionModel value);
   Future<MemberSubscriptionModel?> get(String? id, { Function(Exception)? onError });

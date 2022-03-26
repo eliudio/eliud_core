@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef AppModelTrigger(List<AppModel?> list);
 typedef AppChanged(AppModel? value);
 
-abstract class AppRepository {
+abstract class AppRepository extends RepositoryBase<AppModel> {
   Future<AppModel> add(AppModel value);
   Future<void> delete(AppModel value);
   Future<AppModel?> get(String? id, { Function(Exception)? onError });

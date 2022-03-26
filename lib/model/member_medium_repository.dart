@@ -28,11 +28,12 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/repository_base.dart';
 
 typedef MemberMediumModelTrigger(List<MemberMediumModel?> list);
 typedef MemberMediumChanged(MemberMediumModel? value);
 
-abstract class MemberMediumRepository {
+abstract class MemberMediumRepository extends RepositoryBase<MemberMediumModel> {
   Future<MemberMediumModel> add(MemberMediumModel value);
   Future<void> delete(MemberMediumModel value);
   Future<MemberMediumModel?> get(String? id, { Function(Exception)? onError });

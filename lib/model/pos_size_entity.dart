@@ -22,7 +22,6 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class PosSizeEntity {
-  final String? name;
   final double? widthPortrait;
   final int? widthTypePortrait;
   final double? widthLandscape;
@@ -37,14 +36,14 @@ class PosSizeEntity {
   final int? alignTypeLandscape;
   final int? clip;
 
-  PosSizeEntity({this.name, this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, });
+  PosSizeEntity({this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, });
 
 
-  List<Object?> get props => [name, widthPortrait, widthTypePortrait, widthLandscape, widthTypeLandscape, heightPortrait, heightTypePortrait, heightLandscape, heightTypeLandscape, fitPortrait, fitLandscape, alignTypePortrait, alignTypeLandscape, clip, ];
+  List<Object?> get props => [widthPortrait, widthTypePortrait, widthLandscape, widthTypeLandscape, heightPortrait, heightTypePortrait, heightLandscape, heightTypeLandscape, fitPortrait, fitLandscape, alignTypePortrait, alignTypeLandscape, clip, ];
 
   @override
   String toString() {
-    return 'PosSizeEntity{name: $name, widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
+    return 'PosSizeEntity{widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
   static PosSizeEntity? fromMap(Object? o) {
@@ -52,7 +51,6 @@ class PosSizeEntity {
     var map = o as Map<String, dynamic>;
 
     return PosSizeEntity(
-      name: map['name'], 
       widthPortrait: double.tryParse(map['widthPortrait'].toString()), 
       widthTypePortrait: map['widthTypePortrait'], 
       widthLandscape: double.tryParse(map['widthLandscape'].toString()), 
@@ -71,8 +69,6 @@ class PosSizeEntity {
 
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (name != null) theDocument["name"] = name;
-      else theDocument["name"] = null;
     if (widthPortrait != null) theDocument["widthPortrait"] = widthPortrait;
       else theDocument["widthPortrait"] = null;
     if (widthTypePortrait != null) theDocument["widthTypePortrait"] = widthTypePortrait;
