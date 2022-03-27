@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
+import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,33 +38,18 @@ class RgbFieldState extends State<RgbField> {
 
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
-    var widgets = <Widget>[];
-    if (accessState.memberIsOwner(widget.app.documentID!)) {
-      widgets.add(ExpandablePanel(
-        header: Text(widget.label),
-        collapsed: Center(
-            child: Container(
-              height: 20.0,
-              width: fullScreenWidth(context) / 1.5,
-              color: color,
-            )),
-        expanded: ColorPicker(
-          pickerColor: color!,
-          onColorChanged: changeColor,
-          //enableLabel: true,
-          pickerAreaHeightPercent: 0.8,
-        )));
-    }
-    widgets.add(
-      Container(
-        height: 15.0,
-      ));
-
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: widgets
-    );
+    return topicContainer(widget.app, context,
+        title: widget.label,
+        collapsible: true,
+        collapsed: true,
+        children: [
+          ColorPicker(
+            pickerColor: color!,
+            onColorChanged: changeColor,
+            //enableLabel: true,
+            pickerAreaHeightPercent: 0.8,
+          )
+        ]);
   }
 
   void changeColor(Color c) {
