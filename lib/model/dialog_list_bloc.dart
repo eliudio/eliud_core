@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final DialogRepository _dialogRepository;
   StreamSubscription? _dialogsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadDialogListWithDetailsToState();
+    } else if (event is DialogChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadDialogListToState();
+      } else {
+        yield* _mapLoadDialogListWithDetailsToState();
+      }
     } else if (event is AddDialogList) {
       yield* _mapAddDialogListToState(event);
     } else if (event is UpdateDialogList) {

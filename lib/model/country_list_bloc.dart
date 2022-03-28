@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
   final CountryRepository _countryRepository;
   StreamSubscription? _countrysListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class CountryListBloc extends Bloc<CountryListEvent, CountryListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadCountryListWithDetailsToState();
+    } else if (event is CountryChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadCountryListToState();
+      } else {
+        yield* _mapLoadCountryListWithDetailsToState();
+      }
     } else if (event is AddCountryList) {
       yield* _mapAddCountryListToState(event);
     } else if (event is UpdateCountryList) {

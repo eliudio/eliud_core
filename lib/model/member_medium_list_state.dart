@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 
@@ -36,6 +37,13 @@ class MemberMediumListLoaded extends MemberMediumListState {
 
   @override
   String toString() => 'MemberMediumListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is MemberMediumListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class MemberMediumNotLoaded extends MemberMediumListState {}

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 
@@ -73,5 +74,17 @@ class PlatformMediumListUpdated extends PlatformMediumListEvent {
 
   @override
   String toString() => 'PlatformMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class PlatformMediumChangeQuery extends PlatformMediumListEvent {
+  final EliudQuery newQuery;
+
+  const PlatformMediumChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'PlatformMediumChangeQuery{ value: $newQuery }';
 }
 

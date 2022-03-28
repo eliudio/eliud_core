@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {
   final BodyComponentRepository _bodyComponentRepository;
   StreamSubscription? _bodyComponentsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadBodyComponentListWithDetailsToState();
+    } else if (event is BodyComponentChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadBodyComponentListToState();
+      } else {
+        yield* _mapLoadBodyComponentListWithDetailsToState();
+      }
     } else if (event is AddBodyComponentList) {
       yield* _mapAddBodyComponentListToState(event);
     } else if (event is UpdateBodyComponentList) {

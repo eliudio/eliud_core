@@ -50,3 +50,13 @@ class EliudQuery {
   }
 }
 
+EliudQuery getComponentSelectorQuery(int privilegeLevel, String appId) {
+  return EliudQuery().withCondition(
+    EliudQueryCondition('conditions.privilegeLevelRequired',
+        isEqualTo: privilegeLevel),
+  ).withCondition(
+    EliudQueryCondition('appId',
+        isEqualTo: appId),
+  );
+}
+

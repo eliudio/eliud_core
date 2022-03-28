@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/decoration_color_model.dart';
 
@@ -73,5 +74,17 @@ class DecorationColorListUpdated extends DecorationColorListEvent {
 
   @override
   String toString() => 'DecorationColorListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class DecorationColorChangeQuery extends DecorationColorListEvent {
+  final EliudQuery newQuery;
+
+  const DecorationColorChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'DecorationColorChangeQuery{ value: $newQuery }';
 }
 

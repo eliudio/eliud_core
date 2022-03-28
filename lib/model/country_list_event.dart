@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/country_model.dart';
 
@@ -73,5 +74,17 @@ class CountryListUpdated extends CountryListEvent {
 
   @override
   String toString() => 'CountryListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class CountryChangeQuery extends CountryListEvent {
+  final EliudQuery newQuery;
+
+  const CountryChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'CountryChangeQuery{ value: $newQuery }';
 }
 

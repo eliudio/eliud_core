@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 
@@ -36,6 +37,13 @@ class AppBarListLoaded extends AppBarListState {
 
   @override
   String toString() => 'AppBarListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is AppBarListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class AppBarNotLoaded extends AppBarListState {}

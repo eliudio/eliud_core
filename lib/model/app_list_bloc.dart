@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final AppRepository _appRepository;
   StreamSubscription? _appsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadAppListWithDetailsToState();
+    } else if (event is AppChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadAppListToState();
+      } else {
+        yield* _mapLoadAppListWithDetailsToState();
+      }
     } else if (event is AddAppList) {
       yield* _mapAddAppListToState(event);
     } else if (event is UpdateAppList) {

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_policy_model.dart';
 
@@ -36,6 +37,13 @@ class AppPolicyListLoaded extends AppPolicyListState {
 
   @override
   String toString() => 'AppPolicyListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is AppPolicyListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class AppPolicyNotLoaded extends AppPolicyListState {}

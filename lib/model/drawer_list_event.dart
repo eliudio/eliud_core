@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 
@@ -73,5 +74,17 @@ class DrawerListUpdated extends DrawerListEvent {
 
   @override
   String toString() => 'DrawerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class DrawerChangeQuery extends DrawerListEvent {
+  final EliudQuery newQuery;
+
+  const DrawerChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'DrawerChangeQuery{ value: $newQuery }';
 }
 

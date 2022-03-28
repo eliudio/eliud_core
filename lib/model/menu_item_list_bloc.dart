@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   final MenuItemRepository _menuItemRepository;
   StreamSubscription? _menuItemsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadMenuItemListWithDetailsToState();
+    } else if (event is MenuItemChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadMenuItemListToState();
+      } else {
+        yield* _mapLoadMenuItemListWithDetailsToState();
+      }
     } else if (event is AddMenuItemList) {
       yield* _mapAddMenuItemListToState(event);
     } else if (event is UpdateMenuItemList) {

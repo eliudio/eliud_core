@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
@@ -36,6 +37,13 @@ class MenuDefListLoaded extends MenuDefListState {
 
   @override
   String toString() => 'MenuDefListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is MenuDefListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class MenuDefNotLoaded extends MenuDefListState {}

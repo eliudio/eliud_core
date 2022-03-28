@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final HomeMenuRepository _homeMenuRepository;
   StreamSubscription? _homeMenusListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadHomeMenuListWithDetailsToState();
+    } else if (event is HomeMenuChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadHomeMenuListToState();
+      } else {
+        yield* _mapLoadHomeMenuListWithDetailsToState();
+      }
     } else if (event is AddHomeMenuList) {
       yield* _mapAddHomeMenuListToState(event);
     } else if (event is UpdateHomeMenuList) {

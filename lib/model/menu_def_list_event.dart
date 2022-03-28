@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
@@ -73,5 +74,17 @@ class MenuDefListUpdated extends MenuDefListEvent {
 
   @override
   String toString() => 'MenuDefListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class MenuDefChangeQuery extends MenuDefListEvent {
+  final EliudQuery newQuery;
+
+  const MenuDefChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'MenuDefChangeQuery{ value: $newQuery }';
 }
 

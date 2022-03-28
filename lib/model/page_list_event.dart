@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/page_model.dart';
 
@@ -73,5 +74,17 @@ class PageListUpdated extends PageListEvent {
 
   @override
   String toString() => 'PageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class PageChangeQuery extends PageListEvent {
+  final EliudQuery newQuery;
+
+  const PageChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'PageChangeQuery{ value: $newQuery }';
 }
 

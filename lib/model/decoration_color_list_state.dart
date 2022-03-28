@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/decoration_color_model.dart';
 
@@ -36,6 +37,13 @@ class DecorationColorListLoaded extends DecorationColorListState {
 
   @override
   String toString() => 'DecorationColorListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is DecorationColorListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class DecorationColorNotLoaded extends DecorationColorListState {}

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
 
@@ -36,6 +37,13 @@ class MemberSubscriptionListLoaded extends MemberSubscriptionListState {
 
   @override
   String toString() => 'MemberSubscriptionListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is MemberSubscriptionListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class MemberSubscriptionNotLoaded extends MemberSubscriptionListState {}

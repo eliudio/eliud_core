@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/page_model.dart';
 
@@ -36,6 +37,13 @@ class PageListLoaded extends PageListState {
 
   @override
   String toString() => 'PageListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is PageListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class PageNotLoaded extends PageListState {}

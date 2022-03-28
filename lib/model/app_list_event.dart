@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_model.dart';
 
@@ -73,5 +74,17 @@ class AppListUpdated extends AppListEvent {
 
   @override
   String toString() => 'AppListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class AppChangeQuery extends AppListEvent {
+  final EliudQuery newQuery;
+
+  const AppChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'AppChangeQuery{ value: $newQuery }';
 }
 

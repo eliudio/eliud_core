@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 
@@ -36,6 +37,13 @@ class GridViewListLoaded extends GridViewListState {
 
   @override
   String toString() => 'GridViewListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is GridViewListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class GridViewNotLoaded extends GridViewListState {}

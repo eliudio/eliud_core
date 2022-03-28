@@ -135,7 +135,7 @@ class _SelectActionDialogState extends State<SelectActionDialog>
         providers: [
           BlocProvider<PageListBloc>(
             create: (context) => PageListBloc(
-//              eliudQuery: EliudQuery(theConditions: [EliudQueryCondition('conditions.privilegeLevelRequired', isLessThan: 100)]),
+              eliudQuery: EliudQuery(theConditions: [EliudQueryCondition('appId', isEqualTo: app.documentID!)]),
               pageRepository: pageRepository(appId: appId)!,
             )..add(LoadPageList()),
           ),

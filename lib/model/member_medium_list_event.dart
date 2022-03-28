@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 
@@ -73,5 +74,17 @@ class MemberMediumListUpdated extends MemberMediumListEvent {
 
   @override
   String toString() => 'MemberMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class MemberMediumChangeQuery extends MemberMediumListEvent {
+  final EliudQuery newQuery;
+
+  const MemberMediumChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'MemberMediumChangeQuery{ value: $newQuery }';
 }
 

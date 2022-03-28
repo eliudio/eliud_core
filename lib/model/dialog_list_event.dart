@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 
@@ -73,5 +74,17 @@ class DialogListUpdated extends DialogListEvent {
 
   @override
   String toString() => 'DialogListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class DialogChangeQuery extends DialogListEvent {
+  final EliudQuery newQuery;
+
+  const DialogChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'DialogChangeQuery{ value: $newQuery }';
 }
 

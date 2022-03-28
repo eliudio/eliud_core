@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 
@@ -36,6 +37,13 @@ class BodyComponentListLoaded extends BodyComponentListState {
 
   @override
   String toString() => 'BodyComponentListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is BodyComponentListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class BodyComponentNotLoaded extends BodyComponentListState {}

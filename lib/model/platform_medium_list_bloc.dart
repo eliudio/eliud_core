@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediumListState> {
   final PlatformMediumRepository _platformMediumRepository;
   StreamSubscription? _platformMediumsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadPlatformMediumListWithDetailsToState();
+    } else if (event is PlatformMediumChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadPlatformMediumListToState();
+      } else {
+        yield* _mapLoadPlatformMediumListWithDetailsToState();
+      }
     } else if (event is AddPlatformMediumList) {
       yield* _mapAddPlatformMediumListToState(event);
     } else if (event is UpdatePlatformMediumList) {

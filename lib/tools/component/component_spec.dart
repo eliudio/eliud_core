@@ -14,7 +14,7 @@ class ComponentSpec {
 typedef SelectComponent(String componentId);
 
 abstract class ComponentSelector {
-  Widget createSelectWidget(BuildContext context, AppModel app, double height, SelectComponent selected, editor);
+  Widget createSelectWidget(BuildContext context, AppModel app, int privilegeLevel, double height, SelectComponent selected, editor);
 }
 
 abstract class ComponentEditorConstructor {

@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationColorListState> {
   final DecorationColorRepository _decorationColorRepository;
   StreamSubscription? _decorationColorsListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadDecorationColorListWithDetailsToState();
+    } else if (event is DecorationColorChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadDecorationColorListToState();
+      } else {
+        yield* _mapLoadDecorationColorListWithDetailsToState();
+      }
     } else if (event is AddDecorationColorList) {
       yield* _mapAddDecorationColorListToState(event);
     } else if (event is UpdateDecorationColorList) {

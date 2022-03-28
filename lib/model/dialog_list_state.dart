@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/dialog_model.dart';
 
@@ -36,6 +37,13 @@ class DialogListLoaded extends DialogListState {
 
   @override
   String toString() => 'DialogListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is DialogListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class DialogNotLoaded extends DialogListState {}

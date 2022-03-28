@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/country_model.dart';
 
@@ -36,6 +37,13 @@ class CountryListLoaded extends CountryListState {
 
   @override
   String toString() => 'CountryListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is CountryListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class CountryNotLoaded extends CountryListState {}

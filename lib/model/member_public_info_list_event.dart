@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 
@@ -73,5 +74,17 @@ class MemberPublicInfoListUpdated extends MemberPublicInfoListEvent {
 
   @override
   String toString() => 'MemberPublicInfoListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class MemberPublicInfoChangeQuery extends MemberPublicInfoListEvent {
+  final EliudQuery newQuery;
+
+  const MemberPublicInfoChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'MemberPublicInfoChangeQuery{ value: $newQuery }';
 }
 

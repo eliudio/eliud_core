@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent, MemberMediumContainerListState> {
   final MemberMediumContainerRepository _memberMediumContainerRepository;
   StreamSubscription? _memberMediumContainersListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadMemberMediumContainerListWithDetailsToState();
+    } else if (event is MemberMediumContainerChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadMemberMediumContainerListToState();
+      } else {
+        yield* _mapLoadMemberMediumContainerListWithDetailsToState();
+      }
     } else if (event is AddMemberMediumContainerList) {
       yield* _mapAddMemberMediumContainerListToState(event);
     } else if (event is UpdateMemberMediumContainerList) {

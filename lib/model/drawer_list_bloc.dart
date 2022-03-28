@@ -27,7 +27,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final DrawerRepository _drawerRepository;
   StreamSubscription? _drawersListSubscription;
-  final EliudQuery? eliudQuery;
+  EliudQuery? eliudQuery;
   int pages = 1;
   final bool? paged;
   final String? orderBy;
@@ -99,6 +99,13 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     if (event is NewPage) {
       pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
       yield* _mapLoadDrawerListWithDetailsToState();
+    } else if (event is DrawerChangeQuery) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        yield* _mapLoadDrawerListToState();
+      } else {
+        yield* _mapLoadDrawerListWithDetailsToState();
+      }
     } else if (event is AddDrawerList) {
       yield* _mapAddDrawerListToState(event);
     } else if (event is UpdateDrawerList) {

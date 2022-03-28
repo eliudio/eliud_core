@@ -24,4 +24,16 @@ class DefaultTabsImpl
     );
   }
 
+  @override
+  Widget tabBar2(AppModel app, BuildContext context, {required List<Widget> items, required TabController tabController}) {
+    var tabItems = <TabItem>[];
+    for (var item in items) {
+      tabItems.add(TabItem(color: Colors.black12, title: item));
+    }
+    return ColorfulTabBar(
+      tabs: tabItems,
+      controller: tabController,
+    );
+  }
+
 }

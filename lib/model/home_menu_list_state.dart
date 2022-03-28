@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
 
@@ -36,6 +37,13 @@ class HomeMenuListLoaded extends HomeMenuListState {
 
   @override
   String toString() => 'HomeMenuListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is HomeMenuListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class HomeMenuNotLoaded extends HomeMenuListState {}

@@ -13,6 +13,7 @@
 
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
 
@@ -36,6 +37,13 @@ class MemberPublicInfoListLoaded extends MemberPublicInfoListState {
 
   @override
   String toString() => 'MemberPublicInfoListLoaded { values: $values }';
+
+  @override
+  bool operator ==(Object other) => 
+          other is MemberPublicInfoListLoaded &&
+              runtimeType == other.runtimeType &&
+              ListEquality().equals(values, other.values) &&
+              mightHaveMore == other.mightHaveMore;
 }
 
 class MemberPublicInfoNotLoaded extends MemberPublicInfoListState {}

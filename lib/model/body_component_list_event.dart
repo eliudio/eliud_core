@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 
@@ -73,5 +74,17 @@ class BodyComponentListUpdated extends BodyComponentListEvent {
 
   @override
   String toString() => 'BodyComponentListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class BodyComponentChangeQuery extends BodyComponentListEvent {
+  final EliudQuery newQuery;
+
+  const BodyComponentChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'BodyComponentChangeQuery{ value: $newQuery }';
 }
 

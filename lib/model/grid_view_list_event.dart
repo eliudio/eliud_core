@@ -13,6 +13,7 @@
 
 */
 
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 
@@ -73,5 +74,17 @@ class GridViewListUpdated extends GridViewListEvent {
 
   @override
   String toString() => 'GridViewListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+}
+
+class GridViewChangeQuery extends GridViewListEvent {
+  final EliudQuery newQuery;
+
+  const GridViewChangeQuery({ required this.newQuery });
+
+  @override
+  List<Object?> get props => [ newQuery ];
+
+  @override
+  String toString() => 'GridViewChangeQuery{ value: $newQuery }';
 }
 
