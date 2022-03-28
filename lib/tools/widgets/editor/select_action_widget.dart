@@ -27,12 +27,14 @@ class SelectActionWidget extends StatefulWidget {
   final AppModel app;
   final ActionModel? action;
   final ActionSelected actionSelected;
+  final int containerPrivilege;
 
   const SelectActionWidget(
       {Key? key,
       required this.app,
       required this.action,
-      required this.actionSelected})
+      required this.actionSelected,
+      required this.containerPrivilege})
       : super(key: key);
 
   @override
@@ -56,7 +58,7 @@ class _SelectActionWidgetState extends State<SelectActionWidget> {
           Spacer(),
           button(widget.app, context, label: 'Select', onPressed: () {
             SelectActionDialog.openIt(
-                context, widget.app, widget.actionSelected);
+                context, widget.app, widget.actionSelected, widget.containerPrivilege);
           }),
           Spacer(),
           button(widget.app, context, label: 'Clear', onPressed: () {
@@ -72,10 +74,12 @@ class _SelectActionWidgetState extends State<SelectActionWidget> {
 class SelectActionDialog extends StatefulWidget {
   final AppModel app;
   final ActionSelected actionSelected;
+  final int containerPrivilege;
 
   SelectActionDialog._({
     required this.app,
     required this.actionSelected,
+    required this.containerPrivilege,
     Key? key,
   }) : super(key: key);
 
@@ -88,15 +92,140 @@ class SelectActionDialog extends StatefulWidget {
     BuildContext context,
     AppModel app,
     ActionSelected actionSelected,
+    int containerPrivilege
   ) {
     openFlexibleDialog(app, context, app.documentID! + '/_selectaction',
         includeHeading: false,
         widthFraction: .8,
-        child: SelectActionDialog._(app: app, actionSelected: actionSelected));
+        child: SelectActionDialog._(app: app, actionSelected: actionSelected, containerPrivilege: containerPrivilege,));
   }
 }
 
-class _SelectActionDialogState extends State<SelectActionDialog>
+class _SelectActionDialogState extends State<SelectActionDialog> {
+  @override
+  Widget build(BuildContext context) {
+    var app = widget.app;
+    var appId = app.documentID!;
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<PageListBloc>(
+            create: (context) => PageListBloc(
+              eliudQuery: getComponentSelectorQuery(0, app.documentID!),
+              pageRepository: pageRepository(appId: appId)!,
+            )..add(LoadPageList()),
+          ),
+          BlocProvider<DialogListBloc>(
+            create: (context) => DialogListBloc(
+              dialogRepository: dialogRepository(appId: appId)!,
+            )..add(LoadDialogList()),
+          ),
+        ],
+        child: SelectActionPrivilege(app: app, actionSelected: widget.actionSelected, containerPrivilege: widget.containerPrivilege));
+  }
+
+}
+
+class SelectActionPrivilege extends StatefulWidget {
+  final AppModel app;
+  final ActionSelected actionSelected;
+  final int containerPrivilege;
+
+  SelectActionPrivilege({
+    required this.app,
+    required this.actionSelected,
+    required this.containerPrivilege,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _SelectActionPrivilegeState createState() {
+    return _SelectActionPrivilegeState();
+  }
+}
+
+class _SelectActionPrivilegeState extends State<SelectActionPrivilege>
+    with SingleTickerProviderStateMixin {
+  TabController? _privilegeTabController;
+  final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
+  final int _initialPrivilege = 0;
+  int _currentPrivilege = 0;
+
+  @override
+  void initState() {
+    var _privilegeASize = _privilegeItems.length;
+    _privilegeTabController =
+        TabController(vsync: this, length: _privilegeASize);
+    _privilegeTabController!.addListener(_handlePrivilegeTabSelection);
+    _privilegeTabController!.index = _initialPrivilege;
+
+    super.initState();
+  }
+
+  void _handlePrivilegeTabSelection() {
+    if ((_privilegeTabController != null) &&
+        (_privilegeTabController!.indexIsChanging)) {
+      _currentPrivilege = _privilegeTabController!.index;
+      BlocProvider.of<PageListBloc>(context).add(
+          PageChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID!)));
+      BlocProvider.of<DialogListBloc>(context).add(
+          DialogChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID!)));
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_privilegeTabController != null) {
+      _privilegeTabController!.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var newPrivilegeItems = <Widget>[];
+    int i = 0;
+    for (var privilegeItem in _privilegeItems) {
+      newPrivilegeItems.add(Wrap(children: [(i <= widget.containerPrivilege) ? Icon(Icons.check) : Icon(Icons.close), Container(width: 2), text(widget.app, context, privilegeItem)]));
+      i++;
+    }
+    return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+      HeaderWidget(
+        app: widget.app,
+        cancelAction: () async {
+          return true;
+        },
+        title: 'Select page or dialog',
+      ),
+      divider(widget.app, context),
+      Column(children: [
+        tabBar2(widget.app, context,
+            items: newPrivilegeItems, tabController: _privilegeTabController!),
+        SelectActionPageOrDialog(app: widget.app, actionSelected: widget.actionSelected),
+      ])
+    ]);
+  }
+
+  double height() => 250; //(widget.widgetHeight / 2);
+}
+
+class SelectActionPageOrDialog extends StatefulWidget {
+  final AppModel app;
+  final ActionSelected actionSelected;
+
+  SelectActionPageOrDialog({
+    required this.app,
+    required this.actionSelected,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _SelectActionPageOrDialogState createState() {
+    return _SelectActionPageOrDialogState();
+  }
+
+}
+
+class _SelectActionPageOrDialogState extends State<SelectActionPageOrDialog>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
   final List<String> items = ['Pages', 'Dialogs'];
@@ -131,36 +260,13 @@ class _SelectActionDialogState extends State<SelectActionDialog>
   Widget build(BuildContext context) {
     var app = widget.app;
     var appId = app.documentID!;
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<PageListBloc>(
-            create: (context) => PageListBloc(
-              eliudQuery: EliudQuery(theConditions: [EliudQueryCondition('appId', isEqualTo: app.documentID!)]),
-              pageRepository: pageRepository(appId: appId)!,
-            )..add(LoadPageList()),
-          ),
-          BlocProvider<DialogListBloc>(
-            create: (context) => DialogListBloc(
-              dialogRepository: dialogRepository(appId: appId)!,
-            )..add(LoadDialogList()),
-          ),
-        ],
-        child: ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
-          HeaderWidget(
-            app: widget.app,
-            cancelAction: () async {
-              return true;
-            },
-            title: 'Select page or dialog',
-          ),
-          divider(widget.app, context),
-          Column(children: [
-            tabBar(app, context, items: items, tabController: _tabController!),
-            if (_tabController!.index == 0)
-              Container(
-                  height: height(),
-                  child: BlocBuilder<PageListBloc, PageListState>(
-                      builder: (context, state) {
+    return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+        tabBar(app, context, items: items, tabController: _tabController!),
+        if (_tabController!.index == 0)
+          Container(
+              height: height(),
+              child: BlocBuilder<PageListBloc, PageListState>(
+                  builder: (context, state) {
                     if ((state is PageListLoaded) && (state.values != null)) {
                       var pages = state.values!;
                       return ListView(children: [
@@ -187,11 +293,11 @@ class _SelectActionDialogState extends State<SelectActionDialog>
                       return progressIndicator(app, context);
                     }
                   })),
-            if (_tabController!.index == 1)
-              Container(
-                  height: height(),
-                  child: BlocBuilder<DialogListBloc, DialogListState>(
-                      builder: (context, state) {
+        if (_tabController!.index == 1)
+          Container(
+              height: height(),
+              child: BlocBuilder<DialogListBloc, DialogListState>(
+                  builder: (context, state) {
                     if ((state is DialogListLoaded) && (state.values != null)) {
                       var dialogs = state.values!;
                       return ListView(children: [
@@ -218,9 +324,10 @@ class _SelectActionDialogState extends State<SelectActionDialog>
                       return progressIndicator(app, context);
                     }
                   })),
-          ])
-        ]));
+      ]);
   }
 
   double height() => 250; //(widget.widgetHeight / 2);
 }
+
+

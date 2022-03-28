@@ -4,16 +4,20 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+typedef void ConditionsSimpleChanged(int value);
+
 class ConditionsSimpleWidget extends StatefulWidget {
   final AppModel app;
   final StorageConditionsModel value;
   final bool? readOnly;
+//  final ConditionsSimpleChanged? conditionsSimpleChanged;
 
   ConditionsSimpleWidget({
     Key? key,
     required this.app,
     required this.value,
     this.readOnly,
+    //this.conditionsSimpleChanged,
   }) : super(key: key);
 
   @override
@@ -50,6 +54,11 @@ class _ConditionPrivilegeState extends State<ConditionsSimpleWidget> {
         value = newValue;
         widget.value.privilegeLevelRequired =
             toPrivilegeLevelRequiredSimple(value);
+/*
+        if (widget.conditionsSimpleChanged != null) {
+          widget.conditionsSimpleChanged!(value);
+        }
+*/
       });
     }
   }
