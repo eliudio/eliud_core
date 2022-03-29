@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:tuple/tuple.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -248,7 +249,8 @@ class AccessHelper {
       var pages = <PageModel?>[];
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
-        pages.addAll(await repo!.valuesList(privilegeLevel: countDown));
+        pages.addAll(await repo!.valuesList(
+            eliudQuery: getComponentSelectorQuery(countDown, app.documentID!)));
         countDown--;
       }
 
@@ -266,7 +268,8 @@ class AccessHelper {
       var dialogs = <DialogModel?>[];
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
-        dialogs.addAll(await repo!.valuesList(privilegeLevel: countDown));
+        dialogs.addAll(await repo!.valuesList(
+            eliudQuery: getComponentSelectorQuery(countDown, app.documentID!)));
         countDown--;
       }
 
