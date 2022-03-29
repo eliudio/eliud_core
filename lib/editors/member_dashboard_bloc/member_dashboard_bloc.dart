@@ -14,6 +14,7 @@ class MemberDashboardBloc
   @override
   MemberDashboardModel newInstance(StorageConditionsModel conditions) {
     return MemberDashboardModel(
+      appId: appId,
       documentID: newRandomKey(),
       conditions: StorageConditionsModel(
           privilegeLevelRequired:
