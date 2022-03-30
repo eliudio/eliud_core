@@ -28,13 +28,15 @@ class SelectActionWidget extends StatefulWidget {
   final ActionModel? action;
   final ActionSelected actionSelected;
   final int containerPrivilege;
+  final String label;
 
   const SelectActionWidget(
       {Key? key,
       required this.app,
       required this.action,
       required this.actionSelected,
-      required this.containerPrivilege})
+      required this.containerPrivilege,
+      required this.label})
       : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _SelectActionWidgetState extends State<SelectActionWidget> {
     return topicContainer(
       widget.app,
       context,
-      title: 'Action',
+      title: widget.label,
       collapsible: true,
       collapsed: true,
       children: [
