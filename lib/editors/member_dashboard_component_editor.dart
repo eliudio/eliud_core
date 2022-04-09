@@ -67,9 +67,7 @@ class MemberDashboardComponentEditorConstructor
       app,
       context,
       app.documentID! + '/memberdashboard',
-      title: create
-          ? 'Create Member Dashboard'
-          : 'Update Member Dashboard',
+      title: create ? 'Create Member Dashboard' : 'Update Member Dashboard',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<MemberDashboardBloc>(
@@ -95,8 +93,7 @@ class MemberDashboardComponentEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _MemberDashboardComponentEditorState();
+  State<StatefulWidget> createState() => _MemberDashboardComponentEditorState();
 }
 
 class _MemberDashboardComponentEditorState
@@ -106,9 +103,11 @@ class _MemberDashboardComponentEditorState
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
-        return BlocBuilder<MemberDashboardBloc, EditorBaseState<MemberDashboardModel>>(
+        return BlocBuilder<MemberDashboardBloc,
+                EditorBaseState<MemberDashboardModel>>(
             builder: (ppContext, memberDashboardState) {
-          if (memberDashboardState is EditorBaseInitialised<MemberDashboardModel>) {
+          if (memberDashboardState
+              is EditorBaseInitialised<MemberDashboardModel>) {
             return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
@@ -117,8 +116,8 @@ class _MemberDashboardComponentEditorState
                     app: widget.app,
                     title: 'MemberDashboard',
                     okAction: () async {
-                      await BlocProvider.of<MemberDashboardBloc>(context)
-                          .save(EditorBaseApplyChanges(
+                      await BlocProvider.of<MemberDashboardBloc>(context).save(
+                          EditorBaseApplyChanges(
                               model: memberDashboardState.model));
                       return true;
                     },
@@ -140,7 +139,8 @@ class _MemberDashboardComponentEditorState
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue: memberDashboardState.model.description,
+                              initialValue:
+                                  memberDashboardState.model.description,
                               valueChanged: (value) {
                                 memberDashboardState.model.description = value;
                               },
@@ -150,6 +150,12 @@ class _MemberDashboardComponentEditorState
                                 labelText: 'Description',
                               ),
                             )),
+                      ]),
+                  topicContainer(widget.app, context,
+                      title: 'Condition',
+                      collapsible: true,
+                      collapsed: true,
+                      children: [
                         getListTile(context, widget.app,
                             leading: Icon(Icons.security),
                             title: ConditionsSimpleWidget(
@@ -167,5 +173,4 @@ class _MemberDashboardComponentEditorState
       }
     });
   }
-
 }
