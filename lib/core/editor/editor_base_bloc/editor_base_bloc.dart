@@ -17,7 +17,7 @@ abstract class EditorBaseBloc<T>
       : super(EditorBaseUninitialised());
 
   T newInstance(StorageConditionsModel conditions);
-  T setDefaultConditions(T t, StorageConditionsModel conditions);
+  T setDefaultValues(T t, StorageConditionsModel conditions);
 
   @override
   Stream<EditorBaseState<T>> mapEventToState(
@@ -33,7 +33,7 @@ abstract class EditorBaseBloc<T>
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
         );
       } else {
-        modelWithLinks = setDefaultConditions(modelWithLinks, StorageConditionsModel(
+        modelWithLinks = setDefaultValues(modelWithLinks, StorageConditionsModel(
                   privilegeLevelRequired:
                       PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
       }

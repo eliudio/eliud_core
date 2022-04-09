@@ -21,7 +21,7 @@ abstract class ExtEditorBaseBloc<T, U>
 
   T newInstance(StorageConditionsModel conditions);
   List<U> copyOf(List<U> ts);
-  T setDefaultConditions(T t, StorageConditionsModel conditions);
+  T setDefaultValues(T t, StorageConditionsModel conditions);
   T addItem(T model, U newItem);
   T updateItem(T model, U oldItem, U newItem);
   T deleteItem(T model, U deleteItem);
@@ -40,7 +40,7 @@ abstract class ExtEditorBaseBloc<T, U>
         );
       } else {
         modelWithLinks =
-            setDefaultConditions(modelWithLinks, StorageConditionsModel(
+            setDefaultValues(modelWithLinks, StorageConditionsModel(
                 privilegeLevelRequired:
                 PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
       }

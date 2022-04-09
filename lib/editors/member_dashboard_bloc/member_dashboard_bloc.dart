@@ -23,7 +23,7 @@ class MemberDashboardBloc
   }
 
   @override
-  MemberDashboardModel setDefaultConditions(MemberDashboardModel t, StorageConditionsModel conditions) {
+  MemberDashboardModel setDefaultValues(MemberDashboardModel t, StorageConditionsModel conditions) {
     return t.copyWith(conditions: conditions);
   }
 }
