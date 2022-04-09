@@ -39,7 +39,6 @@ enum MenuType { leftDrawerMenu, rightDrawerMenu, appBarMenu, bottomNavBarMenu }
 typedef HomeMenuModel HomeMenuProvider();
 typedef AppBarModel AppBarProvider();
 typedef DrawerModel DrawerProvider();
-//typedef String? PageProvider(String pageType);
 
 typedef NewAppTask = Future<void> Function();
 
@@ -70,7 +69,6 @@ abstract class NewAppWizardInfo {
 
   /*
    * Create the tasks for creating the app, i.e. the portion of the app for which this wizard is for
-   * pageProvider is the function that is passed in to allow to retrieve pages from other wizards.
    * See comments NewAppWizardInfo::getPageID
    * actionProvider is the function that is passed in to allow to retrieve actions from other wizards.
    * See comments NewAppWizardInfo::getAction
