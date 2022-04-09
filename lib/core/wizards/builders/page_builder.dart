@@ -13,7 +13,6 @@ class PageBuilder {
   final AppBarModel theAppBar;
   final DrawerModel leftDrawer;
   final DrawerModel rightDrawer;
-  final PageProvider pageProvider;
 
-  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, this.pageProvider, );
+  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, );
 }

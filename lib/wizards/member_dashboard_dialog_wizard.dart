@@ -59,7 +59,6 @@ class MemberDashboardDialogWizard extends NewAppWizardInfoWithActionSpecificatio
       AppBarProvider appBarProvider,
       DrawerProvider leftDrawerProvider,
       DrawerProvider rightDrawerProvider,
-      PageProvider pageProvider,
       ) {
     if (parameters is ActionSpecificationParametersBase) {
       var memberDashboardDialogSpecifications = parameters.actionSpecifications;

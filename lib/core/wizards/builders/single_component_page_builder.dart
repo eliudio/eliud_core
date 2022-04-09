@@ -20,10 +20,9 @@ class SingleComponentPageBuilder extends PageBuilder {
       AppBarModel theAppBar,
       DrawerModel leftDrawer,
       DrawerModel rightDrawer,
-      PageProvider pageProvider,
       )
       : super(uniqueId, pageId, app, memberId, theHomeMenu, theAppBar,
-            leftDrawer, rightDrawer, pageProvider, );
+            leftDrawer, rightDrawer,  );
 
   Future<PageModel> _setupPage(
       {required String componentName,

@@ -28,7 +28,6 @@ abstract class AccessWizard extends NewAppWizardInfoWithActionSpecification {
     AppBarProvider appBarProvider,
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
-    PageProvider pageProvider,
   ) =>
       null;
 

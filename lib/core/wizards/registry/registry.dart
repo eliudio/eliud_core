@@ -39,7 +39,7 @@ enum MenuType { leftDrawerMenu, rightDrawerMenu, appBarMenu, bottomNavBarMenu }
 typedef HomeMenuModel HomeMenuProvider();
 typedef AppBarModel AppBarProvider();
 typedef DrawerModel DrawerProvider();
-typedef String? PageProvider(String pageType);
+//typedef String? PageProvider(String pageType);
 
 typedef NewAppTask = Future<void> Function();
 
@@ -85,7 +85,6 @@ abstract class NewAppWizardInfo {
     AppBarProvider appBarProvider,
     DrawerProvider leftDrawerProvider,
     DrawerProvider rightDrawerProvider,
-    PageProvider pageProvider,
   );
 
   /*
@@ -149,7 +148,7 @@ abstract class NewAppWizardInfoDefaultImpl extends NewAppWizardInfo {
   ActionModel? getAction(String uniqueId, NewAppWizardParameters parameters, AppModel app, String actionType) => null;
 
   @override
-  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, PageProvider pageProvider) => null;
+  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, ) => null;
 
   @override
   List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app, NewAppWizardParameters parameters, MenuType type) => null;
