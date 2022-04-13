@@ -68,13 +68,20 @@ class _SelectWidgetState extends State<SelectWidget> {
                 context,
                 widget.app,
                 widget.selectedCallback,
+                widget.updateCallback,
+                widget.deleteCallback,
+                widget.addCallback,
                 widget.displayItemFunction,
                 widget.blocBuilder,
                 widget.blocProviderProvider,
                 widget.selectTitle);
           }),
           if (widget.updateCallback != null) Spacer(),
-          if (widget.updateCallback != null) button(widget.app, context, label: 'Update', onPressed: () => widget.updateCallback!(widget.currentlySelected)),
+          if (widget.updateCallback != null)
+            button(widget.app, context,
+                label: 'Update',
+                onPressed: () =>
+                    widget.updateCallback!(widget.currentlySelected)),
           Spacer(),
           button(widget.app, context, label: 'Clear', onPressed: () {
             widget.selectedCallback(null);
@@ -119,7 +126,10 @@ class SelectDialog<T> extends StatefulWidget {
   static void openIt<T>(
     BuildContext context,
     AppModel app,
-    Function(T? selected) selectedCallback,
+    Function(dynamic? selected) selectedCallback,
+    Function(dynamic? selected)? updateCallback,
+    Function(dynamic? selected)? deleteCallback,
+    VoidCallback? addCallback,
     Widget Function(T item) displayItemFunction,
     Widget Function(ListContentProvider contentsLoaded,
             NoContentProvider contentsNotLoaded)
@@ -134,6 +144,9 @@ class SelectDialog<T> extends StatefulWidget {
           app: app,
           displayItemFunction: displayItemFunction,
           selectedCallback: selectedCallback,
+          updateCallback: updateCallback,
+          deleteCallback: deleteCallback,
+          addCallback: addCallback,
           blocBuilder: blocBuilder,
           blocProviderProvider: blocProviderProvider,
           selectTitle: selectTitle,
@@ -186,16 +199,18 @@ class _SelectDialogState extends State<SelectDialog> {
                                             child: text(
                                                 widget.app, context, 'Select'),
                                           ),
-                                          if (widget.updateCallback != null) PopupMenuItem(
-                                            value: 2,
-                                            child: text(
-                                                widget.app, context, 'Update'),
-                                          ),
-                                          if (widget.deleteCallback != null) PopupMenuItem(
-                                            value: 3,
-                                            child: text(
-                                                widget.app, context, 'Delete'),
-                                          ),
+                                          if (widget.updateCallback != null)
+                                            PopupMenuItem(
+                                              value: 2,
+                                              child: text(widget.app, context,
+                                                  'Update'),
+                                            ),
+                                          if (widget.deleteCallback != null)
+                                            PopupMenuItem(
+                                              value: 3,
+                                              child: text(widget.app, context,
+                                                  'Delete'),
+                                            ),
                                         ],
                                     onSelected: (selectedValue) {
                                       if (selectedValue == 1) {
@@ -212,18 +227,19 @@ class _SelectDialogState extends State<SelectDialog> {
                             })),
                   ], shrinkWrap: true, physics: const ScrollPhysics());
                 }, () => progressIndicator(app, context))),
-            if (widget.addCallback != null) Column(children: [
-              divider(widget.app, context),
-              Center(
-                  child: iconButton(
-                widget.app,
-                context,
-                onPressed: () {
-                  widget.addCallback!();
-                },
-                icon: Icon(Icons.add),
-              ))
-            ])
+            if (widget.addCallback != null)
+              Column(children: [
+                divider(widget.app, context),
+                Center(
+                    child: iconButton(
+                  widget.app,
+                  context,
+                  onPressed: () {
+                    widget.addCallback!();
+                  },
+                  icon: Icon(Icons.add),
+                ))
+              ])
           ])
         ]));
   }
