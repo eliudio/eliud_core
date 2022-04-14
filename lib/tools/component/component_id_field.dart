@@ -1,6 +1,7 @@
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -48,11 +49,11 @@ class ComponentIdFieldState extends State<ComponentIdField> {
             choice = widget.value;
           }
 
-          return Center(child: DropdownButton(
+          return DropdownButton(
               value: choice,
               items: dropDownItems,
-              hint: Text('Select internal widget'),
-              onChanged: widget.trigger));
+              hint: text(widget.app, context, 'Select internal widget'),
+              onChanged: widget.trigger);
         }
       } else {
         var componentDropDown = Registry.registry()!.getSupportingDropDown(

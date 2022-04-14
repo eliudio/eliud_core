@@ -59,6 +59,17 @@ class Registry {
   Map<String?, ComponentConstructor?> registryMap() => _registryMap;
   Map<String, List<ComponentSpec>> componentSpecMap() => _allComponentSpecs;
 
+  List<String> getExtensions() {
+    var extensions = <String>[];
+    _registryMap.forEach((key, value) {
+      if ((key != null) && (!key.endsWith('_internalWidgets'))) {
+        extensions.add(key);
+      }
+    });
+
+    return extensions;
+  }
+
   ComponentSpec? getComponentSpecs(String name) {
     for (var componentSpec in _allComponentSpecs.values) {
       for (var entry in componentSpec) {
