@@ -179,7 +179,7 @@ class _MyAppPolicyItemFormState extends State<MyAppPolicyItemForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _policy, trigger: _onPolicySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _policy, trigger: (value, privilegeLevel) => _onPolicySelected(value), optional: false),
           );
 
 

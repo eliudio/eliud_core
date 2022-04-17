@@ -67,6 +67,7 @@ class Registry {
       }
     });
 
+    extensions.sort((a, b) => a.compareTo(b));
     return extensions;
   }
 

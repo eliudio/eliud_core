@@ -287,7 +287,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
 
         if ((state.value!.layout == PageLayout.GridView)) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "gridViews", value: _gridView, trigger: (value, privilegeLevel) => _onGridViewSelected(value), optional: false),
           );
 
 

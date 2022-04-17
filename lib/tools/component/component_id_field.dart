@@ -5,15 +5,16 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef Changed = Function(String? value);
+typedef ComponentIdFieldChanged = Function(String? value, int? privilegeLevel);
 
 class ComponentIdField extends StatefulWidget {
   final AppModel app;
   final String? componentName;
   String? value;
-  final Changed? trigger;
+  int? currentPrivilegeLevel;
+  final ComponentIdFieldChanged? trigger;
 
-  ComponentIdField(this.app, {this.componentName, this.value, this.trigger});
+  ComponentIdField(this.app, {this.componentName, this.value, this.currentPrivilegeLevel, this.trigger});
 
   @override
   State<StatefulWidget> createState() {
@@ -53,7 +54,7 @@ class ComponentIdFieldState extends State<ComponentIdField> {
               value: choice,
               items: dropDownItems,
               hint: text(widget.app, context, 'Select internal widget'),
-              onChanged: widget.trigger);
+              onChanged: (value) => widget.trigger!(value.toString(), widget.currentPrivilegeLevel));
         }
       } else {
         var componentDropDown = Registry.registry()!.getSupportingDropDown(
@@ -61,12 +62,13 @@ class ComponentIdFieldState extends State<ComponentIdField> {
         if (componentDropDown != null) {
           var selection = componentDropDown.createNew(
               app: widget.app,
+              privilegeLevel: widget.currentPrivilegeLevel,
               id: componentName,
               value: widget.value,
               trigger: widget.trigger);
           if (selection == null) {
             widget.value = null;
-            widget.trigger!(null);
+            widget.trigger!(null, widget.currentPrivilegeLevel);
             return Text("No selection available");
           }
           else

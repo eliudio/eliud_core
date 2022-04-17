@@ -209,7 +209,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "menuDefs", value: _menu, trigger: _onMenuSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "menuDefs", value: _menu, trigger: (value, privilegeLevel) => _onMenuSelected(value), optional: false),
           );
 
 

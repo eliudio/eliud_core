@@ -18,6 +18,7 @@ import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'package:eliud_core/tools/has_fab.dart';
 
@@ -196,7 +197,7 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class ListComponentFactory implements ComponentConstructor {
-  Widget? createNew({Key? key, required AppModel app,  required String id, Map<String, dynamic>? parameters}) {
+  Widget? createNew({Key? key, required AppModel app,  required String id, int? privilegeLevel, Map<String, dynamic>? parameters}) {
     return ListComponent(app: app, componentId: id);
   }
 
@@ -207,7 +208,7 @@ class ListComponentFactory implements ComponentConstructor {
 }
 
 
-typedef DropdownButtonChanged(String? value);
+typedef DropdownButtonChanged(String? value, int? privilegeLevel);
 
 class DropdownButtonComponentFactory implements ComponentDropDown {
   @override
@@ -234,46 +235,46 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     return false;
   }
 
-  Widget createNew({Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
+  Widget createNew({Key? key, required AppModel app, required String id, int? privilegeLevel, Map<String, dynamic>? parameters, String? value, DropdownButtonChanged? trigger, bool? optional}) {
 
     if (id == "apps")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "appBars")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "appPolicys")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "countrys")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "dialogs")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "drawers")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "gridViews")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "homeMenus")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "members")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "memberDashboards")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "memberPublicInfos")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "menuDefs")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "pages")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, trigger: trigger, optional: optional);
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
   }
@@ -284,6 +285,7 @@ class ListComponent extends StatelessWidget with HasFab {
   final AppModel app;
   final String? componentId;
   Widget? widget;
+  int? privilegeLevel;
 
   @override
   Widget? fab(BuildContext context){
@@ -294,7 +296,7 @@ class ListComponent extends StatelessWidget with HasFab {
     return null;
   }
 
-  ListComponent({required this.app, this.componentId}) {
+  ListComponent({required this.app, this.privilegeLevel, this.componentId}) {
     initWidget();
   }
 
@@ -338,6 +340,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppListBloc>(
           create: (context) => AppListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appRepository: appRepository()!,
           )..add(LoadAppList()),
         )
@@ -351,6 +357,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appBarRepository: appBarRepository(appId: app.documentID!)!,
           )..add(LoadAppBarList()),
         )
@@ -364,6 +374,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
         )
@@ -377,6 +391,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             countryRepository: countryRepository()!,
           )..add(LoadCountryList()),
         )
@@ -390,6 +408,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             dialogRepository: dialogRepository(appId: app.documentID!)!,
           )..add(LoadDialogList()),
         )
@@ -403,6 +425,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             drawerRepository: drawerRepository(appId: app.documentID!)!,
           )..add(LoadDrawerList()),
         )
@@ -416,6 +442,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             gridViewRepository: gridViewRepository(appId: app.documentID!)!,
           )..add(LoadGridViewList()),
         )
@@ -429,6 +459,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             homeMenuRepository: homeMenuRepository(appId: app.documentID!)!,
           )..add(LoadHomeMenuList()),
         )
@@ -442,6 +476,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberListBloc>(
           create: (context) => MemberListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberRepository: memberRepository()!,
           )..add(LoadMemberList()),
         )
@@ -455,6 +493,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberDashboardRepository: memberDashboardRepository(appId: app.documentID!)!,
           )..add(LoadMemberDashboardList()),
         )
@@ -468,6 +510,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MemberPublicInfoListBloc>(
           create: (context) => MemberPublicInfoListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberPublicInfoRepository: memberPublicInfoRepository()!,
           )..add(LoadMemberPublicInfoList()),
         )
@@ -481,6 +527,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             menuDefRepository: menuDefRepository(appId: app.documentID!)!,
           )..add(LoadMenuDefList()),
         )
@@ -494,6 +544,10 @@ class ListComponent extends StatelessWidget with HasFab {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             pageRepository: pageRepository(appId: app.documentID!)!,
           )..add(LoadPageList()),
         )
@@ -505,7 +559,7 @@ class ListComponent extends StatelessWidget with HasFab {
 }
 
 
-typedef Changed(String? value);
+typedef Changed(String? value, int? privilegeLevel);
 
 class DropdownButtonComponent extends StatelessWidget {
   final AppModel app;
@@ -513,8 +567,9 @@ class DropdownButtonComponent extends StatelessWidget {
   final String? value;
   final Changed? trigger;
   final bool? optional;
+  int? privilegeLevel;
 
-  DropdownButtonComponent({required this.app, this.componentId, this.value, this.trigger, this.optional});
+  DropdownButtonComponent({required this.app, this.componentId, this.privilegeLevel, this.value, this.trigger, this.optional});
 
   @override
   Widget build(BuildContext context) {
@@ -541,11 +596,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppListBloc>(
           create: (context) => AppListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appRepository: appRepository()!,
           )..add(LoadAppList()),
         )
       ],
-      child: AppDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: AppDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -554,11 +613,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppBarListBloc>(
           create: (context) => AppBarListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appBarRepository: appBarRepository(appId: app.documentID!)!,
           )..add(LoadAppBarList()),
         )
       ],
-      child: AppBarDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: AppBarDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -567,11 +630,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<AppPolicyListBloc>(
           create: (context) => AppPolicyListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
         )
       ],
-      child: AppPolicyDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: AppPolicyDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -580,11 +647,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<CountryListBloc>(
           create: (context) => CountryListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             countryRepository: countryRepository()!,
           )..add(LoadCountryList()),
         )
       ],
-      child: CountryDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: CountryDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -593,11 +664,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DialogListBloc>(
           create: (context) => DialogListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             dialogRepository: dialogRepository(appId: app.documentID!)!,
           )..add(LoadDialogList()),
         )
       ],
-      child: DialogDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: DialogDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -606,11 +681,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<DrawerListBloc>(
           create: (context) => DrawerListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             drawerRepository: drawerRepository(appId: app.documentID!)!,
           )..add(LoadDrawerList()),
         )
       ],
-      child: DrawerDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: DrawerDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -619,11 +698,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             gridViewRepository: gridViewRepository(appId: app.documentID!)!,
           )..add(LoadGridViewList()),
         )
       ],
-      child: GridViewDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: GridViewDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -632,11 +715,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<HomeMenuListBloc>(
           create: (context) => HomeMenuListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             homeMenuRepository: homeMenuRepository(appId: app.documentID!)!,
           )..add(LoadHomeMenuList()),
         )
       ],
-      child: HomeMenuDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: HomeMenuDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -645,11 +732,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberListBloc>(
           create: (context) => MemberListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberRepository: memberRepository()!,
           )..add(LoadMemberList()),
         )
       ],
-      child: MemberDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: MemberDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -658,11 +749,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberDashboardListBloc>(
           create: (context) => MemberDashboardListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberDashboardRepository: memberDashboardRepository(appId: app.documentID!)!,
           )..add(LoadMemberDashboardList()),
         )
       ],
-      child: MemberDashboardDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: MemberDashboardDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -671,11 +766,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MemberPublicInfoListBloc>(
           create: (context) => MemberPublicInfoListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             memberPublicInfoRepository: memberPublicInfoRepository()!,
           )..add(LoadMemberPublicInfoList()),
         )
       ],
-      child: MemberPublicInfoDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: MemberPublicInfoDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -684,11 +783,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<MenuDefListBloc>(
           create: (context) => MenuDefListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             menuDefRepository: menuDefRepository(appId: app.documentID!)!,
           )..add(LoadMenuDefList()),
         )
       ],
-      child: MenuDefDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: MenuDefDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -697,11 +800,15 @@ class DropdownButtonComponent extends StatelessWidget {
       providers: [
         BlocProvider<PageListBloc>(
           create: (context) => PageListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
+            ),
             pageRepository: pageRepository(appId: app.documentID!)!,
           )..add(LoadPageList()),
         )
       ],
-      child: PageDropdownButtonWidget(app: app, value: value, trigger: trigger, optional: optional),
+      child: PageDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 

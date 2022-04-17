@@ -230,7 +230,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "homeMenus", value: _homeMenu, trigger: _onHomeMenuSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "homeMenus", value: _homeMenu, trigger: (value, privilegeLevel) => _onHomeMenuSelected(value), optional: true),
           );
 
 
@@ -246,7 +246,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "drawers", value: _drawer, trigger: _onDrawerSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "drawers", value: _drawer, trigger: (value, privilegeLevel) => _onDrawerSelected(value), optional: true),
           );
 
 
@@ -262,7 +262,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "drawers", value: _endDrawer, trigger: _onEndDrawerSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "drawers", value: _endDrawer, trigger: (value, privilegeLevel) => _onEndDrawerSelected(value), optional: true),
           );
 
 
@@ -278,7 +278,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "appBars", value: _appBar, trigger: _onAppBarSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "appBars", value: _appBar, trigger: (value, privilegeLevel) => _onAppBarSelected(value), optional: true),
           );
 
 
@@ -349,7 +349,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
         if ((state.value!.layout == PageLayout.GridView)) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "gridViews", value: _gridView, trigger: _onGridViewSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "gridViews", value: _gridView, trigger: (value, privilegeLevel) => _onGridViewSelected(value), optional: false),
           );
 
 

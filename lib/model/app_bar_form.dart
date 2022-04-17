@@ -232,7 +232,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "memberMediums", value: _image, trigger: _onImageSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "memberMediums", value: _image, trigger: (value, privilegeLevel) => _onImageSelected(value), optional: true),
           );
 
 
@@ -264,7 +264,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "menuDefs", value: _iconMenu, trigger: _onIconMenuSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "menuDefs", value: _iconMenu, trigger: (value, privilegeLevel) => _onIconMenuSelected(value), optional: true),
           );
 
 

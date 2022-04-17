@@ -168,7 +168,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
 
         children.add(
 
-                ComponentIdField(widget.app, componentName: state.value!.componentName, value: state.value!.componentId, trigger: _onComponentIdChanged)
+                ComponentIdField(widget.app, componentName: state.value!.componentName, value: state.value!.componentId, trigger: (value, _) => _onComponentIdChanged(value))
           );
 
 

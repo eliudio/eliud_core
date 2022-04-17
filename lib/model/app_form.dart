@@ -281,7 +281,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "appPolicys", value: _policies, trigger: _onPoliciesSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "appPolicys", value: _policies, trigger: (value, privilegeLevel) => _onPoliciesSelected(value), optional: true),
           );
 
 
@@ -320,7 +320,7 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _logo, trigger: _onLogoSelected, optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _logo, trigger: (value, privilegeLevel) => _onLogoSelected(value), optional: true),
           );
 
 

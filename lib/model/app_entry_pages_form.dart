@@ -163,7 +163,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "pages", value: _entryPage, trigger: _onEntryPageSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "pages", value: _entryPage, trigger: (value, privilegeLevel) => _onEntryPageSelected(value), optional: false),
           );
 
         children.add(

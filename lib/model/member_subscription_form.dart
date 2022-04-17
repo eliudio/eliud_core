@@ -168,7 +168,7 @@ class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "apps", value: _app, trigger: _onAppSelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "apps", value: _app, trigger: (value, privilegeLevel) => _onAppSelected(value), optional: false),
           );
 
 

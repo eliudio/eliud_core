@@ -382,7 +382,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
           );
 
 
@@ -439,7 +439,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
           );
 
 
@@ -1091,7 +1091,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: _onCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
           );
 
 
@@ -1148,7 +1148,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
         if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: _onInvoiceCountrySelected, optional: false),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
           );
 
 

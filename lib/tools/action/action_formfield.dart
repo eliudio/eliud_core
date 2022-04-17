@@ -181,7 +181,7 @@ class ActionFieldState extends State<ActionField> {
     if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.app));
   }
 
-  void _onDocumentSelected(value) {
+  void _onDocumentSelected(value, _) {
     setState(() {
       _pageID = value;
     });
@@ -190,7 +190,7 @@ class ActionFieldState extends State<ActionField> {
     }
   }
 
-  Future<void> _onPopupmenuSelected(value) async {
+  Future<void> _onPopupmenuSelected(value, _) async {
     setState(() {
       _menuDefID = value;
     });
@@ -201,7 +201,7 @@ class ActionFieldState extends State<ActionField> {
     }
   }
 
-  Future<void> _onDialogSelected(value) async {
+  Future<void> _onDialogSelected(value, _) async {
     setState(() {
       _dialogID = value;
     });
