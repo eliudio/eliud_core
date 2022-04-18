@@ -5,14 +5,16 @@ import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/style/frontend/has_tabs.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 
-typedef ListContentProvider = Widget Function(List<dynamic> items);
-typedef NoContentProvider = Widget Function();
+typedef ListContentProvider = Widget Function(BuildContext context, List<dynamic> items);
+typedef NoContentProvider = Widget Function(BuildContext context, );
+typedef ChangePrivilegeEventCallback = void Function(BuildContext context, int privilegeLevel);
 
 class SelectWidget<T> extends StatefulWidget {
   final AppModel app;
@@ -27,6 +29,8 @@ class SelectWidget<T> extends StatefulWidget {
   final Widget Function(ListContentProvider contentsLoaded,
       NoContentProvider contentsNotLoaded) blocBuilder;
   final BlocProvider Function() blocProviderProvider;
+  final ChangePrivilegeEventCallback? changePrivilegeEventCallback;
+  final int? containerPrivilege;
 
   const SelectWidget(
       {Key? key,
@@ -38,6 +42,8 @@ class SelectWidget<T> extends StatefulWidget {
       required this.displayItemFunction,
       required this.blocBuilder,
       required this.blocProviderProvider,
+      this.changePrivilegeEventCallback,
+      this.containerPrivilege,
       this.updateCallback,
       this.deleteCallback,
       this.addCallback})
@@ -48,6 +54,7 @@ class SelectWidget<T> extends StatefulWidget {
 }
 
 class _SelectWidgetState extends State<SelectWidget> {
+
   @override
   Widget build(BuildContext context) {
     return topicContainer(
@@ -74,10 +81,12 @@ class _SelectWidgetState extends State<SelectWidget> {
                 widget.displayItemFunction,
                 widget.blocBuilder,
                 widget.blocProviderProvider,
-                widget.selectTitle);
+                widget.selectTitle,
+                widget.changePrivilegeEventCallback,
+                widget.containerPrivilege);
           }),
           if (widget.updateCallback != null) Spacer(),
-          if (widget.updateCallback != null)
+          if ((widget.updateCallback != null) && (widget.currentlySelected != null))
             button(widget.app, context,
                 label: 'Update',
                 onPressed: () =>
@@ -104,6 +113,8 @@ class SelectDialog<T> extends StatefulWidget {
   final Widget Function(ListContentProvider contentsLoaded,
       NoContentProvider contentsNotLoaded) blocBuilder;
   final BlocProvider Function() blocProviderProvider;
+  final ChangePrivilegeEventCallback? changePrivilegeEventCallback;
+  final int? containerPrivilege;
 
   SelectDialog._({
     required this.app,
@@ -112,6 +123,8 @@ class SelectDialog<T> extends StatefulWidget {
     required this.blocBuilder,
     required this.blocProviderProvider,
     required this.selectTitle,
+    this.changePrivilegeEventCallback,
+    this.containerPrivilege,
     this.updateCallback,
     this.deleteCallback,
     this.addCallback,
@@ -136,6 +149,8 @@ class SelectDialog<T> extends StatefulWidget {
         blocBuilder,
     BlocProvider Function() blocProviderProvider,
     String selectTitle,
+    ChangePrivilegeEventCallback? changePrivilegeEventCallback,
+    int? containerPrivilege,
   ) {
     openFlexibleDialog(app, context, app.documentID! + '/_select',
         includeHeading: false,
@@ -150,6 +165,8 @@ class SelectDialog<T> extends StatefulWidget {
           blocBuilder: blocBuilder,
           blocProviderProvider: blocProviderProvider,
           selectTitle: selectTitle,
+          changePrivilegeEventCallback: changePrivilegeEventCallback,
+          containerPrivilege: containerPrivilege,
         ));
   }
 }
@@ -157,10 +174,58 @@ class SelectDialog<T> extends StatefulWidget {
 /*
  */
 
-class _SelectDialogState extends State<SelectDialog> {
+class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMixin {
+  TabController? _privilegeTabController;
+  final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
+  final int _initialPrivilege = 0;
+  int _currentPrivilege = 0;
+  late BuildContext insideContext;
+
+  @override
+  void initState() {
+    if (widget.changePrivilegeEventCallback != null) {
+      var _privilegeASize = _privilegeItems.length;
+      _privilegeTabController =
+          TabController(vsync: this, length: _privilegeASize);
+      _privilegeTabController!.addListener(_handlePrivilegeTabSelection);
+      _privilegeTabController!.index = _initialPrivilege;
+    }
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_privilegeTabController != null) {
+      _privilegeTabController!.dispose();
+    }
+    super.dispose();
+  }
+
+  void _handlePrivilegeTabSelection() {
+    if ((_privilegeTabController != null) &&
+        (_privilegeTabController!.indexIsChanging)) {
+      _currentPrivilege = _privilegeTabController!.index;
+      widget.changePrivilegeEventCallback!(insideContext, _currentPrivilege);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var app = widget.app;
+    var newPrivilegeItems = <Widget>[];
+    if (widget.changePrivilegeEventCallback != null) {
+      var children = <Widget>[];
+      var i = 0;
+      for (var privilegeItem in _privilegeItems) {
+        newPrivilegeItems.add(Wrap(children: [
+          ((widget.containerPrivilege != null) && (i <= widget.containerPrivilege!)) ? Icon(Icons.check) : Icon(
+              Icons.close),
+          Container(width: 2),
+          text(widget.app, context, privilegeItem)
+        ]));
+        i++;
+      }
+    }
     return MultiBlocProvider(
         providers: [
           widget.blocProviderProvider(),
@@ -177,8 +242,11 @@ class _SelectDialogState extends State<SelectDialog> {
           ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
             Container(
                 height: height(),
-                child: widget.blocBuilder((items) {
+                child: widget.blocBuilder((context, items) {
+                  insideContext = context;
                   return ListView(children: [
+                    if (_privilegeTabController != null) tabBar2(widget.app, context,
+                        items: newPrivilegeItems, tabController: _privilegeTabController!),
                     Container(
                         height: 200,
                         child: ListView.builder(
@@ -226,7 +294,7 @@ class _SelectDialogState extends State<SelectDialog> {
                               );
                             })),
                   ], shrinkWrap: true, physics: const ScrollPhysics());
-                }, () => progressIndicator(app, context))),
+                }, (context, ) => progressIndicator(app, context))),
             if (widget.addCallback != null)
               Column(children: [
                 divider(widget.app, context),
