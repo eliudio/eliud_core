@@ -92,7 +92,7 @@ class _BodyComponentModelWidgetState
               widget.labelledBodyComponentModel);
           return true;
         },
-        title: 'Tabbed Contents',
+        title: 'Component',
       ),
       divider(widget.app, context),
       topicContainer(widget.app, context,

@@ -16,14 +16,12 @@ class MemberDashboardBloc
     return MemberDashboardModel(
       appId: appId,
       documentID: newRandomKey(),
-      conditions: StorageConditionsModel(
-          privilegeLevelRequired:
-          PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+      conditions: conditions,
     );
   }
 
   @override
   MemberDashboardModel setDefaultValues(MemberDashboardModel t, StorageConditionsModel conditions) {
-    return t.copyWith(conditions: conditions);
+    return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }
