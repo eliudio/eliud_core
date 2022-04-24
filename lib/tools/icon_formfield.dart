@@ -9,7 +9,7 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+//import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../model/icon_model.dart';
 
@@ -46,6 +46,7 @@ class IconFieldState extends State<IconField> {
   }
 
   void _pickIcon() async {
+/*
     var iconData = await (FlutterIconPicker.showIconPicker(context,
         iconSize: 40,
         iconPickerShape:
@@ -66,5 +67,6 @@ class IconFieldState extends State<IconField> {
               codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
       setState(() {});
     }
+*/
   }
 }
