@@ -133,7 +133,8 @@ class DocumentParameterProcessor {
         }
       } else if (p is SingleValue) {
         if (p.value() == USER_NAME) {
-          var usr = userName()!;
+          var usr = userName() ?? '?'
+              '';
           myString = p.replaceParamInStringWithString(myString, usr);
         } else if (p.value() == USER_GROUP) {
           var usr = userGroup();

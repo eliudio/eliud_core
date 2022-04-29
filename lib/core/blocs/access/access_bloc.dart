@@ -94,16 +94,26 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           } catch (exception) {
             print('Exception during signInWithGoogle: $exception');
           }
-          var member = await firebaseToMemberModel(usr);
-          var toYield = await LoggedIn.getLoggedIn(this, usr, member, theState.apps.map((determinedApp) => determinedApp.app).toList(), null, getSubscriptions(member), playstoreApp: theState.playstoreApp);
-          _resetAccessListeners(theState.apps.map((e) => e.app.documentID!).toList(), member.documentID!);
-          yield toYield;
-          if (event.actions != null) {
-            event.actions!.runTheAction();
-          } else {
-            var homePage = toYield.homePageForAppId(event.app.documentID!);
-            gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!
-               );
+          if (usr != null) {
+            var member = await firebaseToMemberModel(usr);
+            var toYield = await LoggedIn.getLoggedIn(this, usr, member,
+                theState.apps.map((determinedApp) => determinedApp.app)
+                    .toList(), null, getSubscriptions(member),
+                playstoreApp: theState.playstoreApp);
+            _resetAccessListeners(
+                theState.apps.map((e) => e.app.documentID!).toList(),
+                member.documentID!);
+            yield toYield;
+            if (event.actions != null) {
+              event.actions!.runTheAction();
+            } else {
+              var homePage = toYield.homePageForAppId(event.app.documentID!);
+              gotoPage(true, event.app.documentID!,
+                  homePage == null ? null : homePage.documentID!,
+                  errorString: 'Homepage not set correct for app ' +
+                      event.app.documentID!
+              );
+            }
           }
         } else {
           add(event.asProcessing());
