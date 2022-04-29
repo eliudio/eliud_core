@@ -85,18 +85,21 @@ abstract class PostLoginAction {
   void runTheAction();
 }
 
+enum  LoginType{ GoogleLogin, AppleLogin }
+
 class LoginEvent extends AccessEvent {
   final AppModel app;
+  final LoginType loginType;
   final PostLoginAction? actions;
   final bool _isProcessing;
 
-  LoginEvent({required this.app, this.actions, bool? isProcessing})
+  LoginEvent({required this.app, required this.loginType, this.actions, bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LoginEvent asProcessing() {
-    return LoginEvent(app: app, actions: actions, isProcessing: true);
+    return LoginEvent(app: app, loginType: loginType, actions: actions, isProcessing: true);
   }
 
   @override

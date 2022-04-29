@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/login_widget.dart';
+
 class ErrorComponent extends StatefulWidget {
   final GlobalKey pageKey = GlobalKey();
   final AppModel app;
@@ -96,8 +98,7 @@ class _ErrorContentsWidgetState extends State<ErrorContentsWidget> {
                     .add(GoHome(app: widget.app));
               }),
               if (!widget.loggedIn) button(widget.app, context, label: 'Login', onPressed: () {
-                BlocProvider.of<AccessBloc>(context)
-                    .add(LoginEvent(app: widget.app));
+                openLoginWidget(context, widget.app, );
               }),
               if (widget.playstoreApp != null)
                 button(widget.app, context, label: 'Go to Host', onPressed: () {

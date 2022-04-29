@@ -15,7 +15,7 @@ dependencies:
   google_sign_in_web: ^0.10.0+3
   firebase_storage: 10.2.14
   google_fonts: ^2.1.0
-  cloud_firestore: 2.5.3
+  cloud_firestore: 3.1.13
   datetime_picker_formfield: ^2.0.0
   expandable: ^5.0.1
   flutter_colorpicker: 1.0.3
@@ -36,6 +36,9 @@ dependencies:
   flutter_circular_text: 0.3.1
   tuple: ^2.0.0
   fast_image_resizer: 0.0.2
+  sign_in_with_apple: 3.3.0
+  http: ^0.13.0
+  flutter_signin_button: 2.0.0
 
   flutter:
     sdk: flutter

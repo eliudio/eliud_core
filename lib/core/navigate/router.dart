@@ -2,6 +2,7 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
+import 'package:eliud_core/core/widgets/login_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/router_builders.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../style/style_registry.dart';
 import '../registry.dart';
 
 class Arguments {
@@ -119,7 +121,7 @@ class Router {
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-            BlocProvider.of<AccessBloc>(context).add(LoginEvent(app: action.app));
+            openLoginWidget(context, action.app);
             break;
           case InternalActionEnum.Logout:
             BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: action.app));
@@ -151,7 +153,7 @@ class Router {
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
           case InternalActionEnum.Login:
-            return LoginEvent(app: action.app);
+            return LoginEvent(app: action.app, loginType: LoginType.GoogleLogin, );
           case InternalActionEnum.Logout:
             return LogoutEvent(app: action.app);
           case InternalActionEnum.GoHome:
@@ -198,3 +200,4 @@ class PageContextInfo {
 
   PageContextInfo(this.appId, this.pageId, {this.parameters});
 }
+

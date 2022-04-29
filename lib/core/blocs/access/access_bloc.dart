@@ -79,9 +79,18 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (event.isProcessing()) {
           var usr;
           try {
-            usr = await AbstractMainRepositorySingleton.singleton
-                .userRepository()!
-                .signInWithGoogle();
+            switch (event.loginType) {
+              case LoginType.GoogleLogin:
+                usr = await AbstractMainRepositorySingleton.singleton
+                    .userRepository()!
+                    .signInWithGoogle();
+                break;
+              case LoginType.AppleLogin:
+                usr = await AbstractMainRepositorySingleton.singleton
+                    .userRepository()!
+                    .signInWithApple();
+                break;
+            }
           } catch (exception) {
             print('Exception during signInWithGoogle: $exception');
           }
