@@ -3,6 +3,7 @@ import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/extensions/widgets/member_model_widget.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_dashboard_component.dart';
@@ -29,6 +30,10 @@ import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../core/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
+import '../tools/screen_size.dart';
+import 'bloc/member_bloc.dart';
 
 class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
@@ -148,8 +153,32 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   void _updateProfile(
-      BuildContext context, AppModel? app, MemberModel member) async {
-    await Navigator.of(context).push(pageRouteBuilderWithAppId(AccessBloc.getBloc(context).state, app!.documentID!,
+      BuildContext context, AppModel app, MemberModel member) async {
+    openFlexibleDialog(
+        app,
+        context,
+        app.documentID! + '/_member',
+        includeHeading: false,
+        widthFraction: .8,
+        child: BlocProvider<MemberBloc>(
+            create: (context) => MemberBloc(
+              app.documentID!,
+            )..add(ExtEditorBaseInitialise<MemberModel>(member)),
+            child: MemberModelWidget.getIt(
+                context,
+                app,
+                false,
+                fullScreenWidth(context) * .8,
+                fullScreenHeight(context) - 100,
+                member,
+                (newMember) => {
+                  // Don't do anything, we should be listening to member
+                },
+                )
+        ));
+
+/*
+    await Navigator.of(context).push(pageRouteBuilderWithAppId(AccessBloc.getBloc(context).state, app.documentID!,
         page: MultiBlocProvider(
             providers: [
               BlocProvider<MemberListBloc>(
@@ -160,6 +189,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             ],
             child: MemberForm(app: app,
                 value: member, formAction: FormAction.UpdateAction))));
+*/
   }
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,

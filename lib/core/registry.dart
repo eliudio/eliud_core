@@ -1,9 +1,13 @@
 import 'dart:collection';
+import 'dart:typed_data';
 import 'package:eliud_core/core/components/dialog_component.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
+import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
@@ -12,10 +16,13 @@ import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/router_builders.dart';
+import 'package:eliud_core/tools/storage/upload_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../package/medium_api.dart';
+import '../style/frontend/has_text.dart';
 import 'blocs/access/access_bloc.dart';
 import 'blocs/access/access_event.dart';
 import 'blocs/access/state/access_determined.dart';
@@ -33,6 +40,8 @@ class Registry {
   Map<String, ComponentDropDown> componentDropDownSupporters = HashMap();
   final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+
+  MediumApi? mediumApi;
 
   final Map<String, List<String>> _allInternalComponents = HashMap();
 
@@ -279,24 +288,13 @@ class Registry {
     _registryMap[componentName] = componentConstructor;
   }
 
-/*
-  void registerPageComponentsBloc(
-      String blocName, ComponentWidgetWrapper wrapper) {
-    _componentWidgetWrappers[blocName] = wrapper;
+  void registerMediumApi(MediumApi theMediumApi) {
+    mediumApi = theMediumApi;
   }
 
-  Widget? wrapWidgetInBloc(
-      String wrapperName, BuildContext context, ComponentInfo componentInfo) {
-    var wrapper = _componentWidgetWrappers[wrapperName];
-    if (wrapper != null) {
-      return wrapper.wrapWidget(context, componentInfo);
-    } else {
-      print(
-          "Can't find the wrapper with wrapperName $wrapperName. Did you register it from your package using registerPageComponentsBloc?");
-      return null;
-    }
+  MediumApi getMediumApi() {
+    return mediumApi ?? DefaultMediumApi();
   }
-*/
 
   void addDropDownSupporter(String componentId, ComponentDropDown support) {
     componentDropDownSupporters[componentId] = support;
@@ -305,4 +303,83 @@ class Registry {
   ComponentDropDown? getSupportingDropDown(String componentId) {
     return componentDropDownSupporters[componentId];
   }
+}
+
+class DefaultMediumApi extends MediumApi {
+  @override
+  bool hasAccessToAssets() => false;
+
+  @override
+  bool hasAccessToLocalFilesystem()=> false;
+
+  @override
+  bool hasCamera() => false;
+  @override
+  Future<void> processPhoto(String memberMediumDocumentID, AppModel app, String baseName, String thumbnailBaseName, String ownerId, Uint8List bytes, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+    // TODO: implement processPhoto
+    throw UnimplementedError();
+  }
+
+  @override
+  void showPhotos(BuildContext context, AppModel app, List<MemberMediumModel> media, int initialPage) {
+    // TODO: implement showPhotos
+  }
+
+  @override
+  void showPhotosPlatform(BuildContext context, AppModel app, List<PlatformMediumModel> media, int initialPage) {
+    print('No medium api available. Install a medium api to show photo');
+  }
+
+  @override
+  void showPhotosPublic(BuildContext context, AppModel app, List<PublicMediumModel> media, int initialPage) {
+    print('No medium api available. Install a medium api to show photo');
+  }
+
+  @override
+  Future<void> showVideo(BuildContext context, AppModel app, MemberMediumModel memberMediumModel) {
+    print('No medium api available. Install a medium api to show video');
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> showVideoPlatform(BuildContext context, AppModel app, PlatformMediumModel platformMediumModel) {
+    print('No medium api available. Install a medium api to show video');
+    return Future.value(null);
+  }
+
+  @override
+  void takePhoto(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress, {bool? allowCrop}) {
+    print('No medium api available. Install a medium api to take photo');
+  }
+
+  @override
+  void takeVideo(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+    print('No medium api available. Install a medium api to take video');
+  }
+
+  @override
+  void uploadPhoto(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress, {bool? allowCrop}) {
+    print('No medium api available. Install a medium api to upload photo');
+  }
+
+  @override
+  void uploadVideo(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+    print('No medium api available. Install a medium api to upload video');
+  }
+
+  @override
+  Widget getMemberPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required MemberMediumModel? initialImage}) {
+    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  }
+
+  @override
+  Widget getPlatformPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required PlatformMediumModel? initialImage}) {
+    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  }
+
+  @override
+  Widget getPublicPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required PublicMediumModel? initialImage}) {
+    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  }
+
 }

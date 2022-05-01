@@ -39,6 +39,9 @@ class MemberModel {
   String? name;
   List<MemberSubscriptionModel>? subscriptions;
   List<String>? subscriptionsAsStrArr;
+  MemberMediumModel? photo;
+
+  // photoURL is the url for the avatar, which comes from the providing login platform, e.g. google, but can be set by the user, which is then the URL of the photo provided
   String? photoURL;
   String? shipStreet1;
   String? shipStreet2;
@@ -56,16 +59,16 @@ class MemberModel {
   String? email;
   bool? isAnonymous;
 
-  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
+  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photo, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsStrArr, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, String? email, bool? isAnonymous, }) {
-    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsStrArr: subscriptionsAsStrArr ?? this.subscriptionsAsStrArr, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
+  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsStrArr, MemberMediumModel? photo, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, String? email, bool? isAnonymous, }) {
+    return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsStrArr: subscriptionsAsStrArr ?? this.subscriptionsAsStrArr, photo: photo ?? this.photo, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsStrArr.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ email.hashCode ^ isAnonymous.hashCode;
+  int get hashCode => documentID.hashCode ^ name.hashCode ^ subscriptions.hashCode ^ subscriptionsAsStrArr.hashCode ^ photo.hashCode ^ photoURL.hashCode ^ shipStreet1.hashCode ^ shipStreet2.hashCode ^ shipCity.hashCode ^ shipState.hashCode ^ postcode.hashCode ^ country.hashCode ^ invoiceSame.hashCode ^ invoiceStreet1.hashCode ^ invoiceStreet2.hashCode ^ invoiceCity.hashCode ^ invoiceState.hashCode ^ invoicePostcode.hashCode ^ invoiceCountry.hashCode ^ email.hashCode ^ isAnonymous.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -76,6 +79,7 @@ class MemberModel {
           name == other.name &&
           ListEquality().equals(subscriptions, other.subscriptions) &&
           ListEquality().equals(subscriptionsAsStrArr, other.subscriptionsAsStrArr) &&
+          photo == other.photo &&
           photoURL == other.photoURL &&
           shipStreet1 == other.shipStreet1 &&
           shipStreet2 == other.shipStreet2 &&
@@ -98,7 +102,7 @@ class MemberModel {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
     String subscriptionsAsStrArrCsv = (subscriptionsAsStrArr == null) ? '' : subscriptionsAsStrArr!.join(', ');
 
-    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
+    return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photo: $photo, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
   MemberEntity toEntity({String? appId}) {
@@ -108,6 +112,7 @@ class MemberModel {
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           subscriptionsAsStrArr: (subscriptionsAsStrArr != null) ? subscriptionsAsStrArr : null, 
+          photoId: (photo != null) ? photo!.documentID : null, 
           photoURL: (photoURL != null) ? photoURL : null, 
           shipStreet1: (shipStreet1 != null) ? shipStreet1 : null, 
           shipStreet2: (shipStreet2 != null) ? shipStreet2 : null, 
@@ -161,6 +166,17 @@ class MemberModel {
   static Future<MemberModel?> fromEntityPlus(String documentID, MemberEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    MemberMediumModel? photoHolder;
+    if (entity.photoId != null) {
+      try {
+          photoHolder = await memberMediumRepository(appId: appId)!.get(entity.photoId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise photo');
+        print('Error whilst retrieving memberMedium with id ${entity.photoId}');
+        print('Exception: $e');
+      }
+    }
+
     CountryModel? countryHolder;
     if (entity.countryId != null) {
       try {
@@ -194,6 +210,7 @@ class MemberModel {
             return MemberSubscriptionModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
           subscriptionsAsStrArr: entity.subscriptionsAsStrArr, 
+          photo: photoHolder, 
           photoURL: entity.photoURL, 
           shipStreet1: entity.shipStreet1, 
           shipStreet2: entity.shipStreet2, 

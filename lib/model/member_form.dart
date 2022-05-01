@@ -118,6 +118,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  String? _photo;
   final TextEditingController _photoURLController = TextEditingController();
   final TextEditingController _shipStreet1Controller = TextEditingController();
   final TextEditingController _shipStreet2Controller = TextEditingController();
@@ -177,6 +178,10 @@ class _MyMemberFormState extends State<MyMemberForm> {
           _nameController.text = state.value!.name.toString();
         else
           _nameController.text = "";
+        if (state.value!.photo != null)
+          _photo= state.value!.photo!.documentID;
+        else
+          _photo= "";
         if (state.value!.photoURL != null)
           _photoURLController.text = state.value!.photoURL.toString();
         else
@@ -249,6 +254,11 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "memberMediums", value: _photo, trigger: (value, privilegeLevel) => _onPhotoSelected(value), optional: true),
+          );
 
 
         children.add(Container(height: 20.0));
@@ -460,6 +470,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               name: state.value!.name, 
                               subscriptions: state.value!.subscriptions, 
                               subscriptionsAsStrArr: state.value!.subscriptionsAsStrArr, 
+                              photo: state.value!.photo, 
                               photoURL: state.value!.photoURL, 
                               shipStreet1: state.value!.shipStreet1, 
                               shipStreet2: state.value!.shipStreet2, 
@@ -484,6 +495,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
                               name: state.value!.name, 
                               subscriptions: state.value!.subscriptions, 
                               subscriptionsAsStrArr: state.value!.subscriptionsAsStrArr, 
+                              photo: state.value!.photo, 
                               photoURL: state.value!.photoURL, 
                               shipStreet1: state.value!.shipStreet1, 
                               shipStreet2: state.value!.shipStreet2, 
@@ -545,6 +557,14 @@ class _MyMemberFormState extends State<MyMemberForm> {
   void _onSubscriptionsAsStrArrChanged(value) {
     _myFormBloc.add(ChangedMemberSubscriptionsAsStrArr(value: value));
     setState(() {});
+  }
+
+
+  void _onPhotoSelected(String? val) {
+    setState(() {
+      _photo = val;
+    });
+    _myFormBloc.add(ChangedMemberPhoto(value: val));
   }
 
 

@@ -103,6 +103,18 @@ class ChangedMemberSubscriptionsAsStrArr extends MemberFormEvent {
   String toString() => 'ChangedMemberSubscriptionsAsStrArr{ value: $value }';
 }
 
+class ChangedMemberPhoto extends MemberFormEvent {
+  final String? value;
+
+  ChangedMemberPhoto({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberPhoto{ value: $value }';
+}
+
 class ChangedMemberPhotoURL extends MemberFormEvent {
   final String? value;
 

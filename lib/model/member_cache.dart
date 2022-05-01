@@ -128,6 +128,15 @@ class MemberCache implements MemberRepository {
 
   static Future<MemberModel> refreshRelations(MemberModel model) async {
 
+    MemberMediumModel? photoHolder;
+    if (model.photo != null) {
+      try {
+        await memberMediumRepository()!.get(model.photo!.documentID).then((val) {
+          photoHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     CountryModel? countryHolder;
     if (model.country != null) {
       try {
@@ -154,6 +163,8 @@ class MemberCache implements MemberRepository {
     }
 
     return model.copyWith(
+        photo: photoHolder,
+
         country: countryHolder,
 
         invoiceCountry: invoiceCountryHolder,

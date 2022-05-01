@@ -49,7 +49,16 @@
       "hidden": true
     },
     {
+      "fieldName": "photo",
+      "displayName": "Photo",
+      "fieldType": "MemberMedium",
+      "association": true,
+      "optional": true,
+      "group": "Image"
+    },
+    {
       "fieldName": "photoURL",
+      "remark": "photoURL is the url for the avatar, which comes from the providing login platform, e.g. google, but can be set by the user, which is then the URL of the photo provided",
       "displayName": "Profile Photo",
       "fieldType": "String",
       "iconName": "text_format",
