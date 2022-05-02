@@ -61,6 +61,12 @@
       "group": "appStatus"
     },
     {
+      "fieldName": "anonymousProfilePhoto",
+      "displayName": "Profile photo to display when member has none",
+      "association": true,
+      "fieldType": "PublicMedium"
+    },
+    {
       "fieldName": "homePages",
       "fieldType": "AppHomePageReferences",
       "association": false,

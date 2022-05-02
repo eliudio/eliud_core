@@ -154,6 +154,7 @@ abstract class AccessDetermined extends AccessState {
 
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
+  AccessDetermined updateMember(MemberModel member);
 
   Future<AccessDetermined> withNewAccess(AccessBloc accessBloc, AccessModel access) async {
     if (access.appId == null) {

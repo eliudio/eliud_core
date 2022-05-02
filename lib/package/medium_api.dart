@@ -68,32 +68,32 @@ abstract class MediumApi {
   /* Allow to add an imnage / upload / ... */
   Widget getPublicPhotoWidget(
       {Key? key,
-      required String title,
       required BuildContext context,
       required AppModel app,
       String?
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
-      required PublicMediumModel? initialImage});
+      required PublicMediumModel? initialImage,
+        bool? allowCrop});
   Widget getPlatformPhotoWidget(
       {Key? key,
-      required String title,
       required BuildContext context,
       required AppModel app,
       String?
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
-      required PlatformMediumModel? initialImage});
+      required PlatformMediumModel? initialImage,
+        bool? allowCrop});
   /*
    * Currently default / only access is public. Should expand the api to allow to change
    */
   Widget getMemberPhotoWidget(
       {Key? key,
-      required String title,
       required BuildContext context,
       required AppModel app,
       String?
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
-      required MemberMediumModel? initialImage});
+      required MemberMediumModel? initialImage,
+        bool? allowCrop});
 }

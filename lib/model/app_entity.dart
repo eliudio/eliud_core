@@ -27,6 +27,7 @@ class AppEntity {
   final String? email;
   final String? description;
   final int? appStatus;
+  final String? anonymousProfilePhotoId;
   final AppHomePageReferencesEntity? homePages;
   final String? logoId;
   final String? policiesId;
@@ -34,14 +35,14 @@ class AppEntity {
   final String? styleName;
   final bool? autoPrivileged1;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, });
 
 
-  List<Object?> get props => [ownerID, title, email, description, appStatus, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -59,6 +60,7 @@ class AppEntity {
       email: map['email'], 
       description: map['description'], 
       appStatus: map['appStatus'], 
+      anonymousProfilePhotoId: map['anonymousProfilePhotoId'], 
       homePages: homePagesFromMap, 
       logoId: map['logoId'], 
       policiesId: map['policiesId'], 
@@ -84,6 +86,8 @@ class AppEntity {
       else theDocument["description"] = null;
     if (appStatus != null) theDocument["appStatus"] = appStatus;
       else theDocument["appStatus"] = null;
+    if (anonymousProfilePhotoId != null) theDocument["anonymousProfilePhotoId"] = anonymousProfilePhotoId;
+      else theDocument["anonymousProfilePhotoId"] = null;
     if (homePages != null) theDocument["homePages"] = homePagesMap;
       else theDocument["homePages"] = null;
     if (logoId != null) theDocument["logoId"] = logoId;

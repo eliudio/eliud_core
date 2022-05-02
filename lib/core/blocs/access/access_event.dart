@@ -237,6 +237,19 @@ class AccessUpdatedEvent extends AccessEvent {
               runtimeType == other.runtimeType;
 }
 
+class MemberUpdatedEvent extends AccessEvent {
+  final MemberModel member;
+
+  MemberUpdatedEvent(this.member);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is MemberUpdatedEvent &&
+              member == other.member &&
+              runtimeType == other.runtimeType;
+}
+
 class GotoPageEvent extends AccessEvent {
   final AppModel app;
   final String pageId;

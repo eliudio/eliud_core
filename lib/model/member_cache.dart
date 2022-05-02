@@ -128,29 +128,11 @@ class MemberCache implements MemberRepository {
 
   static Future<MemberModel> refreshRelations(MemberModel model) async {
 
-    MemberMediumModel? photoHolder;
+    PublicMediumModel? photoHolder;
     if (model.photo != null) {
       try {
-        await memberMediumRepository()!.get(model.photo!.documentID).then((val) {
+        await publicMediumRepository()!.get(model.photo!.documentID).then((val) {
           photoHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
-    CountryModel? countryHolder;
-    if (model.country != null) {
-      try {
-        await countryRepository()!.get(model.country!.documentID).then((val) {
-          countryHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
-    CountryModel? invoiceCountryHolder;
-    if (model.invoiceCountry != null) {
-      try {
-        await countryRepository()!.get(model.invoiceCountry!.documentID).then((val) {
-          invoiceCountryHolder = val;
         }).catchError((error) {});
       } catch (_) {}
     }
@@ -164,10 +146,6 @@ class MemberCache implements MemberRepository {
 
     return model.copyWith(
         photo: photoHolder,
-
-        country: countryHolder,
-
-        invoiceCountry: invoiceCountryHolder,
 
         subscriptions: subscriptionsHolder,
 

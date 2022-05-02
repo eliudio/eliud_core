@@ -62,19 +62,6 @@ import 'package:eliud_core/model/model_export.dart';
 import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/model/country_list_bloc.dart';
-import 'package:eliud_core/model/country_list.dart';
-import 'package:eliud_core/model/country_dropdown_button.dart';
-import 'package:eliud_core/model/country_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/dialog_list_bloc.dart';
 import 'package:eliud_core/model/dialog_list.dart';
 import 'package:eliud_core/model/dialog_dropdown_button.dart';
@@ -222,7 +209,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "apps") return true;
     if (id == "appBars") return true;
     if (id == "appPolicys") return true;
-    if (id == "countrys") return true;
     if (id == "dialogs") return true;
     if (id == "drawers") return true;
     if (id == "gridViews") return true;
@@ -244,9 +230,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "appPolicys")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
-
-    if (id == "countrys")
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "dialogs")
@@ -306,7 +289,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'apps') return _appBuild(context);
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
-    if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
@@ -323,7 +305,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'apps') widget = AppListWidget(app: app);
     if (componentId == 'appBars') widget = AppBarListWidget(app: app);
     if (componentId == 'appPolicys') widget = AppPolicyListWidget(app: app);
-    if (componentId == 'countrys') widget = CountryListWidget(app: app);
     if (componentId == 'dialogs') widget = DialogListWidget(app: app);
     if (componentId == 'drawers') widget = DrawerListWidget(app: app);
     if (componentId == 'gridViews') widget = GridViewListWidget(app: app);
@@ -380,23 +361,6 @@ class ListComponent extends StatelessWidget with HasFab {
             ),
             appPolicyRepository: appPolicyRepository(appId: app.documentID!)!,
           )..add(LoadAppPolicyList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
-  Widget _countryBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<CountryListBloc>(
-          create: (context) => CountryListBloc(
-            eliudQuery: EliudQuery(theConditions: [
-              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
-              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
-            ),
-            countryRepository: countryRepository()!,
-          )..add(LoadCountryList()),
         )
       ],
       child: widget!,
@@ -577,7 +541,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'apps') return _appBuild(context);
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
-    if (componentId == 'countrys') return _countryBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
@@ -639,23 +602,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: AppPolicyDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _countryBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<CountryListBloc>(
-          create: (context) => CountryListBloc(
-            eliudQuery: EliudQuery(theConditions: [
-              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
-              EliudQueryCondition('appId', isEqualTo: app.documentID!),]
-            ),
-            countryRepository: countryRepository()!,
-          )..add(LoadCountryList()),
-        )
-      ],
-      child: CountryDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 

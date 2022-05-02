@@ -227,4 +227,7 @@ class LoggedOut extends AccessDetermined {
   Future<PageModel?> reterminedHomePageForAppId(AppModel app) async {
     return await getHomepage(app);
   }
+
+  @override
+  AccessDetermined updateMember(MemberModel member) => this;
 }

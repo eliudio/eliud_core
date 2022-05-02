@@ -127,6 +127,18 @@ class ChangedAppAppStatus extends AppFormEvent {
   String toString() => 'ChangedAppAppStatus{ value: $value }';
 }
 
+class ChangedAppAnonymousProfilePhoto extends AppFormEvent {
+  final String? value;
+
+  ChangedAppAnonymousProfilePhoto({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppAnonymousProfilePhoto{ value: $value }';
+}
+
 class ChangedAppHomePages extends AppFormEvent {
   final AppHomePageReferencesModel? value;
 

@@ -125,14 +125,14 @@ class _MyMemberFormState extends State<MyMemberForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String? _country;
+  final TextEditingController _countryController = TextEditingController();
   bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String? _invoiceCountry;
+  final TextEditingController _invoiceCountryController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   bool? _isAnonymousSelection;
 
@@ -151,12 +151,14 @@ class _MyMemberFormState extends State<MyMemberForm> {
     _shipCityController.addListener(_onShipCityChanged);
     _shipStateController.addListener(_onShipStateChanged);
     _postcodeController.addListener(_onPostcodeChanged);
+    _countryController.addListener(_onCountryChanged);
     _invoiceSameSelection = false;
     _invoiceStreet1Controller.addListener(_onInvoiceStreet1Changed);
     _invoiceStreet2Controller.addListener(_onInvoiceStreet2Changed);
     _invoiceCityController.addListener(_onInvoiceCityChanged);
     _invoiceStateController.addListener(_onInvoiceStateChanged);
     _invoicePostcodeController.addListener(_onInvoicePostcodeChanged);
+    _invoiceCountryController.addListener(_onInvoiceCountryChanged);
     _emailController.addListener(_onEmailChanged);
     _isAnonymousSelection = false;
   }
@@ -207,9 +209,9 @@ class _MyMemberFormState extends State<MyMemberForm> {
         else
           _postcodeController.text = "";
         if (state.value!.country != null)
-          _country= state.value!.country!.documentID;
+          _countryController.text = state.value!.country.toString();
         else
-          _country= "";
+          _countryController.text = "";
         if (state.value!.invoiceSame != null)
         _invoiceSameSelection = state.value!.invoiceSame;
         else
@@ -235,9 +237,9 @@ class _MyMemberFormState extends State<MyMemberForm> {
         else
           _invoicePostcodeController.text = "";
         if (state.value!.invoiceCountry != null)
-          _invoiceCountry= state.value!.invoiceCountry!.documentID;
+          _invoiceCountryController.text = state.value!.invoiceCountry.toString();
         else
-          _invoiceCountry= "";
+          _invoiceCountryController.text = "";
         if (state.value!.email != null)
           _emailController.text = state.value!.email.toString();
         else
@@ -257,7 +259,7 @@ class _MyMemberFormState extends State<MyMemberForm> {
 
         children.add(
 
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "memberMediums", value: _photo, trigger: (value, privilegeLevel) => _onPhotoSelected(value), optional: true),
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _photo, trigger: (value, privilegeLevel) => _onPhotoSelected(value), optional: true),
           );
 
 
@@ -379,6 +381,16 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryController, keyboardType: TextInputType.text, validator: (_) => state is CountryMemberFormError ? state.message : null, hintText: null)
+          );
+
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCountryController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCountryMemberFormError ? state.message : null, hintText: null)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -389,11 +401,6 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Country')
                 ));
-
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -446,11 +453,6 @@ class _MyMemberFormState extends State<MyMemberForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
-
-        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -598,11 +600,8 @@ class _MyMemberFormState extends State<MyMemberForm> {
   }
 
 
-  void _onCountrySelected(String? val) {
-    setState(() {
-      _country = val;
-    });
-    _myFormBloc.add(ChangedMemberCountry(value: val));
+  void _onCountryChanged() {
+    _myFormBloc.add(ChangedMemberCountry(value: _countryController.text));
   }
 
 
@@ -638,11 +637,8 @@ class _MyMemberFormState extends State<MyMemberForm> {
   }
 
 
-  void _onInvoiceCountrySelected(String? val) {
-    setState(() {
-      _invoiceCountry = val;
-    });
-    _myFormBloc.add(ChangedMemberInvoiceCountry(value: val));
+  void _onInvoiceCountryChanged() {
+    _myFormBloc.add(ChangedMemberInvoiceCountry(value: _invoiceCountryController.text));
   }
 
 
@@ -669,11 +665,13 @@ class _MyMemberFormState extends State<MyMemberForm> {
     _shipCityController.dispose();
     _shipStateController.dispose();
     _postcodeController.dispose();
+    _countryController.dispose();
     _invoiceStreet1Controller.dispose();
     _invoiceStreet2Controller.dispose();
     _invoiceCityController.dispose();
     _invoiceStateController.dispose();
     _invoicePostcodeController.dispose();
+    _invoiceCountryController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -943,14 +941,14 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   final TextEditingController _shipCityController = TextEditingController();
   final TextEditingController _shipStateController = TextEditingController();
   final TextEditingController _postcodeController = TextEditingController();
-  String? _country;
+  final TextEditingController _countryController = TextEditingController();
   bool? _invoiceSameSelection;
   final TextEditingController _invoiceStreet1Controller = TextEditingController();
   final TextEditingController _invoiceStreet2Controller = TextEditingController();
   final TextEditingController _invoiceCityController = TextEditingController();
   final TextEditingController _invoiceStateController = TextEditingController();
   final TextEditingController _invoicePostcodeController = TextEditingController();
-  String? _invoiceCountry;
+  final TextEditingController _invoiceCountryController = TextEditingController();
 
 
   _MyMemberAddressFormState(this.formAction);
@@ -966,12 +964,14 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
     _shipCityController.addListener(_onShipCityChanged);
     _shipStateController.addListener(_onShipStateChanged);
     _postcodeController.addListener(_onPostcodeChanged);
+    _countryController.addListener(_onCountryChanged);
     _invoiceSameSelection = false;
     _invoiceStreet1Controller.addListener(_onInvoiceStreet1Changed);
     _invoiceStreet2Controller.addListener(_onInvoiceStreet2Changed);
     _invoiceCityController.addListener(_onInvoiceCityChanged);
     _invoiceStateController.addListener(_onInvoiceStateChanged);
     _invoicePostcodeController.addListener(_onInvoicePostcodeChanged);
+    _invoiceCountryController.addListener(_onInvoiceCountryChanged);
   }
 
   @override
@@ -1012,9 +1012,9 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         else
           _postcodeController.text = "";
         if (state.value!.country != null)
-          _country= state.value!.country!.documentID;
+          _countryController.text = state.value!.country.toString();
         else
-          _country= "";
+          _countryController.text = "";
         if (state.value!.invoiceSame != null)
         _invoiceSameSelection = state.value!.invoiceSame;
         else
@@ -1040,9 +1040,9 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
         else
           _invoicePostcodeController.text = "";
         if (state.value!.invoiceCountry != null)
-          _invoiceCountry= state.value!.invoiceCountry!.documentID;
+          _invoiceCountryController.text = state.value!.invoiceCountry.toString();
         else
-          _invoiceCountry= "";
+          _invoiceCountryController.text = "";
       }
       if (state is MemberFormInitialized) {
         List<Widget> children = [];
@@ -1098,6 +1098,16 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Postal / Zip Code', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _postcodeController, keyboardType: TextInputType.text, validator: (_) => state is PostcodeMemberFormError ? state.message : null, hintText: null)
           );
 
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _countryController, keyboardType: TextInputType.text, validator: (_) => state is CountryMemberFormError ? state.message : null, hintText: null)
+          );
+
+        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Country', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _invoiceCountryController, keyboardType: TextInputType.text, validator: (_) => state is InvoiceCountryMemberFormError ? state.message : null, hintText: null)
+          );
+
 
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
@@ -1108,11 +1118,6 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Shipping Country')
                 ));
-
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _country, trigger: (value, privilegeLevel) => _onCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -1165,11 +1170,6 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Invoice Country')
                 ));
-
-        if (((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))) children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "countrys", value: _invoiceCountry, trigger: (value, privilegeLevel) => _onInvoiceCountrySelected(value), optional: false),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -1280,11 +1280,8 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   }
 
 
-  void _onCountrySelected(String? val) {
-    setState(() {
-      _country = val;
-    });
-    _myFormBloc.add(ChangedMemberCountry(value: val));
+  void _onCountryChanged() {
+    _myFormBloc.add(ChangedMemberCountry(value: _countryController.text));
   }
 
 
@@ -1320,11 +1317,8 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   }
 
 
-  void _onInvoiceCountrySelected(String? val) {
-    setState(() {
-      _invoiceCountry = val;
-    });
-    _myFormBloc.add(ChangedMemberInvoiceCountry(value: val));
+  void _onInvoiceCountryChanged() {
+    _myFormBloc.add(ChangedMemberInvoiceCountry(value: _invoiceCountryController.text));
   }
 
 
@@ -1338,11 +1332,13 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
     _shipCityController.dispose();
     _shipStateController.dispose();
     _postcodeController.dispose();
+    _countryController.dispose();
     _invoiceStreet1Controller.dispose();
     _invoiceStreet2Controller.dispose();
     _invoiceCityController.dispose();
     _invoiceStateController.dispose();
     _invoicePostcodeController.dispose();
+    _invoiceCountryController.dispose();
     super.dispose();
   }
 

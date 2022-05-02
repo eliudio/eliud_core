@@ -33,9 +33,6 @@ import '../model/app_policy_item_repository.dart';
 import '../model/app_policy_item_cache.dart';
 import '../model/body_component_repository.dart';
 import '../model/body_component_cache.dart';
-import '../model/country_firestore.dart';
-import '../model/country_repository.dart';
-import '../model/country_cache.dart';
 import '../model/decoration_color_repository.dart';
 import '../model/decoration_color_cache.dart';
 import '../model/dialog_firestore.dart';
@@ -97,7 +94,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
-    var _countryRepository = CountryCache(CountryFirestore());
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
@@ -121,9 +117,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     AppPolicyRepository? appPolicyRepository(String? appId) {
       if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(() => appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
-    }
-    CountryRepository? countryRepository() {
-      return _countryRepository;
     }
     DialogRepository? dialogRepository(String? appId) {
       if ((appId != null) && (_dialogRepository[appId] == null)) _dialogRepository[appId] = DialogCache(DialogFirestore(() => appRepository()!.getSubCollection(appId, 'dialog'), appId));

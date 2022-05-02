@@ -125,6 +125,7 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   int? _appStatusSelectedRadioTile;
+  String? _anonymousProfilePhoto;
   String? _logo;
   String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
@@ -182,6 +183,10 @@ class _MyAppFormState extends State<MyAppForm> {
           _appStatusSelectedRadioTile = state.value!.appStatus!.index;
         else
           _appStatusSelectedRadioTile = 0;
+        if (state.value!.anonymousProfilePhoto != null)
+          _anonymousProfilePhoto= state.value!.anonymousProfilePhoto!.documentID;
+        else
+          _anonymousProfilePhoto= "";
         if (state.value!.logo != null)
           _logo= state.value!.logo!.documentID;
         else
@@ -210,6 +215,11 @@ class _MyAppFormState extends State<MyAppForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _anonymousProfilePhoto, trigger: (value, privilegeLevel) => _onAnonymousProfilePhotoSelected(value), optional: false),
+          );
 
         children.add(
 
@@ -389,6 +399,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               email: state.value!.email, 
                               description: state.value!.description, 
                               appStatus: state.value!.appStatus, 
+                              anonymousProfilePhoto: state.value!.anonymousProfilePhoto, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
                               policies: state.value!.policies, 
@@ -405,6 +416,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               email: state.value!.email, 
                               description: state.value!.description, 
                               appStatus: state.value!.appStatus, 
+                              anonymousProfilePhoto: state.value!.anonymousProfilePhoto, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
                               policies: state.value!.policies, 
@@ -467,6 +479,14 @@ class _MyAppFormState extends State<MyAppForm> {
       _appStatusSelectedRadioTile = val;
     });
     _myFormBloc.add(ChangedAppAppStatus(value: toAppStatus(val)));
+  }
+
+
+  void _onAnonymousProfilePhotoSelected(String? val) {
+    setState(() {
+      _anonymousProfilePhoto = val;
+    });
+    _myFormBloc.add(ChangedAppAnonymousProfilePhoto(value: val));
   }
 
 

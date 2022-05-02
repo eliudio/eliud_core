@@ -51,6 +51,7 @@ class AppModel {
   String? email;
   String? description;
   AppStatus? appStatus;
+  PublicMediumModel? anonymousProfilePhoto;
   AppHomePageReferencesModel? homePages;
   PublicMediumModel? logo;
   AppPolicyModel? policies;
@@ -60,16 +61,16 @@ class AppModel {
   // When set, any new joining member will have privilegeLevel = 1
   bool? autoPrivileged1;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, })  {
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -82,6 +83,7 @@ class AppModel {
           email == other.email &&
           description == other.description &&
           appStatus == other.appStatus &&
+          anonymousProfilePhoto == other.anonymousProfilePhoto &&
           homePages == other.homePages &&
           logo == other.logo &&
           policies == other.policies &&
@@ -91,7 +93,7 @@ class AppModel {
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
   }
 
   AppEntity toEntity({String? appId}) {
@@ -101,6 +103,7 @@ class AppModel {
           email: (email != null) ? email : null, 
           description: (description != null) ? description : null, 
           appStatus: (appStatus != null) ? appStatus!.index : null, 
+          anonymousProfilePhotoId: (anonymousProfilePhoto != null) ? anonymousProfilePhoto!.documentID : null, 
           homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
           logoId: (logo != null) ? logo!.documentID : null, 
           policiesId: (policies != null) ? policies!.documentID : null, 
@@ -130,6 +133,17 @@ class AppModel {
 
   static Future<AppModel?> fromEntityPlus(String documentID, AppEntity? entity, { String? appId}) async {
     if (entity == null) return null;
+
+    PublicMediumModel? anonymousProfilePhotoHolder;
+    if (entity.anonymousProfilePhotoId != null) {
+      try {
+          anonymousProfilePhotoHolder = await publicMediumRepository(appId: appId)!.get(entity.anonymousProfilePhotoId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise anonymousProfilePhoto');
+        print('Error whilst retrieving publicMedium with id ${entity.anonymousProfilePhotoId}');
+        print('Exception: $e');
+      }
+    }
 
     PublicMediumModel? logoHolder;
     if (entity.logoId != null) {
@@ -161,6 +175,7 @@ class AppModel {
           email: entity.email, 
           description: entity.description, 
           appStatus: toAppStatus(entity.appStatus), 
+          anonymousProfilePhoto: anonymousProfilePhotoHolder, 
           homePages: 
             await AppHomePageReferencesModel.fromEntityPlus(entity.homePages, appId: appId), 
           logo: logoHolder, 

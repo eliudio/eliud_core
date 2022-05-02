@@ -58,12 +58,14 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  shipCity: "",
                                  shipState: "",
                                  postcode: "",
+                                 country: "",
                                  invoiceSame: true, 
                                  invoiceStreet1: "",
                                  invoiceStreet2: "",
                                  invoiceCity: "",
                                  invoiceState: "",
                                  invoicePostcode: "",
+                                 invoiceCountry: "",
                                  email: "",
 
         ));
@@ -104,7 +106,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
       }
       if (event is ChangedMemberPhoto) {
         if (event.value != null)
-          newValue = currentState.value!.copyWith(photo: await memberMediumRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(photo: await publicMediumRepository(appId: appId)!.get(event.value));
         else
           newValue = new MemberModel(
                                  documentID: currentState.value!.documentID,
@@ -164,32 +166,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
         return;
       }
       if (event is ChangedMemberCountry) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(country: await countryRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new MemberModel(
-                                 documentID: currentState.value!.documentID,
-                                 name: currentState.value!.name,
-                                 subscriptions: currentState.value!.subscriptions,
-                                 subscriptionsAsStrArr: currentState.value!.subscriptionsAsStrArr,
-                                 photo: currentState.value!.photo,
-                                 photoURL: currentState.value!.photoURL,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: null,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: currentState.value!.invoiceCountry,
-                                 email: currentState.value!.email,
-                                 isAnonymous: currentState.value!.isAnonymous,
-          );
+        newValue = currentState.value!.copyWith(country: event.value);
         yield SubmittableMemberForm(value: newValue);
 
         return;
@@ -231,32 +208,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
         return;
       }
       if (event is ChangedMemberInvoiceCountry) {
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(invoiceCountry: await countryRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new MemberModel(
-                                 documentID: currentState.value!.documentID,
-                                 name: currentState.value!.name,
-                                 subscriptions: currentState.value!.subscriptions,
-                                 subscriptionsAsStrArr: currentState.value!.subscriptionsAsStrArr,
-                                 photo: currentState.value!.photo,
-                                 photoURL: currentState.value!.photoURL,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: currentState.value!.country,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: null,
-                                 email: currentState.value!.email,
-                                 isAnonymous: currentState.value!.isAnonymous,
-          );
+        newValue = currentState.value!.copyWith(invoiceCountry: event.value);
         yield SubmittableMemberForm(value: newValue);
 
         return;

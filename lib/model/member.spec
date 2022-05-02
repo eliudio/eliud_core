@@ -51,7 +51,7 @@
     {
       "fieldName": "photo",
       "displayName": "Photo",
-      "fieldType": "MemberMedium",
+      "fieldType": "PublicMedium",
       "association": true,
       "optional": true,
       "group": "Image"
@@ -103,10 +103,9 @@
     {
       "fieldName": "country",
       "displayName": "Country",
-      "fieldType": "Country",
-      "association": true,
-      "optional": false,
-      "group": "shipCountry"
+      "fieldType": "String",
+      "iconName": "text_format",
+      "group": "ship"
     },
     {
       "fieldName": "invoiceSame",
@@ -158,11 +157,10 @@
     {
       "fieldName": "invoiceCountry",
       "displayName": "Country",
-      "fieldType": "Country",
-      "association": true,
-      "optional": false,
+      "fieldType": "String",
+      "iconName": "text_format",
       "conditional": "((state.value!.invoiceSame == null) || (!state.value!.invoiceSame!))",
-      "group": "invoiceCountry"
+      "group": "ship"
     },
     {
       "fieldName": "email",

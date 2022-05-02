@@ -39,7 +39,7 @@ class MemberModel {
   String? name;
   List<MemberSubscriptionModel>? subscriptions;
   List<String>? subscriptionsAsStrArr;
-  MemberMediumModel? photo;
+  PublicMediumModel? photo;
 
   // photoURL is the url for the avatar, which comes from the providing login platform, e.g. google, but can be set by the user, which is then the URL of the photo provided
   String? photoURL;
@@ -48,14 +48,14 @@ class MemberModel {
   String? shipCity;
   String? shipState;
   String? postcode;
-  CountryModel? country;
+  String? country;
   bool? invoiceSame;
   String? invoiceStreet1;
   String? invoiceStreet2;
   String? invoiceCity;
   String? invoiceState;
   String? invoicePostcode;
-  CountryModel? invoiceCountry;
+  String? invoiceCountry;
   String? email;
   bool? isAnonymous;
 
@@ -63,7 +63,7 @@ class MemberModel {
     assert(documentID != null);
   }
 
-  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsStrArr, MemberMediumModel? photo, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, CountryModel? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, CountryModel? invoiceCountry, String? email, bool? isAnonymous, }) {
+  MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsStrArr, PublicMediumModel? photo, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, String? email, bool? isAnonymous, }) {
     return MemberModel(documentID: documentID ?? this.documentID, name: name ?? this.name, subscriptions: subscriptions ?? this.subscriptions, subscriptionsAsStrArr: subscriptionsAsStrArr ?? this.subscriptionsAsStrArr, photo: photo ?? this.photo, photoURL: photoURL ?? this.photoURL, shipStreet1: shipStreet1 ?? this.shipStreet1, shipStreet2: shipStreet2 ?? this.shipStreet2, shipCity: shipCity ?? this.shipCity, shipState: shipState ?? this.shipState, postcode: postcode ?? this.postcode, country: country ?? this.country, invoiceSame: invoiceSame ?? this.invoiceSame, invoiceStreet1: invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2: invoiceStreet2 ?? this.invoiceStreet2, invoiceCity: invoiceCity ?? this.invoiceCity, invoiceState: invoiceState ?? this.invoiceState, invoicePostcode: invoicePostcode ?? this.invoicePostcode, invoiceCountry: invoiceCountry ?? this.invoiceCountry, email: email ?? this.email, isAnonymous: isAnonymous ?? this.isAnonymous, );
   }
 
@@ -119,14 +119,14 @@ class MemberModel {
           shipCity: (shipCity != null) ? shipCity : null, 
           shipState: (shipState != null) ? shipState : null, 
           postcode: (postcode != null) ? postcode : null, 
-          countryId: (country != null) ? country!.documentID : null, 
+          country: (country != null) ? country : null, 
           invoiceSame: (invoiceSame != null) ? invoiceSame : null, 
           invoiceStreet1: (invoiceStreet1 != null) ? invoiceStreet1 : null, 
           invoiceStreet2: (invoiceStreet2 != null) ? invoiceStreet2 : null, 
           invoiceCity: (invoiceCity != null) ? invoiceCity : null, 
           invoiceState: (invoiceState != null) ? invoiceState : null, 
           invoicePostcode: (invoicePostcode != null) ? invoicePostcode : null, 
-          invoiceCountryId: (invoiceCountry != null) ? invoiceCountry!.documentID : null, 
+          invoiceCountry: (invoiceCountry != null) ? invoiceCountry : null, 
           email: (email != null) ? email : null, 
           isAnonymous: (isAnonymous != null) ? isAnonymous : null, 
     );
@@ -152,12 +152,14 @@ class MemberModel {
           shipCity: entity.shipCity, 
           shipState: entity.shipState, 
           postcode: entity.postcode, 
+          country: entity.country, 
           invoiceSame: entity.invoiceSame, 
           invoiceStreet1: entity.invoiceStreet1, 
           invoiceStreet2: entity.invoiceStreet2, 
           invoiceCity: entity.invoiceCity, 
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
+          invoiceCountry: entity.invoiceCountry, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
     );
@@ -166,35 +168,13 @@ class MemberModel {
   static Future<MemberModel?> fromEntityPlus(String documentID, MemberEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    MemberMediumModel? photoHolder;
+    PublicMediumModel? photoHolder;
     if (entity.photoId != null) {
       try {
-          photoHolder = await memberMediumRepository(appId: appId)!.get(entity.photoId);
+          photoHolder = await publicMediumRepository(appId: appId)!.get(entity.photoId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise photo');
-        print('Error whilst retrieving memberMedium with id ${entity.photoId}');
-        print('Exception: $e');
-      }
-    }
-
-    CountryModel? countryHolder;
-    if (entity.countryId != null) {
-      try {
-          countryHolder = await countryRepository(appId: appId)!.get(entity.countryId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise country');
-        print('Error whilst retrieving country with id ${entity.countryId}');
-        print('Exception: $e');
-      }
-    }
-
-    CountryModel? invoiceCountryHolder;
-    if (entity.invoiceCountryId != null) {
-      try {
-          invoiceCountryHolder = await countryRepository(appId: appId)!.get(entity.invoiceCountryId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise invoiceCountry');
-        print('Error whilst retrieving country with id ${entity.invoiceCountryId}');
+        print('Error whilst retrieving publicMedium with id ${entity.photoId}');
         print('Exception: $e');
       }
     }
@@ -217,14 +197,14 @@ class MemberModel {
           shipCity: entity.shipCity, 
           shipState: entity.shipState, 
           postcode: entity.postcode, 
-          country: countryHolder, 
+          country: entity.country, 
           invoiceSame: entity.invoiceSame, 
           invoiceStreet1: entity.invoiceStreet1, 
           invoiceStreet2: entity.invoiceStreet2, 
           invoiceCity: entity.invoiceCity, 
           invoiceState: entity.invoiceState, 
           invoicePostcode: entity.invoicePostcode, 
-          invoiceCountry: invoiceCountryHolder, 
+          invoiceCountry: entity.invoiceCountry, 
           email: entity.email, 
           isAnonymous: entity.isAnonymous, 
     );

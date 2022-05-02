@@ -6,6 +6,7 @@ import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
+import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:eliud_core/tools/repository_base.dart';
 
@@ -14,6 +15,7 @@ import '../../model/member_subscription_model.dart';
 
 
 class MemberBloc extends Bloc<ExtEditorBaseEvent<MemberModel>, ExtEditorBaseState<MemberModel>> {
+//class MemberBloc extends ExtEditorBaseBloc<MemberModel, MemberSubscriptionModel> {
   final String appId;
 
   MemberBloc(this.appId)
@@ -65,5 +67,9 @@ class MemberBloc extends Bloc<ExtEditorBaseEvent<MemberModel>, ExtEditorBaseStat
             model: newModel);
       }
     }
+  }
+
+  Future<void> save(MemberModel member) {
+    return memberRepository()!.update(member);
   }
 }

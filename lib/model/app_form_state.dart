@@ -159,6 +159,22 @@ class AppStatusAppFormError extends AppFormError {
 }
 
 
+class AnonymousProfilePhotoAppFormError extends AppFormError { 
+  const AnonymousProfilePhotoAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''AnonymousProfilePhotoAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class HomePagesAppFormError extends AppFormError { 
   const HomePagesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 

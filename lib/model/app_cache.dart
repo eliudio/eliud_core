@@ -128,6 +128,15 @@ class AppCache implements AppRepository {
 
   static Future<AppModel> refreshRelations(AppModel model) async {
 
+    PublicMediumModel? anonymousProfilePhotoHolder;
+    if (model.anonymousProfilePhoto != null) {
+      try {
+        await publicMediumRepository()!.get(model.anonymousProfilePhoto!.documentID).then((val) {
+          anonymousProfilePhotoHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
+    }
+
     PublicMediumModel? logoHolder;
     if (model.logo != null) {
       try {
@@ -147,6 +156,8 @@ class AppCache implements AppRepository {
     }
 
     return model.copyWith(
+        anonymousProfilePhoto: anonymousProfilePhotoHolder,
+
         logo: logoHolder,
 
         policies: policiesHolder,

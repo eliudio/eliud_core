@@ -110,6 +110,29 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
 
         return;
       }
+      if (event is ChangedAppAnonymousProfilePhoto) {
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(anonymousProfilePhoto: await publicMediumRepository(appId: appId)!.get(event.value));
+        else
+          newValue = new AppModel(
+                                 documentID: currentState.value!.documentID,
+                                 ownerID: currentState.value!.ownerID,
+                                 title: currentState.value!.title,
+                                 email: currentState.value!.email,
+                                 description: currentState.value!.description,
+                                 appStatus: currentState.value!.appStatus,
+                                 anonymousProfilePhoto: null,
+                                 homePages: currentState.value!.homePages,
+                                 logo: currentState.value!.logo,
+                                 policies: currentState.value!.policies,
+                                 styleFamily: currentState.value!.styleFamily,
+                                 styleName: currentState.value!.styleName,
+                                 autoPrivileged1: currentState.value!.autoPrivileged1,
+          );
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
       if (event is ChangedAppHomePages) {
         newValue = currentState.value!.copyWith(homePages: event.value);
         yield SubmittableAppForm(value: newValue);
@@ -127,6 +150,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  email: currentState.value!.email,
                                  description: currentState.value!.description,
                                  appStatus: currentState.value!.appStatus,
+                                 anonymousProfilePhoto: currentState.value!.anonymousProfilePhoto,
                                  homePages: currentState.value!.homePages,
                                  logo: null,
                                  policies: currentState.value!.policies,
@@ -149,6 +173,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  email: currentState.value!.email,
                                  description: currentState.value!.description,
                                  appStatus: currentState.value!.appStatus,
+                                 anonymousProfilePhoto: currentState.value!.anonymousProfilePhoto,
                                  homePages: currentState.value!.homePages,
                                  logo: currentState.value!.logo,
                                  policies: null,

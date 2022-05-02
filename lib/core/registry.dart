@@ -97,26 +97,23 @@ class Registry {
     return _instance;
   }
 
-  Widget error(
-      {required String appId,
-        required String error}) {
+  Widget error({required String appId, required String error}) {
     return FutureBuilder<dynamic>(
         future: getApp(appId),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        var app = snapshot.data;
-        return ErrorComponent(app: app, error: error);
-      } else {
-        return Center(child: CircularProgressIndicator());
-      }
-    }
-      );
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var app = snapshot.data;
+            return ErrorComponent(app: app, error: error);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
   Widget page(
-      {required String appId,
-        required String pageId,
-        Map<String, dynamic>? parameters}) =>
+          {required String appId,
+          required String pageId,
+          Map<String, dynamic>? parameters}) =>
       PageComponent(appId: appId, pageId: pageId, parameters: parameters);
 
   Future<void> openDialog(BuildContext context,
@@ -310,76 +307,139 @@ class DefaultMediumApi extends MediumApi {
   bool hasAccessToAssets() => false;
 
   @override
-  bool hasAccessToLocalFilesystem()=> false;
+  bool hasAccessToLocalFilesystem() => false;
 
   @override
   bool hasCamera() => false;
   @override
-  Future<void> processPhoto(String memberMediumDocumentID, AppModel app, String baseName, String thumbnailBaseName, String ownerId, Uint8List bytes, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+  Future<void> processPhoto(
+      String memberMediumDocumentID,
+      AppModel app,
+      String baseName,
+      String thumbnailBaseName,
+      String ownerId,
+      Uint8List bytes,
+      AccessRightsProvider accessRightsProvider,
+      MediumAvailable feedbackFunction,
+      FeedbackProgress? feedbackProgress) {
     // TODO: implement processPhoto
     throw UnimplementedError();
   }
 
   @override
-  void showPhotos(BuildContext context, AppModel app, List<MemberMediumModel> media, int initialPage) {
+  void showPhotos(BuildContext context, AppModel app,
+      List<MemberMediumModel> media, int initialPage) {
     // TODO: implement showPhotos
   }
 
   @override
-  void showPhotosPlatform(BuildContext context, AppModel app, List<PlatformMediumModel> media, int initialPage) {
+  void showPhotosPlatform(BuildContext context, AppModel app,
+      List<PlatformMediumModel> media, int initialPage) {
     print('No medium api available. Install a medium api to show photo');
   }
 
   @override
-  void showPhotosPublic(BuildContext context, AppModel app, List<PublicMediumModel> media, int initialPage) {
+  void showPhotosPublic(BuildContext context, AppModel app,
+      List<PublicMediumModel> media, int initialPage) {
     print('No medium api available. Install a medium api to show photo');
   }
 
   @override
-  Future<void> showVideo(BuildContext context, AppModel app, MemberMediumModel memberMediumModel) {
+  Future<void> showVideo(
+      BuildContext context, AppModel app, MemberMediumModel memberMediumModel) {
     print('No medium api available. Install a medium api to show video');
     return Future.value(null);
   }
 
   @override
-  Future<void> showVideoPlatform(BuildContext context, AppModel app, PlatformMediumModel platformMediumModel) {
+  Future<void> showVideoPlatform(BuildContext context, AppModel app,
+      PlatformMediumModel platformMediumModel) {
     print('No medium api available. Install a medium api to show video');
     return Future.value(null);
   }
 
   @override
-  void takePhoto(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress, {bool? allowCrop}) {
+  void takePhoto(
+      BuildContext context,
+      AppModel app,
+      String ownerId,
+      AccessRightsProvider accessRightsProvider,
+      MediumAvailable feedbackFunction,
+      FeedbackProgress? feedbackProgress,
+      {bool? allowCrop}) {
     print('No medium api available. Install a medium api to take photo');
   }
 
   @override
-  void takeVideo(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+  void takeVideo(
+      BuildContext context,
+      AppModel app,
+      String ownerId,
+      AccessRightsProvider accessRightsProvider,
+      MediumAvailable feedbackFunction,
+      FeedbackProgress? feedbackProgress) {
     print('No medium api available. Install a medium api to take video');
   }
 
   @override
-  void uploadPhoto(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress, {bool? allowCrop}) {
+  void uploadPhoto(
+      BuildContext context,
+      AppModel app,
+      String ownerId,
+      AccessRightsProvider accessRightsProvider,
+      MediumAvailable feedbackFunction,
+      FeedbackProgress? feedbackProgress,
+      {bool? allowCrop}) {
     print('No medium api available. Install a medium api to upload photo');
   }
 
   @override
-  void uploadVideo(BuildContext context, AppModel app, String ownerId, AccessRightsProvider accessRightsProvider, MediumAvailable feedbackFunction, FeedbackProgress? feedbackProgress) {
+  void uploadVideo(
+      BuildContext context,
+      AppModel app,
+      String ownerId,
+      AccessRightsProvider accessRightsProvider,
+      MediumAvailable feedbackFunction,
+      FeedbackProgress? feedbackProgress) {
     print('No medium api available. Install a medium api to upload video');
   }
 
   @override
-  Widget getMemberPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required MemberMediumModel? initialImage}) {
-    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  Widget getMemberPhotoWidget(
+      {Key? key,
+      required BuildContext context,
+      required AppModel app,
+      String? defaultImage,
+      required MediumAvailable feedbackFunction,
+      required MemberMediumModel? initialImage,
+      bool? allowCrop}) {
+    return text(app, context,
+        'No medium api available. Install a medium api to allow to update photo');
   }
 
   @override
-  Widget getPlatformPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required PlatformMediumModel? initialImage}) {
-    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  Widget getPlatformPhotoWidget(
+      {Key? key,
+      required BuildContext context,
+      required AppModel app,
+      String? defaultImage,
+      required MediumAvailable feedbackFunction,
+      required PlatformMediumModel? initialImage,
+      bool? allowCrop}) {
+    return text(app, context,
+        'No medium api available. Install a medium api to allow to update photo');
   }
 
   @override
-  Widget getPublicPhotoWidget({Key? key, required String title, required BuildContext context, required AppModel app, String? defaultImage, required MediumAvailable feedbackFunction, required PublicMediumModel? initialImage}) {
-    return text(app, context, 'No medium api available. Install a medium api to allow to update photo');
+  Widget getPublicPhotoWidget(
+      {Key? key,
+      required BuildContext context,
+      required AppModel app,
+      String? defaultImage,
+      required MediumAvailable feedbackFunction,
+      required PublicMediumModel? initialImage,
+      bool? allowCrop}) {
+    return text(app, context,
+        'No medium api available. Install a medium api to allow to update photo');
   }
-
 }

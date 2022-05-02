@@ -23,6 +23,7 @@ import 'state/logged_in.dart';
 class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final Map<String, StreamSubscription<AppModel?>> _appSubscription = {};
   final Map<String, StreamSubscription<AccessModel?>> _accessSubscription = {};
+  StreamSubscription<MemberModel?>? _memberSubscription;
   final GlobalKey<NavigatorState> navigatorKey;
 
   AccessBloc(this.navigatorKey) : super(UndeterminedAccessState());
@@ -41,6 +42,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
       } else {
         var member = await firebaseToMemberModel(usr);
+        _listenToMember(member);
         await StyleRegistry.registry().addApp(member, event.app, () => _currentStyleChanged(event.app));
 
         _listenToApp(event.app.documentID!, member);
@@ -63,6 +65,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           yield theState.asProcessing();
         }
       } else if (event is LogoutEvent) {
+        _stopListenToMember();
         if (event.isProcessing()) {
           await AbstractMainRepositorySingleton.singleton
               .userRepository()!
@@ -103,6 +106,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             _resetAccessListeners(
                 theState.apps.map((e) => e.app.documentID!).toList(),
                 member.documentID!);
+
+            _listenToMember(member);
             yield toYield;
             if (event.actions != null) {
               event.actions!.runTheAction();
@@ -133,6 +138,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           add(event.asProcessing());
           yield theState.asProcessing();
         }
+      } else if (event is MemberUpdatedEvent) {
+        var newState = await theState.updateMember(event.member);
+        yield newState;
       } else if (event is AppUpdatedEvent) {
         var newState = await theState.updateApp(event.app);
         await StyleRegistry.registry().addApp(
@@ -230,6 +238,17 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             if (value != null) add(AccessUpdatedEvent(value));
           });
     }
+  }
+
+  void _listenToMember(MemberModel member) async {
+    await _memberSubscription?.cancel();
+    _memberSubscription = memberRepository()!.listenTo(member.documentID!, (value) {
+      if (value != null) add(MemberUpdatedEvent(value));
+    });
+  }
+
+  void _stopListenToMember() async {
+    await _memberSubscription?.cancel();
   }
 
   void _resetAccessListeners(List<String> apps, String memberId) async {

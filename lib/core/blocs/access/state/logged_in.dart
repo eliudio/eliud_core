@@ -430,6 +430,20 @@ class LoggedIn extends AccessDetermined {
     return returnMe;
   }
 
+  @override
+  AccessDetermined updateMember(MemberModel newMember) {
+    var newVersion = LoggedIn._(
+      usr,
+      newMember,
+      postLoginAction,
+      apps,
+      accesses,
+      subscribedToApps,
+      playstoreApp: playstoreApp,
+    );
+    return newVersion;
+  }
+
   static bool isSubscibred(MemberModel? member, AppModel app) {
     if (member == null) return false;
     if (member.subscriptions == null) return false;

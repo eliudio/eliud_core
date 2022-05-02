@@ -118,28 +118,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _countrysPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-countrys", componentName: "eliud_core_internalWidgets", componentId: "countrys"));
-    PageModel page = PageModel(
-        conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
-        ),
-        appId: appId,
-        documentID: "eliud_core_countrys_page",
-        title: "Countrys",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   PageModel _dialogsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -390,8 +368,6 @@ class AdminApp extends AdminAppInstallerBase {
 
         .then((_) => pageRepository(appId: appId)!.add(_appPolicysPages()))
 
-        .then((_) => pageRepository(appId: appId)!.add(_countrysPages()))
-
         .then((_) => pageRepository(appId: appId)!.add(_dialogsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_drawersPages()))
@@ -457,16 +433,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "AppPolicys",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_apppolicys_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "Countrys",
-        text: "Countrys",
-        description: "Countrys",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(app, pageID: "eliud_core_countrys_page"))
     );
 
 
@@ -596,7 +562,6 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appId) async {
-    await countryRepository()!.deleteAll();
     await memberPublicInfoRepository()!.deleteAll();
     await publicMediumRepository()!.deleteAll();
     ;
