@@ -14,7 +14,7 @@ class DefaultProfilePhotoImpl implements HasProfilePhoto {
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed}) {
-    return ProfilePhotoHelper().getProfilePhotoButtonFromMember(context,
+    return ProfilePhotoHelper().getProfilePhotoButtonFromMember(context, app,
         member: member,
         radius: radius,
         iconColor: iconColor,

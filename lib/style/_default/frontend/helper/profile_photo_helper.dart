@@ -10,13 +10,18 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePhotoHelper {
-  Widget getProfilePhotoButtonFromMember(BuildContext context,
+  Widget getProfilePhotoButtonFromMember(
+      BuildContext context,
+      AppModel appModel,
       {MemberModel? member,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed}) {
     if (member != null) {
       var url = member.photoURL;
+      if ((appModel.anonymousProfilePhoto != null) && (url == null)) {
+        url = appModel.anonymousProfilePhoto!.url;
+      }
       if (url != null) {
         return getProfilePhotoButtonFromURL(context,
             radius: radius,
@@ -101,8 +106,8 @@ class ProfilePhotoHelper {
   }
 
   Widget _defaultProfile(RgbModel? color, VoidCallback? onPressed, double radius) {
-    return _formatProfilePhotoButton(Icon(Icons.person_outline, size: radius,
-        color: color != null ? RgbHelper.color(rgbo: color) : null), color, radius, onPressed);
+//    return ;
+    return _formatProfilePhotoButton(Container(color: Color.fromRGBO(0, 0, 0, 0), width: 50, height: 50, child: Icon(Icons.person_outline),), color, radius, onPressed);
   }
 
   Widget _formatProfilePhotoButton(
