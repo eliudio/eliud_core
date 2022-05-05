@@ -153,15 +153,19 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                           context: context,
                           allowCrop: true,
                           feedbackFunction: (mediumModel) {
-                            if (mediumModel != null) {
+//                            if (mediumModel != null) {
                               setState(() {
-                                  var myMediumModel =
-                                  mediumModel as PublicMediumModel;
+                                if (mediumModel != null) {
+                                  var myMediumModel = mediumModel as PublicMediumModel;
                                   memberState.model.photo = mediumModel;
                                   memberState.model.photoURL =
                                       myMediumModel.url;
+                                } else {
+                                  memberState.model.photo = null;
+                                  memberState.model.photoURL = null;
+                                }
                               });
-                            }
+//                            }
                           },
                           app: widget.app,
                           initialImage: memberState.model.photo,

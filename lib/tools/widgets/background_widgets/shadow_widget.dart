@@ -8,6 +8,7 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../../helpers/parse_helper.dart';
 import 'style_color_widget.dart';
 
 class ShadowWidget extends StatefulWidget {
@@ -49,7 +50,7 @@ class _ShadowState extends State<ShadowWidget> {
                 (_) => _removeShadow()),
             StyleColorWidget(
               value: widget.backgroundModel.shadow!.color!,
-              label: 'Color',
+              label: 'Color, e.g. grey opacity .5',
               app: widget.app,
             ),
             inContainer(context, 'Parameters', [
@@ -57,23 +58,23 @@ class _ShadowState extends State<ShadowWidget> {
                   widget.backgroundModel.shadow!.offsetDX,
                   (value) => widget.backgroundModel.shadow!.offsetDX = value,
                   'Offset DX',
-                  'sets [dx], the horizontal component of the offset'),
+                  'sets [dx], the horizontal component of the offset, e.g. 5'),
               doubleField(
                   widget.backgroundModel.shadow!.offsetDY,
                   (value) => widget.backgroundModel.shadow!.offsetDY = value,
                   'Offset DY',
-                  'sets [dy], the vertical component of the offset'),
+                  'sets [dy], the vertical component of the offset, e.g. 5'),
               doubleField(
                   widget.backgroundModel.shadow!.spreadRadius,
                   (value) =>
                       widget.backgroundModel.shadow!.spreadRadius = value,
                   'Spread Radius',
-                  'The amount the box should be inflated prior to applying the blur'),
+                  'The amount the box should be inflated prior to applying the blur, e.g. 7'),
               doubleField(
                   widget.backgroundModel.shadow!.blurRadius,
                   (value) => widget.backgroundModel.shadow!.blurRadius = value,
                   'Blur Radius',
-                  "The standard deviation of the Gaussian to convolve with the shadow's shape"),
+                  "The standard deviation of the Gaussian to convolve with the shadow's shape, e.g. 7"),
             ]),
           ]);
   }
@@ -86,7 +87,7 @@ class _ShadowState extends State<ShadowWidget> {
           widget.app,
           context,
           initialValue: (initialValue ?? 0).toString(),
-          valueChanged: (value) => valueChanged(double.parse(value)),
+          valueChanged: (value) => valueChanged(double_parse(value)),
           keyboardType: TextInputType.numberWithOptions(signed: false, ),
           decoration: InputDecoration(
             hintText: hint,

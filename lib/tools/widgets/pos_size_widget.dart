@@ -10,6 +10,7 @@ import 'package:eliud_core/tools/widgets/pos_size/portrait_fit_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../helpers/parse_helper.dart';
 import 'pos_size/height_type_landscape.dart';
 import 'pos_size/height_type_portrait.dart';
 import 'pos_size/portrait_align_type.dart';
@@ -46,7 +47,7 @@ class _PosSizeWidgetState extends State<PosSizeWidget> {
                     context,
                     initialValue: widget.posSizeModel.widthPortrait.toString(),
                     valueChanged: (value) {
-                      widget.posSizeModel.widthPortrait = double.parse(value);
+                      widget.posSizeModel.widthPortrait = double_parse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -73,7 +74,7 @@ class _PosSizeWidgetState extends State<PosSizeWidget> {
                     context,
                     initialValue: widget.posSizeModel.heightPortrait.toString(),
                     valueChanged: (value) {
-                      widget.posSizeModel.heightPortrait = double.parse(value);
+                      widget.posSizeModel.heightPortrait = double_parse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -121,7 +122,7 @@ class _PosSizeWidgetState extends State<PosSizeWidget> {
                     context,
                     initialValue: widget.posSizeModel.widthLandscape.toString(),
                     valueChanged: (value) {
-                      widget.posSizeModel.widthLandscape = double.parse(value);
+                      widget.posSizeModel.widthLandscape = double_parse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -148,7 +149,7 @@ class _PosSizeWidgetState extends State<PosSizeWidget> {
                     context,
                     initialValue: widget.posSizeModel.heightLandscape.toString(),
                     valueChanged: (value) {
-                      widget.posSizeModel.heightLandscape = double.parse(value);
+                      widget.posSizeModel.heightLandscape = double_parse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(

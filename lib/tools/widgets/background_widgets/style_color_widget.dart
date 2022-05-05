@@ -1,9 +1,13 @@
-
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+import '../../../style/frontend/has_dialog_field.dart';
+import '../../../style/frontend/has_list_tile.dart';
+import '../../../style/frontend/has_tabs.dart';
+import '../../helpers/parse_helper.dart';
 
 class StyleColorWidget extends StatefulWidget {
   final AppModel app;
@@ -25,17 +29,146 @@ class StyleColorWidget extends StatefulWidget {
   _StyleColorWidgetState createState() => _StyleColorWidgetState();
 }
 
-class _StyleColorWidgetState extends State<StyleColorWidget> {
+class _StyleColorWidgetState extends State<StyleColorWidget>
+    with SingleTickerProviderStateMixin {
   Color? color;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
-    if (widget.value != null)
-      color = Color.fromRGBO(widget.value.r!, widget.value.g!, widget.value.b!,
-          widget.value.opacity!);
-    else
-      color = Color.fromRGBO(255, 0, 0, 1.0);
+    defineColor();
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController!.addListener(_handleTabSelection);
+    _tabController!.index = 0;
+  }
+
+  @override
+  void dispose() {
+    if (_tabController != null) {
+      _tabController!.dispose();
+    }
+    super.dispose();
+  }
+
+  void _handleTabSelection() {
+    if ((_tabController != null) && (_tabController!.indexIsChanging)) {
+      setState(() {});
+    }
+  }
+
+  void defineColor() {
+    color = Color.fromRGBO(widget.value.r!, widget.value.g!, widget.value.b!,
+        widget.value.opacity!);
+  }
+
+  Widget colorSelection() {
+    return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+      tabBar(widget.app, context,
+          items: ['Picker', 'Entry'], tabController: _tabController!),
+      if (_tabController!.index == 0)
+        ColorPicker(
+          pickerColor: color!,
+          onColorChanged: changeColor,
+          //enableLabel: true,
+          pickerAreaHeightPercent: 0.8,
+        ),
+      if (_tabController!.index == 1)
+        ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+          getListTile(context, widget.app,
+              leading: Icon(Icons.description),
+              title: dialogField(
+                widget.app,
+                context,
+                initialValue: (widget.value.r ?? 0).toString(),
+                valueChanged: (value) {
+                  setState(() {
+                    var colourValue = int_parse(value);
+                    if ((colourValue >= 0) && (colourValue <= 255)) {
+                      widget.value.r = colourValue;
+                      defineColor();
+                    }
+                  });
+                },
+                keyboardType: TextInputType.numberWithOptions(
+                  signed: false,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Red',
+                  labelText: 'R',
+                ),
+              )),
+          getListTile(context, widget.app,
+              leading: Icon(Icons.description),
+              title: dialogField(
+                widget.app,
+                context,
+                initialValue: (widget.value.g ?? 0).toString(),
+                valueChanged: (value) {
+                  setState(() {
+                    var colourValue = int_parse(value);
+                    if ((colourValue >= 0) && (colourValue <= 255)) {
+                      widget.value.g = colourValue;
+                      defineColor();
+                    }
+                  });
+                },
+                keyboardType: TextInputType.numberWithOptions(
+                  signed: false,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Green',
+                  labelText: 'G',
+                ),
+              )),
+          getListTile(context, widget.app,
+              leading: Icon(Icons.description),
+              title: dialogField(
+                widget.app,
+                context,
+                initialValue: (widget.value.b ?? 0).toString(),
+                valueChanged: (value) {
+                  setState(() {
+                    var colourValue = int_parse(value);
+                    if ((colourValue >= 0) && (colourValue <= 255)) {
+                      widget.value.b = colourValue;
+                      defineColor();
+                    }
+                  });
+                },
+                keyboardType: TextInputType.numberWithOptions(
+                  signed: false,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Blue',
+                  labelText: 'B',
+                ),
+              )),
+          getListTile(context, widget.app,
+              leading: Icon(Icons.description),
+              title: dialogField(
+                widget.app,
+                context,
+                initialValue: (widget.value.opacity ?? 0).toString(),
+                valueChanged: (value) {
+                  setState(() {
+                    var opacity = double_parse(value);
+                    if ((opacity >= 0) && (opacity <= 100)) {
+                      widget.value.opacity = opacity;
+                      defineColor();
+                    }
+                  });
+                },
+                keyboardType: TextInputType.numberWithOptions(
+                  signed: false,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'Opacity',
+                  labelText: 'Opacity',
+                ),
+              )),
+        ])
+    ]);
   }
 
   @override
@@ -45,21 +178,9 @@ class _StyleColorWidgetState extends State<StyleColorWidget> {
           title: widget.label,
           collapsible: true,
           collapsed: true,
-          children: [
-            ColorPicker(
-              pickerColor: color!,
-              onColorChanged: changeColor,
-              //enableLabel: true,
-              pickerAreaHeightPercent: 0.8,
-            )
-          ]);
+          children: [colorSelection()]);
     } else {
-      return ColorPicker(
-        pickerColor: color!,
-        onColorChanged: changeColor,
-        //enableLabel: true,
-        pickerAreaHeightPercent: 0.8,
-      );
+      return colorSelection();
     }
   }
 

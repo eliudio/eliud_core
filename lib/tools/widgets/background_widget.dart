@@ -29,6 +29,13 @@ class BackgroundWidget extends StatefulWidget {
 }
 
 class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
+
+  @override
+  void initState() {
+    if (widget.value.decorationColors == null) widget.value.decorationColors = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return topicContainer(widget.app, context,
@@ -64,7 +71,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
             app: widget.app,
             label: 'Decoration colors',
             colorListChanged: _setColorListChanged,
-            colors: widget.value.decorationColors ?? [],
+            colors: widget.value.decorationColors!,
           ),
           topicContainer(widget.app, context,
               title: 'Border',

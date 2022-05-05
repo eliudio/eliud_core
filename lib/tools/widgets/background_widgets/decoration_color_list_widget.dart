@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:eliud_core/model/model_export.dart';
 
+import '../../helpers/parse_helper.dart';
 import 'style_color_widget.dart';
 
 typedef ColorListChanged(List<DecorationColorModel>? value);
@@ -53,7 +54,7 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
                       context,
                       initialValue: (color.stop ?? 0).toString(),
                       valueChanged: (value) {
-                        color.stop = double.parse(value);
+                        color.stop = double_parse(value);
                       },
                       keyboardType: TextInputType.numberWithOptions(signed: false, ),
                       decoration: const InputDecoration(

@@ -162,18 +162,36 @@ class BoxDecorationHelper {
             ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
             : null;
       }
+      List<BoxShadow>? boxShadows;
+      if (bdm.shadow != null) {
+        boxShadows = [BoxShadow(
+          color: RgbHelper.color(rgbo: bdm.shadow!.color),
+          spreadRadius: bdm.shadow!.spreadRadius!,
+          blurRadius: bdm.shadow!.blurRadius!,
+          offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
+        )];
+/*
+        boxShadows = [BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 7,
+          blurRadius: 7,
+          offset: Offset(10, 10),
+        )];
+*/
+      }
       if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
-        if (image == null) {
-          return null;
-        } else {
-          return BoxDecoration(
-            image: image,
-          );
-        }
+        return BoxDecoration(
+          color: Colors.white,
+          image: image,
+          border: border,
+          boxShadow: boxShadows,
+        );
       } else if (bdm.decorationColors!.length == 1) {
         return BoxDecoration(
           color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
+          border: border,
           image: image,
+          boxShadow: boxShadows,
         );
       } else {
         var colors = bdm.decorationColors!
@@ -189,16 +207,6 @@ class BoxDecorationHelper {
             colors: colors,
             stops: noStops ? null : stops as List<double>?);
 
-        List<BoxShadow>? boxShadows;
-        if (bdm.shadow != null) {
-          boxShadows = [];
-          boxShadows.add(BoxShadow(
-            color: RgbHelper.color(rgbo: bdm.shadow!.color),
-            spreadRadius: bdm.shadow!.spreadRadius!,
-            blurRadius: bdm.shadow!.blurRadius!,
-            offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
-          ));
-        }
         return BoxDecoration(
             gradient: gradient,
             image: image,

@@ -60,6 +60,7 @@ class DialogField extends StatefulWidget {
 class _DialogFieldState extends State<DialogField> {
   final myController = TextEditingController();
 
+/*
   @override
   void initState() {
     super.initState();
@@ -69,15 +70,18 @@ class _DialogFieldState extends State<DialogField> {
     }
   }
 
-  void _fieldChanged() {
-    widget.valueChanged(myController.text);
+*/
+  void _fieldChanged(String value) {
+    widget.valueChanged(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      onChanged: _fieldChanged,
+      initialValue: widget.initialValue,
       decoration: widget.decoration,
-      controller: myController,
+      //controller: myController,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
       textCapitalization: widget.textCapitalization == null

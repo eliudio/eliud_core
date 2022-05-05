@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../helpers/parse_helper.dart';
 import '../condition_simple_widget.dart';
 import 'bloc/grid_view_bloc.dart';
 
@@ -189,7 +190,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue: gridViewState.model.crossAxisCount.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.crossAxisCount = int.parse(value);
+                                      gridViewState.model.crossAxisCount = int_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -204,7 +205,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue:  gridViewState.model.absoluteMaxCrossAxisExtent.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.absoluteMaxCrossAxisExtent = double.parse(value);
+                                      gridViewState.model.absoluteMaxCrossAxisExtent = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -219,7 +220,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue:  gridViewState.model.relativeMaxCrossAxisExtent.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.relativeMaxCrossAxisExtent = double.parse(value);
+                                      gridViewState.model.relativeMaxCrossAxisExtent = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -234,7 +235,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue: gridViewState.model.childAspectRatio.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.childAspectRatio = double.parse(value);
+                                      gridViewState.model.childAspectRatio = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -249,7 +250,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue: gridViewState.model.crossAxisSpacing.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.padding = double.parse(value);
+                                      gridViewState.model.padding = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -264,7 +265,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue: gridViewState.model.mainAxisSpacing.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.mainAxisSpacing = double.parse(value);
+                                      gridViewState.model.mainAxisSpacing = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -279,7 +280,7 @@ class _GridViewDashboardWidgetState
                                     context,
                                     initialValue: gridViewState.model.crossAxisSpacing.toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.crossAxisSpacing = double.parse(value);
+                                      gridViewState.model.crossAxisSpacing = double_parse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
