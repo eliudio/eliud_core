@@ -26,8 +26,9 @@ class PageBodyHelper {
         } else {
           return Stack(children: <Widget>[
             Container(
+              clipBehavior: (background == null) ? Clip.none : Clip.hardEdge,
               decoration:
-                  BoxDecorationHelper.boxDecoration(accessState.getMember(), background),
+                  BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background),
             ),
             _container(context, components, layout, gridView)
           ]);

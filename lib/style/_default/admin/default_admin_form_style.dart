@@ -48,14 +48,14 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       List<Widget>? actions,
       IconThemeData? iconTheme,
       BackgroundModel? backgroundOverride}) {
-    return appBarWithWidget(context,
+    return appBarWithWidget(app, context,
         title: Text(title,),
         actions: actions,
         iconTheme: iconTheme,
         backgroundOverride: backgroundOverride);
   }
 
-  PreferredSizeWidget appBarWithWidget(BuildContext context,
+  PreferredSizeWidget appBarWithWidget(AppModel app, BuildContext context,
       {required Widget title,
       List<Widget>? actions,
       IconThemeData? iconTheme,
@@ -71,7 +71,7 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       iconTheme: iconTheme,
       flexibleSpace: Container(
           decoration:
-              BoxDecorationHelper.boxDecoration(accessState.getMember(), background)),
+              BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background)),
     );
   }
 

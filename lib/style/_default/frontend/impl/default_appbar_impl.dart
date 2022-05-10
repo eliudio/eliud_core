@@ -67,6 +67,7 @@ class DefaultAppBarImpl implements HasAppBar {
         title: _title,
         actions: buttons,
         flexibleSpace: Container(
-            decoration: BoxDecorationHelper.boxDecoration(member, backgroundOverride)));
+           clipBehavior: (backgroundOverride == null) ? Clip.none : Clip.hardEdge,
+           decoration: BoxDecorationHelper.boxDecoration(app, member, backgroundOverride)));
   }
 }

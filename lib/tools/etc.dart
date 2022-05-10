@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/model/border_radius_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../model/app_model.dart';
 
 class ListHelper {
   static List<String> getStringList(List<String?> list) {
@@ -140,16 +143,35 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration? boxDecoration(MemberModel? member, BackgroundModel? bdm) {
-    try {
-      if (bdm == null) return null;
+  static BoxDecoration? boxDecoration(AppModel app, MemberModel? member, BackgroundModel? bdm) {
+    if (bdm == null) return null;
+      var borderRadius;
+      if (bdm.borderRadius != null) {
+        if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.Circular) {
+          borderRadius = BorderRadius.all(
+              Radius.circular(bdm.borderRadius!.circularValue ?? 0)
+          );
+        } else {
+          borderRadius = BorderRadius.all(
+              Radius.elliptical(bdm.borderRadius!.ellipticalX ?? 0, bdm.borderRadius!.ellipticalY ?? 0, )
+          );
+        }
+      }
       var border = bdm.border != null && bdm.border! ? Border.all() : null;
       var image;
       if ((bdm.useProfilePhotoAsBackground != null) &&
           bdm.useProfilePhotoAsBackground!) {
         if (member != null) {
-          image = DecorationImage(
-              image: NetworkImage(member.photoURL!), fit: BoxFit.scaleDown);
+          var url = member.photoURL;
+          if ((url == null) && (app.anonymousProfilePhoto != null)) {
+            url = app.anonymousProfilePhoto!.url;
+          }
+          if (url != null) {
+            image = DecorationImage(
+                image: NetworkImage(url), fit: BoxFit.scaleDown);
+          } else {
+            image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
+          }
         } else {
           image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
         }
@@ -170,14 +192,6 @@ class BoxDecorationHelper {
           blurRadius: bdm.shadow!.blurRadius!,
           offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
         )];
-/*
-        boxShadows = [BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 7,
-          blurRadius: 7,
-          offset: Offset(10, 10),
-        )];
-*/
       }
       if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
         return BoxDecoration(
@@ -185,6 +199,7 @@ class BoxDecorationHelper {
           image: image,
           border: border,
           boxShadow: boxShadows,
+          borderRadius: borderRadius,
         );
       } else if (bdm.decorationColors!.length == 1) {
         return BoxDecoration(
@@ -192,12 +207,12 @@ class BoxDecorationHelper {
           border: border,
           image: image,
           boxShadow: boxShadows,
+          borderRadius: borderRadius,
         );
       } else {
         var colors = bdm.decorationColors!
             .map((color) => RgbHelper.color(rgbo: color.color))
             .toList();
-//        var stops = bdm.decorationColors!.map((stop) => stop.stop).toList();
         var stops = bdm.decorationColors!.map((stop) => stop.stop ?? 0).toList();
         var noStops =
             stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
@@ -211,13 +226,10 @@ class BoxDecorationHelper {
             gradient: gradient,
             image: image,
             border: border,
-            boxShadow: boxShadows);
+            boxShadow: boxShadows,
+            borderRadius: borderRadius,
+        );
       }
-    } catch (e) {
-      print("Error constructing the decoration: " + e.toString());
-      // error constructing the decoration >> return null
-      return null;
-    }
   }
 }
 

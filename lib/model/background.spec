@@ -65,6 +65,12 @@
       "group": "colors"
     },
     {
+      "fieldName": "borderRadius",
+      "fieldType": "BorderRadius",
+      "association": false,
+      "optional": true
+    },
+    {
       "fieldName": "border",
       "fieldType": "bool",
       "group": "general"

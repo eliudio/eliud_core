@@ -30,10 +30,11 @@ class DefaultDrawerImpl implements HasDrawer {
             height: header1.height == 0 ? null : header1.height,
             child: DrawerHeader(
                 child: Center(
-                    child:
-                    _frontEndStyle.textStyle().h3(app, context, header1.text)),
-                decoration:
-                    BoxDecorationHelper.boxDecoration(member, header1.backgroundOverride))),
+                    child: _frontEndStyle
+                        .textStyle()
+                        .h3(app, context, header1.text)),
+                decoration: BoxDecorationHelper.boxDecoration(app,
+                    member, header1.backgroundOverride))),
       );
     }
 
@@ -49,10 +50,17 @@ class DefaultDrawerImpl implements HasDrawer {
 
     for (var item in items) {
       var theIcon = item.icon == null
-              ? null
-              : IconHelper.getIconFromModelWithFlutterColor(
-              iconModel: item.icon, );
-      var theText = item.isActive ? _frontEndStyle.textStyle().h3(app, context, item.label!, textAlign: TextAlign.center) : _frontEndStyle.textStyle().h4(app, context, item.label!, textAlign: TextAlign.center);
+          ? null
+          : IconHelper.getIconFromModelWithFlutterColor(
+              iconModel: item.icon,
+            );
+      var theText = item.isActive
+          ? _frontEndStyle
+              .textStyle()
+              .h3(app, context, item.label!, textAlign: TextAlign.center)
+          : _frontEndStyle
+              .textStyle()
+              .h4(app, context, item.label!, textAlign: TextAlign.center);
       widgets.add(ListTile(
           leading: theIcon,
           title: theText,
@@ -74,7 +82,8 @@ class DefaultDrawerImpl implements HasDrawer {
     return Drawer(
         key: key,
         child: Container(
-            decoration: BoxDecorationHelper.boxDecoration(member, background),
+            clipBehavior: (background == null) ? Clip.none : Clip.hardEdge,
+            decoration: BoxDecorationHelper.boxDecoration(app, member, background),
             child: ListView(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,

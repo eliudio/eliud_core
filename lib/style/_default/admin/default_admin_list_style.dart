@@ -25,7 +25,7 @@ class DefaultAdminListStyle extends AdminListStyle {
   @override
   BoxDecoration? boxDecorator(AppModel app, BuildContext context, MemberModel? member) {
     var accessState = AccessBloc.getState(context);
-    return BoxDecorationHelper.boxDecoration(member, null);
+    return BoxDecorationHelper.boxDecoration(app, member, null);
   }
 
   @override

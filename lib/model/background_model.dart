@@ -85,17 +85,18 @@ class BackgroundModel {
   EndGradientPosition? endGradientPosition;
   ShadowModel? shadow;
   List<DecorationColorModel>? decorationColors;
+  BorderRadiusModel? borderRadius;
   bool? border;
 
-  BackgroundModel({this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, })  {
+  BackgroundModel({this.backgroundImage, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.borderRadius, this.border, })  {
   }
 
-  BackgroundModel copyWith({PublicMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, bool? border, }) {
-    return BackgroundModel(backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, border: border ?? this.border, );
+  BackgroundModel copyWith({PublicMediumModel? backgroundImage, bool? useProfilePhotoAsBackground, StartGradientPosition? beginGradientPosition, EndGradientPosition? endGradientPosition, ShadowModel? shadow, List<DecorationColorModel>? decorationColors, BorderRadiusModel? borderRadius, bool? border, }) {
+    return BackgroundModel(backgroundImage: backgroundImage ?? this.backgroundImage, useProfilePhotoAsBackground: useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition: beginGradientPosition ?? this.beginGradientPosition, endGradientPosition: endGradientPosition ?? this.endGradientPosition, shadow: shadow ?? this.shadow, decorationColors: decorationColors ?? this.decorationColors, borderRadius: borderRadius ?? this.borderRadius, border: border ?? this.border, );
   }
 
   @override
-  int get hashCode => backgroundImage.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ border.hashCode;
+  int get hashCode => backgroundImage.hashCode ^ useProfilePhotoAsBackground.hashCode ^ beginGradientPosition.hashCode ^ endGradientPosition.hashCode ^ shadow.hashCode ^ decorationColors.hashCode ^ borderRadius.hashCode ^ border.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -108,13 +109,14 @@ class BackgroundModel {
           endGradientPosition == other.endGradientPosition &&
           shadow == other.shadow &&
           ListEquality().equals(decorationColors, other.decorationColors) &&
+          borderRadius == other.borderRadius &&
           border == other.border;
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border}';
   }
 
   BackgroundEntity toEntity({String? appId}) {
@@ -127,6 +129,7 @@ class BackgroundModel {
           decorationColors: (decorationColors != null) ? decorationColors
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
+          borderRadius: (borderRadius != null) ? borderRadius!.toEntity(appId: appId) : null, 
           border: (border != null) ? border : null, 
     );
   }
@@ -147,6 +150,8 @@ class BackgroundModel {
               return DecorationColorModel.fromEntity(counter.toString(), item);
             })
             .toList())), 
+          borderRadius: 
+            await BorderRadiusModel.fromEntity(entity.borderRadius), 
           border: entity.border, 
     );
   }
@@ -179,6 +184,8 @@ class BackgroundModel {
             counter++;
             return DecorationColorModel.fromEntityPlus(counter.toString(), item, appId: appId);})
             .toList())), 
+          borderRadius: 
+            await BorderRadiusModel.fromEntityPlus(entity.borderRadius, appId: appId), 
           border: entity.border, 
     );
   }

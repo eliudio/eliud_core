@@ -28,18 +28,19 @@ class BackgroundEntity {
   final int? endGradientPosition;
   final ShadowEntity? shadow;
   final List<DecorationColorEntity>? decorationColors;
+  final BorderRadiusEntity? borderRadius;
   final bool? border;
 
-  BackgroundEntity({this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.border, });
+  BackgroundEntity({this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.borderRadius, this.border, });
 
 
-  List<Object?> get props => [backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadow, decorationColors, border, ];
+  List<Object?> get props => [backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadow, decorationColors, borderRadius, border, ];
 
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
-    return 'BackgroundEntity{backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, border: $border}';
+    return 'BackgroundEntity{backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border}';
   }
 
   static BackgroundEntity? fromMap(Object? o) {
@@ -58,6 +59,10 @@ class BackgroundEntity {
         .map((dynamic item) =>
         DecorationColorEntity.fromMap(item as Map)!)
         .toList();
+    var borderRadiusFromMap;
+    borderRadiusFromMap = map['borderRadius'];
+    if (borderRadiusFromMap != null)
+      borderRadiusFromMap = BorderRadiusEntity.fromMap(borderRadiusFromMap);
 
     return BackgroundEntity(
       backgroundImageId: map['backgroundImageId'], 
@@ -66,6 +71,7 @@ class BackgroundEntity {
       endGradientPosition: map['endGradientPosition'], 
       shadow: shadowFromMap, 
       decorationColors: decorationColorsList, 
+      borderRadius: borderRadiusFromMap, 
       border: map['border'], 
     );
   }
@@ -76,6 +82,9 @@ class BackgroundEntity {
         : null;
     final List<Map<String?, dynamic>>? decorationColorsListMap = decorationColors != null 
         ? decorationColors!.map((item) => item.toDocument()).toList()
+        : null;
+    final Map<String, dynamic>? borderRadiusMap = borderRadius != null 
+        ? borderRadius!.toDocument()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
@@ -91,6 +100,8 @@ class BackgroundEntity {
       else theDocument["shadow"] = null;
     if (decorationColors != null) theDocument["decorationColors"] = decorationColorsListMap;
       else theDocument["decorationColors"] = null;
+    if (borderRadius != null) theDocument["borderRadius"] = borderRadiusMap;
+      else theDocument["borderRadius"] = null;
     if (border != null) theDocument["border"] = border;
       else theDocument["border"] = null;
     return theDocument;

@@ -40,9 +40,10 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
     var background = backgroundOverride;
 
     return Container(
+        clipBehavior: ((backgroundOverride == null) && (background == null)) ? Clip.none : Clip.hardEdge,
         decoration: backgroundOverride == null
             ? null
-            : BoxDecorationHelper.boxDecoration(member, background),
+            : BoxDecorationHelper.boxDecoration(app, member, background),
         child: BottomNavigationBar(
               key: key,
               elevation: 0,

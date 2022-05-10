@@ -5,6 +5,10 @@ import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/border_radius_model.dart';
+import '../../style/frontend/has_dialog_field.dart';
+import '../helpers/parse_helper.dart';
+import 'background_widgets/border_radius_widget.dart';
 import 'background_widgets/decoration_color_list_widget.dart';
 import 'background_widgets/gradient_position_widget.dart';
 import 'background_widgets/image_widget.dart';
@@ -29,10 +33,10 @@ class BackgroundWidget extends StatefulWidget {
 }
 
 class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
-
   @override
   void initState() {
-    if (widget.value.decorationColors == null) widget.value.decorationColors = [];
+    if (widget.value.decorationColors == null)
+      widget.value.decorationColors = [];
     super.initState();
   }
 
@@ -80,6 +84,91 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
               children: [
                 checkboxListTile(widget.app, context, 'With border',
                     widget.value.border ?? false, _borderChanged),
+              ]),
+          topicContainer(widget.app, context,
+              title: 'Border radius',
+              collapsible: true,
+              collapsed: true,
+              children: [
+                checkboxListTile(widget.app, context, 'With Border Radius',
+                    widget.value.borderRadius != null, (value) {
+                  setState(() {
+                    if (value!) {
+                      if (widget.value.borderRadius == null) {
+                        widget.value.borderRadius = BorderRadiusModel(
+                          borderRadiusType: BorderRadiusType.Circular,
+                          circularValue: 1,
+                          ellipticalX: 1,
+                          ellipticalY: 1,
+                        );
+                      }
+                    } else {
+                      widget.value.borderRadius = null;
+                    }
+                  });
+                }),
+                if (widget.value.borderRadius != null)
+                  BorderRadiusTypeWidget(
+                    app: widget.app,
+                    borderRadiusTypeCallback:
+                        (BorderRadiusType borderRadiusType) {
+                      setState(() {
+                        widget.value.borderRadius!.borderRadiusType =
+                            borderRadiusType;
+                      });
+                    },
+                    borderRadiusType:
+                        widget.value.borderRadius!.borderRadiusType ??
+                            BorderRadiusType.Circular,
+                  ),
+                if ((widget.value.borderRadius != null) && (widget.value.borderRadius!.borderRadiusType == BorderRadiusType.Circular))
+                  getListTile(context, widget.app,
+                      leading: Icon(Icons.description),
+                      title: dialogField(
+                        widget.app,
+                        context,
+                        initialValue: widget.value.borderRadius!.circularValue.toString(),
+                        valueChanged: (value) {
+                          widget.value.borderRadius!.circularValue = double_parse(value);
+                        },
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          hintText: 'Circular Radius',
+                          labelText: 'Circular Radius',
+                        ),
+                      )),
+                if ((widget.value.borderRadius != null) && (widget.value.borderRadius!.borderRadiusType == BorderRadiusType.Elliptical))
+                  getListTile(context, widget.app,
+                      leading: Icon(Icons.description),
+                      title: dialogField(
+                        widget.app,
+                        context,
+                        initialValue: widget.value.borderRadius!.ellipticalX.toString(),
+                        valueChanged: (value) {
+                          widget.value.borderRadius!.ellipticalX = double_parse(value);
+                        },
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          hintText: 'Elliptical X',
+                          labelText: 'Elliptical X',
+                        ),
+                      )),
+                if ((widget.value.borderRadius != null) && (widget.value.borderRadius!.borderRadiusType == BorderRadiusType.Elliptical))
+                  getListTile(context, widget.app,
+                      leading: Icon(Icons.description),
+                      title: dialogField(
+                        widget.app,
+                        context,
+                        initialValue: widget.value.borderRadius!.ellipticalY.toString(),
+                        valueChanged: (value) {
+                          widget.value.borderRadius!.ellipticalY = double_parse(value);
+                        },
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          hintText: 'Elliptical Y',
+                          labelText: 'Elliptical Y',
+                        ),
+                      )),
               ]),
           ShadowWidget(
             app: widget.app,
