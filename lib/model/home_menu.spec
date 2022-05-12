@@ -1,12 +1,13 @@
 {
   "id": "HomeMenu",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,
     "generateRepository": true,
     "generateCache": true,
-	"hasPersistentRepository": true,
+    "hasPersistentRepository": true,
     "generateFirestoreRepository": true,
     "generateRepositorySingleton": true,
     "generateModel": true,

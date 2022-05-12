@@ -1,6 +1,7 @@
 {
   "id": "MemberMediumContainer",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "generate": {
     "generateComponent": false,
     "generateRepository": true,

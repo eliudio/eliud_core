@@ -1,11 +1,12 @@
 {
   "id": "PosSize",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "generate": {
     "generateComponent": false,
     "generateRepository": false,
     "generateCache": false,
-	"hasPersistentRepository": false,
+    "hasPersistentRepository": false,
     "generateFirestoreRepository": false,
     "generateRepositorySingleton": false,
     "generateModel": true,

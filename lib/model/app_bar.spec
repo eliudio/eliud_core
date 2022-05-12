@@ -1,6 +1,7 @@
 {
   "id": "AppBar",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "isAppModel": true,
   "generate": {
     "generateComponent": true,

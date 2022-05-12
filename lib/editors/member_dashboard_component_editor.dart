@@ -40,6 +40,7 @@ class MemberDashboardComponentEditorConstructor
         MemberDashboardModel(
           appId: app.documentID,
           documentID: newRandomKey(),
+          description: 'Member dashboard',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
                   PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),

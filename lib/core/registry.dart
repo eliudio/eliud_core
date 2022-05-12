@@ -48,7 +48,11 @@ class Registry {
   // Map Plugin-Name => List ComponentSpec
   final Map<String, List<ComponentSpec>> _allComponentSpecs = HashMap();
 
+  // Map Plugin-Name => Plugin friendly name
+  final Map<String, String> _packageFriendlyNames = HashMap();
+
   Map<String, List<String>> internalComponents() => _allInternalComponents;
+  Map<String, String> packageFriendlyNames() => _packageFriendlyNames;
 
   List<String>? allInternalComponents(String pluginName) =>
       _allInternalComponents[pluginName];
@@ -57,8 +61,9 @@ class Registry {
     _allInternalComponents[pluginName] = list;
   }
 
-  void addComponentSpec(String pluginName, List<ComponentSpec> specs) {
+  void addComponentSpec(String pluginName, String pluginFriendlyName, List<ComponentSpec> specs) {
     _allComponentSpecs[pluginName] = specs;
+    _packageFriendlyNames[pluginName] = pluginFriendlyName;
   }
 
   final Map<String?, ComponentConstructor?> _registryMap = HashMap();

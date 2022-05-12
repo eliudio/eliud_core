@@ -1,6 +1,7 @@
 {
   "id": "PlatformMedium",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "isAppModel": true,
   "generate": {
     "generateComponent": false,

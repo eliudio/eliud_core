@@ -1,12 +1,13 @@
 {
   "id": "MemberPublicInfo",
   "packageName": "eliud_core",
+  "packageFriendlyName": "core",
   "isAppModel": false,
   "generate": {
     "generateComponent": true,
     "generateRepository": true,
     "generateCache": true,
-	"hasPersistentRepository": true,
+    "hasPersistentRepository": true,
     "generateFirestoreRepository": true,
     "generateRepositorySingleton": true,
     "generateModel": true,

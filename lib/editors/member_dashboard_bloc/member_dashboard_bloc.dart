@@ -16,6 +16,7 @@ class MemberDashboardBloc
     return MemberDashboardModel(
       appId: appId,
       documentID: newRandomKey(),
+      description: 'Member dashboard',
       conditions: conditions,
     );
   }

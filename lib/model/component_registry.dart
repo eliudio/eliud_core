@@ -34,7 +34,7 @@ class ComponentRegistry {
     Registry.registry()!.register(componentName: "eliud_core_internalWidgets", componentConstructor: ListComponentFactory());
     Registry.registry()!.addDropDownSupporter("memberDashboards", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "memberDashboards", componentConstructor: MemberDashboardComponentConstructorDefault());
-    Registry.registry()!.addComponentSpec('eliud_core', [
+    Registry.registry()!.addComponentSpec('eliud_core', 'core', [
       ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ), 
     ]);
 
