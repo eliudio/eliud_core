@@ -15,6 +15,7 @@ import 'has_page_body.dart';
 import 'has_page_route_builder.dart';
 import 'has_profile_photo.dart';
 import 'has_progress_indicator.dart';
+import 'has_split.dart';
 import 'has_style.dart';
 import 'has_table.dart';
 import 'has_tabs.dart';
@@ -25,6 +26,7 @@ import 'package:flutter/cupertino.dart';
 abstract class FrontEndStyle {
     HasTexFormField texFormFieldStyle();
     HasDivider dividerStyle();
+    HasSplit splitStyle();
     HasButton buttonStyle();
     HasText textStyle();
     HasStyle textStyleStyle();
