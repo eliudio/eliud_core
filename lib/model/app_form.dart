@@ -131,6 +131,7 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _styleFamilyController = TextEditingController();
   final TextEditingController _styleNameController = TextEditingController();
   bool? _autoPrivileged1Selection;
+  bool? _isFeaturedSelection;
 
 
   _MyAppFormState(this.formAction);
@@ -148,6 +149,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _styleFamilyController.addListener(_onStyleFamilyChanged);
     _styleNameController.addListener(_onStyleNameChanged);
     _autoPrivileged1Selection = false;
+    _isFeaturedSelection = false;
   }
 
   @override
@@ -207,6 +209,10 @@ class _MyAppFormState extends State<MyAppForm> {
         _autoPrivileged1Selection = state.value!.autoPrivileged1;
         else
         _autoPrivileged1Selection = false;
+        if (state.value!.isFeatured != null)
+        _isFeaturedSelection = state.value!.isFeatured;
+        else
+        _isFeaturedSelection = false;
       }
       if (state is AppFormInitialized) {
         List<Widget> children = [];
@@ -234,6 +240,11 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'autoPrivileged1', _autoPrivileged1Selection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionAutoPrivileged1(val))
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'isFeatured', _isFeaturedSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIsFeatured(val))
           );
 
 
@@ -406,6 +417,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
+                              isFeatured: state.value!.isFeatured, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -423,6 +435,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
+                              isFeatured: state.value!.isFeatured, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -521,6 +534,13 @@ class _MyAppFormState extends State<MyAppForm> {
       _autoPrivileged1Selection = val;
     });
     _myFormBloc.add(ChangedAppAutoPrivileged1(value: val));
+  }
+
+  void setSelectionIsFeatured(bool? val) {
+    setState(() {
+      _isFeaturedSelection = val;
+    });
+    _myFormBloc.add(ChangedAppIsFeatured(value: val));
   }
 
 

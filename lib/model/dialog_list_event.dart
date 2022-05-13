@@ -77,7 +77,7 @@ class DialogListUpdated extends DialogListEvent {
 }
 
 class DialogChangeQuery extends DialogListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const DialogChangeQuery({ required this.newQuery });
 

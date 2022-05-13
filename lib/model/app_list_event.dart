@@ -77,7 +77,7 @@ class AppListUpdated extends AppListEvent {
 }
 
 class AppChangeQuery extends AppListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const AppChangeQuery({ required this.newQuery });
 

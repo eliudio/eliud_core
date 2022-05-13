@@ -77,7 +77,7 @@ class MenuItemListUpdated extends MenuItemListEvent {
 }
 
 class MenuItemChangeQuery extends MenuItemListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MenuItemChangeQuery({ required this.newQuery });
 

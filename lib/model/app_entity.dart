@@ -34,15 +34,16 @@ class AppEntity {
   final String? styleFamily;
   final String? styleName;
   final bool? autoPrivileged1;
+  final bool? isFeatured;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, });
+  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
 
 
-  List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, ];
+  List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, isFeatured, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -67,6 +68,7 @@ class AppEntity {
       styleFamily: map['styleFamily'], 
       styleName: map['styleName'], 
       autoPrivileged1: map['autoPrivileged1'], 
+      isFeatured: map['isFeatured'], 
     );
   }
 
@@ -100,6 +102,8 @@ class AppEntity {
       else theDocument["styleName"] = null;
     if (autoPrivileged1 != null) theDocument["autoPrivileged1"] = autoPrivileged1;
       else theDocument["autoPrivileged1"] = null;
+    if (isFeatured != null) theDocument["isFeatured"] = isFeatured;
+      else theDocument["isFeatured"] = null;
     return theDocument;
   }
 

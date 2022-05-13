@@ -104,6 +104,11 @@
       "fieldName": "autoPrivileged1",
       "remark": "When set, any new joining member will have privilegeLevel = 1",
       "fieldType": "bool"
+    },
+    {
+      "fieldName": "isFeatured",
+      "remark": "Is Featured",
+      "fieldType": "bool"
     }
   ],
   "groups": [

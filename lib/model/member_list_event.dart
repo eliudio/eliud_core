@@ -77,7 +77,7 @@ class MemberListUpdated extends MemberListEvent {
 }
 
 class MemberChangeQuery extends MemberListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MemberChangeQuery({ required this.newQuery });
 

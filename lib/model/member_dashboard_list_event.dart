@@ -77,7 +77,7 @@ class MemberDashboardListUpdated extends MemberDashboardListEvent {
 }
 
 class MemberDashboardChangeQuery extends MemberDashboardListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MemberDashboardChangeQuery({ required this.newQuery });
 

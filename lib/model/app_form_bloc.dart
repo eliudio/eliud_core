@@ -128,6 +128,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
                                  autoPrivileged1: currentState.value!.autoPrivileged1,
+                                 isFeatured: currentState.value!.isFeatured,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -157,6 +158,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
                                  autoPrivileged1: currentState.value!.autoPrivileged1,
+                                 isFeatured: currentState.value!.isFeatured,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -180,6 +182,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  styleFamily: currentState.value!.styleFamily,
                                  styleName: currentState.value!.styleName,
                                  autoPrivileged1: currentState.value!.autoPrivileged1,
+                                 isFeatured: currentState.value!.isFeatured,
           );
         yield SubmittableAppForm(value: newValue);
 
@@ -199,6 +202,12 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       }
       if (event is ChangedAppAutoPrivileged1) {
         newValue = currentState.value!.copyWith(autoPrivileged1: event.value);
+        yield SubmittableAppForm(value: newValue);
+
+        return;
+      }
+      if (event is ChangedAppIsFeatured) {
+        newValue = currentState.value!.copyWith(isFeatured: event.value);
         yield SubmittableAppForm(value: newValue);
 
         return;

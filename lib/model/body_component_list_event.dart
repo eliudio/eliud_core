@@ -77,7 +77,7 @@ class BodyComponentListUpdated extends BodyComponentListEvent {
 }
 
 class BodyComponentChangeQuery extends BodyComponentListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const BodyComponentChangeQuery({ required this.newQuery });
 

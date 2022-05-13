@@ -77,7 +77,7 @@ class MemberPublicInfoListUpdated extends MemberPublicInfoListEvent {
 }
 
 class MemberPublicInfoChangeQuery extends MemberPublicInfoListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MemberPublicInfoChangeQuery({ required this.newQuery });
 

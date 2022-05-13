@@ -211,3 +211,15 @@ class ChangedAppAutoPrivileged1 extends AppFormEvent {
   String toString() => 'ChangedAppAutoPrivileged1{ value: $value }';
 }
 
+class ChangedAppIsFeatured extends AppFormEvent {
+  final bool? value;
+
+  ChangedAppIsFeatured({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppIsFeatured{ value: $value }';
+}
+

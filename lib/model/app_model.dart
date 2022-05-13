@@ -61,16 +61,19 @@ class AppModel {
   // When set, any new joining member will have privilegeLevel = 1
   bool? autoPrivileged1;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, })  {
+  // Is Featured
+  bool? isFeatured;
+
+  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -89,11 +92,12 @@ class AppModel {
           policies == other.policies &&
           styleFamily == other.styleFamily &&
           styleName == other.styleName &&
-          autoPrivileged1 == other.autoPrivileged1;
+          autoPrivileged1 == other.autoPrivileged1 &&
+          isFeatured == other.isFeatured;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
   AppEntity toEntity({String? appId}) {
@@ -110,6 +114,7 @@ class AppModel {
           styleFamily: (styleFamily != null) ? styleFamily : null, 
           styleName: (styleName != null) ? styleName : null, 
           autoPrivileged1: (autoPrivileged1 != null) ? autoPrivileged1 : null, 
+          isFeatured: (isFeatured != null) ? isFeatured : null, 
     );
   }
 
@@ -128,6 +133,7 @@ class AppModel {
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
           autoPrivileged1: entity.autoPrivileged1, 
+          isFeatured: entity.isFeatured, 
     );
   }
 
@@ -183,6 +189,7 @@ class AppModel {
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
           autoPrivileged1: entity.autoPrivileged1, 
+          isFeatured: entity.isFeatured, 
     );
   }
 

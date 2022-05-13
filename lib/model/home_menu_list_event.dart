@@ -77,7 +77,7 @@ class HomeMenuListUpdated extends HomeMenuListEvent {
 }
 
 class HomeMenuChangeQuery extends HomeMenuListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const HomeMenuChangeQuery({ required this.newQuery });
 

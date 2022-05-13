@@ -77,7 +77,7 @@ class DrawerListUpdated extends DrawerListEvent {
 }
 
 class DrawerChangeQuery extends DrawerListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const DrawerChangeQuery({ required this.newQuery });
 

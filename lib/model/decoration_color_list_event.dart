@@ -77,7 +77,7 @@ class DecorationColorListUpdated extends DecorationColorListEvent {
 }
 
 class DecorationColorChangeQuery extends DecorationColorListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const DecorationColorChangeQuery({ required this.newQuery });
 

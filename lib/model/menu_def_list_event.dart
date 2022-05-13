@@ -77,7 +77,7 @@ class MenuDefListUpdated extends MenuDefListEvent {
 }
 
 class MenuDefChangeQuery extends MenuDefListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MenuDefChangeQuery({ required this.newQuery });
 

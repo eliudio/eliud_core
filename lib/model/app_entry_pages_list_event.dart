@@ -77,7 +77,7 @@ class AppEntryPagesListUpdated extends AppEntryPagesListEvent {
 }
 
 class AppEntryPagesChangeQuery extends AppEntryPagesListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const AppEntryPagesChangeQuery({ required this.newQuery });
 

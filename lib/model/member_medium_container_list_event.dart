@@ -77,7 +77,7 @@ class MemberMediumContainerListUpdated extends MemberMediumContainerListEvent {
 }
 
 class MemberMediumContainerChangeQuery extends MemberMediumContainerListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const MemberMediumContainerChangeQuery({ required this.newQuery });
 

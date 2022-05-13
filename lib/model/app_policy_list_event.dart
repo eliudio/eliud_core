@@ -77,7 +77,7 @@ class AppPolicyListUpdated extends AppPolicyListEvent {
 }
 
 class AppPolicyChangeQuery extends AppPolicyListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const AppPolicyChangeQuery({ required this.newQuery });
 

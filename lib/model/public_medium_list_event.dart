@@ -77,7 +77,7 @@ class PublicMediumListUpdated extends PublicMediumListEvent {
 }
 
 class PublicMediumChangeQuery extends PublicMediumListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const PublicMediumChangeQuery({ required this.newQuery });
 

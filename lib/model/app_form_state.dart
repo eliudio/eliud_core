@@ -271,6 +271,22 @@ class AutoPrivileged1AppFormError extends AppFormError {
 }
 
 
+class IsFeaturedAppFormError extends AppFormError { 
+  const IsFeaturedAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IsFeaturedAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppFormLoaded extends AppFormInitialized { 
   const AppFormLoaded({ AppModel? value }): super(value: value);
 

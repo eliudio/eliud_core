@@ -77,7 +77,7 @@ class GridViewListUpdated extends GridViewListEvent {
 }
 
 class GridViewChangeQuery extends GridViewListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const GridViewChangeQuery({ required this.newQuery });
 

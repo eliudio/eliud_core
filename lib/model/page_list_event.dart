@@ -77,7 +77,7 @@ class PageListUpdated extends PageListEvent {
 }
 
 class PageChangeQuery extends PageListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const PageChangeQuery({ required this.newQuery });
 

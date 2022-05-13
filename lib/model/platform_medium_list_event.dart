@@ -77,7 +77,7 @@ class PlatformMediumListUpdated extends PlatformMediumListEvent {
 }
 
 class PlatformMediumChangeQuery extends PlatformMediumListEvent {
-  final EliudQuery newQuery;
+  final EliudQuery? newQuery;
 
   const PlatformMediumChangeQuery({ required this.newQuery });
 
