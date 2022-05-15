@@ -19,6 +19,7 @@ class BackgroundWidget extends StatefulWidget {
   final BackgroundModel value;
   final String label;
   final String memberId;
+  final bool withTopicContainer;
 
   BackgroundWidget({
     Key? key,
@@ -26,6 +27,7 @@ class BackgroundWidget extends StatefulWidget {
     required this.label,
     required this.value,
     required this.memberId,
+    this.withTopicContainer = true,
   }) : super(key: key);
 
   @override
@@ -42,11 +44,23 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return topicContainer(widget.app, context,
-        title: widget.label,
-        collapsible: true,
-        collapsed: true,
-        children: [
+    if (widget.withTopicContainer) {
+      return topicContainer(widget.app, context,
+          title: widget.label,
+          collapsible: true,
+          collapsed: true,
+          children: children());
+    } else {
+      return ListView(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        children: children()
+      );
+    }
+  }
+
+  List<Widget> children() {
+    return [
           ImageWidget(
             app: widget.app,
             label: 'Background image',
@@ -92,21 +106,21 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
               children: [
                 checkboxListTile(widget.app, context, 'With Border Radius',
                     widget.value.borderRadius != null, (value) {
-                  setState(() {
-                    if (value!) {
-                      if (widget.value.borderRadius == null) {
-                        widget.value.borderRadius = BorderRadiusModel(
-                          borderRadiusType: BorderRadiusType.Circular,
-                          circularValue: 1,
-                          ellipticalX: 1,
-                          ellipticalY: 1,
-                        );
-                      }
-                    } else {
-                      widget.value.borderRadius = null;
-                    }
-                  });
-                }),
+                      setState(() {
+                        if (value!) {
+                          if (widget.value.borderRadius == null) {
+                            widget.value.borderRadius = BorderRadiusModel(
+                              borderRadiusType: BorderRadiusType.Circular,
+                              circularValue: 1,
+                              ellipticalX: 1,
+                              ellipticalY: 1,
+                            );
+                          }
+                        } else {
+                          widget.value.borderRadius = null;
+                        }
+                      });
+                    }),
                 if (widget.value.borderRadius != null)
                   BorderRadiusTypeWidget(
                     app: widget.app,
@@ -118,8 +132,8 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                       });
                     },
                     borderRadiusType:
-                        widget.value.borderRadius!.borderRadiusType ??
-                            BorderRadiusType.Circular,
+                    widget.value.borderRadius!.borderRadiusType ??
+                        BorderRadiusType.Circular,
                   ),
                 if ((widget.value.borderRadius != null) && (widget.value.borderRadius!.borderRadiusType == BorderRadiusType.Circular))
                   getListTile(context, widget.app,
@@ -175,7 +189,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
             label: 'Shadow',
             backgroundModel: widget.value,
           )
-        ]);
+        ];
   }
 
   void _borderChanged(bool? value) {
