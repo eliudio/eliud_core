@@ -26,7 +26,9 @@ class PageBodyHelper {
         } else {
           return Stack(children: <Widget>[
             Container(
-              clipBehavior: (background == null) ? Clip.none : Clip.hardEdge,
+              clipBehavior:BoxDecorationHelper.determineClipBehaviour(app, accessState.getMember(), background),
+              margin: BoxDecorationHelper.determineMargin(app, accessState.getMember(), background),
+              padding: BoxDecorationHelper.determinePadding(app, accessState.getMember(), background),
               decoration:
                   BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background),
             ),

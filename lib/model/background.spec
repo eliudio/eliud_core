@@ -75,6 +75,16 @@
       "fieldName": "border",
       "fieldType": "bool",
       "group": "general"
+    },
+    {
+      "fieldName": "padding",
+      "fieldType": "EdgeInsetsGeometry",
+      "group": "general"
+    },
+    {
+      "fieldName": "margin",
+      "fieldType": "EdgeInsetsGeometry",
+      "group": "general"
     }
   ],
   "groups": [

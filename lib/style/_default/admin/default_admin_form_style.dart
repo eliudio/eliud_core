@@ -70,6 +70,9 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       actions: actions,
       iconTheme: iconTheme,
       flexibleSpace: Container(
+          clipBehavior:BoxDecorationHelper.determineClipBehaviour(app, accessState.getMember(), background),
+          margin: BoxDecorationHelper.determineMargin(app, accessState.getMember(), background),
+          padding: BoxDecorationHelper.determinePadding(app, accessState.getMember(), background),
           decoration:
               BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background)),
     );

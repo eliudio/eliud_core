@@ -18,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../model/app_model.dart';
+import '../model/edge_insets_geometry_model.dart';
 
 class ListHelper {
   static List<String> getStringList(List<String?> list) {
@@ -143,110 +144,155 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration? boxDecoration(AppModel app, MemberModel? member, BackgroundModel? bdm, {DecorationImage? overridingImage}) {
+  static EdgeInsetsGeometry? _fromEdgeInsetsGeometryModel(
+      EdgeInsetsGeometryModel? eigm
+      ) {
+    if (eigm == null) return null;
+    return EdgeInsets.only(
+      left: eigm.left ?? 0,
+      right: eigm.right ?? 0,
+      top: eigm.top ?? 0,
+      bottom: eigm.bottom ?? 0,
+    );
+  }
+
+  static EdgeInsetsGeometry? determinePadding(
+    AppModel app,
+    MemberModel? member,
+    BackgroundModel? bdm,
+  ) {
     if (bdm == null) return null;
-      var borderRadius;
-      if (bdm.borderRadius != null) {
-        if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.Circular) {
-          borderRadius = BorderRadius.all(
-              Radius.circular(bdm.borderRadius!.circularValue ?? 0)
-          );
-        } else {
-          borderRadius = BorderRadius.all(
-              Radius.elliptical(bdm.borderRadius!.ellipticalX ?? 0, bdm.borderRadius!.ellipticalY ?? 0, )
-          );
-        }
-      }
-      var border = bdm.border != null && bdm.border! ? Border.all() : null;
-      var image;
-      if (overridingImage == null) {
-        if ((bdm.useProfilePhotoAsBackground != null) &&
-            bdm.useProfilePhotoAsBackground!) {
-          if (member != null) {
-            var url = member.photoURL;
-            if ((url == null) && (app.anonymousProfilePhoto != null)) {
-              url = app.anonymousProfilePhoto!.url;
-            }
-            if (url != null) {
-              image = DecorationImage(
-                  image: NetworkImage(url), fit: BoxFit.scaleDown);
-            } else {
-              image = DecorationImage(image: AssetImage(
-                  "assets/images/avatar.png", package: "eliud_core"));
-            }
-          } else {
-            image = DecorationImage(image: AssetImage(
-                "assets/images/avatar.png", package: "eliud_core"));
-          }
-        }
-        if (image == null) {
-          var imageProvider = ((bdm.backgroundImage != null) &&
-              (bdm.backgroundImage!.url != null))
-              ? NetworkImage(bdm.backgroundImage!.url!)
-              : null;
-          image = (imageProvider != null)
-              ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
-              : null;
-        }
+    return _fromEdgeInsetsGeometryModel(bdm.padding);
+  }
+
+  static EdgeInsetsGeometry? determineMargin(
+    AppModel app,
+    MemberModel? member,
+    BackgroundModel? bdm,
+  ) {
+    if (bdm == null) return null;
+    return _fromEdgeInsetsGeometryModel(bdm.margin);
+  }
+
+  static Clip determineClipBehaviour(
+    AppModel app,
+    MemberModel? member,
+    BackgroundModel? bdm,
+  ) {
+//    return Clip.none;
+    return (bdm == null) ? Clip.none : Clip.hardEdge;
+  }
+
+  static BoxDecoration? boxDecoration(
+      AppModel app, MemberModel? member, BackgroundModel? bdm,
+      {DecorationImage? overridingImage}) {
+    if (bdm == null) return null;
+    var borderRadius;
+    if (bdm.borderRadius != null) {
+      if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.Circular) {
+        borderRadius = BorderRadius.all(
+            Radius.circular(bdm.borderRadius!.circularValue ?? 0));
       } else {
-        image = overridingImage;
+        borderRadius = BorderRadius.all(Radius.elliptical(
+          bdm.borderRadius!.ellipticalX ?? 0,
+          bdm.borderRadius!.ellipticalY ?? 0,
+        ));
       }
-      List<BoxShadow>? boxShadows;
-      if (bdm.shadow != null) {
-        boxShadows = [BoxShadow(
+    }
+    var border = bdm.border != null && bdm.border! ? Border.all() : null;
+    var image;
+    if (overridingImage == null) {
+      if ((bdm.useProfilePhotoAsBackground != null) &&
+          bdm.useProfilePhotoAsBackground!) {
+        if (member != null) {
+          var url = member.photoURL;
+          if ((url == null) && (app.anonymousProfilePhoto != null)) {
+            url = app.anonymousProfilePhoto!.url;
+          }
+          if (url != null) {
+            image = DecorationImage(
+                image: NetworkImage(url), fit: BoxFit.scaleDown);
+          } else {
+            image = DecorationImage(
+                image: AssetImage("assets/images/avatar.png",
+                    package: "eliud_core"));
+          }
+        } else {
+          image = DecorationImage(
+              image: AssetImage("assets/images/avatar.png",
+                  package: "eliud_core"));
+        }
+      }
+      if (image == null) {
+        var imageProvider = ((bdm.backgroundImage != null) &&
+                (bdm.backgroundImage!.url != null))
+            ? NetworkImage(bdm.backgroundImage!.url!)
+            : null;
+        image = (imageProvider != null)
+            ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
+            : null;
+      }
+    } else {
+      image = overridingImage;
+    }
+    List<BoxShadow>? boxShadows;
+    if (bdm.shadow != null) {
+      boxShadows = [
+        BoxShadow(
           color: RgbHelper.color(rgbo: bdm.shadow!.color),
           spreadRadius: bdm.shadow!.spreadRadius!,
           blurRadius: bdm.shadow!.blurRadius!,
           offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
-        )];
-      }
-      if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
-        return BoxDecoration(
-          color: Colors.white,
-          image: image,
-          border: border,
-          boxShadow: boxShadows,
-          borderRadius: borderRadius,
-        );
-      } else if (bdm.decorationColors!.length == 1) {
-        return BoxDecoration(
-          color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
-          border: border,
-          image: image,
-          boxShadow: boxShadows,
-          borderRadius: borderRadius,
-        );
-      } else {
-        var colors = bdm.decorationColors!
-            .map((color) => RgbHelper.color(rgbo: color.color))
-            .toList();
-        var stops = bdm.decorationColors!.map((stop) => stop.stop ?? 0).toList();
-        var noStops =
-            stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
-        var gradient = LinearGradient(
-            begin: startAlignment(bdm.beginGradientPosition),
-            end: endAlignment(bdm.endGradientPosition),
-            colors: colors,
-            stops: noStops ? null : stops as List<double>?);
+        )
+      ];
+    }
+    if ((bdm.decorationColors == null) || (bdm.decorationColors!.isEmpty)) {
+      return BoxDecoration(
+        color: Colors.white,
+        image: image,
+        border: border,
+        boxShadow: boxShadows,
+        borderRadius: borderRadius,
+      );
+    } else if (bdm.decorationColors!.length == 1) {
+      return BoxDecoration(
+        color: RgbHelper.color(rgbo: bdm.decorationColors![0].color),
+        border: border,
+        image: image,
+        boxShadow: boxShadows,
+        borderRadius: borderRadius,
+      );
+    } else {
+      var colors = bdm.decorationColors!
+          .map((color) => RgbHelper.color(rgbo: color.color))
+          .toList();
+      var stops = bdm.decorationColors!.map((stop) => stop.stop ?? 0).toList();
+      var noStops =
+          stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
+      var gradient = LinearGradient(
+          begin: startAlignment(bdm.beginGradientPosition),
+          end: endAlignment(bdm.endGradientPosition),
+          colors: colors,
+          stops: noStops ? null : stops as List<double>?);
 
-        return BoxDecoration(
-            gradient: gradient,
-            image: image,
-            border: border,
-            boxShadow: boxShadows,
-            borderRadius: borderRadius,
-        );
-      }
+      return BoxDecoration(
+        gradient: gradient,
+        image: image,
+        border: border,
+        boxShadow: boxShadows,
+        borderRadius: borderRadius,
+      );
+    }
   }
 }
 
 class ImageHelper {
   static Widget getImageFromMediumModel(
       {MemberMediumModel? memberMediumModel,
-        double? height,
-        double? width,
-        BoxFit? fit,
-        Alignment? alignment}) {
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
         image: AssetImage('assets/images/image_not_available.png'),
@@ -262,10 +308,10 @@ class ImageHelper {
 
   static Widget getImageFromPlatformModel(
       {PlatformMediumModel? platformMediumModel,
-        double? height,
-        double? width,
-        BoxFit? fit,
-        Alignment? alignment}) {
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (platformMediumModel == null) {
       return Image(
         image: AssetImage('assets/images/image_not_available.png'),
@@ -281,10 +327,10 @@ class ImageHelper {
 
   static Widget getThumbnailFromMembereMediumModel(
       {MemberMediumModel? memberMediumModel,
-        double? height,
-        double? width,
-        BoxFit? fit,
-        Alignment? alignment}) {
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (memberMediumModel == null) {
       return Image(
           image: AssetImage('assets/images/image_not_available.png'),
@@ -298,10 +344,10 @@ class ImageHelper {
 
   static Widget getThumbnailFromPlatformMediumModel(
       {PlatformMediumModel? platformMediumModel,
-        double? height,
-        double? width,
-        BoxFit? fit,
-        Alignment? alignment}) {
+      double? height,
+      double? width,
+      BoxFit? fit,
+      Alignment? alignment}) {
     if (platformMediumModel == null) {
       return Image(
           image: AssetImage('assets/images/image_not_available.png'),
@@ -361,14 +407,16 @@ class IconHelper {
 
   static Icon getIconFromModelWithFlutterColor(
       {IconModel? iconModel, Color? color, String? semanticLabel}) {
-    if (iconModel == null) return Icon(Icons.touch_app, color: color, semanticLabel: semanticLabel);
+    if (iconModel == null)
+      return Icon(Icons.touch_app, color: color, semanticLabel: semanticLabel);
     if (iconModel.fontFamily == null) {
       return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
           color: color, semanticLabel: semanticLabel);
     }
     return Icon(
         IconData(iconModel.codePoint!, fontFamily: iconModel.fontFamily),
-        color: color, semanticLabel: semanticLabel);
+        color: color,
+        semanticLabel: semanticLabel);
   }
 
   static Icon getIcon(
