@@ -143,7 +143,7 @@ class BoxDecorationHelper {
     return Alignment.bottomCenter;
   }
 
-  static BoxDecoration? boxDecoration(AppModel app, MemberModel? member, BackgroundModel? bdm) {
+  static BoxDecoration? boxDecoration(AppModel app, MemberModel? member, BackgroundModel? bdm, {DecorationImage? overridingImage}) {
     if (bdm == null) return null;
       var borderRadius;
       if (bdm.borderRadius != null) {
@@ -159,30 +159,37 @@ class BoxDecorationHelper {
       }
       var border = bdm.border != null && bdm.border! ? Border.all() : null;
       var image;
-      if ((bdm.useProfilePhotoAsBackground != null) &&
-          bdm.useProfilePhotoAsBackground!) {
-        if (member != null) {
-          var url = member.photoURL;
-          if ((url == null) && (app.anonymousProfilePhoto != null)) {
-            url = app.anonymousProfilePhoto!.url;
-          }
-          if (url != null) {
-            image = DecorationImage(
-                image: NetworkImage(url), fit: BoxFit.scaleDown);
+      if (overridingImage == null) {
+        if ((bdm.useProfilePhotoAsBackground != null) &&
+            bdm.useProfilePhotoAsBackground!) {
+          if (member != null) {
+            var url = member.photoURL;
+            if ((url == null) && (app.anonymousProfilePhoto != null)) {
+              url = app.anonymousProfilePhoto!.url;
+            }
+            if (url != null) {
+              image = DecorationImage(
+                  image: NetworkImage(url), fit: BoxFit.scaleDown);
+            } else {
+              image = DecorationImage(image: AssetImage(
+                  "assets/images/avatar.png", package: "eliud_core"));
+            }
           } else {
-            image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
+            image = DecorationImage(image: AssetImage(
+                "assets/images/avatar.png", package: "eliud_core"));
           }
-        } else {
-          image = DecorationImage(image: AssetImage("assets/images/avatar.png", package: "eliud_core"));
         }
-      }
-      if (image == null) {
-        var imageProvider = ((bdm.backgroundImage != null) && (bdm.backgroundImage!.url != null))
-            ? NetworkImage(bdm.backgroundImage!.url!)
-            : null;
-        image = (imageProvider != null)
-            ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
-            : null;
+        if (image == null) {
+          var imageProvider = ((bdm.backgroundImage != null) &&
+              (bdm.backgroundImage!.url != null))
+              ? NetworkImage(bdm.backgroundImage!.url!)
+              : null;
+          image = (imageProvider != null)
+              ? DecorationImage(image: imageProvider, fit: BoxFit.scaleDown)
+              : null;
+        }
+      } else {
+        image = overridingImage;
       }
       List<BoxShadow>? boxShadows;
       if (bdm.shadow != null) {

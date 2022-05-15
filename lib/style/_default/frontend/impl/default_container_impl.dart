@@ -5,6 +5,8 @@ import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../model/background_model.dart';
+
 class DefaultContainerImpl implements HasContainer {
   @override
   Widget actionContainer(AppModel app, BuildContext context,
@@ -20,7 +22,8 @@ class DefaultContainerImpl implements HasContainer {
       double? width,
       String? title,
       bool? collapsible,
-      bool? collapsed = false}) {
+      bool? collapsed = false,
+      BackgroundModel? backgroundOverride}) {
     if (title != null) {
       var newChildren = [text(app, context, title), divider(app, context)];
       newChildren.addAll(children);

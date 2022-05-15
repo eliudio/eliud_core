@@ -3,8 +3,10 @@ import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/style/style.dart';
+import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../frontend/has_divider.dart';
 import '../../../frontend/has_split.dart';
 import '../helper/dialog/dialog_helper.dart';
 
@@ -15,8 +17,9 @@ class DefaultSplitImpl implements HasSplit {
 
   @override
   Widget splitView(AppModel app, BuildContext context, Widget container1, Widget container2, double ratio, double minRatio, double maxRatio) {
-    return Column(children: [
-      container1, container2,
+    return Row(
+      children: [
+      Expanded(child: container1), verticalDivider(app, context, 5), Expanded(child: container2),
     ],);
   }
 

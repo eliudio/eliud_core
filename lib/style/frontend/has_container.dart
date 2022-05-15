@@ -1,6 +1,7 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/background_model.dart';
 import '../style_registry.dart';
 
 abstract class HasContainer {
@@ -12,7 +13,9 @@ abstract class HasContainer {
       double? width,
       String? title,
       bool? collapsible,
-      bool? collapsed = false});
+      bool? collapsed = false,
+      BackgroundModel? backgroundOverride,
+      });
 
   // Format a topic. Similar to topicContainer, but simpler, without too much decoration
   Widget simpleTopicContainer(AppModel app, BuildContext context,
@@ -33,7 +36,9 @@ Widget topicContainer(AppModel app, BuildContext context,
         double? width,
         String? title,
         bool? collapsible,
-        bool? collapsed = false}) =>
+        bool? collapsed = false,
+        BackgroundModel? backgroundOverride,
+        }) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
@@ -45,7 +50,8 @@ Widget topicContainer(AppModel app, BuildContext context,
             width: width,
             title: title,
             collapsible: collapsible,
-            collapsed: collapsed);
+            collapsed: collapsed,
+            backgroundOverride: backgroundOverride);
 
 Widget simpleTopicContainer(AppModel app, BuildContext context,
         {required List<Widget> children,
