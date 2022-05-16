@@ -9,6 +9,8 @@ import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../../frontend/has_button.dart';
+
 class AppBarHelper {
   final FrontEndStyle _frontEndStyle;
   final HasMenu _hasMenu;
@@ -100,7 +102,8 @@ class AppBarHelper {
       var icon =
           IconHelper.getIconFromModel(iconModel: item.icon, color: _rgbcolor);
       var text = _frontEndStyle.textStyle().text(app, context, (item.label!));
-      var popupMenu = PopupMenuButton<int>(
+      var popupMenu = popupMenuButton<int>(
+        app, context,
           icon: icon,
           child: icon == null ? text : null,
           onSelected: (int result) {
@@ -122,10 +125,10 @@ class AppBarHelper {
                   ? _frontEndStyle.textStyleStyle().styleH3(app, context)
                   : _frontEndStyle.textStyleStyle().styleH4(app, context);
               var label = thisItem.label!;
-              var menuItem = PopupMenuItem<int>(
+              var menuItem = popupMenuItem<int>(
+                app, context,
                 value: index,
-                child: _frontEndStyle.textStyle().text(app, context, label),
-                textStyle: style,
+                label: label,
               );
               entries.add(menuItem);
               index++;

@@ -412,19 +412,13 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                     widget.app,
                     title: text(widget.app, context,
                         (value.app != null ? value.app.documentID! : '?')),
-                    trailing: PopupMenuButton<int>(
+                    trailing: popupMenuButton<int>(value.app, context,
                         child: Icon(Icons.more_vert),
-                        elevation: 10,
                         itemBuilder: (context) => [
-/*
-                              PopupMenuItem(
-                                value: 1,
-                                child: text(widget.app, context, 'Update'),
-                              ),
-*/
-                              PopupMenuItem(
+                              popupMenuItem<int>(
+                                value.app, context,
                                 value: 2,
-                                child: text(widget.app, context, 'Delete'),
+                                label: 'Delete',
                               ),
                             ],
                         onSelected: (selectedValue) {

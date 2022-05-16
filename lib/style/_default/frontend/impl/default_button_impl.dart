@@ -3,6 +3,8 @@ import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:flutter/material.dart';
 
+import '../../../frontend/has_text.dart';
+
 class DefaultButtonImpl implements HasButton {
   final FrontEndStyle _frontEndStyle;
 
@@ -63,6 +65,26 @@ class DefaultButtonImpl implements HasButton {
   @override
   Widget simpleButton(AppModel app, BuildContext context,
       {VoidCallback? onPressed, required String label}) {
-    throw UnimplementedError();
+    return TextButton(onPressed: onPressed, child: text(app, context, label),);
   }
+
+  @override
+  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, {required String label, bool enabled = true, T? value}) {
+    return PopupMenuItem<T>(child: text(app, context, label), enabled: enabled, value: value);
+  }
+
+  @override
+  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? child, Widget? icon, required PopupMenuItemBuilder<T> itemBuilder,
+      PopupMenuItemSelected<T>? onSelected}) {
+    return PopupMenuButton<T>(
+        tooltip: tooltip,
+        padding: EdgeInsets.all(8.0),
+        child: child,
+        icon: icon,
+        itemBuilder: itemBuilder,
+        onSelected: onSelected);
+  }
+
+  @override
+  PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) => PopupMenuDivider();
 }

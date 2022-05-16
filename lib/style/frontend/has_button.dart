@@ -26,6 +26,11 @@ abstract class HasButton {
       Color? color,
       String? tooltip,
       required Widget icon});
+
+  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, {required String label, bool enabled = true, T? value});
+  PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context);
+  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? icon, Widget? child, required PopupMenuItemBuilder<T> itemBuilder,
+    PopupMenuItemSelected<T>? onSelected});
 }
 
 Widget button(AppModel app, BuildContext context,
@@ -73,13 +78,25 @@ Widget iconButton(AppModel app, BuildContext context,
         .buttonStyle()
         .iconButton(app, context,
             onPressed: onPressed, color: color, tooltip: tooltip, icon: icon);
-/*
 
-Widget popupMenuButton(...)
+PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, { required String label, bool enabled = true, T? value}) =>
+    StyleRegistry.registry()
+        .styleWithApp(app)
+        .frontEndStyle()
+        .buttonStyle()
+        .popupMenuItem(app, context, label: label, enabled: enabled, value: value);
 
-todo
+PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) =>
+    StyleRegistry.registry()
+        .styleWithApp(app)
+        .frontEndStyle()
+        .buttonStyle()
+        .popupMenuDivider(app, context);
 
-we should also have a "boxed" and "non boxed" parameter for popupMenuButton
-as well as for the other buttons so that the iconButton and popupMenuButton
-used in paged_posts_lists.dart, line 151 and 203 look the same
-*/
+PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? icon, Widget? child, required PopupMenuItemBuilder<T> itemBuilder,
+    PopupMenuItemSelected<T>? onSelected}) =>
+    StyleRegistry.registry()
+        .styleWithApp(app)
+        .frontEndStyle()
+        .buttonStyle()
+        .popupMenuButton(app, context, tooltip: tooltip, icon: icon, child: child, itemBuilder: itemBuilder, onSelected: onSelected);

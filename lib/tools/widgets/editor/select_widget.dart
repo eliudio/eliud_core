@@ -12,9 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/widgets.dart';
 
-typedef ListContentProvider = Widget Function(BuildContext context, List<dynamic> items);
-typedef NoContentProvider = Widget Function(BuildContext context, );
-typedef ChangePrivilegeEventCallback = void Function(BuildContext context, int privilegeLevel);
+typedef ListContentProvider = Widget Function(
+    BuildContext context, List<dynamic> items);
+typedef NoContentProvider = Widget Function(
+  BuildContext context,
+);
+typedef ChangePrivilegeEventCallback = void Function(
+    BuildContext context, int privilegeLevel);
 
 class SelectWidget<T> extends StatefulWidget {
   final AppModel app;
@@ -54,7 +58,6 @@ class SelectWidget<T> extends StatefulWidget {
 }
 
 class _SelectWidgetState extends State<SelectWidget> {
-
   @override
   Widget build(BuildContext context) {
     return topicContainer(
@@ -86,7 +89,8 @@ class _SelectWidgetState extends State<SelectWidget> {
                 widget.containerPrivilege);
           }),
           if (widget.updateCallback != null) Spacer(),
-          if ((widget.updateCallback != null) && (widget.currentlySelected != null))
+          if ((widget.updateCallback != null) &&
+              (widget.currentlySelected != null))
             button(widget.app, context,
                 label: 'Update',
                 onPressed: () =>
@@ -174,7 +178,8 @@ class SelectDialog<T> extends StatefulWidget {
 /*
  */
 
-class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMixin {
+class _SelectDialogState extends State<SelectDialog>
+    with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;
@@ -209,6 +214,7 @@ class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMix
       widget.changePrivilegeEventCallback!(insideContext, _currentPrivilege);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var app = widget.app;
@@ -218,8 +224,10 @@ class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMix
       var i = 0;
       for (var privilegeItem in _privilegeItems) {
         newPrivilegeItems.add(Wrap(children: [
-          ((widget.containerPrivilege != null) && (i <= widget.containerPrivilege!)) ? Icon(Icons.check) : Icon(
-              Icons.close),
+          ((widget.containerPrivilege != null) &&
+                  (i <= widget.containerPrivilege!))
+              ? Icon(Icons.check)
+              : Icon(Icons.close),
           Container(width: 2),
           text(widget.app, context, privilegeItem)
         ]));
@@ -245,8 +253,10 @@ class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMix
                 child: widget.blocBuilder((context, items) {
                   insideContext = context;
                   return ListView(children: [
-                    if (_privilegeTabController != null) tabBar2(widget.app, context,
-                        items: newPrivilegeItems, tabController: _privilegeTabController!),
+                    if (_privilegeTabController != null)
+                      tabBar2(widget.app, context,
+                          items: newPrivilegeItems,
+                          tabController: _privilegeTabController!),
                     Container(
                         height: 200,
                         child: ListView.builder(
@@ -258,43 +268,50 @@ class _SelectDialogState extends State<SelectDialog> with TickerProviderStateMix
                               return getListTile(
                                 context,
                                 widget.app,
-                                trailing: PopupMenuButton<int>(
-                                    child: Icon(Icons.more_vert),
-                                    elevation: 10,
-                                    itemBuilder: (context) => [
-                                          PopupMenuItem(
-                                            value: 1,
-                                            child: text(
-                                                widget.app, context, 'Select'),
-                                          ),
-                                          if (widget.updateCallback != null)
-                                            PopupMenuItem(
-                                              value: 2,
-                                              child: text(widget.app, context,
-                                                  'Update'),
-                                            ),
-                                          if (widget.deleteCallback != null)
-                                            PopupMenuItem(
-                                              value: 3,
-                                              child: text(widget.app, context,
-                                                  'Delete'),
-                                            ),
-                                        ],
-                                    onSelected: (selectedValue) {
-                                      if (selectedValue == 1) {
-                                        widget.selectedCallback(item);
-                                        Navigator.pop(context);
-                                      } else if (selectedValue == 2) {
-                                        widget.updateCallback!(item);
-                                      } else if (selectedValue == 3) {
-                                        widget.deleteCallback!(item);
-                                      }
-                                    }),
+                                trailing:
+                                    popupMenuButton<int>(widget.app, context,
+                                        child: Icon(Icons.more_vert),
+                                        itemBuilder: (context) => [
+                                              popupMenuItem(
+                                                widget.app,
+                                                context,
+                                                value: 1,
+                                                label: 'Select',
+                                              ),
+                                              if (widget.updateCallback != null)
+                                                popupMenuItem(
+                                                  widget.app,
+                                                  context,
+                                                  value: 2,
+                                                  label: 'Update',
+                                                ),
+                                              if (widget.deleteCallback != null)
+                                                popupMenuItem(
+                                                  widget.app,
+                                                  context,
+                                                  value: 3,
+                                                  label: 'Delete',
+                                                ),
+                                            ],
+                                        onSelected: (selectedValue) {
+                                          if (selectedValue == 1) {
+                                            widget.selectedCallback(item);
+                                            Navigator.pop(context);
+                                          } else if (selectedValue == 2) {
+                                            widget.updateCallback!(item);
+                                          } else if (selectedValue == 3) {
+                                            widget.deleteCallback!(item);
+                                          }
+                                        }),
                                 title: widget.displayItemFunction(item!),
                               );
                             })),
                   ], shrinkWrap: true, physics: const ScrollPhysics());
-                }, (context, ) => progressIndicator(app, context))),
+                },
+                    (
+                      context,
+                    ) =>
+                        progressIndicator(app, context))),
             if (widget.addCallback != null)
               Column(children: [
                 divider(widget.app, context),
