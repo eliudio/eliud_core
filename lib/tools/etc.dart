@@ -157,12 +157,21 @@ class BoxDecorationHelper {
   }
 
   static EdgeInsetsGeometry? determinePadding(
-    AppModel app,
-    MemberModel? member,
-    BackgroundModel? bdm,
-  ) {
+      AppModel app,
+      MemberModel? member,
+      BackgroundModel? bdm,
+      ) {
     if (bdm == null) return null;
-    return _fromEdgeInsetsGeometryModel(bdm.padding);
+    return determinePadding2(app, member, bdm.padding);
+  }
+
+  static EdgeInsetsGeometry? determinePadding2(
+      AppModel app,
+      MemberModel? member,
+      EdgeInsetsGeometryModel? padding,
+      ) {
+    if (padding == null) return null;
+    return _fromEdgeInsetsGeometryModel(padding);
   }
 
   static EdgeInsetsGeometry? determineMargin(
@@ -186,7 +195,15 @@ class BoxDecorationHelper {
   static BoxDecoration? boxDecoration(
       AppModel app, MemberModel? member, BackgroundModel? bdm,
       {DecorationImage? overridingImage}) {
-    if (bdm == null) return null;
+    if (bdm == null) {
+      if (overridingImage == null) {
+        return null;
+      } else {
+        return BoxDecoration(
+          image: overridingImage,
+        );
+      }
+    }
     var borderRadius;
     if (bdm.borderRadius != null) {
       if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.Circular) {
