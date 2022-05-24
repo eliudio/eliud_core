@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -45,9 +46,9 @@ PageLayout toPageLayout(int? index) {
 }
 
 
-class PageModel {
-  String? documentID;
-  String? appId;
+class PageModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
   AppBarModel? appBar;
   DrawerModel? drawer;
@@ -63,7 +64,7 @@ class PageModel {
   GridViewModel? gridView;
   StorageConditionsModel? conditions;
 
-  PageModel({this.documentID, this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.conditions, })  {
+  PageModel({required this.documentID, required this.appId, this.title, this.appBar, this.drawer, this.endDrawer, this.homeMenu, this.bodyComponents, this.backgroundOverride, this.layout, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -122,7 +123,7 @@ class PageModel {
     var counter = 0;
     return PageModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           bodyComponents: 
             entity.bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
@@ -200,7 +201,7 @@ class PageModel {
     var counter = 0;
     return PageModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           appBar: appBarHolder, 
           drawer: drawerHolder, 

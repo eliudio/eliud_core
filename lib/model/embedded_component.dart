@@ -237,14 +237,14 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     }
 
     Future<void> delete(AppEntryPagesModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<AppEntryPagesModel> update(AppEntryPagesModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -340,14 +340,14 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
     }
 
     Future<void> delete(AppPolicyItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<AppPolicyItemModel> update(AppPolicyItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -443,14 +443,14 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     }
 
     Future<void> delete(BodyComponentModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<BodyComponentModel> update(BodyComponentModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -546,14 +546,14 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     }
 
     Future<void> delete(DecorationColorModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<DecorationColorModel> update(DecorationColorModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -649,14 +649,14 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     }
 
     Future<void> delete(MemberMediumModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<MemberMediumModel> update(MemberMediumModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -752,14 +752,14 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
     }
 
     Future<void> delete(MemberMediumContainerModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<MemberMediumContainerModel> update(MemberMediumContainerModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -855,14 +855,14 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
     }
 
     Future<void> delete(MemberSubscriptionModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<MemberSubscriptionModel> update(MemberSubscriptionModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);
@@ -958,14 +958,14 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     }
 
     Future<void> delete(MenuItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) items.removeAt(index);
       trigger(items);
       return Future.value(value);
     }
 
     Future<MenuItemModel> update(MenuItemModel value) {
-      int index = _index(value.documentID!);
+      int index = _index(value.documentID);
       if (index >= 0) {
         items.replaceRange(index, index+1, [value]);
         trigger(items);

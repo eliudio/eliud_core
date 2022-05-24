@@ -47,7 +47,7 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
   Stream<PlatformMediumFormState> mapEventToState(PlatformMediumFormEvent event) async* {
     final currentState = state;
     if (currentState is PlatformMediumFormUninitialized) {
-      if (event is InitialiseNewPlatformMediumFormEvent) {
+      on <InitialiseNewPlatformMediumFormEvent> ((event, emit) {
         PlatformMediumFormLoaded loaded = PlatformMediumFormLoaded(value: PlatformMediumModel(
                                                documentID: "",
                                  appId: "",
@@ -64,132 +64,114 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
                                  relatedMediumId: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialisePlatformMediumFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PlatformMediumFormLoaded loaded = PlatformMediumFormLoaded(value: await platformMediumRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialisePlatformMediumFormNoLoadEvent) {
         PlatformMediumFormLoaded loaded = PlatformMediumFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is PlatformMediumFormInitialized) {
       PlatformMediumModel? newValue = null;
-      if (event is ChangedPlatformMediumDocumentID) {
+      on <ChangedPlatformMediumDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittablePlatformMediumForm(value: newValue);
+          emit(SubmittablePlatformMediumForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedPlatformMediumAuthorId) {
+      });
+      on <ChangedPlatformMediumAuthorId> ((event, emit) async {
         newValue = currentState.value!.copyWith(authorId: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumBaseName) {
+      });
+      on <ChangedPlatformMediumBaseName> ((event, emit) async {
         newValue = currentState.value!.copyWith(baseName: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumUrl) {
+      });
+      on <ChangedPlatformMediumUrl> ((event, emit) async {
         newValue = currentState.value!.copyWith(url: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumRef) {
+      });
+      on <ChangedPlatformMediumRef> ((event, emit) async {
         newValue = currentState.value!.copyWith(ref: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumUrlThumbnail) {
+      });
+      on <ChangedPlatformMediumUrlThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumRefThumbnail) {
+      });
+      on <ChangedPlatformMediumRefThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(refThumbnail: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumConditions) {
+      });
+      on <ChangedPlatformMediumConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumMediumType) {
+      });
+      on <ChangedPlatformMediumMediumType> ((event, emit) async {
         newValue = currentState.value!.copyWith(mediumType: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPlatformMediumMediumWidth) {
+      });
+      on <ChangedPlatformMediumMediumWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
-          yield SubmittablePlatformMediumForm(value: newValue);
+          emit(SubmittablePlatformMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumWidth: 0);
-          yield MediumWidthPlatformMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumWidthPlatformMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPlatformMediumMediumHeight) {
+      });
+      on <ChangedPlatformMediumMediumHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
-          yield SubmittablePlatformMediumForm(value: newValue);
+          emit(SubmittablePlatformMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumHeight: 0);
-          yield MediumHeightPlatformMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumHeightPlatformMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPlatformMediumThumbnailWidth) {
+      });
+      on <ChangedPlatformMediumThumbnailWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
-          yield SubmittablePlatformMediumForm(value: newValue);
+          emit(SubmittablePlatformMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailWidth: 0);
-          yield ThumbnailWidthPlatformMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailWidthPlatformMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPlatformMediumThumbnailHeight) {
+      });
+      on <ChangedPlatformMediumThumbnailHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
-          yield SubmittablePlatformMediumForm(value: newValue);
+          emit(SubmittablePlatformMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailHeight: 0);
-          yield ThumbnailHeightPlatformMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailHeightPlatformMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPlatformMediumRelatedMediumId) {
+      });
+      on <ChangedPlatformMediumRelatedMediumId> ((event, emit) async {
         newValue = currentState.value!.copyWith(relatedMediumId: event.value);
-        yield SubmittablePlatformMediumForm(value: newValue);
+        emit(SubmittablePlatformMediumForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -27,23 +27,22 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
   final DialogRepository? dialogRepository;
   StreamSubscription? _dialogSubscription;
 
-  Stream<DialogComponentState> _mapLoadDialogComponentUpdateToState(String documentId) async* {
+  void _mapLoadDialogComponentUpdateToState(String documentId) {
     _dialogSubscription?.cancel();
     _dialogSubscription = dialogRepository!.listenTo(documentId, (value) {
-      if (value != null) add(DialogComponentUpdated(value: value));
+      if (value != null) {
+        add(DialogComponentUpdated(value: value));
+      }
     });
   }
 
-  DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized());
-
-  @override
-  Stream<DialogComponentState> mapEventToState(DialogComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchDialogComponent) {
-      yield* _mapLoadDialogComponentUpdateToState(event.id!);
-    } else if (event is DialogComponentUpdated) {
-      yield DialogComponentLoaded(value: event.value);
-    }
+  DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized()) {
+    on <FetchDialogComponent> ((event, emit) {
+      _mapLoadDialogComponentUpdateToState(event.id!);
+    });
+    on <DialogComponentUpdated> ((event, emit) {
+      emit(DialogComponentLoaded(value: event.value));
+    });
   }
 
   @override

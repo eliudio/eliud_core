@@ -33,7 +33,7 @@ class MemberDashboardEntity {
   final String? deleteDataEmailMessage;
   final StorageConditionsEntity? conditions;
 
-  MemberDashboardEntity({this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
+  MemberDashboardEntity({required this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
 
 
   List<Object?> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, deleteDataEmailMessage, conditions, ];

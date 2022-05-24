@@ -47,7 +47,7 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
   Stream<AppPolicyFormState> mapEventToState(AppPolicyFormEvent event) async* {
     final currentState = state;
     if (currentState is AppPolicyFormUninitialized) {
-      if (event is InitialiseNewAppPolicyFormEvent) {
+      on <InitialiseNewAppPolicyFormEvent> ((event, emit) {
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: AppPolicyModel(
                                                documentID: "",
                                  appId: "",
@@ -55,46 +55,39 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
                                  policies: [],
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseAppPolicyFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: await appPolicyRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseAppPolicyFormNoLoadEvent) {
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is AppPolicyFormInitialized) {
       AppPolicyModel? newValue = null;
-      if (event is ChangedAppPolicyDocumentID) {
+      on <ChangedAppPolicyDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableAppPolicyForm(value: newValue);
+          emit(SubmittableAppPolicyForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedAppPolicyComments) {
+      });
+      on <ChangedAppPolicyComments> ((event, emit) async {
         newValue = currentState.value!.copyWith(comments: event.value);
-        yield SubmittableAppPolicyForm(value: newValue);
+        emit(SubmittableAppPolicyForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppPolicyPolicies) {
+      });
+      on <ChangedAppPolicyPolicies> ((event, emit) async {
         newValue = currentState.value!.copyWith(policies: event.value);
-        yield SubmittableAppPolicyForm(value: newValue);
+        emit(SubmittableAppPolicyForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

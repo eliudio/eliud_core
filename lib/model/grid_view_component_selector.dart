@@ -40,10 +40,10 @@ class GridViewComponentSelector extends ComponentSelector {
   @override
   Widget createSelectWidget(BuildContext context, AppModel app, int privilegeLevel, double height,
       SelectComponent selected, editorConstructor) {
-    var appId = app.documentID!;
+    var appId = app.documentID;
     return BlocProvider<GridViewListBloc>(
           create: (context) => GridViewListBloc(
-          eliudQuery: getComponentSelectorQuery(0, app.documentID!),
+          eliudQuery: getComponentSelectorQuery(0, app.documentID),
           gridViewRepository:
               gridViewRepository(appId: appId)!,
           )..add(LoadGridViewList()),
@@ -108,7 +108,7 @@ class _SelectGridViewWidgetState extends State<SelectGridViewWidget> with Ticker
         (_privilegeTabController!.indexIsChanging)) {
         _currentPrivilege = _privilegeTabController!.index;
         BlocProvider.of<GridViewListBloc>(context).add(
-            GridViewChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID!)));
+            GridViewChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID)));
     }
   }
 
@@ -139,7 +139,7 @@ class _SelectGridViewWidgetState extends State<SelectGridViewWidget> with Ticker
                       ],
                   onSelected: (selectedValue) {
                     if (selectedValue == 1) {
-                      widget.selected(value.documentID!);
+                      widget.selected(value.documentID);
                     } else if (selectedValue == 2) {
                       widget.editorConstructor.updateComponent(widget.app, context, value, (_) {});
                     }

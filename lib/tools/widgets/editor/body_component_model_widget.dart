@@ -103,7 +103,7 @@ class _BodyComponentModelWidgetState
             getListTile(context, widget.app,
                 leading: Icon(Icons.vpn_key),
                 title: text(widget.app, context,
-                    widget.labelledBodyComponentModel.documentID!)),
+                    widget.labelledBodyComponentModel.documentID)),
           ]),
       topicContainer(widget.app, context,
           title: 'Contents',

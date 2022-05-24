@@ -41,7 +41,7 @@ class _ErrorComponentState extends State<ErrorComponent> {
             bloc: BlocProvider.of<AccessBloc>(context),
             builder: (BuildContext context, accessState) {
               if (accessState is AccessDetermined) {
-                var app = accessState.getApp(widget.app.documentID!);
+                var app = accessState.getApp(widget.app.documentID);
                 var playstoreApp = accessState.playstoreApp;
                 var loggedIn = accessState is LoggedIn;
                 if (app != null) {
@@ -53,7 +53,7 @@ class _ErrorComponentState extends State<ErrorComponent> {
                       key: widget.pageKey);
                 } else {
                   return text(widget.app, context,
-                      "App " + widget.app.documentID! + " not found");
+                      "App " + widget.app.documentID + " not found");
                 }
               } else {
                 return Center(child: CircularProgressIndicator());
@@ -105,7 +105,7 @@ class _ErrorContentsWidgetState extends State<ErrorContentsWidget> {
                   eliudrouter.Router.navigateTo(
                       context,
                       SwitchApp(widget.app,
-                          toAppID: widget.playstoreApp!.documentID!));
+                          toAppID: widget.playstoreApp!.documentID));
                 }),
             ]))));
   }

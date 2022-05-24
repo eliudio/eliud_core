@@ -66,11 +66,11 @@ abstract class CorePackage extends Package {
       bool isOwner,
       bool? isBlocked,
       PrivilegeLevel? privilegeLevel) {
-    var appId = app.documentID!;
+    var appId = app.documentID;
     subscription[appId]?.cancel();
     if (member != null) {
       final c = Completer<List<PackageConditionDetails>>();
-      subscription[appId] = accessRepository(appId: appId)!.listenTo(member.documentID!, (value) {
+      subscription[appId] = accessRepository(appId: appId)!.listenTo(member.documentID, (value) {
         if (value != null) {
           var newPrivilegeInfo = PrivilegeInfo(value.privilegeLevel ?? PrivilegeLevel.NoPrivilege, value.blocked ?? false);
           if (!c.isCompleted) {

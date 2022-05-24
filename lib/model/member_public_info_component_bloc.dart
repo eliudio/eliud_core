@@ -26,23 +26,22 @@ class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent,
   final MemberPublicInfoRepository? memberPublicInfoRepository;
   StreamSubscription? _memberPublicInfoSubscription;
 
-  Stream<MemberPublicInfoComponentState> _mapLoadMemberPublicInfoComponentUpdateToState(String documentId) async* {
+  void _mapLoadMemberPublicInfoComponentUpdateToState(String documentId) {
     _memberPublicInfoSubscription?.cancel();
     _memberPublicInfoSubscription = memberPublicInfoRepository!.listenTo(documentId, (value) {
-      if (value != null) add(MemberPublicInfoComponentUpdated(value: value));
+      if (value != null) {
+        add(MemberPublicInfoComponentUpdated(value: value));
+      }
     });
   }
 
-  MemberPublicInfoComponentBloc({ this.memberPublicInfoRepository }): super(MemberPublicInfoComponentUninitialized());
-
-  @override
-  Stream<MemberPublicInfoComponentState> mapEventToState(MemberPublicInfoComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchMemberPublicInfoComponent) {
-      yield* _mapLoadMemberPublicInfoComponentUpdateToState(event.id!);
-    } else if (event is MemberPublicInfoComponentUpdated) {
-      yield MemberPublicInfoComponentLoaded(value: event.value);
-    }
+  MemberPublicInfoComponentBloc({ this.memberPublicInfoRepository }): super(MemberPublicInfoComponentUninitialized()) {
+    on <FetchMemberPublicInfoComponent> ((event, emit) {
+      _mapLoadMemberPublicInfoComponentUpdateToState(event.id!);
+    });
+    on <MemberPublicInfoComponentUpdated> ((event, emit) {
+      emit(MemberPublicInfoComponentLoaded(value: event.value));
+    });
   }
 
   @override

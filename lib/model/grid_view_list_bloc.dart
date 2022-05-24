@@ -38,9 +38,47 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   GridViewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required GridViewRepository gridViewRepository, this.gridViewLimit = 5})
       : assert(gridViewRepository != null),
         _gridViewRepository = gridViewRepository,
-        super(GridViewListLoading());
+        super(GridViewListLoading()) {
+    on <LoadGridViewList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadGridViewListToState();
+      } else {
+        _mapLoadGridViewListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadGridViewListWithDetailsToState();
+    });
+    
+    on <GridViewChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadGridViewListToState();
+      } else {
+        _mapLoadGridViewListWithDetailsToState();
+      }
+    });
+      
+    on <AddGridViewList> ((event, emit) async {
+      await _mapAddGridViewListToState(event);
+    });
+    
+    on <UpdateGridViewList> ((event, emit) async {
+      await _mapUpdateGridViewListToState(event);
+    });
+    
+    on <DeleteGridViewList> ((event, emit) async {
+      await _mapDeleteGridViewListToState(event);
+    });
+    
+    on <GridViewListUpdated> ((event, emit) {
+      emit(_mapGridViewListUpdatedToState(event));
+    });
+  }
 
-  Stream<GridViewListState> _mapLoadGridViewListToState() async* {
+  Future<void> _mapLoadGridViewListToState() async {
     int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
     _gridViewsListSubscription?.cancel();
     _gridViewsListSubscription = _gridViewRepository.listen(
@@ -52,7 +90,7 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     );
   }
 
-  Stream<GridViewListState> _mapLoadGridViewListWithDetailsToState() async* {
+  Future<void> _mapLoadGridViewListWithDetailsToState() async {
     int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
     _gridViewsListSubscription?.cancel();
     _gridViewsListSubscription = _gridViewRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     );
   }
 
-  Stream<GridViewListState> _mapAddGridViewListToState(AddGridViewList event) async* {
+  Future<void> _mapAddGridViewListToState(AddGridViewList event) async {
     var value = event.value;
-    if (value != null) 
-      _gridViewRepository.add(value);
-  }
-
-  Stream<GridViewListState> _mapUpdateGridViewListToState(UpdateGridViewList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _gridViewRepository.update(value);
-  }
-
-  Stream<GridViewListState> _mapDeleteGridViewListToState(DeleteGridViewList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _gridViewRepository.delete(value);
-  }
-
-  Stream<GridViewListState> _mapGridViewListUpdatedToState(
-      GridViewListUpdated event) async* {
-    yield GridViewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<GridViewListState> mapEventToState(GridViewListEvent event) async* {
-    if (event is LoadGridViewList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadGridViewListToState();
-      } else {
-        yield* _mapLoadGridViewListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadGridViewListWithDetailsToState();
-    } else if (event is GridViewChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadGridViewListToState();
-      } else {
-        yield* _mapLoadGridViewListWithDetailsToState();
-      }
-    } else if (event is AddGridViewList) {
-      yield* _mapAddGridViewListToState(event);
-    } else if (event is UpdateGridViewList) {
-      yield* _mapUpdateGridViewListToState(event);
-    } else if (event is DeleteGridViewList) {
-      yield* _mapDeleteGridViewListToState(event);
-    } else if (event is GridViewListUpdated) {
-      yield* _mapGridViewListUpdatedToState(event);
+    if (value != null) {
+      await _gridViewRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateGridViewListToState(UpdateGridViewList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _gridViewRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteGridViewListToState(DeleteGridViewList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _gridViewRepository.delete(value);
+    }
+  }
+
+  GridViewListLoaded _mapGridViewListUpdatedToState(
+      GridViewListUpdated event) => GridViewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

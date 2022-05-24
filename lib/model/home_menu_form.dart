@@ -69,7 +69,7 @@ class HomeMenuForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<HomeMenuFormBloc >(
             create: (context) => HomeMenuFormBloc(appId,
@@ -343,7 +343,7 @@ class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
   }
 
   bool _readOnly(AccessState accessState, HomeMenuFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

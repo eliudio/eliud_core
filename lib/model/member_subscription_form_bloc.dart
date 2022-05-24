@@ -46,40 +46,30 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
   Stream<MemberSubscriptionFormState> mapEventToState(MemberSubscriptionFormEvent event) async* {
     final currentState = state;
     if (currentState is MemberSubscriptionFormUninitialized) {
-      if (event is InitialiseNewMemberSubscriptionFormEvent) {
+      on <InitialiseNewMemberSubscriptionFormEvent> ((event, emit) {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: MemberSubscriptionModel(
                                                documentID: "IDENTIFIER", 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMemberSubscriptionFormEvent) {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMemberSubscriptionFormNoLoadEvent) {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MemberSubscriptionFormInitialized) {
       MemberSubscriptionModel? newValue = null;
-      if (event is ChangedMemberSubscriptionApp) {
+      on <ChangedMemberSubscriptionApp> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(app: await appRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new MemberSubscriptionModel(
-                                 documentID: currentState.value!.documentID,
-                                 app: null,
-          );
-        yield SubmittableMemberSubscriptionForm(value: newValue);
+        emit(SubmittableMemberSubscriptionForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -47,7 +47,7 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
   Stream<PublicMediumFormState> mapEventToState(PublicMediumFormEvent event) async* {
     final currentState = state;
     if (currentState is PublicMediumFormUninitialized) {
-      if (event is InitialiseNewPublicMediumFormEvent) {
+      on <InitialiseNewPublicMediumFormEvent> ((event, emit) {
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: PublicMediumModel(
                                                documentID: "",
                                  authorId: "",
@@ -63,126 +63,109 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
                                  relatedMediumId: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialisePublicMediumFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: await publicMediumRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialisePublicMediumFormNoLoadEvent) {
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is PublicMediumFormInitialized) {
       PublicMediumModel? newValue = null;
-      if (event is ChangedPublicMediumDocumentID) {
+      on <ChangedPublicMediumDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittablePublicMediumForm(value: newValue);
+          emit(SubmittablePublicMediumForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedPublicMediumAuthorId) {
+      });
+      on <ChangedPublicMediumAuthorId> ((event, emit) async {
         newValue = currentState.value!.copyWith(authorId: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumBaseName) {
+      });
+      on <ChangedPublicMediumBaseName> ((event, emit) async {
         newValue = currentState.value!.copyWith(baseName: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumUrl) {
+      });
+      on <ChangedPublicMediumUrl> ((event, emit) async {
         newValue = currentState.value!.copyWith(url: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumRef) {
+      });
+      on <ChangedPublicMediumRef> ((event, emit) async {
         newValue = currentState.value!.copyWith(ref: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumUrlThumbnail) {
+      });
+      on <ChangedPublicMediumUrlThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumRefThumbnail) {
+      });
+      on <ChangedPublicMediumRefThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(refThumbnail: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumMediumType) {
+      });
+      on <ChangedPublicMediumMediumType> ((event, emit) async {
         newValue = currentState.value!.copyWith(mediumType: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPublicMediumMediumWidth) {
+      });
+      on <ChangedPublicMediumMediumWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
-          yield SubmittablePublicMediumForm(value: newValue);
+          emit(SubmittablePublicMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumWidth: 0);
-          yield MediumWidthPublicMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumWidthPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPublicMediumMediumHeight) {
+      });
+      on <ChangedPublicMediumMediumHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
-          yield SubmittablePublicMediumForm(value: newValue);
+          emit(SubmittablePublicMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumHeight: 0);
-          yield MediumHeightPublicMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumHeightPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPublicMediumThumbnailWidth) {
+      });
+      on <ChangedPublicMediumThumbnailWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
-          yield SubmittablePublicMediumForm(value: newValue);
+          emit(SubmittablePublicMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailWidth: 0);
-          yield ThumbnailWidthPublicMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailWidthPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPublicMediumThumbnailHeight) {
+      });
+      on <ChangedPublicMediumThumbnailHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
-          yield SubmittablePublicMediumForm(value: newValue);
+          emit(SubmittablePublicMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailHeight: 0);
-          yield ThumbnailHeightPublicMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailHeightPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedPublicMediumRelatedMediumId) {
+      });
+      on <ChangedPublicMediumRelatedMediumId> ((event, emit) async {
         newValue = currentState.value!.copyWith(relatedMediumId: event.value);
-        yield SubmittablePublicMediumForm(value: newValue);
+        emit(SubmittablePublicMediumForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

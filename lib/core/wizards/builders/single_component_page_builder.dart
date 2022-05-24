@@ -29,7 +29,7 @@ class SingleComponentPageBuilder extends PageBuilder {
       required String componentIdentifier,
       required String title}) async {
     return await corerepo.AbstractRepositorySingleton.singleton
-        .pageRepository(app.documentID!)!
+        .pageRepository(app.documentID)!
         .add(_page(
             componentName: componentName,
             componentIdentifier: componentIdentifier,
@@ -48,7 +48,7 @@ class SingleComponentPageBuilder extends PageBuilder {
 
     return PageModel(
         documentID: constructDocumentId(uniqueId: uniqueId, documentId: pageId),
-        appId: app.documentID!,
+        appId: app.documentID,
         title: title,
         drawer: leftDrawer,
         endDrawer: rightDrawer,

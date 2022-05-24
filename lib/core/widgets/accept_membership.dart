@@ -81,7 +81,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   void _openPolicy(String? title, PublicMediumModel item) {
     openWidgetDialog(widget.app,
-      context, (widget.app.documentID! + '/_policy'),
+      context, (widget.app.documentID + '/_policy'),
       child: PublicMediumDialog(app: widget.app,
         width: 100,
         title: title,

@@ -85,7 +85,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
       readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
-    return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   /*
@@ -123,7 +123,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
       readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
-    return memberMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   @override
@@ -154,6 +154,6 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         relatedMediumId: previousMediumId,
         readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
-    return await memberMediumRepository(appId: app.documentID!)!.add(pageImageModel);
+    return await memberMediumRepository(appId: app.documentID)!.add(pageImageModel);
   }
 }

@@ -46,48 +46,36 @@ class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFo
   Stream<AppPolicyItemFormState> mapEventToState(AppPolicyItemFormEvent event) async* {
     final currentState = state;
     if (currentState is AppPolicyItemFormUninitialized) {
-      if (event is InitialiseNewAppPolicyItemFormEvent) {
+      on <InitialiseNewAppPolicyItemFormEvent> ((event, emit) {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: AppPolicyItemModel(
                                                documentID: "IDENTIFIER", 
                                  name: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseAppPolicyItemFormEvent) {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseAppPolicyItemFormNoLoadEvent) {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is AppPolicyItemFormInitialized) {
       AppPolicyItemModel? newValue = null;
-      if (event is ChangedAppPolicyItemName) {
+      on <ChangedAppPolicyItemName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
-        yield SubmittableAppPolicyItemForm(value: newValue);
+        emit(SubmittableAppPolicyItemForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppPolicyItemPolicy) {
+      });
+      on <ChangedAppPolicyItemPolicy> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(policy: await publicMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppPolicyItemModel(
-                                 documentID: currentState.value!.documentID,
-                                 name: currentState.value!.name,
-                                 policy: null,
-          );
-        yield SubmittableAppPolicyItemForm(value: newValue);
+        emit(SubmittableAppPolicyItemForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

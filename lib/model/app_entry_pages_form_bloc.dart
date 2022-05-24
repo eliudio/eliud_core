@@ -46,53 +46,41 @@ class AppEntryPagesFormBloc extends Bloc<AppEntryPagesFormEvent, AppEntryPagesFo
   Stream<AppEntryPagesFormState> mapEventToState(AppEntryPagesFormEvent event) async* {
     final currentState = state;
     if (currentState is AppEntryPagesFormUninitialized) {
-      if (event is InitialiseNewAppEntryPagesFormEvent) {
+      on <InitialiseNewAppEntryPagesFormEvent> ((event, emit) {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: AppEntryPagesModel(
                                                documentID: "IDENTIFIER", 
                                  minPrivilege: 0,
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseAppEntryPagesFormEvent) {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseAppEntryPagesFormNoLoadEvent) {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is AppEntryPagesFormInitialized) {
       AppEntryPagesModel? newValue = null;
-      if (event is ChangedAppEntryPagesEntryPage) {
+      on <ChangedAppEntryPagesEntryPage> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(entryPage: await pageRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppEntryPagesModel(
-                                 documentID: currentState.value!.documentID,
-                                 entryPage: null,
-                                 minPrivilege: currentState.value!.minPrivilege,
-          );
-        yield SubmittableAppEntryPagesForm(value: newValue);
+        emit(SubmittableAppEntryPagesForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppEntryPagesMinPrivilege) {
+      });
+      on <ChangedAppEntryPagesMinPrivilege> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(minPrivilege: int.parse(event.value!));
-          yield SubmittableAppEntryPagesForm(value: newValue);
+          emit(SubmittableAppEntryPagesForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(minPrivilege: 0);
-          yield MinPrivilegeAppEntryPagesFormError(message: "Value should be a number", value: newValue);
+          emit(MinPrivilegeAppEntryPagesFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
+      });
     }
   }
 

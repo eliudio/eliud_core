@@ -31,7 +31,7 @@ class DialogEntity {
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  DialogEntity({this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
+  DialogEntity({required this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
 
   List<Object?> get props => [appId, title, bodyComponents, backgroundOverride, layout, includeHeading, gridViewId, conditions, ];

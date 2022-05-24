@@ -47,7 +47,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
   Stream<MemberMediumFormState> mapEventToState(MemberMediumFormEvent event) async* {
     final currentState = state;
     if (currentState is MemberMediumFormUninitialized) {
-      if (event is InitialiseNewMemberMediumFormEvent) {
+      on <InitialiseNewMemberMediumFormEvent> ((event, emit) {
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: MemberMediumModel(
                                                documentID: "",
                                  appId: "",
@@ -66,132 +66,114 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
                                  relatedMediumId: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMemberMediumFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: await memberMediumRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMemberMediumFormNoLoadEvent) {
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MemberMediumFormInitialized) {
       MemberMediumModel? newValue = null;
-      if (event is ChangedMemberMediumDocumentID) {
+      on <ChangedMemberMediumDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableMemberMediumForm(value: newValue);
+          emit(SubmittableMemberMediumForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedMemberMediumAuthorId) {
+      });
+      on <ChangedMemberMediumAuthorId> ((event, emit) async {
         newValue = currentState.value!.copyWith(authorId: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumBaseName) {
+      });
+      on <ChangedMemberMediumBaseName> ((event, emit) async {
         newValue = currentState.value!.copyWith(baseName: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumUrl) {
+      });
+      on <ChangedMemberMediumUrl> ((event, emit) async {
         newValue = currentState.value!.copyWith(url: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumRef) {
+      });
+      on <ChangedMemberMediumRef> ((event, emit) async {
         newValue = currentState.value!.copyWith(ref: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumUrlThumbnail) {
+      });
+      on <ChangedMemberMediumUrlThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumRefThumbnail) {
+      });
+      on <ChangedMemberMediumRefThumbnail> ((event, emit) async {
         newValue = currentState.value!.copyWith(refThumbnail: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumAccessibleByGroup) {
+      });
+      on <ChangedMemberMediumAccessibleByGroup> ((event, emit) async {
         newValue = currentState.value!.copyWith(accessibleByGroup: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumMediumType) {
+      });
+      on <ChangedMemberMediumMediumType> ((event, emit) async {
         newValue = currentState.value!.copyWith(mediumType: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberMediumMediumWidth) {
+      });
+      on <ChangedMemberMediumMediumWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
-          yield SubmittableMemberMediumForm(value: newValue);
+          emit(SubmittableMemberMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumWidth: 0);
-          yield MediumWidthMemberMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumWidthMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedMemberMediumMediumHeight) {
+      });
+      on <ChangedMemberMediumMediumHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
-          yield SubmittableMemberMediumForm(value: newValue);
+          emit(SubmittableMemberMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mediumHeight: 0);
-          yield MediumHeightMemberMediumFormError(message: "Value should be a number", value: newValue);
+          emit(MediumHeightMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedMemberMediumThumbnailWidth) {
+      });
+      on <ChangedMemberMediumThumbnailWidth> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
-          yield SubmittableMemberMediumForm(value: newValue);
+          emit(SubmittableMemberMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailWidth: 0);
-          yield ThumbnailWidthMemberMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailWidthMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedMemberMediumThumbnailHeight) {
+      });
+      on <ChangedMemberMediumThumbnailHeight> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
-          yield SubmittableMemberMediumForm(value: newValue);
+          emit(SubmittableMemberMediumForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(thumbnailHeight: 0);
-          yield ThumbnailHeightMemberMediumFormError(message: "Value should be a number", value: newValue);
+          emit(ThumbnailHeightMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedMemberMediumRelatedMediumId) {
+      });
+      on <ChangedMemberMediumRelatedMediumId> ((event, emit) async {
         newValue = currentState.value!.copyWith(relatedMediumId: event.value);
-        yield SubmittableMemberMediumForm(value: newValue);
+        emit(SubmittableMemberMediumForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -69,7 +69,7 @@ class AppPolicyForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppPolicyFormBloc >(
             create: (context) => AppPolicyFormBloc(appId,
@@ -277,7 +277,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
   }
 
   bool _readOnly(AccessState accessState, AppPolicyFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

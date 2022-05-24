@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -45,9 +46,9 @@ HeaderSelection toHeaderSelection(int? index) {
 }
 
 
-class AppBarModel {
-  String? documentID;
-  String? appId;
+class AppBarModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
 
   // Enum indicating which header to use, and hence which field to use: title, icon or image
@@ -60,7 +61,7 @@ class AppBarModel {
   RgbModel? selectedIconColorOverride;
   RgbModel? menuBackgroundColorOverride;
 
-  AppBarModel({this.documentID, this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, })  {
+  AppBarModel({required this.documentID, required this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, })  {
     assert(documentID != null);
   }
 
@@ -113,7 +114,7 @@ class AppBarModel {
     var counter = 0;
     return AppBarModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           header: toHeaderSelection(entity.header), 
           icon: 
@@ -157,7 +158,7 @@ class AppBarModel {
     var counter = 0;
     return AppBarModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           header: toHeaderSelection(entity.header), 
           icon: 

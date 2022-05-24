@@ -45,7 +45,7 @@ class MemberDashboardComponentConstructorDefault
 
   @override
   Future<dynamic> getModel({required AppModel app, required String id}) async =>
-      await memberDashboardRepository(appId: app.documentID!)!.get(id);
+      await memberDashboardRepository(appId: app.documentID)!.get(id);
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
@@ -157,12 +157,12 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
     openFlexibleDialog(
         app,
         context,
-        app.documentID! + '/_member',
+        app.documentID + '/_member',
         includeHeading: false,
         widthFraction: .8,
         child: BlocProvider<MemberBloc>(
             create: (context) => MemberBloc(
-              app.documentID!,
+              app.documentID,
             )..add(ExtEditorBaseInitialise<MemberModel>(member)),
             child: MemberModelWidget.getIt(
                 context,
@@ -178,7 +178,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         ));
 
 /*
-    await Navigator.of(context).push(pageRouteBuilderWithAppId(AccessBloc.getBloc(context).state, app.documentID!,
+    await Navigator.of(context).push(pageRouteBuilderWithAppId(AccessBloc.getBloc(context).state, app.documentID,
         page: MultiBlocProvider(
             providers: [
               BlocProvider<MemberListBloc>(
@@ -194,7 +194,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel app, MemberModel member) {
-    openAckNackDialog(app, context, app.documentID! + '/_retrievedata',
+    openAckNackDialog(app, context, app.documentID + '/_retrievedata',
         title: 'Confirm',
         message:
             'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
@@ -206,7 +206,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             dashboardModel!.retrieveDataEmailSubject,
             app.email,
             AccessBloc.getState(context).getMemberCollectionInfo()!);
-        openComplexDialog(app, context, app.documentID! + '/_retrievedata',
+        openComplexDialog(app, context, app.documentID + '/_retrievedata',
             title: 'Retrieve data',
             child: Text(
                 'You will receive an email at your registered email address ' +
@@ -218,7 +218,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel app, MemberModel member) {
-    openAckNackDialog(app, context, app.documentID! + '/_deleteaccount',
+    openAckNackDialog(app, context, app.documentID + '/_deleteaccount',
         title: 'Confirm. Last but 2 warnings',
         message:
             'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -236,7 +236,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(app, context, app.documentID! + '/_confirmdeleteaccount',
+    openAckNackDialog(app, context, app.documentID + '/_confirmdeleteaccount',
         title: 'Confirm. Last but 1 warning',
         message:
             'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -255,7 +255,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
     openAckNackDialog(app, context,
-        app.documentID! + '/_deleteaccount',
+        app.documentID + '/_deleteaccount',
         title: 'Confirm. Last warning',
         message:
             'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
@@ -275,6 +275,6 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   @override
   MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
-    return memberDashboardRepository(appId: app.documentID!)!;
+    return memberDashboardRepository(appId: app.documentID)!;
   }
 }

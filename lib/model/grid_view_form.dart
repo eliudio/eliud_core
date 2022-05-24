@@ -69,7 +69,7 @@ class GridViewForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<GridViewFormBloc >(
             create: (context) => GridViewFormBloc(appId,
@@ -259,11 +259,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Horizontal', 'Horizontal', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionScrollDirection(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _scrollDirectionSelectedRadioTile, 'Vertical', 'Vertical', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionScrollDirection(val))
           );
 
 
@@ -279,11 +279,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _typeSelectedRadioTile, 'Count', 'Count', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _typeSelectedRadioTile, 'Count', 'Count', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _typeSelectedRadioTile, 'Extent', 'Extent', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _typeSelectedRadioTile, 'Extent', 'Extent', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionType(val))
           );
 
 
@@ -315,11 +315,11 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
 
         if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Absolute', 'Absolute', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Absolute', 'Absolute', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
           );
         if ((state.value!.type == GridViewGridType.Extent)) children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Relative', 'Relative', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _maxCrossAxisExtentTypeSelectedRadioTile, 'Relative', 'Relative', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMaxCrossAxisExtentType(val))
           );
 
 
@@ -560,7 +560,7 @@ class _MyGridViewFormState extends State<MyGridViewForm> {
   }
 
   bool _readOnly(AccessState accessState, GridViewFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

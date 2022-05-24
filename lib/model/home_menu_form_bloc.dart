@@ -47,7 +47,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
   Stream<HomeMenuFormState> mapEventToState(HomeMenuFormEvent event) async* {
     final currentState = state;
     if (currentState is HomeMenuFormUninitialized) {
-      if (event is InitialiseNewHomeMenuFormEvent) {
+      on <InitialiseNewHomeMenuFormEvent> ((event, emit) {
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: HomeMenuModel(
                                                documentID: "IDENTIFIER", 
                                  appId: "",
@@ -56,79 +56,59 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
                                  popupMenuBackgroundColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseHomeMenuFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseHomeMenuFormNoLoadEvent) {
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is HomeMenuFormInitialized) {
       HomeMenuModel? newValue = null;
-      if (event is ChangedHomeMenuDocumentID) {
+      on <ChangedHomeMenuDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableHomeMenuForm(value: newValue);
+          emit(SubmittableHomeMenuForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedHomeMenuName) {
+      });
+      on <ChangedHomeMenuName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
         if (!_isNameValid(event.value)) {
-          yield NameHomeMenuFormError(message: "Invalid value", value: newValue);
+          emit(NameHomeMenuFormError(message: "Invalid value", value: newValue));
         } else {
-          yield SubmittableHomeMenuForm(value: newValue);
+          emit(SubmittableHomeMenuForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedHomeMenuMenu) {
+      });
+      on <ChangedHomeMenuMenu> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new HomeMenuModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 name: currentState.value!.name,
-                                 menu: null,
-                                 iconColorOverride: currentState.value!.iconColorOverride,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
-          );
-        yield SubmittableHomeMenuForm(value: newValue);
+        emit(SubmittableHomeMenuForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedHomeMenuIconColorOverride) {
+      });
+      on <ChangedHomeMenuIconColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(iconColorOverride: event.value);
-        yield SubmittableHomeMenuForm(value: newValue);
+        emit(SubmittableHomeMenuForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedHomeMenuBackgroundOverride) {
+      });
+      on <ChangedHomeMenuBackgroundOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
-        yield SubmittableHomeMenuForm(value: newValue);
+        emit(SubmittableHomeMenuForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedHomeMenuPopupMenuBackgroundColorOverride) {
+      });
+      on <ChangedHomeMenuPopupMenuBackgroundColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(popupMenuBackgroundColorOverride: event.value);
-        yield SubmittableHomeMenuForm(value: newValue);
+        emit(SubmittableHomeMenuForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

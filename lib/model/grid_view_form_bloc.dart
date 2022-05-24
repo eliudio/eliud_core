@@ -47,7 +47,7 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
   Stream<GridViewFormState> mapEventToState(GridViewFormEvent event) async* {
     final currentState = state;
     if (currentState is GridViewFormUninitialized) {
-      if (event is InitialiseNewGridViewFormEvent) {
+      on <InitialiseNewGridViewFormEvent> ((event, emit) {
         GridViewFormLoaded loaded = GridViewFormLoaded(value: GridViewModel(
                                                documentID: "",
                                  appId: "",
@@ -61,141 +61,124 @@ class GridViewFormBloc extends Bloc<GridViewFormEvent, GridViewFormState> {
                                  crossAxisSpacing: 0.0,
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseGridViewFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         GridViewFormLoaded loaded = GridViewFormLoaded(value: await gridViewRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseGridViewFormNoLoadEvent) {
         GridViewFormLoaded loaded = GridViewFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is GridViewFormInitialized) {
       GridViewModel? newValue = null;
-      if (event is ChangedGridViewDocumentID) {
+      on <ChangedGridViewDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedGridViewName) {
+      });
+      on <ChangedGridViewName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
-        yield SubmittableGridViewForm(value: newValue);
+        emit(SubmittableGridViewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedGridViewScrollDirection) {
+      });
+      on <ChangedGridViewScrollDirection> ((event, emit) async {
         newValue = currentState.value!.copyWith(scrollDirection: event.value);
-        yield SubmittableGridViewForm(value: newValue);
+        emit(SubmittableGridViewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedGridViewType) {
+      });
+      on <ChangedGridViewType> ((event, emit) async {
         newValue = currentState.value!.copyWith(type: event.value);
-        yield SubmittableGridViewForm(value: newValue);
+        emit(SubmittableGridViewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedGridViewCrossAxisCount) {
+      });
+      on <ChangedGridViewCrossAxisCount> ((event, emit) async {
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(crossAxisCount: int.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(crossAxisCount: 0);
-          yield CrossAxisCountGridViewFormError(message: "Value should be a number", value: newValue);
+          emit(CrossAxisCountGridViewFormError(message: "Value should be a number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewMaxCrossAxisExtentType) {
+      });
+      on <ChangedGridViewMaxCrossAxisExtentType> ((event, emit) async {
         newValue = currentState.value!.copyWith(maxCrossAxisExtentType: event.value);
-        yield SubmittableGridViewForm(value: newValue);
+        emit(SubmittableGridViewForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedGridViewAbsoluteMaxCrossAxisExtent) {
+      });
+      on <ChangedGridViewAbsoluteMaxCrossAxisExtent> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(absoluteMaxCrossAxisExtent: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(absoluteMaxCrossAxisExtent: 0.0);
-          yield AbsoluteMaxCrossAxisExtentGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(AbsoluteMaxCrossAxisExtentGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewRelativeMaxCrossAxisExtent) {
+      });
+      on <ChangedGridViewRelativeMaxCrossAxisExtent> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(relativeMaxCrossAxisExtent: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(relativeMaxCrossAxisExtent: 0.0);
-          yield RelativeMaxCrossAxisExtentGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(RelativeMaxCrossAxisExtentGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewChildAspectRatio) {
+      });
+      on <ChangedGridViewChildAspectRatio> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(childAspectRatio: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(childAspectRatio: 0.0);
-          yield ChildAspectRatioGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(ChildAspectRatioGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewPadding) {
+      });
+      on <ChangedGridViewPadding> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(padding: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(padding: 0.0);
-          yield PaddingGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(PaddingGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewMainAxisSpacing) {
+      });
+      on <ChangedGridViewMainAxisSpacing> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(mainAxisSpacing: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(mainAxisSpacing: 0.0);
-          yield MainAxisSpacingGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(MainAxisSpacingGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewCrossAxisSpacing) {
+      });
+      on <ChangedGridViewCrossAxisSpacing> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(crossAxisSpacing: double.parse(event.value!));
-          yield SubmittableGridViewForm(value: newValue);
+          emit(SubmittableGridViewForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(crossAxisSpacing: 0.0);
-          yield CrossAxisSpacingGridViewFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(CrossAxisSpacingGridViewFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedGridViewConditions) {
+      });
+      on <ChangedGridViewConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittableGridViewForm(value: newValue);
+        emit(SubmittableGridViewForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

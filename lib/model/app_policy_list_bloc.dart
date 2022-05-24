@@ -38,9 +38,47 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
       : assert(appPolicyRepository != null),
         _appPolicyRepository = appPolicyRepository,
-        super(AppPolicyListLoading());
+        super(AppPolicyListLoading()) {
+    on <LoadAppPolicyList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppPolicyListToState();
+      } else {
+        _mapLoadAppPolicyListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadAppPolicyListWithDetailsToState();
+    });
+    
+    on <AppPolicyChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppPolicyListToState();
+      } else {
+        _mapLoadAppPolicyListWithDetailsToState();
+      }
+    });
+      
+    on <AddAppPolicyList> ((event, emit) async {
+      await _mapAddAppPolicyListToState(event);
+    });
+    
+    on <UpdateAppPolicyList> ((event, emit) async {
+      await _mapUpdateAppPolicyListToState(event);
+    });
+    
+    on <DeleteAppPolicyList> ((event, emit) async {
+      await _mapDeleteAppPolicyListToState(event);
+    });
+    
+    on <AppPolicyListUpdated> ((event, emit) {
+      emit(_mapAppPolicyListUpdatedToState(event));
+    });
+  }
 
-  Stream<AppPolicyListState> _mapLoadAppPolicyListToState() async* {
+  Future<void> _mapLoadAppPolicyListToState() async {
     int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listen(
@@ -52,7 +90,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
     );
   }
 
-  Stream<AppPolicyListState> _mapLoadAppPolicyListWithDetailsToState() async* {
+  Future<void> _mapLoadAppPolicyListWithDetailsToState() async {
     int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
     );
   }
 
-  Stream<AppPolicyListState> _mapAddAppPolicyListToState(AddAppPolicyList event) async* {
+  Future<void> _mapAddAppPolicyListToState(AddAppPolicyList event) async {
     var value = event.value;
-    if (value != null) 
-      _appPolicyRepository.add(value);
-  }
-
-  Stream<AppPolicyListState> _mapUpdateAppPolicyListToState(UpdateAppPolicyList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appPolicyRepository.update(value);
-  }
-
-  Stream<AppPolicyListState> _mapDeleteAppPolicyListToState(DeleteAppPolicyList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appPolicyRepository.delete(value);
-  }
-
-  Stream<AppPolicyListState> _mapAppPolicyListUpdatedToState(
-      AppPolicyListUpdated event) async* {
-    yield AppPolicyListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<AppPolicyListState> mapEventToState(AppPolicyListEvent event) async* {
-    if (event is LoadAppPolicyList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppPolicyListToState();
-      } else {
-        yield* _mapLoadAppPolicyListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadAppPolicyListWithDetailsToState();
-    } else if (event is AppPolicyChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppPolicyListToState();
-      } else {
-        yield* _mapLoadAppPolicyListWithDetailsToState();
-      }
-    } else if (event is AddAppPolicyList) {
-      yield* _mapAddAppPolicyListToState(event);
-    } else if (event is UpdateAppPolicyList) {
-      yield* _mapUpdateAppPolicyListToState(event);
-    } else if (event is DeleteAppPolicyList) {
-      yield* _mapDeleteAppPolicyListToState(event);
-    } else if (event is AppPolicyListUpdated) {
-      yield* _mapAppPolicyListUpdatedToState(event);
+    if (value != null) {
+      await _appPolicyRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateAppPolicyListToState(UpdateAppPolicyList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appPolicyRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteAppPolicyListToState(DeleteAppPolicyList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appPolicyRepository.delete(value);
+    }
+  }
+
+  AppPolicyListLoaded _mapAppPolicyListUpdatedToState(
+      AppPolicyListUpdated event) => AppPolicyListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

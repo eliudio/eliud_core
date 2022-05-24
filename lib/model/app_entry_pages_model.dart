@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class AppEntryPagesModel {
-  String? documentID;
+class AppEntryPagesModel implements ModelBase {
+  String documentID;
   PageModel? entryPage;
 
   // Members with a privilege more or equal to this privilege have this homepage, unless a 
   int? minPrivilege;
 
-  AppEntryPagesModel({this.documentID, this.entryPage, this.minPrivilege, })  {
+  AppEntryPagesModel({required this.documentID, this.entryPage, this.minPrivilege, })  {
     assert(documentID != null);
   }
 

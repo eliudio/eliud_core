@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -32,13 +33,13 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class AppPolicyModel {
-  String? documentID;
-  String? appId;
+class AppPolicyModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? comments;
   List<AppPolicyItemModel>? policies;
 
-  AppPolicyModel({this.documentID, this.appId, this.comments, this.policies, })  {
+  AppPolicyModel({required this.documentID, required this.appId, this.comments, this.policies, })  {
     assert(documentID != null);
   }
 
@@ -81,7 +82,7 @@ class AppPolicyModel {
     var counter = 0;
     return AppPolicyModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           comments: entity.comments, 
           policies: 
             entity.policies == null ? null : List<AppPolicyItemModel>.from(await Future.wait(entity. policies
@@ -99,7 +100,7 @@ class AppPolicyModel {
     var counter = 0;
     return AppPolicyModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           comments: entity.comments, 
           policies: 
             entity. policies == null ? null : List<AppPolicyItemModel>.from(await Future.wait(entity. policies

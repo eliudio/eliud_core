@@ -75,7 +75,7 @@ class MemberSubscriptionListWidget extends StatefulWidget with HasFab {
 class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidget> {
   @override
   Widget? fab(BuildContext aContext, AccessState accessState) {
-    return !accessState.memberIsOwner(widget.app.documentID!) 
+    return !accessState.memberIsOwner(widget.app.documentID) 
       ? null
       : StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().floatingActionButton(widget.app, context, 'PageFloatBtnTag', Icon(Icons.add),
       onPressed: () {
@@ -217,7 +217,7 @@ class MemberSubscriptionListItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: ListTile(
         onTap: onTap,
-        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID!)) : Container(),
+        title: value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID)) : Container(),
         subtitle: value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.title!)) : Container(),
       ),
     );

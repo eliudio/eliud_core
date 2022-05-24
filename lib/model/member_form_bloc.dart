@@ -46,7 +46,7 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
   Stream<MemberFormState> mapEventToState(MemberFormEvent event) async* {
     final currentState = state;
     if (currentState is MemberFormUninitialized) {
-      if (event is InitialiseNewMemberFormEvent) {
+      on <InitialiseNewMemberFormEvent> ((event, emit) {
         MemberFormLoaded loaded = MemberFormLoaded(value: MemberModel(
                                                documentID: "",
                                  name: "",
@@ -69,162 +69,115 @@ class MemberFormBloc extends Bloc<MemberFormEvent, MemberFormState> {
                                  email: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMemberFormEvent) {
         MemberFormLoaded loaded = MemberFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMemberFormNoLoadEvent) {
         MemberFormLoaded loaded = MemberFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MemberFormInitialized) {
       MemberModel? newValue = null;
-      if (event is ChangedMemberDocumentID) {
+      on <ChangedMemberDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberName) {
+      });
+      on <ChangedMemberName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberSubscriptions) {
+      });
+      on <ChangedMemberSubscriptions> ((event, emit) async {
         newValue = currentState.value!.copyWith(subscriptions: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberPhoto) {
+      });
+      on <ChangedMemberPhoto> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(photo: await publicMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new MemberModel(
-                                 documentID: currentState.value!.documentID,
-                                 name: currentState.value!.name,
-                                 subscriptions: currentState.value!.subscriptions,
-                                 subscriptionsAsStrArr: currentState.value!.subscriptionsAsStrArr,
-                                 photo: null,
-                                 photoURL: currentState.value!.photoURL,
-                                 shipStreet1: currentState.value!.shipStreet1,
-                                 shipStreet2: currentState.value!.shipStreet2,
-                                 shipCity: currentState.value!.shipCity,
-                                 shipState: currentState.value!.shipState,
-                                 postcode: currentState.value!.postcode,
-                                 country: currentState.value!.country,
-                                 invoiceSame: currentState.value!.invoiceSame,
-                                 invoiceStreet1: currentState.value!.invoiceStreet1,
-                                 invoiceStreet2: currentState.value!.invoiceStreet2,
-                                 invoiceCity: currentState.value!.invoiceCity,
-                                 invoiceState: currentState.value!.invoiceState,
-                                 invoicePostcode: currentState.value!.invoicePostcode,
-                                 invoiceCountry: currentState.value!.invoiceCountry,
-                                 email: currentState.value!.email,
-                                 isAnonymous: currentState.value!.isAnonymous,
-          );
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberShipStreet1) {
+      });
+      on <ChangedMemberShipStreet1> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipStreet1: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberShipStreet2) {
+      });
+      on <ChangedMemberShipStreet2> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipStreet2: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberShipCity) {
+      });
+      on <ChangedMemberShipCity> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipCity: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberShipState) {
+      });
+      on <ChangedMemberShipState> ((event, emit) async {
         newValue = currentState.value!.copyWith(shipState: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberPostcode) {
+      });
+      on <ChangedMemberPostcode> ((event, emit) async {
         newValue = currentState.value!.copyWith(postcode: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberCountry) {
+      });
+      on <ChangedMemberCountry> ((event, emit) async {
         newValue = currentState.value!.copyWith(country: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceSame) {
+      });
+      on <ChangedMemberInvoiceSame> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceSame: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceStreet1) {
+      });
+      on <ChangedMemberInvoiceStreet1> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceStreet1: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceStreet2) {
+      });
+      on <ChangedMemberInvoiceStreet2> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceStreet2: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceCity) {
+      });
+      on <ChangedMemberInvoiceCity> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceCity: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceState) {
+      });
+      on <ChangedMemberInvoiceState> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceState: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoicePostcode) {
+      });
+      on <ChangedMemberInvoicePostcode> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoicePostcode: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberInvoiceCountry) {
+      });
+      on <ChangedMemberInvoiceCountry> ((event, emit) async {
         newValue = currentState.value!.copyWith(invoiceCountry: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberEmail) {
+      });
+      on <ChangedMemberEmail> ((event, emit) async {
         newValue = currentState.value!.copyWith(email: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberIsAnonymous) {
+      });
+      on <ChangedMemberIsAnonymous> ((event, emit) async {
         newValue = currentState.value!.copyWith(isAnonymous: event.value);
-        yield SubmittableMemberForm(value: newValue);
+        emit(SubmittableMemberForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

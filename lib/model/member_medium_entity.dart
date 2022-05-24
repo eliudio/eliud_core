@@ -39,7 +39,7 @@ class MemberMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  MemberMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  MemberMediumEntity({required this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
   List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, accessibleByGroup, accessibleByMembers, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];

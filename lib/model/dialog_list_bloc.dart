@@ -38,9 +38,47 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   DialogListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
       : assert(dialogRepository != null),
         _dialogRepository = dialogRepository,
-        super(DialogListLoading());
+        super(DialogListLoading()) {
+    on <LoadDialogList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDialogListToState();
+      } else {
+        _mapLoadDialogListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadDialogListWithDetailsToState();
+    });
+    
+    on <DialogChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDialogListToState();
+      } else {
+        _mapLoadDialogListWithDetailsToState();
+      }
+    });
+      
+    on <AddDialogList> ((event, emit) async {
+      await _mapAddDialogListToState(event);
+    });
+    
+    on <UpdateDialogList> ((event, emit) async {
+      await _mapUpdateDialogListToState(event);
+    });
+    
+    on <DeleteDialogList> ((event, emit) async {
+      await _mapDeleteDialogListToState(event);
+    });
+    
+    on <DialogListUpdated> ((event, emit) {
+      emit(_mapDialogListUpdatedToState(event));
+    });
+  }
 
-  Stream<DialogListState> _mapLoadDialogListToState() async* {
+  Future<void> _mapLoadDialogListToState() async {
     int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
     _dialogsListSubscription?.cancel();
     _dialogsListSubscription = _dialogRepository.listen(
@@ -52,7 +90,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     );
   }
 
-  Stream<DialogListState> _mapLoadDialogListWithDetailsToState() async* {
+  Future<void> _mapLoadDialogListWithDetailsToState() async {
     int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
     _dialogsListSubscription?.cancel();
     _dialogsListSubscription = _dialogRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     );
   }
 
-  Stream<DialogListState> _mapAddDialogListToState(AddDialogList event) async* {
+  Future<void> _mapAddDialogListToState(AddDialogList event) async {
     var value = event.value;
-    if (value != null) 
-      _dialogRepository.add(value);
-  }
-
-  Stream<DialogListState> _mapUpdateDialogListToState(UpdateDialogList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _dialogRepository.update(value);
-  }
-
-  Stream<DialogListState> _mapDeleteDialogListToState(DeleteDialogList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _dialogRepository.delete(value);
-  }
-
-  Stream<DialogListState> _mapDialogListUpdatedToState(
-      DialogListUpdated event) async* {
-    yield DialogListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<DialogListState> mapEventToState(DialogListEvent event) async* {
-    if (event is LoadDialogList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDialogListToState();
-      } else {
-        yield* _mapLoadDialogListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadDialogListWithDetailsToState();
-    } else if (event is DialogChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDialogListToState();
-      } else {
-        yield* _mapLoadDialogListWithDetailsToState();
-      }
-    } else if (event is AddDialogList) {
-      yield* _mapAddDialogListToState(event);
-    } else if (event is UpdateDialogList) {
-      yield* _mapUpdateDialogListToState(event);
-    } else if (event is DeleteDialogList) {
-      yield* _mapDeleteDialogListToState(event);
-    } else if (event is DialogListUpdated) {
-      yield* _mapDialogListUpdatedToState(event);
+    if (value != null) {
+      await _dialogRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateDialogListToState(UpdateDialogList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _dialogRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteDialogListToState(DeleteDialogList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _dialogRepository.delete(value);
+    }
+  }
+
+  DialogListLoaded _mapDialogListUpdatedToState(
+      DialogListUpdated event) => DialogListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

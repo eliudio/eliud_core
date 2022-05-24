@@ -27,23 +27,22 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   final AppRepository? appRepository;
   StreamSubscription? _appSubscription;
 
-  Stream<AppComponentState> _mapLoadAppComponentUpdateToState(String documentId) async* {
+  void _mapLoadAppComponentUpdateToState(String documentId) {
     _appSubscription?.cancel();
     _appSubscription = appRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppComponentUpdated(value: value));
+      if (value != null) {
+        add(AppComponentUpdated(value: value));
+      }
     });
   }
 
-  AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized());
-
-  @override
-  Stream<AppComponentState> mapEventToState(AppComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchAppComponent) {
-      yield* _mapLoadAppComponentUpdateToState(event.id!);
-    } else if (event is AppComponentUpdated) {
-      yield AppComponentLoaded(value: event.value);
-    }
+  AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized()) {
+    on <FetchAppComponent> ((event, emit) {
+      _mapLoadAppComponentUpdateToState(event.id!);
+    });
+    on <AppComponentUpdated> ((event, emit) {
+      emit(AppComponentLoaded(value: event.value));
+    });
   }
 
   @override

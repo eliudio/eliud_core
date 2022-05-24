@@ -47,7 +47,7 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
   Stream<AppBarFormState> mapEventToState(AppBarFormEvent event) async* {
     final currentState = state;
     if (currentState is AppBarFormUninitialized) {
-      if (event is InitialiseNewAppBarFormEvent) {
+      on <InitialiseNewAppBarFormEvent> ((event, emit) {
         AppBarFormLoaded loaded = AppBarFormLoaded(value: AppBarModel(
                                                documentID: "",
                                  appId: "",
@@ -57,118 +57,76 @@ class AppBarFormBloc extends Bloc<AppBarFormEvent, AppBarFormState> {
                                  menuBackgroundColorOverride: RgbModel(r: 64, g: 6, b: 64, opacity: 1.00), 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseAppBarFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         AppBarFormLoaded loaded = AppBarFormLoaded(value: await appBarRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseAppBarFormNoLoadEvent) {
         AppBarFormLoaded loaded = AppBarFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is AppBarFormInitialized) {
       AppBarModel? newValue = null;
-      if (event is ChangedAppBarDocumentID) {
+      on <ChangedAppBarDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableAppBarForm(value: newValue);
+          emit(SubmittableAppBarForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedAppBarTitle) {
+      });
+      on <ChangedAppBarTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarHeader) {
+      });
+      on <ChangedAppBarHeader> ((event, emit) async {
         newValue = currentState.value!.copyWith(header: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarIcon) {
+      });
+      on <ChangedAppBarIcon> ((event, emit) async {
         newValue = currentState.value!.copyWith(icon: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarImage) {
+      });
+      on <ChangedAppBarImage> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(image: await memberMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppBarModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 header: currentState.value!.header,
-                                 icon: currentState.value!.icon,
-                                 image: null,
-                                 iconMenu: currentState.value!.iconMenu,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 iconColorOverride: currentState.value!.iconColorOverride,
-                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
-                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
-          );
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarIconMenu) {
+      });
+      on <ChangedAppBarIconMenu> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(iconMenu: await menuDefRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppBarModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 header: currentState.value!.header,
-                                 icon: currentState.value!.icon,
-                                 image: currentState.value!.image,
-                                 iconMenu: null,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 iconColorOverride: currentState.value!.iconColorOverride,
-                                 selectedIconColorOverride: currentState.value!.selectedIconColorOverride,
-                                 menuBackgroundColorOverride: currentState.value!.menuBackgroundColorOverride,
-          );
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarBackgroundOverride) {
+      });
+      on <ChangedAppBarBackgroundOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarIconColorOverride) {
+      });
+      on <ChangedAppBarIconColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(iconColorOverride: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarSelectedIconColorOverride) {
+      });
+      on <ChangedAppBarSelectedIconColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(selectedIconColorOverride: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppBarMenuBackgroundColorOverride) {
+      });
+      on <ChangedAppBarMenuBackgroundColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(menuBackgroundColorOverride: event.value);
-        yield SubmittableAppBarForm(value: newValue);
+        emit(SubmittableAppBarForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

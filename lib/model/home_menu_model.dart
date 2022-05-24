@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,9 +32,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class HomeMenuModel {
-  String? documentID;
-  String? appId;
+class HomeMenuModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? name;
   MenuDefModel? menu;
   RgbModel? iconColorOverride;
@@ -42,7 +43,7 @@ class HomeMenuModel {
   BackgroundModel? backgroundOverride;
   RgbModel? popupMenuBackgroundColorOverride;
 
-  HomeMenuModel({this.documentID, this.appId, this.name, this.menu, this.iconColorOverride, this.backgroundOverride, this.popupMenuBackgroundColorOverride, })  {
+  HomeMenuModel({required this.documentID, required this.appId, this.name, this.menu, this.iconColorOverride, this.backgroundOverride, this.popupMenuBackgroundColorOverride, })  {
     assert(documentID != null);
   }
 
@@ -87,7 +88,7 @@ class HomeMenuModel {
     var counter = 0;
     return HomeMenuModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           iconColorOverride: 
             await RgbModel.fromEntity(entity.iconColorOverride), 
@@ -115,7 +116,7 @@ class HomeMenuModel {
     var counter = 0;
     return HomeMenuModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           menu: menuHolder, 
           iconColorOverride: 

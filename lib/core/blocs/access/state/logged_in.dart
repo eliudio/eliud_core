@@ -50,14 +50,14 @@ class LoggedIn extends AccessDetermined {
         await AccessHelper.getAccesses(accessBloc, member, apps, false);
 
     var determinedApps = await Future.wait(apps.map((app) async {
-      var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
-      var appIsBlocked = _isBlocked(app.documentID!, accesses);
+      var privilegeLevel = _privilegeLevel(app.documentID, accesses);
+      var appIsBlocked = _isBlocked(app.documentID, accesses);
       var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
       return DeterminedApp(app, homePage);
     }).toList());
 
 /*
-    if ((!(subscribedToApps.contains(currentApp.documentID!))) && (currentApp.policies == null)) {
+    if ((!(subscribedToApps.contains(currentApp.documentID))) && (currentApp.policies == null)) {
       // accept membership as not policies provided
       member = await acceptMembership(member, currentApp);
     }
@@ -85,8 +85,8 @@ class LoggedIn extends AccessDetermined {
   }) async {
     var accesses =
         await AccessHelper.getAccesses2(accessBloc, member, [app], false);
-    var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
-    var appIsBlocked = _isBlocked(app.documentID!, accesses);
+    var privilegeLevel = _privilegeLevel(app.documentID, accesses);
+    var appIsBlocked = _isBlocked(app.documentID, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     var apps = [DeterminedApp(app, homePage)];
 
@@ -159,8 +159,8 @@ class LoggedIn extends AccessDetermined {
     var newApps = _apps.map((v) => v).toList();
 
     var privilegeLevel =
-        _privilegeLevel(newCurrentApp.documentID!, newAccesses);
-    var appIsBlocked = _isBlocked(newCurrentApp.documentID!, newAccesses);
+        _privilegeLevel(newCurrentApp.documentID, newAccesses);
+    var appIsBlocked = _isBlocked(newCurrentApp.documentID, newAccesses);
     var homePage =
         await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
     newApps.add(DeterminedApp(newCurrentApp, homePage));
@@ -333,7 +333,7 @@ class LoggedIn extends AccessDetermined {
 
   static Future<PageModel?> getHomepage(
       AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (app.homePages == null) {
       return AccessDetermined.getPage(appId, null,
           alternativePageId: null);
@@ -473,8 +473,8 @@ class LoggedIn extends AccessDetermined {
 
   @override
   Future<PageModel?> reterminedHomePageForAppId(AppModel app) async {
-    var privilegeLevel = _privilegeLevel(app.documentID!, accesses);
-    var appIsBlocked = _isBlocked(app.documentID!, accesses);
+    var privilegeLevel = _privilegeLevel(app.documentID, accesses);
+    var appIsBlocked = _isBlocked(app.documentID, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     return homePage;
   }

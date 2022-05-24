@@ -46,7 +46,7 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
         value: value,
         items: dropDownItems,
         hint: text(widget.app, context, 'Select component type'),
-        onChanged: !accessState.memberIsOwner(widget.app.documentID!) ? null : _onChangedDropDownItem);
+        onChanged: !accessState.memberIsOwner(widget.app.documentID) ? null : _onChangedDropDownItem);
   }
 
   void _onChangedDropDownItem(val) {

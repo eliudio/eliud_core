@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -32,14 +33,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class MenuDefModel {
-  String? documentID;
-  String? appId;
+class MenuDefModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? name;
   List<MenuItemModel>? menuItems;
   bool? admin;
 
-  MenuDefModel({this.documentID, this.appId, this.name, this.menuItems, this.admin, })  {
+  MenuDefModel({required this.documentID, required this.appId, this.name, this.menuItems, this.admin, })  {
     assert(documentID != null);
   }
 
@@ -84,7 +85,7 @@ class MenuDefModel {
     var counter = 0;
     return MenuDefModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           menuItems: 
             entity.menuItems == null ? null : List<MenuItemModel>.from(await Future.wait(entity. menuItems
@@ -103,7 +104,7 @@ class MenuDefModel {
     var counter = 0;
     return MenuDefModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           menuItems: 
             entity. menuItems == null ? null : List<MenuItemModel>.from(await Future.wait(entity. menuItems

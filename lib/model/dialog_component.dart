@@ -39,7 +39,7 @@ abstract class AbstractDialogComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<DialogComponentBloc> (
           create: (context) => DialogComponentBloc(
-            dialogRepository: dialogRepository(appId: app.documentID!)!)
+            dialogRepository: dialogRepository(appId: app.documentID)!)
         ..add(FetchDialogComponent(id: dialogId)),
       child: _dialogBlockBuilder(context),
     );

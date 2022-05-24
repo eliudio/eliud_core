@@ -69,7 +69,7 @@ class AppBarForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppBarFormBloc >(
             create: (context) => AppBarFormBloc(appId,
@@ -204,19 +204,19 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Title', 'Title', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Title', 'Title', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Image', 'Image', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Image', 'Image', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Icon', 'Icon', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'Icon', 'Icon', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionHeader(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionHeader(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _headerSelectedRadioTile, 'None', 'None', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionHeader(val))
           );
 
 
@@ -466,7 +466,7 @@ class _MyAppBarFormState extends State<MyAppBarForm> {
   }
 
   bool _readOnly(AccessState accessState, AppBarFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

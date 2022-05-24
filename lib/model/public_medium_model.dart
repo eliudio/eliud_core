@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -44,9 +45,9 @@ PublicMediumType toPublicMediumType(int? index) {
 }
 
 
-class PublicMediumModel {
-  String? documentID;
-  String? authorId;
+class PublicMediumModel implements ModelBase {
+  String documentID;
+  String authorId;
   String? baseName;
   String? url;
   String? ref;
@@ -61,7 +62,7 @@ class PublicMediumModel {
   // In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.
   String? relatedMediumId;
 
-  PublicMediumModel({this.documentID, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
+  PublicMediumModel({required this.documentID, required this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
     assert(documentID != null);
   }
 
@@ -118,7 +119,7 @@ class PublicMediumModel {
     var counter = 0;
     return PublicMediumModel(
           documentID: documentID, 
-          authorId: entity.authorId, 
+          authorId: entity.authorId ?? '', 
           baseName: entity.baseName, 
           url: entity.url, 
           ref: entity.ref, 
@@ -139,7 +140,7 @@ class PublicMediumModel {
     var counter = 0;
     return PublicMediumModel(
           documentID: documentID, 
-          authorId: entity.authorId, 
+          authorId: entity.authorId ?? '', 
           baseName: entity.baseName, 
           url: entity.url, 
           ref: entity.ref, 

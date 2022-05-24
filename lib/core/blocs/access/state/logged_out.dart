@@ -165,7 +165,7 @@ class LoggedOut extends AccessDetermined {
 */
 
   static Future<PageModel?> getHomepage(AppModel app) =>
-      AccessDetermined.getPage(app.documentID!, app.homePages!.homePagePublic);
+      AccessDetermined.getPage(app.documentID, app.homePages!.homePagePublic);
 
   @override
   AccessDetermined asNotProcessing() {

@@ -69,7 +69,7 @@ class AppEntryPagesForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppEntryPagesFormBloc >(
             create: (context) => AppEntryPagesFormBloc(appId,
@@ -270,7 +270,7 @@ class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
   }
 
   bool _readOnly(AccessState accessState, AppEntryPagesFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

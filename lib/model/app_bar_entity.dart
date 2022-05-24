@@ -33,7 +33,7 @@ class AppBarEntity {
   final RgbEntity? selectedIconColorOverride;
   final RgbEntity? menuBackgroundColorOverride;
 
-  AppBarEntity({this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
+  AppBarEntity({required this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
 
 
   List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverride, iconColorOverride, selectedIconColorOverride, menuBackgroundColorOverride, ];

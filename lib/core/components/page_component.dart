@@ -162,7 +162,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
                   app: widget.app,
                   drawerType: DrawerType.Right,
                   drawer: widget.pageModel.endDrawer!,
-                  currentPage: widget.pageModel.documentID!),
+                  currentPage: widget.pageModel.documentID),
           appBar: widget.pageModel.appBar == null
               ? null
               : PreferredSize(
@@ -172,7 +172,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
                       member: widget.state.getMember(),
                       playstoreApp: widget.state.playstoreApp,
                       pageTitle: widget.pageModel.title,
-                      currentPage: widget.pageModel.documentID!,
+                      currentPage: widget.pageModel.documentID,
                       scaffoldKey: widget.scaffoldKey,
                       theTitle: widget.pageModel.title ?? '',
                       value: widget.pageModel.appBar!)),
@@ -184,7 +184,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
                   app: widget.app,
                   drawerType: DrawerType.Left,
                   drawer: widget.pageModel.drawer!,
-                  currentPage: widget.pageModel.documentID!),
+                  currentPage: widget.pageModel.documentID),
           floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -192,7 +192,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
               accessState: widget.state,
               app: widget.app,
               homeMenu: widget.pageModel.homeMenu!,
-              currentPage: widget.pageModel.documentID!),
+              currentPage: widget.pageModel.documentID),
         ));
   }
 
@@ -200,7 +200,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
   Widget build(BuildContext context) {
     var theState = widget.state;
     if ((theState is LoggedIn) &&
-        (!theState.isSubscribedToCurrentApp(widget.app.documentID!))) {
+        (!theState.isSubscribedToCurrentApp(widget.app.documentID))) {
       return _scaffold(
           AcceptMembershipWidget(widget.app, theState.member, theState.usr));
     } else {
@@ -223,7 +223,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           progressIndicator(widget.app, context),
         ]));
       }
-      if (theState.isCurrentAppBlocked(widget.app.documentID!)) {
+      if (theState.isCurrentAppBlocked(widget.app.documentID)) {
         return _scaffold(Stack(children: [
           pageBody(widget.app, context,
               backgroundOverride: widget.componentInfo.backgroundOverride,

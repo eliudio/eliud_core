@@ -38,9 +38,47 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   AppListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
       : assert(appRepository != null),
         _appRepository = appRepository,
-        super(AppListLoading());
+        super(AppListLoading()) {
+    on <LoadAppList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppListToState();
+      } else {
+        _mapLoadAppListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadAppListWithDetailsToState();
+    });
+    
+    on <AppChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppListToState();
+      } else {
+        _mapLoadAppListWithDetailsToState();
+      }
+    });
+      
+    on <AddAppList> ((event, emit) async {
+      await _mapAddAppListToState(event);
+    });
+    
+    on <UpdateAppList> ((event, emit) async {
+      await _mapUpdateAppListToState(event);
+    });
+    
+    on <DeleteAppList> ((event, emit) async {
+      await _mapDeleteAppListToState(event);
+    });
+    
+    on <AppListUpdated> ((event, emit) {
+      emit(_mapAppListUpdatedToState(event));
+    });
+  }
 
-  Stream<AppListState> _mapLoadAppListToState() async* {
+  Future<void> _mapLoadAppListToState() async {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
     _appsListSubscription?.cancel();
     _appsListSubscription = _appRepository.listen(
@@ -52,7 +90,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     );
   }
 
-  Stream<AppListState> _mapLoadAppListWithDetailsToState() async* {
+  Future<void> _mapLoadAppListWithDetailsToState() async {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
     _appsListSubscription?.cancel();
     _appsListSubscription = _appRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     );
   }
 
-  Stream<AppListState> _mapAddAppListToState(AddAppList event) async* {
+  Future<void> _mapAddAppListToState(AddAppList event) async {
     var value = event.value;
-    if (value != null) 
-      _appRepository.add(value);
-  }
-
-  Stream<AppListState> _mapUpdateAppListToState(UpdateAppList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appRepository.update(value);
-  }
-
-  Stream<AppListState> _mapDeleteAppListToState(DeleteAppList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appRepository.delete(value);
-  }
-
-  Stream<AppListState> _mapAppListUpdatedToState(
-      AppListUpdated event) async* {
-    yield AppListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<AppListState> mapEventToState(AppListEvent event) async* {
-    if (event is LoadAppList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppListToState();
-      } else {
-        yield* _mapLoadAppListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadAppListWithDetailsToState();
-    } else if (event is AppChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppListToState();
-      } else {
-        yield* _mapLoadAppListWithDetailsToState();
-      }
-    } else if (event is AddAppList) {
-      yield* _mapAddAppListToState(event);
-    } else if (event is UpdateAppList) {
-      yield* _mapUpdateAppListToState(event);
-    } else if (event is DeleteAppList) {
-      yield* _mapDeleteAppListToState(event);
-    } else if (event is AppListUpdated) {
-      yield* _mapAppListUpdatedToState(event);
+    if (value != null) {
+      await _appRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateAppListToState(UpdateAppList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteAppListToState(DeleteAppList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appRepository.delete(value);
+    }
+  }
+
+  AppListLoaded _mapAppListUpdatedToState(
+      AppListUpdated event) => AppListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

@@ -38,9 +38,47 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
       : assert(pageRepository != null),
         _pageRepository = pageRepository,
-        super(PageListLoading());
+        super(PageListLoading()) {
+    on <LoadPageList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPageListToState();
+      } else {
+        _mapLoadPageListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadPageListWithDetailsToState();
+    });
+    
+    on <PageChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPageListToState();
+      } else {
+        _mapLoadPageListWithDetailsToState();
+      }
+    });
+      
+    on <AddPageList> ((event, emit) async {
+      await _mapAddPageListToState(event);
+    });
+    
+    on <UpdatePageList> ((event, emit) async {
+      await _mapUpdatePageListToState(event);
+    });
+    
+    on <DeletePageList> ((event, emit) async {
+      await _mapDeletePageListToState(event);
+    });
+    
+    on <PageListUpdated> ((event, emit) {
+      emit(_mapPageListUpdatedToState(event));
+    });
+  }
 
-  Stream<PageListState> _mapLoadPageListToState() async* {
+  Future<void> _mapLoadPageListToState() async {
     int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listen(
@@ -52,7 +90,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     );
   }
 
-  Stream<PageListState> _mapLoadPageListWithDetailsToState() async* {
+  Future<void> _mapLoadPageListWithDetailsToState() async {
     int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     );
   }
 
-  Stream<PageListState> _mapAddPageListToState(AddPageList event) async* {
+  Future<void> _mapAddPageListToState(AddPageList event) async {
     var value = event.value;
-    if (value != null) 
-      _pageRepository.add(value);
-  }
-
-  Stream<PageListState> _mapUpdatePageListToState(UpdatePageList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _pageRepository.update(value);
-  }
-
-  Stream<PageListState> _mapDeletePageListToState(DeletePageList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _pageRepository.delete(value);
-  }
-
-  Stream<PageListState> _mapPageListUpdatedToState(
-      PageListUpdated event) async* {
-    yield PageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<PageListState> mapEventToState(PageListEvent event) async* {
-    if (event is LoadPageList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPageListToState();
-      } else {
-        yield* _mapLoadPageListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadPageListWithDetailsToState();
-    } else if (event is PageChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPageListToState();
-      } else {
-        yield* _mapLoadPageListWithDetailsToState();
-      }
-    } else if (event is AddPageList) {
-      yield* _mapAddPageListToState(event);
-    } else if (event is UpdatePageList) {
-      yield* _mapUpdatePageListToState(event);
-    } else if (event is DeletePageList) {
-      yield* _mapDeletePageListToState(event);
-    } else if (event is PageListUpdated) {
-      yield* _mapPageListUpdatedToState(event);
+    if (value != null) {
+      await _pageRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdatePageListToState(UpdatePageList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _pageRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeletePageListToState(DeletePageList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _pageRepository.delete(value);
+    }
+  }
+
+  PageListLoaded _mapPageListUpdatedToState(
+      PageListUpdated event) => PageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

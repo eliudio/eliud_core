@@ -46,54 +46,46 @@ class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
   Stream<MenuItemFormState> mapEventToState(MenuItemFormEvent event) async* {
     final currentState = state;
     if (currentState is MenuItemFormUninitialized) {
-      if (event is InitialiseNewMenuItemFormEvent) {
+      on <InitialiseNewMenuItemFormEvent> ((event, emit) {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: MenuItemModel(
                                                documentID: "IDENTIFIER", 
                                  text: "",
                                  description: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMenuItemFormEvent) {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMenuItemFormNoLoadEvent) {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MenuItemFormInitialized) {
       MenuItemModel? newValue = null;
-      if (event is ChangedMenuItemText) {
+      on <ChangedMenuItemText> ((event, emit) async {
         newValue = currentState.value!.copyWith(text: event.value);
-        yield SubmittableMenuItemForm(value: newValue);
+        emit(SubmittableMenuItemForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMenuItemDescription) {
+      });
+      on <ChangedMenuItemDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableMenuItemForm(value: newValue);
+        emit(SubmittableMenuItemForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMenuItemIcon) {
+      });
+      on <ChangedMenuItemIcon> ((event, emit) async {
         newValue = currentState.value!.copyWith(icon: event.value);
-        yield SubmittableMenuItemForm(value: newValue);
+        emit(SubmittableMenuItemForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMenuItemAction) {
+      });
+      on <ChangedMenuItemAction> ((event, emit) async {
         newValue = currentState.value!.copyWith(action: event.value);
-        yield SubmittableMenuItemForm(value: newValue);
+        emit(SubmittableMenuItemForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

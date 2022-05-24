@@ -156,7 +156,7 @@ class SelectDialog<T> extends StatefulWidget {
     ChangePrivilegeEventCallback? changePrivilegeEventCallback,
     int? containerPrivilege,
   ) {
-    openFlexibleDialog(app, context, app.documentID! + '/_select',
+    openFlexibleDialog(app, context, app.documentID + '/_select',
         includeHeading: false,
         widthFraction: .8,
         child: SelectDialog<T>._(

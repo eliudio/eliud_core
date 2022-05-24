@@ -46,42 +46,36 @@ class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFo
   Stream<BodyComponentFormState> mapEventToState(BodyComponentFormEvent event) async* {
     final currentState = state;
     if (currentState is BodyComponentFormUninitialized) {
-      if (event is InitialiseNewBodyComponentFormEvent) {
+      on <InitialiseNewBodyComponentFormEvent> ((event, emit) {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: BodyComponentModel(
                                                documentID: "IDENTIFIER", 
                                  componentName: "",
                                  componentId: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseBodyComponentFormEvent) {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseBodyComponentFormNoLoadEvent) {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is BodyComponentFormInitialized) {
       BodyComponentModel? newValue = null;
-      if (event is ChangedBodyComponentComponentName) {
+      on <ChangedBodyComponentComponentName> ((event, emit) async {
         newValue = currentState.value!.copyWith(componentName: event.value);
-        yield SubmittableBodyComponentForm(value: newValue);
+        emit(SubmittableBodyComponentForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedBodyComponentComponentId) {
+      });
+      on <ChangedBodyComponentComponentId> ((event, emit) async {
         newValue = currentState.value!.copyWith(componentId: event.value);
-        yield SubmittableBodyComponentForm(value: newValue);
+        emit(SubmittableBodyComponentForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

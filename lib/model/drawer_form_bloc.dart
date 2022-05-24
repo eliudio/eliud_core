@@ -47,7 +47,7 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
   Stream<DrawerFormState> mapEventToState(DrawerFormEvent event) async* {
     final currentState = state;
     if (currentState is DrawerFormUninitialized) {
-      if (event is InitialiseNewDrawerFormEvent) {
+      on <InitialiseNewDrawerFormEvent> ((event, emit) {
         DrawerFormLoaded loaded = DrawerFormLoaded(value: DrawerModel(
                                                documentID: "",
                                  appId: "",
@@ -59,108 +59,80 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
                                  popupMenuBackgroundColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseDrawerFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseDrawerFormNoLoadEvent) {
         DrawerFormLoaded loaded = DrawerFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is DrawerFormInitialized) {
       DrawerModel? newValue = null;
-      if (event is ChangedDrawerDocumentID) {
+      on <ChangedDrawerDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableDrawerForm(value: newValue);
+          emit(SubmittableDrawerForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedDrawerName) {
+      });
+      on <ChangedDrawerName> ((event, emit) async {
         newValue = currentState.value!.copyWith(name: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerBackgroundOverride) {
+      });
+      on <ChangedDrawerBackgroundOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerHeaderText) {
+      });
+      on <ChangedDrawerHeaderText> ((event, emit) async {
         newValue = currentState.value!.copyWith(headerText: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerSecondHeaderText) {
+      });
+      on <ChangedDrawerSecondHeaderText> ((event, emit) async {
         newValue = currentState.value!.copyWith(secondHeaderText: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerHeaderHeight) {
+      });
+      on <ChangedDrawerHeaderHeight> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(headerHeight: double.parse(event.value!));
-          yield SubmittableDrawerForm(value: newValue);
+          emit(SubmittableDrawerForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(headerHeight: 0.0);
-          yield HeaderHeightDrawerFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(HeaderHeightDrawerFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
-      if (event is ChangedDrawerPopupMenuBackgroundColor) {
+      });
+      on <ChangedDrawerPopupMenuBackgroundColor> ((event, emit) async {
         newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerHeaderBackgroundOverride) {
+      });
+      on <ChangedDrawerHeaderBackgroundOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(headerBackgroundOverride: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerPopupMenuBackgroundColorOverride) {
+      });
+      on <ChangedDrawerPopupMenuBackgroundColorOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(popupMenuBackgroundColorOverride: event.value);
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDrawerMenu) {
+      });
+      on <ChangedDrawerMenu> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new DrawerModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 name: currentState.value!.name,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 headerText: currentState.value!.headerText,
-                                 secondHeaderText: currentState.value!.secondHeaderText,
-                                 headerHeight: currentState.value!.headerHeight,
-                                 popupMenuBackgroundColor: currentState.value!.popupMenuBackgroundColor,
-                                 headerBackgroundOverride: currentState.value!.headerBackgroundOverride,
-                                 popupMenuBackgroundColorOverride: currentState.value!.popupMenuBackgroundColorOverride,
-                                 menu: null,
-          );
-        yield SubmittableDrawerForm(value: newValue);
+        emit(SubmittableDrawerForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

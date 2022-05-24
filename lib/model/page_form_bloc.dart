@@ -47,7 +47,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
   Stream<PageFormState> mapEventToState(PageFormEvent event) async* {
     final currentState = state;
     if (currentState is PageFormUninitialized) {
-      if (event is InitialiseNewPageFormEvent) {
+      on <InitialiseNewPageFormEvent> ((event, emit) {
         PageFormLoaded loaded = PageFormLoaded(value: PageModel(
                                                documentID: "",
                                  appId: "",
@@ -55,174 +55,84 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
                                  bodyComponents: [],
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialisePageFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialisePageFormNoLoadEvent) {
         PageFormLoaded loaded = PageFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is PageFormInitialized) {
       PageModel? newValue = null;
-      if (event is ChangedPageDocumentID) {
+      on <ChangedPageDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittablePageForm(value: newValue);
+          emit(SubmittablePageForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedPageTitle) {
+      });
+      on <ChangedPageTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageAppBar) {
+      });
+      on <ChangedPageAppBar> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(appBar: await appBarRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: null,
-                                 drawer: currentState.value!.drawer,
-                                 endDrawer: currentState.value!.endDrawer,
-                                 homeMenu: currentState.value!.homeMenu,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 layout: currentState.value!.layout,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageDrawer) {
+      });
+      on <ChangedPageDrawer> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(drawer: await drawerRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: currentState.value!.appBar,
-                                 drawer: null,
-                                 endDrawer: currentState.value!.endDrawer,
-                                 homeMenu: currentState.value!.homeMenu,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 layout: currentState.value!.layout,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageEndDrawer) {
+      });
+      on <ChangedPageEndDrawer> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(endDrawer: await drawerRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: currentState.value!.appBar,
-                                 drawer: currentState.value!.drawer,
-                                 endDrawer: null,
-                                 homeMenu: currentState.value!.homeMenu,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 layout: currentState.value!.layout,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageHomeMenu) {
+      });
+      on <ChangedPageHomeMenu> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(homeMenu: await homeMenuRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: currentState.value!.appBar,
-                                 drawer: currentState.value!.drawer,
-                                 endDrawer: currentState.value!.endDrawer,
-                                 homeMenu: null,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 layout: currentState.value!.layout,
-                                 gridView: currentState.value!.gridView,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageBodyComponents) {
+      });
+      on <ChangedPageBodyComponents> ((event, emit) async {
         newValue = currentState.value!.copyWith(bodyComponents: event.value);
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageBackgroundOverride) {
+      });
+      on <ChangedPageBackgroundOverride> ((event, emit) async {
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageLayout) {
+      });
+      on <ChangedPageLayout> ((event, emit) async {
         newValue = currentState.value!.copyWith(layout: event.value);
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageGridView) {
+      });
+      on <ChangedPageGridView> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new PageModel(
-                                 documentID: currentState.value!.documentID,
-                                 appId: currentState.value!.appId,
-                                 title: currentState.value!.title,
-                                 appBar: currentState.value!.appBar,
-                                 drawer: currentState.value!.drawer,
-                                 endDrawer: currentState.value!.endDrawer,
-                                 homeMenu: currentState.value!.homeMenu,
-                                 bodyComponents: currentState.value!.bodyComponents,
-                                 backgroundOverride: currentState.value!.backgroundOverride,
-                                 layout: currentState.value!.layout,
-                                 gridView: null,
-                                 conditions: currentState.value!.conditions,
-          );
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedPageConditions) {
+      });
+      on <ChangedPageConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittablePageForm(value: newValue);
+        emit(SubmittablePageForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -125,7 +125,7 @@ class Registry {
       {required AppModel app,
       required String id,
       Map<String, dynamic>? parameters}) async {
-    openWidgetDialog(app, context, app.documentID! + '/' + id,
+    openWidgetDialog(app, context, app.documentID + '/' + id,
         child: DialogComponent(app: app, dialogId: id, parameters: parameters));
   }
 
@@ -165,7 +165,7 @@ class Registry {
       }
     }
 
-    var appId = app.documentID!;
+    var appId = app.documentID;
 
     var initialRoute =
         initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
@@ -263,7 +263,7 @@ class Registry {
 
       // if access is not set and blocked member then no access for this member
       if ((accessDetermined is LoggedIn) &&
-          (accessDetermined.isCurrentAppBlocked(currentApp.documentID!)))
+          (accessDetermined.isCurrentAppBlocked(currentApp.documentID)))
         return false;
 
       // Given some privilege is required and access is not set then no access for this member
@@ -274,7 +274,7 @@ class Registry {
       // If sufficient privilege set then access for this member
       if (model.conditions!.privilegeLevelRequired!.index <=
           accessDetermined
-              .getPrivilegeLevelCurrentApp(currentApp.documentID!)
+              .getPrivilegeLevelCurrentApp(currentApp.documentID)
               .index) return true;
 
       // If no sufficient privileges then no access for this member

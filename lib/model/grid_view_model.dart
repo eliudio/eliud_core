@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -67,9 +68,9 @@ MaxCrossAxisExtentType toMaxCrossAxisExtentType(int? index) {
 }
 
 
-class GridViewModel {
-  String? documentID;
-  String? appId;
+class GridViewModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? name;
   GridViewScrollDirection? scrollDirection;
   GridViewGridType? type;
@@ -91,7 +92,7 @@ class GridViewModel {
   double? crossAxisSpacing;
   StorageConditionsModel? conditions;
 
-  GridViewModel({this.documentID, this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
+  GridViewModel({required this.documentID, required this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -150,7 +151,7 @@ class GridViewModel {
     var counter = 0;
     return GridViewModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           scrollDirection: toGridViewScrollDirection(entity.scrollDirection), 
           type: toGridViewGridType(entity.type), 
@@ -173,7 +174,7 @@ class GridViewModel {
     var counter = 0;
     return GridViewModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           scrollDirection: toGridViewScrollDirection(entity.scrollDirection), 
           type: toGridViewGridType(entity.type), 

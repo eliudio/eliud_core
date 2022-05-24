@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -32,10 +33,10 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class MemberModel {
+class MemberModel implements ModelBase {
 
   // User UUID
-  String? documentID;
+  String documentID;
   String? name;
   List<MemberSubscriptionModel>? subscriptions;
   List<String>? subscriptionsAsStrArr;
@@ -59,7 +60,7 @@ class MemberModel {
   String? email;
   bool? isAnonymous;
 
-  MemberModel({this.documentID, this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photo, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
+  MemberModel({required this.documentID, this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photo, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
     assert(documentID != null);
   }
 

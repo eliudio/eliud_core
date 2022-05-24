@@ -38,9 +38,47 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
       : assert(homeMenuRepository != null),
         _homeMenuRepository = homeMenuRepository,
-        super(HomeMenuListLoading());
+        super(HomeMenuListLoading()) {
+    on <LoadHomeMenuList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadHomeMenuListToState();
+      } else {
+        _mapLoadHomeMenuListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadHomeMenuListWithDetailsToState();
+    });
+    
+    on <HomeMenuChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadHomeMenuListToState();
+      } else {
+        _mapLoadHomeMenuListWithDetailsToState();
+      }
+    });
+      
+    on <AddHomeMenuList> ((event, emit) async {
+      await _mapAddHomeMenuListToState(event);
+    });
+    
+    on <UpdateHomeMenuList> ((event, emit) async {
+      await _mapUpdateHomeMenuListToState(event);
+    });
+    
+    on <DeleteHomeMenuList> ((event, emit) async {
+      await _mapDeleteHomeMenuListToState(event);
+    });
+    
+    on <HomeMenuListUpdated> ((event, emit) {
+      emit(_mapHomeMenuListUpdatedToState(event));
+    });
+  }
 
-  Stream<HomeMenuListState> _mapLoadHomeMenuListToState() async* {
+  Future<void> _mapLoadHomeMenuListToState() async {
     int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listen(
@@ -52,7 +90,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     );
   }
 
-  Stream<HomeMenuListState> _mapLoadHomeMenuListWithDetailsToState() async* {
+  Future<void> _mapLoadHomeMenuListWithDetailsToState() async {
     int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     );
   }
 
-  Stream<HomeMenuListState> _mapAddHomeMenuListToState(AddHomeMenuList event) async* {
+  Future<void> _mapAddHomeMenuListToState(AddHomeMenuList event) async {
     var value = event.value;
-    if (value != null) 
-      _homeMenuRepository.add(value);
-  }
-
-  Stream<HomeMenuListState> _mapUpdateHomeMenuListToState(UpdateHomeMenuList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _homeMenuRepository.update(value);
-  }
-
-  Stream<HomeMenuListState> _mapDeleteHomeMenuListToState(DeleteHomeMenuList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _homeMenuRepository.delete(value);
-  }
-
-  Stream<HomeMenuListState> _mapHomeMenuListUpdatedToState(
-      HomeMenuListUpdated event) async* {
-    yield HomeMenuListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<HomeMenuListState> mapEventToState(HomeMenuListEvent event) async* {
-    if (event is LoadHomeMenuList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadHomeMenuListToState();
-      } else {
-        yield* _mapLoadHomeMenuListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadHomeMenuListWithDetailsToState();
-    } else if (event is HomeMenuChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadHomeMenuListToState();
-      } else {
-        yield* _mapLoadHomeMenuListWithDetailsToState();
-      }
-    } else if (event is AddHomeMenuList) {
-      yield* _mapAddHomeMenuListToState(event);
-    } else if (event is UpdateHomeMenuList) {
-      yield* _mapUpdateHomeMenuListToState(event);
-    } else if (event is DeleteHomeMenuList) {
-      yield* _mapDeleteHomeMenuListToState(event);
-    } else if (event is HomeMenuListUpdated) {
-      yield* _mapHomeMenuListUpdatedToState(event);
+    if (value != null) {
+      await _homeMenuRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateHomeMenuListToState(UpdateHomeMenuList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _homeMenuRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteHomeMenuListToState(DeleteHomeMenuList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _homeMenuRepository.delete(value);
+    }
+  }
+
+  HomeMenuListLoaded _mapHomeMenuListUpdatedToState(
+      HomeMenuListUpdated event) => HomeMenuListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

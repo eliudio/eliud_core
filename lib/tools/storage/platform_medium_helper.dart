@@ -59,7 +59,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: app.documentID!,
+      appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -73,7 +73,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
     );
-    return platformMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   /*
@@ -94,7 +94,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
       baseName: baseName,
-      appId: app.documentID!,
+      appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -109,7 +109,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
     );
-    return platformMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   @override
@@ -124,7 +124,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     var pageImageModel = PlatformMediumModel(
         documentID: newDocumentID,
         baseName: baseName,
-        appId: app.documentID!,
+        appId: app.documentID,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
         ref: pageImage == null ? null : pageImage.ref,
@@ -138,6 +138,6 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await platformMediumRepository(appId: app.documentID!)!.add(pageImageModel);
+    return await platformMediumRepository(appId: app.documentID)!.add(pageImageModel);
   }
 }

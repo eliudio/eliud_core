@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -45,9 +46,9 @@ DialogLayout toDialogLayout(int? index) {
 }
 
 
-class DialogModel {
-  String? documentID;
-  String? appId;
+class DialogModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? title;
   List<BodyComponentModel>? bodyComponents;
   BackgroundModel? backgroundOverride;
@@ -58,7 +59,7 @@ class DialogModel {
   GridViewModel? gridView;
   StorageConditionsModel? conditions;
 
-  DialogModel({this.documentID, this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.conditions, })  {
+  DialogModel({required this.documentID, required this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -111,7 +112,7 @@ class DialogModel {
     var counter = 0;
     return DialogModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           bodyComponents: 
             entity.bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
@@ -146,7 +147,7 @@ class DialogModel {
     var counter = 0;
     return DialogModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           title: entity.title, 
           bodyComponents: 
             entity. bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents

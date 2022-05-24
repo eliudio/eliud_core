@@ -26,187 +26,248 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   StreamSubscription<MemberModel?>? _memberSubscription;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  AccessBloc(this.navigatorKey) : super(UndeterminedAccessState());
-
-  @override
-  Stream<AccessState> mapEventToState(AccessEvent event) async* {
-    var theState = state;
-    if (event is AccessInitEvent) {
+  AccessBloc(this.navigatorKey) : super(UndeterminedAccessState()) {
+    on<AccessInitEvent>((event, emit) async {
       var usr = await AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
 
       if (usr == null) {
-        await StyleRegistry.registry().addApp(null, event.app, () => _currentStyleChanged(event.app));
-        _listenToApp(event.app.documentID!, null);
-        yield await LoggedOut.getLoggedOut2(this, event.app, playstoreApp: event.playstoreApp);
+        await StyleRegistry.registry()
+            .addApp(null, event.app, () => _currentStyleChanged(event.app));
+        _listenToApp(event.app.documentID, null);
+        emit(await LoggedOut.getLoggedOut2(this, event.app,
+            playstoreApp: event.playstoreApp));
       } else {
         var member = await firebaseToMemberModel(usr);
         _listenToMember(member);
-        await StyleRegistry.registry().addApp(member, event.app, () => _currentStyleChanged(event.app));
+        await StyleRegistry.registry()
+            .addApp(member, event.app, () => _currentStyleChanged(event.app));
 
-        _listenToApp(event.app.documentID!, member);
-        yield await LoggedIn.getLoggedIn2(this, usr, member, event.app, getSubscriptions(member), playstoreApp: event.playstoreApp);
+        _listenToApp(event.app.documentID, member);
+        emit(await LoggedIn.getLoggedIn2(
+            this, usr, member, event.app, getSubscriptions(member),
+            playstoreApp: event.playstoreApp));
       }
+    });
+    on<GoHome>((event, emit) async {
+      var theState = state as AccessDetermined;
+      if (event.isProcessing()) {
+        var appId = event.app.documentID;
+        var app = theState.getApp(appId);
+        var homePage = (event.redetermine && (app != null))
+            ? await theState.reterminedHomePageForAppId(app)
+            : theState.homePageForAppId(appId);
+        gotoPage(true, event.app.documentID,
+            homePage == null ? null : homePage.documentID,
+            errorString:
+                'Homepage not set correct for app ' + event.app.documentID);
+        emit(theState.asNotProcessing());
+      } else {
+        add(event.asProcessing());
+        emit(theState.asProcessing());
+      }
+    });
+    on<LogoutEvent>((event, emit) async {
+      var theState = state as AccessDetermined;
+      _stopListenToMember();
+      if (event.isProcessing()) {
+        await AbstractMainRepositorySingleton.singleton
+            .userRepository()!
+            .signOut();
+        var toEmit = await LoggedOut.getLoggedOut(this,
+            theState.apps.map((determinedApp) => determinedApp.app).toList(),
+            playstoreApp: theState.playstoreApp);
+        var homePage = toEmit.homePageForAppId(event.app.documentID);
+        gotoPage(true, event.app.documentID,
+            homePage == null ? null : homePage.documentID,
+            errorString:
+                'Homepage not set correct for app ' + event.app.documentID);
+        emit(toEmit);
+      } else {
+        add(event.asProcessing());
+        emit(theState.asProcessing());
+      }
+    });
 
-    } else if (theState is AccessDetermined) {
-      if (event is GoHome) {
-        if (event.isProcessing()) {
-          var appId = event.app.documentID!;
-          var app = theState.getApp(appId);
-          var homePage = (event.redetermine && (app != null)) ? await theState.reterminedHomePageForAppId(app) : theState.homePageForAppId(appId);
-          gotoPage(true, event.app.documentID!,
-              homePage == null ? null : homePage.documentID!,
-              errorString: 'Homepage not set correct for app ' +
-                  event.app.documentID!);
-          yield theState.asNotProcessing();
-        } else {
-          add(event.asProcessing());
-          yield theState.asProcessing();
-        }
-      } else if (event is LogoutEvent) {
-        _stopListenToMember();
-        if (event.isProcessing()) {
-          await AbstractMainRepositorySingleton.singleton
-              .userRepository()!
-              .signOut();
-          var toYield = await LoggedOut.getLoggedOut(this, theState.apps.map((determinedApp) => determinedApp.app).toList(), playstoreApp: theState.playstoreApp);
-          var homePage = toYield.homePageForAppId(event.app.documentID!);
-          gotoPage(true, event.app.documentID!, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.app.documentID!);
-          yield toYield;
-        } else {
-          add(event.asProcessing());
-          yield theState.asProcessing();
-        }
-      } else if (event is LoginEvent) {
-        if (event.isProcessing()) {
-          var usr;
-          try {
-            switch (event.loginType) {
-              case LoginType.GoogleLogin:
-                usr = await AbstractMainRepositorySingleton.singleton
-                    .userRepository()!
-                    .signInWithGoogle();
-                break;
-              case LoginType.AppleLogin:
-                usr = await AbstractMainRepositorySingleton.singleton
-                    .userRepository()!
-                    .signInWithApple();
-                break;
-            }
-          } catch (exception) {
-            print('Exception during signInWithGoogle: $exception');
+    on<LoginEvent>((event, emit) async {
+      var theState = state as AccessDetermined;
+      if (event.isProcessing()) {
+        var usr;
+        try {
+          switch (event.loginType) {
+            case LoginType.GoogleLogin:
+              usr = await AbstractMainRepositorySingleton.singleton
+                  .userRepository()!
+                  .signInWithGoogle();
+              break;
+            case LoginType.AppleLogin:
+              usr = await AbstractMainRepositorySingleton.singleton
+                  .userRepository()!
+                  .signInWithApple();
+              break;
           }
-          if (usr != null) {
-            var member = await firebaseToMemberModel(usr);
-            var toYield = await LoggedIn.getLoggedIn(this, usr, member,
-                theState.apps.map((determinedApp) => determinedApp.app)
-                    .toList(), null, getSubscriptions(member),
-                playstoreApp: theState.playstoreApp);
-            _resetAccessListeners(
-                theState.apps.map((e) => e.app.documentID!).toList(),
-                member.documentID!);
+        } catch (exception) {
+          print('Exception during signInWithGoogle: $exception');
+        }
+        if (usr != null) {
+          var member = await firebaseToMemberModel(usr);
+          var toEmit = await LoggedIn.getLoggedIn(
+              this,
+              usr,
+              member,
+              theState.apps.map((determinedApp) => determinedApp.app).toList(),
+              null,
+              getSubscriptions(member),
+              playstoreApp: theState.playstoreApp);
+          _resetAccessListeners(
+              theState.apps.map((e) => e.app.documentID).toList(),
+              member.documentID);
 
-            _listenToMember(member);
-            yield toYield;
-            if (event.actions != null) {
-              event.actions!.runTheAction();
-            } else {
-              var homePage = toYield.homePageForAppId(event.app.documentID!);
-              gotoPage(true, event.app.documentID!,
-                  homePage == null ? null : homePage.documentID!,
-                  errorString: 'Homepage not set correct for app ' +
-                      event.app.documentID!
-              );
-            }
+          _listenToMember(member);
+          emit(toEmit);
+          if (event.actions != null) {
+            event.actions!.runTheAction();
+          } else {
+            var homePage = toEmit.homePageForAppId(event.app.documentID);
+            gotoPage(true, event.app.documentID,
+                homePage == null ? null : homePage.documentID,
+                errorString: 'Homepage not set correct for app ' +
+                    event.app.documentID);
           }
-        } else {
-          add(event.asProcessing());
-          yield theState.asProcessing();
         }
-      } else if (event is SwitchAppWithIDEvent) {
-        if (event.isProcessing()) {
-          var app = await _fetchApp(event.appId);
-          await StyleRegistry.registry().addApp(state.getMember(), app, ()=> _currentStyleChanged(app));
-          var newState = await theState.asNotProcessing().addApp(this, app);
-          var homePage = newState.homePageForAppId(event.appId);
-          gotoPage(false, event.appId, homePage == null ? null : homePage.documentID!, errorString: 'Homepage not set correct for app ' + event.appId);
+      } else {
+        add(event.asProcessing());
+        emit(theState.asProcessing());
+      }
+    });
 
-          _listenToApp(event.appId, theState.getMember());
-          yield newState;
-        } else {
-          add(event.asProcessing());
-          yield theState.asProcessing();
-        }
-      } else if (event is MemberUpdatedEvent) {
+    on<SwitchAppWithIDEvent>((event, emit) async {
+      var theState = state as AccessDetermined;
+      if (event.isProcessing()) {
+        var app = await _fetchApp(event.appId);
+        await StyleRegistry.registry()
+            .addApp(state.getMember(), app, () => _currentStyleChanged(app));
+        var newState = await theState.asNotProcessing().addApp(this, app);
+        var homePage = newState.homePageForAppId(event.appId);
+        gotoPage(
+            false, event.appId, homePage == null ? null : homePage.documentID,
+            errorString: 'Homepage not set correct for app ' + event.appId);
+
+        _listenToApp(event.appId, theState.getMember());
+        emit(newState);
+      } else {
+        add(event.asProcessing());
+        emit(theState.asProcessing());
+      }
+    });
+
+    on<MemberUpdatedEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
         var newState = await theState.updateMember(event.member);
-        yield newState;
-      } else if (event is AppUpdatedEvent) {
+        emit(newState);
+      }
+    });
+
+    on<AppUpdatedEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
         var newState = await theState.updateApp(event.app);
         await StyleRegistry.registry().addApp(
             state.getMember(), event.app, () =>
             _currentStyleChanged(event.app));
-        yield newState;
-      } else if (event is RefreshAppEvent) {
-        if (state is AccessDetermined) {
-          var theState = state as AccessDetermined;
-          var newState = theState.newVersion();
-          yield newState;
-        }
-      } else if (event is GotoPageEvent) {
-          // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
-          // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
-          // and remove the navigation from here:
-          gotoPage(
-              false, event.app.documentID!, event.pageId, parameters: event.parameters, errorString: 'Page not does not exist');
-      } else if (event is OpenDialogEvent) {
-        // See comment @ GotoPageEvent
-        // We should use theState.openDialog(`dialog, parameters: event.parameters);
-      } else if (event is UpdatePackageConditionEvent) {
-        var newState = theState.withDifferentPackageCondition(event.app.documentID!, event.package, event.packageCondition, event.condition);
-        yield newState;
-      } else if (event is PrivilegeChangedEvent) {
-        yield await theState.withOtherPrivilege(this, event.app,
-            event.privilege, event.blocked);
-      } else if (event is AcceptedMembershipEvent) {
+        emit(newState);
+      }
+    });
+
+    on<RefreshAppEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
+        var newState = theState.newVersion();
+        emit(newState);
+      }
+    });
+
+    on<GotoPageEvent>((event, emit) async {
+      // NAVIGATION-USING-BLOC: Navigation within the context of using bloc should use BlocListener. However, there are issues with that, see : https://github.com/felangel/bloc/issues/2938
+      // When this would get resolved, then we can use theState.switchPage(page, parameters: event.parameters)
+      // and remove the navigation from here:
+      gotoPage(false, event.app.documentID, event.pageId,
+          parameters: event.parameters, errorString: 'Page not does not exist');
+    });
+
+    on<OpenDialogEvent>((event, emit) async {
+      // See comment @ GotoPageEvent
+      // We should use theState.openDialog(`dialog, parameters: event.parameters);
+    });
+
+    on<UpdatePackageConditionEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
+        var newState = theState.withDifferentPackageCondition(
+            event.app.documentID,
+            event.package,
+            event.packageCondition,
+            event.condition);
+        emit(newState);
+      }
+    });
+
+    on<PrivilegeChangedEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
+        emit(await theState.withOtherPrivilege(
+            this, event.app, event.privilege, event.blocked));
+      }
+    });
+
+    on<AcceptedMembershipEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
         if (theState is LoggedIn) {
           var _member = theState.getMember();
           if (_member != null) {
             var member = await LoggedIn.acceptMembership(_member, event.app);
-            var newState = await theState.withSubscriptions(
-                getSubscriptions(member));
+            var newState =
+            await theState.withSubscriptions(getSubscriptions(member));
             if (newState.postLoginAction != null) {
               newState.postLoginAction!.runTheAction();
             }
-            yield newState;
+            emit(newState);
           }
         }
-      } else if (event is AccessUpdatedEvent) {
-        yield await theState.withNewAccess(this, event.access);
       }
-    }
+    });
+
+    on<AccessUpdatedEvent>((event, emit) async {
+      if (state is AccessDetermined) {
+        var theState = state as AccessDetermined;
+        emit(await theState.withNewAccess(this, event.access));
+      }
+    });
   }
 
   void _currentStyleChanged(AppModel app) {
     add(RefreshAppEvent(app));
   }
 
-  void gotoPage(bool clearHistory, String? appId, String? pageId, { Map<String, dynamic>? parameters, String? errorString }) {
+  void gotoPage(bool clearHistory, String? appId, String? pageId,
+      {Map<String, dynamic>? parameters, String? errorString}) {
     if (appId == null) {
-      throw Exception(
-          'Error: gotoPage(null)');
+      throw Exception('Error: gotoPage(null)');
     }
     if (pageId != null) {
       if (navigatorKey.currentState != null) {
         if (clearHistory) {
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
               eliudrouter.Router.pageRoute, (_) => false,
-              arguments: eliudrouter.Arguments(
-                  appId + '/' + pageId, parameters));
+              arguments:
+                  eliudrouter.Arguments(appId + '/' + pageId, parameters));
         } else {
-          navigatorKey.currentState!.pushNamed(
-              eliudrouter.Router.pageRoute, arguments: eliudrouter.Arguments(
-              appId + '/' + pageId, parameters));
+          navigatorKey.currentState!.pushNamed(eliudrouter.Router.pageRoute,
+              arguments:
+                  eliudrouter.Arguments(appId + '/' + pageId, parameters));
         }
       } else {
         throw Exception(
@@ -216,33 +277,33 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (clearHistory) {
         navigatorKey.currentState!.pushNamedAndRemoveUntil(
             eliudrouter.Router.messageRoute, (_) => false,
-            arguments: eliudrouter.Arguments(
-                appId, {'message': errorString}));
+            arguments: eliudrouter.Arguments(appId, {'message': errorString}));
       } else {
-        navigatorKey.currentState!.pushNamed(
-            eliudrouter.Router.messageRoute, arguments: eliudrouter.Arguments(
-            appId, {'message': errorString}));
+        navigatorKey.currentState!.pushNamed(eliudrouter.Router.messageRoute,
+            arguments: eliudrouter.Arguments(appId, {'message': errorString}));
       }
     }
   }
 
   void _listenToApp(String appId, MemberModel? member) async {
     await _appSubscription[appId]?.cancel();
-    _appSubscription[appId] = appRepository(appId: appId)!.listenTo(appId, (value) {
+    _appSubscription[appId] =
+        appRepository(appId: appId)!.listenTo(appId, (value) {
       if (value != null) add(AppUpdatedEvent(value));
     });
 
     if (member != null) {
       _accessSubscription[appId] =
-          accessRepository(appId: appId)!.listenTo(member.documentID!, (value) {
-            if (value != null) add(AccessUpdatedEvent(value));
-          });
+          accessRepository(appId: appId)!.listenTo(member.documentID, (value) {
+        if (value != null) add(AccessUpdatedEvent(value));
+      });
     }
   }
 
   void _listenToMember(MemberModel member) async {
     await _memberSubscription?.cancel();
-    _memberSubscription = memberRepository()!.listenTo(member.documentID!, (value) {
+    _memberSubscription =
+        memberRepository()!.listenTo(member.documentID, (value) {
       if (value != null) add(MemberUpdatedEvent(value));
     });
   }
@@ -256,7 +317,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       await _as.cancel();
     }
     for (var appId in apps) {
-      _accessSubscription[appId] = accessRepository(appId: appId)!.listenTo(memberId, (value) {
+      _accessSubscription[appId] =
+          accessRepository(appId: appId)!.listenTo(memberId, (value) {
         if (value != null) add(AccessUpdatedEvent(value));
       });
     }
@@ -298,7 +360,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static List<String> getSubscriptions(MemberModel member) {
     if (member.subscriptions == null) return [];
 
-    return member.subscriptions!.map((memberSubscriptionModel) => memberSubscriptionModel.app!.documentID!).toList();
+    return member.subscriptions!
+        .map((memberSubscriptionModel) =>
+            memberSubscriptionModel.app!.documentID)
+        .toList();
   }
 
   static MemberModel? member(BuildContext context) {
@@ -314,7 +379,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
       if (app.ownerID != null) {
-        return theState.memberIsOwner(app.documentID!);
+        return theState.memberIsOwner(app.documentID);
       }
     }
     return false;
@@ -333,7 +398,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static String currentAppId(BuildContext context) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      return theState.currentApp.documentID!;
+      return theState.currentApp.documentID;
     } else {
       throw Exception('No current app');
     }

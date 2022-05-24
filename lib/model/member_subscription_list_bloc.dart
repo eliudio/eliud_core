@@ -38,9 +38,47 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
   MemberSubscriptionListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository, this.memberSubscriptionLimit = 5})
       : assert(memberSubscriptionRepository != null),
         _memberSubscriptionRepository = memberSubscriptionRepository,
-        super(MemberSubscriptionListLoading());
+        super(MemberSubscriptionListLoading()) {
+    on <LoadMemberSubscriptionList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberSubscriptionListToState();
+      } else {
+        _mapLoadMemberSubscriptionListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadMemberSubscriptionListWithDetailsToState();
+    });
+    
+    on <MemberSubscriptionChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberSubscriptionListToState();
+      } else {
+        _mapLoadMemberSubscriptionListWithDetailsToState();
+      }
+    });
+      
+    on <AddMemberSubscriptionList> ((event, emit) async {
+      await _mapAddMemberSubscriptionListToState(event);
+    });
+    
+    on <UpdateMemberSubscriptionList> ((event, emit) async {
+      await _mapUpdateMemberSubscriptionListToState(event);
+    });
+    
+    on <DeleteMemberSubscriptionList> ((event, emit) async {
+      await _mapDeleteMemberSubscriptionListToState(event);
+    });
+    
+    on <MemberSubscriptionListUpdated> ((event, emit) {
+      emit(_mapMemberSubscriptionListUpdatedToState(event));
+    });
+  }
 
-  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListToState() async* {
+  Future<void> _mapLoadMemberSubscriptionListToState() async {
     int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values!.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
     _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen(
@@ -52,7 +90,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     );
   }
 
-  Stream<MemberSubscriptionListState> _mapLoadMemberSubscriptionListWithDetailsToState() async* {
+  Future<void> _mapLoadMemberSubscriptionListWithDetailsToState() async {
     int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values!.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
     _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     );
   }
 
-  Stream<MemberSubscriptionListState> _mapAddMemberSubscriptionListToState(AddMemberSubscriptionList event) async* {
+  Future<void> _mapAddMemberSubscriptionListToState(AddMemberSubscriptionList event) async {
     var value = event.value;
-    if (value != null) 
-      _memberSubscriptionRepository.add(value);
-  }
-
-  Stream<MemberSubscriptionListState> _mapUpdateMemberSubscriptionListToState(UpdateMemberSubscriptionList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberSubscriptionRepository.update(value);
-  }
-
-  Stream<MemberSubscriptionListState> _mapDeleteMemberSubscriptionListToState(DeleteMemberSubscriptionList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberSubscriptionRepository.delete(value);
-  }
-
-  Stream<MemberSubscriptionListState> _mapMemberSubscriptionListUpdatedToState(
-      MemberSubscriptionListUpdated event) async* {
-    yield MemberSubscriptionListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<MemberSubscriptionListState> mapEventToState(MemberSubscriptionListEvent event) async* {
-    if (event is LoadMemberSubscriptionList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberSubscriptionListToState();
-      } else {
-        yield* _mapLoadMemberSubscriptionListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadMemberSubscriptionListWithDetailsToState();
-    } else if (event is MemberSubscriptionChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberSubscriptionListToState();
-      } else {
-        yield* _mapLoadMemberSubscriptionListWithDetailsToState();
-      }
-    } else if (event is AddMemberSubscriptionList) {
-      yield* _mapAddMemberSubscriptionListToState(event);
-    } else if (event is UpdateMemberSubscriptionList) {
-      yield* _mapUpdateMemberSubscriptionListToState(event);
-    } else if (event is DeleteMemberSubscriptionList) {
-      yield* _mapDeleteMemberSubscriptionListToState(event);
-    } else if (event is MemberSubscriptionListUpdated) {
-      yield* _mapMemberSubscriptionListUpdatedToState(event);
+    if (value != null) {
+      await _memberSubscriptionRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateMemberSubscriptionListToState(UpdateMemberSubscriptionList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberSubscriptionRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteMemberSubscriptionListToState(DeleteMemberSubscriptionList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberSubscriptionRepository.delete(value);
+    }
+  }
+
+  MemberSubscriptionListLoaded _mapMemberSubscriptionListUpdatedToState(
+      MemberSubscriptionListUpdated event) => MemberSubscriptionListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

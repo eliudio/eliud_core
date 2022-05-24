@@ -38,9 +38,47 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
       : assert(appBarRepository != null),
         _appBarRepository = appBarRepository,
-        super(AppBarListLoading());
+        super(AppBarListLoading()) {
+    on <LoadAppBarList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppBarListToState();
+      } else {
+        _mapLoadAppBarListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadAppBarListWithDetailsToState();
+    });
+    
+    on <AppBarChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppBarListToState();
+      } else {
+        _mapLoadAppBarListWithDetailsToState();
+      }
+    });
+      
+    on <AddAppBarList> ((event, emit) async {
+      await _mapAddAppBarListToState(event);
+    });
+    
+    on <UpdateAppBarList> ((event, emit) async {
+      await _mapUpdateAppBarListToState(event);
+    });
+    
+    on <DeleteAppBarList> ((event, emit) async {
+      await _mapDeleteAppBarListToState(event);
+    });
+    
+    on <AppBarListUpdated> ((event, emit) {
+      emit(_mapAppBarListUpdatedToState(event));
+    });
+  }
 
-  Stream<AppBarListState> _mapLoadAppBarListToState() async* {
+  Future<void> _mapLoadAppBarListToState() async {
     int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listen(
@@ -52,7 +90,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     );
   }
 
-  Stream<AppBarListState> _mapLoadAppBarListWithDetailsToState() async* {
+  Future<void> _mapLoadAppBarListWithDetailsToState() async {
     int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     );
   }
 
-  Stream<AppBarListState> _mapAddAppBarListToState(AddAppBarList event) async* {
+  Future<void> _mapAddAppBarListToState(AddAppBarList event) async {
     var value = event.value;
-    if (value != null) 
-      _appBarRepository.add(value);
-  }
-
-  Stream<AppBarListState> _mapUpdateAppBarListToState(UpdateAppBarList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appBarRepository.update(value);
-  }
-
-  Stream<AppBarListState> _mapDeleteAppBarListToState(DeleteAppBarList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appBarRepository.delete(value);
-  }
-
-  Stream<AppBarListState> _mapAppBarListUpdatedToState(
-      AppBarListUpdated event) async* {
-    yield AppBarListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<AppBarListState> mapEventToState(AppBarListEvent event) async* {
-    if (event is LoadAppBarList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppBarListToState();
-      } else {
-        yield* _mapLoadAppBarListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadAppBarListWithDetailsToState();
-    } else if (event is AppBarChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppBarListToState();
-      } else {
-        yield* _mapLoadAppBarListWithDetailsToState();
-      }
-    } else if (event is AddAppBarList) {
-      yield* _mapAddAppBarListToState(event);
-    } else if (event is UpdateAppBarList) {
-      yield* _mapUpdateAppBarListToState(event);
-    } else if (event is DeleteAppBarList) {
-      yield* _mapDeleteAppBarListToState(event);
-    } else if (event is AppBarListUpdated) {
-      yield* _mapAppBarListUpdatedToState(event);
+    if (value != null) {
+      await _appBarRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateAppBarListToState(UpdateAppBarList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appBarRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteAppBarListToState(DeleteAppBarList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appBarRepository.delete(value);
+    }
+  }
+
+  AppBarListLoaded _mapAppBarListUpdatedToState(
+      AppBarListUpdated event) => AppBarListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

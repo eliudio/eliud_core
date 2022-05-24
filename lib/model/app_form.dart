@@ -69,7 +69,7 @@ class AppForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<AppFormBloc >(
             create: (context) => AppFormBloc(appId,
@@ -368,15 +368,15 @@ class _MyAppFormState extends State<MyAppForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Live', 'Live', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Live', 'Live', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Offline', 'Offline', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Offline', 'Offline', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Invisible', 'Invisible', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionAppStatus(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _appStatusSelectedRadioTile, 'Invisible', 'Invisible', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionAppStatus(val))
           );
 
 
@@ -557,7 +557,7 @@ class _MyAppFormState extends State<MyAppForm> {
   }
 
   bool _readOnly(AccessState accessState, AppFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

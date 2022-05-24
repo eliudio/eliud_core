@@ -26,23 +26,22 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
   final AppPolicyRepository? appPolicyRepository;
   StreamSubscription? _appPolicySubscription;
 
-  Stream<AppPolicyComponentState> _mapLoadAppPolicyComponentUpdateToState(String documentId) async* {
+  void _mapLoadAppPolicyComponentUpdateToState(String documentId) {
     _appPolicySubscription?.cancel();
     _appPolicySubscription = appPolicyRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppPolicyComponentUpdated(value: value));
+      if (value != null) {
+        add(AppPolicyComponentUpdated(value: value));
+      }
     });
   }
 
-  AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized());
-
-  @override
-  Stream<AppPolicyComponentState> mapEventToState(AppPolicyComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchAppPolicyComponent) {
-      yield* _mapLoadAppPolicyComponentUpdateToState(event.id!);
-    } else if (event is AppPolicyComponentUpdated) {
-      yield AppPolicyComponentLoaded(value: event.value);
-    }
+  AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized()) {
+    on <FetchAppPolicyComponent> ((event, emit) {
+      _mapLoadAppPolicyComponentUpdateToState(event.id!);
+    });
+    on <AppPolicyComponentUpdated> ((event, emit) {
+      emit(AppPolicyComponentLoaded(value: event.value));
+    });
   }
 
   @override

@@ -36,7 +36,7 @@ class GridViewEntity {
   final double? crossAxisSpacing;
   final StorageConditionsEntity? conditions;
 
-  GridViewEntity({this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, });
+  GridViewEntity({required this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, });
 
 
   List<Object?> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, conditions, ];

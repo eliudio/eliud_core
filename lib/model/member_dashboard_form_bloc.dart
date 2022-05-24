@@ -51,7 +51,7 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
   Stream<MemberDashboardFormState> mapEventToState(MemberDashboardFormEvent event) async* {
     final currentState = state;
     if (currentState is MemberDashboardFormUninitialized) {
-      if (event is InitialiseNewMemberDashboardFormEvent) {
+      on <InitialiseNewMemberDashboardFormEvent> ((event, emit) {
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: MemberDashboardModel(
                                                documentID: "",
                                  appId: "",
@@ -64,88 +64,74 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
                                  deleteDataEmailMessage: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMemberDashboardFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: await memberDashboardRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMemberDashboardFormNoLoadEvent) {
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MemberDashboardFormInitialized) {
       MemberDashboardModel? newValue = null;
-      if (event is ChangedMemberDashboardDocumentID) {
+      on <ChangedMemberDashboardDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableMemberDashboardForm(value: newValue);
+          emit(SubmittableMemberDashboardForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedMemberDashboardAppId) {
+      });
+      on <ChangedMemberDashboardAppId> ((event, emit) async {
         newValue = currentState.value!.copyWith(appId: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardDescription) {
+      });
+      on <ChangedMemberDashboardDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardUpdateProfileText) {
+      });
+      on <ChangedMemberDashboardUpdateProfileText> ((event, emit) async {
         newValue = currentState.value!.copyWith(updateProfileText: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardRetrieveDataText) {
+      });
+      on <ChangedMemberDashboardRetrieveDataText> ((event, emit) async {
         newValue = currentState.value!.copyWith(retrieveDataText: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardDeleteDataText) {
+      });
+      on <ChangedMemberDashboardDeleteDataText> ((event, emit) async {
         newValue = currentState.value!.copyWith(deleteDataText: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardRetrieveDataEmailSubject) {
+      });
+      on <ChangedMemberDashboardRetrieveDataEmailSubject> ((event, emit) async {
         newValue = currentState.value!.copyWith(retrieveDataEmailSubject: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardDeleteDataEmailSubject) {
+      });
+      on <ChangedMemberDashboardDeleteDataEmailSubject> ((event, emit) async {
         newValue = currentState.value!.copyWith(deleteDataEmailSubject: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardDeleteDataEmailMessage) {
+      });
+      on <ChangedMemberDashboardDeleteDataEmailMessage> ((event, emit) async {
         newValue = currentState.value!.copyWith(deleteDataEmailMessage: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedMemberDashboardConditions) {
+      });
+      on <ChangedMemberDashboardConditions> ((event, emit) async {
         newValue = currentState.value!.copyWith(conditions: event.value);
-        yield SubmittableMemberDashboardForm(value: newValue);
+        emit(SubmittableMemberDashboardForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

@@ -69,7 +69,7 @@ class PageForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PageFormBloc >(
             create: (context) => PageFormBloc(appId,
@@ -325,15 +325,15 @@ class _MyPageFormState extends State<MyPageForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'GridView', 'GridView', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'GridView', 'GridView', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionLayout(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'ListView', 'ListView', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'ListView', 'ListView', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionLayout(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'OnlyTheFirstComponent', 'OnlyTheFirstComponent', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionLayout(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _layoutSelectedRadioTile, 'OnlyTheFirstComponent', 'OnlyTheFirstComponent', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionLayout(val))
           );
 
 
@@ -511,7 +511,7 @@ class _MyPageFormState extends State<MyPageForm> {
   }
 
   bool _readOnly(AccessState accessState, PageFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

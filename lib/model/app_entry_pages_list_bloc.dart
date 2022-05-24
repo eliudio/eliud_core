@@ -38,9 +38,47 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository, this.appEntryPagesLimit = 5})
       : assert(appEntryPagesRepository != null),
         _appEntryPagesRepository = appEntryPagesRepository,
-        super(AppEntryPagesListLoading());
+        super(AppEntryPagesListLoading()) {
+    on <LoadAppEntryPagesList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppEntryPagesListToState();
+      } else {
+        _mapLoadAppEntryPagesListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadAppEntryPagesListWithDetailsToState();
+    });
+    
+    on <AppEntryPagesChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppEntryPagesListToState();
+      } else {
+        _mapLoadAppEntryPagesListWithDetailsToState();
+      }
+    });
+      
+    on <AddAppEntryPagesList> ((event, emit) async {
+      await _mapAddAppEntryPagesListToState(event);
+    });
+    
+    on <UpdateAppEntryPagesList> ((event, emit) async {
+      await _mapUpdateAppEntryPagesListToState(event);
+    });
+    
+    on <DeleteAppEntryPagesList> ((event, emit) async {
+      await _mapDeleteAppEntryPagesListToState(event);
+    });
+    
+    on <AppEntryPagesListUpdated> ((event, emit) {
+      emit(_mapAppEntryPagesListUpdatedToState(event));
+    });
+  }
 
-  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListToState() async* {
+  Future<void> _mapLoadAppEntryPagesListToState() async {
     int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listen(
@@ -52,7 +90,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     );
   }
 
-  Stream<AppEntryPagesListState> _mapLoadAppEntryPagesListWithDetailsToState() async* {
+  Future<void> _mapLoadAppEntryPagesListWithDetailsToState() async {
     int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     );
   }
 
-  Stream<AppEntryPagesListState> _mapAddAppEntryPagesListToState(AddAppEntryPagesList event) async* {
+  Future<void> _mapAddAppEntryPagesListToState(AddAppEntryPagesList event) async {
     var value = event.value;
-    if (value != null) 
-      _appEntryPagesRepository.add(value);
-  }
-
-  Stream<AppEntryPagesListState> _mapUpdateAppEntryPagesListToState(UpdateAppEntryPagesList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appEntryPagesRepository.update(value);
-  }
-
-  Stream<AppEntryPagesListState> _mapDeleteAppEntryPagesListToState(DeleteAppEntryPagesList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appEntryPagesRepository.delete(value);
-  }
-
-  Stream<AppEntryPagesListState> _mapAppEntryPagesListUpdatedToState(
-      AppEntryPagesListUpdated event) async* {
-    yield AppEntryPagesListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<AppEntryPagesListState> mapEventToState(AppEntryPagesListEvent event) async* {
-    if (event is LoadAppEntryPagesList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppEntryPagesListToState();
-      } else {
-        yield* _mapLoadAppEntryPagesListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadAppEntryPagesListWithDetailsToState();
-    } else if (event is AppEntryPagesChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppEntryPagesListToState();
-      } else {
-        yield* _mapLoadAppEntryPagesListWithDetailsToState();
-      }
-    } else if (event is AddAppEntryPagesList) {
-      yield* _mapAddAppEntryPagesListToState(event);
-    } else if (event is UpdateAppEntryPagesList) {
-      yield* _mapUpdateAppEntryPagesListToState(event);
-    } else if (event is DeleteAppEntryPagesList) {
-      yield* _mapDeleteAppEntryPagesListToState(event);
-    } else if (event is AppEntryPagesListUpdated) {
-      yield* _mapAppEntryPagesListUpdatedToState(event);
+    if (value != null) {
+      await _appEntryPagesRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateAppEntryPagesListToState(UpdateAppEntryPagesList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appEntryPagesRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteAppEntryPagesListToState(DeleteAppEntryPagesList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appEntryPagesRepository.delete(value);
+    }
+  }
+
+  AppEntryPagesListLoaded _mapAppEntryPagesListUpdatedToState(
+      AppEntryPagesListUpdated event) => AppEntryPagesListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

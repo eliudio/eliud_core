@@ -37,7 +37,7 @@ class PlatformMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  PlatformMediumEntity({this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.conditions, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  PlatformMediumEntity({required this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.conditions, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
   List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, conditions, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];

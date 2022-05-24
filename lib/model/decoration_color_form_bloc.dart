@@ -46,47 +46,41 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
   Stream<DecorationColorFormState> mapEventToState(DecorationColorFormEvent event) async* {
     final currentState = state;
     if (currentState is DecorationColorFormUninitialized) {
-      if (event is InitialiseNewDecorationColorFormEvent) {
+      on <InitialiseNewDecorationColorFormEvent> ((event, emit) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: DecorationColorModel(
                                                documentID: "IDENTIFIER", 
                                  color: RgbModel(r: 64, g: 6, b: 64, opacity: 1.00), 
                                  stop: 0.1, 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseDecorationColorFormEvent) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseDecorationColorFormNoLoadEvent) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is DecorationColorFormInitialized) {
       DecorationColorModel? newValue = null;
-      if (event is ChangedDecorationColorColor) {
+      on <ChangedDecorationColorColor> ((event, emit) async {
         newValue = currentState.value!.copyWith(color: event.value);
-        yield SubmittableDecorationColorForm(value: newValue);
+        emit(SubmittableDecorationColorForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedDecorationColorStop) {
+      });
+      on <ChangedDecorationColorStop> ((event, emit) async {
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(stop: double.parse(event.value!));
-          yield SubmittableDecorationColorForm(value: newValue);
+          emit(SubmittableDecorationColorForm(value: newValue));
 
         } else {
           newValue = currentState.value!.copyWith(stop: 0.0);
-          yield StopDecorationColorFormError(message: "Value should be a number or decimal number", value: newValue);
+          emit(StopDecorationColorFormError(message: "Value should be a number or decimal number", value: newValue));
         }
-        return;
-      }
+      });
     }
   }
 

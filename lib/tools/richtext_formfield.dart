@@ -36,7 +36,7 @@ class RichTextFieldState extends State<RichTextField> {
     var appState = AccessBloc.getState(context);
     return textFormField(widget.app,
       context,
-      readOnly: !appState.memberIsOwner(widget.app.documentID!),
+      readOnly: !appState.memberIsOwner(widget.app.documentID),
       initialValue: value,
       onChanged: _onChanged,
       keyboardType: TextInputType.multiline,

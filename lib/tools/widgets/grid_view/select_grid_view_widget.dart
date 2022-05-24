@@ -27,11 +27,11 @@ Widget selectGridViewWidget(
     title: 'GridView',
     selectTitle: 'Select gridView',
     displayItemFunction: (item) =>
-        text(app, context, item.documentID! + ' - ' + (item.name ?? '?')),
+        text(app, context, item.documentID + ' - ' + (item.name ?? '?')),
     blocProviderProvider: () => BlocProvider<GridViewListBloc>(
       create: (context) => GridViewListBloc(
-        eliudQuery: getComponentSelectorQuery(0, app.documentID!),
-        gridViewRepository: gridViewRepository(appId: app.documentID!)!,
+        eliudQuery: getComponentSelectorQuery(0, app.documentID),
+        gridViewRepository: gridViewRepository(appId: app.documentID)!,
       )..add(LoadGridViewList()),
     ),
     blocBuilder: (contentsLoaded, contentsNotLoaded) {
@@ -58,7 +58,7 @@ Widget selectGridViewWidget(
     changePrivilegeEventCallback: (BuildContext context, int privilegeLevel) {
       BlocProvider.of<GridViewListBloc>(context).add(GridViewChangeQuery(
           newQuery:
-              getComponentSelectorQuery(privilegeLevel, app.documentID!)));
+              getComponentSelectorQuery(privilegeLevel, app.documentID)));
     },
   );
 }

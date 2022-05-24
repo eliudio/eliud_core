@@ -33,7 +33,7 @@ class DrawerEntity {
   final RgbEntity? popupMenuBackgroundColorOverride;
   final String? menuId;
 
-  DrawerEntity({this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menuId, });
+  DrawerEntity({required this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menuId, });
 
 
   List<Object?> get props => [appId, name, backgroundOverride, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundOverride, popupMenuBackgroundColorOverride, menuId, ];

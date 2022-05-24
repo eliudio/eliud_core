@@ -2,27 +2,24 @@ import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
-import 'package:eliud_core/tools/repository_base.dart';
 
+import '../../base/model_base.dart';
+import '../../base/repository_base.dart';
 import 'editor_base_event.dart';
 import 'editor_base_state.dart';
 
-abstract class EditorBaseBloc<T>
+abstract class EditorBaseBloc<T extends ModelBase>
     extends Bloc<EditorBaseEvent<T>, EditorBaseState<T>> {
   final String appId;
   final RepositoryBase<T> repository;
   final EditorFeedback feedback;
 
-  EditorBaseBloc(this.appId, this.repository, this.feedback)
-      : super(EditorBaseUninitialised());
-
   T newInstance(StorageConditionsModel conditions);
   T setDefaultValues(T t, StorageConditionsModel conditions);
 
-  @override
-  Stream<EditorBaseState<T>> mapEventToState(
-      EditorBaseEvent event) async* {
-    if (event is EditorBaseInitialise) {
+  EditorBaseBloc(this.appId, this.repository, this.feedback)
+      : super(EditorBaseUninitialised()) {
+    on <EditorBaseInitialise<T>> ((event, emit) async{
       List<PublicMediumModel>? media = [];
       // retrieve the model, as it was retrieved without links
       var modelWithLinks = await repository
@@ -37,10 +34,10 @@ abstract class EditorBaseBloc<T>
                   privilegeLevelRequired:
                       PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
       }
-      yield EditorBaseInitialised(
-        model: modelWithLinks!,
-      );
-    }
+      emit(EditorBaseInitialised(
+        model: modelWithLinks,
+      ));
+    });
   }
 
   Future<void> save(EditorBaseApplyChanges event) async {
@@ -48,7 +45,7 @@ abstract class EditorBaseBloc<T>
       var theState = state as EditorBaseInitialised;
       var newModel = theState.model;
       if (await repository
-              .get(newModel.documentID!) ==
+              .get(newModel.documentID) ==
           null) {
         await repository.add(newModel);
       } else {

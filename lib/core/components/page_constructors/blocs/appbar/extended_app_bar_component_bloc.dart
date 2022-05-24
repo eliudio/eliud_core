@@ -19,27 +19,23 @@ class ExtendedAppBarComponentBloc extends Bloc<ExtendedAppBarComponentEvent, Ext
 
   void _listenToAppBar(AppBarModel appBar)  {
     _appBarSubscription?.cancel();
-    _appBarSubscription = appBarRepository(appId: appBar.appId)!.listenTo(appBar.documentID!, (value) {
+    _appBarSubscription = appBarRepository(appId: appBar.appId)!.listenTo(appBar.documentID, (value) {
       if (value != null) add(ExtendedAppBarComponentUpdated(value: value));
     });
 
     _menuDefSubscription?.cancel();
-    _menuDefSubscription = menuDefRepository(appId: appBar.appId)!.listenTo(appBar.iconMenu!.documentID!, (value) {
+    _menuDefSubscription = menuDefRepository(appId: appBar.appId)!.listenTo(appBar.iconMenu!.documentID, (value) {
       var newAppBar = appBar.copyWith(iconMenu: value);
       if (value != null) add(ExtendedAppBarComponentUpdated(value: newAppBar));
     });
   }
 
-  ExtendedAppBarComponentBloc(): super(ExtendedAppBarComponentUninitialized());
+  ExtendedAppBarComponentBloc(): super(ExtendedAppBarComponentUninitialized()) {
+    on<ExtendedAppBarInitEvent>((event, emit) =>
+      _listenToAppBar(event.value));
 
-  @override
-  Stream<ExtendedAppBarComponentState> mapEventToState(ExtendedAppBarComponentEvent event) async* {
-    final currentState = state;
-    if (event is ExtendedAppBarInitEvent) {
-      _listenToAppBar(event.value);
-    } else if (event is ExtendedAppBarComponentUpdated) {
-      yield ExtendedAppBarComponentLoaded(value: event.value);
-    }
+    on<ExtendedAppBarComponentUpdated>((event, emit) =>
+      emit(ExtendedAppBarComponentLoaded(value: event.value)));
   }
 
   @override

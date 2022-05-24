@@ -38,9 +38,47 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   DrawerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository, this.drawerLimit = 5})
       : assert(drawerRepository != null),
         _drawerRepository = drawerRepository,
-        super(DrawerListLoading());
+        super(DrawerListLoading()) {
+    on <LoadDrawerList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDrawerListToState();
+      } else {
+        _mapLoadDrawerListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadDrawerListWithDetailsToState();
+    });
+    
+    on <DrawerChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDrawerListToState();
+      } else {
+        _mapLoadDrawerListWithDetailsToState();
+      }
+    });
+      
+    on <AddDrawerList> ((event, emit) async {
+      await _mapAddDrawerListToState(event);
+    });
+    
+    on <UpdateDrawerList> ((event, emit) async {
+      await _mapUpdateDrawerListToState(event);
+    });
+    
+    on <DeleteDrawerList> ((event, emit) async {
+      await _mapDeleteDrawerListToState(event);
+    });
+    
+    on <DrawerListUpdated> ((event, emit) {
+      emit(_mapDrawerListUpdatedToState(event));
+    });
+  }
 
-  Stream<DrawerListState> _mapLoadDrawerListToState() async* {
+  Future<void> _mapLoadDrawerListToState() async {
     int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
     _drawersListSubscription?.cancel();
     _drawersListSubscription = _drawerRepository.listen(
@@ -52,7 +90,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     );
   }
 
-  Stream<DrawerListState> _mapLoadDrawerListWithDetailsToState() async* {
+  Future<void> _mapLoadDrawerListWithDetailsToState() async {
     int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
     _drawersListSubscription?.cancel();
     _drawersListSubscription = _drawerRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     );
   }
 
-  Stream<DrawerListState> _mapAddDrawerListToState(AddDrawerList event) async* {
+  Future<void> _mapAddDrawerListToState(AddDrawerList event) async {
     var value = event.value;
-    if (value != null) 
-      _drawerRepository.add(value);
-  }
-
-  Stream<DrawerListState> _mapUpdateDrawerListToState(UpdateDrawerList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _drawerRepository.update(value);
-  }
-
-  Stream<DrawerListState> _mapDeleteDrawerListToState(DeleteDrawerList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _drawerRepository.delete(value);
-  }
-
-  Stream<DrawerListState> _mapDrawerListUpdatedToState(
-      DrawerListUpdated event) async* {
-    yield DrawerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<DrawerListState> mapEventToState(DrawerListEvent event) async* {
-    if (event is LoadDrawerList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDrawerListToState();
-      } else {
-        yield* _mapLoadDrawerListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadDrawerListWithDetailsToState();
-    } else if (event is DrawerChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDrawerListToState();
-      } else {
-        yield* _mapLoadDrawerListWithDetailsToState();
-      }
-    } else if (event is AddDrawerList) {
-      yield* _mapAddDrawerListToState(event);
-    } else if (event is UpdateDrawerList) {
-      yield* _mapUpdateDrawerListToState(event);
-    } else if (event is DeleteDrawerList) {
-      yield* _mapDeleteDrawerListToState(event);
-    } else if (event is DrawerListUpdated) {
-      yield* _mapDrawerListUpdatedToState(event);
+    if (value != null) {
+      await _drawerRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateDrawerListToState(UpdateDrawerList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _drawerRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteDrawerListToState(DeleteDrawerList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _drawerRepository.delete(value);
+    }
+  }
+
+  DrawerListLoaded _mapDrawerListUpdatedToState(
+      DrawerListUpdated event) => DrawerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

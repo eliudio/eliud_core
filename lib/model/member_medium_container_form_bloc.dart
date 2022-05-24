@@ -50,40 +50,30 @@ class MemberMediumContainerFormBloc extends Bloc<MemberMediumContainerFormEvent,
   Stream<MemberMediumContainerFormState> mapEventToState(MemberMediumContainerFormEvent event) async* {
     final currentState = state;
     if (currentState is MemberMediumContainerFormUninitialized) {
-      if (event is InitialiseNewMemberMediumContainerFormEvent) {
+      on <InitialiseNewMemberMediumContainerFormEvent> ((event, emit) {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: MemberMediumContainerModel(
                                                documentID: "IDENTIFIER", 
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseMemberMediumContainerFormEvent) {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseMemberMediumContainerFormNoLoadEvent) {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is MemberMediumContainerFormInitialized) {
       MemberMediumContainerModel? newValue = null;
-      if (event is ChangedMemberMediumContainerMemberMedium) {
+      on <ChangedMemberMediumContainerMemberMedium> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(memberMedium: await memberMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new MemberMediumContainerModel(
-                                 documentID: currentState.value!.documentID,
-                                 memberMedium: null,
-          );
-        yield SubmittableMemberMediumContainerForm(value: newValue);
+        emit(SubmittableMemberMediumContainerForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

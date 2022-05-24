@@ -9,12 +9,14 @@ import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
+import '../../base/model_base.dart';
+
 abstract class ExtEditorBaseEvent<T> extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ExtEditorBaseInitialise<T> extends ExtEditorBaseEvent<T> {
+class ExtEditorBaseInitialise<T extends ModelBase> extends ExtEditorBaseEvent<T> {
   final T model;
 
   ExtEditorBaseInitialise(this.model);

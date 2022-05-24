@@ -39,7 +39,7 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<AppBarComponentBloc> (
           create: (context) => AppBarComponentBloc(
-            appBarRepository: appBarRepository(appId: app.documentID!)!)
+            appBarRepository: appBarRepository(appId: app.documentID)!)
         ..add(FetchAppBarComponent(id: appBarId)),
       child: _appBarBlockBuilder(context),
     );

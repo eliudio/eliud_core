@@ -38,9 +38,47 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   MemberPublicInfoListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
       : assert(memberPublicInfoRepository != null),
         _memberPublicInfoRepository = memberPublicInfoRepository,
-        super(MemberPublicInfoListLoading());
+        super(MemberPublicInfoListLoading()) {
+    on <LoadMemberPublicInfoList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberPublicInfoListToState();
+      } else {
+        _mapLoadMemberPublicInfoListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadMemberPublicInfoListWithDetailsToState();
+    });
+    
+    on <MemberPublicInfoChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberPublicInfoListToState();
+      } else {
+        _mapLoadMemberPublicInfoListWithDetailsToState();
+      }
+    });
+      
+    on <AddMemberPublicInfoList> ((event, emit) async {
+      await _mapAddMemberPublicInfoListToState(event);
+    });
+    
+    on <UpdateMemberPublicInfoList> ((event, emit) async {
+      await _mapUpdateMemberPublicInfoListToState(event);
+    });
+    
+    on <DeleteMemberPublicInfoList> ((event, emit) async {
+      await _mapDeleteMemberPublicInfoListToState(event);
+    });
+    
+    on <MemberPublicInfoListUpdated> ((event, emit) {
+      emit(_mapMemberPublicInfoListUpdatedToState(event));
+    });
+  }
 
-  Stream<MemberPublicInfoListState> _mapLoadMemberPublicInfoListToState() async* {
+  Future<void> _mapLoadMemberPublicInfoListToState() async {
     int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
     _memberPublicInfosListSubscription?.cancel();
     _memberPublicInfosListSubscription = _memberPublicInfoRepository.listen(
@@ -52,7 +90,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
     );
   }
 
-  Stream<MemberPublicInfoListState> _mapLoadMemberPublicInfoListWithDetailsToState() async* {
+  Future<void> _mapLoadMemberPublicInfoListWithDetailsToState() async {
     int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
     _memberPublicInfosListSubscription?.cancel();
     _memberPublicInfosListSubscription = _memberPublicInfoRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
     );
   }
 
-  Stream<MemberPublicInfoListState> _mapAddMemberPublicInfoListToState(AddMemberPublicInfoList event) async* {
+  Future<void> _mapAddMemberPublicInfoListToState(AddMemberPublicInfoList event) async {
     var value = event.value;
-    if (value != null) 
-      _memberPublicInfoRepository.add(value);
-  }
-
-  Stream<MemberPublicInfoListState> _mapUpdateMemberPublicInfoListToState(UpdateMemberPublicInfoList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberPublicInfoRepository.update(value);
-  }
-
-  Stream<MemberPublicInfoListState> _mapDeleteMemberPublicInfoListToState(DeleteMemberPublicInfoList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberPublicInfoRepository.delete(value);
-  }
-
-  Stream<MemberPublicInfoListState> _mapMemberPublicInfoListUpdatedToState(
-      MemberPublicInfoListUpdated event) async* {
-    yield MemberPublicInfoListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<MemberPublicInfoListState> mapEventToState(MemberPublicInfoListEvent event) async* {
-    if (event is LoadMemberPublicInfoList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberPublicInfoListToState();
-      } else {
-        yield* _mapLoadMemberPublicInfoListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadMemberPublicInfoListWithDetailsToState();
-    } else if (event is MemberPublicInfoChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberPublicInfoListToState();
-      } else {
-        yield* _mapLoadMemberPublicInfoListWithDetailsToState();
-      }
-    } else if (event is AddMemberPublicInfoList) {
-      yield* _mapAddMemberPublicInfoListToState(event);
-    } else if (event is UpdateMemberPublicInfoList) {
-      yield* _mapUpdateMemberPublicInfoListToState(event);
-    } else if (event is DeleteMemberPublicInfoList) {
-      yield* _mapDeleteMemberPublicInfoListToState(event);
-    } else if (event is MemberPublicInfoListUpdated) {
-      yield* _mapMemberPublicInfoListUpdatedToState(event);
+    if (value != null) {
+      await _memberPublicInfoRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateMemberPublicInfoListToState(UpdateMemberPublicInfoList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberPublicInfoRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteMemberPublicInfoListToState(DeleteMemberPublicInfoList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberPublicInfoRepository.delete(value);
+    }
+  }
+
+  MemberPublicInfoListLoaded _mapMemberPublicInfoListUpdatedToState(
+      MemberPublicInfoListUpdated event) => MemberPublicInfoListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

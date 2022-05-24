@@ -195,7 +195,7 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
           onTap: () => eliudrouter.Router.navigateTo(
               context,
               SwitchApp(widget.app,
-                  toAppID: playStoreApp.documentID!)),
+                  toAppID: playStoreApp.documentID)),
           imageURL: playStoreApp.logo!.url));
     }
     return items;

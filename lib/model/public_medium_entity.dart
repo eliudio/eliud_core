@@ -35,7 +35,7 @@ class PublicMediumEntity {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  PublicMediumEntity({this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  PublicMediumEntity({required this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
   List<Object?> get props => [authorId, baseName, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];

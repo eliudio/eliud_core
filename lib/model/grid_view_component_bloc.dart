@@ -26,23 +26,22 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
   final GridViewRepository? gridViewRepository;
   StreamSubscription? _gridViewSubscription;
 
-  Stream<GridViewComponentState> _mapLoadGridViewComponentUpdateToState(String documentId) async* {
+  void _mapLoadGridViewComponentUpdateToState(String documentId) {
     _gridViewSubscription?.cancel();
     _gridViewSubscription = gridViewRepository!.listenTo(documentId, (value) {
-      if (value != null) add(GridViewComponentUpdated(value: value));
+      if (value != null) {
+        add(GridViewComponentUpdated(value: value));
+      }
     });
   }
 
-  GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized());
-
-  @override
-  Stream<GridViewComponentState> mapEventToState(GridViewComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchGridViewComponent) {
-      yield* _mapLoadGridViewComponentUpdateToState(event.id!);
-    } else if (event is GridViewComponentUpdated) {
-      yield GridViewComponentLoaded(value: event.value);
-    }
+  GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized()) {
+    on <FetchGridViewComponent> ((event, emit) {
+      _mapLoadGridViewComponentUpdateToState(event.id!);
+    });
+    on <GridViewComponentUpdated> ((event, emit) {
+      emit(GridViewComponentLoaded(value: event.value));
+    });
   }
 
   @override

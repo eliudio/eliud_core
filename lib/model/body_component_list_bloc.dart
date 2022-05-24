@@ -38,9 +38,47 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   BodyComponentListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository, this.bodyComponentLimit = 5})
       : assert(bodyComponentRepository != null),
         _bodyComponentRepository = bodyComponentRepository,
-        super(BodyComponentListLoading());
+        super(BodyComponentListLoading()) {
+    on <LoadBodyComponentList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadBodyComponentListToState();
+      } else {
+        _mapLoadBodyComponentListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadBodyComponentListWithDetailsToState();
+    });
+    
+    on <BodyComponentChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadBodyComponentListToState();
+      } else {
+        _mapLoadBodyComponentListWithDetailsToState();
+      }
+    });
+      
+    on <AddBodyComponentList> ((event, emit) async {
+      await _mapAddBodyComponentListToState(event);
+    });
+    
+    on <UpdateBodyComponentList> ((event, emit) async {
+      await _mapUpdateBodyComponentListToState(event);
+    });
+    
+    on <DeleteBodyComponentList> ((event, emit) async {
+      await _mapDeleteBodyComponentListToState(event);
+    });
+    
+    on <BodyComponentListUpdated> ((event, emit) {
+      emit(_mapBodyComponentListUpdatedToState(event));
+    });
+  }
 
-  Stream<BodyComponentListState> _mapLoadBodyComponentListToState() async* {
+  Future<void> _mapLoadBodyComponentListToState() async {
     int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values!.length : 0;
     _bodyComponentsListSubscription?.cancel();
     _bodyComponentsListSubscription = _bodyComponentRepository.listen(
@@ -52,7 +90,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     );
   }
 
-  Stream<BodyComponentListState> _mapLoadBodyComponentListWithDetailsToState() async* {
+  Future<void> _mapLoadBodyComponentListWithDetailsToState() async {
     int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values!.length : 0;
     _bodyComponentsListSubscription?.cancel();
     _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     );
   }
 
-  Stream<BodyComponentListState> _mapAddBodyComponentListToState(AddBodyComponentList event) async* {
+  Future<void> _mapAddBodyComponentListToState(AddBodyComponentList event) async {
     var value = event.value;
-    if (value != null) 
-      _bodyComponentRepository.add(value);
-  }
-
-  Stream<BodyComponentListState> _mapUpdateBodyComponentListToState(UpdateBodyComponentList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _bodyComponentRepository.update(value);
-  }
-
-  Stream<BodyComponentListState> _mapDeleteBodyComponentListToState(DeleteBodyComponentList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _bodyComponentRepository.delete(value);
-  }
-
-  Stream<BodyComponentListState> _mapBodyComponentListUpdatedToState(
-      BodyComponentListUpdated event) async* {
-    yield BodyComponentListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<BodyComponentListState> mapEventToState(BodyComponentListEvent event) async* {
-    if (event is LoadBodyComponentList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadBodyComponentListToState();
-      } else {
-        yield* _mapLoadBodyComponentListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadBodyComponentListWithDetailsToState();
-    } else if (event is BodyComponentChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadBodyComponentListToState();
-      } else {
-        yield* _mapLoadBodyComponentListWithDetailsToState();
-      }
-    } else if (event is AddBodyComponentList) {
-      yield* _mapAddBodyComponentListToState(event);
-    } else if (event is UpdateBodyComponentList) {
-      yield* _mapUpdateBodyComponentListToState(event);
-    } else if (event is DeleteBodyComponentList) {
-      yield* _mapDeleteBodyComponentListToState(event);
-    } else if (event is BodyComponentListUpdated) {
-      yield* _mapBodyComponentListUpdatedToState(event);
+    if (value != null) {
+      await _bodyComponentRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateBodyComponentListToState(UpdateBodyComponentList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _bodyComponentRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteBodyComponentListToState(DeleteBodyComponentList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _bodyComponentRepository.delete(value);
+    }
+  }
+
+  BodyComponentListLoaded _mapBodyComponentListUpdatedToState(
+      BodyComponentListUpdated event) => BodyComponentListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

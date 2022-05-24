@@ -7,38 +7,39 @@ environment:
   sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
-  bloc: ^7.1.0
-  flutter_bloc: ^7.0.1
-  firebase_core: ^1.15.0
-  firebase_auth: ^3.3.16
-  google_sign_in: ^5.1.0
-  google_sign_in_web: ^0.10.0+3
-  firebase_storage: 10.2.14
-  google_fonts: ^2.1.0
-  cloud_firestore: 3.1.13
+  bloc: ^8.0.3
+  cloud_firestore: 3.1.15
+  cloud_functions: 3.2.15
   datetime_picker_formfield: ^2.0.0
-  expandable: ^5.0.1
-  flutter_colorpicker: 1.0.3
-  image_picker: ^0.7.4
-  equatable: ^2.0.3
   delayed_display: ^2.0.0
-  transparent_image: ^2.0.0
-  video_player: ^2.2.4
-  uuid: ^3.0.4
-  image: ^3.0.4
-  flutter_markdown: ^0.6.6
-  cloud_functions: 3.2.13
-  pdfx: ^1.0.1
-  path: ^1.8.0
-  photo_view: ^0.13.0
-  video_thumbnail: 0.4.3
-  flutter_colorful_tab: 0.1.0
-  flutter_circular_text: 0.3.1
-  tuple: ^2.0.0
+  equatable: ^2.0.3
+  expandable: ^5.0.1
   fast_image_resizer: 0.0.2
-  sign_in_with_apple: 3.3.0
-  http: ^0.13.0
+  firebase_auth: ^3.3.16
+  firebase_core: ^1.15.0
+  firebase_storage: 10.2.16
+  flutter_bloc: ^8.0.1
+  flutter_circular_text: 0.3.1
+  flutter_colorful_tab: 0.1.0
+  flutter_colorpicker: 1.0.3
+  flutter_markdown: ^0.6.6
   flutter_signin_button: 2.0.0
+  google_fonts: ^2.1.0
+  google_sign_in_web: ^0.10.0+3
+  google_sign_in: ^5.1.0
+  http: ^0.13.0
+  image_picker: 0.8.5+3
+  image: ^3.0.4
+  path: ^1.8.0
+  pdfx:
+    path: ../../packages.flutter/packages/pdfx
+  photo_view: ^0.13.0
+  sign_in_with_apple: 3.3.0
+  transparent_image: ^2.0.0
+  tuple: ^2.0.0
+  uuid: ^3.0.4
+  video_player: ^2.2.4
+  video_thumbnail: 0.5.0
 
   flutter:
     sdk: flutter

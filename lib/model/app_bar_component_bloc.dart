@@ -27,23 +27,22 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
   final AppBarRepository? appBarRepository;
   StreamSubscription? _appBarSubscription;
 
-  Stream<AppBarComponentState> _mapLoadAppBarComponentUpdateToState(String documentId) async* {
+  void _mapLoadAppBarComponentUpdateToState(String documentId) {
     _appBarSubscription?.cancel();
     _appBarSubscription = appBarRepository!.listenTo(documentId, (value) {
-      if (value != null) add(AppBarComponentUpdated(value: value));
+      if (value != null) {
+        add(AppBarComponentUpdated(value: value));
+      }
     });
   }
 
-  AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized());
-
-  @override
-  Stream<AppBarComponentState> mapEventToState(AppBarComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchAppBarComponent) {
-      yield* _mapLoadAppBarComponentUpdateToState(event.id!);
-    } else if (event is AppBarComponentUpdated) {
-      yield AppBarComponentLoaded(value: event.value);
-    }
+  AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized()) {
+    on <FetchAppBarComponent> ((event, emit) {
+      _mapLoadAppBarComponentUpdateToState(event.id!);
+    });
+    on <AppBarComponentUpdated> ((event, emit) {
+      emit(AppBarComponentLoaded(value: event.value));
+    });
   }
 
   @override

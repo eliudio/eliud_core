@@ -21,6 +21,7 @@
   "fields": [
     {
       "fieldName": "documentID",
+      "required": true,
       "remark": "User UUID",
       "displayName": "User UUID",
       "fieldType": "String",
@@ -217,7 +218,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID!)) : Container()",
+    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
     "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   },
   "extraImports": {
@@ -226,14 +227,14 @@
   "alternativeViews": [
     {
         "name": "Small",
-        "fields": [ "name", "subscriptions" ],
+        "fields": [ "documentID", "name", "subscriptions" ],
         "groups" : [ "general", "subscriptions" ]
     },
     {
         "name": "Address",
         "title": "Confirm Delivery Address",
         "buttonLabel": "Finish Order",
-        "fields": [ "name", "email",
+        "fields": [  "documentID", "name", "email",
                     "shipStreet1", "shipStreet2", "shipCity", "shipState", "postcode", "country", "invoiceSame",
                     "invoiceStreet1", "invoiceStreet2", "invoiceCity", "invoiceState", "invoicePostcode", "invoiceCountry"
                   ],

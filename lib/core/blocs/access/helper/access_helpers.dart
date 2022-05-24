@@ -168,7 +168,7 @@ class AccessHelper {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
       var access = await AccessHelper._getAccess(accessBloc, member, app, isLoggedIn);
-      accesses[app.documentID!] = access;
+      accesses[app.documentID] = access;
     }
     return accesses;
   }
@@ -177,26 +177,26 @@ class AccessHelper {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
       var access = await AccessHelper._getAccess(accessBloc, member, app, isLoggedIn);
-      accesses[app.documentID!] = access;
+      accesses[app.documentID] = access;
     }
     return accesses;
   }
 
   static Future<Map<String, PagesAndDialogAccesss>> extendAccesses(AccessBloc accessBloc, MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn) async {
     var access = await AccessHelper._getAccess(accessBloc, member, addApp, isLoggedIn);
-    currentAccesses[addApp.documentID!] = access;
+    currentAccesses[addApp.documentID] = access;
     return currentAccesses;
   }
 
   static Future<Map<String, PagesAndDialogAccesss>> extendAccesses2(AccessBloc accessBloc, MemberModel? member, Map<String, PagesAndDialogAccesss> currentAccesses, AppModel addApp, bool isLoggedIn, PrivilegeLevel privilegeLevel, bool? isBlocked) async {
     var access = await _getAccess2(accessBloc, member, addApp, isLoggedIn, privilegeLevel, isBlocked);
-    currentAccesses[addApp.documentID!] = access;
+    currentAccesses[addApp.documentID] = access;
     return currentAccesses;
   }
 
   static Future<PagesAndDialogAccesss> _getAccess(AccessBloc accessBloc,
       MemberModel? member, AppModel app, bool isLoggedIn) async {
-    var afm = await getAccessForMember(member, app.documentID!);
+    var afm = await getAccessForMember(member, app.documentID);
     return _getAccess2(accessBloc, member, app, isLoggedIn, afm.item1, afm.item2);
   }
 
@@ -221,7 +221,7 @@ class AccessHelper {
     var accesses = <String, PagesAndDialogAccesss>{};
     for (var app in apps) {
       var access = await AccessHelper._getAccess(member, app, isLoggedIn);
-      accesses[app.documentID!] = access;
+      accesses[app.documentID] = access;
     }
     return accesses;
   }
@@ -250,7 +250,7 @@ class AccessHelper {
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
         pages.addAll(await repo!.valuesList(
-            eliudQuery: getComponentSelectorQuery(countDown, app.documentID!)));
+            eliudQuery: getComponentSelectorQuery(countDown, app.documentID)));
         countDown--;
       }
 
@@ -259,7 +259,7 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var page = theList[i]!;
-        pagesAccess[page.documentID!] = true;
+        pagesAccess[page.documentID] = true;
       }
     }
     var dialogsAccess = <String, bool>{};
@@ -269,7 +269,7 @@ class AccessHelper {
       var countDown = privilegeLevel.index;
       while (countDown >= 0) {
         dialogs.addAll(await repo!.valuesList(
-            eliudQuery: getComponentSelectorQuery(countDown, app.documentID!)));
+            eliudQuery: getComponentSelectorQuery(countDown, app.documentID)));
         countDown--;
       }
 
@@ -278,7 +278,7 @@ class AccessHelper {
 
       for (var i = 0; i < theList.length; i++) {
         var dialog = theList[i]!;
-        dialogsAccess[dialog.documentID!] = true;
+        dialogsAccess[dialog.documentID] = true;
       }
     }
 

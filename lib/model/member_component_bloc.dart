@@ -27,23 +27,22 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
   final MemberRepository? memberRepository;
   StreamSubscription? _memberSubscription;
 
-  Stream<MemberComponentState> _mapLoadMemberComponentUpdateToState(String documentId) async* {
+  void _mapLoadMemberComponentUpdateToState(String documentId) {
     _memberSubscription?.cancel();
     _memberSubscription = memberRepository!.listenTo(documentId, (value) {
-      if (value != null) add(MemberComponentUpdated(value: value));
+      if (value != null) {
+        add(MemberComponentUpdated(value: value));
+      }
     });
   }
 
-  MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized());
-
-  @override
-  Stream<MemberComponentState> mapEventToState(MemberComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchMemberComponent) {
-      yield* _mapLoadMemberComponentUpdateToState(event.id!);
-    } else if (event is MemberComponentUpdated) {
-      yield MemberComponentLoaded(value: event.value);
-    }
+  MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized()) {
+    on <FetchMemberComponent> ((event, emit) {
+      _mapLoadMemberComponentUpdateToState(event.id!);
+    });
+    on <MemberComponentUpdated> ((event, emit) {
+      emit(MemberComponentLoaded(value: event.value));
+    });
   }
 
   @override

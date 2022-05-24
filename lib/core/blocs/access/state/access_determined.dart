@@ -53,13 +53,13 @@ abstract class AccessDetermined extends AccessState {
 
   AppModel? getApp(String appId) {
     for (var app in apps) {
-      if (app.app.documentID! == appId) return app.app;
+      if (app.app.documentID == appId) return app.app;
     }
     return null;
   }
 
   Future<bool> actionHasAccess(ActionModel action) async {
-    var appID = action.app.documentID!;
+    var appID = action.app.documentID;
     if (action.conditions != null) {
       var theAccess = accesses[appID];
       if ((theAccess != null) && (!AccessHelper.displayConditionOk(
@@ -160,7 +160,7 @@ abstract class AccessDetermined extends AccessState {
     if (access.appId == null) {
       throw Exception('appId is null');
     }
-    var appId = access.appId!;
+    var appId = access.appId;
     var newCurrentApp = await appRepository()!.get(appId);
     if (newCurrentApp == null) {
       throw Exception("Can't find app with id $appId");
@@ -169,7 +169,7 @@ abstract class AccessDetermined extends AccessState {
     newAccesses.removeWhere((key, value) => key == appId);
 
     var newApps = [...apps];
-    newApps.removeWhere((element) => element.app.documentID! == appId);
+    newApps.removeWhere((element) => element.app.documentID == appId);
 
     return addApp2(accessBloc, newAccesses, newApps, newCurrentApp);
   }

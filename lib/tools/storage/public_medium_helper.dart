@@ -67,7 +67,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
     );
-    return publicMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   /*
@@ -101,7 +101,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
     );
-    return publicMediumRepository(appId: app.documentID!)!.add(memberImageModel);
+    return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   @override
@@ -127,6 +127,6 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await publicMediumRepository(appId: app.documentID!)!.add(pageImageModel);
+    return await publicMediumRepository(appId: app.documentID)!.add(pageImageModel);
   }
 }

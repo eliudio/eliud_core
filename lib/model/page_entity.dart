@@ -34,7 +34,7 @@ class PageEntity {
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  PageEntity({this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
+  PageEntity({required this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
 
 
   List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverride, layout, gridViewId, conditions, ];

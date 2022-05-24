@@ -7,7 +7,7 @@ import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:flutter/material.dart';
 
 Future<void> updateComponent(BuildContext context, AppModel app, String? componentName, String? componentId, EditorFeedback editorFeedback) async {
-  var appId = app.documentID!;
+  var appId = app.documentID;
   if (componentName == null) {
     openErrorDialog(app, context, appId + '/_error', title: 'Problem', errorMessage: 'Component name is null');
   } else {
@@ -25,7 +25,7 @@ Future<void> updateComponent(BuildContext context, AppModel app, String? compone
 }
 
 Future<void> addComponent(BuildContext context, AppModel app, String? componentName, EditorFeedback editorFeedback) async {
-  var appId = app.documentID!;
+  var appId = app.documentID;
   if (componentName == null) {
     openErrorDialog(app, context, appId + '/_error', title: 'Problem', errorMessage: 'Component name is null');
   } else {

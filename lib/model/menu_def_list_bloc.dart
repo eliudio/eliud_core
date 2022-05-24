@@ -38,9 +38,47 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
       : assert(menuDefRepository != null),
         _menuDefRepository = menuDefRepository,
-        super(MenuDefListLoading());
+        super(MenuDefListLoading()) {
+    on <LoadMenuDefList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMenuDefListToState();
+      } else {
+        _mapLoadMenuDefListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadMenuDefListWithDetailsToState();
+    });
+    
+    on <MenuDefChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMenuDefListToState();
+      } else {
+        _mapLoadMenuDefListWithDetailsToState();
+      }
+    });
+      
+    on <AddMenuDefList> ((event, emit) async {
+      await _mapAddMenuDefListToState(event);
+    });
+    
+    on <UpdateMenuDefList> ((event, emit) async {
+      await _mapUpdateMenuDefListToState(event);
+    });
+    
+    on <DeleteMenuDefList> ((event, emit) async {
+      await _mapDeleteMenuDefListToState(event);
+    });
+    
+    on <MenuDefListUpdated> ((event, emit) {
+      emit(_mapMenuDefListUpdatedToState(event));
+    });
+  }
 
-  Stream<MenuDefListState> _mapLoadMenuDefListToState() async* {
+  Future<void> _mapLoadMenuDefListToState() async {
     int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listen(
@@ -52,7 +90,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     );
   }
 
-  Stream<MenuDefListState> _mapLoadMenuDefListWithDetailsToState() async* {
+  Future<void> _mapLoadMenuDefListWithDetailsToState() async {
     int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     );
   }
 
-  Stream<MenuDefListState> _mapAddMenuDefListToState(AddMenuDefList event) async* {
+  Future<void> _mapAddMenuDefListToState(AddMenuDefList event) async {
     var value = event.value;
-    if (value != null) 
-      _menuDefRepository.add(value);
-  }
-
-  Stream<MenuDefListState> _mapUpdateMenuDefListToState(UpdateMenuDefList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _menuDefRepository.update(value);
-  }
-
-  Stream<MenuDefListState> _mapDeleteMenuDefListToState(DeleteMenuDefList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _menuDefRepository.delete(value);
-  }
-
-  Stream<MenuDefListState> _mapMenuDefListUpdatedToState(
-      MenuDefListUpdated event) async* {
-    yield MenuDefListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<MenuDefListState> mapEventToState(MenuDefListEvent event) async* {
-    if (event is LoadMenuDefList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMenuDefListToState();
-      } else {
-        yield* _mapLoadMenuDefListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadMenuDefListWithDetailsToState();
-    } else if (event is MenuDefChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMenuDefListToState();
-      } else {
-        yield* _mapLoadMenuDefListWithDetailsToState();
-      }
-    } else if (event is AddMenuDefList) {
-      yield* _mapAddMenuDefListToState(event);
-    } else if (event is UpdateMenuDefList) {
-      yield* _mapUpdateMenuDefListToState(event);
-    } else if (event is DeleteMenuDefList) {
-      yield* _mapDeleteMenuDefListToState(event);
-    } else if (event is MenuDefListUpdated) {
-      yield* _mapMenuDefListUpdatedToState(event);
+    if (value != null) {
+      await _menuDefRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateMenuDefListToState(UpdateMenuDefList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _menuDefRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteMenuDefListToState(DeleteMenuDefList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _menuDefRepository.delete(value);
+    }
+  }
+
+  MenuDefListLoaded _mapMenuDefListUpdatedToState(
+      MenuDefListUpdated event) => MenuDefListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

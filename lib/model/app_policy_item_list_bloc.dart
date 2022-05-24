@@ -38,9 +38,47 @@ class AppPolicyItemListBloc extends Bloc<AppPolicyItemListEvent, AppPolicyItemLi
   AppPolicyItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyItemRepository appPolicyItemRepository, this.appPolicyItemLimit = 5})
       : assert(appPolicyItemRepository != null),
         _appPolicyItemRepository = appPolicyItemRepository,
-        super(AppPolicyItemListLoading());
+        super(AppPolicyItemListLoading()) {
+    on <LoadAppPolicyItemList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppPolicyItemListToState();
+      } else {
+        _mapLoadAppPolicyItemListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadAppPolicyItemListWithDetailsToState();
+    });
+    
+    on <AppPolicyItemChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadAppPolicyItemListToState();
+      } else {
+        _mapLoadAppPolicyItemListWithDetailsToState();
+      }
+    });
+      
+    on <AddAppPolicyItemList> ((event, emit) async {
+      await _mapAddAppPolicyItemListToState(event);
+    });
+    
+    on <UpdateAppPolicyItemList> ((event, emit) async {
+      await _mapUpdateAppPolicyItemListToState(event);
+    });
+    
+    on <DeleteAppPolicyItemList> ((event, emit) async {
+      await _mapDeleteAppPolicyItemListToState(event);
+    });
+    
+    on <AppPolicyItemListUpdated> ((event, emit) {
+      emit(_mapAppPolicyItemListUpdatedToState(event));
+    });
+  }
 
-  Stream<AppPolicyItemListState> _mapLoadAppPolicyItemListToState() async* {
+  Future<void> _mapLoadAppPolicyItemListToState() async {
     int amountNow =  (state is AppPolicyItemListLoaded) ? (state as AppPolicyItemListLoaded).values!.length : 0;
     _appPolicyItemsListSubscription?.cancel();
     _appPolicyItemsListSubscription = _appPolicyItemRepository.listen(
@@ -52,7 +90,7 @@ class AppPolicyItemListBloc extends Bloc<AppPolicyItemListEvent, AppPolicyItemLi
     );
   }
 
-  Stream<AppPolicyItemListState> _mapLoadAppPolicyItemListWithDetailsToState() async* {
+  Future<void> _mapLoadAppPolicyItemListWithDetailsToState() async {
     int amountNow =  (state is AppPolicyItemListLoaded) ? (state as AppPolicyItemListLoaded).values!.length : 0;
     _appPolicyItemsListSubscription?.cancel();
     _appPolicyItemsListSubscription = _appPolicyItemRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class AppPolicyItemListBloc extends Bloc<AppPolicyItemListEvent, AppPolicyItemLi
     );
   }
 
-  Stream<AppPolicyItemListState> _mapAddAppPolicyItemListToState(AddAppPolicyItemList event) async* {
+  Future<void> _mapAddAppPolicyItemListToState(AddAppPolicyItemList event) async {
     var value = event.value;
-    if (value != null) 
-      _appPolicyItemRepository.add(value);
-  }
-
-  Stream<AppPolicyItemListState> _mapUpdateAppPolicyItemListToState(UpdateAppPolicyItemList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appPolicyItemRepository.update(value);
-  }
-
-  Stream<AppPolicyItemListState> _mapDeleteAppPolicyItemListToState(DeleteAppPolicyItemList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _appPolicyItemRepository.delete(value);
-  }
-
-  Stream<AppPolicyItemListState> _mapAppPolicyItemListUpdatedToState(
-      AppPolicyItemListUpdated event) async* {
-    yield AppPolicyItemListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<AppPolicyItemListState> mapEventToState(AppPolicyItemListEvent event) async* {
-    if (event is LoadAppPolicyItemList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppPolicyItemListToState();
-      } else {
-        yield* _mapLoadAppPolicyItemListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadAppPolicyItemListWithDetailsToState();
-    } else if (event is AppPolicyItemChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadAppPolicyItemListToState();
-      } else {
-        yield* _mapLoadAppPolicyItemListWithDetailsToState();
-      }
-    } else if (event is AddAppPolicyItemList) {
-      yield* _mapAddAppPolicyItemListToState(event);
-    } else if (event is UpdateAppPolicyItemList) {
-      yield* _mapUpdateAppPolicyItemListToState(event);
-    } else if (event is DeleteAppPolicyItemList) {
-      yield* _mapDeleteAppPolicyItemListToState(event);
-    } else if (event is AppPolicyItemListUpdated) {
-      yield* _mapAppPolicyItemListUpdatedToState(event);
+    if (value != null) {
+      await _appPolicyItemRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateAppPolicyItemListToState(UpdateAppPolicyItemList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appPolicyItemRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteAppPolicyItemListToState(DeleteAppPolicyItemList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _appPolicyItemRepository.delete(value);
+    }
+  }
+
+  AppPolicyItemListLoaded _mapAppPolicyItemListUpdatedToState(
+      AppPolicyItemListUpdated event) => AppPolicyItemListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

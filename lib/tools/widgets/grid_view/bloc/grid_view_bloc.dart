@@ -54,7 +54,7 @@ class GridViewDashboardBloc extends EditorBaseBloc<GridViewModel> {
       mainAxisSpacing: t.mainAxisSpacing ?? 4,
       crossAxisSpacing: t.crossAxisSpacing ?? 4,
       scrollDirection: t.scrollDirection ?? GridViewScrollDirection.Horizontal,
-      appId: t.appId ?? appId,
+      appId: t.appId,
       conditions: t.conditions ?? conditions,
     );
   }

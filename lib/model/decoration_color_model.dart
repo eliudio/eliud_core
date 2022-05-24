@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,12 +32,12 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class DecorationColorModel {
-  String? documentID;
+class DecorationColorModel implements ModelBase {
+  String documentID;
   RgbModel? color;
   double? stop;
 
-  DecorationColorModel({this.documentID, this.color, this.stop, })  {
+  DecorationColorModel({required this.documentID, this.color, this.stop, })  {
     assert(documentID != null);
   }
 

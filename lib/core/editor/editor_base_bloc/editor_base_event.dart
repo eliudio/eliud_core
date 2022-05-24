@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 
+import '../../base/model_base.dart';
+
 abstract class EditorBaseEvent<T> extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class EditorBaseInitialise<T> extends EditorBaseEvent<T> {
+class EditorBaseInitialise<T extends ModelBase> extends EditorBaseEvent<T> {
   final T model;
 
   EditorBaseInitialise(this.model);

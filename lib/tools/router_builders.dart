@@ -167,5 +167,5 @@ PageRouteBuilder pageRouteBuilderWithAppId(AccessState state, String appId, {Str
 }
 
 PageRouteBuilder pageRouteBuilder(AppModel app, {String? pageId, Map<String, dynamic>? parameters, required Widget page}) {
-  return FadeRoute(name: app.documentID! + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
+  return FadeRoute(name: app.documentID + ((pageId == null) ? '/?' : '/' + pageId), parameters: parameters, page: page, milliseconds: 1000);
 }

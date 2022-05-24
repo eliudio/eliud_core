@@ -16,6 +16,7 @@
 import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -59,9 +60,9 @@ MediumType toMediumType(int? index) {
 }
 
 
-class MemberMediumModel {
-  String? documentID;
-  String? appId;
+class MemberMediumModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? authorId;
   String? baseName;
   String? url;
@@ -82,7 +83,7 @@ class MemberMediumModel {
   // In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.
   String? relatedMediumId;
 
-  MemberMediumModel({this.documentID, this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
+  MemberMediumModel({required this.documentID, required this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
     assert(documentID != null);
   }
 
@@ -150,7 +151,7 @@ class MemberMediumModel {
     var counter = 0;
     return MemberMediumModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           authorId: entity.authorId, 
           baseName: entity.baseName, 
           url: entity.url, 
@@ -175,7 +176,7 @@ class MemberMediumModel {
     var counter = 0;
     return MemberMediumModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           authorId: entity.authorId, 
           baseName: entity.baseName, 
           url: entity.url, 

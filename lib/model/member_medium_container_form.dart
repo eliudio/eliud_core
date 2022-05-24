@@ -74,7 +74,7 @@ class MemberMediumContainerForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberMediumContainerFormBloc >(
             create: (context) => MemberMediumContainerFormBloc(appId,
@@ -245,7 +245,7 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
   }
 
   bool _readOnly(AccessState accessState, MemberMediumContainerFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

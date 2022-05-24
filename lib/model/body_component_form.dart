@@ -69,7 +69,7 @@ class BodyComponentForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<BodyComponentFormBloc >(
             create: (context) => BodyComponentFormBloc(appId,
@@ -246,7 +246,7 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
   }
 
   bool _readOnly(AccessState accessState, BodyComponentFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

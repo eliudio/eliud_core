@@ -39,7 +39,7 @@ abstract class AbstractMemberComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<MemberComponentBloc> (
           create: (context) => MemberComponentBloc(
-            memberRepository: memberRepository(appId: app.documentID!)!)
+            memberRepository: memberRepository(appId: app.documentID)!)
         ..add(FetchMemberComponent(id: memberId)),
       child: _memberBlockBuilder(context),
     );

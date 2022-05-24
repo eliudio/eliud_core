@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,8 +32,8 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class BodyComponentModel {
-  String? documentID;
+class BodyComponentModel implements ModelBase {
+  String documentID;
 
   // The component name, such as 'carousel' which is required on this body
   String? componentName;
@@ -40,7 +41,7 @@ class BodyComponentModel {
   // For that specific component, e.g. 'carousel', which Component ID, i.e. which carousel to include in the page
   String? componentId;
 
-  BodyComponentModel({this.documentID, this.componentName, this.componentId, })  {
+  BodyComponentModel({required this.documentID, this.componentName, this.componentId, })  {
     assert(documentID != null);
   }
 

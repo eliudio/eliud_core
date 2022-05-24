@@ -23,6 +23,7 @@
   "fields": [
     {
       "fieldName": "documentID",
+      "required": true,
       "displayName": "Document ID",
       "remark": "This is the member ID",
       "fieldType": "String",
@@ -32,6 +33,7 @@
     },
     {
       "fieldName": "appId",
+      "required": true,
       "displayName": "App ID",
       "fieldType": "String",
       "iconName": "vpn_key",

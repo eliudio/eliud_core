@@ -69,7 +69,7 @@ class DecorationColorForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<DecorationColorFormBloc >(
             create: (context) => DecorationColorFormBloc(appId,
@@ -231,7 +231,7 @@ class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
   }
 
   bool _readOnly(AccessState accessState, DecorationColorFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

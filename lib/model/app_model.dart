@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -44,9 +45,9 @@ AppStatus toAppStatus(int? index) {
 }
 
 
-class AppModel {
-  String? documentID;
-  String? ownerID;
+class AppModel implements ModelBase {
+  String documentID;
+  String ownerID;
   String? title;
   String? email;
   String? description;
@@ -64,7 +65,7 @@ class AppModel {
   // Is Featured
   bool? isFeatured;
 
-  AppModel({this.documentID, this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
+  AppModel({required this.documentID, required this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
     assert(documentID != null);
   }
 
@@ -123,7 +124,7 @@ class AppModel {
     var counter = 0;
     return AppModel(
           documentID: documentID, 
-          ownerID: entity.ownerID, 
+          ownerID: entity.ownerID ?? '', 
           title: entity.title, 
           email: entity.email, 
           description: entity.description, 
@@ -176,7 +177,7 @@ class AppModel {
     var counter = 0;
     return AppModel(
           documentID: documentID, 
-          ownerID: entity.ownerID, 
+          ownerID: entity.ownerID ?? '', 
           title: entity.title, 
           email: entity.email, 
           description: entity.description, 

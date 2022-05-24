@@ -52,7 +52,7 @@ class MemberFirestore implements MemberRepository {
         var theApp = memberModel.subscriptions![i].app;
         if (theApp != null) {
           subscriptions.add(memberModel.subscriptions![i]);
-          subscriptionStrings.add(theApp.documentID!);
+          subscriptionStrings.add(theApp.documentID);
         }
       }
     }

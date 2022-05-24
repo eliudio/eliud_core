@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,9 +32,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class DrawerModel {
-  String? documentID;
-  String? appId;
+class DrawerModel implements ModelBase, WithAppId {
+  String documentID;
+  String appId;
   String? name;
   BackgroundModel? backgroundOverride;
   String? headerText;
@@ -46,7 +47,7 @@ class DrawerModel {
   RgbModel? popupMenuBackgroundColorOverride;
   MenuDefModel? menu;
 
-  DrawerModel({this.documentID, this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menu, })  {
+  DrawerModel({required this.documentID, required this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menu, })  {
     assert(documentID != null);
   }
 
@@ -99,7 +100,7 @@ class DrawerModel {
     var counter = 0;
     return DrawerModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           backgroundOverride: 
             await BackgroundModel.fromEntity(entity.backgroundOverride), 
@@ -132,7 +133,7 @@ class DrawerModel {
     var counter = 0;
     return DrawerModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           name: entity.name, 
           backgroundOverride: 
             await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 

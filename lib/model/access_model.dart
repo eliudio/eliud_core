@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -59,11 +60,11 @@ PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int? index) {
 }
 
 
-class AccessModel {
+class AccessModel implements ModelBase, WithAppId {
 
   // This is the member ID
-  String? documentID;
-  String? appId;
+  String documentID;
+  String appId;
 
   // This is the privilege level and will determine the data accessible
   PrivilegeLevel? privilegeLevel;
@@ -77,7 +78,7 @@ class AccessModel {
   // This is the privilege level before the member was blocked and allows to restore to this point
   PrivilegeLevelBeforeBlocked? privilegeLevelBeforeBlocked;
 
-  AccessModel({this.documentID, this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, })  {
+  AccessModel({required this.documentID, required this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, })  {
     assert(documentID != null);
   }
 
@@ -120,7 +121,7 @@ class AccessModel {
     var counter = 0;
     return AccessModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 
           points: entity.points, 
           blocked: entity.blocked, 
@@ -134,7 +135,7 @@ class AccessModel {
     var counter = 0;
     return AccessModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           privilegeLevel: toPrivilegeLevel(entity.privilegeLevel), 
           points: entity.points, 
           blocked: entity.blocked, 

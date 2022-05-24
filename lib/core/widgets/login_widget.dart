@@ -17,7 +17,7 @@ void openLoginWidget(BuildContext context, AppModel app, {PostLoginAction? actio
       .frontEndStyle()
       .dialogStyle()
       .openComplexDialog(
-      app, context, app.documentID! + '/_style',
+      app, context, app.documentID + '/_style',
       widthFraction: .5,
       includeHeading: false,child: LoginWidget(app: app, actions: actions),
       title: 'Style');

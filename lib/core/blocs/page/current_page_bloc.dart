@@ -9,44 +9,35 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
   StreamSubscription? _pageSubscription;
   StreamSubscription? _appSubscription;
 
-  Stream<CurrentPageState> _mapLoadCurrentPageUpdateToState(String appId, String pageId) async* {
+  void _mapLoadCurrentPageUpdateToState(
+      String appId, String pageId) {
     _pageSubscription?.cancel();
-//    final waitForFirstToComplete = Completer<void>();
     _pageSubscription = pageRepository(appId: appId)!.listenTo(pageId, (value) {
       if (value != null) add(CurrentPageUpdated(page: value));
-/*
-      if (!waitForFirstToComplete.isCompleted) {
-        waitForFirstToComplete.complete();
-      }
-*/
     });
-/*
-    await waitForFirstToComplete.future;
-*/
 
     _appSubscription = appRepository()!.listenTo(appId, (value) {
       if (value != null) add(CurrentAppUpdated(app: value));
     });
-
   }
 
-  CurrentPageBloc(): super(CurrentPageUninitialized());
-
-  @override
-  Stream<CurrentPageState> mapEventToState(CurrentPageEvent event) async* {
-    if (event is FetchCurrentPage) {
-      yield* _mapLoadCurrentPageUpdateToState(event.appId, event.pageId);
-    } else if (event is CurrentPageUpdated) {
+  CurrentPageBloc() : super(CurrentPageUninitialized()) {
+    on<FetchCurrentPage>((event, emit) =>
+        _mapLoadCurrentPageUpdateToState(event.appId, event.pageId));
+    on<CurrentPageUpdated>((event, emit) async {
       var app = await appRepository()!.get(event.page.appId);
-      yield CurrentPageLoaded(page: event.page, app: app!);
-    } else if (event is CurrentAppUpdated) {
+      emit(CurrentPageLoaded(page: event.page, app: app!));
+    });
+
+    on<CurrentAppUpdated>((event, emit) {
       var theState = state;
       if (theState is CurrentPageLoaded) {
-        yield CurrentPageLoaded(page: theState.page, app: event.app);
+        emit(CurrentPageLoaded(page: theState.page, app: event.app));
       } else {
-        print("Unexpected: state is not CurrentPageLoaded, yet we get a CurrentAppUpdated event. Shouldn't be possible");
+        print(
+            "Unexpected: state is not CurrentPageLoaded, yet we get a CurrentAppUpdated event. Shouldn't be possible");
       }
-    }
+    });
   }
 
   @override
@@ -54,6 +45,4 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
     _pageSubscription?.cancel();
     return super.close();
   }
-
 }
-

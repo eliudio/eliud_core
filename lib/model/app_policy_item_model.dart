@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,12 +32,12 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class AppPolicyItemModel {
-  String? documentID;
+class AppPolicyItemModel implements ModelBase {
+  String documentID;
   String? name;
   PublicMediumModel? policy;
 
-  AppPolicyItemModel({this.documentID, this.name, this.policy, })  {
+  AppPolicyItemModel({required this.documentID, this.name, this.policy, })  {
     assert(documentID != null);
   }
 

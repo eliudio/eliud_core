@@ -27,23 +27,22 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   final PageRepository? pageRepository;
   StreamSubscription? _pageSubscription;
 
-  Stream<PageComponentState> _mapLoadPageComponentUpdateToState(String documentId) async* {
+  void _mapLoadPageComponentUpdateToState(String documentId) {
     _pageSubscription?.cancel();
     _pageSubscription = pageRepository!.listenTo(documentId, (value) {
-      if (value != null) add(PageComponentUpdated(value: value));
+      if (value != null) {
+        add(PageComponentUpdated(value: value));
+      }
     });
   }
 
-  PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized());
-
-  @override
-  Stream<PageComponentState> mapEventToState(PageComponentEvent event) async* {
-    final currentState = state;
-    if (event is FetchPageComponent) {
-      yield* _mapLoadPageComponentUpdateToState(event.id!);
-    } else if (event is PageComponentUpdated) {
-      yield PageComponentLoaded(value: event.value);
-    }
+  PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized()) {
+    on <FetchPageComponent> ((event, emit) {
+      _mapLoadPageComponentUpdateToState(event.id!);
+    });
+    on <PageComponentUpdated> ((event, emit) {
+      emit(PageComponentLoaded(value: event.value));
+    });
   }
 
   @override

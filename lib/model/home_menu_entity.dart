@@ -29,7 +29,7 @@ class HomeMenuEntity {
   final BackgroundEntity? backgroundOverride;
   final RgbEntity? popupMenuBackgroundColorOverride;
 
-  HomeMenuEntity({this.appId, this.name, this.menuId, this.iconColorOverride, this.backgroundOverride, this.popupMenuBackgroundColorOverride, });
+  HomeMenuEntity({required this.appId, this.name, this.menuId, this.iconColorOverride, this.backgroundOverride, this.popupMenuBackgroundColorOverride, });
 
 
   List<Object?> get props => [appId, name, menuId, iconColorOverride, backgroundOverride, popupMenuBackgroundColorOverride, ];

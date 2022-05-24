@@ -96,7 +96,7 @@ class SelectActionDialog extends StatefulWidget {
     ActionSelected actionSelected,
     int containerPrivilege
   ) {
-    openFlexibleDialog(app, context, app.documentID! + '/_selectaction',
+    openFlexibleDialog(app, context, app.documentID + '/_selectaction',
         includeHeading: false,
         widthFraction: .8,
         child: SelectActionDialog._(app: app, actionSelected: actionSelected, containerPrivilege: containerPrivilege,));
@@ -107,12 +107,12 @@ class _SelectActionDialogState extends State<SelectActionDialog> {
   @override
   Widget build(BuildContext context) {
     var app = widget.app;
-    var appId = app.documentID!;
+    var appId = app.documentID;
     return MultiBlocProvider(
         providers: [
           BlocProvider<PageListBloc>(
             create: (context) => PageListBloc(
-              eliudQuery: getComponentSelectorQuery(0, app.documentID!),
+              eliudQuery: getComponentSelectorQuery(0, app.documentID),
               pageRepository: pageRepository(appId: appId)!,
             )..add(LoadPageList()),
           ),
@@ -168,9 +168,9 @@ class _SelectActionPrivilegeState extends State<SelectActionPrivilege>
         (_privilegeTabController!.indexIsChanging)) {
       _currentPrivilege = _privilegeTabController!.index;
       BlocProvider.of<PageListBloc>(context).add(
-          PageChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID!)));
+          PageChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID)));
       BlocProvider.of<DialogListBloc>(context).add(
-          DialogChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID!)));
+          DialogChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID)));
     }
   }
 
@@ -261,7 +261,7 @@ class _SelectActionPageOrDialogState extends State<SelectActionPageOrDialog>
   @override
   Widget build(BuildContext context) {
     var app = widget.app;
-    var appId = app.documentID!;
+    var appId = app.documentID;
     return ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
         tabBar(app, context, items: items, tabController: _tabController!),
         if (_tabController!.index == 0)
@@ -283,10 +283,10 @@ class _SelectActionPageOrDialogState extends State<SelectActionPageOrDialog>
                                   return GestureDetector(
                                       child: ListTile(
                                           title: text(
-                                              app, context, page!.documentID!)),
+                                              app, context, page!.documentID)),
                                       onTap: () {
                                         widget.actionSelected(GotoPage(app,
-                                            pageID: page.documentID!));
+                                            pageID: page.documentID));
                                         Navigator.pop(context);
                                       });
                                 })),
@@ -314,10 +314,10 @@ class _SelectActionPageOrDialogState extends State<SelectActionPageOrDialog>
                                   return GestureDetector(
                                       child: ListTile(
                                           title: text(app, context,
-                                              dialog!.documentID!)),
+                                              dialog!.documentID)),
                                       onTap: () {
                                         widget.actionSelected(OpenDialog(app,
-                                            dialogID: dialog.documentID!));
+                                            dialogID: dialog.documentID));
                                         Navigator.pop(context);
                                       });
                                 })),

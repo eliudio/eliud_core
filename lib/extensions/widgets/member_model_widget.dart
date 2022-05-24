@@ -110,7 +110,7 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                         getListTile(context, widget.app,
                             leading: Icon(Icons.vpn_key),
                             title: text(widget.app, context,
-                                memberState.model.documentID!)),
+                                memberState.model.documentID)),
                         getListTile(context, widget.app,
                             leading: Icon(Icons.description),
                             title: dialogField(
@@ -411,7 +411,7 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                     context,
                     widget.app,
                     title: text(widget.app, context,
-                        (value.app != null ? value.app.documentID! : '?')),
+                        (value.app != null ? value.app.documentID : '?')),
                     trailing: popupMenuButton<int>(value.app, context,
                         child: Icon(Icons.more_vert),
                         itemBuilder: (context) => [
@@ -476,7 +476,7 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
     openFlexibleDialog(
       widget.app,
       context,
-      widget.app.documentID! + '/_linkmodel',
+      widget.app.documentID + '/_linkmodel',
       includeHeading: false,
       widthFraction: .8,
       child: MemberSubscriptionModelWidget.getIt(

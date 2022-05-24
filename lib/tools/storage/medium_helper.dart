@@ -98,7 +98,7 @@ abstract class MediumHelper<T> {
       Uint8List fileData, String baseName, String thumbnailBaseName,
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
-    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID!,
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
         ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
@@ -117,7 +117,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
         enrichedPhoto.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -147,7 +147,7 @@ abstract class MediumHelper<T> {
     // First, upload the file
     print('UploadInfo.uploadFile');
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
-        app.documentID!, ownerId, packageName, readAccessCustomMetaData(),
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -170,7 +170,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
         enrichedPhoto.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -220,7 +220,7 @@ abstract class MediumHelper<T> {
     var fileInfo = await UploadInfo.uploadData(
         photoWithThumbnail.photoData.baseName,
         photoWithThumbnail.photoData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -231,7 +231,7 @@ abstract class MediumHelper<T> {
     var thumbnailInfo = await UploadInfo.uploadData(
         photoWithThumbnail.thumbNailData.baseName,
         photoWithThumbnail.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -268,7 +268,7 @@ abstract class MediumHelper<T> {
     var fileInfo = await UploadInfo.uploadData(
         videoWithThumbnail.videoData.baseName,
         videoWithThumbnail.videoData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -279,7 +279,7 @@ abstract class MediumHelper<T> {
     var thumbnailInfo = await UploadInfo.uploadData(
         videoWithThumbnail.thumbNailData.baseName,
         videoWithThumbnail.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -318,7 +318,7 @@ abstract class MediumHelper<T> {
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
-        app.documentID!, ownerId, packageName, readAccessCustomMetaData(),
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -337,7 +337,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
         enrichedPhoto.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -382,7 +382,7 @@ abstract class MediumHelper<T> {
       {FeedbackProgress? feedbackProgress}) async {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
-        app.documentID!, ownerId, packageName, readAccessCustomMetaData(),
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -398,7 +398,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
         enrichedVideo.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -429,7 +429,7 @@ abstract class MediumHelper<T> {
     print('MemberMediumHelper.createThumbnailUploadVideoData: ' + baseName);
 
     // First, upload the file
-    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID!,
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
         ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
@@ -449,7 +449,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
         enrichedVideo.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -504,7 +504,7 @@ abstract class MediumHelper<T> {
     var totalTasks = 4 + (pageCount * 4);
 
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
-        app.documentID!, ownerId, packageName, readAccessCustomMetaData(),
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             taskCounter, totalTasks, progress,
             feedbackProgress: feedbackProgress));
@@ -525,7 +525,7 @@ abstract class MediumHelper<T> {
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbNailName,
         photoData.thumbNailData.data,
-        app.documentID!,
+        app.documentID,
         ownerId,
         packageName,
         readAccessCustomMetaData(),
@@ -552,7 +552,7 @@ abstract class MediumHelper<T> {
       var pageThumbnail = await UploadInfo.uploadData(
           pageData.thumbNailData.baseName,
           pageData.thumbNailData.data,
-          app.documentID!,
+          app.documentID,
           ownerId,
           packageName,
           readAccessCustomMetaData(),
@@ -565,7 +565,7 @@ abstract class MediumHelper<T> {
       var pageImage = await UploadInfo.uploadData(
           pageData.photoData.baseName,
           pageData.photoData.data,
-          app.documentID!,
+          app.documentID,
           ownerId,
           packageName,
           readAccessCustomMetaData(),

@@ -38,9 +38,47 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
   PublicMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PublicMediumRepository publicMediumRepository, this.publicMediumLimit = 5})
       : assert(publicMediumRepository != null),
         _publicMediumRepository = publicMediumRepository,
-        super(PublicMediumListLoading());
+        super(PublicMediumListLoading()) {
+    on <LoadPublicMediumList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPublicMediumListToState();
+      } else {
+        _mapLoadPublicMediumListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadPublicMediumListWithDetailsToState();
+    });
+    
+    on <PublicMediumChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadPublicMediumListToState();
+      } else {
+        _mapLoadPublicMediumListWithDetailsToState();
+      }
+    });
+      
+    on <AddPublicMediumList> ((event, emit) async {
+      await _mapAddPublicMediumListToState(event);
+    });
+    
+    on <UpdatePublicMediumList> ((event, emit) async {
+      await _mapUpdatePublicMediumListToState(event);
+    });
+    
+    on <DeletePublicMediumList> ((event, emit) async {
+      await _mapDeletePublicMediumListToState(event);
+    });
+    
+    on <PublicMediumListUpdated> ((event, emit) {
+      emit(_mapPublicMediumListUpdatedToState(event));
+    });
+  }
 
-  Stream<PublicMediumListState> _mapLoadPublicMediumListToState() async* {
+  Future<void> _mapLoadPublicMediumListToState() async {
     int amountNow =  (state is PublicMediumListLoaded) ? (state as PublicMediumListLoaded).values!.length : 0;
     _publicMediumsListSubscription?.cancel();
     _publicMediumsListSubscription = _publicMediumRepository.listen(
@@ -52,7 +90,7 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
     );
   }
 
-  Stream<PublicMediumListState> _mapLoadPublicMediumListWithDetailsToState() async* {
+  Future<void> _mapLoadPublicMediumListWithDetailsToState() async {
     int amountNow =  (state is PublicMediumListLoaded) ? (state as PublicMediumListLoaded).values!.length : 0;
     _publicMediumsListSubscription?.cancel();
     _publicMediumsListSubscription = _publicMediumRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
     );
   }
 
-  Stream<PublicMediumListState> _mapAddPublicMediumListToState(AddPublicMediumList event) async* {
+  Future<void> _mapAddPublicMediumListToState(AddPublicMediumList event) async {
     var value = event.value;
-    if (value != null) 
-      _publicMediumRepository.add(value);
-  }
-
-  Stream<PublicMediumListState> _mapUpdatePublicMediumListToState(UpdatePublicMediumList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _publicMediumRepository.update(value);
-  }
-
-  Stream<PublicMediumListState> _mapDeletePublicMediumListToState(DeletePublicMediumList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _publicMediumRepository.delete(value);
-  }
-
-  Stream<PublicMediumListState> _mapPublicMediumListUpdatedToState(
-      PublicMediumListUpdated event) async* {
-    yield PublicMediumListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<PublicMediumListState> mapEventToState(PublicMediumListEvent event) async* {
-    if (event is LoadPublicMediumList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPublicMediumListToState();
-      } else {
-        yield* _mapLoadPublicMediumListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadPublicMediumListWithDetailsToState();
-    } else if (event is PublicMediumChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadPublicMediumListToState();
-      } else {
-        yield* _mapLoadPublicMediumListWithDetailsToState();
-      }
-    } else if (event is AddPublicMediumList) {
-      yield* _mapAddPublicMediumListToState(event);
-    } else if (event is UpdatePublicMediumList) {
-      yield* _mapUpdatePublicMediumListToState(event);
-    } else if (event is DeletePublicMediumList) {
-      yield* _mapDeletePublicMediumListToState(event);
-    } else if (event is PublicMediumListUpdated) {
-      yield* _mapPublicMediumListUpdatedToState(event);
+    if (value != null) {
+      await _publicMediumRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdatePublicMediumListToState(UpdatePublicMediumList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _publicMediumRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeletePublicMediumListToState(DeletePublicMediumList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _publicMediumRepository.delete(value);
+    }
+  }
+
+  PublicMediumListLoaded _mapPublicMediumListUpdatedToState(
+      PublicMediumListUpdated event) => PublicMediumListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

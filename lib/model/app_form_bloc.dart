@@ -47,7 +47,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
   Stream<AppFormState> mapEventToState(AppFormEvent event) async* {
     final currentState = state;
     if (currentState is AppFormUninitialized) {
-      if (event is InitialiseNewAppFormEvent) {
+      on <InitialiseNewAppFormEvent> ((event, emit) {
         AppFormLoaded loaded = AppFormLoaded(value: AppModel(
                                                documentID: "",
                                  ownerID: "",
@@ -58,160 +58,92 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  styleName: "",
 
         ));
-        yield loaded;
-        return;
-
-      }
+        emit(loaded);
+      });
 
 
       if (event is InitialiseAppFormEvent) {
         // Need to re-retrieve the document from the repository so that I get all associated types
         AppFormLoaded loaded = AppFormLoaded(value: await appRepository(appId: appId)!.get(event.value!.documentID));
-        yield loaded;
-        return;
+        emit(loaded);
       } else if (event is InitialiseAppFormNoLoadEvent) {
         AppFormLoaded loaded = AppFormLoaded(value: event.value);
-        yield loaded;
-        return;
+        emit(loaded);
       }
     } else if (currentState is AppFormInitialized) {
       AppModel? newValue = null;
-      if (event is ChangedAppDocumentID) {
+      on <ChangedAppDocumentID> ((event, emit) async {
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
-          yield* _isDocumentIDValid(event.value, newValue).asStream();
+          emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
-          yield SubmittableAppForm(value: newValue);
+          emit(SubmittableAppForm(value: newValue));
         }
 
-        return;
-      }
-      if (event is ChangedAppTitle) {
+      });
+      on <ChangedAppTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppEmail) {
+      });
+      on <ChangedAppEmail> ((event, emit) async {
         newValue = currentState.value!.copyWith(email: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppDescription) {
+      });
+      on <ChangedAppDescription> ((event, emit) async {
         newValue = currentState.value!.copyWith(description: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppAppStatus) {
+      });
+      on <ChangedAppAppStatus> ((event, emit) async {
         newValue = currentState.value!.copyWith(appStatus: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppAnonymousProfilePhoto) {
+      });
+      on <ChangedAppAnonymousProfilePhoto> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(anonymousProfilePhoto: await publicMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppModel(
-                                 documentID: currentState.value!.documentID,
-                                 ownerID: currentState.value!.ownerID,
-                                 title: currentState.value!.title,
-                                 email: currentState.value!.email,
-                                 description: currentState.value!.description,
-                                 appStatus: currentState.value!.appStatus,
-                                 anonymousProfilePhoto: null,
-                                 homePages: currentState.value!.homePages,
-                                 logo: currentState.value!.logo,
-                                 policies: currentState.value!.policies,
-                                 styleFamily: currentState.value!.styleFamily,
-                                 styleName: currentState.value!.styleName,
-                                 autoPrivileged1: currentState.value!.autoPrivileged1,
-                                 isFeatured: currentState.value!.isFeatured,
-          );
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppHomePages) {
+      });
+      on <ChangedAppHomePages> ((event, emit) async {
         newValue = currentState.value!.copyWith(homePages: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppLogo) {
+      });
+      on <ChangedAppLogo> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(logo: await publicMediumRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppModel(
-                                 documentID: currentState.value!.documentID,
-                                 ownerID: currentState.value!.ownerID,
-                                 title: currentState.value!.title,
-                                 email: currentState.value!.email,
-                                 description: currentState.value!.description,
-                                 appStatus: currentState.value!.appStatus,
-                                 anonymousProfilePhoto: currentState.value!.anonymousProfilePhoto,
-                                 homePages: currentState.value!.homePages,
-                                 logo: null,
-                                 policies: currentState.value!.policies,
-                                 styleFamily: currentState.value!.styleFamily,
-                                 styleName: currentState.value!.styleName,
-                                 autoPrivileged1: currentState.value!.autoPrivileged1,
-                                 isFeatured: currentState.value!.isFeatured,
-          );
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppPolicies) {
+      });
+      on <ChangedAppPolicies> ((event, emit) async {
         if (event.value != null)
           newValue = currentState.value!.copyWith(policies: await appPolicyRepository(appId: appId)!.get(event.value));
-        else
-          newValue = new AppModel(
-                                 documentID: currentState.value!.documentID,
-                                 ownerID: currentState.value!.ownerID,
-                                 title: currentState.value!.title,
-                                 email: currentState.value!.email,
-                                 description: currentState.value!.description,
-                                 appStatus: currentState.value!.appStatus,
-                                 anonymousProfilePhoto: currentState.value!.anonymousProfilePhoto,
-                                 homePages: currentState.value!.homePages,
-                                 logo: currentState.value!.logo,
-                                 policies: null,
-                                 styleFamily: currentState.value!.styleFamily,
-                                 styleName: currentState.value!.styleName,
-                                 autoPrivileged1: currentState.value!.autoPrivileged1,
-                                 isFeatured: currentState.value!.isFeatured,
-          );
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppStyleFamily) {
+      });
+      on <ChangedAppStyleFamily> ((event, emit) async {
         newValue = currentState.value!.copyWith(styleFamily: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppStyleName) {
+      });
+      on <ChangedAppStyleName> ((event, emit) async {
         newValue = currentState.value!.copyWith(styleName: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppAutoPrivileged1) {
+      });
+      on <ChangedAppAutoPrivileged1> ((event, emit) async {
         newValue = currentState.value!.copyWith(autoPrivileged1: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
-      if (event is ChangedAppIsFeatured) {
+      });
+      on <ChangedAppIsFeatured> ((event, emit) async {
         newValue = currentState.value!.copyWith(isFeatured: event.value);
-        yield SubmittableAppForm(value: newValue);
+        emit(SubmittableAppForm(value: newValue));
 
-        return;
-      }
+      });
     }
   }
 

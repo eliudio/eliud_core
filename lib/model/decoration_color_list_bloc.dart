@@ -38,9 +38,47 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   DecorationColorListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DecorationColorRepository decorationColorRepository, this.decorationColorLimit = 5})
       : assert(decorationColorRepository != null),
         _decorationColorRepository = decorationColorRepository,
-        super(DecorationColorListLoading());
+        super(DecorationColorListLoading()) {
+    on <LoadDecorationColorList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDecorationColorListToState();
+      } else {
+        _mapLoadDecorationColorListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadDecorationColorListWithDetailsToState();
+    });
+    
+    on <DecorationColorChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadDecorationColorListToState();
+      } else {
+        _mapLoadDecorationColorListWithDetailsToState();
+      }
+    });
+      
+    on <AddDecorationColorList> ((event, emit) async {
+      await _mapAddDecorationColorListToState(event);
+    });
+    
+    on <UpdateDecorationColorList> ((event, emit) async {
+      await _mapUpdateDecorationColorListToState(event);
+    });
+    
+    on <DeleteDecorationColorList> ((event, emit) async {
+      await _mapDeleteDecorationColorListToState(event);
+    });
+    
+    on <DecorationColorListUpdated> ((event, emit) {
+      emit(_mapDecorationColorListUpdatedToState(event));
+    });
+  }
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListToState() async* {
+  Future<void> _mapLoadDecorationColorListToState() async {
     int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values!.length : 0;
     _decorationColorsListSubscription?.cancel();
     _decorationColorsListSubscription = _decorationColorRepository.listen(
@@ -52,7 +90,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     );
   }
 
-  Stream<DecorationColorListState> _mapLoadDecorationColorListWithDetailsToState() async* {
+  Future<void> _mapLoadDecorationColorListWithDetailsToState() async {
     int amountNow =  (state is DecorationColorListLoaded) ? (state as DecorationColorListLoaded).values!.length : 0;
     _decorationColorsListSubscription?.cancel();
     _decorationColorsListSubscription = _decorationColorRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
     );
   }
 
-  Stream<DecorationColorListState> _mapAddDecorationColorListToState(AddDecorationColorList event) async* {
+  Future<void> _mapAddDecorationColorListToState(AddDecorationColorList event) async {
     var value = event.value;
-    if (value != null) 
-      _decorationColorRepository.add(value);
-  }
-
-  Stream<DecorationColorListState> _mapUpdateDecorationColorListToState(UpdateDecorationColorList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _decorationColorRepository.update(value);
-  }
-
-  Stream<DecorationColorListState> _mapDeleteDecorationColorListToState(DeleteDecorationColorList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _decorationColorRepository.delete(value);
-  }
-
-  Stream<DecorationColorListState> _mapDecorationColorListUpdatedToState(
-      DecorationColorListUpdated event) async* {
-    yield DecorationColorListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<DecorationColorListState> mapEventToState(DecorationColorListEvent event) async* {
-    if (event is LoadDecorationColorList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDecorationColorListToState();
-      } else {
-        yield* _mapLoadDecorationColorListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadDecorationColorListWithDetailsToState();
-    } else if (event is DecorationColorChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadDecorationColorListToState();
-      } else {
-        yield* _mapLoadDecorationColorListWithDetailsToState();
-      }
-    } else if (event is AddDecorationColorList) {
-      yield* _mapAddDecorationColorListToState(event);
-    } else if (event is UpdateDecorationColorList) {
-      yield* _mapUpdateDecorationColorListToState(event);
-    } else if (event is DeleteDecorationColorList) {
-      yield* _mapDeleteDecorationColorListToState(event);
-    } else if (event is DecorationColorListUpdated) {
-      yield* _mapDecorationColorListUpdatedToState(event);
+    if (value != null) {
+      await _decorationColorRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateDecorationColorListToState(UpdateDecorationColorList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _decorationColorRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteDecorationColorListToState(DeleteDecorationColorList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _decorationColorRepository.delete(value);
+    }
+  }
+
+  DecorationColorListLoaded _mapDecorationColorListUpdatedToState(
+      DecorationColorListUpdated event) => DecorationColorListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

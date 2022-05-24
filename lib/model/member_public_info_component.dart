@@ -39,7 +39,7 @@ abstract class AbstractMemberPublicInfoComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<MemberPublicInfoComponentBloc> (
           create: (context) => MemberPublicInfoComponentBloc(
-            memberPublicInfoRepository: memberPublicInfoRepository(appId: app.documentID!)!)
+            memberPublicInfoRepository: memberPublicInfoRepository(appId: app.documentID)!)
         ..add(FetchMemberPublicInfoComponent(id: memberPublicInfoId)),
       child: _memberPublicInfoBlockBuilder(context),
     );

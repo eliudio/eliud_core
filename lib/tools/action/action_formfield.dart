@@ -71,7 +71,7 @@ class ActionFieldState extends State<ActionField> {
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(builder: (context, state) {
       if (state is AccessDetermined) {
-        var appId = widget.app.documentID!;
+        var appId = widget.app.documentID;
         var widgets = <Widget>[
           RadioListTile(
             value: 0,

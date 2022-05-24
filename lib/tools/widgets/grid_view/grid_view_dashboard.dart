@@ -53,7 +53,7 @@ class GridViewDashboard {
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/gridView',
+      app.documentID + '/gridView',
       title: create
           ? 'Create GridView'
           : 'Update GridView',
@@ -61,7 +61,7 @@ class GridViewDashboard {
       widthFraction: .9,
       child: BlocProvider<GridViewDashboardBloc>(
           create: (context) => GridViewDashboardBloc(
-                app.documentID!,
+                app.documentID,
                 (_) {},
               )..add(EditorBaseInitialise<GridViewModel>(model)),
           child: GridViewDashboardWidget(
@@ -121,7 +121,7 @@ class _GridViewDashboardWidgetState
                         getListTile(context, widget.app,
                             leading: Icon(Icons.vpn_key),
                             title: text(widget.app, context,
-                                gridViewState.model.documentID!)),
+                                gridViewState.model.documentID)),
                         getListTile(context, widget.app,
                             leading: Icon(Icons.description),
                             title: dialogField(

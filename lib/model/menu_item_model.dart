@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -31,14 +32,14 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class MenuItemModel {
-  String? documentID;
+class MenuItemModel implements ModelBase {
+  String documentID;
   String? text;
   String? description;
   IconModel? icon;
   ActionModel? action;
 
-  MenuItemModel({this.documentID, this.text, this.description, this.icon, this.action, })  {
+  MenuItemModel({required this.documentID, this.text, this.description, this.icon, this.action, })  {
     assert(documentID != null);
   }
 

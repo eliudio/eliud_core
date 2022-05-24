@@ -47,7 +47,7 @@ class _MemberMediumWidgetState extends State<MemberMediumWidget> {
               children: [
                 getListTile(context, widget.app,
                     leading: Icon(Icons.vpn_key),
-                    title: text(widget.app, context, image.documentID!)),
+                    title: text(widget.app, context, image.documentID)),
                 getListTile(context, widget.app,
                     leading: text(widget.app, context, 'author ID'),
                     title: text(widget.app, context, image.authorId!)),

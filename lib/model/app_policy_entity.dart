@@ -26,7 +26,7 @@ class AppPolicyEntity {
   final String? comments;
   final List<AppPolicyItemEntity>? policies;
 
-  AppPolicyEntity({this.appId, this.comments, this.policies, });
+  AppPolicyEntity({required this.appId, this.comments, this.policies, });
 
 
   List<Object?> get props => [appId, comments, policies, ];

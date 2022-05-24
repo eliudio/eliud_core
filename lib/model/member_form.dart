@@ -69,7 +69,7 @@ class MemberForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
@@ -696,7 +696,7 @@ class MemberSmallForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
@@ -743,6 +743,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
   final FormAction? formAction;
   late MemberFormBloc _myFormBloc;
 
+  final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
 
@@ -752,6 +753,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<MemberFormBloc>(context);
+    _documentIDController.addListener(_onDocumentIDChanged);
     _nameController.addListener(_onNameChanged);
   }
 
@@ -764,6 +766,10 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
       );
 
       if (state is MemberFormLoaded) {
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
+        else
+          _documentIDController.text = "";
         if (state.value!.name != null)
           _nameController.text = state.value!.name.toString();
         else
@@ -776,6 +782,11 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'User UUID', icon: Icons.vpn_key, readOnly: true, textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'field.remark')
+          );
 
         children.add(
 
@@ -815,12 +826,14 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
                               name: state.value!.name, 
                               subscriptions: state.value!.subscriptions, 
                         )));
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
+                              documentID: state.value!.documentID, 
                               name: state.value!.name, 
                               subscriptions: state.value!.subscriptions, 
                           )));
@@ -849,6 +862,11 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
     });
   }
 
+  void _onDocumentIDChanged() {
+    _myFormBloc.add(ChangedMemberDocumentID(value: _documentIDController.text));
+  }
+
+
   void _onNameChanged() {
     _myFormBloc.add(ChangedMemberName(value: _nameController.text));
   }
@@ -863,6 +881,7 @@ class _MyMemberSmallFormState extends State<MyMemberSmallForm> {
 
   @override
   void dispose() {
+    _documentIDController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -887,7 +906,7 @@ class MemberAddressForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<MemberFormBloc >(
             create: (context) => MemberFormBloc(appId,
@@ -934,6 +953,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   final FormAction? formAction;
   late MemberFormBloc _myFormBloc;
 
+  final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _shipStreet1Controller = TextEditingController();
@@ -957,6 +977,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<MemberFormBloc>(context);
+    _documentIDController.addListener(_onDocumentIDChanged);
     _nameController.addListener(_onNameChanged);
     _emailController.addListener(_onEmailChanged);
     _shipStreet1Controller.addListener(_onShipStreet1Changed);
@@ -983,6 +1004,10 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
       );
 
       if (state is MemberFormLoaded) {
+        if (state.value!.documentID != null)
+          _documentIDController.text = state.value!.documentID.toString();
+        else
+          _documentIDController.text = "";
         if (state.value!.name != null)
           _nameController.text = state.value!.name.toString();
         else
@@ -1051,6 +1076,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
                 ));
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'User UUID', icon: Icons.vpn_key, readOnly: true, textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDMemberFormError ? state.message : null, hintText: 'field.remark')
+          );
 
         children.add(
 
@@ -1185,6 +1215,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                       if (formAction == FormAction.UpdateAction) {
                         BlocProvider.of<MemberListBloc>(context).add(
                           UpdateMemberList(value: state.value!.copyWith(
+                              documentID: state.value!.documentID, 
                               name: state.value!.name, 
                               email: state.value!.email, 
                               shipStreet1: state.value!.shipStreet1, 
@@ -1204,6 +1235,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
                       } else {
                         BlocProvider.of<MemberListBloc>(context).add(
                           AddMemberList(value: MemberModel(
+                              documentID: state.value!.documentID, 
                               name: state.value!.name, 
                               email: state.value!.email, 
                               shipStreet1: state.value!.shipStreet1, 
@@ -1244,6 +1276,11 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
       }
     });
   }
+
+  void _onDocumentIDChanged() {
+    _myFormBloc.add(ChangedMemberDocumentID(value: _documentIDController.text));
+  }
+
 
   void _onNameChanged() {
     _myFormBloc.add(ChangedMemberName(value: _nameController.text));
@@ -1325,6 +1362,7 @@ class _MyMemberAddressFormState extends State<MyMemberAddressForm> {
 
   @override
   void dispose() {
+    _documentIDController.dispose();
     _nameController.dispose();
     _emailController.dispose();
     _shipStreet1Controller.dispose();

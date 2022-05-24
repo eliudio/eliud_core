@@ -15,6 +15,7 @@
 
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,11 +36,11 @@ import 'package:eliud_core/tools/random.dart';
 
 
 
-class MemberDashboardModel {
-  String? documentID;
+class MemberDashboardModel implements ModelBase, WithAppId {
+  String documentID;
 
   // This is the identifier of the app to which this belongs
-  String? appId;
+  String appId;
   String? description;
 
   // This is the text on the member dashboard screen providing more information about what it means to update the member profile
@@ -61,7 +62,7 @@ class MemberDashboardModel {
   String? deleteDataEmailMessage;
   StorageConditionsModel? conditions;
 
-  MemberDashboardModel({this.documentID, this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
+  MemberDashboardModel({required this.documentID, required this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
     assert(documentID != null);
   }
 
@@ -112,7 +113,7 @@ class MemberDashboardModel {
     var counter = 0;
     return MemberDashboardModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           updateProfileText: entity.updateProfileText, 
           retrieveDataText: entity.retrieveDataText, 
@@ -131,7 +132,7 @@ class MemberDashboardModel {
     var counter = 0;
     return MemberDashboardModel(
           documentID: documentID, 
-          appId: entity.appId, 
+          appId: entity.appId ?? '', 
           description: entity.description, 
           updateProfileText: entity.updateProfileText, 
           retrieveDataText: entity.retrieveDataText, 

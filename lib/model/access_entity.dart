@@ -28,7 +28,7 @@ class AccessEntity {
   final bool? blocked;
   final int? privilegeLevelBeforeBlocked;
 
-  AccessEntity({this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
+  AccessEntity({required this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
 
 
   List<Object?> get props => [appId, privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];

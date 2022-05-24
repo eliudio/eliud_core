@@ -38,9 +38,47 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
   MemberMediumContainerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumContainerRepository memberMediumContainerRepository, this.memberMediumContainerLimit = 5})
       : assert(memberMediumContainerRepository != null),
         _memberMediumContainerRepository = memberMediumContainerRepository,
-        super(MemberMediumContainerListLoading());
+        super(MemberMediumContainerListLoading()) {
+    on <LoadMemberMediumContainerList> ((event, emit) {
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberMediumContainerListToState();
+      } else {
+        _mapLoadMemberMediumContainerListWithDetailsToState();
+      }
+    });
+    
+    on <NewPage> ((event, emit) {
+      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+      _mapLoadMemberMediumContainerListWithDetailsToState();
+    });
+    
+    on <MemberMediumContainerChangeQuery> ((event, emit) {
+      eliudQuery = event.newQuery;
+      if ((detailed == null) || (!detailed!)) {
+        _mapLoadMemberMediumContainerListToState();
+      } else {
+        _mapLoadMemberMediumContainerListWithDetailsToState();
+      }
+    });
+      
+    on <AddMemberMediumContainerList> ((event, emit) async {
+      await _mapAddMemberMediumContainerListToState(event);
+    });
+    
+    on <UpdateMemberMediumContainerList> ((event, emit) async {
+      await _mapUpdateMemberMediumContainerListToState(event);
+    });
+    
+    on <DeleteMemberMediumContainerList> ((event, emit) async {
+      await _mapDeleteMemberMediumContainerListToState(event);
+    });
+    
+    on <MemberMediumContainerListUpdated> ((event, emit) {
+      emit(_mapMemberMediumContainerListUpdatedToState(event));
+    });
+  }
 
-  Stream<MemberMediumContainerListState> _mapLoadMemberMediumContainerListToState() async* {
+  Future<void> _mapLoadMemberMediumContainerListToState() async {
     int amountNow =  (state is MemberMediumContainerListLoaded) ? (state as MemberMediumContainerListLoaded).values!.length : 0;
     _memberMediumContainersListSubscription?.cancel();
     _memberMediumContainersListSubscription = _memberMediumContainerRepository.listen(
@@ -52,7 +90,7 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
     );
   }
 
-  Stream<MemberMediumContainerListState> _mapLoadMemberMediumContainerListWithDetailsToState() async* {
+  Future<void> _mapLoadMemberMediumContainerListWithDetailsToState() async {
     int amountNow =  (state is MemberMediumContainerListLoaded) ? (state as MemberMediumContainerListLoaded).values!.length : 0;
     _memberMediumContainersListSubscription?.cancel();
     _memberMediumContainersListSubscription = _memberMediumContainerRepository.listenWithDetails(
@@ -64,58 +102,29 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
     );
   }
 
-  Stream<MemberMediumContainerListState> _mapAddMemberMediumContainerListToState(AddMemberMediumContainerList event) async* {
+  Future<void> _mapAddMemberMediumContainerListToState(AddMemberMediumContainerList event) async {
     var value = event.value;
-    if (value != null) 
-      _memberMediumContainerRepository.add(value);
-  }
-
-  Stream<MemberMediumContainerListState> _mapUpdateMemberMediumContainerListToState(UpdateMemberMediumContainerList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberMediumContainerRepository.update(value);
-  }
-
-  Stream<MemberMediumContainerListState> _mapDeleteMemberMediumContainerListToState(DeleteMemberMediumContainerList event) async* {
-    var value = event.value;
-    if (value != null) 
-      _memberMediumContainerRepository.delete(value);
-  }
-
-  Stream<MemberMediumContainerListState> _mapMemberMediumContainerListUpdatedToState(
-      MemberMediumContainerListUpdated event) async* {
-    yield MemberMediumContainerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
-  }
-
-  @override
-  Stream<MemberMediumContainerListState> mapEventToState(MemberMediumContainerListEvent event) async* {
-    if (event is LoadMemberMediumContainerList) {
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberMediumContainerListToState();
-      } else {
-        yield* _mapLoadMemberMediumContainerListWithDetailsToState();
-      }
-    }
-    if (event is NewPage) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
-      yield* _mapLoadMemberMediumContainerListWithDetailsToState();
-    } else if (event is MemberMediumContainerChangeQuery) {
-      eliudQuery = event.newQuery;
-      if ((detailed == null) || (!detailed!)) {
-        yield* _mapLoadMemberMediumContainerListToState();
-      } else {
-        yield* _mapLoadMemberMediumContainerListWithDetailsToState();
-      }
-    } else if (event is AddMemberMediumContainerList) {
-      yield* _mapAddMemberMediumContainerListToState(event);
-    } else if (event is UpdateMemberMediumContainerList) {
-      yield* _mapUpdateMemberMediumContainerListToState(event);
-    } else if (event is DeleteMemberMediumContainerList) {
-      yield* _mapDeleteMemberMediumContainerListToState(event);
-    } else if (event is MemberMediumContainerListUpdated) {
-      yield* _mapMemberMediumContainerListUpdatedToState(event);
+    if (value != null) {
+      await _memberMediumContainerRepository.add(value);
     }
   }
+
+  Future<void> _mapUpdateMemberMediumContainerListToState(UpdateMemberMediumContainerList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberMediumContainerRepository.update(value);
+    }
+  }
+
+  Future<void> _mapDeleteMemberMediumContainerListToState(DeleteMemberMediumContainerList event) async {
+    var value = event.value;
+    if (value != null) {
+      await _memberMediumContainerRepository.delete(value);
+    }
+  }
+
+  MemberMediumContainerListLoaded _mapMemberMediumContainerListUpdatedToState(
+      MemberMediumContainerListUpdated event) => MemberMediumContainerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {

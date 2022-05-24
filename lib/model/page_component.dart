@@ -39,7 +39,7 @@ abstract class AbstractPageComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PageComponentBloc> (
           create: (context) => PageComponentBloc(
-            pageRepository: pageRepository(appId: app.documentID!)!)
+            pageRepository: pageRepository(appId: app.documentID)!)
         ..add(FetchPageComponent(id: pageId)),
       child: _pageBlockBuilder(context),
     );

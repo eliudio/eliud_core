@@ -76,7 +76,7 @@ class AppEntryPagesDropdownButtonWidgetState extends State<AppEntryPagesDropdown
 List<Widget> widgets(AppEntryPagesModel value) {
 var app = widget.app;
 var widgets = <Widget>[];
-widgets.add(value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID!)) : Container());
+widgets.add(value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID)) : Container());
 widgets.add(value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.title!)) : Container());
 return widgets;
 }
@@ -207,7 +207,7 @@ return widgets;
     BlocProvider.of<AppEntryPagesListBloc>(context).add(AppEntryPagesChangeQuery(
        newQuery: EliudQuery(theConditions: [
          EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: value ?? 0),
-         EliudQueryCondition('appId', isEqualTo: widget.app.documentID!),]
+         EliudQueryCondition('appId', isEqualTo: widget.app.documentID),]
        ),
      ));
      widget.trigger!(null, value);

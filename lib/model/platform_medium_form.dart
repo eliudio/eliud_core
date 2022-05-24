@@ -69,7 +69,7 @@ class PlatformMediumForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    var appId = app.documentID!;
+    var appId = app.documentID;
     if (formAction == FormAction.ShowData) {
       return BlocProvider<PlatformMediumFormBloc >(
             create: (context) => PlatformMediumFormBloc(appId,
@@ -264,15 +264,15 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Photo', 'Photo', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Video', 'Video', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMediumType(val))
           );
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(widget.app.documentID!) ? null : (dynamic val) => setSelectionMediumType(val))
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMediumType(val))
           );
 
         children.add(
@@ -505,7 +505,7 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
   }
 
   bool _readOnly(AccessState accessState, PlatformMediumFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID!));
+    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
   }
   
 

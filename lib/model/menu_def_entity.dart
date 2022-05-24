@@ -27,7 +27,7 @@ class MenuDefEntity {
   final List<MenuItemEntity>? menuItems;
   final bool? admin;
 
-  MenuDefEntity({this.appId, this.name, this.menuItems, this.admin, });
+  MenuDefEntity({required this.appId, this.name, this.menuItems, this.admin, });
 
 
   List<Object?> get props => [appId, name, menuItems, admin, ];

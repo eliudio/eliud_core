@@ -553,7 +553,7 @@ class AdminMenu extends AdminAppMenuInstallerBase {
       name: "eliud_core",
       menuItems: menuItems
     );
-    await menuDefRepository(appId: app.documentID!)!.add(menu);
+    await menuDefRepository(appId: app.documentID)!.add(menu);
     return menu;
   }
 }

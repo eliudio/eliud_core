@@ -20,6 +20,7 @@
   "fields": [
     {
       "fieldName": "documentID",
+      "required": true,
       "displayName": "Document ID",
       "fieldType": "String",
       "defaultValue": "IDENTIFIER",
@@ -42,7 +43,7 @@
     }
   ],
   "listFields": {
-    "title": "value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID!)) : Container()",
+    "title": "value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID)) : Container()",
     "subTitle": "value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.title!)) : Container()"
   }
 }

@@ -52,7 +52,7 @@ class _ImageWidgetState extends State<ImageWidget> {
           Spacer(),
           button(widget.app, context, label: 'Remove', onPressed: () {
             openAckNackDialog(widget.app, context,
-                widget.app.documentID! + '/_removepprofilephoto',
+                widget.app.documentID + '/_removepprofilephoto',
                 title: 'Confirm',
                 message: 'Remove profile photo as background?',
                 onSelection: (value) async {
@@ -77,7 +77,7 @@ class _ImageWidgetState extends State<ImageWidget> {
         Spacer(),
         button(widget.app, context, label: 'Remove', onPressed: () {
           openAckNackDialog(
-              widget.app, context, widget.app.documentID! + '/_removephoto',
+              widget.app, context, widget.app.documentID + '/_removephoto',
               title: 'Confirm',
               message: 'Remove photo?', onSelection: (value) async {
             if (value == 0) {

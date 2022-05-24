@@ -36,7 +36,7 @@ class AppEntity {
   final bool? autoPrivileged1;
   final bool? isFeatured;
 
-  AppEntity({this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
+  AppEntity({required this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
 
 
   List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, isFeatured, ];

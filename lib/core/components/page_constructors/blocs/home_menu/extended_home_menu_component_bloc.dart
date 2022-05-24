@@ -20,27 +20,20 @@ class ExtendedHomeMenuComponentBloc extends Bloc<ExtendedHomeMenuComponentEvent,
 
   void _listenToHomeMenu(HomeMenuModel homeMenu)  {
     _homeMenuSubscription?.cancel();
-    _homeMenuSubscription = homeMenuRepository(appId: homeMenu.appId)!.listenTo(homeMenu.documentID!, (value) {
+    _homeMenuSubscription = homeMenuRepository(appId: homeMenu.appId)!.listenTo(homeMenu.documentID, (value) {
       if (value != null) add(ExtendedHomeMenuComponentUpdated(value: value));
     });
 
     _menuDefSubscription?.cancel();
-    _menuDefSubscription = menuDefRepository(appId: homeMenu.appId)!.listenTo(homeMenu.menu!.documentID!, (value) {
+    _menuDefSubscription = menuDefRepository(appId: homeMenu.appId)!.listenTo(homeMenu.menu!.documentID, (value) {
       var newHomeMenu = homeMenu.copyWith(menu: value);
       if (value != null) add(ExtendedHomeMenuComponentUpdated(value: newHomeMenu));
     });
   }
 
-  ExtendedHomeMenuComponentBloc(): super(ExtendedHomeMenuComponentUninitialized());
-
-  @override
-  Stream<ExtendedHomeMenuComponentState> mapEventToState(ExtendedHomeMenuComponentEvent event) async* {
-    final currentState = state;
-    if (event is ExtendedHomeMenuInitEvent) {
-      _listenToHomeMenu(event.value);
-    } else if (event is ExtendedHomeMenuComponentUpdated) {
-      yield ExtendedHomeMenuComponentLoaded(value: event.value);
-    }
+  ExtendedHomeMenuComponentBloc(): super(ExtendedHomeMenuComponentUninitialized()) {
+    on <ExtendedHomeMenuInitEvent> ((event, emit) => _listenToHomeMenu(event.value));
+    on <ExtendedHomeMenuComponentUpdated> ((event, emit) => emit(ExtendedHomeMenuComponentLoaded(value: event.value)));
   }
 
   @override

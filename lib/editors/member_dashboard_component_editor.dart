@@ -52,11 +52,11 @@ class MemberDashboardComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var memberDashboard =
-        await memberDashboardRepository(appId: app.documentID!)!.get(id);
+        await memberDashboardRepository(appId: app.documentID)!.get(id);
     if (memberDashboard != null) {
       _openIt(app, context, false, memberDashboard, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID! + '/_error',
+      openErrorDialog(app, context, app.documentID + '/_error',
           title: 'Error',
           errorMessage: 'Cannot find member dashboard with id $id');
     }
@@ -67,13 +67,13 @@ class MemberDashboardComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID! + '/memberdashboard',
+      app.documentID + '/memberdashboard',
       title: create ? 'Create Member Dashboard' : 'Update Member Dashboard',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<MemberDashboardBloc>(
           create: (context) => MemberDashboardBloc(
-                app.documentID!,
+                app.documentID,
                 /*create,
             */
                 feedback,
@@ -134,7 +134,7 @@ class _MemberDashboardComponentEditorState
                         getListTile(context, widget.app,
                             leading: Icon(Icons.vpn_key),
                             title: text(widget.app, context,
-                                memberDashboardState.model.documentID!)),
+                                memberDashboardState.model.documentID)),
                         getListTile(context, widget.app,
                             leading: Icon(Icons.description),
                             title: dialogField(
