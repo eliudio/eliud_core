@@ -1,29 +1,14 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/decoration/decoration.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/app_policy_item_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:eliud_core/model/public_medium_model.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/component/component_id_field.dart';
 import 'package:eliud_core/tools/extensiontype_formfield.dart';
-import 'package:eliud_core/tools/random.dart';
-import 'package:eliud_core/tools/screen_size.dart';
-import 'package:eliud_core/tools/storage/public_medium_helper.dart';
-import 'package:eliud_core/tools/widgets/editor/select_action_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
-import 'package:eliud_core/tools/widgets/pos_size_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef void BodyComponentModelCallback(
     BodyComponentModel labelledBodyComponentModel);

@@ -1,11 +1,11 @@
 import 'package:eliud_core/model/app_model.dart';
-
-import '../helper/page_body_helper.dart';
 import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
 import 'package:flutter/material.dart';
+
+import '../helper/page_body_helper.dart';
 
 class DefaultPageBodyImpl implements HasPageBody {
   final FrontEndStyle _frontEndStyle;

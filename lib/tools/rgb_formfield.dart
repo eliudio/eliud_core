@@ -1,9 +1,6 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/tools/screen_size.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';

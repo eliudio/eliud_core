@@ -15,15 +15,12 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'abstract_repository_singleton.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/model/entity_export.dart';
 class DialogEntity {
   final String? appId;
   final String? title;
+  final String? description;
   final List<BodyComponentEntity>? bodyComponents;
   final BackgroundEntity? backgroundOverride;
   final int? layout;
@@ -31,16 +28,16 @@ class DialogEntity {
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  DialogEntity({required this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
+  DialogEntity({required this.appId, this.title, this.description, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, bodyComponents, backgroundOverride, layout, includeHeading, gridViewId, conditions, ];
+  List<Object?> get props => [appId, title, description, bodyComponents, backgroundOverride, layout, includeHeading, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogEntity{appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
+    return 'DialogEntity{appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static DialogEntity? fromMap(Object? o) {
@@ -67,6 +64,7 @@ class DialogEntity {
     return DialogEntity(
       appId: map['appId'], 
       title: map['title'], 
+      description: map['description'], 
       bodyComponents: bodyComponentsList, 
       backgroundOverride: backgroundOverrideFromMap, 
       layout: map['layout'], 
@@ -92,6 +90,8 @@ class DialogEntity {
       else theDocument["appId"] = null;
     if (title != null) theDocument["title"] = title;
       else theDocument["title"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (bodyComponents != null) theDocument["bodyComponents"] = bodyComponentsListMap;
       else theDocument["bodyComponents"] = null;
     if (backgroundOverride != null) theDocument["backgroundOverride"] = backgroundOverrideMap;

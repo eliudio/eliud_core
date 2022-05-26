@@ -51,6 +51,7 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
         PageFormLoaded loaded = PageFormLoaded(value: PageModel(
                                                documentID: "",
                                  appId: "",
+                                 description: "",
                                  title: "",
                                  bodyComponents: [],
 
@@ -76,6 +77,11 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
         } else {
           emit(SubmittablePageForm(value: newValue));
         }
+
+      });
+      on <ChangedPageDescription> ((event, emit) async {
+        newValue = currentState.value!.copyWith(description: event.value);
+        emit(SubmittablePageForm(value: newValue));
 
       });
       on <ChangedPageTitle> ((event, emit) async {

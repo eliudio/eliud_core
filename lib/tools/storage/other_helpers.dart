@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'dart:html' as html;
+import 'dart:typed_data';
 
 class OtherHelpers {
   static String getUrlFromUint8List(Uint8List bytes) {

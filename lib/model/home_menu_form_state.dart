@@ -13,9 +13,10 @@
 
 */
 
-import 'home_menu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'home_menu_model.dart';
 
 @immutable
 abstract class HomeMenuFormState extends Equatable {

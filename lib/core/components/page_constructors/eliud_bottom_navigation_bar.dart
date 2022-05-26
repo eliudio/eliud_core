@@ -1,5 +1,3 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
@@ -13,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/appbar/extended_app_bar_component_state.dart';
 import 'blocs/home_menu/extended_home_menu_component_bloc.dart';
 import 'blocs/home_menu/extended_home_menu_component_event.dart';
 import 'blocs/home_menu/extended_home_menu_component_state.dart';

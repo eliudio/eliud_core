@@ -13,9 +13,10 @@
 
 */
 
-import 'menu_def_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'menu_def_model.dart';
 
 @immutable
 abstract class MenuDefFormState extends Equatable {

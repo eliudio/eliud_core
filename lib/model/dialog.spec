@@ -44,6 +44,13 @@
       "group": "general"
     },
     {
+      "fieldName": "description",
+      "displayName": "Description",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "group": "general"
+    },
+    {
       "fieldName": "bodyComponents",
       "displayName": "Components",
       "fieldType": "BodyComponent",

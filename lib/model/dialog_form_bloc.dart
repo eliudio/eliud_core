@@ -16,27 +16,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/tools/firestore/firestore_tools.dart';
-import 'package:flutter/cupertino.dart';
-
-import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/common_tools.dart';
-
-import 'package:eliud_core/model/rgb_model.dart';
-
-import 'package:eliud_core/tools/string_validator.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
 import 'package:eliud_core/model/dialog_form_event.dart';
 import 'package:eliud_core/model/dialog_form_state.dart';
-import 'package:eliud_core/model/dialog_repository.dart';
+import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/tools/enums.dart';
 
 class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
   final FormAction? formAction;
@@ -52,6 +36,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
                                                documentID: "",
                                  appId: "",
                                  title: "",
+                                 description: "",
                                  bodyComponents: [],
 
         ));
@@ -80,6 +65,11 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
       });
       on <ChangedDialogTitle> ((event, emit) async {
         newValue = currentState.value!.copyWith(title: event.value);
+        emit(SubmittableDialogForm(value: newValue));
+
+      });
+      on <ChangedDialogDescription> ((event, emit) async {
+        newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
       });

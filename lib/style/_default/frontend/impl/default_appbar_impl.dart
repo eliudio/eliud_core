@@ -1,17 +1,16 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-
-import '../helper/appbar_helper.dart';
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_appbar.dart';
 import 'package:eliud_core/style/frontend/types.dart';
 import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
-import 'default_menu_impl.dart';
+
 import '../../tools/colors.dart';
+import '../helper/appbar_helper.dart';
+import 'default_menu_impl.dart';
 
 class DefaultAppBarImpl implements HasAppBar {
   final FrontEndStyle _frontEndStyle;

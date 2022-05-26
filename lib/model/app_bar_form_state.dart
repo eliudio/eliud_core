@@ -13,9 +13,10 @@
 
 */
 
-import 'app_bar_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'app_bar_model.dart';
 
 @immutable
 abstract class AppBarFormState extends Equatable {

@@ -1,14 +1,13 @@
+import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
 import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
-import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
@@ -18,7 +17,6 @@ import 'package:eliud_core/tools/widgets/grid_view/widgets/grid_view_scroll_dire
 import 'package:eliud_core/tools/widgets/grid_view/widgets/max_cross_axis_extent_type_widget.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../helpers/parse_helper.dart';

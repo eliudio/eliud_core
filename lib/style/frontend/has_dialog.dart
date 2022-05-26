@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
-import 'has_dialog_widget.dart';
 
 abstract class HasDialog {
   void openMessageDialog(AppModel app,

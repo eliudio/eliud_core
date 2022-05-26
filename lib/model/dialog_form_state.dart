@@ -13,9 +13,10 @@
 
 */
 
-import 'dialog_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'dialog_model.dart';
 
 @immutable
 abstract class DialogFormState extends Equatable {
@@ -104,6 +105,22 @@ class TitleDialogFormError extends DialogFormError {
   @override
   String toString() {
     return '''TitleDialogFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DescriptionDialogFormError extends DialogFormError { 
+  const DescriptionDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DescriptionDialogFormError {
       value: $value,
       message: $message,
     }''';

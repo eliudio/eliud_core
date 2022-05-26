@@ -6,12 +6,12 @@ import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
+import 'package:eliud_core/style/frontend/has_drawer.dart' as dr;
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
 import 'package:eliud_core/style/frontend/types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:eliud_core/style/frontend/has_drawer.dart' as dr;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/drawer/extended_drawer_component_bloc.dart';

@@ -13,16 +13,9 @@
 
 */
 
+import 'package:eliud_core/model/model_export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 
 @immutable
@@ -77,6 +70,18 @@ class ChangedPageAppId extends PageFormEvent {
 
   @override
   String toString() => 'ChangedPageAppId{ value: $value }';
+}
+
+class ChangedPageDescription extends PageFormEvent {
+  final String? value;
+
+  ChangedPageDescription({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPageDescription{ value: $value }';
 }
 
 class ChangedPageTitle extends PageFormEvent {

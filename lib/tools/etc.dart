@@ -1,10 +1,9 @@
 import 'dart:typed_data';
 
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/model/border_radius_model.dart';
-import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/background_model.dart';
+import 'package:eliud_core/model/border_radius_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
+import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
@@ -14,7 +13,6 @@ import 'package:eliud_core/tools/screen_size.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../model/app_model.dart';

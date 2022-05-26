@@ -14,32 +14,24 @@
 */
 
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/tools/has_fab.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/tools/screen_size.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/tools/delete_snackbar.dart';
-import 'package:eliud_core/tools/router_builders.dart';
-import 'package:eliud_core/tools/etc.dart';
-import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/eliud.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-
+import 'package:eliud_core/model/body_component_list_bloc.dart';
 import 'package:eliud_core/model/body_component_list_event.dart';
 import 'package:eliud_core/model/body_component_list_state.dart';
-import 'package:eliud_core/model/body_component_list_bloc.dart';
 import 'package:eliud_core/model/body_component_model.dart';
-
-import 'package:eliud_core/model/app_model.dart';
-
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/delete_snackbar.dart';
+import 'package:eliud_core/tools/enums.dart';
+import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/has_fab.dart';
+import 'package:eliud_core/tools/router_builders.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'body_component_form.dart';
 

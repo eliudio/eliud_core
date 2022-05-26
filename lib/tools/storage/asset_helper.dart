@@ -1,11 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
-import 'dart:io';
-import 'package:eliud_core/tools/random.dart';
-import 'package:path/path.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path/path.dart';
 
 class AssetHelper {
   // Read asset as a string

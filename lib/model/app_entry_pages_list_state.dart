@@ -14,8 +14,8 @@
 */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_entry_pages_model.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class AppEntryPagesListState extends Equatable {
   const AppEntryPagesListState();

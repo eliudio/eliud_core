@@ -1,8 +1,8 @@
 import 'package:eliud_core/core/tools/component_info.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:flutter/material.dart';
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 // base for all ComponentsConstructors and used to create a component of that kind
 abstract class ComponentConstructor {

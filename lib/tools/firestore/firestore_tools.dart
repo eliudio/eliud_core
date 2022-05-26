@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/intl.dart';
 
 dynamic getFirestoreField(dynamic conditionField) {
   if (conditionField is DocumentIdField) {

@@ -37,6 +37,13 @@
       "hidden": true
     },
     {
+      "fieldName": "description",
+      "displayName": "Description",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "group": "general"
+    },
+    {
       "fieldName": "title",
       "displayName": "Title",
       "fieldType": "String",

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
@@ -16,12 +14,9 @@ import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog_widget.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../registry.dart';
 
 class DialogComponent extends StatefulWidget {
   final AppModel app;

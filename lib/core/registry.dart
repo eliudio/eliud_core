@@ -1,17 +1,16 @@
 import 'dart:collection';
 import 'dart:typed_data';
+
 import 'package:eliud_core/core/components/dialog_component.dart';
+import 'package:eliud_core/core/components/page_component.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/decoration/decorations.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/storage_conditions_model.dart';
-import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/component/component_constructor.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -19,14 +18,13 @@ import 'package:eliud_core/tools/router_builders.dart';
 import 'package:eliud_core/tools/storage/upload_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:eliud_core/core/components/page_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../package/medium_api.dart';
 import '../style/frontend/has_text.dart';
 import 'blocs/access/access_bloc.dart';
 import 'blocs/access/access_event.dart';
 import 'blocs/access/state/access_determined.dart';
-import 'blocs/access/state/access_state.dart';
 import 'blocs/access/state/logged_in.dart';
 import 'components/error_component.dart';
 

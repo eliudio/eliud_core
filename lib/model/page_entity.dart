@@ -15,14 +15,11 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'abstract_repository_singleton.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/model/entity_export.dart';
 class PageEntity {
   final String? appId;
+  final String? description;
   final String? title;
   final String? appBarId;
   final String? drawerId;
@@ -34,16 +31,16 @@ class PageEntity {
   final String? gridViewId;
   final StorageConditionsEntity? conditions;
 
-  PageEntity({required this.appId, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
+  PageEntity({required this.appId, this.description, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
 
 
-  List<Object?> get props => [appId, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverride, layout, gridViewId, conditions, ];
+  List<Object?> get props => [appId, description, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverride, layout, gridViewId, conditions, ];
 
   @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'PageEntity{appId: $appId, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
+    return 'PageEntity{appId: $appId, description: $description, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
   static PageEntity? fromMap(Object? o) {
@@ -69,6 +66,7 @@ class PageEntity {
 
     return PageEntity(
       appId: map['appId'], 
+      description: map['description'], 
       title: map['title'], 
       appBarId: map['appBarId'], 
       drawerId: map['drawerId'], 
@@ -96,6 +94,8 @@ class PageEntity {
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
+    if (description != null) theDocument["description"] = description;
+      else theDocument["description"] = null;
     if (title != null) theDocument["title"] = title;
       else theDocument["title"] = null;
     if (appBarId != null) theDocument["appBarId"] = appBarId;

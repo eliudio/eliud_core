@@ -121,6 +121,7 @@ class _MyPageFormState extends State<MyPageForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   String? _appBar;
   String? _drawer;
@@ -138,6 +139,7 @@ class _MyPageFormState extends State<MyPageForm> {
     _myFormBloc = BlocProvider.of<PageFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
     _titleController.addListener(_onTitleChanged);
     _layoutSelectedRadioTile = 0;
   }
@@ -159,6 +161,10 @@ class _MyPageFormState extends State<MyPageForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
+        else
+          _descriptionController.text = "";
         if (state.value!.title != null)
           _titleController.text = state.value!.title.toString();
         else
@@ -210,6 +216,11 @@ class _MyPageFormState extends State<MyPageForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDPageFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionPageFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -380,6 +391,7 @@ class _MyPageFormState extends State<MyPageForm> {
                           UpdatePageList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
+                              description: state.value!.description, 
                               title: state.value!.title, 
                               appBar: state.value!.appBar, 
                               drawer: state.value!.drawer, 
@@ -396,6 +408,7 @@ class _MyPageFormState extends State<MyPageForm> {
                           AddPageList(value: PageModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
+                              description: state.value!.description, 
                               title: state.value!.title, 
                               appBar: state.value!.appBar, 
                               drawer: state.value!.drawer, 
@@ -439,6 +452,11 @@ class _MyPageFormState extends State<MyPageForm> {
 
   void _onAppIdChanged() {
     _myFormBloc.add(ChangedPageAppId(value: _appIdController.text));
+  }
+
+
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedPageDescription(value: _descriptionController.text));
   }
 
 
@@ -506,6 +524,7 @@ class _MyPageFormState extends State<MyPageForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
+    _descriptionController.dispose();
     _titleController.dispose();
     super.dispose();
   }

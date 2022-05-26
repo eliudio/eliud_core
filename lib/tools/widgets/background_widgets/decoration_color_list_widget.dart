@@ -1,10 +1,10 @@
+import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_dialog_field.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/tools/random.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:eliud_core/model/model_export.dart';
+import 'package:flutter/material.dart';
 
 import '../../helpers/parse_helper.dart';
 import 'style_color_widget.dart';

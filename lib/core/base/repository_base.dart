@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:eliud_core/tools/query/query_tools.dart';
+
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:eliud_core/tools/query/query_tools.dart';
 
 typedef XModelTrigger<T>(List<T?> list);
 typedef XChanged<T>(T? value);

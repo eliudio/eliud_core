@@ -1,14 +1,10 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/types.dart';
-import 'package:eliud_core/style/style.dart';
-import 'package:eliud_core/tools/screen_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../../frontend/has_divider.dart';
 import '../../../frontend/has_split.dart';
-import '../helper/dialog/dialog_helper.dart';
 
 class DefaultSplitImpl implements HasSplit {
   final FrontEndStyle _frontEndStyle;

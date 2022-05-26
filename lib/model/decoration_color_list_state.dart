@@ -14,8 +14,8 @@
 */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/decoration_color_model.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class DecorationColorListState extends Equatable {
   const DecorationColorListState();

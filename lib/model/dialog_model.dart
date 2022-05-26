@@ -50,6 +50,7 @@ class DialogModel implements ModelBase, WithAppId {
   String documentID;
   String appId;
   String? title;
+  String? description;
   List<BodyComponentModel>? bodyComponents;
   BackgroundModel? backgroundOverride;
   DialogLayout? layout;
@@ -59,16 +60,16 @@ class DialogModel implements ModelBase, WithAppId {
   GridViewModel? gridView;
   StorageConditionsModel? conditions;
 
-  DialogModel({required this.documentID, required this.appId, this.title, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.conditions, })  {
+  DialogModel({required this.documentID, required this.appId, this.title, this.description, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridView, this.conditions, })  {
     assert(documentID != null);
   }
 
-  DialogModel copyWith({String? documentID, String? appId, String? title, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, bool? includeHeading, GridViewModel? gridView, StorageConditionsModel? conditions, }) {
-    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, includeHeading: includeHeading ?? this.includeHeading, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
+  DialogModel copyWith({String? documentID, String? appId, String? title, String? description, List<BodyComponentModel>? bodyComponents, BackgroundModel? backgroundOverride, DialogLayout? layout, bool? includeHeading, GridViewModel? gridView, StorageConditionsModel? conditions, }) {
+    return DialogModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, title: title ?? this.title, description: description ?? this.description, bodyComponents: bodyComponents ?? this.bodyComponents, backgroundOverride: backgroundOverride ?? this.backgroundOverride, layout: layout ?? this.layout, includeHeading: includeHeading ?? this.includeHeading, gridView: gridView ?? this.gridView, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ includeHeading.hashCode ^ gridView.hashCode ^ conditions.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ title.hashCode ^ description.hashCode ^ bodyComponents.hashCode ^ backgroundOverride.hashCode ^ layout.hashCode ^ includeHeading.hashCode ^ gridView.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -78,6 +79,7 @@ class DialogModel implements ModelBase, WithAppId {
           documentID == other.documentID &&
           appId == other.appId &&
           title == other.title &&
+          description == other.description &&
           ListEquality().equals(bodyComponents, other.bodyComponents) &&
           backgroundOverride == other.backgroundOverride &&
           layout == other.layout &&
@@ -89,13 +91,14 @@ class DialogModel implements ModelBase, WithAppId {
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
-    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, conditions: $conditions}';
+    return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, conditions: $conditions}';
   }
 
   DialogEntity toEntity({String? appId}) {
     return DialogEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
+          description: (description != null) ? description : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
             !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
@@ -114,6 +117,7 @@ class DialogModel implements ModelBase, WithAppId {
           documentID: documentID, 
           appId: entity.appId ?? '', 
           title: entity.title, 
+          description: entity.description, 
           bodyComponents: 
             entity.bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
             !.map((item) {
@@ -149,6 +153,7 @@ class DialogModel implements ModelBase, WithAppId {
           documentID: documentID, 
           appId: entity.appId ?? '', 
           title: entity.title, 
+          description: entity.description, 
           bodyComponents: 
             entity. bodyComponents == null ? null : List<BodyComponentModel>.from(await Future.wait(entity. bodyComponents
             !.map((item) {

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/drawer_model.dart';
@@ -7,7 +8,6 @@ import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart'; // You have to add this manually, for some reason it cannot be added automatically
 
 import 'action_specification.dart';
 

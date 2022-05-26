@@ -13,9 +13,10 @@
 
 */
 
-import 'page_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'page_model.dart';
 
 @immutable
 abstract class PageFormState extends Equatable {
@@ -88,6 +89,22 @@ class AppIdPageFormError extends PageFormError {
   @override
   String toString() {
     return '''AppIdPageFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class DescriptionPageFormError extends PageFormError { 
+  const DescriptionPageFormError({ String? message, PageModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''DescriptionPageFormError {
       value: $value,
       message: $message,
     }''';

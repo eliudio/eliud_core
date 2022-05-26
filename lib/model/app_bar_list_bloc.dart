@@ -14,12 +14,11 @@
 */
 
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
-import 'package:eliud_core/model/app_bar_repository.dart';
+import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/app_bar_list_event.dart';
 import 'package:eliud_core/model/app_bar_list_state.dart';
+import 'package:eliud_core/model/app_bar_repository.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 

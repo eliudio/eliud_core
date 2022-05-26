@@ -1,12 +1,11 @@
 import 'package:eliud_core/model/app_model.dart';
-
-import '../helper/menu_helper.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_menu.dart';
 import 'package:eliud_core/style/frontend/types.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
+
+import '../helper/menu_helper.dart';
 
 class DefaultMenuImpl implements HasMenu {
   final FrontEndStyle _frontEndStyle;

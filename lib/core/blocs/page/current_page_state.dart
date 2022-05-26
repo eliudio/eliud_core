@@ -1,6 +1,6 @@
 import 'package:eliud_core/model/app_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/page_model.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class CurrentPageState extends Equatable {
   const CurrentPageState();

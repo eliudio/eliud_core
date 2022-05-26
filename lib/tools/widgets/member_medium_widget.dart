@@ -1,13 +1,10 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
-import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'condition_simple_widget.dart';
 
 class MemberMediumWidget extends StatefulWidget {
   final MemberMediumModel memberMediumModel;

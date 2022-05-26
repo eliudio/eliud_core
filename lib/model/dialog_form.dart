@@ -13,49 +13,27 @@
 
 */
 
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import '../tools/bespoke_models.dart';
+import 'package:eliud_core/core/blocs/access/state/access_state.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core/tools/screen_size.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/style/style_registry.dart';
-import 'package:eliud_core/style/admin/admin_form_style.dart';
-
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-
-import 'package:intl/intl.dart';
-
-import 'package:eliud_core/eliud.dart';
-
-import 'package:eliud_core/model/internal_component.dart';
-import 'package:eliud_core/model/embedded_component.dart';
-import 'package:eliud_core/tools/bespoke_formfields.dart';
-import 'package:eliud_core/tools/bespoke_formfields.dart';
-
-import 'package:eliud_core/tools/enums.dart';
-import 'package:eliud_core/tools/etc.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/embedded_component.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/dialog_list_bloc.dart';
-import 'package:eliud_core/model/dialog_list_event.dart';
-import 'package:eliud_core/model/dialog_model.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/dialog_form_bloc.dart';
 import 'package:eliud_core/model/dialog_form_event.dart';
 import 'package:eliud_core/model/dialog_form_state.dart';
+import 'package:eliud_core/model/dialog_list_bloc.dart';
+import 'package:eliud_core/model/dialog_list_event.dart';
+import 'package:eliud_core/model/dialog_model.dart';
+import 'package:eliud_core/model/embedded_component.dart';
+import 'package:eliud_core/model/internal_component.dart';
+import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core/tools/enums.dart';
+import 'package:eliud_core/tools/screen_size.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../tools/bespoke_models.dart';
 
 
 class DialogForm extends StatelessWidget {
@@ -122,6 +100,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   int? _layoutSelectedRadioTile;
   bool? _includeHeadingSelection;
   String? _gridView;
@@ -136,6 +115,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
     _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
     _layoutSelectedRadioTile = 0;
     _includeHeadingSelection = false;
   }
@@ -161,6 +141,10 @@ class _MyDialogFormState extends State<MyDialogForm> {
           _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
+        if (state.value!.description != null)
+          _descriptionController.text = state.value!.description.toString();
+        else
+          _descriptionController.text = "";
         if (state.value!.layout != null)
           _layoutSelectedRadioTile = state.value!.layout!.index;
         else
@@ -206,6 +190,11 @@ class _MyDialogFormState extends State<MyDialogForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Title', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleDialogFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Description', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _descriptionController, keyboardType: TextInputType.text, validator: (_) => state is DescriptionDialogFormError ? state.message : null, hintText: null)
           );
 
 
@@ -331,6 +320,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               title: state.value!.title, 
+                              description: state.value!.description, 
                               bodyComponents: state.value!.bodyComponents, 
                               backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
@@ -344,6 +334,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               title: state.value!.title, 
+                              description: state.value!.description, 
                               bodyComponents: state.value!.bodyComponents, 
                               backgroundOverride: state.value!.backgroundOverride, 
                               layout: state.value!.layout, 
@@ -391,6 +382,11 @@ class _MyDialogFormState extends State<MyDialogForm> {
   }
 
 
+  void _onDescriptionChanged() {
+    _myFormBloc.add(ChangedDialogDescription(value: _descriptionController.text));
+  }
+
+
   void _onBodyComponentsChanged(value) {
     _myFormBloc.add(ChangedDialogBodyComponents(value: value));
     setState(() {});
@@ -426,6 +422,7 @@ class _MyDialogFormState extends State<MyDialogForm> {
     _documentIDController.dispose();
     _appIdController.dispose();
     _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 

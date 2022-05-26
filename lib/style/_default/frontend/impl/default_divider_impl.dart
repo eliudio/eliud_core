@@ -1,7 +1,5 @@
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
-import 'package:eliud_core/tools/etc.dart';
 import 'package:flutter/material.dart';
 
 class DefaultDividerImpl

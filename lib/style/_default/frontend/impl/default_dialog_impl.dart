@@ -2,9 +2,9 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_dialog.dart';
 import 'package:eliud_core/style/frontend/types.dart';
-import 'package:eliud_core/style/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../helper/dialog/dialog_helper.dart';
 
 class DefaultDialogImpl implements HasDialog {

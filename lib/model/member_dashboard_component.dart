@@ -14,19 +14,17 @@
 */
 
 
+import 'package:eliud_core/core/widgets/alert_widget.dart';
+import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_dashboard_component_bloc.dart';
 import 'package:eliud_core/model/member_dashboard_component_event.dart';
-import 'package:eliud_core/model/member_dashboard_model.dart';
-import 'package:eliud_core/model/member_dashboard_repository.dart';
 import 'package:eliud_core/model/member_dashboard_component_state.dart';
-
+import 'package:eliud_core/model/member_dashboard_model.dart';
+import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/style/style_registry.dart';
+
 import 'abstract_repository_singleton.dart';
-import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractMemberDashboardComponent extends StatelessWidget {
   static String componentName = "memberDashboards";

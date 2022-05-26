@@ -1,5 +1,4 @@
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/frontend_style.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_divider.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';

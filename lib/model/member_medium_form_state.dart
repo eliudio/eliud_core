@@ -13,9 +13,10 @@
 
 */
 
-import 'member_medium_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'member_medium_model.dart';
 
 @immutable
 abstract class MemberMediumFormState extends Equatable {
