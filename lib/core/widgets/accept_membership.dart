@@ -17,7 +17,7 @@ class AcceptMembershipWidget extends StatefulWidget {
   static double width(BuildContext context) =>
       MediaQuery.of(context).size.width * 0.8;
   static double height(BuildContext context) =>
-      MediaQuery.of(context).size.height * 0.6;
+      MediaQuery.of(context).size.height * 0.8;
 
   final AppModel app;
   final MemberModel member;
@@ -52,7 +52,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   @override
   void initState() {
     super.initState();
-    if ((widget.app.policies != null) && (widget.app.policies!.policies != null)) {
+    if ((widget.app.policies != null) &&
+        (widget.app.policies!.policies != null)) {
       checked = widget.app.policies!.policies!
           .map((element) => CheckboxHandler(false, element.policy!))
           .toList();
@@ -74,9 +75,12 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   void _openPolicy(String? title, PublicMediumModel item) {
-    openWidgetDialog(widget.app,
-      context, (widget.app.documentID + '/_policy'),
-      child: PublicMediumDialog(app: widget.app,
+    openWidgetDialog(
+      widget.app,
+      context,
+      (widget.app.documentID + '/_policy'),
+      child: PublicMediumDialog(
+        app: widget.app,
         width: 100,
         title: title,
         publicMediumModel: item,
@@ -97,13 +101,13 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
               height: 40,
               child: Center(
                   child: Checkbox(
-                    value: handler.value,
-                    onChanged: (newValue) {
-                      setState(() {
-                        handler.value = newValue;
-                      });
-                    },
-                  ))),
+                value: handler.value,
+                onChanged: (newValue) {
+                  setState(() {
+                    handler.value = newValue;
+                  });
+                },
+              ))),
           Spacer(),
           text(widget.app, context, policy.name!),
           Spacer(),
@@ -140,21 +144,14 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   Widget addStuff(List<Widget> content, AppModel app) {
     var widgets = <Widget>[
-      Center(
-          child: h1(widget.app, context, 'Read and accept policies')),
-      Divider(
-        height: 10,
-        color: Colors.red,
-      ),
-      text(widget.app, context,
-          'Welcome! Please read the below policies. After reading, check the checkbox and finalise with the Accept button.'),
+      Center(child: h1(widget.app, context, 'Read and accept policies')),
       Divider(
         height: 10,
         color: Colors.red,
       ),
       Container(
           width: AcceptMembershipWidget.width(context),
-          height: AcceptMembershipWidget.height(context) - 175,
+          height: AcceptMembershipWidget.height(context) - 155,
           child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: content)),
@@ -166,20 +163,24 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     widgets.add(Row(children: <Widget>[
       Spacer(flex: 7),
       button(
-        widget.app, context,
+        widget.app,
+        context,
         label: 'Cancel',
         onPressed: () async {
-          BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: widget.app));
+          BlocProvider.of<AccessBloc>(context)
+              .add(LogoutEvent(app: widget.app));
         },
       ),
       Spacer(),
-      button(widget.app,
+      button(
+        widget.app,
         context,
         label: 'Accept',
         onPressed: _allEnabled(app)
             ? () async {
-                BlocProvider.of<AccessBloc>(context)
-                    .add(AcceptedMembershipEvent(widget.app, widget.member, widget.usr));
+                BlocProvider.of<AccessBloc>(context).add(
+                    AcceptedMembershipEvent(
+                        widget.app, widget.member, widget.usr));
               }
             : null,
       ),
