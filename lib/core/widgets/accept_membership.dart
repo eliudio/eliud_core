@@ -15,7 +15,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../model/access_model.dart';
 import '../../tools/widgets/header_widget.dart';
+import '../blocs/access/state/access_determined.dart';
+import '../blocs/access/state/logged_in.dart';
 
 class AcceptMembershipWidget extends StatefulWidget {
   static double width(BuildContext context) =>

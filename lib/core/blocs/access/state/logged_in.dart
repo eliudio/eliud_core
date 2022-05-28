@@ -405,6 +405,15 @@ class LoggedIn extends AccessDetermined {
     );
   }
 
+  static List<String> getSubscriptions(MemberModel member) {
+    if (member.subscriptions == null) return [];
+
+    return member.subscriptions!
+        .map((memberSubscriptionModel) =>
+    memberSubscriptionModel.app!.documentID)
+        .toList();
+  }
+
   static Future<MemberModel> acceptMembership(
       MemberModel member, AppModel app) async {
     if (isSubscibred(member, app)) return member;
@@ -438,7 +447,7 @@ class LoggedIn extends AccessDetermined {
       postLoginAction,
       apps,
       accesses,
-      subscribedToApps,
+      getSubscriptions(newMember),
       playstoreApp: playstoreApp,
     );
     return newVersion;

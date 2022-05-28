@@ -46,7 +46,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
         _listenToApp(event.app.documentID, member);
         emit(await LoggedIn.getLoggedIn2(
-            this, usr, member, event.app, getSubscriptions(member),
+            this, usr, member, event.app, LoggedIn.getSubscriptions(member),
             playstoreApp: event.playstoreApp));
       }
     });
@@ -118,7 +118,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               member,
               theState.apps.map((determinedApp) => determinedApp.app).toList(),
               null,
-              getSubscriptions(member),
+              LoggedIn.getSubscriptions(member),
               playstoreApp: theState.playstoreApp);
           _resetAccessListeners(
               theState.apps.map((e) => e.app.documentID).toList(),
@@ -228,13 +228,14 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (theState is LoggedIn) {
           var _member = theState.getMember();
           if (_member != null) {
-            var member = await LoggedIn.acceptMembership(_member, event.app);
-            var newState =
-            await theState.withSubscriptions(getSubscriptions(member));
+            await LoggedIn.acceptMembership(_member, event.app);
+/*
+            var newState = await theState.withSubscriptions(getSubscriptions(member));
             if (newState.postLoginAction != null) {
               newState.postLoginAction!.runTheAction();
             }
             emit(newState);
+*/
           }
         }
       }
@@ -355,15 +356,6 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   /* Helper functions to get details from the AppState */
   static AccessBloc getBloc(BuildContext context) {
     return BlocProvider.of<AccessBloc>(context);
-  }
-
-  static List<String> getSubscriptions(MemberModel member) {
-    if (member.subscriptions == null) return [];
-
-    return member.subscriptions!
-        .map((memberSubscriptionModel) =>
-            memberSubscriptionModel.app!.documentID)
-        .toList();
   }
 
   static MemberModel? member(BuildContext context) {
