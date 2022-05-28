@@ -7,6 +7,7 @@ import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/etc.dart';
+import 'package:eliud_core/tools/widgets/icon/icon_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_iconpicker/flutter_iconpicker.dart';
@@ -46,19 +47,9 @@ class IconFieldState extends State<IconField> {
   }
 
   void _pickIcon() async {
-/*
-    var iconData = await (FlutterIconPicker.showIconPicker(context,
-        iconSize: 40,
-        iconPickerShape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title:
-            Text('Pick an icon', style: TextStyle(fontWeight: FontWeight.bold)),
-        closeChild: Text(
-          'Close',
-          textScaleFactor: 1.25,
-        ),
-        searchHintText: 'Search icon...',
-        noResultsText: 'No results for:')) ;
+    var iconData = await (showIconPicker(context: context,
+        defalutIcon: IconData(widget.iconModel!.codePoint!,
+            fontFamily: widget.iconModel!.fontFamily)));
 
     if (iconData != null) {
       _icon = Icon(iconData);
@@ -67,6 +58,5 @@ class IconFieldState extends State<IconField> {
               codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
       setState(() {});
     }
-*/
   }
 }
