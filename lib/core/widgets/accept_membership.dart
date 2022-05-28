@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/widgets/public_medium_dialog.dart';
@@ -13,11 +15,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../tools/widgets/header_widget.dart';
+
 class AcceptMembershipWidget extends StatefulWidget {
   static double width(BuildContext context) =>
-      MediaQuery.of(context).size.width * 0.8;
+      MediaQuery.of(context).size.width;
   static double height(BuildContext context) =>
-      MediaQuery.of(context).size.height * 0.8;
+      MediaQuery.of(context).size.height * .8;
 
   final AppModel app;
   final MemberModel member;
@@ -143,51 +147,31 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   }
 
   Widget addStuff(List<Widget> content, AppModel app) {
+    var height = AcceptMembershipWidget.height(context);
     var widgets = <Widget>[
-      Center(child: h1(widget.app, context, 'Read and accept policies')),
-      Divider(
-        height: 10,
-        color: Colors.red,
+      HeaderWidget(
+        app: widget.app,
+        title: 'Read and Accept Policies',
+        okAction: _allEnabled(app) ? () async {
+          BlocProvider.of<AccessBloc>(context).add(
+              AcceptedMembershipEvent(
+                  widget.app, widget.member, widget.usr));
+          return false;
+        } : null,
+        cancelAction: () async {
+          return false;
+        },
       ),
       Container(
           width: AcceptMembershipWidget.width(context),
-          height: AcceptMembershipWidget.height(context) - 155,
+          height: max(height - 100, 0),
           child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: content)),
-      Divider(
-        height: 10,
-        color: Colors.red,
-      ),
     ];
-    widgets.add(Row(children: <Widget>[
-      Spacer(flex: 7),
-      button(
-        widget.app,
-        context,
-        label: 'Cancel',
-        onPressed: () async {
-          BlocProvider.of<AccessBloc>(context)
-              .add(LogoutEvent(app: widget.app));
-        },
-      ),
-      Spacer(),
-      button(
-        widget.app,
-        context,
-        label: 'Accept',
-        onPressed: _allEnabled(app)
-            ? () async {
-                BlocProvider.of<AccessBloc>(context).add(
-                    AcceptedMembershipEvent(
-                        widget.app, widget.member, widget.usr));
-              }
-            : null,
-      ),
-    ]));
 
     return ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+//        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         shrinkWrap: true,
         physics: ScrollPhysics(),
         children: widgets);
