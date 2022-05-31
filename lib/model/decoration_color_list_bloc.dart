@@ -14,11 +14,12 @@
 */
 
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+import 'package:eliud_core/model/decoration_color_repository.dart';
 import 'package:eliud_core/model/decoration_color_list_event.dart';
 import 'package:eliud_core/model/decoration_color_list_state.dart';
-import 'package:eliud_core/model/decoration_color_repository.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 

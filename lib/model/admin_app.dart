@@ -374,6 +374,29 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _backendRequestsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-backendRequests", componentName: "eliud_core_internalWidgets", componentId: "backendRequests"));
+    PageModel page = PageModel(
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
+        ),
+        appId: appId,
+        documentID: "eliud_core_backendrequests_page",
+        title: "BackendRequests",
+        description: "BackendRequests",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId)!.add(_appsPages())
@@ -403,6 +426,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
+
+        .then((_) => pageRepository(appId: appId)!.add(_backendRequestsPages()))
 
     ;
   }
@@ -557,6 +582,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "PublicMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_publicmediums_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "BackendRequests",
+        text: "BackendRequests",
+        description: "BackendRequests",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(app, pageID: "eliud_core_backendrequests_page"))
     );
 
 

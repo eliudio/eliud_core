@@ -13,9 +13,9 @@
 
 */
 
-import 'package:eliud_core/model/decoration_color_model.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/decoration_color_model.dart';
 
 abstract class DecorationColorListEvent extends Equatable {
   const DecorationColorListEvent();

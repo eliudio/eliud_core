@@ -35,3 +35,4 @@ export '../model/menu_item_cache.dart';
 export '../model/page_cache.dart';
 export '../model/platform_medium_cache.dart';
 export '../model/public_medium_cache.dart';
+export '../model/backend_request_cache.dart';

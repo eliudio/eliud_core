@@ -14,8 +14,8 @@
 */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eliud_core/model/app_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/app_model.dart';
 
 abstract class AppListState extends Equatable {
   const AppListState();

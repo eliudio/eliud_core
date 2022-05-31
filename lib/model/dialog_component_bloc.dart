@@ -14,11 +14,13 @@
 */
 
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+
+import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/dialog_component_event.dart';
 import 'package:eliud_core/model/dialog_component_state.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
+import 'package:flutter/services.dart';
 
 
 class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentState> {

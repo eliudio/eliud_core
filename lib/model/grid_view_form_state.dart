@@ -13,10 +13,9 @@
 
 */
 
+import 'grid_view_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'grid_view_model.dart';
 
 @immutable
 abstract class GridViewFormState extends Equatable {

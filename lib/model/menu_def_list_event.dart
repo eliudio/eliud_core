@@ -13,9 +13,9 @@
 
 */
 
-import 'package:eliud_core/model/menu_def_model.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/menu_def_model.dart';
 
 abstract class MenuDefListEvent extends Equatable {
   const MenuDefListEvent();

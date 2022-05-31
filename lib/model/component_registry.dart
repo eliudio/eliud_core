@@ -14,14 +14,14 @@
 */
 
 
+import '../model/internal_component.dart';
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core/model/internal_component.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 
-import '../editors/member_dashboard_component_editor.dart';
 import '../extensions/member_dashboard_component.dart';
-import '../model/internal_component.dart';
+import '../editors/member_dashboard_component_editor.dart';
 import 'member_dashboard_component_selector.dart';
+import 'package:eliud_core/model/internal_component.dart';
 
 
 

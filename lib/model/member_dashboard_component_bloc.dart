@@ -14,11 +14,13 @@
 */
 
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+
+import 'package:eliud_core/model/member_dashboard_model.dart';
 import 'package:eliud_core/model/member_dashboard_component_event.dart';
 import 'package:eliud_core/model/member_dashboard_component_state.dart';
 import 'package:eliud_core/model/member_dashboard_repository.dart';
+import 'package:flutter/services.dart';
 
 class MemberDashboardComponentBloc extends Bloc<MemberDashboardComponentEvent, MemberDashboardComponentState> {
   final MemberDashboardRepository? memberDashboardRepository;

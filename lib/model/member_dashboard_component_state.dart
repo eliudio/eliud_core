@@ -13,8 +13,8 @@
 
 */
 
-import 'package:eliud_core/model/member_dashboard_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/member_dashboard_model.dart';
 
 abstract class MemberDashboardComponentState extends Equatable {
   const MemberDashboardComponentState();

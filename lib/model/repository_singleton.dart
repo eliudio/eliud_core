@@ -76,6 +76,9 @@ import '../model/platform_medium_cache.dart';
 import '../model/public_medium_firestore.dart';
 import '../model/public_medium_repository.dart';
 import '../model/public_medium_cache.dart';
+import '../model/backend_request_firestore.dart';
+import '../model/backend_request_repository.dart';
+import '../model/backend_request_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -105,6 +108,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
+    var _backendRequestRepository = HashMap<String, BackendRequestRepository>();
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -159,6 +163,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     PublicMediumRepository? publicMediumRepository() {
       return _publicMediumRepository;
+    }
+    BackendRequestRepository? backendRequestRepository(String? appId) {
+      if ((appId != null) && (_backendRequestRepository[appId] == null)) _backendRequestRepository[appId] = BackendRequestCache(BackendRequestFirestore(() => appRepository()!.getSubCollection(appId, 'backendrequest'), appId));
+      return _backendRequestRepository[appId];
     }
 
 }

@@ -13,10 +13,9 @@
 
 */
 
+import 'member_public_info_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'member_public_info_model.dart';
 
 @immutable
 abstract class MemberPublicInfoFormState extends Equatable {

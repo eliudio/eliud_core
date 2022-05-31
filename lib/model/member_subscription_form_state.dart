@@ -13,10 +13,9 @@
 
 */
 
+import 'member_subscription_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'member_subscription_model.dart';
 
 @immutable
 abstract class MemberSubscriptionFormState extends Equatable {

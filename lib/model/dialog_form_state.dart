@@ -13,10 +13,9 @@
 
 */
 
+import 'dialog_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'dialog_model.dart';
 
 @immutable
 abstract class DialogFormState extends Equatable {

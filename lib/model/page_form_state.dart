@@ -13,10 +13,9 @@
 
 */
 
+import 'page_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'page_model.dart';
 
 @immutable
 abstract class PageFormState extends Equatable {

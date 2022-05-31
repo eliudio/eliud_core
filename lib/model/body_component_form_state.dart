@@ -13,10 +13,9 @@
 
 */
 
+import 'body_component_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'body_component_model.dart';
 
 @immutable
 abstract class BodyComponentFormState extends Equatable {

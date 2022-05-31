@@ -14,11 +14,13 @@
 */
 
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+
+import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_repository.dart';
+import 'package:flutter/services.dart';
 
 
 class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {

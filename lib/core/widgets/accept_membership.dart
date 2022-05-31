@@ -162,6 +162,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
           return false;
         } : null,
         cancelAction: () async {
+          BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: widget.app));
           return false;
         },
       ),

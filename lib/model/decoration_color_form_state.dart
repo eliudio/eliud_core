@@ -13,10 +13,9 @@
 
 */
 
+import 'decoration_color_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
-import 'decoration_color_model.dart';
 
 @immutable
 abstract class DecorationColorFormState extends Equatable {

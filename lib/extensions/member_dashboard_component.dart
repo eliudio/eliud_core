@@ -201,14 +201,13 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                 member.email! +
                 '. Please confirm', onSelection: (value) async {
       if (value == 0) {
-        await GDPR.dumpMemberData(
+        await GDPR.dumpMemberData(member,
             app.documentID,
             dashboardModel!.retrieveDataEmailSubject,
-            app.email,
             AccessBloc.getState(context).getMemberCollectionInfo()!);
         openComplexDialog(app, context, app.documentID + '/_retrievedata',
             title: 'Retrieve data',
-            child: Text(
+            child: text(app, context,
                 'You will receive an email at your registered email address ' +
                     member.email! +
                     ' with the data you have with us.'));

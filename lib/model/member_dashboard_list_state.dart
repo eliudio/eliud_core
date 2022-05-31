@@ -14,8 +14,8 @@
 */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eliud_core/model/member_dashboard_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:eliud_core/model/member_dashboard_model.dart';
 
 abstract class MemberDashboardListState extends Equatable {
   const MemberDashboardListState();
