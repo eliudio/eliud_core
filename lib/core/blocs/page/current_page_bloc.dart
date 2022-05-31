@@ -35,9 +35,6 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
       var theState = state;
       if (theState is CurrentPageLoaded) {
         emit(CurrentPageLoaded(page: theState.page, app: event.app));
-      } else {
-        print(
-            "Unexpected: state is not CurrentPageLoaded, yet we get a CurrentAppUpdated event. Shouldn't be possible");
       }
     });
   }

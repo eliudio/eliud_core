@@ -63,7 +63,9 @@ class PageFirestore implements PageRepository {
         print("Error whilst retrieving Page with id $id");
         print("Exceptoin: $e");
       }
-    };
+    } catch (other) {
+      int i = 0;
+    }
   }
 
   StreamSubscription<List<PageModel?>> listen(PageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

@@ -76,7 +76,7 @@ abstract class AccessDetermined extends AccessState {
       var pageID = action.pageID;
       var access = theAccess.pagesAccess[pageID];
       if (access == null) {
-        access = (await pageRepository(appId: action.app.documentID)!.get(pageID) != null);
+        access = (await pageRepository(appId: action.app.documentID)!.get(pageID, onError: (_) {}) != null);
         theAccess.pagesAccess[pageID] = access;
         return access;
       }
@@ -87,7 +87,7 @@ abstract class AccessDetermined extends AccessState {
       var dialogID = action.dialogID;
       var access = theAccess.dialogsAccess[dialogID];
       if (access == null) {
-        access = (await dialogRepository(appId: action.app.documentID)!.get(dialogID) != null);
+        access = (await dialogRepository(appId: action.app.documentID)!.get(dialogID, onError: (_) {}) != null);
         theAccess.dialogsAccess[dialogID] = access;
         return access;
       }
