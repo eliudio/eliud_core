@@ -12,6 +12,10 @@ double fullScreenHeight(BuildContext context) {
       - kBottomNavigationBarHeight; // BottomNavigationBar
 }
 
+double fullFullScreenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
+}
+
 double screenRatio(BuildContext context) {
   return fullScreenWidth(context) / fullScreenHeight(context);
 }
