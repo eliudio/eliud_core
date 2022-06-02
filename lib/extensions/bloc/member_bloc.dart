@@ -17,41 +17,52 @@ class MemberBloc extends Bloc<ExtEditorBaseEvent<MemberModel>,
         model: event.model.copyWith() as MemberModel,
       ));
     });
-    var theState = state as ExtEditorBaseInitialised;
-    var model = theState.model as MemberModel;
+
     on<AddItemEvent<MemberModel, MemberSubscriptionModel>>((event, emit) {
-      List<MemberSubscriptionModel> newItems = model.subscriptions == null
-          ? []
-          : model.subscriptions!.map((e) => e).toList();
-      newItems.add(event.itemModel);
-      var newModel = model.copyWith(subscriptions: newItems);
-      emit(ExtEditorBaseInitialised(
-          model: newModel, currentEdit: theState.currentEdit));
+      if (state is ExtEditorBaseInitialised) {
+        var theState = state as ExtEditorBaseInitialised;
+        var model = theState.model as MemberModel;
+        List<MemberSubscriptionModel> newItems = model.subscriptions == null
+            ? []
+            : model.subscriptions!.map((e) => e).toList();
+        newItems.add(event.itemModel);
+        var newModel = model.copyWith(subscriptions: newItems);
+        emit(ExtEditorBaseInitialised(
+            model: newModel, currentEdit: theState.currentEdit));
+      }
     });
 
     on<UpdateItemEvent<MemberModel, MemberSubscriptionModel>>((event, emit) {
-      List<MemberSubscriptionModel> currentItems =
-          model.subscriptions == null ? [] : model.subscriptions!;
-      var index = currentItems.indexOf(event.oldItem);
-      if (index != -1) {
-        var newItems = currentItems.map((e) => e).toList();
-        newItems[index] = event.newItem;
-        var newModel = model.copyWith(subscriptions: newItems);
-        emit(ExtEditorBaseInitialised(model: newModel));
-      } else {
-        throw Exception("Could not find item");
+      if (state is ExtEditorBaseInitialised) {
+        var theState = state as ExtEditorBaseInitialised;
+        var model = theState.model as MemberModel;
+        List<MemberSubscriptionModel> currentItems =
+            model.subscriptions == null ? [] : model.subscriptions!;
+        var index = currentItems.indexOf(event.oldItem);
+        if (index != -1) {
+          var newItems = currentItems.map((e) => e).toList();
+          newItems[index] = event.newItem;
+          var newModel = model.copyWith(subscriptions: newItems);
+          emit(ExtEditorBaseInitialised(model: newModel));
+        } else {
+          throw Exception("Could not find item");
+        }
       }
     });
 
     on<DeleteItemEvent<MemberModel, MemberSubscriptionModel>>((event, emit) {
-      var newItems = <MemberSubscriptionModel>[];
-      for (var item in model.subscriptions!) {
-        if (item != event.itemModel) {
-          newItems.add(item);
+      if (state is ExtEditorBaseInitialised) {
+        var theState = state as ExtEditorBaseInitialised;
+        var model = theState.model as MemberModel;
+        var newItems = <MemberSubscriptionModel>[];
+        for (var item in model.subscriptions!) {
+          if (item != event.itemModel) {
+            newItems.add(item);
+          }
         }
+        var newModel = model.copyWith(subscriptions: newItems);
+        emit(ExtEditorBaseInitialised(model: newModel));
       }
-      var newModel = model.copyWith(subscriptions: newItems);
-      emit(ExtEditorBaseInitialised(model: newModel));
     });
   }
 
