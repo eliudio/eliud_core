@@ -86,7 +86,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
         var member = accessState.getMember();
         if (member != null) {
           var welcomeText = 'Welcome ' +
-              member.name! +
+              (member.name ?? '?') +
               '. Use the below links to maintain your account with us.';
           var userPhotoUrl = member.photoURL;
           Widget profilePhoto;
