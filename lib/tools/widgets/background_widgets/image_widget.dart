@@ -101,7 +101,6 @@ class _ImageWidgetState extends State<ImageWidget> {
                   Registry.registry()!.getMediumApi().takePhoto(
                       context,
                       widget.app,
-                      widget.ownerId,
                       () => PublicMediumAccessRights(), (photo) {
                     setState(() {
                       _progress = null;
@@ -121,7 +120,6 @@ class _ImageWidgetState extends State<ImageWidget> {
                 Registry.registry()!.getMediumApi().uploadPhoto(
                     context,
                     widget.app,
-                    widget.ownerId,
                     () => PublicMediumAccessRights(), (photo) {
                   setState(() {
                     _progress = null;

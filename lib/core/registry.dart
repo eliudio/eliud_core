@@ -365,7 +365,6 @@ class DefaultMediumApi extends MediumApi {
   void takePhoto(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress,
@@ -377,7 +376,6 @@ class DefaultMediumApi extends MediumApi {
   void takeVideo(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress) {
@@ -388,7 +386,6 @@ class DefaultMediumApi extends MediumApi {
   void uploadPhoto(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress,
@@ -400,7 +397,6 @@ class DefaultMediumApi extends MediumApi {
   void uploadVideo(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress) {

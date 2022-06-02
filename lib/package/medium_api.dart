@@ -34,7 +34,6 @@ abstract class MediumApi {
   void takePhoto(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress,
@@ -42,14 +41,12 @@ abstract class MediumApi {
   void takeVideo(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress);
   void uploadPhoto(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress,
@@ -57,7 +54,6 @@ abstract class MediumApi {
   void uploadVideo(
       BuildContext context,
       AppModel app,
-      String ownerId,
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress);
