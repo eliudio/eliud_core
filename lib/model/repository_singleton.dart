@@ -31,6 +31,9 @@ import '../model/app_policy_repository.dart';
 import '../model/app_policy_cache.dart';
 import '../model/app_policy_item_repository.dart';
 import '../model/app_policy_item_cache.dart';
+import '../model/backend_request_firestore.dart';
+import '../model/backend_request_repository.dart';
+import '../model/backend_request_cache.dart';
 import '../model/body_component_repository.dart';
 import '../model/body_component_cache.dart';
 import '../model/decoration_color_repository.dart';
@@ -76,9 +79,6 @@ import '../model/platform_medium_cache.dart';
 import '../model/public_medium_firestore.dart';
 import '../model/public_medium_repository.dart';
 import '../model/public_medium_cache.dart';
-import '../model/backend_request_firestore.dart';
-import '../model/backend_request_repository.dart';
-import '../model/backend_request_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -97,6 +97,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
     var _appBarRepository = HashMap<String, AppBarRepository>();
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
+    var _backendRequestRepository = HashMap<String, BackendRequestRepository>();
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
@@ -108,7 +109,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
-    var _backendRequestRepository = HashMap<String, BackendRequestRepository>();
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -121,6 +121,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     AppPolicyRepository? appPolicyRepository(String? appId) {
       if ((appId != null) && (_appPolicyRepository[appId] == null)) _appPolicyRepository[appId] = AppPolicyCache(AppPolicyFirestore(() => appRepository()!.getSubCollection(appId, 'apppolicy'), appId));
       return _appPolicyRepository[appId];
+    }
+    BackendRequestRepository? backendRequestRepository(String? appId) {
+      if ((appId != null) && (_backendRequestRepository[appId] == null)) _backendRequestRepository[appId] = BackendRequestCache(BackendRequestFirestore(() => appRepository()!.getSubCollection(appId, 'backendrequest'), appId));
+      return _backendRequestRepository[appId];
     }
     DialogRepository? dialogRepository(String? appId) {
       if ((appId != null) && (_dialogRepository[appId] == null)) _dialogRepository[appId] = DialogCache(DialogFirestore(() => appRepository()!.getSubCollection(appId, 'dialog'), appId));
@@ -163,10 +167,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     PublicMediumRepository? publicMediumRepository() {
       return _publicMediumRepository;
-    }
-    BackendRequestRepository? backendRequestRepository(String? appId) {
-      if ((appId != null) && (_backendRequestRepository[appId] == null)) _backendRequestRepository[appId] = BackendRequestCache(BackendRequestFirestore(() => appRepository()!.getSubCollection(appId, 'backendrequest'), appId));
-      return _backendRequestRepository[appId];
     }
 
 }

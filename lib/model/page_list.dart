@@ -156,7 +156,7 @@ class PageListWidgetState extends State<PageListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<PageListBloc>(context)
                   .add(DeletePageList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "Page " + value.documentID,
                 onUndo: () => BlocProvider.of<PageListBloc>(context)
                     .add(AddPageList(value: value)),
@@ -168,7 +168,7 @@ class PageListWidgetState extends State<PageListWidget> {
                               value: BlocProvider.of<PageListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "Page " + value.documentID,
                             onUndo: () => BlocProvider.of<PageListBloc>(context)

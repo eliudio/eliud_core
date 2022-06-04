@@ -156,7 +156,7 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<MenuDefListBloc>(context)
                   .add(DeleteMenuDefList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "MenuDef " + value.documentID,
                 onUndo: () => BlocProvider.of<MenuDefListBloc>(context)
                     .add(AddMenuDefList(value: value)),
@@ -168,7 +168,7 @@ class MenuDefListWidgetState extends State<MenuDefListWidget> {
                               value: BlocProvider.of<MenuDefListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "MenuDef " + value.documentID,
                             onUndo: () => BlocProvider.of<MenuDefListBloc>(context)

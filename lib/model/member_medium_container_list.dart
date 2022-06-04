@@ -156,7 +156,7 @@ class MemberMediumContainerListWidgetState extends State<MemberMediumContainerLi
             onDismissed: (direction) {
               BlocProvider.of<MemberMediumContainerListBloc>(context)
                   .add(DeleteMemberMediumContainerList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "MemberMediumContainer " + value.documentID,
                 onUndo: () => BlocProvider.of<MemberMediumContainerListBloc>(context)
                     .add(AddMemberMediumContainerList(value: value)),
@@ -168,7 +168,7 @@ class MemberMediumContainerListWidgetState extends State<MemberMediumContainerLi
                               value: BlocProvider.of<MemberMediumContainerListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "MemberMediumContainer " + value.documentID,
                             onUndo: () => BlocProvider.of<MemberMediumContainerListBloc>(context)

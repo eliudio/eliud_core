@@ -156,7 +156,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<BodyComponentListBloc>(context)
                   .add(DeleteBodyComponentList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "BodyComponent " + value.documentID,
                 onUndo: () => BlocProvider.of<BodyComponentListBloc>(context)
                     .add(AddBodyComponentList(value: value)),
@@ -168,7 +168,7 @@ class BodyComponentListWidgetState extends State<BodyComponentListWidget> {
                               value: BlocProvider.of<BodyComponentListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "BodyComponent " + value.documentID,
                             onUndo: () => BlocProvider.of<BodyComponentListBloc>(context)

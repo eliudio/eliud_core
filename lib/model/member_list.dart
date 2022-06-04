@@ -156,7 +156,7 @@ class MemberListWidgetState extends State<MemberListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<MemberListBloc>(context)
                   .add(DeleteMemberList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "Member " + value.documentID,
                 onUndo: () => BlocProvider.of<MemberListBloc>(context)
                     .add(AddMemberList(value: value)),
@@ -168,7 +168,7 @@ class MemberListWidgetState extends State<MemberListWidget> {
                               value: BlocProvider.of<MemberListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "Member " + value.documentID,
                             onUndo: () => BlocProvider.of<MemberListBloc>(context)

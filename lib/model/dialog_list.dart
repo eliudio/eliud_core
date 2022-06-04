@@ -156,7 +156,7 @@ class DialogListWidgetState extends State<DialogListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<DialogListBloc>(context)
                   .add(DeleteDialogList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "Dialog " + value.documentID,
                 onUndo: () => BlocProvider.of<DialogListBloc>(context)
                     .add(AddDialogList(value: value)),
@@ -168,7 +168,7 @@ class DialogListWidgetState extends State<DialogListWidget> {
                               value: BlocProvider.of<DialogListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "Dialog " + value.documentID,
                             onUndo: () => BlocProvider.of<DialogListBloc>(context)

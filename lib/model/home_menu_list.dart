@@ -156,7 +156,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<HomeMenuListBloc>(context)
                   .add(DeleteHomeMenuList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "HomeMenu " + value.documentID,
                 onUndo: () => BlocProvider.of<HomeMenuListBloc>(context)
                     .add(AddHomeMenuList(value: value)),
@@ -168,7 +168,7 @@ class HomeMenuListWidgetState extends State<HomeMenuListWidget> {
                               value: BlocProvider.of<HomeMenuListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "HomeMenu " + value.documentID,
                             onUndo: () => BlocProvider.of<HomeMenuListBloc>(context)

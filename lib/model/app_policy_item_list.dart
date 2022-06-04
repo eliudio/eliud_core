@@ -156,7 +156,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<AppPolicyItemListBloc>(context)
                   .add(DeleteAppPolicyItemList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "AppPolicyItem " + value.documentID,
                 onUndo: () => BlocProvider.of<AppPolicyItemListBloc>(context)
                     .add(AddAppPolicyItemList(value: value)),
@@ -168,7 +168,7 @@ class AppPolicyItemListWidgetState extends State<AppPolicyItemListWidget> {
                               value: BlocProvider.of<AppPolicyItemListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "AppPolicyItem " + value.documentID,
                             onUndo: () => BlocProvider.of<AppPolicyItemListBloc>(context)

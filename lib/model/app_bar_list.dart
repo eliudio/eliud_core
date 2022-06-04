@@ -156,7 +156,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<AppBarListBloc>(context)
                   .add(DeleteAppBarList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "AppBar " + value.documentID,
                 onUndo: () => BlocProvider.of<AppBarListBloc>(context)
                     .add(AddAppBarList(value: value)),
@@ -168,7 +168,7 @@ class AppBarListWidgetState extends State<AppBarListWidget> {
                               value: BlocProvider.of<AppBarListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "AppBar " + value.documentID,
                             onUndo: () => BlocProvider.of<AppBarListBloc>(context)

@@ -156,7 +156,7 @@ class BackendRequestListWidgetState extends State<BackendRequestListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<BackendRequestListBloc>(context)
                   .add(DeleteBackendRequestList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "BackendRequest " + value.documentID,
                 onUndo: () => BlocProvider.of<BackendRequestListBloc>(context)
                     .add(AddBackendRequestList(value: value)),
@@ -168,7 +168,7 @@ class BackendRequestListWidgetState extends State<BackendRequestListWidget> {
                               value: BlocProvider.of<BackendRequestListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "BackendRequest " + value.documentID,
                             onUndo: () => BlocProvider.of<BackendRequestListBloc>(context)

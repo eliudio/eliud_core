@@ -156,7 +156,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
             onDismissed: (direction) {
               BlocProvider.of<MemberPublicInfoListBloc>(context)
                   .add(DeleteMemberPublicInfoList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "MemberPublicInfo " + value.documentID,
                 onUndo: () => BlocProvider.of<MemberPublicInfoListBloc>(context)
                     .add(AddMemberPublicInfoList(value: value)),
@@ -168,7 +168,7 @@ class MemberPublicInfoListWidgetState extends State<MemberPublicInfoListWidget> 
                               value: BlocProvider.of<MemberPublicInfoListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "MemberPublicInfo " + value.documentID,
                             onUndo: () => BlocProvider.of<MemberPublicInfoListBloc>(context)

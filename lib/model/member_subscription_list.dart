@@ -156,7 +156,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
             onDismissed: (direction) {
               BlocProvider.of<MemberSubscriptionListBloc>(context)
                   .add(DeleteMemberSubscriptionList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "MemberSubscription " + value.documentID,
                 onUndo: () => BlocProvider.of<MemberSubscriptionListBloc>(context)
                     .add(AddMemberSubscriptionList(value: value)),
@@ -168,7 +168,7 @@ class MemberSubscriptionListWidgetState extends State<MemberSubscriptionListWidg
                               value: BlocProvider.of<MemberSubscriptionListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "MemberSubscription " + value.documentID,
                             onUndo: () => BlocProvider.of<MemberSubscriptionListBloc>(context)

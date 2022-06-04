@@ -156,7 +156,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<AppEntryPagesListBloc>(context)
                   .add(DeleteAppEntryPagesList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "AppEntryPages " + value.documentID,
                 onUndo: () => BlocProvider.of<AppEntryPagesListBloc>(context)
                     .add(AddAppEntryPagesList(value: value)),
@@ -168,7 +168,7 @@ class AppEntryPagesListWidgetState extends State<AppEntryPagesListWidget> {
                               value: BlocProvider.of<AppEntryPagesListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "AppEntryPages " + value.documentID,
                             onUndo: () => BlocProvider.of<AppEntryPagesListBloc>(context)

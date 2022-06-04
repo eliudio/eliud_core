@@ -156,7 +156,7 @@ class PublicMediumListWidgetState extends State<PublicMediumListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<PublicMediumListBloc>(context)
                   .add(DeletePublicMediumList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "PublicMedium " + value.documentID,
                 onUndo: () => BlocProvider.of<PublicMediumListBloc>(context)
                     .add(AddPublicMediumList(value: value)),
@@ -168,7 +168,7 @@ class PublicMediumListWidgetState extends State<PublicMediumListWidget> {
                               value: BlocProvider.of<PublicMediumListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "PublicMedium " + value.documentID,
                             onUndo: () => BlocProvider.of<PublicMediumListBloc>(context)

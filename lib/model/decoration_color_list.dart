@@ -156,7 +156,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
             onDismissed: (direction) {
               BlocProvider.of<DecorationColorListBloc>(context)
                   .add(DeleteDecorationColorList(value: value));
-              Scaffold.of(context).showSnackBar(DeleteSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(DeleteSnackBar(
                 message: "DecorationColor " + value.documentID,
                 onUndo: () => BlocProvider.of<DecorationColorListBloc>(context)
                     .add(AddDecorationColorList(value: value)),
@@ -168,7 +168,7 @@ class DecorationColorListWidgetState extends State<DecorationColorListWidget> {
                               value: BlocProvider.of<DecorationColorListBloc>(context),
                               child: getForm(value, FormAction.UpdateAction))));
                       if (removedItem != null) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           DeleteSnackBar(
                         message: "DecorationColor " + value.documentID,
                             onUndo: () => BlocProvider.of<DecorationColorListBloc>(context)
