@@ -117,6 +117,10 @@ class BackgroundModel {
           padding == other.padding &&
           margin == other.margin;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');

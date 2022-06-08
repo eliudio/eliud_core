@@ -58,6 +58,10 @@ class IconModel {
           codePoint == other.codePoint &&
           fontFamily == other.fontFamily;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'IconModel{codePoint: $codePoint, fontFamily: $fontFamily}';

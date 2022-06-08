@@ -117,6 +117,10 @@ class MemberMediumModel implements ModelBase, WithAppId {
           thumbnailHeight == other.thumbnailHeight &&
           relatedMediumId == other.relatedMediumId;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String accessibleByMembersCsv = (accessibleByMembers == null) ? '' : accessibleByMembers!.join(', ');

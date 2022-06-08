@@ -81,6 +81,10 @@ class BackendRequestModel implements ModelBase, WithAppId {
           processed == other.processed &&
           requestType == other.requestType;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'BackendRequestModel{documentID: $documentID, description: $description, appId: $appId, authorId: $authorId, name: $name, sendTo: $sendTo, collections: $collections, processed: $processed, requestType: $requestType}';

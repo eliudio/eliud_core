@@ -68,6 +68,10 @@ class StorageConditionsModel {
           runtimeType == other.runtimeType && 
           privilegeLevelRequired == other.privilegeLevelRequired;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'StorageConditionsModel{privilegeLevelRequired: $privilegeLevelRequired}';

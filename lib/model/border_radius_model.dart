@@ -72,6 +72,10 @@ class BorderRadiusModel {
           ellipticalX == other.ellipticalX &&
           ellipticalY == other.ellipticalY;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'BorderRadiusModel{borderRadiusType: $borderRadiusType, circularValue: $circularValue, ellipticalX: $ellipticalX, ellipticalY: $ellipticalY}';

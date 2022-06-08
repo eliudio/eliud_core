@@ -59,6 +59,10 @@ class AppEntryPagesModel implements ModelBase {
           entryPage == other.entryPage &&
           minPrivilege == other.minPrivilege;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'AppEntryPagesModel{documentID: $documentID, entryPage: $entryPage, minPrivilege: $minPrivilege}';

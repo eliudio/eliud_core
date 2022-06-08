@@ -55,6 +55,10 @@ class MemberSubscriptionModel implements ModelBase {
           documentID == other.documentID &&
           app == other.app;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';

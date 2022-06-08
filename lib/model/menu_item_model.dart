@@ -61,6 +61,10 @@ class MenuItemModel implements ModelBase {
           icon == other.icon &&
           action == other.action;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';

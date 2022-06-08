@@ -89,6 +89,10 @@ class AppBarModel implements ModelBase, WithAppId {
           selectedIconColorOverride == other.selectedIconColorOverride &&
           menuBackgroundColorOverride == other.menuBackgroundColorOverride;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';

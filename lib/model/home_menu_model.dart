@@ -67,6 +67,10 @@ class HomeMenuModel implements ModelBase, WithAppId {
           backgroundOverride == other.backgroundOverride &&
           popupMenuBackgroundColorOverride == other.popupMenuBackgroundColorOverride;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColorOverride: $iconColorOverride, backgroundOverride: $backgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';

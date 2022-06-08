@@ -68,6 +68,10 @@ class ShadowModel {
           spreadRadius == other.spreadRadius &&
           blurRadius == other.blurRadius;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';

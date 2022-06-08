@@ -57,6 +57,10 @@ class AppPolicyItemModel implements ModelBase {
           name == other.name &&
           policy == other.policy;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'AppPolicyItemModel{documentID: $documentID, name: $name, policy: $policy}';

@@ -89,6 +89,10 @@ class DisplayConditionsModel {
           packageCondition == other.packageCondition &&
           conditionOverride == other.conditionOverride;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'DisplayConditionsModel{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';

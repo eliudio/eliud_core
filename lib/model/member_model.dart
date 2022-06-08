@@ -98,6 +98,10 @@ class MemberModel implements ModelBase {
           email == other.email &&
           isAnonymous == other.isAnonymous;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');

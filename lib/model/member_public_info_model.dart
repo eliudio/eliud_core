@@ -62,6 +62,10 @@ class MemberPublicInfoModel implements ModelBase {
           photoURL == other.photoURL &&
           ListEquality().equals(subscriptions, other.subscriptions);
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');

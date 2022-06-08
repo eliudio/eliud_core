@@ -66,6 +66,10 @@ class RgbModel {
           b == other.b &&
           opacity == other.opacity;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';

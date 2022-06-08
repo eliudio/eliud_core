@@ -61,6 +61,10 @@ class BodyComponentModel implements ModelBase {
           componentName == other.componentName &&
           componentId == other.componentId;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'BodyComponentModel{documentID: $documentID, componentName: $componentName, componentId: $componentId}';

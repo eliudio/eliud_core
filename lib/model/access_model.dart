@@ -101,6 +101,10 @@ class AccessModel implements ModelBase, WithAppId {
           blocked == other.blocked &&
           privilegeLevelBeforeBlocked == other.privilegeLevelBeforeBlocked;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';

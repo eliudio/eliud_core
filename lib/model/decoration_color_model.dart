@@ -57,6 +57,10 @@ class DecorationColorModel implements ModelBase {
           color == other.color &&
           stop == other.stop;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';

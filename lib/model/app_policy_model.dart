@@ -60,6 +60,10 @@ class AppPolicyModel implements ModelBase, WithAppId {
           comments == other.comments &&
           ListEquality().equals(policies, other.policies);
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String policiesCsv = (policies == null) ? '' : policies!.join(', ');

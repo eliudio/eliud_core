@@ -58,6 +58,10 @@ class EdgeInsetsGeometryModel {
           top == other.top &&
           bottom == other.bottom;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     return 'EdgeInsetsGeometryModel{left: $left, right: $right, top: $top, bottom: $bottom}';

@@ -62,6 +62,10 @@ class MenuDefModel implements ModelBase, WithAppId {
           ListEquality().equals(menuItems, other.menuItems) &&
           admin == other.admin;
 
+  String toJsonString({String? appId}) {
+    return toEntity(appId: appId).toJsonString();
+  }
+
   @override
   String toString() {
     String menuItemsCsv = (menuItems == null) ? '' : menuItems!.join(', ');
