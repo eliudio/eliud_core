@@ -54,6 +54,7 @@
       "fieldName": "photo",
       "displayName": "Photo",
       "fieldType": "PublicMedium",
+      "extractImage": "url",
       "association": true,
       "optional": true,
       "group": "Image"

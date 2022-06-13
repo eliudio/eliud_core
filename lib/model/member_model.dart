@@ -17,6 +17,8 @@ import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -98,8 +100,19 @@ class MemberModel implements ModelBase {
           email == other.email &&
           isAnonymous == other.isAnonymous;
 
-  String toJsonString({String? appId}) {
-    return toEntity(appId: appId).toJsonString();
+  @override
+  Future<String> toRichJsonString({String? appId}) async {
+    var document = toEntity(appId: appId).toDocument();
+    document['documentID'] = documentID;
+    if ((photo != null) && (photo!.url != null)) {
+      var url = photo!.url!;
+      var uriurl = Uri.parse(url);
+      final response = await http.get(uriurl);
+      var bytes = response.bodyBytes.toList();
+      document['photo-extract'] = bytes.toList();
+    }
+
+    return jsonEncode(document);
   }
 
   @override

@@ -1,15 +1,19 @@
 import 'package:eliud_core/model/app_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/base/repository_base.dart';
 import 'component_constructor.dart';
+
+typedef RepositoryBase<T> RetrieveRepository<T>({String? appId});
 
 class ComponentSpec {
   final String name;
   final ComponentConstructor constructor;
   final ComponentSelector selector;
   final ComponentEditorConstructor editor;
+  final RetrieveRepository retrieveRepository;
 
-  ComponentSpec(this.name, this.constructor, this.selector, this.editor);
+  ComponentSpec(this.name, this.constructor, this.selector, this.editor, this.retrieveRepository);
 }
 
 typedef SelectComponent(String componentId);

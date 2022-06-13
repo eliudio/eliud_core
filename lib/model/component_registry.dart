@@ -17,6 +17,7 @@
 import '../model/internal_component.dart';
 import 'package:eliud_core/core/registry.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
+import 'abstract_repository_singleton.dart';
 
 import '../extensions/member_dashboard_component.dart';
 import '../editors/member_dashboard_component_editor.dart';
@@ -35,7 +36,7 @@ class ComponentRegistry {
     Registry.registry()!.addDropDownSupporter("memberDashboards", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "memberDashboards", componentConstructor: MemberDashboardComponentConstructorDefault());
     Registry.registry()!.addComponentSpec('eliud_core', 'core', [
-      ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ), 
+      ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ({String? appId}) => memberDashboardRepository(appId: appId)! ), 
     ]);
 
   }

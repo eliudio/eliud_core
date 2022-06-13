@@ -23,6 +23,7 @@
       "remark": "Background Image. If you want to use an image you've uploaded to your member area then please use that public URL",
       "displayName": "Header Background Image",
       "fieldType": "PublicMedium",
+      "extractImage": "url",
       "association": true,
       "optional": true,
       "group": "image"

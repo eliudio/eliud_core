@@ -67,6 +67,7 @@
       "fieldName": "anonymousProfilePhoto",
       "displayName": "Profile photo to display when member has none",
       "association": true,
+      "extractImage": "url",
       "fieldType": "PublicMedium"
     },
     {
@@ -82,6 +83,7 @@
       "association": true,
       "optional": true,
       "iconName": "add_a_photo",
+      "extractImage": "url",
       "group": "logo"
     },
     {
