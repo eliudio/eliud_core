@@ -42,6 +42,14 @@ class DecorationColorCache implements DecorationColorRepository {
     });
   }
 
+  Future<DecorationColorEntity> addEntity(String documentID, DecorationColorEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<DecorationColorEntity> updateEntity(String documentID, DecorationColorEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(DecorationColorModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

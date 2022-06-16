@@ -34,6 +34,8 @@ typedef AccessModelTrigger(List<AccessModel?> list);
 typedef AccessChanged(AccessModel? value);
 
 abstract class AccessRepository extends RepositoryBase<AccessModel> {
+  Future<AccessEntity> addEntity(String documentID, AccessEntity value);
+  Future<AccessEntity> updateEntity(String documentID, AccessEntity value);
   Future<AccessModel> add(AccessModel value);
   Future<void> delete(AccessModel value);
   Future<AccessModel?> get(String? id, { Function(Exception)? onError });

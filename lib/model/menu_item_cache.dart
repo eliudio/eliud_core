@@ -42,6 +42,14 @@ class MenuItemCache implements MenuItemRepository {
     });
   }
 
+  Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<MenuItemEntity> updateEntity(String documentID, MenuItemEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(MenuItemModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

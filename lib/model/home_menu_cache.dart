@@ -42,6 +42,14 @@ class HomeMenuCache implements HomeMenuRepository {
     });
   }
 
+  Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<HomeMenuEntity> updateEntity(String documentID, HomeMenuEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(HomeMenuModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

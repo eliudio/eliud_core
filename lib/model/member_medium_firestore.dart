@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberMediumFirestore implements MemberMediumRepository {
+  Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value) {
+    return MemberMediumCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<MemberMediumEntity> updateEntity(String documentID, MemberMediumEntity value) {
+    return MemberMediumCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<MemberMediumModel> add(MemberMediumModel value) {
     return MemberMediumCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class MemberMediumFirestore implements MemberMediumRepository {
 
   Future<MemberMediumModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberMediumModel.fromEntityPlus(value.id, MemberMediumEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<MemberMediumEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberMediumCollection.doc(id);
+      var doc = await collection.get();
+      return MemberMediumEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MemberMedium with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<MemberMediumModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

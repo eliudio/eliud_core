@@ -34,6 +34,8 @@ typedef PageModelTrigger(List<PageModel?> list);
 typedef PageChanged(PageModel? value);
 
 abstract class PageRepository extends RepositoryBase<PageModel> {
+  Future<PageEntity> addEntity(String documentID, PageEntity value);
+  Future<PageEntity> updateEntity(String documentID, PageEntity value);
   Future<PageModel> add(PageModel value);
   Future<void> delete(PageModel value);
   Future<PageModel?> get(String? id, { Function(Exception)? onError });

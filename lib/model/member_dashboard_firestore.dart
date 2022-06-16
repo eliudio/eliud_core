@@ -36,6 +36,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberDashboardFirestore implements MemberDashboardRepository {
+  Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value) {
+    return MemberDashboardCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<MemberDashboardEntity> updateEntity(String documentID, MemberDashboardEntity value) {
+    return MemberDashboardCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<MemberDashboardModel> add(MemberDashboardModel value) {
     return MemberDashboardCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -54,6 +62,21 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
 
   Future<MemberDashboardModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<MemberDashboardEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberDashboardCollection.doc(id);
+      var doc = await collection.get();
+      return MemberDashboardEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MemberDashboard with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

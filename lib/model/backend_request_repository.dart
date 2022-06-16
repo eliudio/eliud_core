@@ -34,6 +34,8 @@ typedef BackendRequestModelTrigger(List<BackendRequestModel?> list);
 typedef BackendRequestChanged(BackendRequestModel? value);
 
 abstract class BackendRequestRepository extends RepositoryBase<BackendRequestModel> {
+  Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value);
+  Future<BackendRequestEntity> updateEntity(String documentID, BackendRequestEntity value);
   Future<BackendRequestModel> add(BackendRequestModel value);
   Future<void> delete(BackendRequestModel value);
   Future<BackendRequestModel?> get(String? id, { Function(Exception)? onError });

@@ -34,6 +34,8 @@ typedef PublicMediumModelTrigger(List<PublicMediumModel?> list);
 typedef PublicMediumChanged(PublicMediumModel? value);
 
 abstract class PublicMediumRepository extends RepositoryBase<PublicMediumModel> {
+  Future<PublicMediumEntity> addEntity(String documentID, PublicMediumEntity value);
+  Future<PublicMediumEntity> updateEntity(String documentID, PublicMediumEntity value);
   Future<PublicMediumModel> add(PublicMediumModel value);
   Future<void> delete(PublicMediumModel value);
   Future<PublicMediumModel?> get(String? id, { Function(Exception)? onError });

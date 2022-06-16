@@ -34,6 +34,8 @@ typedef DrawerModelTrigger(List<DrawerModel?> list);
 typedef DrawerChanged(DrawerModel? value);
 
 abstract class DrawerRepository extends RepositoryBase<DrawerModel> {
+  Future<DrawerEntity> addEntity(String documentID, DrawerEntity value);
+  Future<DrawerEntity> updateEntity(String documentID, DrawerEntity value);
   Future<DrawerModel> add(DrawerModel value);
   Future<void> delete(DrawerModel value);
   Future<DrawerModel?> get(String? id, { Function(Exception)? onError });

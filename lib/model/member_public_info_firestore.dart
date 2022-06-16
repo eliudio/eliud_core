@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
+  Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value) {
+    return MemberPublicInfoCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<MemberPublicInfoEntity> updateEntity(String documentID, MemberPublicInfoEntity value) {
+    return MemberPublicInfoCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value) {
     return MemberPublicInfoCollection.doc(value.documentID).set(value.toEntity().toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
 
   Future<MemberPublicInfoModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MemberPublicInfoModel.fromEntityPlus(value.id, MemberPublicInfoEntity.fromMap(value.data()), );  }
+
+  Future<MemberPublicInfoEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MemberPublicInfoCollection.doc(id);
+      var doc = await collection.get();
+      return MemberPublicInfoEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MemberPublicInfo with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<MemberPublicInfoModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

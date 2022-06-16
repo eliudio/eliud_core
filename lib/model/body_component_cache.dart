@@ -42,6 +42,14 @@ class BodyComponentCache implements BodyComponentRepository {
     });
   }
 
+  Future<BodyComponentEntity> addEntity(String documentID, BodyComponentEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<BodyComponentEntity> updateEntity(String documentID, BodyComponentEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(BodyComponentModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

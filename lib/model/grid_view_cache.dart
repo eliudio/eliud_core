@@ -42,6 +42,14 @@ class GridViewCache implements GridViewRepository {
     });
   }
 
+  Future<GridViewEntity> addEntity(String documentID, GridViewEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<GridViewEntity> updateEntity(String documentID, GridViewEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(GridViewModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

@@ -42,6 +42,14 @@ class PublicMediumCache implements PublicMediumRepository {
     });
   }
 
+  Future<PublicMediumEntity> addEntity(String documentID, PublicMediumEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<PublicMediumEntity> updateEntity(String documentID, PublicMediumEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(PublicMediumModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AppPolicyFirestore implements AppPolicyRepository {
+  Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value) {
+    return AppPolicyCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<AppPolicyEntity> updateEntity(String documentID, AppPolicyEntity value) {
+    return AppPolicyCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<AppPolicyModel> add(AppPolicyModel value) {
     return AppPolicyCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class AppPolicyFirestore implements AppPolicyRepository {
 
   Future<AppPolicyModel?> _populateDocPlus(DocumentSnapshot value) async {
     return AppPolicyModel.fromEntityPlus(value.id, AppPolicyEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<AppPolicyEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = AppPolicyCollection.doc(id);
+      var doc = await collection.get();
+      return AppPolicyEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving AppPolicy with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<AppPolicyModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

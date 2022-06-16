@@ -33,7 +33,7 @@ class DefaultDrawerImpl implements HasDrawer {
       if (padding != null) {
         widgets.add(
           Container(
-              clipBehavior: BoxDecorationHelper.determineClipBehaviour(app, member, header1.backgroundOverride),
+              clipBehavior: Clip.none,
               height: header1.height == 0 ? null : header1.height,
               child: DrawerHeader(
                   child: child,
@@ -46,7 +46,7 @@ class DefaultDrawerImpl implements HasDrawer {
       } else {
         widgets.add(
           Container(
-              clipBehavior: BoxDecorationHelper.determineClipBehaviour(app, member, header1.backgroundOverride),
+              clipBehavior: Clip.none,
               height: header1.height == 0 ? null : header1.height,
               child: DrawerHeader(
                   child: child,

@@ -42,6 +42,14 @@ class MemberMediumCache implements MemberMediumRepository {
     });
   }
 
+  Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<MemberMediumEntity> updateEntity(String documentID, MemberMediumEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(MemberMediumModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

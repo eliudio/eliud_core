@@ -34,6 +34,8 @@ typedef AppEntryPagesModelTrigger(List<AppEntryPagesModel?> list);
 typedef AppEntryPagesChanged(AppEntryPagesModel? value);
 
 abstract class AppEntryPagesRepository extends RepositoryBase<AppEntryPagesModel> {
+  Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value);
+  Future<AppEntryPagesEntity> updateEntity(String documentID, AppEntryPagesEntity value);
   Future<AppEntryPagesModel> add(AppEntryPagesModel value);
   Future<void> delete(AppEntryPagesModel value);
   Future<AppEntryPagesModel?> get(String? id, { Function(Exception)? onError });

@@ -34,6 +34,8 @@ typedef MenuItemModelTrigger(List<MenuItemModel?> list);
 typedef MenuItemChanged(MenuItemModel? value);
 
 abstract class MenuItemRepository extends RepositoryBase<MenuItemModel> {
+  Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value);
+  Future<MenuItemEntity> updateEntity(String documentID, MenuItemEntity value);
   Future<MenuItemModel> add(MenuItemModel value);
   Future<void> delete(MenuItemModel value);
   Future<MenuItemModel?> get(String? id, { Function(Exception)? onError });

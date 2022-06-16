@@ -34,6 +34,8 @@ typedef HomeMenuModelTrigger(List<HomeMenuModel?> list);
 typedef HomeMenuChanged(HomeMenuModel? value);
 
 abstract class HomeMenuRepository extends RepositoryBase<HomeMenuModel> {
+  Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value);
+  Future<HomeMenuEntity> updateEntity(String documentID, HomeMenuEntity value);
   Future<HomeMenuModel> add(HomeMenuModel value);
   Future<void> delete(HomeMenuModel value);
   Future<HomeMenuModel?> get(String? id, { Function(Exception)? onError });

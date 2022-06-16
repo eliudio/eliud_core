@@ -34,6 +34,8 @@ typedef AppPolicyItemModelTrigger(List<AppPolicyItemModel?> list);
 typedef AppPolicyItemChanged(AppPolicyItemModel? value);
 
 abstract class AppPolicyItemRepository extends RepositoryBase<AppPolicyItemModel> {
+  Future<AppPolicyItemEntity> addEntity(String documentID, AppPolicyItemEntity value);
+  Future<AppPolicyItemEntity> updateEntity(String documentID, AppPolicyItemEntity value);
   Future<AppPolicyItemModel> add(AppPolicyItemModel value);
   Future<void> delete(AppPolicyItemModel value);
   Future<AppPolicyItemModel?> get(String? id, { Function(Exception)? onError });

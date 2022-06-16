@@ -34,6 +34,8 @@ typedef DialogModelTrigger(List<DialogModel?> list);
 typedef DialogChanged(DialogModel? value);
 
 abstract class DialogRepository extends RepositoryBase<DialogModel> {
+  Future<DialogEntity> addEntity(String documentID, DialogEntity value);
+  Future<DialogEntity> updateEntity(String documentID, DialogEntity value);
   Future<DialogModel> add(DialogModel value);
   Future<void> delete(DialogModel value);
   Future<DialogModel?> get(String? id, { Function(Exception)? onError });

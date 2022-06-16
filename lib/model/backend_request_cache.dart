@@ -42,6 +42,14 @@ class BackendRequestCache implements BackendRequestRepository {
     });
   }
 
+  Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<BackendRequestEntity> updateEntity(String documentID, BackendRequestEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(BackendRequestModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

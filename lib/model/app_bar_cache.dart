@@ -42,6 +42,14 @@ class AppBarCache implements AppBarRepository {
     });
   }
 
+  Future<AppBarEntity> addEntity(String documentID, AppBarEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<AppBarEntity> updateEntity(String documentID, AppBarEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(AppBarModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

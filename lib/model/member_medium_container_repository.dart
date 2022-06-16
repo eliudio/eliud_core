@@ -38,6 +38,8 @@ typedef MemberMediumContainerModelTrigger(List<MemberMediumContainerModel?> list
 typedef MemberMediumContainerChanged(MemberMediumContainerModel? value);
 
 abstract class MemberMediumContainerRepository extends RepositoryBase<MemberMediumContainerModel> {
+  Future<MemberMediumContainerEntity> addEntity(String documentID, MemberMediumContainerEntity value);
+  Future<MemberMediumContainerEntity> updateEntity(String documentID, MemberMediumContainerEntity value);
   Future<MemberMediumContainerModel> add(MemberMediumContainerModel value);
   Future<void> delete(MemberMediumContainerModel value);
   Future<MemberMediumContainerModel?> get(String? id, { Function(Exception)? onError });

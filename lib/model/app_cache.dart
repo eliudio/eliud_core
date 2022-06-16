@@ -42,6 +42,14 @@ class AppCache implements AppRepository {
     });
   }
 
+  Future<AppEntity> addEntity(String documentID, AppEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<AppEntity> updateEntity(String documentID, AppEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(AppModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

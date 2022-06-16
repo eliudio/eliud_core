@@ -101,7 +101,7 @@ class _ErrorContentsWidgetState extends State<ErrorContentsWidget> {
                 openLoginWidget(context, widget.app, );
               }),
               if (widget.playstoreApp != null)
-                button(widget.app, context, label: 'Go to Host', onPressed: () {
+                button(widget.app, context, label: 'Go To Playstore', onPressed: () {
                   eliudrouter.Router.navigateTo(
                       context,
                       SwitchApp(widget.app,

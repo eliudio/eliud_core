@@ -34,6 +34,8 @@ typedef GridViewModelTrigger(List<GridViewModel?> list);
 typedef GridViewChanged(GridViewModel? value);
 
 abstract class GridViewRepository extends RepositoryBase<GridViewModel> {
+  Future<GridViewEntity> addEntity(String documentID, GridViewEntity value);
+  Future<GridViewEntity> updateEntity(String documentID, GridViewEntity value);
   Future<GridViewModel> add(GridViewModel value);
   Future<void> delete(GridViewModel value);
   Future<GridViewModel?> get(String? id, { Function(Exception)? onError });

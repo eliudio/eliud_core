@@ -34,6 +34,8 @@ typedef MenuDefModelTrigger(List<MenuDefModel?> list);
 typedef MenuDefChanged(MenuDefModel? value);
 
 abstract class MenuDefRepository extends RepositoryBase<MenuDefModel> {
+  Future<MenuDefEntity> addEntity(String documentID, MenuDefEntity value);
+  Future<MenuDefEntity> updateEntity(String documentID, MenuDefEntity value);
   Future<MenuDefModel> add(MenuDefModel value);
   Future<void> delete(MenuDefModel value);
   Future<MenuDefModel?> get(String? id, { Function(Exception)? onError });

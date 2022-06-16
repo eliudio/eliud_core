@@ -38,6 +38,8 @@ typedef MemberDashboardModelTrigger(List<MemberDashboardModel?> list);
 typedef MemberDashboardChanged(MemberDashboardModel? value);
 
 abstract class MemberDashboardRepository extends RepositoryBase<MemberDashboardModel> {
+  Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value);
+  Future<MemberDashboardEntity> updateEntity(String documentID, MemberDashboardEntity value);
   Future<MemberDashboardModel> add(MemberDashboardModel value);
   Future<void> delete(MemberDashboardModel value);
   Future<MemberDashboardModel?> get(String? id, { Function(Exception)? onError });

@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class DrawerFirestore implements DrawerRepository {
+  Future<DrawerEntity> addEntity(String documentID, DrawerEntity value) {
+    return DrawerCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<DrawerEntity> updateEntity(String documentID, DrawerEntity value) {
+    return DrawerCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<DrawerModel> add(DrawerModel value) {
     return DrawerCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class DrawerFirestore implements DrawerRepository {
 
   Future<DrawerModel?> _populateDocPlus(DocumentSnapshot value) async {
     return DrawerModel.fromEntityPlus(value.id, DrawerEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<DrawerEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = DrawerCollection.doc(id);
+      var doc = await collection.get();
+      return DrawerEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Drawer with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<DrawerModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

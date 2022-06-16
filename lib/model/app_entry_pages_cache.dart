@@ -42,6 +42,14 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     });
   }
 
+  Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<AppEntryPagesEntity> updateEntity(String documentID, AppEntryPagesEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(AppEntryPagesModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

@@ -42,6 +42,14 @@ class DrawerCache implements DrawerRepository {
     });
   }
 
+  Future<DrawerEntity> addEntity(String documentID, DrawerEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<DrawerEntity> updateEntity(String documentID, DrawerEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(DrawerModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

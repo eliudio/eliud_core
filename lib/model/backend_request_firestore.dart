@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class BackendRequestFirestore implements BackendRequestRepository {
+  Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value) {
+    return BackendRequestCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<BackendRequestEntity> updateEntity(String documentID, BackendRequestEntity value) {
+    return BackendRequestCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<BackendRequestModel> add(BackendRequestModel value) {
     return BackendRequestCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class BackendRequestFirestore implements BackendRequestRepository {
 
   Future<BackendRequestModel?> _populateDocPlus(DocumentSnapshot value) async {
     return BackendRequestModel.fromEntityPlus(value.id, BackendRequestEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<BackendRequestEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = BackendRequestCollection.doc(id);
+      var doc = await collection.get();
+      return BackendRequestEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving BackendRequest with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<BackendRequestModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

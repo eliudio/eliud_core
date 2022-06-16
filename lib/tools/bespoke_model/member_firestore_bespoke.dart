@@ -14,6 +14,20 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 class MemberFirestore implements MemberRepository {
   @override
+  Future<MemberEntity> addEntity(String documentID, MemberEntity value) {
+    return MemberCollection.doc(documentID)
+        .set(value.toDocument())
+        .then((_) => value);
+  }
+
+  @override
+  Future<MemberEntity> updateEntity(String documentID, MemberEntity value) {
+    return MemberCollection.doc(documentID)
+        .update(value.toDocument())
+        .then((_) => value);
+  }
+
+  @override
   Future<MemberModel> add(MemberModel? value) {
     return MemberCollection.doc(value!.documentID)
         .set(value.toEntity().toDocument())
@@ -193,4 +207,5 @@ class MemberFirestore implements MemberRepository {
     var change = FieldValue.increment(changeByThisValue);
     return MemberCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
+
 }

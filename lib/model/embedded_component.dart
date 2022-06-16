@@ -29,48 +29,56 @@ import '../model/app_entry_pages_list_bloc.dart';
 import '../model/app_entry_pages_list.dart';
 import '../model/app_entry_pages_list_event.dart';
 import '../model/app_entry_pages_model.dart';
+import '../model/app_entry_pages_entity.dart';
 import '../model/app_entry_pages_repository.dart';
 
 import '../model/app_policy_item_list_bloc.dart';
 import '../model/app_policy_item_list.dart';
 import '../model/app_policy_item_list_event.dart';
 import '../model/app_policy_item_model.dart';
+import '../model/app_policy_item_entity.dart';
 import '../model/app_policy_item_repository.dart';
 
 import '../model/body_component_list_bloc.dart';
 import '../model/body_component_list.dart';
 import '../model/body_component_list_event.dart';
 import '../model/body_component_model.dart';
+import '../model/body_component_entity.dart';
 import '../model/body_component_repository.dart';
 
 import '../model/decoration_color_list_bloc.dart';
 import '../model/decoration_color_list.dart';
 import '../model/decoration_color_list_event.dart';
 import '../model/decoration_color_model.dart';
+import '../model/decoration_color_entity.dart';
 import '../model/decoration_color_repository.dart';
 
 import '../model/member_medium_list_bloc.dart';
 import '../model/member_medium_list.dart';
 import '../model/member_medium_list_event.dart';
 import '../model/member_medium_model.dart';
+import '../model/member_medium_entity.dart';
 import '../model/member_medium_repository.dart';
 
 import '../model/member_medium_container_list_bloc.dart';
 import '../model/member_medium_container_list.dart';
 import '../model/member_medium_container_list_event.dart';
 import '../model/member_medium_container_model.dart';
+import '../model/member_medium_container_entity.dart';
 import '../model/member_medium_container_repository.dart';
 
 import '../model/member_subscription_list_bloc.dart';
 import '../model/member_subscription_list.dart';
 import '../model/member_subscription_list_event.dart';
 import '../model/member_subscription_model.dart';
+import '../model/member_subscription_entity.dart';
 import '../model/member_subscription_repository.dart';
 
 import '../model/menu_item_list_bloc.dart';
 import '../model/menu_item_list.dart';
 import '../model/menu_item_list_event.dart';
 import '../model/menu_item_model.dart';
+import '../model/menu_item_entity.dart';
 import '../model/menu_item_repository.dart';
 
 typedef AppEntryPagesListChanged(List<AppEntryPagesModel> values);
@@ -230,6 +238,14 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
       return -1;
     }
 
+    Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<AppEntryPagesEntity> updateEntity(String documentID, AppEntryPagesEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
     Future<AppEntryPagesModel> add(AppEntryPagesModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
@@ -331,6 +347,14 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
         i++;
       }
       return -1;
+    }
+
+    Future<AppPolicyItemEntity> addEntity(String documentID, AppPolicyItemEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<AppPolicyItemEntity> updateEntity(String documentID, AppPolicyItemEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<AppPolicyItemModel> add(AppPolicyItemModel value) {
@@ -436,6 +460,14 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
       return -1;
     }
 
+    Future<BodyComponentEntity> addEntity(String documentID, BodyComponentEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<BodyComponentEntity> updateEntity(String documentID, BodyComponentEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
     Future<BodyComponentModel> add(BodyComponentModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
@@ -537,6 +569,14 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
         i++;
       }
       return -1;
+    }
+
+    Future<DecorationColorEntity> addEntity(String documentID, DecorationColorEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<DecorationColorEntity> updateEntity(String documentID, DecorationColorEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<DecorationColorModel> add(DecorationColorModel value) {
@@ -642,6 +682,14 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
       return -1;
     }
 
+    Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<MemberMediumEntity> updateEntity(String documentID, MemberMediumEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
     Future<MemberMediumModel> add(MemberMediumModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
@@ -743,6 +791,14 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
         i++;
       }
       return -1;
+    }
+
+    Future<MemberMediumContainerEntity> addEntity(String documentID, MemberMediumContainerEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<MemberMediumContainerEntity> updateEntity(String documentID, MemberMediumContainerEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<MemberMediumContainerModel> add(MemberMediumContainerModel value) {
@@ -848,6 +904,14 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
       return -1;
     }
 
+    Future<MemberSubscriptionEntity> addEntity(String documentID, MemberSubscriptionEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<MemberSubscriptionEntity> updateEntity(String documentID, MemberSubscriptionEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
     Future<MemberSubscriptionModel> add(MemberSubscriptionModel value) {
         items.add(value.copyWith(documentID: newRandomKey()));
         trigger(items);
@@ -949,6 +1013,14 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
         i++;
       }
       return -1;
+    }
+
+    Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value) {
+      throw Exception('Not implemented'); 
+    }
+
+    Future<MenuItemEntity> updateEntity(String documentID, MenuItemEntity value) {
+      throw Exception('Not implemented'); 
     }
 
     Future<MenuItemModel> add(MenuItemModel value) {

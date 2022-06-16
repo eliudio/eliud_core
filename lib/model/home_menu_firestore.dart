@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
+  Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value) {
+    return HomeMenuCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<HomeMenuEntity> updateEntity(String documentID, HomeMenuEntity value) {
+    return HomeMenuCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<HomeMenuModel> add(HomeMenuModel value) {
     return HomeMenuCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class HomeMenuFirestore implements HomeMenuRepository {
 
   Future<HomeMenuModel?> _populateDocPlus(DocumentSnapshot value) async {
     return HomeMenuModel.fromEntityPlus(value.id, HomeMenuEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<HomeMenuEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = HomeMenuCollection.doc(id);
+      var doc = await collection.get();
+      return HomeMenuEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving HomeMenu with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

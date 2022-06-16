@@ -34,6 +34,8 @@ typedef AppModelTrigger(List<AppModel?> list);
 typedef AppChanged(AppModel? value);
 
 abstract class AppRepository extends RepositoryBase<AppModel> {
+  Future<AppEntity> addEntity(String documentID, AppEntity value);
+  Future<AppEntity> updateEntity(String documentID, AppEntity value);
   Future<AppModel> add(AppModel value);
   Future<void> delete(AppModel value);
   Future<AppModel?> get(String? id, { Function(Exception)? onError });

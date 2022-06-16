@@ -34,6 +34,8 @@ typedef MemberPublicInfoModelTrigger(List<MemberPublicInfoModel?> list);
 typedef MemberPublicInfoChanged(MemberPublicInfoModel? value);
 
 abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel> {
+  Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value);
+  Future<MemberPublicInfoEntity> updateEntity(String documentID, MemberPublicInfoEntity value);
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value);
   Future<void> delete(MemberPublicInfoModel value);
   Future<MemberPublicInfoModel?> get(String? id, { Function(Exception)? onError });

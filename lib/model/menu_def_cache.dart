@@ -42,6 +42,14 @@ class MenuDefCache implements MenuDefRepository {
     });
   }
 
+  Future<MenuDefEntity> addEntity(String documentID, MenuDefEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<MenuDefEntity> updateEntity(String documentID, MenuDefEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(MenuDefModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

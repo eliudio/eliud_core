@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AccessFirestore implements AccessRepository {
+  Future<AccessEntity> addEntity(String documentID, AccessEntity value) {
+    return AccessCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<AccessEntity> updateEntity(String documentID, AccessEntity value) {
+    return AccessCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<AccessModel> add(AccessModel value) {
     return AccessCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class AccessFirestore implements AccessRepository {
 
   Future<AccessModel?> _populateDocPlus(DocumentSnapshot value) async {
     return AccessModel.fromEntityPlus(value.id, AccessEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<AccessEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = AccessCollection.doc(id);
+      var doc = await collection.get();
+      return AccessEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Access with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<AccessModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

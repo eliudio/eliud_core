@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AppBarFirestore implements AppBarRepository {
+  Future<AppBarEntity> addEntity(String documentID, AppBarEntity value) {
+    return AppBarCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<AppBarEntity> updateEntity(String documentID, AppBarEntity value) {
+    return AppBarCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<AppBarModel> add(AppBarModel value) {
     return AppBarCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class AppBarFirestore implements AppBarRepository {
 
   Future<AppBarModel?> _populateDocPlus(DocumentSnapshot value) async {
     return AppBarModel.fromEntityPlus(value.id, AppBarEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<AppBarEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = AppBarCollection.doc(id);
+      var doc = await collection.get();
+      return AppBarEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving AppBar with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<AppBarModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

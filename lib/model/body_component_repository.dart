@@ -34,6 +34,8 @@ typedef BodyComponentModelTrigger(List<BodyComponentModel?> list);
 typedef BodyComponentChanged(BodyComponentModel? value);
 
 abstract class BodyComponentRepository extends RepositoryBase<BodyComponentModel> {
+  Future<BodyComponentEntity> addEntity(String documentID, BodyComponentEntity value);
+  Future<BodyComponentEntity> updateEntity(String documentID, BodyComponentEntity value);
   Future<BodyComponentModel> add(BodyComponentModel value);
   Future<void> delete(BodyComponentModel value);
   Future<BodyComponentModel?> get(String? id, { Function(Exception)? onError });

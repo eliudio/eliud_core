@@ -34,6 +34,8 @@ typedef DecorationColorModelTrigger(List<DecorationColorModel?> list);
 typedef DecorationColorChanged(DecorationColorModel? value);
 
 abstract class DecorationColorRepository extends RepositoryBase<DecorationColorModel> {
+  Future<DecorationColorEntity> addEntity(String documentID, DecorationColorEntity value);
+  Future<DecorationColorEntity> updateEntity(String documentID, DecorationColorEntity value);
   Future<DecorationColorModel> add(DecorationColorModel value);
   Future<void> delete(DecorationColorModel value);
   Future<DecorationColorModel?> get(String? id, { Function(Exception)? onError });

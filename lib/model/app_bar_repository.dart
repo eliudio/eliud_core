@@ -34,6 +34,8 @@ typedef AppBarModelTrigger(List<AppBarModel?> list);
 typedef AppBarChanged(AppBarModel? value);
 
 abstract class AppBarRepository extends RepositoryBase<AppBarModel> {
+  Future<AppBarEntity> addEntity(String documentID, AppBarEntity value);
+  Future<AppBarEntity> updateEntity(String documentID, AppBarEntity value);
   Future<AppBarModel> add(AppBarModel value);
   Future<void> delete(AppBarModel value);
   Future<AppBarModel?> get(String? id, { Function(Exception)? onError });

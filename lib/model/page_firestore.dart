@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PageFirestore implements PageRepository {
+  Future<PageEntity> addEntity(String documentID, PageEntity value) {
+    return PageCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<PageEntity> updateEntity(String documentID, PageEntity value) {
+    return PageCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<PageModel> add(PageModel value) {
     return PageCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class PageFirestore implements PageRepository {
 
   Future<PageModel?> _populateDocPlus(DocumentSnapshot value) async {
     return PageModel.fromEntityPlus(value.id, PageEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<PageEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = PageCollection.doc(id);
+      var doc = await collection.get();
+      return PageEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Page with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<PageModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

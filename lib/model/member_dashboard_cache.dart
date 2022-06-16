@@ -47,6 +47,14 @@ class MemberDashboardCache implements MemberDashboardRepository {
     });
   }
 
+  Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<MemberDashboardEntity> updateEntity(String documentID, MemberDashboardEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(MemberDashboardModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class GridViewFirestore implements GridViewRepository {
+  Future<GridViewEntity> addEntity(String documentID, GridViewEntity value) {
+    return GridViewCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<GridViewEntity> updateEntity(String documentID, GridViewEntity value) {
+    return GridViewCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<GridViewModel> add(GridViewModel value) {
     return GridViewCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class GridViewFirestore implements GridViewRepository {
 
   Future<GridViewModel?> _populateDocPlus(DocumentSnapshot value) async {
     return GridViewModel.fromEntityPlus(value.id, GridViewEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<GridViewEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = GridViewCollection.doc(id);
+      var doc = await collection.get();
+      return GridViewEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving GridView with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

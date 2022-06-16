@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class DialogFirestore implements DialogRepository {
+  Future<DialogEntity> addEntity(String documentID, DialogEntity value) {
+    return DialogCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<DialogEntity> updateEntity(String documentID, DialogEntity value) {
+    return DialogCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<DialogModel> add(DialogModel value) {
     return DialogCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class DialogFirestore implements DialogRepository {
 
   Future<DialogModel?> _populateDocPlus(DocumentSnapshot value) async {
     return DialogModel.fromEntityPlus(value.id, DialogEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<DialogEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = DialogCollection.doc(id);
+      var doc = await collection.get();
+      return DialogEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving Dialog with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<DialogModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

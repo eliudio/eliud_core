@@ -32,6 +32,14 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MenuDefFirestore implements MenuDefRepository {
+  Future<MenuDefEntity> addEntity(String documentID, MenuDefEntity value) {
+    return MenuDefCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  }
+
+  Future<MenuDefEntity> updateEntity(String documentID, MenuDefEntity value) {
+    return MenuDefCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  }
+
   Future<MenuDefModel> add(MenuDefModel value) {
     return MenuDefCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
   }
@@ -50,6 +58,21 @@ class MenuDefFirestore implements MenuDefRepository {
 
   Future<MenuDefModel?> _populateDocPlus(DocumentSnapshot value) async {
     return MenuDefModel.fromEntityPlus(value.id, MenuDefEntity.fromMap(value.data()), appId: appId);  }
+
+  Future<MenuDefEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+    try {
+      var collection = MenuDefCollection.doc(id);
+      var doc = await collection.get();
+      return MenuDefEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MenuDef with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
 
   Future<MenuDefModel?> get(String? id, {Function(Exception)? onError}) async {
     try {

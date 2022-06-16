@@ -34,6 +34,8 @@ typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel?> list);
 typedef MemberSubscriptionChanged(MemberSubscriptionModel? value);
 
 abstract class MemberSubscriptionRepository extends RepositoryBase<MemberSubscriptionModel> {
+  Future<MemberSubscriptionEntity> addEntity(String documentID, MemberSubscriptionEntity value);
+  Future<MemberSubscriptionEntity> updateEntity(String documentID, MemberSubscriptionEntity value);
   Future<MemberSubscriptionModel> add(MemberSubscriptionModel value);
   Future<void> delete(MemberSubscriptionModel value);
   Future<MemberSubscriptionModel?> get(String? id, { Function(Exception)? onError });

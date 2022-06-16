@@ -42,6 +42,14 @@ class MemberCache implements MemberRepository {
     });
   }
 
+  Future<MemberEntity> addEntity(String documentID, MemberEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<MemberEntity> updateEntity(String documentID, MemberEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(MemberModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

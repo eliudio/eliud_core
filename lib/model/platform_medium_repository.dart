@@ -34,6 +34,8 @@ typedef PlatformMediumModelTrigger(List<PlatformMediumModel?> list);
 typedef PlatformMediumChanged(PlatformMediumModel? value);
 
 abstract class PlatformMediumRepository extends RepositoryBase<PlatformMediumModel> {
+  Future<PlatformMediumEntity> addEntity(String documentID, PlatformMediumEntity value);
+  Future<PlatformMediumEntity> updateEntity(String documentID, PlatformMediumEntity value);
   Future<PlatformMediumModel> add(PlatformMediumModel value);
   Future<void> delete(PlatformMediumModel value);
   Future<PlatformMediumModel?> get(String? id, { Function(Exception)? onError });

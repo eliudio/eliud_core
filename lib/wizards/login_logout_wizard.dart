@@ -83,7 +83,7 @@ class LoginWizard extends AccessWizard {
 
 class LogoutWizard extends AccessWizard {
   LogoutWizard()
-      : super('signoubutton', 'Sign-out Button', 'Generate a sign-out button');
+      : super('signoutbutton', 'Sign-out Button', 'Generate a sign-out button');
 
   @override
   String getPackageName() => "eliud_core";

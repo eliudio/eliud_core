@@ -42,6 +42,14 @@ class PageCache implements PageRepository {
     });
   }
 
+  Future<PageEntity> addEntity(String documentID, PageEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<PageEntity> updateEntity(String documentID, PageEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(PageModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);

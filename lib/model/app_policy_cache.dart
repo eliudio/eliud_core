@@ -42,6 +42,14 @@ class AppPolicyCache implements AppPolicyRepository {
     });
   }
 
+  Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value) {
+    return reference.addEntity(documentID, value);
+  }
+
+  Future<AppPolicyEntity> updateEntity(String documentID, AppPolicyEntity value) {
+    return reference.updateEntity(documentID, value);
+  }
+
   Future<void> delete(AppPolicyModel value){
     fullCache.remove(value.documentID);
     reference.delete(value);
