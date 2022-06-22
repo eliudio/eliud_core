@@ -173,7 +173,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     on<AppUpdatedEvent>((event, emit) async {
       if (state is AccessDetermined) {
         var theState = state as AccessDetermined;
-        var newState = await theState.updateApp(event.app);
+        var newState = await theState.updateApp2(this, event.app);
         await StyleRegistry.registry().addApp(
             state.getMember(), event.app, () =>
             _currentStyleChanged(event.app));

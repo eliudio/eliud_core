@@ -159,11 +159,42 @@ class LoggedIn extends AccessDetermined {
     var newApps = _apps.map((v) => v).toList();
 
     var privilegeLevel =
-        _privilegeLevel(newCurrentApp.documentID, newAccesses);
+    _privilegeLevel(newCurrentApp.documentID, newAccesses);
     var appIsBlocked = _isBlocked(newCurrentApp.documentID, newAccesses);
     var homePage =
-        await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+    await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
     newApps.add(DeterminedApp(newCurrentApp, homePage));
+    return Future.value(LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      newApps,
+      newAccesses,
+      subscribedToApps,
+      playstoreApp: playstoreApp,
+    ));
+  }
+
+
+  @override
+  Future<LoggedIn> updateApp2(
+      AccessBloc accessBloc,
+      AppModel newCurrentApp) async {
+    var newAccesses = await AccessHelper.extendAccesses(
+        accessBloc, member, accesses, newCurrentApp, true);
+
+    var newApps = <DeterminedApp>[];
+    for (var app in apps) {
+      if (app.app.documentID == newCurrentApp.documentID) {
+        var privilegeLevel = _privilegeLevel(newCurrentApp.documentID, newAccesses);
+        var appIsBlocked = _isBlocked(newCurrentApp.documentID, newAccesses);
+        var homePage = await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+        newApps.add(DeterminedApp(newCurrentApp, homePage));
+      } else {
+        newApps.add(app);
+      }
+    }
+
     return Future.value(LoggedIn._(
       usr,
       member,

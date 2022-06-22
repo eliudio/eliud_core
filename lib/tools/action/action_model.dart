@@ -64,7 +64,8 @@ abstract class ActionModel {
       if (app != null) {
         return mapper.fromEntity(app, entity);
       } else {
-        throw Exception("App with id $entity.appID not found");
+        var appId = entity.appID;
+        throw Exception("ActionModel.fromEntity App with id $appId not found");
       }
     }
 
@@ -81,7 +82,8 @@ abstract class ActionModel {
       if (app != null) {
         return mapper.fromEntityPlus(app, entity);
       } else {
-        throw Exception("App with id $entity.appID not found");
+        var appId = entity.appID;
+        throw Exception("ActionModel.fromEntityPlus App with id $appId not found");
       }
     }
 

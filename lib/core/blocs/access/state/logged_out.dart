@@ -125,6 +125,24 @@ class LoggedOut extends AccessDetermined {
   }
 
   @override
+  Future<LoggedOut> updateApp2(
+      AccessBloc accessBloc,
+      AppModel newCurrentApp) async {
+    var homePage = await getHomepage(newCurrentApp);
+    var newAccesses = await AccessHelper.extendAccesses(
+        accessBloc, null, accesses, newCurrentApp, false);
+    var newApps = apps.map((v) => v).toList();
+    newApps.add(DeterminedApp(newCurrentApp, homePage));
+    return Future.value(LoggedOut._(
+      newApps,
+      newAccesses,
+      playstoreApp: playstoreApp,
+    ));
+
+  }
+
+
+    @override
   Future<LoggedOut> updateApps(
     AppModel newCurrentApp,
     List<DeterminedApp> newApps,

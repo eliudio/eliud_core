@@ -193,6 +193,7 @@ abstract class AccessDetermined extends AccessState {
   AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses);
   Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel app, PrivilegeLevel privilege, bool blocked);
 
+/*
   Future<AccessDetermined> updateApp(
       AppModel newCurrentApp,
       ) {
@@ -206,6 +207,12 @@ abstract class AccessDetermined extends AccessState {
     }
     return updateApps(newCurrentApp, newApps);
   }
+
+*/
+  @override
+  Future<AccessDetermined> updateApp2(
+      AccessBloc accessBloc,
+      AppModel newCurrentApp);
 
   Future<AccessDetermined> updateApps(
       AppModel newCurrentApp,
