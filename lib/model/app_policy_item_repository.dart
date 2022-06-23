@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef AppPolicyItemModelTrigger(List<AppPolicyItemModel?> list);
 typedef AppPolicyItemChanged(AppPolicyItemModel? value);
 
-abstract class AppPolicyItemRepository extends RepositoryBase<AppPolicyItemModel> {
+abstract class AppPolicyItemRepository extends RepositoryBase<AppPolicyItemModel, AppPolicyItemEntity> {
   Future<AppPolicyItemEntity> addEntity(String documentID, AppPolicyItemEntity value);
   Future<AppPolicyItemEntity> updateEntity(String documentID, AppPolicyItemEntity value);
   Future<AppPolicyItemModel> add(AppPolicyItemModel value);

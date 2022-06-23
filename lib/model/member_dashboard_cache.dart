@@ -115,6 +115,16 @@ class MemberDashboardCache implements MemberDashboardRepository {
     });
   }
 
+  @override
+  Future<MemberDashboardEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  MemberDashboardEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

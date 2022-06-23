@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -61,17 +62,13 @@ class EdgeInsetsGeometryModel {
           bottom == other.bottom;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'EdgeInsetsGeometryModel{left: $left, right: $right, top: $top, bottom: $bottom}';
   }
 
-  EdgeInsetsGeometryEntity toEntity({String? appId}) {
+  EdgeInsetsGeometryEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return EdgeInsetsGeometryEntity(
           left: (left != null) ? left : null, 
           right: (right != null) ? right : null, 

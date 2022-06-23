@@ -32,6 +32,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PageFirestore implements PageRepository {
+  @override
+  PageEntity? fromMap(Object? o) {
+    return PageEntity.fromMap(o);
+  }
+
   Future<PageEntity> addEntity(String documentID, PageEntity value) {
     return PageCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

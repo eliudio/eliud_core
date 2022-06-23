@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -101,21 +102,6 @@ class MemberModel implements ModelBase {
           isAnonymous == other.isAnonymous;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    if ((photo != null) && (photo!.url != null)) {
-      var url = photo!.url!;
-      var uriurl = Uri.parse(url);
-      final response = await http.get(uriurl);
-      var bytes = response.bodyBytes.toList();
-      document['photo-extract'] = bytes.toList();
-    }
-
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
     String subscriptionsAsStrArrCsv = (subscriptionsAsStrArr == null) ? '' : subscriptionsAsStrArr!.join(', ');
@@ -123,11 +109,14 @@ class MemberModel implements ModelBase {
     return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photo: $photo, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  MemberEntity toEntity({String? appId}) {
+  MemberEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (photo != null) referencesCollector.add(photo!);
+    }
     return MemberEntity(
           name: (name != null) ? name : null, 
           subscriptions: (subscriptions != null) ? subscriptions
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
           subscriptionsAsStrArr: (subscriptionsAsStrArr != null) ? subscriptionsAsStrArr : null, 
           photoId: (photo != null) ? photo!.documentID : null, 

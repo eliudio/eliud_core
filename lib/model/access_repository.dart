@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef AccessModelTrigger(List<AccessModel?> list);
 typedef AccessChanged(AccessModel? value);
 
-abstract class AccessRepository extends RepositoryBase<AccessModel> {
+abstract class AccessRepository extends RepositoryBase<AccessModel, AccessEntity> {
   Future<AccessEntity> addEntity(String documentID, AccessEntity value);
   Future<AccessEntity> updateEntity(String documentID, AccessEntity value);
   Future<AccessModel> add(AccessModel value);

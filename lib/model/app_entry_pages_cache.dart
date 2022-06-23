@@ -110,6 +110,16 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     });
   }
 
+  @override
+  Future<AppEntryPagesEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  AppEntryPagesEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

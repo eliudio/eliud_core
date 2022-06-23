@@ -32,6 +32,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MenuDefFirestore implements MenuDefRepository {
+  @override
+  MenuDefEntity? fromMap(Object? o) {
+    return MenuDefEntity.fromMap(o);
+  }
+
   Future<MenuDefEntity> addEntity(String documentID, MenuDefEntity value) {
     return MenuDefCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

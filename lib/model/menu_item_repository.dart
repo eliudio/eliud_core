@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef MenuItemModelTrigger(List<MenuItemModel?> list);
 typedef MenuItemChanged(MenuItemModel? value);
 
-abstract class MenuItemRepository extends RepositoryBase<MenuItemModel> {
+abstract class MenuItemRepository extends RepositoryBase<MenuItemModel, MenuItemEntity> {
   Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value);
   Future<MenuItemEntity> updateEntity(String documentID, MenuItemEntity value);
   Future<MenuItemModel> add(MenuItemModel value);

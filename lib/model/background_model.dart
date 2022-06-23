@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -120,40 +121,29 @@ class BackgroundModel {
           margin == other.margin;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    if ((backgroundImage != null) && (backgroundImage!.url != null)) {
-      var url = backgroundImage!.url!;
-      var uriurl = Uri.parse(url);
-      final response = await http.get(uriurl);
-      var bytes = response.bodyBytes.toList();
-      document['backgroundImage-extract'] = bytes.toList();
-    }
-
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String decorationColorsCsv = (decorationColors == null) ? '' : decorationColors!.join(', ');
 
     return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border, padding: $padding, margin: $margin}';
   }
 
-  BackgroundEntity toEntity({String? appId}) {
+  BackgroundEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (backgroundImage != null) referencesCollector.add(backgroundImage!);
+    }
     return BackgroundEntity(
           backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 
           useProfilePhotoAsBackground: (useProfilePhotoAsBackground != null) ? useProfilePhotoAsBackground : null, 
           beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition!.index : null, 
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition!.index : null, 
-          shadow: (shadow != null) ? shadow!.toEntity(appId: appId) : null, 
+          shadow: (shadow != null) ? shadow!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           decorationColors: (decorationColors != null) ? decorationColors
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
-          borderRadius: (borderRadius != null) ? borderRadius!.toEntity(appId: appId) : null, 
+          borderRadius: (borderRadius != null) ? borderRadius!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           border: (border != null) ? border : null, 
-          padding: (padding != null) ? padding!.toEntity(appId: appId) : null, 
-          margin: (margin != null) ? margin!.toEntity(appId: appId) : null, 
+          padding: (padding != null) ? padding!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          margin: (margin != null) ? margin!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

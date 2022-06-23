@@ -36,6 +36,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberDashboardFirestore implements MemberDashboardRepository {
+  @override
+  MemberDashboardEntity? fromMap(Object? o) {
+    return MemberDashboardEntity.fromMap(o);
+  }
+
   Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value) {
     return MemberDashboardCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

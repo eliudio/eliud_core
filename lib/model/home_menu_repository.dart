@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef HomeMenuModelTrigger(List<HomeMenuModel?> list);
 typedef HomeMenuChanged(HomeMenuModel? value);
 
-abstract class HomeMenuRepository extends RepositoryBase<HomeMenuModel> {
+abstract class HomeMenuRepository extends RepositoryBase<HomeMenuModel, HomeMenuEntity> {
   Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value);
   Future<HomeMenuEntity> updateEntity(String documentID, HomeMenuEntity value);
   Future<HomeMenuModel> add(HomeMenuModel value);

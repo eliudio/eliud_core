@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef DialogModelTrigger(List<DialogModel?> list);
 typedef DialogChanged(DialogModel? value);
 
-abstract class DialogRepository extends RepositoryBase<DialogModel> {
+abstract class DialogRepository extends RepositoryBase<DialogModel, DialogEntity> {
   Future<DialogEntity> addEntity(String documentID, DialogEntity value);
   Future<DialogEntity> updateEntity(String documentID, DialogEntity value);
   Future<DialogModel> add(DialogModel value);

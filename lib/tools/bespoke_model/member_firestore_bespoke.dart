@@ -208,4 +208,25 @@ class MemberFirestore implements MemberRepository {
     return MemberCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
+  @override
+  Future<MemberEntity?> getEntity(String? id, {Function(Exception p1)? onError}) async {
+    try {
+      var collection = MemberCollection.doc(id);
+      var doc = await collection.get();
+      return MemberEntity.fromMap(doc.data());
+    } on Exception catch(e) {
+      if (onError != null) {
+        onError(e);
+      } else {
+        print("Error whilst retrieving MemberEntity with id $id");
+        print("Exceptoin: $e");
+      }
+    };
+  }
+
+  @override
+  MemberEntity? fromMap(Object? o) {
+    return MemberEntity.fromMap(o);
+  }
+
 }

@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef DrawerModelTrigger(List<DrawerModel?> list);
 typedef DrawerChanged(DrawerModel? value);
 
-abstract class DrawerRepository extends RepositoryBase<DrawerModel> {
+abstract class DrawerRepository extends RepositoryBase<DrawerModel, DrawerEntity> {
   Future<DrawerEntity> addEntity(String documentID, DrawerEntity value);
   Future<DrawerEntity> updateEntity(String documentID, DrawerEntity value);
   Future<DrawerModel> add(DrawerModel value);

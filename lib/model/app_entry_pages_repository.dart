@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef AppEntryPagesModelTrigger(List<AppEntryPagesModel?> list);
 typedef AppEntryPagesChanged(AppEntryPagesModel? value);
 
-abstract class AppEntryPagesRepository extends RepositoryBase<AppEntryPagesModel> {
+abstract class AppEntryPagesRepository extends RepositoryBase<AppEntryPagesModel, AppEntryPagesEntity> {
   Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value);
   Future<AppEntryPagesEntity> updateEntity(String documentID, AppEntryPagesEntity value);
   Future<AppEntryPagesModel> add(AppEntryPagesModel value);

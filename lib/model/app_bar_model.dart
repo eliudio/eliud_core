@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -92,29 +93,26 @@ class AppBarModel implements ModelBase, WithAppId {
           menuBackgroundColorOverride == other.menuBackgroundColorOverride;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  AppBarEntity toEntity({String? appId}) {
+  AppBarEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (image != null) referencesCollector.add(image!);
+      if (iconMenu != null) referencesCollector.add(iconMenu!);
+    }
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           header: (header != null) ? header!.index : null, 
-          icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
+          icon: (icon != null) ? icon!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           imageId: (image != null) ? image!.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu!.documentID : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
-          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId) : null, 
-          selectedIconColorOverride: (selectedIconColorOverride != null) ? selectedIconColorOverride!.toEntity(appId: appId) : null, 
-          menuBackgroundColorOverride: (menuBackgroundColorOverride != null) ? menuBackgroundColorOverride!.toEntity(appId: appId) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          selectedIconColorOverride: (selectedIconColorOverride != null) ? selectedIconColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          menuBackgroundColorOverride: (menuBackgroundColorOverride != null) ? menuBackgroundColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

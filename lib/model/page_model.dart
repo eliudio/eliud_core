@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -98,20 +99,20 @@ class PageModel implements ModelBase, WithAppId {
           conditions == other.conditions;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String bodyComponentsCsv = (bodyComponents == null) ? '' : bodyComponents!.join(', ');
 
     return 'PageModel{documentID: $documentID, appId: $appId, description: $description, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
-  PageEntity toEntity({String? appId}) {
+  PageEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (appBar != null) referencesCollector.add(appBar!);
+      if (drawer != null) referencesCollector.add(drawer!);
+      if (endDrawer != null) referencesCollector.add(endDrawer!);
+      if (homeMenu != null) referencesCollector.add(homeMenu!);
+      if (gridView != null) referencesCollector.add(gridView!);
+    }
     return PageEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -121,12 +122,12 @@ class PageModel implements ModelBase, WithAppId {
           endDrawerId: (endDrawer != null) ? endDrawer!.documentID : null, 
           homeMenuId: (homeMenu != null) ? homeMenu!.documentID : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           layout: (layout != null) ? layout!.index : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

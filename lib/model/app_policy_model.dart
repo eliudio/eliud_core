@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -63,25 +64,20 @@ class AppPolicyModel implements ModelBase, WithAppId {
           ListEquality().equals(policies, other.policies);
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     String policiesCsv = (policies == null) ? '' : policies!.join(', ');
 
     return 'AppPolicyModel{documentID: $documentID, appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
   }
 
-  AppPolicyEntity toEntity({String? appId}) {
+  AppPolicyEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return AppPolicyEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
           policies: (policies != null) ? policies
-            !.map((item) => item.toEntity(appId: appId))
+            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
             .toList() : null, 
     );
   }

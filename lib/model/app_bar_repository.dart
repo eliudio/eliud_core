@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef AppBarModelTrigger(List<AppBarModel?> list);
 typedef AppBarChanged(AppBarModel? value);
 
-abstract class AppBarRepository extends RepositoryBase<AppBarModel> {
+abstract class AppBarRepository extends RepositoryBase<AppBarModel, AppBarEntity> {
   Future<AppBarEntity> addEntity(String documentID, AppBarEntity value);
   Future<AppBarEntity> updateEntity(String documentID, AppBarEntity value);
   Future<AppBarModel> add(AppBarModel value);

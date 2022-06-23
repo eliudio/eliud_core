@@ -110,6 +110,16 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
     });
   }
 
+  @override
+  Future<MemberSubscriptionEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  MemberSubscriptionEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

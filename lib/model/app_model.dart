@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -99,34 +100,16 @@ class AppModel implements ModelBase {
           isFeatured == other.isFeatured;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    if ((anonymousProfilePhoto != null) && (anonymousProfilePhoto!.url != null)) {
-      var url = anonymousProfilePhoto!.url!;
-      var uriurl = Uri.parse(url);
-      final response = await http.get(uriurl);
-      var bytes = response.bodyBytes.toList();
-      document['anonymousProfilePhoto-extract'] = bytes.toList();
-    }
-
-    if ((logo != null) && (logo!.url != null)) {
-      var url = logo!.url!;
-      var uriurl = Uri.parse(url);
-      final response = await http.get(uriurl);
-      var bytes = response.bodyBytes.toList();
-      document['logo-extract'] = bytes.toList();
-    }
-
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
-  AppEntity toEntity({String? appId}) {
+  AppEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (anonymousProfilePhoto != null) referencesCollector.add(anonymousProfilePhoto!);
+      if (logo != null) referencesCollector.add(logo!);
+      if (policies != null) referencesCollector.add(policies!);
+    }
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
@@ -134,7 +117,7 @@ class AppModel implements ModelBase {
           description: (description != null) ? description : null, 
           appStatus: (appStatus != null) ? appStatus!.index : null, 
           anonymousProfilePhotoId: (anonymousProfilePhoto != null) ? anonymousProfilePhoto!.documentID : null, 
-          homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
+          homePages: (homePages != null) ? homePages!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           logoId: (logo != null) ? logo!.documentID : null, 
           policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 

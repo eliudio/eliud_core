@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../core/base/repository_base.dart';
 import 'component_constructor.dart';
 
-typedef RepositoryBase<T> RetrieveRepository<T>({String? appId});
+typedef RepositoryBase<T, U> RetrieveRepository<T, U>({String? appId});
 
 class ComponentSpec {
   final String name;

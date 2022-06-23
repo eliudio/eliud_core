@@ -32,6 +32,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class AppBarFirestore implements AppBarRepository {
+  @override
+  AppBarEntity? fromMap(Object? o) {
+    return AppBarEntity.fromMap(o);
+  }
+
   Future<AppBarEntity> addEntity(String documentID, AppBarEntity value) {
     return AppBarCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

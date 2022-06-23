@@ -110,6 +110,16 @@ class HomeMenuCache implements HomeMenuRepository {
     });
   }
 
+  @override
+  Future<HomeMenuEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  HomeMenuEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }

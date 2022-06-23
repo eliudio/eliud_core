@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -92,18 +93,13 @@ class MemberDashboardModel implements ModelBase, WithAppId {
           conditions == other.conditions;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  MemberDashboardEntity toEntity({String? appId}) {
+  MemberDashboardEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return MemberDashboardEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -113,7 +109,7 @@ class MemberDashboardModel implements ModelBase, WithAppId {
           retrieveDataEmailSubject: (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null, 
           deleteDataEmailSubject: (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null, 
           deleteDataEmailMessage: (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
     );
   }
 

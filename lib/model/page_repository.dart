@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef PageModelTrigger(List<PageModel?> list);
 typedef PageChanged(PageModel? value);
 
-abstract class PageRepository extends RepositoryBase<PageModel> {
+abstract class PageRepository extends RepositoryBase<PageModel, PageEntity> {
   Future<PageEntity> addEntity(String documentID, PageEntity value);
   Future<PageEntity> updateEntity(String documentID, PageEntity value);
   Future<PageModel> add(PageModel value);

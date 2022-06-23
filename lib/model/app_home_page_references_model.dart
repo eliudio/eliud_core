@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -77,17 +78,13 @@ class AppHomePageReferencesModel {
           homePageOwner == other.homePageOwner;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'AppHomePageReferencesModel{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
-  AppHomePageReferencesEntity toEntity({String? appId}) {
+  AppHomePageReferencesEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return AppHomePageReferencesEntity(
           homePageBlockedMember: (homePageBlockedMember != null) ? homePageBlockedMember : null, 
           homePagePublic: (homePagePublic != null) ? homePagePublic : null, 

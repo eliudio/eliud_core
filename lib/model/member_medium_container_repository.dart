@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef MemberMediumContainerModelTrigger(List<MemberMediumContainerModel?> list);
 typedef MemberMediumContainerChanged(MemberMediumContainerModel? value);
 
-abstract class MemberMediumContainerRepository extends RepositoryBase<MemberMediumContainerModel> {
+abstract class MemberMediumContainerRepository extends RepositoryBase<MemberMediumContainerModel, MemberMediumContainerEntity> {
   Future<MemberMediumContainerEntity> addEntity(String documentID, MemberMediumContainerEntity value);
   Future<MemberMediumContainerEntity> updateEntity(String documentID, MemberMediumContainerEntity value);
   Future<MemberMediumContainerModel> add(MemberMediumContainerModel value);

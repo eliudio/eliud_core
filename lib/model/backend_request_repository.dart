@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef BackendRequestModelTrigger(List<BackendRequestModel?> list);
 typedef BackendRequestChanged(BackendRequestModel? value);
 
-abstract class BackendRequestRepository extends RepositoryBase<BackendRequestModel> {
+abstract class BackendRequestRepository extends RepositoryBase<BackendRequestModel, BackendRequestEntity> {
   Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value);
   Future<BackendRequestEntity> updateEntity(String documentID, BackendRequestEntity value);
   Future<BackendRequestModel> add(BackendRequestModel value);

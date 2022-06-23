@@ -37,7 +37,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef MemberDashboardModelTrigger(List<MemberDashboardModel?> list);
 typedef MemberDashboardChanged(MemberDashboardModel? value);
 
-abstract class MemberDashboardRepository extends RepositoryBase<MemberDashboardModel> {
+abstract class MemberDashboardRepository extends RepositoryBase<MemberDashboardModel, MemberDashboardEntity> {
   Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value);
   Future<MemberDashboardEntity> updateEntity(String documentID, MemberDashboardEntity value);
   Future<MemberDashboardModel> add(MemberDashboardModel value);

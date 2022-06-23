@@ -7,10 +7,10 @@ import '../../base/repository_base.dart';
 import 'ext_editor_base_event.dart';
 import 'ext_editor_base_state.dart';
 
-abstract class ExtEditorBaseBloc<T extends ModelBase, U>
+abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
     extends Bloc<ExtEditorBaseEvent<T>, ExtEditorBaseState<T>> {
   final String appId;
-  final RepositoryBase<T> repository;
+  final RepositoryBase<T, V> repository;
   final EditorFeedback feedback;
 
   T newInstance(StorageConditionsModel conditions);

@@ -323,6 +323,15 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<AppEntryPagesEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  AppEntryPagesEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -434,6 +443,15 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<AppPolicyItemEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  AppPolicyItemEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -545,6 +563,15 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<BodyComponentEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  BodyComponentEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -656,6 +683,15 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<DecorationColorEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  DecorationColorEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -767,6 +803,15 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<MemberMediumEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  MemberMediumEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -878,6 +923,15 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
     throw UnimplementedError();
   }
   
+  @override
+  Future<MemberMediumContainerEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  MemberMediumContainerEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -989,6 +1043,15 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
     throw UnimplementedError();
   }
   
+  @override
+  Future<MemberSubscriptionEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  MemberSubscriptionEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }
@@ -1100,6 +1163,15 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     throw UnimplementedError();
   }
   
+  @override
+  Future<MenuItemEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  MenuItemEntity? fromMap(Object? o) {
+    throw UnimplementedError();
+  }
 
     Future<void> deleteAll() async {}
 }

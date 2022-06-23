@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef GridViewModelTrigger(List<GridViewModel?> list);
 typedef GridViewChanged(GridViewModel? value);
 
-abstract class GridViewRepository extends RepositoryBase<GridViewModel> {
+abstract class GridViewRepository extends RepositoryBase<GridViewModel, GridViewEntity> {
   Future<GridViewEntity> addEntity(String documentID, GridViewEntity value);
   Future<GridViewEntity> updateEntity(String documentID, GridViewEntity value);
   Future<GridViewModel> add(GridViewModel value);

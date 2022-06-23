@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -104,18 +105,13 @@ class AccessModel implements ModelBase, WithAppId {
           privilegeLevelBeforeBlocked == other.privilegeLevelBeforeBlocked;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    document['documentID'] = documentID;
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  AccessEntity toEntity({String? appId}) {
+  AccessEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return AccessEntity(
           appId: (appId != null) ? appId : null, 
           privilegeLevel: (privilegeLevel != null) ? privilegeLevel!.index : null, 

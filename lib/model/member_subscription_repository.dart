@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef MemberSubscriptionModelTrigger(List<MemberSubscriptionModel?> list);
 typedef MemberSubscriptionChanged(MemberSubscriptionModel? value);
 
-abstract class MemberSubscriptionRepository extends RepositoryBase<MemberSubscriptionModel> {
+abstract class MemberSubscriptionRepository extends RepositoryBase<MemberSubscriptionModel, MemberSubscriptionEntity> {
   Future<MemberSubscriptionEntity> addEntity(String documentID, MemberSubscriptionEntity value);
   Future<MemberSubscriptionEntity> updateEntity(String documentID, MemberSubscriptionEntity value);
   Future<MemberSubscriptionModel> add(MemberSubscriptionModel value);

@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef DecorationColorModelTrigger(List<DecorationColorModel?> list);
 typedef DecorationColorChanged(DecorationColorModel? value);
 
-abstract class DecorationColorRepository extends RepositoryBase<DecorationColorModel> {
+abstract class DecorationColorRepository extends RepositoryBase<DecorationColorModel, DecorationColorEntity> {
   Future<DecorationColorEntity> addEntity(String documentID, DecorationColorEntity value);
   Future<DecorationColorEntity> updateEntity(String documentID, DecorationColorEntity value);
   Future<DecorationColorModel> add(DecorationColorModel value);

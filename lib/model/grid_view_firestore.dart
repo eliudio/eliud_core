@@ -32,6 +32,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class GridViewFirestore implements GridViewRepository {
+  @override
+  GridViewEntity? fromMap(Object? o) {
+    return GridViewEntity.fromMap(o);
+  }
+
   Future<GridViewEntity> addEntity(String documentID, GridViewEntity value) {
     return GridViewCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef MemberPublicInfoModelTrigger(List<MemberPublicInfoModel?> list);
 typedef MemberPublicInfoChanged(MemberPublicInfoModel? value);
 
-abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel> {
+abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel, MemberPublicInfoEntity> {
   Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value);
   Future<MemberPublicInfoEntity> updateEntity(String documentID, MemberPublicInfoEntity value);
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value);

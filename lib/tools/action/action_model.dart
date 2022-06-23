@@ -10,6 +10,7 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../core/base/model_base.dart';
 import '../common_tools.dart';
 import '../main_abstract_repository_singleton.dart';
 import 'action_entity.dart';
@@ -52,7 +53,7 @@ abstract class ActionModel {
 
   ActionModel(this.app, {this.conditions, this.actionType} );
 
-  ActionEntity toEntity({String? appId});
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector});
 
   static Future<ActionModel?> fromEntity(ActionEntity? entity) async {
     if (entity == null) return null;
@@ -124,7 +125,7 @@ class FunctionToRun extends ActionModel {
   String message() => 'Running Function';
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     throw Exception('Not implemented, not expected');
   }
 
@@ -141,7 +142,7 @@ class GotoPage extends ActionModel {
         super(app, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     return GotoPageEntity(
         app.documentID,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -196,7 +197,7 @@ class OpenDialog extends ActionModel {
   OpenDialog(AppModel app, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(app, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     return OpenDialogEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -248,7 +249,7 @@ class SwitchApp extends ActionModel {
   SwitchApp(AppModel app, { DisplayConditionsModel? conditions, required this.toAppID}) : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     return SwitchAppEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -299,7 +300,7 @@ class PopupMenu extends ActionModel {
   PopupMenu(AppModel app, { DisplayConditionsModel? conditions, this.menuDef }) : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     return PopupMenuEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -365,7 +366,7 @@ class InternalAction extends ActionModel {
   InternalAction(AppModel app, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(app, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId}) {
+  ActionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
     return InternalActionEntity(
           appId,
           conditions: (conditions != null) ? conditions!.toEntity(): null,

@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:eliud_core/model/app_model.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -71,19 +72,15 @@ class ShadowModel {
           blurRadius == other.blurRadius;
 
   @override
-  Future<String> toRichJsonString({String? appId}) async {
-    var document = toEntity(appId: appId).toDocument();
-    return jsonEncode(document);
-  }
-
-  @override
   String toString() {
     return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity({String? appId}) {
+  ShadowEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+    if (referencesCollector != null) {
+    }
     return ShadowEntity(
-          color: (color != null) ? color!.toEntity(appId: appId) : null, 
+          color: (color != null) ? color!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
           offsetDX: (offsetDX != null) ? offsetDX : null, 
           offsetDY: (offsetDY != null) ? offsetDY : null, 
           spreadRadius: (spreadRadius != null) ? spreadRadius : null, 

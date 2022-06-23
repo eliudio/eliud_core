@@ -6,7 +6,12 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 typedef XModelTrigger<T>(List<T?> list);
 typedef XChanged<T>(T? value);
 
-abstract class RepositoryBase<T> {
+abstract class RepositoryBase<T, U> {
+  Future<U> addEntity(String documentID, U value);
+  Future<U> updateEntity(String documentID, U value);
+  Future<U?> getEntity(String? id, {Function(Exception)? onError});
+  U? fromMap(Object? o);
+
   Future<T> add(T value);
   Future<void> delete(T value);
   Future<T?> get(String? id, { Function(Exception)? onError });

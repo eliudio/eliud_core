@@ -32,6 +32,11 @@ import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
 class PublicMediumFirestore implements PublicMediumRepository {
+  @override
+  PublicMediumEntity? fromMap(Object? o) {
+    return PublicMediumEntity.fromMap(o);
+  }
+
   Future<PublicMediumEntity> addEntity(String documentID, PublicMediumEntity value) {
     return PublicMediumCollection.doc(documentID).set(value.toDocument()).then((_) => value);
   }

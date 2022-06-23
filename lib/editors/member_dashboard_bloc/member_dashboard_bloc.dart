@@ -5,8 +5,10 @@ import 'package:eliud_core/model/storage_conditions_model.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
 
+import '../../model/member_dashboard_entity.dart';
+
 class MemberDashboardBloc
-    extends EditorBaseBloc<MemberDashboardModel> {
+    extends EditorBaseBloc<MemberDashboardModel, MemberDashboardEntity > {
 
   MemberDashboardBloc(String appId, EditorFeedback feedback)
       : super(appId, memberDashboardRepository(appId: appId)!, feedback);

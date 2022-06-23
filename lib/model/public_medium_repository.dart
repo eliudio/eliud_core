@@ -33,7 +33,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 typedef PublicMediumModelTrigger(List<PublicMediumModel?> list);
 typedef PublicMediumChanged(PublicMediumModel? value);
 
-abstract class PublicMediumRepository extends RepositoryBase<PublicMediumModel> {
+abstract class PublicMediumRepository extends RepositoryBase<PublicMediumModel, PublicMediumEntity> {
   Future<PublicMediumEntity> addEntity(String documentID, PublicMediumEntity value);
   Future<PublicMediumEntity> updateEntity(String documentID, PublicMediumEntity value);
   Future<PublicMediumModel> add(PublicMediumModel value);

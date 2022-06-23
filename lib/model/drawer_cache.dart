@@ -110,6 +110,16 @@ class DrawerCache implements DrawerRepository {
     });
   }
 
+  @override
+  Future<DrawerEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+    return reference.getEntity(id, onError: onError);
+  }
+
+  @override
+  DrawerEntity? fromMap(Object? o) {
+    return reference.fromMap(o);
+  }
+
   Future<void> deleteAll() {
     return reference.deleteAll();
   }
