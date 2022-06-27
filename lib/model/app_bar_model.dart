@@ -50,6 +50,9 @@ HeaderSelection toHeaderSelection(int? index) {
 
 
 class AppBarModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'AppBar';
+
   String documentID;
   String appId;
   String? title;
@@ -97,10 +100,10 @@ class AppBarModel implements ModelBase, WithAppId {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  AppBarEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AppBarEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (image != null) referencesCollector.add(image!);
-      if (iconMenu != null) referencesCollector.add(iconMenu!);
+      if (image != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, image!));
+      if (iconMenu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, iconMenu!));
     }
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 

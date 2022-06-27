@@ -37,6 +37,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MenuDefModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MenuDef';
+
   String documentID;
   String appId;
   String? name;
@@ -72,7 +75,7 @@ class MenuDefModel implements ModelBase, WithAppId {
     return 'MenuDefModel{documentID: $documentID, appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  MenuDefEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MenuDefEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MenuDefEntity(

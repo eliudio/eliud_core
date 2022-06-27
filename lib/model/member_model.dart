@@ -37,6 +37,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Member';
+
 
   // User UUID
   String documentID;
@@ -109,9 +112,9 @@ class MemberModel implements ModelBase {
     return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photo: $photo, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  MemberEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (photo != null) referencesCollector.add(photo!);
+      if (photo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, photo!));
     }
     return MemberEntity(
           name: (name != null) ? name : null, 

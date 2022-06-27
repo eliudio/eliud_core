@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberDashboardModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MemberDashboard';
+
   String documentID;
 
   // This is the identifier of the app to which this belongs
@@ -97,7 +100,7 @@ class MemberDashboardModel implements ModelBase, WithAppId {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  MemberDashboardEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberDashboardEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberDashboardEntity(

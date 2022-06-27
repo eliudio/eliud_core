@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppHomePageReferencesModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'AppHomePageReferences';
+
 
   // Entry page for blocked member
   String? homePageBlockedMember;
@@ -82,7 +85,7 @@ class AppHomePageReferencesModel {
     return 'AppHomePageReferencesModel{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
-  AppHomePageReferencesEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AppHomePageReferencesEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return AppHomePageReferencesEntity(

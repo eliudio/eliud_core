@@ -50,6 +50,9 @@ DialogLayout toDialogLayout(int? index) {
 
 
 class DialogModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Dialog';
+
   String documentID;
   String appId;
   String? title;
@@ -97,9 +100,9 @@ class DialogModel implements ModelBase, WithAppId {
     return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, conditions: $conditions}';
   }
 
-  DialogEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  DialogEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (gridView != null) referencesCollector.add(gridView!);
+      if (gridView != null) referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
     }
     return DialogEntity(
           appId: (appId != null) ? appId : null, 

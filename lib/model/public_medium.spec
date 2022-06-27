@@ -17,6 +17,10 @@
     "generateInternalComponent": false,
     "generateEmbeddedComponent": false
   },
+  "extraImports": {
+    "entity": "import 'package:http/http.dart' as http;"
+  },
+  "codeToExtractData": "    if (url != null) {\n      var theUrl = Uri.parse(url!);\n      final response = await http.get(theUrl);\n      var bytes = response.bodyBytes.toList();\n      theDocument['extract'] = bytes.toList();\n    }",
   "fields": [
     {
       "fieldName": "documentID",

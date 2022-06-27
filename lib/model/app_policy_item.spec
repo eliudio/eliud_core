@@ -39,7 +39,6 @@
       "fieldName": "policy",
       "association": true,
       "fieldType": "PublicMedium",
-      "extractImage": "url",
       "group": "policy"
     }
   ],

@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class HomeMenuModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'HomeMenu';
+
   String documentID;
   String appId;
   String? name;
@@ -75,9 +78,9 @@ class HomeMenuModel implements ModelBase, WithAppId {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColorOverride: $iconColorOverride, backgroundOverride: $backgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
-  HomeMenuEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  HomeMenuEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (menu != null) referencesCollector.add(menu!);
+      if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
     return HomeMenuEntity(
           appId: (appId != null) ? appId : null, 

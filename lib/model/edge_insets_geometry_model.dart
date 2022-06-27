@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class EdgeInsetsGeometryModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'EdgeInsetsGeometry';
+
   double? left;
   double? right;
   double? top;
@@ -66,7 +69,7 @@ class EdgeInsetsGeometryModel {
     return 'EdgeInsetsGeometryModel{left: $left, right: $right, top: $top, bottom: $bottom}';
   }
 
-  EdgeInsetsGeometryEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  EdgeInsetsGeometryEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return EdgeInsetsGeometryEntity(

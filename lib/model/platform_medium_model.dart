@@ -49,6 +49,9 @@ PlatformMediumType toPlatformMediumType(int? index) {
 
 
 class PlatformMediumModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'PlatformMedium';
+
   String documentID;
   String appId;
   String? authorId;
@@ -104,7 +107,7 @@ class PlatformMediumModel implements ModelBase, WithAppId {
     return 'PlatformMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, conditions: $conditions, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PlatformMediumEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  PlatformMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return PlatformMediumEntity(

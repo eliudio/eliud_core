@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class RgbModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Rgb';
+
 
   // r is red, from 0 to 255. An out of range value is brought into range using modulo 255.
   int? r;
@@ -74,7 +77,7 @@ class RgbModel {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  RgbEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  RgbEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return RgbEntity(

@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class BodyComponentModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'BodyComponent';
+
   String documentID;
 
   // The component name, such as 'carousel' which is required on this body
@@ -69,7 +72,7 @@ class BodyComponentModel implements ModelBase {
     return 'BodyComponentModel{documentID: $documentID, componentName: $componentName, componentId: $componentId}';
   }
 
-  BodyComponentEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  BodyComponentEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return BodyComponentEntity(

@@ -64,6 +64,9 @@ PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int? index) {
 
 
 class AccessModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Access';
+
 
   // This is the member ID
   String documentID;
@@ -109,7 +112,7 @@ class AccessModel implements ModelBase, WithAppId {
     return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  AccessEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AccessEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return AccessEntity(

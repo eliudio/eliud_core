@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class ShadowModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Shadow';
+
   RgbModel? color;
 
   // The first argument sets [dx], the horizontal component of the offset
@@ -76,7 +79,7 @@ class ShadowModel {
     return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  ShadowEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return ShadowEntity(

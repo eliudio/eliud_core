@@ -64,6 +64,9 @@ MediumType toMediumType(int? index) {
 
 
 class MemberMediumModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MemberMedium';
+
   String documentID;
   String appId;
   String? authorId;
@@ -128,7 +131,7 @@ class MemberMediumModel implements ModelBase, WithAppId {
     return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  MemberMediumEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberMediumEntity(

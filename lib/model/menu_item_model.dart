@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MenuItemModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MenuItem';
+
   String documentID;
   String? text;
   String? description;
@@ -69,7 +72,7 @@ class MenuItemModel implements ModelBase {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  MenuItemEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MenuItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MenuItemEntity(

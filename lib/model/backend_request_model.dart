@@ -48,6 +48,9 @@ RequestType toRequestType(int? index) {
 
 
 class BackendRequestModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'BackendRequest';
+
   String documentID;
   String? description;
   String appId;
@@ -89,7 +92,7 @@ class BackendRequestModel implements ModelBase, WithAppId {
     return 'BackendRequestModel{documentID: $documentID, description: $description, appId: $appId, authorId: $authorId, name: $name, sendTo: $sendTo, collections: $collections, processed: $processed, requestType: $requestType}';
   }
 
-  BackendRequestEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  BackendRequestEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return BackendRequestEntity(

@@ -22,6 +22,7 @@ import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
+import 'package:http/http.dart' as http;
 class PublicMediumEntity implements EntityBase {
   final String? authorId;
   final String? baseName;
@@ -102,6 +103,16 @@ class PublicMediumEntity implements EntityBase {
 
   String toJsonString() {
     return jsonEncode(toDocument());
+  }
+
+  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+    if (url != null) {
+      var theUrl = Uri.parse(url!);
+      final response = await http.get(theUrl);
+      var bytes = response.bodyBytes.toList();
+      theDocument['extract'] = bytes.toList();
+    }
+    return theDocument;
   }
 
 }

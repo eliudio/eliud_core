@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberSubscriptionModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MemberSubscription';
+
   String documentID;
   AppModel? app;
 
@@ -63,9 +66,9 @@ class MemberSubscriptionModel implements ModelBase {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
-  MemberSubscriptionEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberSubscriptionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (app != null) referencesCollector.add(app!);
+      if (app != null) referencesCollector.add(ModelReference(AppModel.packageName, AppModel.id, app!));
     }
     return MemberSubscriptionEntity(
           appId: (app != null) ? app!.documentID : null, 

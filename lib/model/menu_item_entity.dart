@@ -88,5 +88,9 @@ class MenuItemEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
+  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+    return theDocument;
+  }
+
 }
 

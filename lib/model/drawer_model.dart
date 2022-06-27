@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class DrawerModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Drawer';
+
   String documentID;
   String appId;
   String? name;
@@ -83,9 +86,9 @@ class DrawerModel implements ModelBase, WithAppId {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menu: $menu}';
   }
 
-  DrawerEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  DrawerEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (menu != null) referencesCollector.add(menu!);
+      if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 

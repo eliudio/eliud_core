@@ -174,6 +174,9 @@ ClipType toClipType(int? index) {
 
 
 class PosSizeModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'PosSize';
+
   double? widthPortrait;
 
   // Is width an absolute value or a percentage of the device width?
@@ -240,7 +243,7 @@ class PosSizeModel {
     return 'PosSizeModel{widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  PosSizeEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  PosSizeEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return PosSizeEntity(

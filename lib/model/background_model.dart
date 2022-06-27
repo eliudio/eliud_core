@@ -75,6 +75,9 @@ EndGradientPosition toEndGradientPosition(int? index) {
 
 
 class BackgroundModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'Background';
+
 
   // Background Image. If you want to use an image you've uploaded to your member area then please use that public URL
   PublicMediumModel? backgroundImage;
@@ -127,9 +130,9 @@ class BackgroundModel {
     return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border, padding: $padding, margin: $margin}';
   }
 
-  BackgroundEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  BackgroundEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (backgroundImage != null) referencesCollector.add(backgroundImage!);
+      if (backgroundImage != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, backgroundImage!));
     }
     return BackgroundEntity(
           backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 

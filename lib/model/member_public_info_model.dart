@@ -37,6 +37,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberPublicInfoModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MemberPublicInfo';
+
 
   // User UUID
   String documentID;
@@ -72,7 +75,7 @@ class MemberPublicInfoModel implements ModelBase {
     return 'MemberPublicInfoModel{documentID: $documentID, name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  MemberPublicInfoEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberPublicInfoEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberPublicInfoEntity(

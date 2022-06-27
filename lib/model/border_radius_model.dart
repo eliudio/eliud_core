@@ -48,6 +48,9 @@ BorderRadiusType toBorderRadiusType(int? index) {
 
 
 class BorderRadiusModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'BorderRadius';
+
 
   // Border Radius Type
   BorderRadiusType? borderRadiusType;
@@ -80,7 +83,7 @@ class BorderRadiusModel {
     return 'BorderRadiusModel{borderRadiusType: $borderRadiusType, circularValue: $circularValue, ellipticalX: $ellipticalX, ellipticalY: $ellipticalY}';
   }
 
-  BorderRadiusEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  BorderRadiusEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return BorderRadiusEntity(

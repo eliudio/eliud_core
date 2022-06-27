@@ -50,6 +50,9 @@ PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int? index) {
 
 
 class StorageConditionsModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'StorageConditions';
+
 
   // see firestore rules
   PrivilegeLevelRequiredSimple? privilegeLevelRequired;
@@ -76,7 +79,7 @@ class StorageConditionsModel {
     return 'StorageConditionsModel{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  StorageConditionsEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  StorageConditionsEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return StorageConditionsEntity(

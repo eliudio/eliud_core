@@ -72,6 +72,9 @@ MaxCrossAxisExtentType toMaxCrossAxisExtentType(int? index) {
 
 
 class GridViewModel implements ModelBase, WithAppId {
+  static const String packageName = 'eliud_core';
+  static const String id = 'GridView';
+
   String documentID;
   String appId;
   String? name;
@@ -131,7 +134,7 @@ class GridViewModel implements ModelBase, WithAppId {
     return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
-  GridViewEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  GridViewEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return GridViewEntity(

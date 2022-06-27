@@ -63,6 +63,9 @@ ConditionOverride toConditionOverride(int? index) {
 
 
 class DisplayConditionsModel {
+  static const String packageName = 'eliud_core';
+  static const String id = 'DisplayConditions';
+
 
   // see firestore rules
   PrivilegeLevelRequired? privilegeLevelRequired;
@@ -97,7 +100,7 @@ class DisplayConditionsModel {
     return 'DisplayConditionsModel{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  DisplayConditionsEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  DisplayConditionsEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return DisplayConditionsEntity(

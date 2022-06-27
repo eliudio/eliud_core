@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class DecorationColorModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'DecorationColor';
+
   String documentID;
   RgbModel? color;
   double? stop;
@@ -65,7 +68,7 @@ class DecorationColorModel implements ModelBase {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
-  DecorationColorEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  DecorationColorEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return DecorationColorEntity(

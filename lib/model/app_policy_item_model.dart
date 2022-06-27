@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppPolicyItemModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'AppPolicyItem';
+
   String documentID;
   String? name;
   PublicMediumModel? policy;
@@ -65,9 +68,9 @@ class AppPolicyItemModel implements ModelBase {
     return 'AppPolicyItemModel{documentID: $documentID, name: $name, policy: $policy}';
   }
 
-  AppPolicyItemEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AppPolicyItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (policy != null) referencesCollector.add(policy!);
+      if (policy != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, policy!));
     }
     return AppPolicyItemEntity(
           name: (name != null) ? name : null, 

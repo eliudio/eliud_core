@@ -49,6 +49,9 @@ PublicMediumType toPublicMediumType(int? index) {
 
 
 class PublicMediumModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'PublicMedium';
+
   String documentID;
   String authorId;
   String? baseName;
@@ -100,7 +103,7 @@ class PublicMediumModel implements ModelBase {
     return 'PublicMediumModel{documentID: $documentID, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PublicMediumEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  PublicMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return PublicMediumEntity(

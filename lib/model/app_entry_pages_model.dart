@@ -36,6 +36,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class AppEntryPagesModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'AppEntryPages';
+
   String documentID;
   PageModel? entryPage;
 
@@ -67,9 +70,9 @@ class AppEntryPagesModel implements ModelBase {
     return 'AppEntryPagesModel{documentID: $documentID, entryPage: $entryPage, minPrivilege: $minPrivilege}';
   }
 
-  AppEntryPagesEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AppEntryPagesEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (entryPage != null) referencesCollector.add(entryPage!);
+      if (entryPage != null) referencesCollector.add(ModelReference(PageModel.packageName, PageModel.id, entryPage!));
     }
     return AppEntryPagesEntity(
           entryPageId: (entryPage != null) ? entryPage!.documentID : null, 

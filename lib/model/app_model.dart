@@ -49,6 +49,9 @@ AppStatus toAppStatus(int? index) {
 
 
 class AppModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'App';
+
   String documentID;
   String ownerID;
   String? title;
@@ -104,11 +107,11 @@ class AppModel implements ModelBase {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
-  AppEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  AppEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (anonymousProfilePhoto != null) referencesCollector.add(anonymousProfilePhoto!);
-      if (logo != null) referencesCollector.add(logo!);
-      if (policies != null) referencesCollector.add(policies!);
+      if (anonymousProfilePhoto != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, anonymousProfilePhoto!));
+      if (logo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, logo!));
+      if (policies != null) referencesCollector.add(ModelReference(AppPolicyModel.packageName, AppPolicyModel.id, policies!));
     }
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 

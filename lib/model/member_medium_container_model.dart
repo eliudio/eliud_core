@@ -40,6 +40,9 @@ import 'package:eliud_core/tools/random.dart';
 
 
 class MemberMediumContainerModel implements ModelBase {
+  static const String packageName = 'eliud_core';
+  static const String id = 'MemberMediumContainer';
+
   String documentID;
   MemberMediumModel? memberMedium;
 
@@ -67,9 +70,9 @@ class MemberMediumContainerModel implements ModelBase {
     return 'MemberMediumContainerModel{documentID: $documentID, memberMedium: $memberMedium}';
   }
 
-  MemberMediumContainerEntity toEntity({String? appId, List<ModelBase>? referencesCollector}) {
+  MemberMediumContainerEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
-      if (memberMedium != null) referencesCollector.add(memberMedium!);
+      if (memberMedium != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, memberMedium!));
     }
     return MemberMediumContainerEntity(
           memberMediumId: (memberMedium != null) ? memberMedium!.documentID : null, 
