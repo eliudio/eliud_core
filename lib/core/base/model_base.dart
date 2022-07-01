@@ -30,5 +30,7 @@ class ModelReference {
           runtimeType == other.runtimeType &&
           packageName == other.packageName &&
           componentName == other.componentName &&
-          referenced == other.referenced;
+          referenced.documentID == other.referenced.documentID;
+
+  String key() => packageName + "-" + componentName + "-" + referenced.documentID;
 }

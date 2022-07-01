@@ -16,24 +16,32 @@ class ProgressManager {
   int weightedProgress = 0;
 
   // If some steps have a different weight than other steps, then provide a weight, e.g. if you want step 1 and step 3 to have weights of 2 and 5 respectively, then prove weightedSteps of { 1: 2, 3: 5 }
-  final Map<int, int>? weightedSteps;
+//  final Map<int, int>? weightedSteps;
 
-  ProgressManager(int totalAmountOfSteps, this.reportProgress, {this.weightedSteps}) {
+  ProgressManager(int totalAmountOfSteps, this.reportProgress/*, {this.weightedSteps}*/) {
     totalAmountOfWeightedSteps = totalAmountOfSteps;
+/*
     if (weightedSteps != null) {
       for (var weightedStep in weightedSteps!.values) {
         totalAmountOfWeightedSteps = totalAmountOfWeightedSteps + weightedStep - 1; // minus one because we've already considered it as 1
       }
     }
+*/
+  }
+
+  void addAmountOfSteps(int amount) {
+    totalAmountOfWeightedSteps = totalAmountOfWeightedSteps + amount;
   }
 
   int getWeightCurrentStep() {
+/*
     if (weightedSteps != null) {
       var _value = weightedSteps![currentStep];
       if (_value != null) {
         return _value;
       }
     }
+*/
     return 1;
   }
 
