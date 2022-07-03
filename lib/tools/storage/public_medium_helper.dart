@@ -55,7 +55,8 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
 
     memberImageModel = PublicMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -87,7 +88,8 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
     // Create the MemberImageModel
     memberImageModel = PublicMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
@@ -115,7 +117,8 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       dynamic previousMediumId) async {
     var pageImageModel = PublicMediumModel(
         documentID: newDocumentID,
-        baseName: baseName,
+        base: MediumHelper.getBaseName(baseName),
+        ext: MediumHelper.getExtension(baseName),
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
         ref: pageImage == null ? null : pageImage.ref,
@@ -128,5 +131,28 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
     return await publicMediumRepository(appId: app.documentID)!.add(pageImageModel);
+  }
+
+  @override
+  Future<PublicMediumModel> textToMediumModel(String mediumDocumentId, String baseName, UploadInfo fileInfo) {
+    // Create the MemberImageModel
+    var memberImageModel;
+
+    memberImageModel = PublicMediumModel(
+      documentID: mediumDocumentId,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
+      authorId: ownerId,
+      ref: fileInfo.ref,
+      refThumbnail: null,
+      url: fileInfo.url,
+      mediumType: PublicMediumType.Text,
+      urlThumbnail: null,
+      mediumWidth: null,
+      mediumHeight: null,
+      thumbnailWidth: null,
+      thumbnailHeight: null,
+    );
+    return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 }

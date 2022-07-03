@@ -52,7 +52,8 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
                                                documentID: "",
                                  appId: "",
                                  authorId: "",
-                                 baseName: "",
+                                 base: "",
+                                 ext: "",
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
@@ -94,8 +95,13 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
         emit(SubmittableMemberMediumForm(value: newValue));
 
       });
-      on <ChangedMemberMediumBaseName> ((event, emit) async {
-        newValue = currentState.value!.copyWith(baseName: event.value);
+      on <ChangedMemberMediumBase> ((event, emit) async {
+        newValue = currentState.value!.copyWith(base: event.value);
+        emit(SubmittableMemberMediumForm(value: newValue));
+
+      });
+      on <ChangedMemberMediumExt> ((event, emit) async {
+        newValue = currentState.value!.copyWith(ext: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
       });

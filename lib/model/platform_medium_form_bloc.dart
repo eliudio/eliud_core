@@ -52,7 +52,8 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
                                                documentID: "",
                                  appId: "",
                                  authorId: "",
-                                 baseName: "",
+                                 base: "",
+                                 ext: "",
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
@@ -92,8 +93,13 @@ class PlatformMediumFormBloc extends Bloc<PlatformMediumFormEvent, PlatformMediu
         emit(SubmittablePlatformMediumForm(value: newValue));
 
       });
-      on <ChangedPlatformMediumBaseName> ((event, emit) async {
-        newValue = currentState.value!.copyWith(baseName: event.value);
+      on <ChangedPlatformMediumBase> ((event, emit) async {
+        newValue = currentState.value!.copyWith(base: event.value);
+        emit(SubmittablePlatformMediumForm(value: newValue));
+
+      });
+      on <ChangedPlatformMediumExt> ((event, emit) async {
+        newValue = currentState.value!.copyWith(ext: event.value);
         emit(SubmittablePlatformMediumForm(value: newValue));
 
       });

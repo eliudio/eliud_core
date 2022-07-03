@@ -122,7 +122,8 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _authorIdController = TextEditingController();
-  final TextEditingController _baseNameController = TextEditingController();
+  final TextEditingController _baseController = TextEditingController();
+  final TextEditingController _extController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
   final TextEditingController _urlThumbnailController = TextEditingController();
@@ -144,7 +145,8 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
     _authorIdController.addListener(_onAuthorIdChanged);
-    _baseNameController.addListener(_onBaseNameChanged);
+    _baseController.addListener(_onBaseChanged);
+    _extController.addListener(_onExtChanged);
     _urlController.addListener(_onUrlChanged);
     _refController.addListener(_onRefChanged);
     _urlThumbnailController.addListener(_onUrlThumbnailChanged);
@@ -178,10 +180,14 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
           _authorIdController.text = state.value!.authorId.toString();
         else
           _authorIdController.text = "";
-        if (state.value!.baseName != null)
-          _baseNameController.text = state.value!.baseName.toString();
+        if (state.value!.base != null)
+          _baseController.text = state.value!.base.toString();
         else
-          _baseNameController.text = "";
+          _baseController.text = "";
+        if (state.value!.ext != null)
+          _extController.text = state.value!.ext.toString();
+        else
+          _extController.text = "";
         if (state.value!.url != null)
           _urlController.text = state.value!.url.toString();
         else
@@ -238,7 +244,12 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Base Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _baseNameController, keyboardType: TextInputType.text, validator: (_) => state is BaseNamePlatformMediumFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Base Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _baseController, keyboardType: TextInputType.text, validator: (_) => state is BasePlatformMediumFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Extension', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _extController, keyboardType: TextInputType.text, validator: (_) => state is ExtPlatformMediumFormError ? state.message : null, hintText: null)
           );
 
         children.add(
@@ -273,6 +284,10 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Pdf', 'Pdf', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMediumType(val))
+          );
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().radioListTile(widget.app, context, 0, _mediumTypeSelectedRadioTile, 'Text', 'Text', !accessState.memberIsOwner(widget.app.documentID) ? null : (dynamic val) => setSelectionMediumType(val))
           );
 
         children.add(
@@ -355,7 +370,8 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
-                              baseName: state.value!.baseName, 
+                              base: state.value!.base, 
+                              ext: state.value!.ext, 
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
@@ -374,7 +390,8 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
                               authorId: state.value!.authorId, 
-                              baseName: state.value!.baseName, 
+                              base: state.value!.base, 
+                              ext: state.value!.ext, 
                               url: state.value!.url, 
                               ref: state.value!.ref, 
                               urlThumbnail: state.value!.urlThumbnail, 
@@ -427,8 +444,13 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
   }
 
 
-  void _onBaseNameChanged() {
-    _myFormBloc.add(ChangedPlatformMediumBaseName(value: _baseNameController.text));
+  void _onBaseChanged() {
+    _myFormBloc.add(ChangedPlatformMediumBase(value: _baseController.text));
+  }
+
+
+  void _onExtChanged() {
+    _myFormBloc.add(ChangedPlatformMediumExt(value: _extController.text));
   }
 
 
@@ -491,7 +513,8 @@ class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
     _documentIDController.dispose();
     _appIdController.dispose();
     _authorIdController.dispose();
-    _baseNameController.dispose();
+    _baseController.dispose();
+    _extController.dispose();
     _urlController.dispose();
     _refController.dispose();
     _urlThumbnailController.dispose();

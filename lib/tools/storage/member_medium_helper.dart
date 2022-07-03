@@ -42,7 +42,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     var customMetaData = {
       'owner': ownerId,
 //      'accessibleByGroup': accessibleByGroup.index.toString(),
-      'readAccess': ownerId + ";",
+      'readAccess': ownerId + ';',
     };
 /*
     if (accessibleByMembers != null) {
@@ -69,7 +69,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
 
     memberImageModel = MemberMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -105,7 +106,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     // Create the MemberImageModel
     memberImageModel = MemberMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -137,7 +139,8 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       dynamic previousMediumId) async {
     var pageImageModel = MemberMediumModel(
         documentID: newDocumentID,
-        baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
         appId: app.documentID,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
@@ -155,5 +158,32 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
     return await memberMediumRepository(appId: app.documentID)!.add(pageImageModel);
+  }
+
+  @override
+  Future<MemberMediumModel> textToMediumModel(String memberMediumDocumentId, String baseName, UploadInfo fileInfo) async {
+    // Create the MemberImageModel
+    var memberImageModel;
+
+    memberImageModel = MemberMediumModel(
+      documentID: memberMediumDocumentId,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
+      appId: app.documentID,
+      authorId: ownerId,
+      ref: fileInfo.ref,
+      refThumbnail: null,
+      url: fileInfo.url,
+      accessibleByGroup: accessibleByGroup,
+      accessibleByMembers: accessibleByMembers,
+      mediumType: MediumType.Text,
+      urlThumbnail: null,
+      mediumWidth: 0,
+      mediumHeight: 0,
+      thumbnailWidth: 0,
+      thumbnailHeight: 0,
+      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+    );
+    return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 }

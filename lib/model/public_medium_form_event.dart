@@ -79,16 +79,28 @@ class ChangedPublicMediumAuthorId extends PublicMediumFormEvent {
   String toString() => 'ChangedPublicMediumAuthorId{ value: $value }';
 }
 
-class ChangedPublicMediumBaseName extends PublicMediumFormEvent {
+class ChangedPublicMediumBase extends PublicMediumFormEvent {
   final String? value;
 
-  ChangedPublicMediumBaseName({this.value});
+  ChangedPublicMediumBase({this.value});
 
   @override
   List<Object?> get props => [ value ];
 
   @override
-  String toString() => 'ChangedPublicMediumBaseName{ value: $value }';
+  String toString() => 'ChangedPublicMediumBase{ value: $value }';
+}
+
+class ChangedPublicMediumExt extends PublicMediumFormEvent {
+  final String? value;
+
+  ChangedPublicMediumExt({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedPublicMediumExt{ value: $value }';
 }
 
 class ChangedPublicMediumUrl extends PublicMediumFormEvent {

@@ -111,15 +111,31 @@ class AuthorIdMemberMediumFormError extends MemberMediumFormError {
 }
 
 
-class BaseNameMemberMediumFormError extends MemberMediumFormError { 
-  const BaseNameMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
+class BaseMemberMediumFormError extends MemberMediumFormError { 
+  const BaseMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BaseNameMemberMediumFormError {
+    return '''BaseMemberMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ExtMemberMediumFormError extends MemberMediumFormError { 
+  const ExtMemberMediumFormError({ String? message, MemberMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ExtMemberMediumFormError {
       value: $value,
       message: $message,
     }''';

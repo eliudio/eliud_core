@@ -95,15 +95,31 @@ class AuthorIdPublicMediumFormError extends PublicMediumFormError {
 }
 
 
-class BaseNamePublicMediumFormError extends PublicMediumFormError { 
-  const BaseNamePublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class BasePublicMediumFormError extends PublicMediumFormError { 
+  const BasePublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''BaseNamePublicMediumFormError {
+    return '''BasePublicMediumFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class ExtPublicMediumFormError extends PublicMediumFormError { 
+  const ExtPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ExtPublicMediumFormError {
       value: $value,
       message: $message,
     }''';

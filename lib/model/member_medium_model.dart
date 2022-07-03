@@ -39,7 +39,7 @@ enum MemberMediumAccessibleByGroup {
 }
 
 enum MediumType {
-  Photo, Video, Pdf, Unknown
+  Photo, Video, Pdf, Text, Unknown
 }
 
 
@@ -58,6 +58,7 @@ MediumType toMediumType(int? index) {
     case 0: return MediumType.Photo;
     case 1: return MediumType.Video;
     case 2: return MediumType.Pdf;
+    case 3: return MediumType.Text;
   }
   return MediumType.Unknown;
 }
@@ -70,7 +71,8 @@ class MemberMediumModel implements ModelBase, WithAppId {
   String documentID;
   String appId;
   String? authorId;
-  String? baseName;
+  String? base;
+  String? ext;
   String? url;
   String? ref;
   String? urlThumbnail;
@@ -89,16 +91,16 @@ class MemberMediumModel implements ModelBase, WithAppId {
   // In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.
   String? relatedMediumId;
 
-  MemberMediumModel({required this.documentID, required this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
+  MemberMediumModel({required this.documentID, required this.appId, this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
     assert(documentID != null);
   }
 
-  MemberMediumModel copyWith({String? documentID, String? appId, String? authorId, String? baseName, String? url, String? ref, String? urlThumbnail, String? refThumbnail, MemberMediumAccessibleByGroup? accessibleByGroup, List<String>? accessibleByMembers, List<String>? readAccess, MediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
-    return MemberMediumModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, authorId: authorId ?? this.authorId, baseName: baseName ?? this.baseName, url: url ?? this.url, ref: ref ?? this.ref, urlThumbnail: urlThumbnail ?? this.urlThumbnail, refThumbnail: refThumbnail ?? this.refThumbnail, accessibleByGroup: accessibleByGroup ?? this.accessibleByGroup, accessibleByMembers: accessibleByMembers ?? this.accessibleByMembers, readAccess: readAccess ?? this.readAccess, mediumType: mediumType ?? this.mediumType, mediumWidth: mediumWidth ?? this.mediumWidth, mediumHeight: mediumHeight ?? this.mediumHeight, thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight, relatedMediumId: relatedMediumId ?? this.relatedMediumId, );
+  MemberMediumModel copyWith({String? documentID, String? appId, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, MemberMediumAccessibleByGroup? accessibleByGroup, List<String>? accessibleByMembers, List<String>? readAccess, MediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
+    return MemberMediumModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, authorId: authorId ?? this.authorId, base: base ?? this.base, ext: ext ?? this.ext, url: url ?? this.url, ref: ref ?? this.ref, urlThumbnail: urlThumbnail ?? this.urlThumbnail, refThumbnail: refThumbnail ?? this.refThumbnail, accessibleByGroup: accessibleByGroup ?? this.accessibleByGroup, accessibleByMembers: accessibleByMembers ?? this.accessibleByMembers, readAccess: readAccess ?? this.readAccess, mediumType: mediumType ?? this.mediumType, mediumWidth: mediumWidth ?? this.mediumWidth, mediumHeight: mediumHeight ?? this.mediumHeight, thumbnailWidth: thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight: thumbnailHeight ?? this.thumbnailHeight, relatedMediumId: relatedMediumId ?? this.relatedMediumId, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ authorId.hashCode ^ baseName.hashCode ^ url.hashCode ^ ref.hashCode ^ urlThumbnail.hashCode ^ refThumbnail.hashCode ^ accessibleByGroup.hashCode ^ accessibleByMembers.hashCode ^ readAccess.hashCode ^ mediumType.hashCode ^ mediumWidth.hashCode ^ mediumHeight.hashCode ^ thumbnailWidth.hashCode ^ thumbnailHeight.hashCode ^ relatedMediumId.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ authorId.hashCode ^ base.hashCode ^ ext.hashCode ^ url.hashCode ^ ref.hashCode ^ urlThumbnail.hashCode ^ refThumbnail.hashCode ^ accessibleByGroup.hashCode ^ accessibleByMembers.hashCode ^ readAccess.hashCode ^ mediumType.hashCode ^ mediumWidth.hashCode ^ mediumHeight.hashCode ^ thumbnailWidth.hashCode ^ thumbnailHeight.hashCode ^ relatedMediumId.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -108,7 +110,8 @@ class MemberMediumModel implements ModelBase, WithAppId {
           documentID == other.documentID &&
           appId == other.appId &&
           authorId == other.authorId &&
-          baseName == other.baseName &&
+          base == other.base &&
+          ext == other.ext &&
           url == other.url &&
           ref == other.ref &&
           urlThumbnail == other.urlThumbnail &&
@@ -128,7 +131,7 @@ class MemberMediumModel implements ModelBase, WithAppId {
     String accessibleByMembersCsv = (accessibleByMembers == null) ? '' : accessibleByMembers!.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   MemberMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
@@ -137,7 +140,8 @@ class MemberMediumModel implements ModelBase, WithAppId {
     return MemberMediumEntity(
           appId: (appId != null) ? appId : null, 
           authorId: (authorId != null) ? authorId : null, 
-          baseName: (baseName != null) ? baseName : null, 
+          base: (base != null) ? base : null, 
+          ext: (ext != null) ? ext : null, 
           url: (url != null) ? url : null, 
           ref: (ref != null) ? ref : null, 
           urlThumbnail: (urlThumbnail != null) ? urlThumbnail : null, 
@@ -161,7 +165,8 @@ class MemberMediumModel implements ModelBase, WithAppId {
           documentID: documentID, 
           appId: entity.appId ?? '', 
           authorId: entity.authorId, 
-          baseName: entity.baseName, 
+          base: entity.base, 
+          ext: entity.ext, 
           url: entity.url, 
           ref: entity.ref, 
           urlThumbnail: entity.urlThumbnail, 
@@ -186,7 +191,8 @@ class MemberMediumModel implements ModelBase, WithAppId {
           documentID: documentID, 
           appId: entity.appId ?? '', 
           authorId: entity.authorId, 
-          baseName: entity.baseName, 
+          base: entity.base, 
+          ext: entity.ext, 
           url: entity.url, 
           ref: entity.ref, 
           urlThumbnail: entity.urlThumbnail, 

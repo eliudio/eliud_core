@@ -58,7 +58,8 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
 
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -93,7 +94,8 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
     // Create the MemberImageModel
     memberImageModel = PlatformMediumModel(
       documentID: memberMediumDocumentId,
-      baseName: baseName,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
       ref: fileInfo.ref,
@@ -123,7 +125,8 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       dynamic previousMediumId) async {
     var pageImageModel = PlatformMediumModel(
         documentID: newDocumentID,
-        baseName: baseName,
+        base: MediumHelper.getBaseName(baseName),
+        ext: MediumHelper.getExtension(baseName),
         appId: app.documentID,
         authorId: ownerId,
         url: pageImage == null ? null : pageImage.url,
@@ -139,5 +142,31 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
     return await platformMediumRepository(appId: app.documentID)!.add(pageImageModel);
+  }
+
+  @override
+  Future<PlatformMediumModel> textToMediumModel(String mediumDocumentId, String baseName, UploadInfo fileInfo) {
+    // Create the MemberImageModel
+    var memberImageModel;
+
+    memberImageModel = PlatformMediumModel(
+      documentID: mediumDocumentId,
+      base: MediumHelper.getBaseName(baseName),
+      ext: MediumHelper.getExtension(baseName),
+      appId: app.documentID,
+      authorId: ownerId,
+      ref: fileInfo.ref,
+      refThumbnail: null,
+      url: fileInfo.url,
+      conditions:
+      StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
+      mediumType: PlatformMediumType.Text,
+      urlThumbnail: null,
+      mediumWidth: null,
+      mediumHeight: null,
+      thumbnailWidth: null,
+      thumbnailHeight: null,
+    );
+    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 }

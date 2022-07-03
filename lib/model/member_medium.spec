@@ -48,8 +48,13 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "baseName",
+      "fieldName": "base",
       "displayName": "Base Name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ext",
+      "displayName": "Extension",
       "fieldType": "String"
     },
     {
@@ -99,7 +104,7 @@
       "fieldName": "mediumType",
       "fieldType": "enum",
       "enumName": "MediumType",
-      "enumValues" : [ "Photo", "Video", "Pdf" ]
+      "enumValues" : [ "Photo", "Video", "Pdf", "Text" ]
     },
     {
       "fieldName": "mediumWidth",

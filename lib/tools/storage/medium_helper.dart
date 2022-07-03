@@ -46,6 +46,12 @@ abstract class MediumHelper<T> {
     VideoWithThumbnail videoWithThumbnail,
   );
 
+  Future<T> textToMediumModel(
+      String mediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      );
+
   Future<T> constructMediumModel(
       String newDocumentID,
       String baseName,
@@ -593,6 +599,50 @@ abstract class MediumHelper<T> {
     if (feedbackFunction != null) {
       feedbackFunction(returnMe);
     }
+    return returnMe;
+  }
+
+  static String getBaseName(String fullName) {
+    var idx = fullName.indexOf('.');
+    if (idx > 0) {
+      return fullName.substring(0, idx);
+    } else {
+      if (idx == 0) {
+        return '';
+      } else {
+        return fullName;
+      }
+    }
+  }
+
+  static String getExtension(String fullName) {
+    var idx = fullName.indexOf('.');
+    if (idx >= 0) {
+      return fullName.substring(idx + 1);
+    } else {
+      return '';
+    }
+  }
+
+  Future<T> uploadTextData(String memberMediumDocumentId,
+      String textData, String baseName, {FeedbackProgress? feedbackProgress}) async {
+    List<int> list = textData.codeUnits;
+    Uint8List fileData = Uint8List.fromList(list);
+
+    // First, upload the file
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
+        ownerId, packageName, readAccessCustomMetaData(),
+        feedbackProgress: (progress) => _feedBackAggregatedProgress(
+            1, 2, progress,
+            feedbackProgress: feedbackProgress));
+
+    if (fileInfo == null) {
+      throw Exception('fileInfo is null');
+    }
+
+    var returnMe = await textToMediumModel(memberMediumDocumentId,
+        baseName, fileInfo, );
+    _feedBackAggregatedProgress(2, 2, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
 }

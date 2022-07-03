@@ -25,7 +25,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 import 'package:http/http.dart' as http;
 class PublicMediumEntity implements EntityBase {
   final String? authorId;
-  final String? baseName;
+  final String? base;
+  final String? ext;
   final String? url;
   final String? ref;
   final String? urlThumbnail;
@@ -37,14 +38,14 @@ class PublicMediumEntity implements EntityBase {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  PublicMediumEntity({required this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  PublicMediumEntity({required this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object?> get props => [authorId, baseName, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [authorId, base, ext, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
-    return 'PublicMediumEntity{authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'PublicMediumEntity{authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static PublicMediumEntity? fromMap(Object? o) {
@@ -53,7 +54,8 @@ class PublicMediumEntity implements EntityBase {
 
     return PublicMediumEntity(
       authorId: map['authorId'], 
-      baseName: map['baseName'], 
+      base: map['base'], 
+      ext: map['ext'], 
       url: map['url'], 
       ref: map['ref'], 
       urlThumbnail: map['urlThumbnail'], 
@@ -71,8 +73,10 @@ class PublicMediumEntity implements EntityBase {
     Map<String, Object?> theDocument = HashMap();
     if (authorId != null) theDocument["authorId"] = authorId;
       else theDocument["authorId"] = null;
-    if (baseName != null) theDocument["baseName"] = baseName;
-      else theDocument["baseName"] = null;
+    if (base != null) theDocument["base"] = base;
+      else theDocument["base"] = null;
+    if (ext != null) theDocument["ext"] = ext;
+      else theDocument["ext"] = null;
     if (url != null) theDocument["url"] = url;
       else theDocument["url"] = null;
     if (ref != null) theDocument["ref"] = ref;

@@ -26,7 +26,8 @@ import 'package:http/http.dart' as http;
 class MemberMediumEntity implements EntityBase {
   final String? appId;
   final String? authorId;
-  final String? baseName;
+  final String? base;
+  final String? ext;
   final String? url;
   final String? ref;
   final String? urlThumbnail;
@@ -41,17 +42,17 @@ class MemberMediumEntity implements EntityBase {
   final int? thumbnailHeight;
   final String? relatedMediumId;
 
-  MemberMediumEntity({required this.appId, this.authorId, this.baseName, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
+  MemberMediumEntity({required this.appId, this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
 
-  List<Object?> get props => [appId, authorId, baseName, url, ref, urlThumbnail, refThumbnail, accessibleByGroup, accessibleByMembers, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
+  List<Object?> get props => [appId, authorId, base, ext, url, ref, urlThumbnail, refThumbnail, accessibleByGroup, accessibleByMembers, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
   String toString() {
     String accessibleByMembersCsv = (accessibleByMembers == null) ? '' : accessibleByMembers!.join(', ');
     String readAccessCsv = (readAccess == null) ? '' : readAccess!.join(', ');
 
-    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, baseName: $baseName, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
+    return 'MemberMediumEntity{appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
   static MemberMediumEntity? fromMap(Object? o) {
@@ -61,7 +62,8 @@ class MemberMediumEntity implements EntityBase {
     return MemberMediumEntity(
       appId: map['appId'], 
       authorId: map['authorId'], 
-      baseName: map['baseName'], 
+      base: map['base'], 
+      ext: map['ext'], 
       url: map['url'], 
       ref: map['ref'], 
       urlThumbnail: map['urlThumbnail'], 
@@ -84,8 +86,10 @@ class MemberMediumEntity implements EntityBase {
       else theDocument["appId"] = null;
     if (authorId != null) theDocument["authorId"] = authorId;
       else theDocument["authorId"] = null;
-    if (baseName != null) theDocument["baseName"] = baseName;
-      else theDocument["baseName"] = null;
+    if (base != null) theDocument["base"] = base;
+      else theDocument["base"] = null;
+    if (ext != null) theDocument["ext"] = ext;
+      else theDocument["ext"] = null;
     if (url != null) theDocument["url"] = url;
       else theDocument["url"] = null;
     if (ref != null) theDocument["ref"] = ref;

@@ -51,7 +51,8 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: PublicMediumModel(
                                                documentID: "",
                                  authorId: "",
-                                 baseName: "",
+                                 base: "",
+                                 ext: "",
                                  url: "",
                                  ref: "",
                                  urlThumbnail: "",
@@ -91,8 +92,13 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
         emit(SubmittablePublicMediumForm(value: newValue));
 
       });
-      on <ChangedPublicMediumBaseName> ((event, emit) async {
-        newValue = currentState.value!.copyWith(baseName: event.value);
+      on <ChangedPublicMediumBase> ((event, emit) async {
+        newValue = currentState.value!.copyWith(base: event.value);
+        emit(SubmittablePublicMediumForm(value: newValue));
+
+      });
+      on <ChangedPublicMediumExt> ((event, emit) async {
+        newValue = currentState.value!.copyWith(ext: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
       });
