@@ -77,7 +77,7 @@ class RgbModel {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  RgbEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  RgbEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return RgbEntity(

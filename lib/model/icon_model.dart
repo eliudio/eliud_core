@@ -69,7 +69,7 @@ class IconModel {
     return 'IconModel{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  IconEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  IconEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return IconEntity(

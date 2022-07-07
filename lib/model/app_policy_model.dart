@@ -73,7 +73,7 @@ class AppPolicyModel implements ModelBase, WithAppId {
     return 'AppPolicyModel{documentID: $documentID, appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
   }
 
-  AppPolicyEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AppPolicyEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return AppPolicyEntity(

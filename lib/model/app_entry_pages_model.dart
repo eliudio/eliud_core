@@ -70,7 +70,7 @@ class AppEntryPagesModel implements ModelBase {
     return 'AppEntryPagesModel{documentID: $documentID, entryPage: $entryPage, minPrivilege: $minPrivilege}';
   }
 
-  AppEntryPagesEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AppEntryPagesEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (entryPage != null) referencesCollector.add(ModelReference(PageModel.packageName, PageModel.id, entryPage!));
     }

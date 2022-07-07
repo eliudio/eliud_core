@@ -112,7 +112,7 @@ class AccessModel implements ModelBase, WithAppId {
     return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  AccessEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AccessEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return AccessEntity(

@@ -9,7 +9,7 @@ abstract class ModelBase {
   Future<void> processRichMap({required AppModel app, required String ownerId, required Map<String, dynamic> document});
 */
   EntityBase toEntity(
-      {String? appId, Set<ModelReference>? referencesCollector});
+      {String? appId, List<ModelReference>? referencesCollector});
 }
 
 abstract class WithAppId {

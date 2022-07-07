@@ -12,23 +12,25 @@ import 'package:flutter/widgets.dart';
 import 'document_processor.dart';
 
 class MenuItemMapper {
-  static Future<List<AbstractMenuItemAttributes>> mapMenu(BuildContext context, MenuDefModel menu, MemberModel? member, String? currentPage) async {
-    var itemList = <AbstractMenuItemAttributes>[];
-    for (var i = 0; i < menu.menuItems!.length; i++) {
-      var item = menu.menuItems![i];
-      var menuItem = await mapMenuItem(context, item, member, currentPage);
-      if (menuItem != null) {
-        itemList.add(menuItem);
+  static Future<List<AbstractMenuItemAttributes>> mapMenu(BuildContext context,
+      MenuDefModel menu, MemberModel? member, String? currentPage) async {
+    try {
+      var itemList = <AbstractMenuItemAttributes>[];
+      for (var i = 0; i < menu.menuItems!.length; i++) {
+        var item = menu.menuItems![i];
+        var menuItem = await mapMenuItem(context, item, member, currentPage);
+        if (menuItem != null) {
+          itemList.add(menuItem);
+        }
       }
+      return itemList;
+    } catch (e) {
+      throw Exception('Exception during mapMenu');
     }
-    return itemList;
   }
 
-  static Future<AbstractMenuItemAttributes?> mapMenuItem(
-      BuildContext context,
-      MenuItemModel item,
-      MemberModel? member,
-      String? currentPage) async {
+  static Future<AbstractMenuItemAttributes?> mapMenuItem(BuildContext context,
+      MenuItemModel item, MemberModel? member, String? currentPage) async {
     var action = item.action;
     if (action == null) return null;
     if ((action is InternalAction) &&
@@ -37,7 +39,11 @@ class MenuItemMapper {
         var items = <MenuItemAttributes>[];
         member.subscriptions!.forEach((value) {
           if (value.app != null) {
-            items.add(MenuItemAttributes(label: value.app!.title == null ? '?' : value.app!.title!, isActive: false, onTap : () => eliudrouter.Router.navigateTo(context, SwitchApp(value.app!, toAppID: value.app!.documentID))));
+            items.add(MenuItemAttributes(
+                label: value.app!.title == null ? '?' : value.app!.title!,
+                isActive: false,
+                onTap: () => eliudrouter.Router.navigateTo(context,
+                    SwitchApp(value.app!, toAppID: value.app!.documentID))));
           }
         });
         return MenuItemWithMenuItems(
@@ -51,31 +57,36 @@ class MenuItemMapper {
       if (action is PopupMenu) {
         var items = <AbstractMenuItemAttributes>[];
         var hasActive = false;
-        action.menuDef!.menuItems!.forEach((item) async {
-          var newItem = await mapMenuItem(context, item, member, currentPage);
-          if (newItem != null) {
-            items.add(newItem);
-            hasActive = hasActive || newItem.isActive;
-          }
-        });
-        if (items.length > 0) {
-          return MenuItemWithMenuItems(
+        if (action.menuDef != null) {
+          action.menuDef!.menuItems!.forEach((item) async {
+            var newItem = await mapMenuItem(context, item, member, currentPage);
+            if (newItem != null) {
+              items.add(newItem);
+              hasActive = hasActive || newItem.isActive;
+            }
+          });
+          if (items.isNotEmpty) {
+            return MenuItemWithMenuItems(
               icon: item.icon,
               label: item.text == null ? '?' : item.text!,
               items: items,
               isActive: hasActive,
-          );
+            );
+          }
         }
       } else {
         if (await action.hasAccess(context)) {
           return MenuItemAttributes(
               icon: item.icon,
-              label: item.text == null ? '' : processDoc(context, action.app, item.text!),
+              label: item.text == null
+                  ? ''
+                  : processDoc(context, action.app, item.text!),
               onTap: () {
                 if (!PageHelper.isActivePage(currentPage, action)) {
                   eliudrouter.Router.navigateTo(context, action);
                 }
-              }, isActive: PageHelper.isActivePage(currentPage, action));
+              },
+              isActive: PageHelper.isActivePage(currentPage, action));
         }
       }
     }

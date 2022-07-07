@@ -78,7 +78,7 @@ class HomeMenuModel implements ModelBase, WithAppId {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColorOverride: $iconColorOverride, backgroundOverride: $backgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
-  HomeMenuEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  HomeMenuEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }

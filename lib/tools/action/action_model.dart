@@ -53,7 +53,7 @@ abstract class ActionModel {
 
   ActionModel(this.app, {this.conditions, this.actionType} );
 
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector});
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector});
 
   static Future<ActionModel?> fromEntity(ActionEntity? entity) async {
     if (entity == null) return null;
@@ -125,7 +125,7 @@ class FunctionToRun extends ActionModel {
   String message() => 'Running Function';
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     throw Exception('Not implemented, not expected');
   }
 
@@ -142,7 +142,7 @@ class GotoPage extends ActionModel {
         super(app, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     return GotoPageEntity(
         app.documentID,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -197,7 +197,7 @@ class OpenDialog extends ActionModel {
   OpenDialog(AppModel app, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(app, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     return OpenDialogEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -249,7 +249,7 @@ class SwitchApp extends ActionModel {
   SwitchApp(AppModel app, { DisplayConditionsModel? conditions, required this.toAppID}) : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     return SwitchAppEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -300,7 +300,10 @@ class PopupMenu extends ActionModel {
   PopupMenu(AppModel app, { DisplayConditionsModel? conditions, this.menuDef }) : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
+    if (referencesCollector != null) {
+      if (menuDef != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menuDef!));
+    }
     return PopupMenuEntity(
         appId,
         conditions: (conditions != null) ? conditions!.toEntity(): null,
@@ -366,7 +369,7 @@ class InternalAction extends ActionModel {
   InternalAction(AppModel app, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(app, conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
-  ActionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ActionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     return InternalActionEntity(
           appId,
           conditions: (conditions != null) ? conditions!.toEntity(): null,

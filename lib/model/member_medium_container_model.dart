@@ -70,7 +70,7 @@ class MemberMediumContainerModel implements ModelBase {
     return 'MemberMediumContainerModel{documentID: $documentID, memberMedium: $memberMedium}';
   }
 
-  MemberMediumContainerEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberMediumContainerEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (memberMedium != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, memberMedium!));
     }

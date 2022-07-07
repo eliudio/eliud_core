@@ -79,7 +79,7 @@ class ShadowModel {
     return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  ShadowEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return ShadowEntity(

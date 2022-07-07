@@ -100,7 +100,7 @@ class AppBarModel implements ModelBase, WithAppId {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  AppBarEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AppBarEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (image != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, image!));
       if (iconMenu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, iconMenu!));

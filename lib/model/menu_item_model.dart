@@ -72,7 +72,7 @@ class MenuItemModel implements ModelBase {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  MenuItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MenuItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MenuItemEntity(

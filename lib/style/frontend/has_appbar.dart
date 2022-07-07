@@ -20,8 +20,6 @@ class AppbarHeaderAttributes {
       {this.title, this.icon, this.memberMediumModel, required this.header});
 }
 
-class AppbarPlaystoreAttributes {}
-
 abstract class HasAppBar {
   PreferredSizeWidget appBar(AppModel app, BuildContext context,
       {required AppbarHeaderAttributes headerAttributes,

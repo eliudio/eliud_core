@@ -100,7 +100,7 @@ class DialogModel implements ModelBase, WithAppId {
     return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, conditions: $conditions}';
   }
 
-  DialogEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  DialogEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (gridView != null) referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
     }

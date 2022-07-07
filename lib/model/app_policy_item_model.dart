@@ -68,7 +68,7 @@ class AppPolicyItemModel implements ModelBase {
     return 'AppPolicyItemModel{documentID: $documentID, name: $name, policy: $policy}';
   }
 
-  AppPolicyItemEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AppPolicyItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (policy != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, policy!));
     }

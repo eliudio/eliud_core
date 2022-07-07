@@ -68,7 +68,7 @@ class DecorationColorModel implements ModelBase {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
-  DecorationColorEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  DecorationColorEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return DecorationColorEntity(

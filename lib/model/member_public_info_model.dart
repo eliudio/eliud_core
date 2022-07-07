@@ -75,7 +75,7 @@ class MemberPublicInfoModel implements ModelBase {
     return 'MemberPublicInfoModel{documentID: $documentID, name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  MemberPublicInfoEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberPublicInfoEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberPublicInfoEntity(

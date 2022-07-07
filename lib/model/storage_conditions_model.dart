@@ -79,7 +79,7 @@ class StorageConditionsModel {
     return 'StorageConditionsModel{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  StorageConditionsEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  StorageConditionsEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return StorageConditionsEntity(

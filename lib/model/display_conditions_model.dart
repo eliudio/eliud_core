@@ -100,7 +100,7 @@ class DisplayConditionsModel {
     return 'DisplayConditionsModel{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  DisplayConditionsEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  DisplayConditionsEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return DisplayConditionsEntity(

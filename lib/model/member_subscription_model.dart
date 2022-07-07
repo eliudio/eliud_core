@@ -66,7 +66,7 @@ class MemberSubscriptionModel implements ModelBase {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
-  MemberSubscriptionEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberSubscriptionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (app != null) referencesCollector.add(ModelReference(AppModel.packageName, AppModel.id, app!));
     }

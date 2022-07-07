@@ -107,7 +107,7 @@ class AppModel implements ModelBase {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
-  AppEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  AppEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (anonymousProfilePhoto != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, anonymousProfilePhoto!));
       if (logo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, logo!));

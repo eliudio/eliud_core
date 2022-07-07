@@ -229,13 +229,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           var _member = theState.getMember();
           if (_member != null) {
             await LoggedIn.acceptMembership(_member, event.app);
-/*
-            var newState = await theState.withSubscriptions(getSubscriptions(member));
+            var newState = await theState.withSubscriptions(LoggedIn.getSubscriptions(_member));
             if (newState.postLoginAction != null) {
               newState.postLoginAction!.runTheAction();
             }
             emit(newState);
-*/
           }
         }
       }

@@ -110,7 +110,7 @@ class PlatformMediumModel implements ModelBase, WithAppId {
     return 'PlatformMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, conditions: $conditions, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PlatformMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  PlatformMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return PlatformMediumEntity(

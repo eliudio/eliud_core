@@ -106,7 +106,7 @@ class PublicMediumModel implements ModelBase {
     return 'PublicMediumModel{documentID: $documentID, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PublicMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  PublicMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return PublicMediumEntity(

@@ -69,7 +69,7 @@ class EdgeInsetsGeometryModel {
     return 'EdgeInsetsGeometryModel{left: $left, right: $right, top: $top, bottom: $bottom}';
   }
 
-  EdgeInsetsGeometryEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  EdgeInsetsGeometryEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return EdgeInsetsGeometryEntity(

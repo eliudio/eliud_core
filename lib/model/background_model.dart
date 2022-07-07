@@ -130,7 +130,7 @@ class BackgroundModel {
     return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border, padding: $padding, margin: $margin}';
   }
 
-  BackgroundEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  BackgroundEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (backgroundImage != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, backgroundImage!));
     }

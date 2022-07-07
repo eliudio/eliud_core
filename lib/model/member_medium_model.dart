@@ -134,7 +134,7 @@ class MemberMediumModel implements ModelBase, WithAppId {
     return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  MemberMediumEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberMediumEntity(

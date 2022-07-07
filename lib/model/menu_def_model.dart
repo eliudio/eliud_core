@@ -75,7 +75,7 @@ class MenuDefModel implements ModelBase, WithAppId {
     return 'MenuDefModel{documentID: $documentID, appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  MenuDefEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MenuDefEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MenuDefEntity(

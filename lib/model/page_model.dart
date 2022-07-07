@@ -108,7 +108,7 @@ class PageModel implements ModelBase, WithAppId {
     return 'PageModel{documentID: $documentID, appId: $appId, description: $description, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
-  PageEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  PageEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (appBar != null) referencesCollector.add(ModelReference(AppBarModel.packageName, AppBarModel.id, appBar!));
       if (drawer != null) referencesCollector.add(ModelReference(DrawerModel.packageName, DrawerModel.id, drawer!));

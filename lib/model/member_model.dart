@@ -112,7 +112,7 @@ class MemberModel implements ModelBase {
     return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photo: $photo, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  MemberEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (photo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, photo!));
     }

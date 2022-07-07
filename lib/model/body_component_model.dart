@@ -72,7 +72,7 @@ class BodyComponentModel implements ModelBase {
     return 'BodyComponentModel{documentID: $documentID, componentName: $componentName, componentId: $componentId}';
   }
 
-  BodyComponentEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  BodyComponentEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return BodyComponentEntity(

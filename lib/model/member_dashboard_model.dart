@@ -100,7 +100,7 @@ class MemberDashboardModel implements ModelBase, WithAppId {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  MemberDashboardEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  MemberDashboardEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return MemberDashboardEntity(

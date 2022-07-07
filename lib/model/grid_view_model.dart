@@ -134,7 +134,7 @@ class GridViewModel implements ModelBase, WithAppId {
     return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
-  GridViewEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  GridViewEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
     }
     return GridViewEntity(

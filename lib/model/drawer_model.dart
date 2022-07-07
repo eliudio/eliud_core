@@ -86,7 +86,7 @@ class DrawerModel implements ModelBase, WithAppId {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menu: $menu}';
   }
 
-  DrawerEntity toEntity({String? appId, Set<ModelReference>? referencesCollector}) {
+  DrawerEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
       if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
