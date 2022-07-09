@@ -37,3 +37,4 @@ export '../model/menu_item_repository.dart';
 export '../model/page_repository.dart';
 export '../model/platform_medium_repository.dart';
 export '../model/public_medium_repository.dart';
+export '../model/member_claim_repository.dart';

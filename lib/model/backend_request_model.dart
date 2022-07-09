@@ -49,7 +49,7 @@ RequestType toRequestType(int? index) {
 
 class BackendRequestModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'BackendRequest';
+  static const String id = 'backendRequests';
 
   String documentID;
   String? description;

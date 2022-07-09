@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class MenuItemModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'MenuItem';
+  static const String id = 'menuItems';
 
   String documentID;
   String? text;

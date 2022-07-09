@@ -50,7 +50,7 @@ AppStatus toAppStatus(int? index) {
 
 class AppModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'App';
+  static const String id = 'apps';
 
   String documentID;
   String ownerID;

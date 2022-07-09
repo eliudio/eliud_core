@@ -51,7 +51,7 @@ DialogLayout toDialogLayout(int? index) {
 
 class DialogModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'Dialog';
+  static const String id = 'dialogs';
 
   String documentID;
   String appId;

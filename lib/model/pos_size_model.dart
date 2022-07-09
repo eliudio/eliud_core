@@ -175,7 +175,7 @@ ClipType toClipType(int? index) {
 
 class PosSizeModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'PosSize';
+  static const String id = 'posSizes';
 
   double? widthPortrait;
 

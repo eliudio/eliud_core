@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class EdgeInsetsGeometryModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'EdgeInsetsGeometry';
+  static const String id = 'edgeInsetsGeometrys';
 
   double? left;
   double? right;

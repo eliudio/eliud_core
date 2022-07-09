@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class DecorationColorModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'DecorationColor';
+  static const String id = 'decorationColors';
 
   String documentID;
   RgbModel? color;

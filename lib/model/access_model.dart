@@ -65,7 +65,7 @@ PrivilegeLevelBeforeBlocked toPrivilegeLevelBeforeBlocked(int? index) {
 
 class AccessModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'Access';
+  static const String id = 'accesss';
 
 
   // This is the member ID

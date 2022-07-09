@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class ShadowModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'Shadow';
+  static const String id = 'shadows';
 
   RgbModel? color;
 

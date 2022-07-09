@@ -51,7 +51,7 @@ PublicMediumType toPublicMediumType(int? index) {
 
 class PublicMediumModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'PublicMedium';
+  static const String id = 'publicMediums';
 
   String documentID;
   String authorId;

@@ -38,7 +38,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class MemberModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'Member';
+  static const String id = 'members';
 
 
   // User UUID

@@ -49,7 +49,7 @@ BorderRadiusType toBorderRadiusType(int? index) {
 
 class BorderRadiusModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'BorderRadius';
+  static const String id = 'borderRadiuss';
 
 
   // Border Radius Type

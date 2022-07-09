@@ -51,7 +51,7 @@ PageLayout toPageLayout(int? index) {
 
 class PageModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'Page';
+  static const String id = 'pages';
 
   String documentID;
   String appId;

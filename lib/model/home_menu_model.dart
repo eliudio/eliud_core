@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class HomeMenuModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'HomeMenu';
+  static const String id = 'homeMenus';
 
   String documentID;
   String appId;

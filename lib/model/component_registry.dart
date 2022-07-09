@@ -38,6 +38,19 @@ class ComponentRegistry {
     Registry.registry()!.addComponentSpec('eliud_core', 'core', [
       ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ({String? appId}) => memberDashboardRepository(appId: appId)! ), 
     ]);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'accesss', ({String? appId}) => accessRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'appBars', ({String? appId}) => appBarRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'appPolicys', ({String? appId}) => appPolicyRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'backendRequests', ({String? appId}) => backendRequestRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'dialogs', ({String? appId}) => dialogRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'drawers', ({String? appId}) => drawerRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'gridViews', ({String? appId}) => gridViewRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'homeMenus', ({String? appId}) => homeMenuRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'memberDashboards', ({String? appId}) => memberDashboardRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'memberMediums', ({String? appId}) => memberMediumRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'menuDefs', ({String? appId}) => menuDefRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'pages', ({String? appId}) => pageRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'platformMediums', ({String? appId}) => platformMediumRepository(appId: appId)!);
 
   }
 }

@@ -51,7 +51,7 @@ PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int? index) {
 
 class StorageConditionsModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'StorageConditions';
+  static const String id = 'storageConditionss';
 
 
   // see firestore rules

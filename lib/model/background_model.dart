@@ -76,7 +76,7 @@ EndGradientPosition toEndGradientPosition(int? index) {
 
 class BackgroundModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'Background';
+  static const String id = 'backgrounds';
 
 
   // Background Image. If you want to use an image you've uploaded to your member area then please use that public URL

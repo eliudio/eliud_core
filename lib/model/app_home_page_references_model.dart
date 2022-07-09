@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class AppHomePageReferencesModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'AppHomePageReferences';
+  static const String id = 'appHomePageReferencess';
 
 
   // Entry page for blocked member

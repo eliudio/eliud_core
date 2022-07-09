@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class DrawerModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'Drawer';
+  static const String id = 'drawers';
 
   String documentID;
   String appId;

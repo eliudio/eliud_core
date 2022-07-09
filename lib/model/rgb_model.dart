@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class RgbModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'Rgb';
+  static const String id = 'rgbs';
 
 
   // r is red, from 0 to 255. An out of range value is brought into range using modulo 255.

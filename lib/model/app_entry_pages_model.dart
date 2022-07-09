@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class AppEntryPagesModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'AppEntryPages';
+  static const String id = 'appEntryPagess';
 
   String documentID;
   PageModel? entryPage;

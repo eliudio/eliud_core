@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../model/member_claim_model.dart';
 import 'access_event.dart';
 import 'state/logged_in.dart';
 
@@ -323,6 +324,23 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
+  static Future<MemberClaimModel> getMemberClaimModel(MemberModel member) async {
+    var futureMemberClaimModel = await memberClaimRepository()!.get(member.documentID).then((memberClaim) async {
+      if (memberClaim == null) {
+        memberClaim = MemberClaimModel(
+          documentID: member.documentID,
+          refreshValue: 1,
+        );
+        return await memberClaimRepository()!.add(memberClaim);
+      } else {
+        return memberClaim;
+      }
+    }).catchError((onError) {
+      print('Exception in getMemberClaimModel ' + onError.toString());
+    });
+    return futureMemberClaimModel;
+  }
+
   static Future<MemberModel> firebaseToMemberModel(User usr) async {
     var futureMemberModel =
         await memberRepository()!.get(usr.uid).then((member) async {
@@ -336,8 +354,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           subscriptions: [],
           /*items:[]*/
         );
+        await getMemberClaimModel(member);
         return await memberRepository()!.add(member);
       } else {
+        await getMemberClaimModel(member);
         return member;
       }
     }).catchError((onError) {

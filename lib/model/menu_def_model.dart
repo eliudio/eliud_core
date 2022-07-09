@@ -38,7 +38,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class MenuDefModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'MenuDef';
+  static const String id = 'menuDefs';
 
   String documentID;
   String appId;

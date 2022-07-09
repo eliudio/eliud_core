@@ -66,7 +66,7 @@ MediumType toMediumType(int? index) {
 
 class MemberMediumModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'MemberMedium';
+  static const String id = 'memberMediums';
 
   String documentID;
   String appId;

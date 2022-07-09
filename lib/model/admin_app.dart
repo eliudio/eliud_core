@@ -613,6 +613,7 @@ class AdminAppWiper extends AdminAppWiperBase {
   Future<void> deleteAll(String appId) async {
     await memberPublicInfoRepository()!.deleteAll();
     await publicMediumRepository()!.deleteAll();
+    await memberClaimRepository()!.deleteAll();
     ;
   }
 

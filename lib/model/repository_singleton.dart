@@ -79,6 +79,9 @@ import '../model/platform_medium_cache.dart';
 import '../model/public_medium_firestore.dart';
 import '../model/public_medium_repository.dart';
 import '../model/public_medium_cache.dart';
+import '../model/member_claim_firestore.dart';
+import '../model/member_claim_repository.dart';
+import '../model/member_claim_cache.dart';
 
 import '../model/app_model.dart';
 import '../model/app_bar_model.dart';
@@ -109,6 +112,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
+    var _memberClaimRepository = MemberClaimCache(MemberClaimFirestore());
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -167,6 +171,9 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     PublicMediumRepository? publicMediumRepository() {
       return _publicMediumRepository;
+    }
+    MemberClaimRepository? memberClaimRepository() {
+      return _memberClaimRepository;
     }
 
 }

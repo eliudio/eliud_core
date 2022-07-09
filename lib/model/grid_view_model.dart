@@ -73,7 +73,7 @@ MaxCrossAxisExtentType toMaxCrossAxisExtentType(int? index) {
 
 class GridViewModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'GridView';
+  static const String id = 'gridViews';
 
   String documentID;
   String appId;

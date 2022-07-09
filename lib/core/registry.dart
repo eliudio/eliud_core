@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../package/medium_api.dart';
 import '../style/frontend/has_text.dart';
+import 'base/repository_base.dart';
 import 'blocs/access/access_bloc.dart';
 import 'blocs/access/access_event.dart';
 import 'blocs/access/state/access_determined.dart';
@@ -90,6 +91,16 @@ class Registry {
       }
     }
     return null;
+  }
+
+  final Map<String, RetrieveRepository> _allRepositories = HashMap();
+
+  void registerRetrieveRepository(String pluginName, String componentId, RetrieveRepository repository) {
+    _allRepositories['$pluginName-$componentId'] = repository;
+  }
+
+  RetrieveRepository? getRetrieveRepository(String pluginName, String componentId) {
+    return _allRepositories['$pluginName-$componentId'];
   }
 
   Registry._internal();

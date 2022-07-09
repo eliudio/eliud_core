@@ -37,6 +37,7 @@ import '../model/menu_item_repository.dart';
 import '../model/page_repository.dart';
 import '../model/platform_medium_repository.dart';
 import '../model/public_medium_repository.dart';
+import '../model/member_claim_repository.dart';
 import 'package:eliud_core/core/blocs/access/repo/user_repository.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
@@ -57,11 +58,13 @@ MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySin
 PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
 PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
 PublicMediumRepository? publicMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.publicMediumRepository();
+MemberClaimRepository? memberClaimRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberClaimRepository();
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [
     MemberCollectionInfo('access', 'documentID'),
     MemberCollectionInfo('membermedium', 'authorId'),
+    MemberCollectionInfo('memberclaim', 'authorId'),
   ];
   static late AbstractRepositorySingleton singleton;
 
@@ -80,6 +83,7 @@ abstract class AbstractRepositorySingleton {
   PageRepository? pageRepository(String? appId);
   PlatformMediumRepository? platformMediumRepository(String? appId);
   PublicMediumRepository? publicMediumRepository();
+  MemberClaimRepository? memberClaimRepository();
 
   void flush(String? appId) {
     accessRepository(appId)!.flush();

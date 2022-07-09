@@ -41,7 +41,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class MemberMediumContainerModel implements ModelBase {
   static const String packageName = 'eliud_core';
-  static const String id = 'MemberMediumContainer';
+  static const String id = 'memberMediumContainers';
 
   String documentID;
   MemberMediumModel? memberMedium;

@@ -37,7 +37,7 @@ import 'package:eliud_core/tools/random.dart';
 
 class IconModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'Icon';
+  static const String id = 'icons';
 
 
   // The Unicode code point at which this icon is stored in the icon font. For example, for materialicon 'Home', use codePoint: 0xe88a. Find the codePoint from sources such as https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/icons.dart, https://github.com/google/material-design-icons/blob/master/iconfont/codepoints, https://material.io/resources/icons or ...

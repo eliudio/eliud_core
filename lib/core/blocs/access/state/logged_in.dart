@@ -35,7 +35,13 @@ class LoggedIn extends AccessDetermined {
       bool? isProcessing,
       })
       : super(apps, accesses,
-            playstoreApp: playstoreApp, isProcessing: isProcessing);
+            playstoreApp: playstoreApp, isProcessing: isProcessing) {
+    // we listen to memberClaim updates... The function that manages the claims will update this document when
+    // we need to refresh
+    memberClaimRepository()!.listenTo(member.documentID, (value) async {
+      refreshClaims();
+    });
+  }
 
   static Future<LoggedIn> getLoggedIn(
     AccessBloc accessBloc,
@@ -408,11 +414,6 @@ class LoggedIn extends AccessDetermined {
     var homePage = await getHomepage(newApp, blocked, privilege);
     newApps.add(DeterminedApp(newApp, homePage));
 
-    // reload for custom claims to take effect:
-    await usr.reload();
-    var idTokenResult = await usr.getIdTokenResult(true);
-    print('Claims after claiming access: ' + idTokenResult.claims.toString());
-
     return Future.value(LoggedIn._(
       usr,
       member,
@@ -434,6 +435,12 @@ class LoggedIn extends AccessDetermined {
       newSubscribedToApps,
       playstoreApp: playstoreApp,
     );
+  }
+
+  Future<void> refreshClaims() async {
+    await usr.reload();
+    var idTokenResult = await usr.getIdTokenResult(true);
+    print('Claims after claiming access: ' + idTokenResult.claims.toString());
   }
 
   static List<String> getSubscriptions(MemberModel member) {

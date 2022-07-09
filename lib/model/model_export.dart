@@ -47,3 +47,4 @@ export '../model/public_medium_model.dart';
 export '../model/rgb_model.dart';
 export '../model/shadow_model.dart';
 export '../model/storage_conditions_model.dart';
+export '../model/member_claim_model.dart';

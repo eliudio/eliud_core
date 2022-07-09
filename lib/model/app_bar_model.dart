@@ -51,7 +51,7 @@ HeaderSelection toHeaderSelection(int? index) {
 
 class AppBarModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'AppBar';
+  static const String id = 'appBars';
 
   String documentID;
   String appId;

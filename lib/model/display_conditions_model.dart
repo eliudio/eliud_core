@@ -64,7 +64,7 @@ ConditionOverride toConditionOverride(int? index) {
 
 class DisplayConditionsModel {
   static const String packageName = 'eliud_core';
-  static const String id = 'DisplayConditions';
+  static const String id = 'displayConditionss';
 
 
   // see firestore rules

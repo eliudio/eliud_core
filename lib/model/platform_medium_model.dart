@@ -51,7 +51,7 @@ PlatformMediumType toPlatformMediumType(int? index) {
 
 class PlatformMediumModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
-  static const String id = 'PlatformMedium';
+  static const String id = 'platformMediums';
 
   String documentID;
   String appId;
