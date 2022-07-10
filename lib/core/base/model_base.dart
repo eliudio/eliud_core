@@ -34,3 +34,4 @@ class ModelReference {
 
   String key() => packageName + "-" + componentName + "-" + referenced.documentID;
 }
+

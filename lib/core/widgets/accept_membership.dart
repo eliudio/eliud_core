@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/access_model.dart';
+import '../../model/app_policy_item_model.dart';
 import '../../tools/widgets/header_widget.dart';
 import '../blocs/access/state/access_determined.dart';
 import '../blocs/access/state/logged_in.dart';
@@ -55,15 +56,22 @@ class CheckboxHandler {
 class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     with SingleTickerProviderStateMixin {
   late List<CheckboxHandler> checked;
+  late List<AppPolicyItemModel> policies;
 
   @override
   void initState() {
     super.initState();
-    if ((widget.app.policies != null) &&
-        (widget.app.policies!.policies != null)) {
-      checked = widget.app.policies!.policies!
-          .map((element) => CheckboxHandler(false, element.policy!))
-          .toList();
+
+    checked = [];
+    policies = [];
+    if ((widget.app.policies != null) && (widget.app.policies!.policies != null)) {
+      var originalPolicies = widget.app.policies!.policies!;
+      for (var policy in originalPolicies) {
+        if (policy.policy != null) {
+          policies.add(policy);
+          checked.add(CheckboxHandler(false, policy.policy!));
+        }
+      }
     }
   }
 
@@ -74,7 +82,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   bool _allEnabled(AppModel app) {
     if (app.policies != null) {
-      for (var i = 0; i < app.policies!.policies!.length; i++) {
+      for (var i = 0; i < policies!.length; i++) {
         if (!checked[i].value!) return false;
       }
     }
@@ -100,8 +108,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     var contents = <Widget>[];
 
     var i = 0;
-    if (widget.app.policies != null) {
-      widget.app.policies!.policies!.forEach((policy) {
+    if (policies != null) {
+      policies!.forEach((policy) {
         var handler = checked[i];
         contents.add(Row(children: [
           Container(

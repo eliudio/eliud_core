@@ -108,6 +108,7 @@ class PublicMediumModel implements ModelBase {
 
   PublicMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
     if (referencesCollector != null) {
+//TODO:      if (relatedMediumId != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, ?));
     }
     return PublicMediumEntity(
           authorId: (authorId != null) ? authorId : null, 

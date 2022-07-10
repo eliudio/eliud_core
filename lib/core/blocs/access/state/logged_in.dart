@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -35,13 +37,7 @@ class LoggedIn extends AccessDetermined {
       bool? isProcessing,
       })
       : super(apps, accesses,
-            playstoreApp: playstoreApp, isProcessing: isProcessing) {
-    // we listen to memberClaim updates... The function that manages the claims will update this document when
-    // we need to refresh
-    memberClaimRepository()!.listenTo(member.documentID, (value) async {
-      refreshClaims();
-    });
-  }
+            playstoreApp: playstoreApp, isProcessing: isProcessing);
 
   static Future<LoggedIn> getLoggedIn(
     AccessBloc accessBloc,
@@ -69,7 +65,7 @@ class LoggedIn extends AccessDetermined {
     }
 */
 
-    var loggedIn = LoggedIn._(
+    return LoggedIn._(
       usr,
       member,
       postLoginAction,
@@ -78,7 +74,6 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       playstoreApp: playstoreApp,
     );
-    return loggedIn;
   }
 
   static Future<LoggedIn> getLoggedIn2(
@@ -96,7 +91,7 @@ class LoggedIn extends AccessDetermined {
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     var apps = [DeterminedApp(app, homePage)];
 
-    var loggedIn = LoggedIn._(
+    return LoggedIn._(
       usr,
       member,
       null,
@@ -105,7 +100,6 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       playstoreApp: playstoreApp,
     );
-    return loggedIn;
   }
 
   bool isSubscribedToCurrentApp(String currentAppId) {

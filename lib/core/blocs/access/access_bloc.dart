@@ -26,6 +26,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   final Map<String, StreamSubscription<AccessModel?>> _accessSubscription = {};
   StreamSubscription<MemberModel?>? _memberSubscription;
   final GlobalKey<NavigatorState> navigatorKey;
+  StreamSubscription? _memberClaimsSubscription;
 
   AccessBloc(this.navigatorKey) : super(UndeterminedAccessState()) {
     on<AccessInitEvent>((event, emit) async {
@@ -46,9 +47,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             .addApp(member, event.app, () => _currentStyleChanged(event.app));
 
         _listenToApp(event.app.documentID, member);
-        emit(await LoggedIn.getLoggedIn2(
+        var newState = await LoggedIn.getLoggedIn2(
             this, usr, member, event.app, LoggedIn.getSubscriptions(member),
-            playstoreApp: event.playstoreApp));
+            playstoreApp: event.playstoreApp);
+        _listenToMemberClaims(member.documentID, newState);
+        emit(newState);
       }
     });
     on<GoHome>((event, emit) async {
@@ -72,6 +75,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     on<LogoutEvent>((event, emit) async {
       var theState = state as AccessDetermined;
       _stopListenToMember();
+      _stopListenToMemberClaims();
       if (event.isProcessing()) {
         await AbstractMainRepositorySingleton.singleton
             .userRepository()!
@@ -126,6 +130,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               member.documentID);
 
           _listenToMember(member);
+          _listenToMemberClaims(member.documentID, toEmit);
           emit(toEmit);
           if (event.actions != null) {
             event.actions!.runTheAction();
@@ -298,6 +303,19 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (value != null) add(AccessUpdatedEvent(value));
       });
     }
+  }
+
+  // we listen to memberClaim updates... The function that manages the claims will update this document when
+  // we need to refresh
+  void _listenToMemberClaims(String memberId, LoggedIn loggedIn) {
+    _stopListenToMemberClaims();
+    _memberClaimsSubscription = memberClaimRepository()!.listenTo(memberId, (value) async {
+      loggedIn.refreshClaims();
+    });
+  }
+
+  void _stopListenToMemberClaims() {
+    _memberClaimsSubscription?.cancel();
   }
 
   void _listenToMember(MemberModel member) async {
