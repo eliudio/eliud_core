@@ -68,16 +68,12 @@ abstract class MediumData {
    */
   static Future<PhotoWithThumbnail> enrichPhoto(
       String baseName, String thumbnailBaseName, Uint8List imgBytes) async {
-    print('enrichPhoto 1');
     var img = imgpackage.decodeImage(imgBytes);
-    print('enrichPhoto 2');
     if (img == null) {
       throw Exception('Can not decode image with baseName $baseName');
     }
-    print('enrichPhoto 3');
     var thumbNailData = getThumbnail(img);
 
-    print('enrichPhoto 4');
     return PhotoWithThumbnail(
       photoData: ImageData(
           baseName: baseName,

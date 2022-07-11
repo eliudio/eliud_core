@@ -72,14 +72,19 @@ class MenuItemModel implements ModelBase {
     return 'MenuItemModel{documentID: $documentID, text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  MenuItemEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (icon != null) referencesCollector.addAll(await icon!.collectReferences(appId: appId));
+    if (action != null) referencesCollector.addAll(await action!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  MenuItemEntity toEntity({String? appId}) {
     return MenuItemEntity(
           text: (text != null) ? text : null, 
           description: (description != null) ? description : null, 
-          icon: (icon != null) ? icon!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          action: (action != null) ? action!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
+          action: (action != null) ? action!.toEntity(appId: appId) : null, 
     );
   }
 

@@ -75,14 +75,22 @@ class MemberPublicInfoModel implements ModelBase {
     return 'MemberPublicInfoModel{documentID: $documentID, name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  MemberPublicInfoEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (subscriptions != null) {
+      for (var item in subscriptions!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
     }
+    return referencesCollector;
+  }
+
+  MemberPublicInfoEntity toEntity({String? appId}) {
     return MemberPublicInfoEntity(
           name: (name != null) ? name : null, 
           photoURL: (photoURL != null) ? photoURL : null, 
           subscriptions: (subscriptions != null) ? subscriptions
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }

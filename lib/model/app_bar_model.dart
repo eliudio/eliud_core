@@ -100,22 +100,36 @@ class AppBarModel implements ModelBase, WithAppId {
     return 'AppBarModel{documentID: $documentID, appId: $appId, title: $title, header: $header, icon: $icon, image: $image, iconMenu: $iconMenu, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  AppBarEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (image != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, image!));
-      if (iconMenu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, iconMenu!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (image != null) {
+      referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, image!));
     }
+    if (iconMenu != null) {
+      referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, iconMenu!));
+    }
+    if (icon != null) referencesCollector.addAll(await icon!.collectReferences(appId: appId));
+    if (image != null) referencesCollector.addAll(await image!.collectReferences(appId: appId));
+    if (iconMenu != null) referencesCollector.addAll(await iconMenu!.collectReferences(appId: appId));
+    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
+    if (iconColorOverride != null) referencesCollector.addAll(await iconColorOverride!.collectReferences(appId: appId));
+    if (selectedIconColorOverride != null) referencesCollector.addAll(await selectedIconColorOverride!.collectReferences(appId: appId));
+    if (menuBackgroundColorOverride != null) referencesCollector.addAll(await menuBackgroundColorOverride!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  AppBarEntity toEntity({String? appId}) {
     return AppBarEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           header: (header != null) ? header!.index : null, 
-          icon: (icon != null) ? icon!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          icon: (icon != null) ? icon!.toEntity(appId: appId) : null, 
           imageId: (image != null) ? image!.documentID : null, 
           iconMenuId: (iconMenu != null) ? iconMenu!.documentID : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          selectedIconColorOverride: (selectedIconColorOverride != null) ? selectedIconColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          menuBackgroundColorOverride: (menuBackgroundColorOverride != null) ? menuBackgroundColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
+          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId) : null, 
+          selectedIconColorOverride: (selectedIconColorOverride != null) ? selectedIconColorOverride!.toEntity(appId: appId) : null, 
+          menuBackgroundColorOverride: (menuBackgroundColorOverride != null) ? menuBackgroundColorOverride!.toEntity(appId: appId) : null, 
     );
   }
 

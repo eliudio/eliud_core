@@ -83,9 +83,12 @@ class BorderRadiusModel {
     return 'BorderRadiusModel{borderRadiusType: $borderRadiusType, circularValue: $circularValue, ellipticalX: $ellipticalX, ellipticalY: $ellipticalY}';
   }
 
-  BorderRadiusEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  BorderRadiusEntity toEntity({String? appId}) {
     return BorderRadiusEntity(
           borderRadiusType: (borderRadiusType != null) ? borderRadiusType!.index : null, 
           circularValue: (circularValue != null) ? circularValue : null, 

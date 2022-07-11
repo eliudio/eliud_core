@@ -31,6 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/platform_medium_entity.dart';
 
+import 'package:eliud_core/tools/helpers/medium_collect_references.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum PlatformMediumType {
@@ -110,9 +111,14 @@ class PlatformMediumModel implements ModelBase, WithAppId {
     return 'PlatformMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, conditions: $conditions, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PlatformMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    referencesCollector.addAll(await mediumCollectReferences(appId: appId, relatedMediumId: relatedMediumId, repo: platformMediumRepository(appId: appId)!, packageName: packageName, id: id));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  PlatformMediumEntity toEntity({String? appId}) {
     return PlatformMediumEntity(
           appId: (appId != null) ? appId : null, 
           authorId: (authorId != null) ? authorId : null, 
@@ -122,7 +128,7 @@ class PlatformMediumModel implements ModelBase, WithAppId {
           ref: (ref != null) ? ref : null, 
           urlThumbnail: (urlThumbnail != null) ? urlThumbnail : null, 
           refThumbnail: (refThumbnail != null) ? refThumbnail : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
           mediumType: (mediumType != null) ? mediumType!.index : null, 
           mediumWidth: (mediumWidth != null) ? mediumWidth : null, 
           mediumHeight: (mediumHeight != null) ? mediumHeight : null, 

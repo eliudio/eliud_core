@@ -20,7 +20,8 @@
     "documentSubCollectionOf": "app"
   },
   "extraImports": {
-    "entity": "import 'package:http/http.dart' as http;"
+    "entity": "import 'package:http/http.dart' as http;",
+    "model": "import 'package:eliud_core/tools/helpers/medium_collect_references.dart';"
   },
   "codeToExtractData": "    if (url != null) {\n      var theUrl = Uri.parse(url!);\n      final response = await http.get(theUrl);\n      var bytes = response.bodyBytes.toList();\n      theDocument['extract'] = bytes.toList();\n    }",
   "fields": [
@@ -107,7 +108,8 @@
     {
       "fieldName": "relatedMediumId",
       "remark": "In case a medium has multiple related media, then we refer to the related media with this field. For example, for a pdf, we store images of all pages. These are referenced using a chain of these references.",
-      "fieldType": "String"
+      "fieldType": "String",
+      "refCode": "referencesCollector.addAll(await mediumCollectReferences(appId: appId, relatedMediumId: relatedMediumId, repo: platformMediumRepository(appId: appId)!, packageName: packageName, id: id));"
     }
   ],
   "groups": [

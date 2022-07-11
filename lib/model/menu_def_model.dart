@@ -75,14 +75,22 @@ class MenuDefModel implements ModelBase, WithAppId {
     return 'MenuDefModel{documentID: $documentID, appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  MenuDefEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (menuItems != null) {
+      for (var item in menuItems!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
     }
+    return referencesCollector;
+  }
+
+  MenuDefEntity toEntity({String? appId}) {
     return MenuDefEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           menuItems: (menuItems != null) ? menuItems
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           admin: (admin != null) ? admin : null, 
     );

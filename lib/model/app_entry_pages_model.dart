@@ -70,10 +70,16 @@ class AppEntryPagesModel implements ModelBase {
     return 'AppEntryPagesModel{documentID: $documentID, entryPage: $entryPage, minPrivilege: $minPrivilege}';
   }
 
-  AppEntryPagesEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (entryPage != null) referencesCollector.add(ModelReference(PageModel.packageName, PageModel.id, entryPage!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (entryPage != null) {
+      referencesCollector.add(ModelReference(PageModel.packageName, PageModel.id, entryPage!));
     }
+    if (entryPage != null) referencesCollector.addAll(await entryPage!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  AppEntryPagesEntity toEntity({String? appId}) {
     return AppEntryPagesEntity(
           entryPageId: (entryPage != null) ? entryPage!.documentID : null, 
           minPrivilege: (minPrivilege != null) ? minPrivilege : null, 

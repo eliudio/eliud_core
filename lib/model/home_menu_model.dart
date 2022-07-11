@@ -78,17 +78,26 @@ class HomeMenuModel implements ModelBase, WithAppId {
     return 'HomeMenuModel{documentID: $documentID, appId: $appId, name: $name, menu: $menu, iconColorOverride: $iconColorOverride, backgroundOverride: $backgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
-  HomeMenuEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (menu != null) {
+      referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
+    if (menu != null) referencesCollector.addAll(await menu!.collectReferences(appId: appId));
+    if (iconColorOverride != null) referencesCollector.addAll(await iconColorOverride!.collectReferences(appId: appId));
+    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
+    if (popupMenuBackgroundColorOverride != null) referencesCollector.addAll(await popupMenuBackgroundColorOverride!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  HomeMenuEntity toEntity({String? appId}) {
     return HomeMenuEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           menuId: (menu != null) ? menu!.documentID : null, 
-          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          iconColorOverride: (iconColorOverride != null) ? iconColorOverride!.toEntity(appId: appId) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
+          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
     );
   }
 

@@ -31,6 +31,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/public_medium_entity.dart';
 
+import 'package:eliud_core/tools/helpers/medium_collect_references.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum PublicMediumType {
@@ -106,10 +107,13 @@ class PublicMediumModel implements ModelBase {
     return 'PublicMediumModel{documentID: $documentID, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  PublicMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-//TODO:      if (relatedMediumId != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, ?));
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    referencesCollector.addAll(await mediumCollectReferences(appId: appId, relatedMediumId: relatedMediumId, repo: publicMediumRepository(appId: appId)!, packageName: packageName, id: id));
+    return referencesCollector;
+  }
+
+  PublicMediumEntity toEntity({String? appId}) {
     return PublicMediumEntity(
           authorId: (authorId != null) ? authorId : null, 
           base: (base != null) ? base : null, 

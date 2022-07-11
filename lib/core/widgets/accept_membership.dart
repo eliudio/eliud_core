@@ -82,7 +82,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   bool _allEnabled(AppModel app) {
     if (app.policies != null) {
-      for (var i = 0; i < policies!.length; i++) {
+      for (var i = 0; i < policies.length; i++) {
         if (!checked[i].value!) return false;
       }
     }
@@ -109,7 +109,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
     var i = 0;
     if (policies != null) {
-      policies!.forEach((policy) {
+      policies.forEach((policy) {
         var handler = checked[i];
         contents.add(Row(children: [
           Container(

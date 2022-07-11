@@ -32,6 +32,7 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/member_medium_entity.dart';
 
+import 'package:eliud_core/tools/helpers/medium_collect_references.dart';
 import 'package:eliud_core/tools/random.dart';
 
 enum MemberMediumAccessibleByGroup {
@@ -134,9 +135,13 @@ class MemberMediumModel implements ModelBase, WithAppId {
     return 'MemberMediumModel{documentID: $documentID, appId: $appId, authorId: $authorId, base: $base, ext: $ext, url: $url, ref: $ref, urlThumbnail: $urlThumbnail, refThumbnail: $refThumbnail, accessibleByGroup: $accessibleByGroup, accessibleByMembers: String[] { $accessibleByMembersCsv }, readAccess: String[] { $readAccessCsv }, mediumType: $mediumType, mediumWidth: $mediumWidth, mediumHeight: $mediumHeight, thumbnailWidth: $thumbnailWidth, thumbnailHeight: $thumbnailHeight, relatedMediumId: $relatedMediumId}';
   }
 
-  MemberMediumEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    referencesCollector.addAll(await mediumCollectReferences(appId: appId, relatedMediumId: relatedMediumId, repo: memberMediumRepository(appId: appId)!, packageName: packageName, id: id));
+    return referencesCollector;
+  }
+
+  MemberMediumEntity toEntity({String? appId}) {
     return MemberMediumEntity(
           appId: (appId != null) ? appId : null, 
           authorId: (authorId != null) ? authorId : null, 

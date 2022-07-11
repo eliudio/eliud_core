@@ -73,14 +73,22 @@ class AppPolicyModel implements ModelBase, WithAppId {
     return 'AppPolicyModel{documentID: $documentID, appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
   }
 
-  AppPolicyEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (policies != null) {
+      for (var item in policies!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
     }
+    return referencesCollector;
+  }
+
+  AppPolicyEntity toEntity({String? appId}) {
     return AppPolicyEntity(
           appId: (appId != null) ? appId : null, 
           comments: (comments != null) ? comments : null, 
           policies: (policies != null) ? policies
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
     );
   }

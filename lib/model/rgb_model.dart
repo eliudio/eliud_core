@@ -77,9 +77,12 @@ class RgbModel {
     return 'RgbModel{r: $r, g: $g, b: $b, opacity: $opacity}';
   }
 
-  RgbEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  RgbEntity toEntity({String? appId}) {
     return RgbEntity(
           r: (r != null) ? r : null, 
           g: (g != null) ? g : null, 

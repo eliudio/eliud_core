@@ -108,14 +108,39 @@ class PageModel implements ModelBase, WithAppId {
     return 'PageModel{documentID: $documentID, appId: $appId, description: $description, title: $title, appBar: $appBar, drawer: $drawer, endDrawer: $endDrawer, homeMenu: $homeMenu, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridView: $gridView, conditions: $conditions}';
   }
 
-  PageEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (appBar != null) referencesCollector.add(ModelReference(AppBarModel.packageName, AppBarModel.id, appBar!));
-      if (drawer != null) referencesCollector.add(ModelReference(DrawerModel.packageName, DrawerModel.id, drawer!));
-      if (endDrawer != null) referencesCollector.add(ModelReference(DrawerModel.packageName, DrawerModel.id, endDrawer!));
-      if (homeMenu != null) referencesCollector.add(ModelReference(HomeMenuModel.packageName, HomeMenuModel.id, homeMenu!));
-      if (gridView != null) referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (appBar != null) {
+      referencesCollector.add(ModelReference(AppBarModel.packageName, AppBarModel.id, appBar!));
     }
+    if (drawer != null) {
+      referencesCollector.add(ModelReference(DrawerModel.packageName, DrawerModel.id, drawer!));
+    }
+    if (endDrawer != null) {
+      referencesCollector.add(ModelReference(DrawerModel.packageName, DrawerModel.id, endDrawer!));
+    }
+    if (homeMenu != null) {
+      referencesCollector.add(ModelReference(HomeMenuModel.packageName, HomeMenuModel.id, homeMenu!));
+    }
+    if (gridView != null) {
+      referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
+    }
+    if (appBar != null) referencesCollector.addAll(await appBar!.collectReferences(appId: appId));
+    if (drawer != null) referencesCollector.addAll(await drawer!.collectReferences(appId: appId));
+    if (endDrawer != null) referencesCollector.addAll(await endDrawer!.collectReferences(appId: appId));
+    if (homeMenu != null) referencesCollector.addAll(await homeMenu!.collectReferences(appId: appId));
+    if (bodyComponents != null) {
+      for (var item in bodyComponents!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
+    if (gridView != null) referencesCollector.addAll(await gridView!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  PageEntity toEntity({String? appId}) {
     return PageEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -125,12 +150,12 @@ class PageModel implements ModelBase, WithAppId {
           endDrawerId: (endDrawer != null) ? endDrawer!.documentID : null, 
           homeMenuId: (homeMenu != null) ? homeMenu!.documentID : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

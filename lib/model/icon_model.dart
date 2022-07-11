@@ -69,9 +69,12 @@ class IconModel {
     return 'IconModel{codePoint: $codePoint, fontFamily: $fontFamily}';
   }
 
-  IconEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  IconEntity toEntity({String? appId}) {
     return IconEntity(
           codePoint: (codePoint != null) ? codePoint : null, 
           fontFamily: (fontFamily != null) ? fontFamily : null, 

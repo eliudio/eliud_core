@@ -100,9 +100,12 @@ class DisplayConditionsModel {
     return 'DisplayConditionsModel{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  DisplayConditionsEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  DisplayConditionsEntity toEntity({String? appId}) {
     return DisplayConditionsEntity(
           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
           packageCondition: (packageCondition != null) ? packageCondition : null, 

@@ -70,9 +70,12 @@ class MemberClaimModel implements ModelBase {
     return 'MemberClaimModel{documentID: $documentID, refreshValue: $refreshValue}';
   }
 
-  MemberClaimEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  MemberClaimEntity toEntity({String? appId}) {
     return MemberClaimEntity(
           refreshValue: (refreshValue != null) ? refreshValue : null, 
     );

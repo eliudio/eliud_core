@@ -112,9 +112,12 @@ class AccessModel implements ModelBase, WithAppId {
     return 'AccessModel{documentID: $documentID, appId: $appId, privilegeLevel: $privilegeLevel, points: $points, blocked: $blocked, privilegeLevelBeforeBlocked: $privilegeLevelBeforeBlocked}';
   }
 
-  AccessEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  AccessEntity toEntity({String? appId}) {
     return AccessEntity(
           appId: (appId != null) ? appId : null, 
           privilegeLevel: (privilegeLevel != null) ? privilegeLevel!.index : null, 

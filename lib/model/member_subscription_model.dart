@@ -66,10 +66,16 @@ class MemberSubscriptionModel implements ModelBase {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
-  MemberSubscriptionEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (app != null) referencesCollector.add(ModelReference(AppModel.packageName, AppModel.id, app!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (app != null) {
+      referencesCollector.add(ModelReference(AppModel.packageName, AppModel.id, app!));
     }
+    if (app != null) referencesCollector.addAll(await app!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  MemberSubscriptionEntity toEntity({String? appId}) {
     return MemberSubscriptionEntity(
           appId: (app != null) ? app!.documentID : null, 
     );

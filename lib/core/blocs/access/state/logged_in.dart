@@ -434,7 +434,6 @@ class LoggedIn extends AccessDetermined {
   Future<void> refreshClaims() async {
     await usr.reload();
     var idTokenResult = await usr.getIdTokenResult(true);
-    print('Claims after claiming access: ' + idTokenResult.claims.toString());
   }
 
   static List<String> getSubscriptions(MemberModel member) {

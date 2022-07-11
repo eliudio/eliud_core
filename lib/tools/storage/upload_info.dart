@@ -118,34 +118,19 @@ class UploadInfo {
         bytes = response.bodyBytes;
       } else {
         bytes = File(filePath).readAsBytesSync();
-/*
-        uploadTask = firebase_storage.FirebaseStorage.instance
-            .ref(ref)
-            .putFile(
-            file,
-            firebase_storage.SettableMetadata(
-                customMetadata: customMetaData));
-*/
       }
       uploadTask = firebase_storage.FirebaseStorage.instance
           .ref(ref).putData(bytes, firebase_storage.SettableMetadata(
           customMetadata: customMetaData));
       if (uploadTask != null) {
-        print('listen');
         uploadTask.snapshotEvents.listen((event) {
-          print('event');
           if (feedbackProgress != null) {
-            print('event b');
             feedbackProgress(event.bytesTransferred / event.totalBytes);
           }
         });
-        print('await uploadedTask');
         var uploadedTask = await uploadTask;
-        print('url = ...');
         var url = await uploadedTask.ref.getDownloadURL();
-        print('url = ' + url);
         var uploadInfo = UploadInfo(url, ref);
-        print('uploadInfo = ' + uploadInfo.toString());
         return Tuple2(uploadInfo, bytes);
       } else {
         throw Exception(

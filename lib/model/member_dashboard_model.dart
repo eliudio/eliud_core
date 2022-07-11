@@ -100,9 +100,13 @@ class MemberDashboardModel implements ModelBase, WithAppId {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
-  MemberDashboardEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  MemberDashboardEntity toEntity({String? appId}) {
     return MemberDashboardEntity(
           appId: (appId != null) ? appId : null, 
           description: (description != null) ? description : null, 
@@ -112,7 +116,7 @@ class MemberDashboardModel implements ModelBase, WithAppId {
           retrieveDataEmailSubject: (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null, 
           deleteDataEmailSubject: (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null, 
           deleteDataEmailMessage: (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

@@ -112,14 +112,25 @@ class MemberModel implements ModelBase {
     return 'MemberModel{documentID: $documentID, name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photo: $photo, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  MemberEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (photo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, photo!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (photo != null) {
+      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, photo!));
     }
+    if (subscriptions != null) {
+      for (var item in subscriptions!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    if (photo != null) referencesCollector.addAll(await photo!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  MemberEntity toEntity({String? appId}) {
     return MemberEntity(
           name: (name != null) ? name : null, 
           subscriptions: (subscriptions != null) ? subscriptions
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
           subscriptionsAsStrArr: (subscriptionsAsStrArr != null) ? subscriptionsAsStrArr : null, 
           photoId: (photo != null) ? photo!.documentID : null, 

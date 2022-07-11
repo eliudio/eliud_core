@@ -85,9 +85,12 @@ class AppHomePageReferencesModel {
     return 'AppHomePageReferencesModel{homePageBlockedMember: $homePageBlockedMember, homePagePublic: $homePagePublic, homePageSubscribedMember: $homePageSubscribedMember, homePageLevel1Member: $homePageLevel1Member, homePageLevel2Member: $homePageLevel2Member, homePageOwner: $homePageOwner}';
   }
 
-  AppHomePageReferencesEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  AppHomePageReferencesEntity toEntity({String? appId}) {
     return AppHomePageReferencesEntity(
           homePageBlockedMember: (homePageBlockedMember != null) ? homePageBlockedMember : null, 
           homePagePublic: (homePagePublic != null) ? homePagePublic : null, 

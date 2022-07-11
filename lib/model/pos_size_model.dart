@@ -243,9 +243,12 @@ class PosSizeModel {
     return 'PosSizeModel{widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  PosSizeEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  PosSizeEntity toEntity({String? appId}) {
     return PosSizeEntity(
           widthPortrait: (widthPortrait != null) ? widthPortrait : null, 
           widthTypePortrait: (widthTypePortrait != null) ? widthTypePortrait!.index : null, 

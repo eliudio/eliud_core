@@ -69,9 +69,12 @@ class EdgeInsetsGeometryModel {
     return 'EdgeInsetsGeometryModel{left: $left, right: $right, top: $top, bottom: $bottom}';
   }
 
-  EdgeInsetsGeometryEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  EdgeInsetsGeometryEntity toEntity({String? appId}) {
     return EdgeInsetsGeometryEntity(
           left: (left != null) ? left : null, 
           right: (right != null) ? right : null, 

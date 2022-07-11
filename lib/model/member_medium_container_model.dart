@@ -70,10 +70,16 @@ class MemberMediumContainerModel implements ModelBase {
     return 'MemberMediumContainerModel{documentID: $documentID, memberMedium: $memberMedium}';
   }
 
-  MemberMediumContainerEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (memberMedium != null) referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, memberMedium!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (memberMedium != null) {
+      referencesCollector.add(ModelReference(MemberMediumModel.packageName, MemberMediumModel.id, memberMedium!));
     }
+    if (memberMedium != null) referencesCollector.addAll(await memberMedium!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  MemberMediumContainerEntity toEntity({String? appId}) {
     return MemberMediumContainerEntity(
           memberMediumId: (memberMedium != null) ? memberMedium!.documentID : null, 
     );

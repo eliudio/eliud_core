@@ -68,11 +68,15 @@ class DecorationColorModel implements ModelBase {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
-  DecorationColorEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (color != null) referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  DecorationColorEntity toEntity({String? appId}) {
     return DecorationColorEntity(
-          color: (color != null) ? color!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          color: (color != null) ? color!.toEntity(appId: appId) : null, 
           stop: (stop != null) ? stop : null, 
     );
   }

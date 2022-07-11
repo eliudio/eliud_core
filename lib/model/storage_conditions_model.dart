@@ -79,9 +79,12 @@ class StorageConditionsModel {
     return 'StorageConditionsModel{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  StorageConditionsEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  StorageConditionsEntity toEntity({String? appId}) {
     return StorageConditionsEntity(
           privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
     );

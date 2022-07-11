@@ -79,11 +79,15 @@ class ShadowModel {
     return 'ShadowModel{color: $color, offsetDX: $offsetDX, offsetDY: $offsetDY, spreadRadius: $spreadRadius, blurRadius: $blurRadius}';
   }
 
-  ShadowEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (color != null) referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  ShadowEntity toEntity({String? appId}) {
     return ShadowEntity(
-          color: (color != null) ? color!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          color: (color != null) ? color!.toEntity(appId: appId) : null, 
           offsetDX: (offsetDX != null) ? offsetDX : null, 
           offsetDY: (offsetDY != null) ? offsetDY : null, 
           spreadRadius: (spreadRadius != null) ? spreadRadius : null, 

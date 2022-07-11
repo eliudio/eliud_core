@@ -134,9 +134,13 @@ class GridViewModel implements ModelBase, WithAppId {
     return 'GridViewModel{documentID: $documentID, appId: $appId, name: $name, scrollDirection: $scrollDirection, type: $type, crossAxisCount: $crossAxisCount, maxCrossAxisExtentType: $maxCrossAxisExtentType, absoluteMaxCrossAxisExtent: $absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent: $relativeMaxCrossAxisExtent, childAspectRatio: $childAspectRatio, padding: $padding, mainAxisSpacing: $mainAxisSpacing, crossAxisSpacing: $crossAxisSpacing, conditions: $conditions}';
   }
 
-  GridViewEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  GridViewEntity toEntity({String? appId}) {
     return GridViewEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
@@ -150,7 +154,7 @@ class GridViewModel implements ModelBase, WithAppId {
           padding: (padding != null) ? padding : null, 
           mainAxisSpacing: (mainAxisSpacing != null) ? mainAxisSpacing : null, 
           crossAxisSpacing: (crossAxisSpacing != null) ? crossAxisSpacing : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

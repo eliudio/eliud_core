@@ -86,20 +86,30 @@ class DrawerModel implements ModelBase, WithAppId {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menu: $menu}';
   }
 
-  DrawerEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (menu != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (menu != null) {
+      referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
+    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
+    if (popupMenuBackgroundColor != null) referencesCollector.addAll(await popupMenuBackgroundColor!.collectReferences(appId: appId));
+    if (headerBackgroundOverride != null) referencesCollector.addAll(await headerBackgroundOverride!.collectReferences(appId: appId));
+    if (popupMenuBackgroundColorOverride != null) referencesCollector.addAll(await popupMenuBackgroundColorOverride!.collectReferences(appId: appId));
+    if (menu != null) referencesCollector.addAll(await menu!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  DrawerEntity toEntity({String? appId}) {
     return DrawerEntity(
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           headerText: (headerText != null) ? headerText : null, 
           secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
           headerHeight: (headerHeight != null) ? headerHeight : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          headerBackgroundOverride: (headerBackgroundOverride != null) ? headerBackgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
+          headerBackgroundOverride: (headerBackgroundOverride != null) ? headerBackgroundOverride!.toEntity(appId: appId) : null, 
+          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
           menuId: (menu != null) ? menu!.documentID : null, 
     );
   }

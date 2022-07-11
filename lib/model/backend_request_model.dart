@@ -92,9 +92,12 @@ class BackendRequestModel implements ModelBase, WithAppId {
     return 'BackendRequestModel{documentID: $documentID, description: $description, appId: $appId, authorId: $authorId, name: $name, sendTo: $sendTo, collections: $collections, processed: $processed, requestType: $requestType}';
   }
 
-  BackendRequestEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-    }
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    return referencesCollector;
+  }
+
+  BackendRequestEntity toEntity({String? appId}) {
     return BackendRequestEntity(
           description: (description != null) ? description : null, 
           appId: (appId != null) ? appId : null, 

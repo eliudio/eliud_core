@@ -507,17 +507,20 @@ abstract class MediumHelper<T> {
     final document = await PdfDocument.openFile(filePath);
     final pageCount = await document.pagesCount;
     var taskCounter = 1;
-    var totalTasks = 4 + (pageCount * 4);
+    var totalTasks = 1 + (pageCount * 4);
 
+/*
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             taskCounter, totalTasks, progress,
             feedbackProgress: feedbackProgress));
+*/
 
     var baseName = context.basenameWithoutExtension(filePath);
 
     // Second, create the thumbnail
+/*
     var photoData = await MediumData.createPhotoWithThumbnailFromPdfPage(
         filePath, documentID, 1);
     taskCounter++;
@@ -538,10 +541,12 @@ abstract class MediumHelper<T> {
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             taskCounter, totalTasks, progress,
             feedbackProgress: feedbackProgress));
+*/
 
     // Now create extra MemberImageModels for each page
     dynamic previousMediumId;
     var newDocumentID;
+    var returnMe;
     for (var i = pageCount; i >= 1; i--) {
       newDocumentID = documentID + '-' + i.toString();
       var newBaseName = baseName + '-' + i.toString();
@@ -580,22 +585,27 @@ abstract class MediumHelper<T> {
               feedbackProgress: feedbackProgress));
 
       // Create the MediumModel representation
-      await constructMediumModel(newDocumentID, newBaseName, pageImage,
+      var newMediumModel = await constructMediumModel(newDocumentID, newBaseName, pageImage,
           pageThumbnail, pageData, AbstractMediumType.Photo, previousMediumId);
+      returnMe = newMediumModel;
 
-      previousMediumId = newDocumentID;
+          previousMediumId = newDocumentID;
       taskCounter++;
       _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
           feedbackProgress: feedbackProgress);
     }
 
     // Create the ImageModel
+/*
     var returnMe = await constructMediumModel(documentID, baseName, fileInfo.item1,
         fileInfoThumbnail, photoData, AbstractMediumType.Pdf, previousMediumId);
 
+*/
+/*
     taskCounter++;
     _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
         feedbackProgress: feedbackProgress);
+*/
     if (feedbackFunction != null) {
       feedbackFunction(returnMe);
     }

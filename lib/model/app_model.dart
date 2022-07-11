@@ -107,12 +107,25 @@ class AppModel implements ModelBase {
     return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
-  AppEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (anonymousProfilePhoto != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, anonymousProfilePhoto!));
-      if (logo != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, logo!));
-      if (policies != null) referencesCollector.add(ModelReference(AppPolicyModel.packageName, AppPolicyModel.id, policies!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (anonymousProfilePhoto != null) {
+      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, anonymousProfilePhoto!));
     }
+    if (logo != null) {
+      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, logo!));
+    }
+    if (policies != null) {
+      referencesCollector.add(ModelReference(AppPolicyModel.packageName, AppPolicyModel.id, policies!));
+    }
+    if (anonymousProfilePhoto != null) referencesCollector.addAll(await anonymousProfilePhoto!.collectReferences(appId: appId));
+    if (homePages != null) referencesCollector.addAll(await homePages!.collectReferences(appId: appId));
+    if (logo != null) referencesCollector.addAll(await logo!.collectReferences(appId: appId));
+    if (policies != null) referencesCollector.addAll(await policies!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  AppEntity toEntity({String? appId}) {
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
@@ -120,7 +133,7 @@ class AppModel implements ModelBase {
           description: (description != null) ? description : null, 
           appStatus: (appStatus != null) ? appStatus!.index : null, 
           anonymousProfilePhotoId: (anonymousProfilePhoto != null) ? anonymousProfilePhoto!.documentID : null, 
-          homePages: (homePages != null) ? homePages!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
           logoId: (logo != null) ? logo!.documentID : null, 
           policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 

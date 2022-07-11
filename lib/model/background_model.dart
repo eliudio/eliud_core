@@ -130,23 +130,38 @@ class BackgroundModel {
     return 'BackgroundModel{backgroundImage: $backgroundImage, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border, padding: $padding, margin: $margin}';
   }
 
-  BackgroundEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (backgroundImage != null) referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, backgroundImage!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (backgroundImage != null) {
+      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, backgroundImage!));
     }
+    if (backgroundImage != null) referencesCollector.addAll(await backgroundImage!.collectReferences(appId: appId));
+    if (shadow != null) referencesCollector.addAll(await shadow!.collectReferences(appId: appId));
+    if (decorationColors != null) {
+      for (var item in decorationColors!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    if (borderRadius != null) referencesCollector.addAll(await borderRadius!.collectReferences(appId: appId));
+    if (padding != null) referencesCollector.addAll(await padding!.collectReferences(appId: appId));
+    if (margin != null) referencesCollector.addAll(await margin!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  BackgroundEntity toEntity({String? appId}) {
     return BackgroundEntity(
           backgroundImageId: (backgroundImage != null) ? backgroundImage!.documentID : null, 
           useProfilePhotoAsBackground: (useProfilePhotoAsBackground != null) ? useProfilePhotoAsBackground : null, 
           beginGradientPosition: (beginGradientPosition != null) ? beginGradientPosition!.index : null, 
           endGradientPosition: (endGradientPosition != null) ? endGradientPosition!.index : null, 
-          shadow: (shadow != null) ? shadow!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          shadow: (shadow != null) ? shadow!.toEntity(appId: appId) : null, 
           decorationColors: (decorationColors != null) ? decorationColors
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          borderRadius: (borderRadius != null) ? borderRadius!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          borderRadius: (borderRadius != null) ? borderRadius!.toEntity(appId: appId) : null, 
           border: (border != null) ? border : null, 
-          padding: (padding != null) ? padding!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
-          margin: (margin != null) ? margin!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          padding: (padding != null) ? padding!.toEntity(appId: appId) : null, 
+          margin: (margin != null) ? margin!.toEntity(appId: appId) : null, 
     );
   }
 

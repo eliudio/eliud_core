@@ -100,22 +100,35 @@ class DialogModel implements ModelBase, WithAppId {
     return 'DialogModel{documentID: $documentID, appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridView: $gridView, conditions: $conditions}';
   }
 
-  DialogEntity toEntity({String? appId, List<ModelReference>? referencesCollector}) {
-    if (referencesCollector != null) {
-      if (gridView != null) referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
+  Future<List<ModelReference>> collectReferences({String? appId}) async {
+    List<ModelReference> referencesCollector = [];
+    if (gridView != null) {
+      referencesCollector.add(ModelReference(GridViewModel.packageName, GridViewModel.id, gridView!));
     }
+    if (bodyComponents != null) {
+      for (var item in bodyComponents!) {
+        referencesCollector.addAll(await item.collectReferences(appId: appId));
+      }
+    }
+    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
+    if (gridView != null) referencesCollector.addAll(await gridView!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    return referencesCollector;
+  }
+
+  DialogEntity toEntity({String? appId}) {
     return DialogEntity(
           appId: (appId != null) ? appId : null, 
           title: (title != null) ? title : null, 
           description: (description != null) ? description : null, 
           bodyComponents: (bodyComponents != null) ? bodyComponents
-            !.map((item) => item.toEntity(appId: appId, referencesCollector: referencesCollector))
+            !.map((item) => item.toEntity(appId: appId))
             .toList() : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
           layout: (layout != null) ? layout!.index : null, 
           includeHeading: (includeHeading != null) ? includeHeading : null, 
           gridViewId: (gridView != null) ? gridView!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId, referencesCollector: referencesCollector) : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 

@@ -1,15 +1,12 @@
 import '../../model/app_model.dart';
 import 'entity_base.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 
 abstract class ModelBase {
   late String documentID;
   ModelBase copyWith();
-/*
-  Future<Map<String, dynamic>> toRichMap({required String appId});
-  Future<void> processRichMap({required AppModel app, required String ownerId, required Map<String, dynamic> document});
-*/
-  EntityBase toEntity(
-      {String? appId, List<ModelReference>? referencesCollector});
+  EntityBase toEntity({String? appId});
+  Future<List<ModelReference>> collectReferences({String? appId});
 }
 
 abstract class WithAppId {
@@ -21,7 +18,8 @@ class ModelReference {
   final String componentName;
   final ModelBase referenced;
 
-  ModelReference(this.packageName, this.componentName, this.referenced);
+  ModelReference(this.packageName, this.componentName, this.referenced) {
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -34,4 +32,3 @@ class ModelReference {
 
   String key() => packageName + "-" + componentName + "-" + referenced.documentID;
 }
-
