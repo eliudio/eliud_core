@@ -36,6 +36,7 @@ abstract class MediumHelper<T> {
     UploadInfo fileInfo,
     UploadInfo fileInfoThumbnail,
     PhotoWithThumbnail photoWithThumbnail,
+    {String? relatedMediumId}
   );
 
   Future<T> videoWithThumbnailToMediumModel(
@@ -44,12 +45,14 @@ abstract class MediumHelper<T> {
     UploadInfo fileInfo,
     UploadInfo fileInfoThumbnail,
     VideoWithThumbnail videoWithThumbnail,
+    {String? relatedMediumId}
   );
 
   Future<T> textToMediumModel(
       String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
+      {String? relatedMediumId}
       );
 
   Future<T> constructMediumModel(
@@ -102,7 +105,7 @@ abstract class MediumHelper<T> {
    */
   Future<T> createThumbnailUploadPhotoData(String memberMediumDocumentId,
       Uint8List fileData, String baseName, String thumbnailBaseName,
-      {FeedbackProgress? feedbackProgress}) async {
+      {FeedbackProgress? feedbackProgress, String? relatedMediumId}) async {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
         ownerId, packageName, readAccessCustomMetaData(),
@@ -136,7 +139,7 @@ abstract class MediumHelper<T> {
     }
 
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentId,
-        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto);
+        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto, relatedMediumId: relatedMediumId);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
@@ -149,29 +152,24 @@ abstract class MediumHelper<T> {
    */
   Future<T> createThumbnailUploadPhotoFile(
       String memberMediumDocumentID, String filePath,
-      {FeedbackProgress? feedbackProgress}) async {
+      {FeedbackProgress? feedbackProgress, String? relatedMediumId}) async {
     // First, upload the file
-    print('UploadInfo.uploadFile');
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
 
-    print('UploadInfo.uploadFile 222222222222222222');
     // Second, create the thumbnail
     var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
-    print('UploadInfo.uploadFile 3333');
     var thumbnailBaseName =
         BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, filePath);
 
-    print('UploadInfo.uploadFile 4');
     var enrichedPhoto = await MediumData.enrichPhoto(
         baseName, thumbnailBaseName, fileInfo.item2);
     print('UploadInfo.uploadFile 5');
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
-    print('UploadInfo.uploadFile 6');
     // Third, upload the thumbnail
     var fileInfoThumbnail = await UploadInfo.uploadData(
         thumbnailBaseName,
@@ -184,14 +182,12 @@ abstract class MediumHelper<T> {
             3, 4, progress,
             feedbackProgress: feedbackProgress));
 
-    print('UploadInfo.uploadFile 7');
     if (fileInfoThumbnail == null) {
       throw Exception('fileInfoThumbnail is null');
     }
 
-    print('UploadInfo.uploadFile 8');
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentID,
-        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto);
+        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto, relatedMediumId: relatedMediumId);
 
     _feedBackAggregatedProgress(1, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -204,14 +200,14 @@ abstract class MediumHelper<T> {
    */
   Future<T> createThumbnailUploadPhotoAsset(
       String memberMediumDocumentID, String assetPath,
-      {FeedbackProgress? feedbackProgress,
+      {FeedbackProgress? feedbackProgress, String? relatedMediumId
       }) async {
     print('createThumbnailUploadPhotoAsset');
     var filePath =
         await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
     print('createThumbnailUploadPhotoAsset 2');
     var returnMe = createThumbnailUploadPhotoFile(memberMediumDocumentID, filePath,
-        feedbackProgress: feedbackProgress);
+        feedbackProgress: feedbackProgress, relatedMediumId: relatedMediumId);
     print('createThumbnailUploadPhotoAsset 3');
     print('returnMe = ' + returnMe.toString());
     return returnMe;

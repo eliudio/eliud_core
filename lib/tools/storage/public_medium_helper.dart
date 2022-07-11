@@ -44,12 +44,12 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
    */
   @override
   Future<PublicMediumModel> photoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    PhotoWithThumbnail photoWithThumbnail,
-  ) async {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      PhotoWithThumbnail photoWithThumbnail,
+      {String? relatedMediumId}) async {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -67,6 +67,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       mediumHeight: photoWithThumbnail.photoData.height,
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
+      relatedMediumId: relatedMediumId,
     );
     return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
@@ -76,12 +77,12 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
    */
   @override
   Future<PublicMediumModel> videoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    VideoWithThumbnail videoWithThumbnail,
-  ) {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      VideoWithThumbnail videoWithThumbnail,
+      {String? relatedMediumId}) {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -102,6 +103,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       */
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
+      relatedMediumId: relatedMediumId,
     );
     return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
@@ -130,11 +132,14 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await publicMediumRepository(appId: app.documentID)!.add(pageImageModel);
+    return await publicMediumRepository(appId: app.documentID)!
+        .add(pageImageModel);
   }
 
   @override
-  Future<PublicMediumModel> textToMediumModel(String mediumDocumentId, String baseName, UploadInfo fileInfo) {
+  Future<PublicMediumModel> textToMediumModel(
+      String mediumDocumentId, String baseName, UploadInfo fileInfo,
+      {String? relatedMediumId}) {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -152,6 +157,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       mediumHeight: null,
       thumbnailWidth: null,
       thumbnailHeight: null,
+      relatedMediumId: relatedMediumId,
     );
     return publicMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }

@@ -32,10 +32,10 @@ class UploadInfo {
       String ownerId,
       String packageName,
       Map<String, String> customMetaData,
-      {FeedbackProgress? feedbackProgress}) async {
+      {FeedbackProgress? feedbackProgress,}) async {
     return _uploadData(baseName, fileData, appId, ownerId, packageName, ownerId,
         customMetaData,
-        feedbackProgress: feedbackProgress);
+        feedbackProgress: feedbackProgress, );
   }
 
   /*

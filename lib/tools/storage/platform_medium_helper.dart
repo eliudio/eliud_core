@@ -47,12 +47,12 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
    */
   @override
   Future<PlatformMediumModel> photoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    PhotoWithThumbnail photoWithThumbnail,
-  ) async {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      PhotoWithThumbnail photoWithThumbnail,
+      {String? relatedMediumId}) async {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -65,16 +65,18 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      conditions:
-          StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired: privilegeLevelRequired),
       mediumType: PlatformMediumType.Photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
       mediumHeight: photoWithThumbnail.photoData.height,
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
+      relatedMediumId: relatedMediumId,
     );
-    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID)!
+        .add(memberImageModel);
   }
 
   /*
@@ -82,12 +84,12 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
    */
   @override
   Future<PlatformMediumModel> videoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    VideoWithThumbnail videoWithThumbnail,
-  ) {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      VideoWithThumbnail videoWithThumbnail,
+      {String? relatedMediumId}) {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -101,7 +103,8 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      conditions: StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired: privilegeLevelRequired),
       mediumType: PlatformMediumType.Video,
       urlThumbnail: fileInfoThumbnail.url,
       /*
@@ -110,8 +113,10 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       */
       thumbnailWidth: videoWithThumbnail.thumbNailData.width,
       thumbnailHeight: videoWithThumbnail.thumbNailData.height,
+      relatedMediumId: relatedMediumId,
     );
-    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID)!
+        .add(memberImageModel);
   }
 
   @override
@@ -141,11 +146,14 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         thumbnailWidth: pageData.thumbNailData.width,
         thumbnailHeight: pageData.thumbNailData.height,
         relatedMediumId: previousMediumId);
-    return await platformMediumRepository(appId: app.documentID)!.add(pageImageModel);
+    return await platformMediumRepository(appId: app.documentID)!
+        .add(pageImageModel);
   }
 
   @override
-  Future<PlatformMediumModel> textToMediumModel(String mediumDocumentId, String baseName, UploadInfo fileInfo) {
+  Future<PlatformMediumModel> textToMediumModel(
+      String mediumDocumentId, String baseName, UploadInfo fileInfo,
+      {String? relatedMediumId}) {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -158,15 +166,17 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: null,
       url: fileInfo.url,
-      conditions:
-      StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired),
+      conditions: StorageConditionsModel(
+          privilegeLevelRequired: privilegeLevelRequired),
       mediumType: PlatformMediumType.Text,
       urlThumbnail: null,
       mediumWidth: null,
       mediumHeight: null,
       thumbnailWidth: null,
       thumbnailHeight: null,
+      relatedMediumId: relatedMediumId,
     );
-    return platformMediumRepository(appId: app.documentID)!.add(memberImageModel);
+    return platformMediumRepository(appId: app.documentID)!
+        .add(memberImageModel);
   }
 }

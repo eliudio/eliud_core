@@ -20,7 +20,9 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   MemberMediumAccessibleByGroup accessibleByGroup;
   List<String>? accessibleByMembers;
 
-  MemberMediumHelper(AppModel app, String ownerId, /*this.readAccess, */this.accessibleByGroup, {this.accessibleByMembers})
+  MemberMediumHelper(AppModel app, String ownerId,
+      /*this.readAccess, */ this.accessibleByGroup,
+      {this.accessibleByMembers})
       : super(app, ownerId, PACKAGENAME);
 
   /*
@@ -58,12 +60,12 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> photoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    PhotoWithThumbnail photoWithThumbnail,
-  ) async {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      PhotoWithThumbnail photoWithThumbnail,
+      {String? relatedMediumId}) async {
     // Create the MemberImageModel
     var memberImageModel;
 
@@ -84,7 +86,10 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       mediumHeight: photoWithThumbnail.photoData.height,
       thumbnailWidth: photoWithThumbnail.thumbNailData.width,
       thumbnailHeight: photoWithThumbnail.thumbNailData.height,
-      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+      readAccess: [
+        ownerId
+      ], // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+      relatedMediumId: relatedMediumId,
     );
     return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
@@ -94,96 +99,106 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> videoWithThumbnailToMediumModel(
-    String memberMediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    VideoWithThumbnail videoWithThumbnail,
-  ) {
+      String memberMediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      VideoWithThumbnail videoWithThumbnail,
+      {String? relatedMediumId}) {
     // Create the MemberImageModel
     var memberImageModel;
 
     // Create the MemberImageModel
     memberImageModel = MemberMediumModel(
-      documentID: memberMediumDocumentId,
-      base: MediumHelper.getBaseName(baseName),
-      ext: MediumHelper.getExtension(baseName),
-      appId: app.documentID,
-      authorId: ownerId,
-      ref: fileInfo.ref,
-      refThumbnail: fileInfoThumbnail.ref,
-      url: fileInfo.url,
-      accessibleByGroup: accessibleByGroup,
-      accessibleByMembers: accessibleByMembers,
-      mediumType: MediumType.Video,
-      urlThumbnail: fileInfoThumbnail.url,
-      /*
+        documentID: memberMediumDocumentId,
+        base: MediumHelper.getBaseName(baseName),
+        ext: MediumHelper.getExtension(baseName),
+        appId: app.documentID,
+        authorId: ownerId,
+        ref: fileInfo.ref,
+        refThumbnail: fileInfoThumbnail.ref,
+        url: fileInfo.url,
+        accessibleByGroup: accessibleByGroup,
+        accessibleByMembers: accessibleByMembers,
+        mediumType: MediumType.Video,
+        urlThumbnail: fileInfoThumbnail.url,
+        /*
       mediumWidth: videoWithThumbnail.videoData.width,
       mediumHeight: videoWithThumbnail.videoData.height,
       */
-      thumbnailWidth: videoWithThumbnail.thumbNailData.width,
-      thumbnailHeight: videoWithThumbnail.thumbNailData.height,
-      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
-    );
+        thumbnailWidth: videoWithThumbnail.thumbNailData.width,
+        thumbnailHeight: videoWithThumbnail.thumbNailData.height,
+        readAccess: [
+          ownerId
+        ], // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+        relatedMediumId: relatedMediumId);
     return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 
   @override
   Future<MemberMediumModel> constructMediumModel(
-      String newDocumentID,
-      String baseName,
-      UploadInfo? pageImage,
-      UploadInfo? pageThumbnail,
-      PhotoWithThumbnail pageData,
-      AbstractMediumType type,
-      dynamic previousMediumId) async {
+    String newDocumentID,
+    String baseName,
+    UploadInfo? pageImage,
+    UploadInfo? pageThumbnail,
+    PhotoWithThumbnail pageData,
+    AbstractMediumType type,
+    dynamic previousMediumId,
+  ) async {
     var pageImageModel = MemberMediumModel(
-        documentID: newDocumentID,
-      base: MediumHelper.getBaseName(baseName),
-      ext: MediumHelper.getExtension(baseName),
-        appId: app.documentID,
-        authorId: ownerId,
-        url: pageImage == null ? null : pageImage.url,
-        ref: pageImage == null ? null : pageImage.ref,
-        refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
-        urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
-        mediumType: memberMediumType(type),
-        mediumWidth: pageData.photoData.width,
-        mediumHeight: pageData.photoData.height,
-        accessibleByGroup: accessibleByGroup,
-        accessibleByMembers: accessibleByMembers,
-        thumbnailWidth: pageData.thumbNailData.width,
-        thumbnailHeight: pageData.thumbNailData.height,
-        relatedMediumId: previousMediumId,
-        readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
-    );
-    return await memberMediumRepository(appId: app.documentID)!.add(pageImageModel);
-  }
-
-  @override
-  Future<MemberMediumModel> textToMediumModel(String memberMediumDocumentId, String baseName, UploadInfo fileInfo) async {
-    // Create the MemberImageModel
-    var memberImageModel;
-
-    memberImageModel = MemberMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: newDocumentID,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
-      ref: fileInfo.ref,
-      refThumbnail: null,
-      url: fileInfo.url,
+      url: pageImage == null ? null : pageImage.url,
+      ref: pageImage == null ? null : pageImage.ref,
+      refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
+      urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
+      mediumType: memberMediumType(type),
+      mediumWidth: pageData.photoData.width,
+      mediumHeight: pageData.photoData.height,
       accessibleByGroup: accessibleByGroup,
       accessibleByMembers: accessibleByMembers,
-      mediumType: MediumType.Text,
-      urlThumbnail: null,
-      mediumWidth: 0,
-      mediumHeight: 0,
-      thumbnailWidth: 0,
-      thumbnailHeight: 0,
-      readAccess: [ownerId],  // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+      thumbnailWidth: pageData.thumbNailData.width,
+      thumbnailHeight: pageData.thumbNailData.height,
+      relatedMediumId: previousMediumId,
+      readAccess: [
+        ownerId
+      ], // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
     );
+    return await memberMediumRepository(appId: app.documentID)!
+        .add(pageImageModel);
+  }
+
+  @override
+  Future<MemberMediumModel> textToMediumModel(
+      String memberMediumDocumentId, String baseName, UploadInfo fileInfo,
+      {String? relatedMediumId}) async {
+    // Create the MemberImageModel
+    var memberImageModel;
+
+    memberImageModel = MemberMediumModel(
+        documentID: memberMediumDocumentId,
+        base: MediumHelper.getBaseName(baseName),
+        ext: MediumHelper.getExtension(baseName),
+        appId: app.documentID,
+        authorId: ownerId,
+        ref: fileInfo.ref,
+        refThumbnail: null,
+        url: fileInfo.url,
+        accessibleByGroup: accessibleByGroup,
+        accessibleByMembers: accessibleByMembers,
+        mediumType: MediumType.Text,
+        urlThumbnail: null,
+        mediumWidth: 0,
+        mediumHeight: 0,
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
+        readAccess: [
+          ownerId
+        ], // default readAccess to the owner. The function will expand this based on accessibleByGroup/Members
+        relatedMediumId: relatedMediumId);
     return memberMediumRepository(appId: app.documentID)!.add(memberImageModel);
   }
 }
