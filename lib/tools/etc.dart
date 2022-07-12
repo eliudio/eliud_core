@@ -255,9 +255,9 @@ class BoxDecorationHelper {
       boxShadows = [
         BoxShadow(
           color: RgbHelper.color(rgbo: bdm.shadow!.color),
-          spreadRadius: bdm.shadow!.spreadRadius!,
-          blurRadius: bdm.shadow!.blurRadius!,
-          offset: Offset(bdm.shadow!.offsetDX!, bdm.shadow!.offsetDY!),
+          spreadRadius: bdm.shadow!.spreadRadius ?? 7,
+          blurRadius: bdm.shadow!.blurRadius ?? 7,
+          offset: Offset(bdm.shadow!.offsetDX ?? 5, bdm.shadow!.offsetDY ?? 5),
         )
       ];
     }
