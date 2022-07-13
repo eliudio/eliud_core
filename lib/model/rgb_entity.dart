@@ -30,7 +30,9 @@ class RgbEntity implements EntityBase {
 
   RgbEntity({this.r, this.g, this.b, this.opacity, });
 
-
+  RgbEntity copyWith({int? r, int? g, int? b, double? opacity, }) {
+    return RgbEntity(r : r ?? this.r, g : g ?? this.g, b : b ?? this.b, opacity : opacity ?? this.opacity, );
+  }
   List<Object?> get props => [r, g, b, opacity, ];
 
   @override
@@ -61,6 +63,12 @@ class RgbEntity implements EntityBase {
     if (opacity != null) theDocument["opacity"] = opacity;
       else theDocument["opacity"] = null;
     return theDocument;
+  }
+
+  @override
+  RgbEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static RgbEntity? fromJsonString(String json) {

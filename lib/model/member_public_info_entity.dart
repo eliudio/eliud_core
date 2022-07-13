@@ -29,7 +29,9 @@ class MemberPublicInfoEntity implements EntityBase {
 
   MemberPublicInfoEntity({this.name, this.photoURL, this.subscriptions, });
 
-
+  MemberPublicInfoEntity copyWith({String? documentID, String? name, String? photoURL, List<MemberSubscriptionEntity>? subscriptions, }) {
+    return MemberPublicInfoEntity(name : name ?? this.name, photoURL : photoURL ?? this.photoURL, subscriptions : subscriptions ?? this.subscriptions, );
+  }
   List<Object?> get props => [name, photoURL, subscriptions, ];
 
   @override
@@ -72,6 +74,12 @@ class MemberPublicInfoEntity implements EntityBase {
     if (subscriptions != null) theDocument["subscriptions"] = subscriptionsListMap;
       else theDocument["subscriptions"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberPublicInfoEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MemberPublicInfoEntity? fromJsonString(String json) {

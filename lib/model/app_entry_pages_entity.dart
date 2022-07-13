@@ -28,7 +28,9 @@ class AppEntryPagesEntity implements EntityBase {
 
   AppEntryPagesEntity({this.entryPageId, this.minPrivilege, });
 
-
+  AppEntryPagesEntity copyWith({String? documentID, String? entryPageId, int? minPrivilege, }) {
+    return AppEntryPagesEntity(entryPageId : entryPageId ?? this.entryPageId, minPrivilege : minPrivilege ?? this.minPrivilege, );
+  }
   List<Object?> get props => [entryPageId, minPrivilege, ];
 
   @override
@@ -53,6 +55,12 @@ class AppEntryPagesEntity implements EntityBase {
     if (minPrivilege != null) theDocument["minPrivilege"] = minPrivilege;
       else theDocument["minPrivilege"] = null;
     return theDocument;
+  }
+
+  @override
+  AppEntryPagesEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static AppEntryPagesEntity? fromJsonString(String json) {

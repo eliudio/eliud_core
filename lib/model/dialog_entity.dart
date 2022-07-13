@@ -35,7 +35,9 @@ class DialogEntity implements EntityBase {
 
   DialogEntity({required this.appId, this.title, this.description, this.bodyComponents, this.backgroundOverride, this.layout, this.includeHeading, this.gridViewId, this.conditions, });
 
-
+  DialogEntity copyWith({String? documentID, String? appId, String? title, String? description, List<BodyComponentEntity>? bodyComponents, BackgroundEntity? backgroundOverride, int? layout, bool? includeHeading, String? gridViewId, StorageConditionsEntity? conditions, }) {
+    return DialogEntity(appId : appId ?? this.appId, title : title ?? this.title, description : description ?? this.description, bodyComponents : bodyComponents ?? this.bodyComponents, backgroundOverride : backgroundOverride ?? this.backgroundOverride, layout : layout ?? this.layout, includeHeading : includeHeading ?? this.includeHeading, gridViewId : gridViewId ?? this.gridViewId, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, title, description, bodyComponents, backgroundOverride, layout, includeHeading, gridViewId, conditions, ];
 
   @override
@@ -110,6 +112,12 @@ class DialogEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  DialogEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static DialogEntity? fromJsonString(String json) {

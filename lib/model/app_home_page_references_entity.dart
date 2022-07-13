@@ -32,7 +32,9 @@ class AppHomePageReferencesEntity implements EntityBase {
 
   AppHomePageReferencesEntity({this.homePageBlockedMember, this.homePagePublic, this.homePageSubscribedMember, this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner, });
 
-
+  AppHomePageReferencesEntity copyWith({String? homePageBlockedMember, String? homePagePublic, String? homePageSubscribedMember, String? homePageLevel1Member, String? homePageLevel2Member, String? homePageOwner, }) {
+    return AppHomePageReferencesEntity(homePageBlockedMember : homePageBlockedMember ?? this.homePageBlockedMember, homePagePublic : homePagePublic ?? this.homePagePublic, homePageSubscribedMember : homePageSubscribedMember ?? this.homePageSubscribedMember, homePageLevel1Member : homePageLevel1Member ?? this.homePageLevel1Member, homePageLevel2Member : homePageLevel2Member ?? this.homePageLevel2Member, homePageOwner : homePageOwner ?? this.homePageOwner, );
+  }
   List<Object?> get props => [homePageBlockedMember, homePagePublic, homePageSubscribedMember, homePageLevel1Member, homePageLevel2Member, homePageOwner, ];
 
   @override
@@ -69,6 +71,12 @@ class AppHomePageReferencesEntity implements EntityBase {
     if (homePageOwner != null) theDocument["homePageOwner"] = homePageOwner;
       else theDocument["homePageOwner"] = null;
     return theDocument;
+  }
+
+  @override
+  AppHomePageReferencesEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static AppHomePageReferencesEntity? fromJsonString(String json) {

@@ -31,7 +31,9 @@ class ShadowEntity implements EntityBase {
 
   ShadowEntity({this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, });
 
-
+  ShadowEntity copyWith({RgbEntity? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
+    return ShadowEntity(color : color ?? this.color, offsetDX : offsetDX ?? this.offsetDX, offsetDY : offsetDY ?? this.offsetDY, spreadRadius : spreadRadius ?? this.spreadRadius, blurRadius : blurRadius ?? this.blurRadius, );
+  }
   List<Object?> get props => [color, offsetDX, offsetDY, spreadRadius, blurRadius, ];
 
   @override
@@ -74,6 +76,12 @@ class ShadowEntity implements EntityBase {
     if (blurRadius != null) theDocument["blurRadius"] = blurRadius;
       else theDocument["blurRadius"] = null;
     return theDocument;
+  }
+
+  @override
+  ShadowEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static ShadowEntity? fromJsonString(String json) {

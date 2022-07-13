@@ -31,7 +31,9 @@ class AccessEntity implements EntityBase {
 
   AccessEntity({required this.appId, this.privilegeLevel, this.points, this.blocked, this.privilegeLevelBeforeBlocked, });
 
-
+  AccessEntity copyWith({String? documentID, String? appId, int? privilegeLevel, int? points, bool? blocked, int? privilegeLevelBeforeBlocked, }) {
+    return AccessEntity(appId : appId ?? this.appId, privilegeLevel : privilegeLevel ?? this.privilegeLevel, points : points ?? this.points, blocked : blocked ?? this.blocked, privilegeLevelBeforeBlocked : privilegeLevelBeforeBlocked ?? this.privilegeLevelBeforeBlocked, );
+  }
   List<Object?> get props => [appId, privilegeLevel, points, blocked, privilegeLevelBeforeBlocked, ];
 
   @override
@@ -65,6 +67,12 @@ class AccessEntity implements EntityBase {
     if (privilegeLevelBeforeBlocked != null) theDocument["privilegeLevelBeforeBlocked"] = privilegeLevelBeforeBlocked;
       else theDocument["privilegeLevelBeforeBlocked"] = null;
     return theDocument;
+  }
+
+  @override
+  AccessEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static AccessEntity? fromJsonString(String json) {

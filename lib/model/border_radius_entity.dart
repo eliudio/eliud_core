@@ -30,7 +30,9 @@ class BorderRadiusEntity implements EntityBase {
 
   BorderRadiusEntity({this.borderRadiusType, this.circularValue, this.ellipticalX, this.ellipticalY, });
 
-
+  BorderRadiusEntity copyWith({int? borderRadiusType, double? circularValue, double? ellipticalX, double? ellipticalY, }) {
+    return BorderRadiusEntity(borderRadiusType : borderRadiusType ?? this.borderRadiusType, circularValue : circularValue ?? this.circularValue, ellipticalX : ellipticalX ?? this.ellipticalX, ellipticalY : ellipticalY ?? this.ellipticalY, );
+  }
   List<Object?> get props => [borderRadiusType, circularValue, ellipticalX, ellipticalY, ];
 
   @override
@@ -61,6 +63,12 @@ class BorderRadiusEntity implements EntityBase {
     if (ellipticalY != null) theDocument["ellipticalY"] = ellipticalY;
       else theDocument["ellipticalY"] = null;
     return theDocument;
+  }
+
+  @override
+  BorderRadiusEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static BorderRadiusEntity? fromJsonString(String json) {

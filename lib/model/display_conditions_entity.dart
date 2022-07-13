@@ -29,7 +29,9 @@ class DisplayConditionsEntity implements EntityBase {
 
   DisplayConditionsEntity({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, });
 
-
+  DisplayConditionsEntity copyWith({int? privilegeLevelRequired, String? packageCondition, int? conditionOverride, }) {
+    return DisplayConditionsEntity(privilegeLevelRequired : privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition : packageCondition ?? this.packageCondition, conditionOverride : conditionOverride ?? this.conditionOverride, );
+  }
   List<Object?> get props => [privilegeLevelRequired, packageCondition, conditionOverride, ];
 
   @override
@@ -57,6 +59,12 @@ class DisplayConditionsEntity implements EntityBase {
     if (conditionOverride != null) theDocument["conditionOverride"] = conditionOverride;
       else theDocument["conditionOverride"] = null;
     return theDocument;
+  }
+
+  @override
+  DisplayConditionsEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static DisplayConditionsEntity? fromJsonString(String json) {

@@ -38,7 +38,9 @@ class PageEntity implements EntityBase {
 
   PageEntity({required this.appId, this.description, this.title, this.appBarId, this.drawerId, this.endDrawerId, this.homeMenuId, this.bodyComponents, this.backgroundOverride, this.layout, this.gridViewId, this.conditions, });
 
-
+  PageEntity copyWith({String? documentID, String? appId, String? description, String? title, String? appBarId, String? drawerId, String? endDrawerId, String? homeMenuId, List<BodyComponentEntity>? bodyComponents, BackgroundEntity? backgroundOverride, int? layout, String? gridViewId, StorageConditionsEntity? conditions, }) {
+    return PageEntity(appId : appId ?? this.appId, description : description ?? this.description, title : title ?? this.title, appBarId : appBarId ?? this.appBarId, drawerId : drawerId ?? this.drawerId, endDrawerId : endDrawerId ?? this.endDrawerId, homeMenuId : homeMenuId ?? this.homeMenuId, bodyComponents : bodyComponents ?? this.bodyComponents, backgroundOverride : backgroundOverride ?? this.backgroundOverride, layout : layout ?? this.layout, gridViewId : gridViewId ?? this.gridViewId, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, description, title, appBarId, drawerId, endDrawerId, homeMenuId, bodyComponents, backgroundOverride, layout, gridViewId, conditions, ];
 
   @override
@@ -122,6 +124,12 @@ class PageEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  PageEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static PageEntity? fromJsonString(String json) {

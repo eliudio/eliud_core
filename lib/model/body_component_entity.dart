@@ -28,7 +28,9 @@ class BodyComponentEntity implements EntityBase {
 
   BodyComponentEntity({this.componentName, this.componentId, });
 
-
+  BodyComponentEntity copyWith({String? documentID, String? componentName, String? componentId, }) {
+    return BodyComponentEntity(componentName : componentName ?? this.componentName, componentId : componentId ?? this.componentId, );
+  }
   List<Object?> get props => [componentName, componentId, ];
 
   @override
@@ -53,6 +55,12 @@ class BodyComponentEntity implements EntityBase {
     if (componentId != null) theDocument["componentId"] = componentId;
       else theDocument["componentId"] = null;
     return theDocument;
+  }
+
+  @override
+  BodyComponentEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static BodyComponentEntity? fromJsonString(String json) {

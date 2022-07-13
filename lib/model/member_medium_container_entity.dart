@@ -28,7 +28,9 @@ class MemberMediumContainerEntity implements EntityBase {
 
   MemberMediumContainerEntity({this.memberMediumId, });
 
-
+  MemberMediumContainerEntity copyWith({String? documentID, String? memberMediumId, }) {
+    return MemberMediumContainerEntity(memberMediumId : memberMediumId ?? this.memberMediumId, );
+  }
   List<Object?> get props => [memberMediumId, ];
 
   @override
@@ -50,6 +52,12 @@ class MemberMediumContainerEntity implements EntityBase {
     if (memberMediumId != null) theDocument["memberMediumId"] = memberMediumId;
       else theDocument["memberMediumId"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberMediumContainerEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MemberMediumContainerEntity? fromJsonString(String json) {

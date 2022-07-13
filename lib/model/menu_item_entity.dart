@@ -30,7 +30,9 @@ class MenuItemEntity implements EntityBase {
 
   MenuItemEntity({this.text, this.description, this.icon, this.action, });
 
-
+  MenuItemEntity copyWith({String? documentID, String? text, String? description, IconEntity? icon, ActionEntity? action, }) {
+    return MenuItemEntity(text : text ?? this.text, description : description ?? this.description, icon : icon ?? this.icon, action : action ?? this.action, );
+  }
   List<Object?> get props => [text, description, icon, action, ];
 
   @override
@@ -77,6 +79,12 @@ class MenuItemEntity implements EntityBase {
     if (action != null) theDocument["action"] = actionMap;
       else theDocument["action"] = null;
     return theDocument;
+  }
+
+  @override
+  MenuItemEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MenuItemEntity? fromJsonString(String json) {

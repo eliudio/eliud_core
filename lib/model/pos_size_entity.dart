@@ -39,7 +39,9 @@ class PosSizeEntity implements EntityBase {
 
   PosSizeEntity({this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, });
 
-
+  PosSizeEntity copyWith({double? widthPortrait, int? widthTypePortrait, double? widthLandscape, int? widthTypeLandscape, double? heightPortrait, int? heightTypePortrait, double? heightLandscape, int? heightTypeLandscape, int? fitPortrait, int? fitLandscape, int? alignTypePortrait, int? alignTypeLandscape, int? clip, }) {
+    return PosSizeEntity(widthPortrait : widthPortrait ?? this.widthPortrait, widthTypePortrait : widthTypePortrait ?? this.widthTypePortrait, widthLandscape : widthLandscape ?? this.widthLandscape, widthTypeLandscape : widthTypeLandscape ?? this.widthTypeLandscape, heightPortrait : heightPortrait ?? this.heightPortrait, heightTypePortrait : heightTypePortrait ?? this.heightTypePortrait, heightLandscape : heightLandscape ?? this.heightLandscape, heightTypeLandscape : heightTypeLandscape ?? this.heightTypeLandscape, fitPortrait : fitPortrait ?? this.fitPortrait, fitLandscape : fitLandscape ?? this.fitLandscape, alignTypePortrait : alignTypePortrait ?? this.alignTypePortrait, alignTypeLandscape : alignTypeLandscape ?? this.alignTypeLandscape, clip : clip ?? this.clip, );
+  }
   List<Object?> get props => [widthPortrait, widthTypePortrait, widthLandscape, widthTypeLandscape, heightPortrait, heightTypePortrait, heightLandscape, heightTypeLandscape, fitPortrait, fitLandscape, alignTypePortrait, alignTypeLandscape, clip, ];
 
   @override
@@ -97,6 +99,12 @@ class PosSizeEntity implements EntityBase {
     if (clip != null) theDocument["clip"] = clip;
       else theDocument["clip"] = null;
     return theDocument;
+  }
+
+  @override
+  PosSizeEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static PosSizeEntity? fromJsonString(String json) {

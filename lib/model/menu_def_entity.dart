@@ -30,7 +30,9 @@ class MenuDefEntity implements EntityBase {
 
   MenuDefEntity({required this.appId, this.name, this.menuItems, this.admin, });
 
-
+  MenuDefEntity copyWith({String? documentID, String? appId, String? name, List<MenuItemEntity>? menuItems, bool? admin, }) {
+    return MenuDefEntity(appId : appId ?? this.appId, name : name ?? this.name, menuItems : menuItems ?? this.menuItems, admin : admin ?? this.admin, );
+  }
   List<Object?> get props => [appId, name, menuItems, admin, ];
 
   @override
@@ -76,6 +78,12 @@ class MenuDefEntity implements EntityBase {
     if (admin != null) theDocument["admin"] = admin;
       else theDocument["admin"] = null;
     return theDocument;
+  }
+
+  @override
+  MenuDefEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static MenuDefEntity? fromJsonString(String json) {

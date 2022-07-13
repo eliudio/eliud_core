@@ -44,7 +44,9 @@ class MemberMediumEntity implements EntityBase {
 
   MemberMediumEntity({required this.appId, this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.accessibleByGroup, this.accessibleByMembers, this.readAccess, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
-
+  MemberMediumEntity copyWith({String? documentID, String? appId, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, int? accessibleByGroup, List<String>? accessibleByMembers, List<String>? readAccess, int? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
+    return MemberMediumEntity(appId : appId ?? this.appId, authorId : authorId ?? this.authorId, base : base ?? this.base, ext : ext ?? this.ext, url : url ?? this.url, ref : ref ?? this.ref, urlThumbnail : urlThumbnail ?? this.urlThumbnail, refThumbnail : refThumbnail ?? this.refThumbnail, accessibleByGroup : accessibleByGroup ?? this.accessibleByGroup, accessibleByMembers : accessibleByMembers ?? this.accessibleByMembers, readAccess : readAccess ?? this.readAccess, mediumType : mediumType ?? this.mediumType, mediumWidth : mediumWidth ?? this.mediumWidth, mediumHeight : mediumHeight ?? this.mediumHeight, thumbnailWidth : thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight : thumbnailHeight ?? this.thumbnailHeight, relatedMediumId : relatedMediumId ?? this.relatedMediumId, );
+  }
   List<Object?> get props => [appId, authorId, base, ext, url, ref, urlThumbnail, refThumbnail, accessibleByGroup, accessibleByMembers, readAccess, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
@@ -117,6 +119,12 @@ class MemberMediumEntity implements EntityBase {
     if (relatedMediumId != null) theDocument["relatedMediumId"] = relatedMediumId;
       else theDocument["relatedMediumId"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberMediumEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static MemberMediumEntity? fromJsonString(String json) {

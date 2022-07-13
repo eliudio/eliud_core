@@ -39,7 +39,9 @@ class AppEntity implements EntityBase {
 
   AppEntity({required this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
 
-
+  AppEntity copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, int? appStatus, String? anonymousProfilePhotoId, AppHomePageReferencesEntity? homePages, String? logoId, String? policiesId, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
+    return AppEntity(ownerID : ownerID ?? this.ownerID, title : title ?? this.title, email : email ?? this.email, description : description ?? this.description, appStatus : appStatus ?? this.appStatus, anonymousProfilePhotoId : anonymousProfilePhotoId ?? this.anonymousProfilePhotoId, homePages : homePages ?? this.homePages, logoId : logoId ?? this.logoId, policiesId : policiesId ?? this.policiesId, styleFamily : styleFamily ?? this.styleFamily, styleName : styleName ?? this.styleName, autoPrivileged1 : autoPrivileged1 ?? this.autoPrivileged1, isFeatured : isFeatured ?? this.isFeatured, );
+  }
   List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, isFeatured, ];
 
   @override
@@ -106,6 +108,12 @@ class AppEntity implements EntityBase {
     if (isFeatured != null) theDocument["isFeatured"] = isFeatured;
       else theDocument["isFeatured"] = null;
     return theDocument;
+  }
+
+  @override
+  AppEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static AppEntity? fromJsonString(String json) {

@@ -46,7 +46,9 @@ class MemberEntity implements EntityBase {
 
   MemberEntity({this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photoId, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, });
 
-
+  MemberEntity copyWith({String? documentID, String? name, List<MemberSubscriptionEntity>? subscriptions, List<String>? subscriptionsAsStrArr, String? photoId, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, String? email, bool? isAnonymous, }) {
+    return MemberEntity(name : name ?? this.name, subscriptions : subscriptions ?? this.subscriptions, subscriptionsAsStrArr : subscriptionsAsStrArr ?? this.subscriptionsAsStrArr, photoId : photoId ?? this.photoId, photoURL : photoURL ?? this.photoURL, shipStreet1 : shipStreet1 ?? this.shipStreet1, shipStreet2 : shipStreet2 ?? this.shipStreet2, shipCity : shipCity ?? this.shipCity, shipState : shipState ?? this.shipState, postcode : postcode ?? this.postcode, country : country ?? this.country, invoiceSame : invoiceSame ?? this.invoiceSame, invoiceStreet1 : invoiceStreet1 ?? this.invoiceStreet1, invoiceStreet2 : invoiceStreet2 ?? this.invoiceStreet2, invoiceCity : invoiceCity ?? this.invoiceCity, invoiceState : invoiceState ?? this.invoiceState, invoicePostcode : invoicePostcode ?? this.invoicePostcode, invoiceCountry : invoiceCountry ?? this.invoiceCountry, email : email ?? this.email, isAnonymous : isAnonymous ?? this.isAnonymous, );
+  }
   List<Object?> get props => [name, subscriptions, subscriptionsAsStrArr, photoId, photoURL, shipStreet1, shipStreet2, shipCity, shipState, postcode, country, invoiceSame, invoiceStreet1, invoiceStreet2, invoiceCity, invoiceState, invoicePostcode, invoiceCountry, email, isAnonymous, ];
 
   @override
@@ -141,6 +143,12 @@ class MemberEntity implements EntityBase {
     if (isAnonymous != null) theDocument["isAnonymous"] = isAnonymous;
       else theDocument["isAnonymous"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MemberEntity? fromJsonString(String json) {

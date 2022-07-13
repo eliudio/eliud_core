@@ -29,7 +29,9 @@ class AppPolicyEntity implements EntityBase {
 
   AppPolicyEntity({required this.appId, this.comments, this.policies, });
 
-
+  AppPolicyEntity copyWith({String? documentID, String? appId, String? comments, List<AppPolicyItemEntity>? policies, }) {
+    return AppPolicyEntity(appId : appId ?? this.appId, comments : comments ?? this.comments, policies : policies ?? this.policies, );
+  }
   List<Object?> get props => [appId, comments, policies, ];
 
   @override
@@ -72,6 +74,12 @@ class AppPolicyEntity implements EntityBase {
     if (policies != null) theDocument["policies"] = policiesListMap;
       else theDocument["policies"] = null;
     return theDocument;
+  }
+
+  @override
+  AppPolicyEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static AppPolicyEntity? fromJsonString(String json) {

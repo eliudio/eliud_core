@@ -16,6 +16,8 @@ abstract class ActionEntity {
 
   Map<String, Object?> toDocument();
 
+  ActionEntity copyWith({String? appId});
+
   static ActionEntity fromMap(Map snap) {
     var actionType = snap['actionType'];
     if (actionType != null) {
@@ -60,6 +62,11 @@ class GotoPageEntity extends ActionEntity {
       pageID: snap['pageID'],
     );
   }
+
+  @override
+  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? pageID }) {
+    return GotoPageEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, pageID: pageID ?? this.pageID);
+  }
 }
 
 class OpenDialogEntity extends ActionEntity {
@@ -84,6 +91,11 @@ class OpenDialogEntity extends ActionEntity {
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         dialogID: snap['dialogID']
     );
+  }
+
+  @override
+  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? dialogID }) {
+    return OpenDialogEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, dialogID: dialogID ?? this.dialogID);
   }
 }
 
@@ -110,6 +122,11 @@ class SwitchAppEntity extends ActionEntity {
         toAppID: snap['toAppID']
     );
   }
+
+  @override
+  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? toAppID }) {
+    return SwitchAppEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, toAppID: toAppID ?? this.toAppID);
+  }
 }
 
 class PopupMenuEntity extends ActionEntity {
@@ -135,6 +152,11 @@ class PopupMenuEntity extends ActionEntity {
         menuDefID: snap['menuDefID']
     );
   }
+
+  @override
+  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? menuDefID }) {
+    return PopupMenuEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, menuDefID: menuDefID ?? this.menuDefID);
+  }
 }
 
 class InternalActionEntity extends ActionEntity {
@@ -159,6 +181,11 @@ class InternalActionEntity extends ActionEntity {
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
         action: snap['action']
     );
+  }
+
+  @override
+  InternalActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? action }) {
+    return InternalActionEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, action: action ?? this.action);
   }
 }
 

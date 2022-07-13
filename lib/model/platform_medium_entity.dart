@@ -42,7 +42,9 @@ class PlatformMediumEntity implements EntityBase {
 
   PlatformMediumEntity({required this.appId, this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.conditions, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
-
+  PlatformMediumEntity copyWith({String? documentID, String? appId, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, StorageConditionsEntity? conditions, int? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
+    return PlatformMediumEntity(appId : appId ?? this.appId, authorId : authorId ?? this.authorId, base : base ?? this.base, ext : ext ?? this.ext, url : url ?? this.url, ref : ref ?? this.ref, urlThumbnail : urlThumbnail ?? this.urlThumbnail, refThumbnail : refThumbnail ?? this.refThumbnail, conditions : conditions ?? this.conditions, mediumType : mediumType ?? this.mediumType, mediumWidth : mediumWidth ?? this.mediumWidth, mediumHeight : mediumHeight ?? this.mediumHeight, thumbnailWidth : thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight : thumbnailHeight ?? this.thumbnailHeight, relatedMediumId : relatedMediumId ?? this.relatedMediumId, );
+  }
   List<Object?> get props => [appId, authorId, base, ext, url, ref, urlThumbnail, refThumbnail, conditions, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
@@ -115,6 +117,12 @@ class PlatformMediumEntity implements EntityBase {
     if (relatedMediumId != null) theDocument["relatedMediumId"] = relatedMediumId;
       else theDocument["relatedMediumId"] = null;
     return theDocument;
+  }
+
+  @override
+  PlatformMediumEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static PlatformMediumEntity? fromJsonString(String json) {

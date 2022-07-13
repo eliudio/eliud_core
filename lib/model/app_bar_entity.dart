@@ -36,7 +36,9 @@ class AppBarEntity implements EntityBase {
 
   AppBarEntity({required this.appId, this.title, this.header, this.icon, this.imageId, this.iconMenuId, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, });
 
-
+  AppBarEntity copyWith({String? documentID, String? appId, String? title, int? header, IconEntity? icon, String? imageId, String? iconMenuId, BackgroundEntity? backgroundOverride, RgbEntity? iconColorOverride, RgbEntity? selectedIconColorOverride, RgbEntity? menuBackgroundColorOverride, }) {
+    return AppBarEntity(appId : appId ?? this.appId, title : title ?? this.title, header : header ?? this.header, icon : icon ?? this.icon, imageId : imageId ?? this.imageId, iconMenuId : iconMenuId ?? this.iconMenuId, backgroundOverride : backgroundOverride ?? this.backgroundOverride, iconColorOverride : iconColorOverride ?? this.iconColorOverride, selectedIconColorOverride : selectedIconColorOverride ?? this.selectedIconColorOverride, menuBackgroundColorOverride : menuBackgroundColorOverride ?? this.menuBackgroundColorOverride, );
+  }
   List<Object?> get props => [appId, title, header, icon, imageId, iconMenuId, backgroundOverride, iconColorOverride, selectedIconColorOverride, menuBackgroundColorOverride, ];
 
   @override
@@ -122,6 +124,12 @@ class AppBarEntity implements EntityBase {
     if (menuBackgroundColorOverride != null) theDocument["menuBackgroundColorOverride"] = menuBackgroundColorOverrideMap;
       else theDocument["menuBackgroundColorOverride"] = null;
     return theDocument;
+  }
+
+  @override
+  AppBarEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static AppBarEntity? fromJsonString(String json) {

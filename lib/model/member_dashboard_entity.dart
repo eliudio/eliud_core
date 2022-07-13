@@ -36,7 +36,9 @@ class MemberDashboardEntity implements EntityBase {
 
   MemberDashboardEntity({required this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, });
 
-
+  MemberDashboardEntity copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, StorageConditionsEntity? conditions, }) {
+    return MemberDashboardEntity(appId : appId ?? this.appId, description : description ?? this.description, updateProfileText : updateProfileText ?? this.updateProfileText, retrieveDataText : retrieveDataText ?? this.retrieveDataText, deleteDataText : deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject : retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject : deleteDataEmailSubject ?? this.deleteDataEmailSubject, deleteDataEmailMessage : deleteDataEmailMessage ?? this.deleteDataEmailMessage, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, description, updateProfileText, retrieveDataText, deleteDataText, retrieveDataEmailSubject, deleteDataEmailSubject, deleteDataEmailMessage, conditions, ];
 
   @override
@@ -91,6 +93,12 @@ class MemberDashboardEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberDashboardEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static MemberDashboardEntity? fromJsonString(String json) {

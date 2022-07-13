@@ -27,7 +27,9 @@ class StorageConditionsEntity implements EntityBase {
 
   StorageConditionsEntity({this.privilegeLevelRequired, });
 
-
+  StorageConditionsEntity copyWith({int? privilegeLevelRequired, }) {
+    return StorageConditionsEntity(privilegeLevelRequired : privilegeLevelRequired ?? this.privilegeLevelRequired, );
+  }
   List<Object?> get props => [privilegeLevelRequired, ];
 
   @override
@@ -49,6 +51,12 @@ class StorageConditionsEntity implements EntityBase {
     if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
       else theDocument["privilegeLevelRequired"] = null;
     return theDocument;
+  }
+
+  @override
+  StorageConditionsEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static StorageConditionsEntity? fromJsonString(String json) {

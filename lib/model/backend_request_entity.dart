@@ -34,7 +34,9 @@ class BackendRequestEntity implements EntityBase {
 
   BackendRequestEntity({this.description, required this.appId, this.authorId, this.name, this.sendTo, this.collections, this.processed, this.requestType, });
 
-
+  BackendRequestEntity copyWith({String? documentID, String? description, String? appId, String? authorId, String? name, String? sendTo, List<Map<String, String>>? collections, bool? processed, int? requestType, }) {
+    return BackendRequestEntity(description : description ?? this.description, appId : appId ?? this.appId, authorId : authorId ?? this.authorId, name : name ?? this.name, sendTo : sendTo ?? this.sendTo, collections : collections ?? this.collections, processed : processed ?? this.processed, requestType : requestType ?? this.requestType, );
+  }
   List<Object?> get props => [description, appId, authorId, name, sendTo, collections, processed, requestType, ];
 
   @override
@@ -81,6 +83,12 @@ class BackendRequestEntity implements EntityBase {
     if (requestType != null) theDocument["requestType"] = requestType;
       else theDocument["requestType"] = null;
     return theDocument;
+  }
+
+  @override
+  BackendRequestEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static BackendRequestEntity? fromJsonString(String json) {

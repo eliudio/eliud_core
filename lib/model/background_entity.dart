@@ -36,7 +36,9 @@ class BackgroundEntity implements EntityBase {
 
   BackgroundEntity({this.backgroundImageId, this.useProfilePhotoAsBackground, this.beginGradientPosition, this.endGradientPosition, this.shadow, this.decorationColors, this.borderRadius, this.border, this.padding, this.margin, });
 
-
+  BackgroundEntity copyWith({String? backgroundImageId, bool? useProfilePhotoAsBackground, int? beginGradientPosition, int? endGradientPosition, ShadowEntity? shadow, List<DecorationColorEntity>? decorationColors, BorderRadiusEntity? borderRadius, bool? border, EdgeInsetsGeometryEntity? padding, EdgeInsetsGeometryEntity? margin, }) {
+    return BackgroundEntity(backgroundImageId : backgroundImageId ?? this.backgroundImageId, useProfilePhotoAsBackground : useProfilePhotoAsBackground ?? this.useProfilePhotoAsBackground, beginGradientPosition : beginGradientPosition ?? this.beginGradientPosition, endGradientPosition : endGradientPosition ?? this.endGradientPosition, shadow : shadow ?? this.shadow, decorationColors : decorationColors ?? this.decorationColors, borderRadius : borderRadius ?? this.borderRadius, border : border ?? this.border, padding : padding ?? this.padding, margin : margin ?? this.margin, );
+  }
   List<Object?> get props => [backgroundImageId, useProfilePhotoAsBackground, beginGradientPosition, endGradientPosition, shadow, decorationColors, borderRadius, border, padding, margin, ];
 
   @override
@@ -128,6 +130,12 @@ class BackgroundEntity implements EntityBase {
     if (margin != null) theDocument["margin"] = marginMap;
       else theDocument["margin"] = null;
     return theDocument;
+  }
+
+  @override
+  BackgroundEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static BackgroundEntity? fromJsonString(String json) {

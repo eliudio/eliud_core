@@ -32,7 +32,9 @@ class HomeMenuEntity implements EntityBase {
 
   HomeMenuEntity({required this.appId, this.name, this.menuId, this.iconColorOverride, this.backgroundOverride, this.popupMenuBackgroundColorOverride, });
 
-
+  HomeMenuEntity copyWith({String? documentID, String? appId, String? name, String? menuId, RgbEntity? iconColorOverride, BackgroundEntity? backgroundOverride, RgbEntity? popupMenuBackgroundColorOverride, }) {
+    return HomeMenuEntity(appId : appId ?? this.appId, name : name ?? this.name, menuId : menuId ?? this.menuId, iconColorOverride : iconColorOverride ?? this.iconColorOverride, backgroundOverride : backgroundOverride ?? this.backgroundOverride, popupMenuBackgroundColorOverride : popupMenuBackgroundColorOverride ?? this.popupMenuBackgroundColorOverride, );
+  }
   List<Object?> get props => [appId, name, menuId, iconColorOverride, backgroundOverride, popupMenuBackgroundColorOverride, ];
 
   @override
@@ -92,6 +94,12 @@ class HomeMenuEntity implements EntityBase {
     if (popupMenuBackgroundColorOverride != null) theDocument["popupMenuBackgroundColorOverride"] = popupMenuBackgroundColorOverrideMap;
       else theDocument["popupMenuBackgroundColorOverride"] = null;
     return theDocument;
+  }
+
+  @override
+  HomeMenuEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static HomeMenuEntity? fromJsonString(String json) {

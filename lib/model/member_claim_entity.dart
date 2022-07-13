@@ -28,7 +28,9 @@ class MemberClaimEntity implements EntityBase {
 
   MemberClaimEntity({this.refreshValue, });
 
-
+  MemberClaimEntity copyWith({String? documentID, int? refreshValue, }) {
+    return MemberClaimEntity(refreshValue : refreshValue ?? this.refreshValue, );
+  }
   List<Object?> get props => [refreshValue, ];
 
   @override
@@ -50,6 +52,12 @@ class MemberClaimEntity implements EntityBase {
     if (refreshValue != null) theDocument["refreshValue"] = refreshValue;
       else theDocument["refreshValue"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberClaimEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MemberClaimEntity? fromJsonString(String json) {

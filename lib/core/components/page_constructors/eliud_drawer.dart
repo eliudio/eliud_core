@@ -126,7 +126,7 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
                   context,
                   widget.drawerType == DrawerType.Left
                       ? DecorationDrawerType.Left
-                      : DecorationDrawerType.Left,
+                      : DecorationDrawerType.Right,
                   _drawerKey, () {
                 return dr.drawer(app, context,
                     key: _drawerKey,
@@ -145,7 +145,7 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
                   context,
                   widget.drawerType == DrawerType.Left
                       ? DecorationDrawerType.Left
-                      : DecorationDrawerType.Left,
+                      : DecorationDrawerType.Right,
                   _drawerKey, () {
                 return dr.drawer(app, context,
                     key: _drawerKey,

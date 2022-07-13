@@ -40,7 +40,9 @@ class PublicMediumEntity implements EntityBase {
 
   PublicMediumEntity({required this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, });
 
-
+  PublicMediumEntity copyWith({String? documentID, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, int? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {
+    return PublicMediumEntity(authorId : authorId ?? this.authorId, base : base ?? this.base, ext : ext ?? this.ext, url : url ?? this.url, ref : ref ?? this.ref, urlThumbnail : urlThumbnail ?? this.urlThumbnail, refThumbnail : refThumbnail ?? this.refThumbnail, mediumType : mediumType ?? this.mediumType, mediumWidth : mediumWidth ?? this.mediumWidth, mediumHeight : mediumHeight ?? this.mediumHeight, thumbnailWidth : thumbnailWidth ?? this.thumbnailWidth, thumbnailHeight : thumbnailHeight ?? this.thumbnailHeight, relatedMediumId : relatedMediumId ?? this.relatedMediumId, );
+  }
   List<Object?> get props => [authorId, base, ext, url, ref, urlThumbnail, refThumbnail, mediumType, mediumWidth, mediumHeight, thumbnailWidth, thumbnailHeight, relatedMediumId, ];
 
   @override
@@ -98,6 +100,12 @@ class PublicMediumEntity implements EntityBase {
     if (relatedMediumId != null) theDocument["relatedMediumId"] = relatedMediumId;
       else theDocument["relatedMediumId"] = null;
     return theDocument;
+  }
+
+  @override
+  PublicMediumEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static PublicMediumEntity? fromJsonString(String json) {

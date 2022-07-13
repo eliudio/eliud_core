@@ -27,7 +27,9 @@ class MemberSubscriptionEntity implements EntityBase {
 
   MemberSubscriptionEntity({this.appId, });
 
-
+  MemberSubscriptionEntity copyWith({String? documentID, String? appId, }) {
+    return MemberSubscriptionEntity(appId : appId ?? this.appId, );
+  }
   List<Object?> get props => [appId, ];
 
   @override
@@ -49,6 +51,12 @@ class MemberSubscriptionEntity implements EntityBase {
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
     return theDocument;
+  }
+
+  @override
+  MemberSubscriptionEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static MemberSubscriptionEntity? fromJsonString(String json) {

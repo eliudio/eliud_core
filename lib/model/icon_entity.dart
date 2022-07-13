@@ -28,7 +28,9 @@ class IconEntity implements EntityBase {
 
   IconEntity({this.codePoint, this.fontFamily, });
 
-
+  IconEntity copyWith({int? codePoint, String? fontFamily, }) {
+    return IconEntity(codePoint : codePoint ?? this.codePoint, fontFamily : fontFamily ?? this.fontFamily, );
+  }
   List<Object?> get props => [codePoint, fontFamily, ];
 
   @override
@@ -53,6 +55,12 @@ class IconEntity implements EntityBase {
     if (fontFamily != null) theDocument["fontFamily"] = fontFamily;
       else theDocument["fontFamily"] = null;
     return theDocument;
+  }
+
+  @override
+  IconEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static IconEntity? fromJsonString(String json) {

@@ -28,7 +28,9 @@ class DecorationColorEntity implements EntityBase {
 
   DecorationColorEntity({this.color, this.stop, });
 
-
+  DecorationColorEntity copyWith({String? documentID, RgbEntity? color, double? stop, }) {
+    return DecorationColorEntity(color : color ?? this.color, stop : stop ?? this.stop, );
+  }
   List<Object?> get props => [color, stop, ];
 
   @override
@@ -62,6 +64,12 @@ class DecorationColorEntity implements EntityBase {
     if (stop != null) theDocument["stop"] = stop;
       else theDocument["stop"] = null;
     return theDocument;
+  }
+
+  @override
+  DecorationColorEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static DecorationColorEntity? fromJsonString(String json) {

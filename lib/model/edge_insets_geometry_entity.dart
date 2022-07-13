@@ -30,7 +30,9 @@ class EdgeInsetsGeometryEntity implements EntityBase {
 
   EdgeInsetsGeometryEntity({this.left, this.right, this.top, this.bottom, });
 
-
+  EdgeInsetsGeometryEntity copyWith({double? left, double? right, double? top, double? bottom, }) {
+    return EdgeInsetsGeometryEntity(left : left ?? this.left, right : right ?? this.right, top : top ?? this.top, bottom : bottom ?? this.bottom, );
+  }
   List<Object?> get props => [left, right, top, bottom, ];
 
   @override
@@ -61,6 +63,12 @@ class EdgeInsetsGeometryEntity implements EntityBase {
     if (bottom != null) theDocument["bottom"] = bottom;
       else theDocument["bottom"] = null;
     return theDocument;
+  }
+
+  @override
+  EdgeInsetsGeometryEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith();
+    return newEntity;
   }
 
   static EdgeInsetsGeometryEntity? fromJsonString(String json) {

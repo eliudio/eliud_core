@@ -39,7 +39,9 @@ class GridViewEntity implements EntityBase {
 
   GridViewEntity({required this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, });
 
-
+  GridViewEntity copyWith({String? documentID, String? appId, String? name, int? scrollDirection, int? type, int? crossAxisCount, int? maxCrossAxisExtentType, double? absoluteMaxCrossAxisExtent, double? relativeMaxCrossAxisExtent, double? childAspectRatio, double? padding, double? mainAxisSpacing, double? crossAxisSpacing, StorageConditionsEntity? conditions, }) {
+    return GridViewEntity(appId : appId ?? this.appId, name : name ?? this.name, scrollDirection : scrollDirection ?? this.scrollDirection, type : type ?? this.type, crossAxisCount : crossAxisCount ?? this.crossAxisCount, maxCrossAxisExtentType : maxCrossAxisExtentType ?? this.maxCrossAxisExtentType, absoluteMaxCrossAxisExtent : absoluteMaxCrossAxisExtent ?? this.absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent : relativeMaxCrossAxisExtent ?? this.relativeMaxCrossAxisExtent, childAspectRatio : childAspectRatio ?? this.childAspectRatio, padding : padding ?? this.padding, mainAxisSpacing : mainAxisSpacing ?? this.mainAxisSpacing, crossAxisSpacing : crossAxisSpacing ?? this.crossAxisSpacing, conditions : conditions ?? this.conditions, );
+  }
   List<Object?> get props => [appId, name, scrollDirection, type, crossAxisCount, maxCrossAxisExtentType, absoluteMaxCrossAxisExtent, relativeMaxCrossAxisExtent, childAspectRatio, padding, mainAxisSpacing, crossAxisSpacing, conditions, ];
 
   @override
@@ -106,6 +108,12 @@ class GridViewEntity implements EntityBase {
     if (conditions != null) theDocument["conditions"] = conditionsMap;
       else theDocument["conditions"] = null;
     return theDocument;
+  }
+
+  @override
+  GridViewEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static GridViewEntity? fromJsonString(String json) {

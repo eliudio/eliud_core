@@ -36,7 +36,9 @@ class DrawerEntity implements EntityBase {
 
   DrawerEntity({required this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menuId, });
 
-
+  DrawerEntity copyWith({String? documentID, String? appId, String? name, BackgroundEntity? backgroundOverride, String? headerText, String? secondHeaderText, double? headerHeight, RgbEntity? popupMenuBackgroundColor, BackgroundEntity? headerBackgroundOverride, RgbEntity? popupMenuBackgroundColorOverride, String? menuId, }) {
+    return DrawerEntity(appId : appId ?? this.appId, name : name ?? this.name, backgroundOverride : backgroundOverride ?? this.backgroundOverride, headerText : headerText ?? this.headerText, secondHeaderText : secondHeaderText ?? this.secondHeaderText, headerHeight : headerHeight ?? this.headerHeight, popupMenuBackgroundColor : popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackgroundOverride : headerBackgroundOverride ?? this.headerBackgroundOverride, popupMenuBackgroundColorOverride : popupMenuBackgroundColorOverride ?? this.popupMenuBackgroundColorOverride, menuId : menuId ?? this.menuId, );
+  }
   List<Object?> get props => [appId, name, backgroundOverride, headerText, secondHeaderText, headerHeight, popupMenuBackgroundColor, headerBackgroundOverride, popupMenuBackgroundColorOverride, menuId, ];
 
   @override
@@ -115,6 +117,12 @@ class DrawerEntity implements EntityBase {
     if (menuId != null) theDocument["menuId"] = menuId;
       else theDocument["menuId"] = null;
     return theDocument;
+  }
+
+  @override
+  DrawerEntity switchAppId({required String newAppId}) {
+    var newEntity = copyWith(appId: newAppId);
+    return newEntity;
   }
 
   static DrawerEntity? fromJsonString(String json) {
