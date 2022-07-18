@@ -167,7 +167,6 @@ abstract class MediumHelper<T> {
 
     var enrichedPhoto = await MediumData.enrichPhoto(
         baseName, thumbnailBaseName, fileInfo.item2);
-    print('UploadInfo.uploadFile 5');
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
     // Third, upload the thumbnail
