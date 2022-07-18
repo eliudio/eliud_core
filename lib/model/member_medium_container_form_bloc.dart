@@ -45,11 +45,7 @@ import 'package:eliud_core/model/member_medium_container_repository.dart';
 class MemberMediumContainerFormBloc extends Bloc<MemberMediumContainerFormEvent, MemberMediumContainerFormState> {
   final String? appId;
 
-  MemberMediumContainerFormBloc(this.appId, ): super(MemberMediumContainerFormUninitialized());
-  @override
-  Stream<MemberMediumContainerFormState> mapEventToState(MemberMediumContainerFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MemberMediumContainerFormUninitialized) {
+  MemberMediumContainerFormBloc(this.appId, ): super(MemberMediumContainerFormUninitialized()) {
       on <InitialiseNewMemberMediumContainerFormEvent> ((event, emit) {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: MemberMediumContainerModel(
                                                documentID: "IDENTIFIER", 
@@ -59,22 +55,24 @@ class MemberMediumContainerFormBloc extends Bloc<MemberMediumContainerFormEvent,
       });
 
 
-      if (event is InitialiseMemberMediumContainerFormEvent) {
+      on <InitialiseMemberMediumContainerFormEvent> ((event, emit) async {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseMemberMediumContainerFormNoLoadEvent) {
+      });
+      on <InitialiseMemberMediumContainerFormNoLoadEvent> ((event, emit) async {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MemberMediumContainerFormInitialized) {
+      });
       MemberMediumContainerModel? newValue = null;
       on <ChangedMemberMediumContainerMemberMedium> ((event, emit) async {
+      if (state is MemberMediumContainerFormInitialized) {
+        final currentState = state as MemberMediumContainerFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(memberMedium: await memberMediumRepository(appId: appId)!.get(event.value));
         emit(SubmittableMemberMediumContainerForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

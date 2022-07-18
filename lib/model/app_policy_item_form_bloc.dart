@@ -41,11 +41,7 @@ import 'package:eliud_core/model/app_policy_item_repository.dart';
 class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFormState> {
   final String? appId;
 
-  AppPolicyItemFormBloc(this.appId, ): super(AppPolicyItemFormUninitialized());
-  @override
-  Stream<AppPolicyItemFormState> mapEventToState(AppPolicyItemFormEvent event) async* {
-    final currentState = state;
-    if (currentState is AppPolicyItemFormUninitialized) {
+  AppPolicyItemFormBloc(this.appId, ): super(AppPolicyItemFormUninitialized()) {
       on <InitialiseNewAppPolicyItemFormEvent> ((event, emit) {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: AppPolicyItemModel(
                                                documentID: "IDENTIFIER", 
@@ -56,27 +52,32 @@ class AppPolicyItemFormBloc extends Bloc<AppPolicyItemFormEvent, AppPolicyItemFo
       });
 
 
-      if (event is InitialiseAppPolicyItemFormEvent) {
+      on <InitialiseAppPolicyItemFormEvent> ((event, emit) async {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseAppPolicyItemFormNoLoadEvent) {
+      });
+      on <InitialiseAppPolicyItemFormNoLoadEvent> ((event, emit) async {
         AppPolicyItemFormLoaded loaded = AppPolicyItemFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is AppPolicyItemFormInitialized) {
+      });
       AppPolicyItemModel? newValue = null;
       on <ChangedAppPolicyItemName> ((event, emit) async {
+      if (state is AppPolicyItemFormInitialized) {
+        final currentState = state as AppPolicyItemFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         emit(SubmittableAppPolicyItemForm(value: newValue));
 
+      }
       });
       on <ChangedAppPolicyItemPolicy> ((event, emit) async {
+      if (state is AppPolicyItemFormInitialized) {
+        final currentState = state as AppPolicyItemFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(policy: await publicMediumRepository(appId: appId)!.get(event.value));
         emit(SubmittableAppPolicyItemForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

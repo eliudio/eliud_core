@@ -41,11 +41,7 @@ import 'package:eliud_core/model/decoration_color_repository.dart';
 class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationColorFormState> {
   final String? appId;
 
-  DecorationColorFormBloc(this.appId, ): super(DecorationColorFormUninitialized());
-  @override
-  Stream<DecorationColorFormState> mapEventToState(DecorationColorFormEvent event) async* {
-    final currentState = state;
-    if (currentState is DecorationColorFormUninitialized) {
+  DecorationColorFormBloc(this.appId, ): super(DecorationColorFormUninitialized()) {
       on <InitialiseNewDecorationColorFormEvent> ((event, emit) {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: DecorationColorModel(
                                                documentID: "IDENTIFIER", 
@@ -57,21 +53,26 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
       });
 
 
-      if (event is InitialiseDecorationColorFormEvent) {
+      on <InitialiseDecorationColorFormEvent> ((event, emit) async {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseDecorationColorFormNoLoadEvent) {
+      });
+      on <InitialiseDecorationColorFormNoLoadEvent> ((event, emit) async {
         DecorationColorFormLoaded loaded = DecorationColorFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is DecorationColorFormInitialized) {
+      });
       DecorationColorModel? newValue = null;
       on <ChangedDecorationColorColor> ((event, emit) async {
+      if (state is DecorationColorFormInitialized) {
+        final currentState = state as DecorationColorFormInitialized;
         newValue = currentState.value!.copyWith(color: event.value);
         emit(SubmittableDecorationColorForm(value: newValue));
 
+      }
       });
       on <ChangedDecorationColorStop> ((event, emit) async {
+      if (state is DecorationColorFormInitialized) {
+        final currentState = state as DecorationColorFormInitialized;
         if (isDouble(event.value!)) {
           newValue = currentState.value!.copyWith(stop: double.parse(event.value!));
           emit(SubmittableDecorationColorForm(value: newValue));
@@ -80,8 +81,8 @@ class DecorationColorFormBloc extends Bloc<DecorationColorFormEvent, DecorationC
           newValue = currentState.value!.copyWith(stop: 0.0);
           emit(StopDecorationColorFormError(message: "Value should be a number or decimal number", value: newValue));
         }
+      }
       });
-    }
   }
 
 

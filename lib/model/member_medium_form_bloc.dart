@@ -42,11 +42,7 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
   final FormAction? formAction;
   final String? appId;
 
-  MemberMediumFormBloc(this.appId, { this.formAction }): super(MemberMediumFormUninitialized());
-  @override
-  Stream<MemberMediumFormState> mapEventToState(MemberMediumFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MemberMediumFormUninitialized) {
+  MemberMediumFormBloc(this.appId, { this.formAction }): super(MemberMediumFormUninitialized()) {
       on <InitialiseNewMemberMediumFormEvent> ((event, emit) {
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: MemberMediumModel(
                                                documentID: "",
@@ -71,17 +67,19 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
       });
 
 
-      if (event is InitialiseMemberMediumFormEvent) {
+      on <InitialiseMemberMediumFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: await memberMediumRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseMemberMediumFormNoLoadEvent) {
+      });
+      on <InitialiseMemberMediumFormNoLoadEvent> ((event, emit) async {
         MemberMediumFormLoaded loaded = MemberMediumFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MemberMediumFormInitialized) {
+      });
       MemberMediumModel? newValue = null;
       on <ChangedMemberMediumDocumentID> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -89,53 +87,83 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           emit(SubmittableMemberMediumForm(value: newValue));
         }
 
+      }
       });
       on <ChangedMemberMediumAuthorId> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(authorId: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumBase> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(base: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumExt> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(ext: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumUrl> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(url: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumRef> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(ref: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumUrlThumbnail> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumRefThumbnail> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(refThumbnail: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumAccessibleByGroup> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(accessibleByGroup: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumMediumType> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(mediumType: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
       on <ChangedMemberMediumMediumWidth> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
           emit(SubmittableMemberMediumForm(value: newValue));
@@ -144,8 +172,11 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           newValue = currentState.value!.copyWith(mediumWidth: 0);
           emit(MediumWidthMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedMemberMediumMediumHeight> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
           emit(SubmittableMemberMediumForm(value: newValue));
@@ -154,8 +185,11 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           newValue = currentState.value!.copyWith(mediumHeight: 0);
           emit(MediumHeightMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedMemberMediumThumbnailWidth> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
           emit(SubmittableMemberMediumForm(value: newValue));
@@ -164,8 +198,11 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           newValue = currentState.value!.copyWith(thumbnailWidth: 0);
           emit(ThumbnailWidthMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedMemberMediumThumbnailHeight> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
           emit(SubmittableMemberMediumForm(value: newValue));
@@ -174,13 +211,16 @@ class MemberMediumFormBloc extends Bloc<MemberMediumFormEvent, MemberMediumFormS
           newValue = currentState.value!.copyWith(thumbnailHeight: 0);
           emit(ThumbnailHeightMemberMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedMemberMediumRelatedMediumId> ((event, emit) async {
+      if (state is MemberMediumFormInitialized) {
+        final currentState = state as MemberMediumFormInitialized;
         newValue = currentState.value!.copyWith(relatedMediumId: event.value);
         emit(SubmittableMemberMediumForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

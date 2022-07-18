@@ -42,11 +42,7 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  DialogFormBloc(this.appId, { this.formAction }): super(DialogFormUninitialized());
-  @override
-  Stream<DialogFormState> mapEventToState(DialogFormEvent event) async* {
-    final currentState = state;
-    if (currentState is DialogFormUninitialized) {
+  DialogFormBloc(this.appId, { this.formAction }): super(DialogFormUninitialized()) {
       on <InitialiseNewDialogFormEvent> ((event, emit) {
         DialogFormLoaded loaded = DialogFormLoaded(value: DialogModel(
                                                documentID: "",
@@ -60,17 +56,19 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
       });
 
 
-      if (event is InitialiseDialogFormEvent) {
+      on <InitialiseDialogFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         DialogFormLoaded loaded = DialogFormLoaded(value: await dialogRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseDialogFormNoLoadEvent) {
+      });
+      on <InitialiseDialogFormNoLoadEvent> ((event, emit) async {
         DialogFormLoaded loaded = DialogFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is DialogFormInitialized) {
+      });
       DialogModel? newValue = null;
       on <ChangedDialogDocumentID> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -78,49 +76,73 @@ class DialogFormBloc extends Bloc<DialogFormEvent, DialogFormState> {
           emit(SubmittableDialogForm(value: newValue));
         }
 
+      }
       });
       on <ChangedDialogTitle> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(title: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogDescription> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogBodyComponents> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(bodyComponents: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogBackgroundOverride> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogLayout> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(layout: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogIncludeHeading> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(includeHeading: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogGridView> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
       on <ChangedDialogConditions> ((event, emit) async {
+      if (state is DialogFormInitialized) {
+        final currentState = state as DialogFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittableDialogForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

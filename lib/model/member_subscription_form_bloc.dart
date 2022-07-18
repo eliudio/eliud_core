@@ -41,11 +41,7 @@ import 'package:eliud_core/model/member_subscription_repository.dart';
 class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, MemberSubscriptionFormState> {
   final String? appId;
 
-  MemberSubscriptionFormBloc(this.appId, ): super(MemberSubscriptionFormUninitialized());
-  @override
-  Stream<MemberSubscriptionFormState> mapEventToState(MemberSubscriptionFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MemberSubscriptionFormUninitialized) {
+  MemberSubscriptionFormBloc(this.appId, ): super(MemberSubscriptionFormUninitialized()) {
       on <InitialiseNewMemberSubscriptionFormEvent> ((event, emit) {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: MemberSubscriptionModel(
                                                documentID: "IDENTIFIER", 
@@ -55,22 +51,24 @@ class MemberSubscriptionFormBloc extends Bloc<MemberSubscriptionFormEvent, Membe
       });
 
 
-      if (event is InitialiseMemberSubscriptionFormEvent) {
+      on <InitialiseMemberSubscriptionFormEvent> ((event, emit) async {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseMemberSubscriptionFormNoLoadEvent) {
+      });
+      on <InitialiseMemberSubscriptionFormNoLoadEvent> ((event, emit) async {
         MemberSubscriptionFormLoaded loaded = MemberSubscriptionFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MemberSubscriptionFormInitialized) {
+      });
       MemberSubscriptionModel? newValue = null;
       on <ChangedMemberSubscriptionApp> ((event, emit) async {
+      if (state is MemberSubscriptionFormInitialized) {
+        final currentState = state as MemberSubscriptionFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(app: await appRepository(appId: appId)!.get(event.value));
         emit(SubmittableMemberSubscriptionForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

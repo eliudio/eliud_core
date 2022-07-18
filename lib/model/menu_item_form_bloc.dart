@@ -41,11 +41,7 @@ import 'package:eliud_core/model/menu_item_repository.dart';
 class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
   final String? appId;
 
-  MenuItemFormBloc(this.appId, ): super(MenuItemFormUninitialized());
-  @override
-  Stream<MenuItemFormState> mapEventToState(MenuItemFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MenuItemFormUninitialized) {
+  MenuItemFormBloc(this.appId, ): super(MenuItemFormUninitialized()) {
       on <InitialiseNewMenuItemFormEvent> ((event, emit) {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: MenuItemModel(
                                                documentID: "IDENTIFIER", 
@@ -57,36 +53,47 @@ class MenuItemFormBloc extends Bloc<MenuItemFormEvent, MenuItemFormState> {
       });
 
 
-      if (event is InitialiseMenuItemFormEvent) {
+      on <InitialiseMenuItemFormEvent> ((event, emit) async {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseMenuItemFormNoLoadEvent) {
+      });
+      on <InitialiseMenuItemFormNoLoadEvent> ((event, emit) async {
         MenuItemFormLoaded loaded = MenuItemFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MenuItemFormInitialized) {
+      });
       MenuItemModel? newValue = null;
       on <ChangedMenuItemText> ((event, emit) async {
+      if (state is MenuItemFormInitialized) {
+        final currentState = state as MenuItemFormInitialized;
         newValue = currentState.value!.copyWith(text: event.value);
         emit(SubmittableMenuItemForm(value: newValue));
 
+      }
       });
       on <ChangedMenuItemDescription> ((event, emit) async {
+      if (state is MenuItemFormInitialized) {
+        final currentState = state as MenuItemFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableMenuItemForm(value: newValue));
 
+      }
       });
       on <ChangedMenuItemIcon> ((event, emit) async {
+      if (state is MenuItemFormInitialized) {
+        final currentState = state as MenuItemFormInitialized;
         newValue = currentState.value!.copyWith(icon: event.value);
         emit(SubmittableMenuItemForm(value: newValue));
 
+      }
       });
       on <ChangedMenuItemAction> ((event, emit) async {
+      if (state is MenuItemFormInitialized) {
+        final currentState = state as MenuItemFormInitialized;
         newValue = currentState.value!.copyWith(action: event.value);
         emit(SubmittableMenuItemForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

@@ -42,11 +42,7 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
   final FormAction? formAction;
   final String? appId;
 
-  PublicMediumFormBloc(this.appId, { this.formAction }): super(PublicMediumFormUninitialized());
-  @override
-  Stream<PublicMediumFormState> mapEventToState(PublicMediumFormEvent event) async* {
-    final currentState = state;
-    if (currentState is PublicMediumFormUninitialized) {
+  PublicMediumFormBloc(this.appId, { this.formAction }): super(PublicMediumFormUninitialized()) {
       on <InitialiseNewPublicMediumFormEvent> ((event, emit) {
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: PublicMediumModel(
                                                documentID: "",
@@ -68,17 +64,19 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
       });
 
 
-      if (event is InitialisePublicMediumFormEvent) {
+      on <InitialisePublicMediumFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: await publicMediumRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialisePublicMediumFormNoLoadEvent) {
+      });
+      on <InitialisePublicMediumFormNoLoadEvent> ((event, emit) async {
         PublicMediumFormLoaded loaded = PublicMediumFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is PublicMediumFormInitialized) {
+      });
       PublicMediumModel? newValue = null;
       on <ChangedPublicMediumDocumentID> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -86,48 +84,75 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
           emit(SubmittablePublicMediumForm(value: newValue));
         }
 
+      }
       });
       on <ChangedPublicMediumAuthorId> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(authorId: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumBase> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(base: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumExt> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(ext: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumUrl> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(url: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumRef> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(ref: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumUrlThumbnail> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(urlThumbnail: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumRefThumbnail> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(refThumbnail: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumMediumType> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(mediumType: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
       on <ChangedPublicMediumMediumWidth> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumWidth: int.parse(event.value!));
           emit(SubmittablePublicMediumForm(value: newValue));
@@ -136,8 +161,11 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
           newValue = currentState.value!.copyWith(mediumWidth: 0);
           emit(MediumWidthPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedPublicMediumMediumHeight> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(mediumHeight: int.parse(event.value!));
           emit(SubmittablePublicMediumForm(value: newValue));
@@ -146,8 +174,11 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
           newValue = currentState.value!.copyWith(mediumHeight: 0);
           emit(MediumHeightPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedPublicMediumThumbnailWidth> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailWidth: int.parse(event.value!));
           emit(SubmittablePublicMediumForm(value: newValue));
@@ -156,8 +187,11 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
           newValue = currentState.value!.copyWith(thumbnailWidth: 0);
           emit(ThumbnailWidthPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedPublicMediumThumbnailHeight> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(thumbnailHeight: int.parse(event.value!));
           emit(SubmittablePublicMediumForm(value: newValue));
@@ -166,13 +200,16 @@ class PublicMediumFormBloc extends Bloc<PublicMediumFormEvent, PublicMediumFormS
           newValue = currentState.value!.copyWith(thumbnailHeight: 0);
           emit(ThumbnailHeightPublicMediumFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
       on <ChangedPublicMediumRelatedMediumId> ((event, emit) async {
+      if (state is PublicMediumFormInitialized) {
+        final currentState = state as PublicMediumFormInitialized;
         newValue = currentState.value!.copyWith(relatedMediumId: event.value);
         emit(SubmittablePublicMediumForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

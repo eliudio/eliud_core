@@ -42,11 +42,7 @@ class MemberPublicInfoFormBloc extends Bloc<MemberPublicInfoFormEvent, MemberPub
   final FormAction? formAction;
   final String? appId;
 
-  MemberPublicInfoFormBloc(this.appId, { this.formAction }): super(MemberPublicInfoFormUninitialized());
-  @override
-  Stream<MemberPublicInfoFormState> mapEventToState(MemberPublicInfoFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MemberPublicInfoFormUninitialized) {
+  MemberPublicInfoFormBloc(this.appId, { this.formAction }): super(MemberPublicInfoFormUninitialized()) {
       on <InitialiseNewMemberPublicInfoFormEvent> ((event, emit) {
         MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: MemberPublicInfoModel(
                                                documentID: "",
@@ -59,17 +55,19 @@ class MemberPublicInfoFormBloc extends Bloc<MemberPublicInfoFormEvent, MemberPub
       });
 
 
-      if (event is InitialiseMemberPublicInfoFormEvent) {
+      on <InitialiseMemberPublicInfoFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: await memberPublicInfoRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseMemberPublicInfoFormNoLoadEvent) {
+      });
+      on <InitialiseMemberPublicInfoFormNoLoadEvent> ((event, emit) async {
         MemberPublicInfoFormLoaded loaded = MemberPublicInfoFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MemberPublicInfoFormInitialized) {
+      });
       MemberPublicInfoModel? newValue = null;
       on <ChangedMemberPublicInfoDocumentID> ((event, emit) async {
+      if (state is MemberPublicInfoFormInitialized) {
+        final currentState = state as MemberPublicInfoFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -77,18 +75,24 @@ class MemberPublicInfoFormBloc extends Bloc<MemberPublicInfoFormEvent, MemberPub
           emit(SubmittableMemberPublicInfoForm(value: newValue));
         }
 
+      }
       });
       on <ChangedMemberPublicInfoName> ((event, emit) async {
+      if (state is MemberPublicInfoFormInitialized) {
+        final currentState = state as MemberPublicInfoFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         emit(SubmittableMemberPublicInfoForm(value: newValue));
 
+      }
       });
       on <ChangedMemberPublicInfoSubscriptions> ((event, emit) async {
+      if (state is MemberPublicInfoFormInitialized) {
+        final currentState = state as MemberPublicInfoFormInitialized;
         newValue = currentState.value!.copyWith(subscriptions: event.value);
         emit(SubmittableMemberPublicInfoForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

@@ -41,11 +41,7 @@ import 'package:eliud_core/model/body_component_repository.dart';
 class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFormState> {
   final String? appId;
 
-  BodyComponentFormBloc(this.appId, ): super(BodyComponentFormUninitialized());
-  @override
-  Stream<BodyComponentFormState> mapEventToState(BodyComponentFormEvent event) async* {
-    final currentState = state;
-    if (currentState is BodyComponentFormUninitialized) {
+  BodyComponentFormBloc(this.appId, ): super(BodyComponentFormUninitialized()) {
       on <InitialiseNewBodyComponentFormEvent> ((event, emit) {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: BodyComponentModel(
                                                documentID: "IDENTIFIER", 
@@ -57,26 +53,31 @@ class BodyComponentFormBloc extends Bloc<BodyComponentFormEvent, BodyComponentFo
       });
 
 
-      if (event is InitialiseBodyComponentFormEvent) {
+      on <InitialiseBodyComponentFormEvent> ((event, emit) async {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseBodyComponentFormNoLoadEvent) {
+      });
+      on <InitialiseBodyComponentFormNoLoadEvent> ((event, emit) async {
         BodyComponentFormLoaded loaded = BodyComponentFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is BodyComponentFormInitialized) {
+      });
       BodyComponentModel? newValue = null;
       on <ChangedBodyComponentComponentName> ((event, emit) async {
+      if (state is BodyComponentFormInitialized) {
+        final currentState = state as BodyComponentFormInitialized;
         newValue = currentState.value!.copyWith(componentName: event.value);
         emit(SubmittableBodyComponentForm(value: newValue));
 
+      }
       });
       on <ChangedBodyComponentComponentId> ((event, emit) async {
+      if (state is BodyComponentFormInitialized) {
+        final currentState = state as BodyComponentFormInitialized;
         newValue = currentState.value!.copyWith(componentId: event.value);
         emit(SubmittableBodyComponentForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

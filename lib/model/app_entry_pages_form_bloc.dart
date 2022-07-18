@@ -41,11 +41,7 @@ import 'package:eliud_core/model/app_entry_pages_repository.dart';
 class AppEntryPagesFormBloc extends Bloc<AppEntryPagesFormEvent, AppEntryPagesFormState> {
   final String? appId;
 
-  AppEntryPagesFormBloc(this.appId, ): super(AppEntryPagesFormUninitialized());
-  @override
-  Stream<AppEntryPagesFormState> mapEventToState(AppEntryPagesFormEvent event) async* {
-    final currentState = state;
-    if (currentState is AppEntryPagesFormUninitialized) {
+  AppEntryPagesFormBloc(this.appId, ): super(AppEntryPagesFormUninitialized()) {
       on <InitialiseNewAppEntryPagesFormEvent> ((event, emit) {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: AppEntryPagesModel(
                                                documentID: "IDENTIFIER", 
@@ -56,22 +52,27 @@ class AppEntryPagesFormBloc extends Bloc<AppEntryPagesFormEvent, AppEntryPagesFo
       });
 
 
-      if (event is InitialiseAppEntryPagesFormEvent) {
+      on <InitialiseAppEntryPagesFormEvent> ((event, emit) async {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: event.value);
         emit(loaded);
-      } else if (event is InitialiseAppEntryPagesFormNoLoadEvent) {
+      });
+      on <InitialiseAppEntryPagesFormNoLoadEvent> ((event, emit) async {
         AppEntryPagesFormLoaded loaded = AppEntryPagesFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is AppEntryPagesFormInitialized) {
+      });
       AppEntryPagesModel? newValue = null;
       on <ChangedAppEntryPagesEntryPage> ((event, emit) async {
+      if (state is AppEntryPagesFormInitialized) {
+        final currentState = state as AppEntryPagesFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(entryPage: await pageRepository(appId: appId)!.get(event.value));
         emit(SubmittableAppEntryPagesForm(value: newValue));
 
+      }
       });
       on <ChangedAppEntryPagesMinPrivilege> ((event, emit) async {
+      if (state is AppEntryPagesFormInitialized) {
+        final currentState = state as AppEntryPagesFormInitialized;
         if (isInt(event.value)) {
           newValue = currentState.value!.copyWith(minPrivilege: int.parse(event.value!));
           emit(SubmittableAppEntryPagesForm(value: newValue));
@@ -80,8 +81,8 @@ class AppEntryPagesFormBloc extends Bloc<AppEntryPagesFormEvent, AppEntryPagesFo
           newValue = currentState.value!.copyWith(minPrivilege: 0);
           emit(MinPrivilegeAppEntryPagesFormError(message: "Value should be a number", value: newValue));
         }
+      }
       });
-    }
   }
 
 

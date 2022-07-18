@@ -42,11 +42,7 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  HomeMenuFormBloc(this.appId, { this.formAction }): super(HomeMenuFormUninitialized());
-  @override
-  Stream<HomeMenuFormState> mapEventToState(HomeMenuFormEvent event) async* {
-    final currentState = state;
-    if (currentState is HomeMenuFormUninitialized) {
+  HomeMenuFormBloc(this.appId, { this.formAction }): super(HomeMenuFormUninitialized()) {
       on <InitialiseNewHomeMenuFormEvent> ((event, emit) {
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: HomeMenuModel(
                                                documentID: "IDENTIFIER", 
@@ -60,17 +56,19 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
       });
 
 
-      if (event is InitialiseHomeMenuFormEvent) {
+      on <InitialiseHomeMenuFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: await homeMenuRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseHomeMenuFormNoLoadEvent) {
+      });
+      on <InitialiseHomeMenuFormNoLoadEvent> ((event, emit) async {
         HomeMenuFormLoaded loaded = HomeMenuFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is HomeMenuFormInitialized) {
+      });
       HomeMenuModel? newValue = null;
       on <ChangedHomeMenuDocumentID> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -78,8 +76,11 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
           emit(SubmittableHomeMenuForm(value: newValue));
         }
 
+      }
       });
       on <ChangedHomeMenuName> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         if (!_isNameValid(event.value)) {
           emit(NameHomeMenuFormError(message: "Invalid value", value: newValue));
@@ -87,29 +88,41 @@ class HomeMenuFormBloc extends Bloc<HomeMenuFormEvent, HomeMenuFormState> {
           emit(SubmittableHomeMenuForm(value: newValue));
         }
 
+      }
       });
       on <ChangedHomeMenuMenu> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         if (event.value != null)
           newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
         emit(SubmittableHomeMenuForm(value: newValue));
 
+      }
       });
       on <ChangedHomeMenuIconColorOverride> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         newValue = currentState.value!.copyWith(iconColorOverride: event.value);
         emit(SubmittableHomeMenuForm(value: newValue));
 
+      }
       });
       on <ChangedHomeMenuBackgroundOverride> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         newValue = currentState.value!.copyWith(backgroundOverride: event.value);
         emit(SubmittableHomeMenuForm(value: newValue));
 
+      }
       });
       on <ChangedHomeMenuPopupMenuBackgroundColorOverride> ((event, emit) async {
+      if (state is HomeMenuFormInitialized) {
+        final currentState = state as HomeMenuFormInitialized;
         newValue = currentState.value!.copyWith(popupMenuBackgroundColorOverride: event.value);
         emit(SubmittableHomeMenuForm(value: newValue));
 
+      }
       });
-    }
   }
 
   bool _isNameValid(String? value) {

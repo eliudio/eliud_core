@@ -42,11 +42,7 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  MenuDefFormBloc(this.appId, { this.formAction }): super(MenuDefFormUninitialized());
-  @override
-  Stream<MenuDefFormState> mapEventToState(MenuDefFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MenuDefFormUninitialized) {
+  MenuDefFormBloc(this.appId, { this.formAction }): super(MenuDefFormUninitialized()) {
       on <InitialiseNewMenuDefFormEvent> ((event, emit) {
         MenuDefFormLoaded loaded = MenuDefFormLoaded(value: MenuDefModel(
                                                documentID: "IDENTIFIER", 
@@ -59,17 +55,19 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
       });
 
 
-      if (event is InitialiseMenuDefFormEvent) {
+      on <InitialiseMenuDefFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MenuDefFormLoaded loaded = MenuDefFormLoaded(value: await menuDefRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseMenuDefFormNoLoadEvent) {
+      });
+      on <InitialiseMenuDefFormNoLoadEvent> ((event, emit) async {
         MenuDefFormLoaded loaded = MenuDefFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MenuDefFormInitialized) {
+      });
       MenuDefModel? newValue = null;
       on <ChangedMenuDefDocumentID> ((event, emit) async {
+      if (state is MenuDefFormInitialized) {
+        final currentState = state as MenuDefFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -77,8 +75,11 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
           emit(SubmittableMenuDefForm(value: newValue));
         }
 
+      }
       });
       on <ChangedMenuDefName> ((event, emit) async {
+      if (state is MenuDefFormInitialized) {
+        final currentState = state as MenuDefFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         if (!_isNameValid(event.value)) {
           emit(NameMenuDefFormError(message: "Invalid value", value: newValue));
@@ -86,13 +87,16 @@ class MenuDefFormBloc extends Bloc<MenuDefFormEvent, MenuDefFormState> {
           emit(SubmittableMenuDefForm(value: newValue));
         }
 
+      }
       });
       on <ChangedMenuDefMenuItems> ((event, emit) async {
+      if (state is MenuDefFormInitialized) {
+        final currentState = state as MenuDefFormInitialized;
         newValue = currentState.value!.copyWith(menuItems: event.value);
         emit(SubmittableMenuDefForm(value: newValue));
 
+      }
       });
-    }
   }
 
   bool _isNameValid(String? value) {

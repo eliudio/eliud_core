@@ -42,11 +42,7 @@ class BackendRequestFormBloc extends Bloc<BackendRequestFormEvent, BackendReques
   final FormAction? formAction;
   final String? appId;
 
-  BackendRequestFormBloc(this.appId, { this.formAction }): super(BackendRequestFormUninitialized());
-  @override
-  Stream<BackendRequestFormState> mapEventToState(BackendRequestFormEvent event) async* {
-    final currentState = state;
-    if (currentState is BackendRequestFormUninitialized) {
+  BackendRequestFormBloc(this.appId, { this.formAction }): super(BackendRequestFormUninitialized()) {
       on <InitialiseNewBackendRequestFormEvent> ((event, emit) {
         BackendRequestFormLoaded loaded = BackendRequestFormLoaded(value: BackendRequestModel(
                                                documentID: "",
@@ -62,17 +58,19 @@ class BackendRequestFormBloc extends Bloc<BackendRequestFormEvent, BackendReques
       });
 
 
-      if (event is InitialiseBackendRequestFormEvent) {
+      on <InitialiseBackendRequestFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         BackendRequestFormLoaded loaded = BackendRequestFormLoaded(value: await backendRequestRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseBackendRequestFormNoLoadEvent) {
+      });
+      on <InitialiseBackendRequestFormNoLoadEvent> ((event, emit) async {
         BackendRequestFormLoaded loaded = BackendRequestFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is BackendRequestFormInitialized) {
+      });
       BackendRequestModel? newValue = null;
       on <ChangedBackendRequestDocumentID> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -80,43 +78,64 @@ class BackendRequestFormBloc extends Bloc<BackendRequestFormEvent, BackendReques
           emit(SubmittableBackendRequestForm(value: newValue));
         }
 
+      }
       });
       on <ChangedBackendRequestDescription> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestAuthorId> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(authorId: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestName> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestSendTo> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(sendTo: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestCollections> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(collections: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestProcessed> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(processed: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
       on <ChangedBackendRequestRequestType> ((event, emit) async {
+      if (state is BackendRequestFormInitialized) {
+        final currentState = state as BackendRequestFormInitialized;
         newValue = currentState.value!.copyWith(requestType: event.value);
         emit(SubmittableBackendRequestForm(value: newValue));
 
+      }
       });
-    }
   }
 
 

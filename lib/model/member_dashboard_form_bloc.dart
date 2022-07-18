@@ -46,11 +46,7 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
   final FormAction? formAction;
   final String? appId;
 
-  MemberDashboardFormBloc(this.appId, { this.formAction }): super(MemberDashboardFormUninitialized());
-  @override
-  Stream<MemberDashboardFormState> mapEventToState(MemberDashboardFormEvent event) async* {
-    final currentState = state;
-    if (currentState is MemberDashboardFormUninitialized) {
+  MemberDashboardFormBloc(this.appId, { this.formAction }): super(MemberDashboardFormUninitialized()) {
       on <InitialiseNewMemberDashboardFormEvent> ((event, emit) {
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: MemberDashboardModel(
                                                documentID: "",
@@ -68,17 +64,19 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
       });
 
 
-      if (event is InitialiseMemberDashboardFormEvent) {
+      on <InitialiseMemberDashboardFormEvent> ((event, emit) async {
         // Need to re-retrieve the document from the repository so that I get all associated types
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: await memberDashboardRepository(appId: appId)!.get(event.value!.documentID));
         emit(loaded);
-      } else if (event is InitialiseMemberDashboardFormNoLoadEvent) {
+      });
+      on <InitialiseMemberDashboardFormNoLoadEvent> ((event, emit) async {
         MemberDashboardFormLoaded loaded = MemberDashboardFormLoaded(value: event.value);
         emit(loaded);
-      }
-    } else if (currentState is MemberDashboardFormInitialized) {
+      });
       MemberDashboardModel? newValue = null;
       on <ChangedMemberDashboardDocumentID> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
         if (formAction == FormAction.AddAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
@@ -86,53 +84,80 @@ class MemberDashboardFormBloc extends Bloc<MemberDashboardFormEvent, MemberDashb
           emit(SubmittableMemberDashboardForm(value: newValue));
         }
 
+      }
       });
       on <ChangedMemberDashboardAppId> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(appId: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardDescription> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardUpdateProfileText> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(updateProfileText: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardRetrieveDataText> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(retrieveDataText: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardDeleteDataText> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(deleteDataText: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardRetrieveDataEmailSubject> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(retrieveDataEmailSubject: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardDeleteDataEmailSubject> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(deleteDataEmailSubject: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardDeleteDataEmailMessage> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(deleteDataEmailMessage: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
       on <ChangedMemberDashboardConditions> ((event, emit) async {
+      if (state is MemberDashboardFormInitialized) {
+        final currentState = state as MemberDashboardFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittableMemberDashboardForm(value: newValue));
 
+      }
       });
-    }
   }
 
 
