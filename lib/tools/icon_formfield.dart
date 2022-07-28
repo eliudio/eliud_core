@@ -48,7 +48,7 @@ class IconFieldState extends State<IconField> {
 
   void _pickIcon() async {
     var iconData = await (showIconPicker(context: context,
-        defalutIcon: IconData(widget.iconModel!.codePoint!,
+        defaultIcon: IconData(widget.iconModel!.codePoint!,
             fontFamily: widget.iconModel!.fontFamily)));
 
     if (iconData != null) {

@@ -110,14 +110,21 @@ class _PageComponentState extends State<PageComponent> {
                           componentInfo: componentInfo,
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return progressIndicator();
                       }
                     }),
                 page)();
           } else {
-            return Center(child: CircularProgressIndicator());
+            return progressIndicator();
           }
         }));
+  }
+
+  Widget progressIndicator() {
+    return Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Center(child: CircularProgressIndicator ())
+    );
   }
 }
 
