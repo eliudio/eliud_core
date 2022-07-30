@@ -23,6 +23,8 @@ typedef AccessRights AccessRightsProvider();
 abstract class MediumApi {
   void showPhotos(BuildContext context, AppModel app,
       List<MemberMediumModel> media, int initialPage);
+  void showPhotosUrls(BuildContext context, AppModel app,
+      List<String> urls, int initialPage);
   void showPhotosPlatform(BuildContext context, AppModel app,
       List<PlatformMediumModel> media, int initialPage);
   void showPhotosPublic(BuildContext context, AppModel app,

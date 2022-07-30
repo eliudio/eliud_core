@@ -25,6 +25,7 @@ import 'package:eliud_core/tools/common_tools.dart';
 class AppEntity implements EntityBase {
   final String? ownerID;
   final String? title;
+  final String? homeURL;
   final String? email;
   final String? description;
   final int? appStatus;
@@ -37,16 +38,16 @@ class AppEntity implements EntityBase {
   final bool? autoPrivileged1;
   final bool? isFeatured;
 
-  AppEntity({required this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
+  AppEntity({required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.policiesId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, });
 
-  AppEntity copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, int? appStatus, String? anonymousProfilePhotoId, AppHomePageReferencesEntity? homePages, String? logoId, String? policiesId, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
-    return AppEntity(ownerID : ownerID ?? this.ownerID, title : title ?? this.title, email : email ?? this.email, description : description ?? this.description, appStatus : appStatus ?? this.appStatus, anonymousProfilePhotoId : anonymousProfilePhotoId ?? this.anonymousProfilePhotoId, homePages : homePages ?? this.homePages, logoId : logoId ?? this.logoId, policiesId : policiesId ?? this.policiesId, styleFamily : styleFamily ?? this.styleFamily, styleName : styleName ?? this.styleName, autoPrivileged1 : autoPrivileged1 ?? this.autoPrivileged1, isFeatured : isFeatured ?? this.isFeatured, );
+  AppEntity copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, int? appStatus, String? anonymousProfilePhotoId, AppHomePageReferencesEntity? homePages, String? logoId, String? policiesId, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
+    return AppEntity(ownerID : ownerID ?? this.ownerID, title : title ?? this.title, homeURL : homeURL ?? this.homeURL, email : email ?? this.email, description : description ?? this.description, appStatus : appStatus ?? this.appStatus, anonymousProfilePhotoId : anonymousProfilePhotoId ?? this.anonymousProfilePhotoId, homePages : homePages ?? this.homePages, logoId : logoId ?? this.logoId, policiesId : policiesId ?? this.policiesId, styleFamily : styleFamily ?? this.styleFamily, styleName : styleName ?? this.styleName, autoPrivileged1 : autoPrivileged1 ?? this.autoPrivileged1, isFeatured : isFeatured ?? this.isFeatured, );
   }
-  List<Object?> get props => [ownerID, title, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, isFeatured, ];
+  List<Object?> get props => [ownerID, title, homeURL, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, policiesId, styleFamily, styleName, autoPrivileged1, isFeatured, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
   static AppEntity? fromMap(Object? o) {
@@ -61,6 +62,7 @@ class AppEntity implements EntityBase {
     return AppEntity(
       ownerID: map['ownerID'], 
       title: map['title'], 
+      homeURL: map['homeURL'], 
       email: map['email'], 
       description: map['description'], 
       appStatus: map['appStatus'], 
@@ -85,6 +87,8 @@ class AppEntity implements EntityBase {
       else theDocument["ownerID"] = null;
     if (title != null) theDocument["title"] = title;
       else theDocument["title"] = null;
+    if (homeURL != null) theDocument["homeURL"] = homeURL;
+      else theDocument["homeURL"] = null;
     if (email != null) theDocument["email"] = email;
       else theDocument["email"] = null;
     if (description != null) theDocument["description"] = description;

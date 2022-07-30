@@ -122,6 +122,7 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _ownerIDController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _homeURLController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   int? _appStatusSelectedRadioTile;
@@ -143,6 +144,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _documentIDController.addListener(_onDocumentIDChanged);
     _ownerIDController.addListener(_onOwnerIDChanged);
     _titleController.addListener(_onTitleChanged);
+    _homeURLController.addListener(_onHomeURLChanged);
     _emailController.addListener(_onEmailChanged);
     _descriptionController.addListener(_onDescriptionChanged);
     _appStatusSelectedRadioTile = 0;
@@ -173,6 +175,10 @@ class _MyAppFormState extends State<MyAppForm> {
           _titleController.text = state.value!.title.toString();
         else
           _titleController.text = "";
+        if (state.value!.homeURL != null)
+          _homeURLController.text = state.value!.homeURL.toString();
+        else
+          _homeURLController.text = "";
         if (state.value!.email != null)
           _emailController.text = state.value!.email.toString();
         else
@@ -266,6 +272,11 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Title', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _titleController, keyboardType: TextInputType.text, validator: (_) => state is TitleAppFormError ? state.message : null, hintText: null)
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Home URL', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _homeURLController, keyboardType: TextInputType.text, validator: (_) => state is HomeURLAppFormError ? state.message : null, hintText: 'field.remark')
           );
 
         children.add(
@@ -407,6 +418,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               documentID: state.value!.documentID, 
                               ownerID: state.value!.ownerID, 
                               title: state.value!.title, 
+                              homeURL: state.value!.homeURL, 
                               email: state.value!.email, 
                               description: state.value!.description, 
                               appStatus: state.value!.appStatus, 
@@ -425,6 +437,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               documentID: state.value!.documentID, 
                               ownerID: state.value!.ownerID, 
                               title: state.value!.title, 
+                              homeURL: state.value!.homeURL, 
                               email: state.value!.email, 
                               description: state.value!.description, 
                               appStatus: state.value!.appStatus, 
@@ -474,6 +487,11 @@ class _MyAppFormState extends State<MyAppForm> {
 
   void _onTitleChanged() {
     _myFormBloc.add(ChangedAppTitle(value: _titleController.text));
+  }
+
+
+  void _onHomeURLChanged() {
+    _myFormBloc.add(ChangedAppHomeURL(value: _homeURLController.text));
   }
 
 
@@ -549,6 +567,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _documentIDController.dispose();
     _ownerIDController.dispose();
     _titleController.dispose();
+    _homeURLController.dispose();
     _emailController.dispose();
     _descriptionController.dispose();
     _styleFamilyController.dispose();

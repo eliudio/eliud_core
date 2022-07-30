@@ -91,6 +91,18 @@ class ChangedAppTitle extends AppFormEvent {
   String toString() => 'ChangedAppTitle{ value: $value }';
 }
 
+class ChangedAppHomeURL extends AppFormEvent {
+  final String? value;
+
+  ChangedAppHomeURL({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppHomeURL{ value: $value }';
+}
+
 class ChangedAppEmail extends AppFormEvent {
   final String? value;
 

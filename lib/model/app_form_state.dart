@@ -111,6 +111,22 @@ class TitleAppFormError extends AppFormError {
 }
 
 
+class HomeURLAppFormError extends AppFormError { 
+  const HomeURLAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''HomeURLAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class EmailAppFormError extends AppFormError { 
   const EmailAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
 

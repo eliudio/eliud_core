@@ -452,4 +452,9 @@ class DefaultMediumApi extends MediumApi {
     return text(app, context,
         'No medium api available. Install a medium api to allow to update photo');
   }
+
+  @override
+  void showPhotosUrls(BuildContext context, AppModel app, List<String> urls, int initialPage) {
+    print('No medium api available. Install a medium api to upload photo');
+  }
 }

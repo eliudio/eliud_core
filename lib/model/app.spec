@@ -42,6 +42,14 @@
       "group": "general"
     },
     {
+      "fieldName": "homeURL",
+      "displayName": "Home URL",
+      "remark": "This is usual as information, but actually used by some component, e.g. HtmlWithPlatformMediumComponent / AbstractTextPlatform: a html text including a link will evaluate the link and if it's a link within the app / website, it'll open that page.",
+      "fieldType": "String",
+      "iconName": "text_format",
+      "group": "general"
+    },
+    {
       "fieldName": "email",
       "displayName": "Contact email",
       "fieldType": "String",

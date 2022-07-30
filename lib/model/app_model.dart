@@ -55,6 +55,9 @@ class AppModel implements ModelBase {
   String documentID;
   String ownerID;
   String? title;
+
+  // This is usual as information, but actually used by some component, e.g. HtmlWithPlatformMediumComponent / AbstractTextPlatform: a html text including a link will evaluate the link and if it's a link within the app / website, it'll open that page.
+  String? homeURL;
   String? email;
   String? description;
   AppStatus? appStatus;
@@ -71,16 +74,16 @@ class AppModel implements ModelBase {
   // Is Featured
   bool? isFeatured;
 
-  AppModel({required this.documentID, required this.ownerID, this.title, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
+  AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, homeURL: homeURL ?? this.homeURL, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ homeURL.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -90,6 +93,7 @@ class AppModel implements ModelBase {
           documentID == other.documentID &&
           ownerID == other.ownerID &&
           title == other.title &&
+          homeURL == other.homeURL &&
           email == other.email &&
           description == other.description &&
           appStatus == other.appStatus &&
@@ -104,7 +108,7 @@ class AppModel implements ModelBase {
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -129,6 +133,7 @@ class AppModel implements ModelBase {
     return AppEntity(
           ownerID: (ownerID != null) ? ownerID : null, 
           title: (title != null) ? title : null, 
+          homeURL: (homeURL != null) ? homeURL : null, 
           email: (email != null) ? email : null, 
           description: (description != null) ? description : null, 
           appStatus: (appStatus != null) ? appStatus!.index : null, 
@@ -150,6 +155,7 @@ class AppModel implements ModelBase {
           documentID: documentID, 
           ownerID: entity.ownerID ?? '', 
           title: entity.title, 
+          homeURL: entity.homeURL, 
           email: entity.email, 
           description: entity.description, 
           appStatus: toAppStatus(entity.appStatus), 
@@ -203,6 +209,7 @@ class AppModel implements ModelBase {
           documentID: documentID, 
           ownerID: entity.ownerID ?? '', 
           title: entity.title, 
+          homeURL: entity.homeURL, 
           email: entity.email, 
           description: entity.description, 
           appStatus: toAppStatus(entity.appStatus), 

@@ -48,6 +48,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                                documentID: "",
                                  ownerID: "",
                                  title: "",
+                                 homeURL: "",
                                  email: "",
                                  description: "",
                                  styleFamily: "",
@@ -84,6 +85,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       if (state is AppFormInitialized) {
         final currentState = state as AppFormInitialized;
         newValue = currentState.value!.copyWith(title: event.value);
+        emit(SubmittableAppForm(value: newValue));
+
+      }
+      });
+      on <ChangedAppHomeURL> ((event, emit) async {
+      if (state is AppFormInitialized) {
+        final currentState = state as AppFormInitialized;
+        newValue = currentState.value!.copyWith(homeURL: event.value);
         emit(SubmittableAppForm(value: newValue));
 
       }
