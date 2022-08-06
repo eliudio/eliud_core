@@ -43,19 +43,21 @@ class IconFieldState extends State<IconField> {
 
   @override
   Widget build(BuildContext context) {
-    return button(widget.app, context, label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
+    return button(widget.app, context,
+        label: 'Select Icon', icon: _icon, onPressed: _pickIcon);
   }
 
   void _pickIcon() async {
-    var iconData = await (showIconPicker(context: context,
+    var iconData = await (showIconPicker(
+        app: widget.app,
+        context: context,
         defaultIcon: IconData(widget.iconModel!.codePoint!,
             fontFamily: widget.iconModel!.fontFamily)));
 
     if (iconData != null) {
       _icon = Icon(iconData);
-      widget.trigger(
-          IconModel(
-              codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
+      widget.trigger(IconModel(
+          codePoint: iconData.codePoint, fontFamily: 'MaterialIcons'));
       setState(() {});
     }
   }
