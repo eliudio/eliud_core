@@ -49,7 +49,7 @@ class _EliudBottomNavigationBarState extends State<EliudBottomNavigationBar> {
             return EliudBottomNavigationBarWithItems(
                 app: app,
                 accessState: widget.accessState,
-                homeMenu: widget.homeMenu,
+                homeMenu: state.value!,
                 currentPage: widget.currentPage,
                 state: state);
           } else {
