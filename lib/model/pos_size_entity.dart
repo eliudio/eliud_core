@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -49,7 +50,7 @@ class PosSizeEntity implements EntityBase {
     return 'PosSizeEntity{widthPortrait: $widthPortrait, widthTypePortrait: $widthTypePortrait, widthLandscape: $widthLandscape, widthTypeLandscape: $widthTypeLandscape, heightPortrait: $heightPortrait, heightTypePortrait: $heightTypePortrait, heightLandscape: $heightLandscape, heightTypeLandscape: $heightTypeLandscape, fitPortrait: $fitPortrait, fitLandscape: $fitLandscape, alignTypePortrait: $alignTypePortrait, alignTypeLandscape: $alignTypeLandscape, clip: $clip}';
   }
 
-  static PosSizeEntity? fromMap(Object? o) {
+  static PosSizeEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -107,9 +108,9 @@ class PosSizeEntity implements EntityBase {
     return newEntity;
   }
 
-  static PosSizeEntity? fromJsonString(String json) {
+  static PosSizeEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class GridViewFirestore implements GridViewRepository {
   @override
-  GridViewEntity? fromMap(Object? o) {
-    return GridViewEntity.fromMap(o);
+  GridViewEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return GridViewEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<GridViewEntity> addEntity(String documentID, GridViewEntity value) {

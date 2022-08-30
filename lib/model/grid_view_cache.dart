@@ -116,8 +116,8 @@ class GridViewCache implements GridViewRepository {
   }
 
   @override
-  GridViewEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  GridViewEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

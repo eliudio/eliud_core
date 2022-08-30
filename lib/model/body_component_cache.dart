@@ -116,8 +116,8 @@ class BodyComponentCache implements BodyComponentRepository {
   }
 
   @override
-  BodyComponentEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  BodyComponentEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

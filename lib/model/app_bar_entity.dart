@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -46,37 +47,43 @@ class AppBarEntity implements EntityBase {
     return 'AppBarEntity{appId: $appId, title: $title, header: $header, icon: $icon, imageId: $imageId, iconMenuId: $iconMenuId, backgroundOverride: $backgroundOverride, iconColorOverride: $iconColorOverride, selectedIconColorOverride: $selectedIconColorOverride, menuBackgroundColorOverride: $menuBackgroundColorOverride}';
   }
 
-  static AppBarEntity? fromMap(Object? o) {
+  static AppBarEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var iconFromMap;
     iconFromMap = map['icon'];
     if (iconFromMap != null)
-      iconFromMap = IconEntity.fromMap(iconFromMap);
+      iconFromMap = IconEntity.fromMap(iconFromMap, newDocumentIds: newDocumentIds);
+    var imageIdNewDocmentId = map['imageId'];
+    if ((newDocumentIds != null) && (imageIdNewDocmentId != null)) {
+      var imageIdOldDocmentId = imageIdNewDocmentId;
+      imageIdNewDocmentId = newRandomKey();
+      newDocumentIds[imageIdOldDocmentId] = imageIdNewDocmentId;
+    }
     var backgroundOverrideFromMap;
     backgroundOverrideFromMap = map['backgroundOverride'];
     if (backgroundOverrideFromMap != null)
-      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var iconColorOverrideFromMap;
     iconColorOverrideFromMap = map['iconColorOverride'];
     if (iconColorOverrideFromMap != null)
-      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap);
+      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap, newDocumentIds: newDocumentIds);
     var selectedIconColorOverrideFromMap;
     selectedIconColorOverrideFromMap = map['selectedIconColorOverride'];
     if (selectedIconColorOverrideFromMap != null)
-      selectedIconColorOverrideFromMap = RgbEntity.fromMap(selectedIconColorOverrideFromMap);
+      selectedIconColorOverrideFromMap = RgbEntity.fromMap(selectedIconColorOverrideFromMap, newDocumentIds: newDocumentIds);
     var menuBackgroundColorOverrideFromMap;
     menuBackgroundColorOverrideFromMap = map['menuBackgroundColorOverride'];
     if (menuBackgroundColorOverrideFromMap != null)
-      menuBackgroundColorOverrideFromMap = RgbEntity.fromMap(menuBackgroundColorOverrideFromMap);
+      menuBackgroundColorOverrideFromMap = RgbEntity.fromMap(menuBackgroundColorOverrideFromMap, newDocumentIds: newDocumentIds);
 
     return AppBarEntity(
       appId: map['appId'], 
       title: map['title'], 
       header: map['header'], 
       icon: iconFromMap, 
-      imageId: map['imageId'], 
+      imageId: imageIdNewDocmentId, 
       iconMenuId: map['iconMenuId'], 
       backgroundOverride: backgroundOverrideFromMap, 
       iconColorOverride: iconColorOverrideFromMap, 
@@ -132,9 +139,9 @@ class AppBarEntity implements EntityBase {
     return newEntity;
   }
 
-  static AppBarEntity? fromJsonString(String json) {
+  static AppBarEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

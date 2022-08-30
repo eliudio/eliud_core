@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class AppFirestore implements AppRepository {
   @override
-  AppEntity? fromMap(Object? o) {
-    return AppEntity.fromMap(o);
+  AppEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return AppEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<AppEntity> addEntity(String documentID, AppEntity value) {

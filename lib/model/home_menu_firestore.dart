@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class HomeMenuFirestore implements HomeMenuRepository {
   @override
-  HomeMenuEntity? fromMap(Object? o) {
-    return HomeMenuEntity.fromMap(o);
+  HomeMenuEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return HomeMenuEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value) {

@@ -10,7 +10,7 @@ abstract class RepositoryBase<T, U> {
   Future<U> addEntity(String documentID, U value);
   Future<U> updateEntity(String documentID, U value);
   Future<U?> getEntity(String? id, {Function(Exception)? onError});
-  U? fromMap(Object? o);
+  U? fromMap(Object? o, {Map<String, String>? newDocumentIds});
 
   Future<T> add(T value);
   Future<void> delete(T value);

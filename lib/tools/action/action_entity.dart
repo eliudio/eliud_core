@@ -18,7 +18,7 @@ abstract class ActionEntity {
 
   ActionEntity copyWith({String? appId});
 
-  static ActionEntity fromMap(Map snap) {
+  static ActionEntity fromMap(Map snap, {Map<String, String>? newDocumentIds}) {
     var actionType = snap['actionType'];
     if (actionType != null) {
       var mapper = ActionModelRegistry.registry()!.getMapper(actionType);

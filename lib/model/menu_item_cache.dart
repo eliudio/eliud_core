@@ -116,8 +116,8 @@ class MenuItemCache implements MenuItemRepository {
   }
 
   @override
-  MenuItemEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MenuItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

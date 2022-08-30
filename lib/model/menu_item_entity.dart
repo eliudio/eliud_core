@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -40,18 +41,18 @@ class MenuItemEntity implements EntityBase {
     return 'MenuItemEntity{text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  static MenuItemEntity? fromMap(Object? o) {
+  static MenuItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var iconFromMap;
     iconFromMap = map['icon'];
     if (iconFromMap != null)
-      iconFromMap = IconEntity.fromMap(iconFromMap);
+      iconFromMap = IconEntity.fromMap(iconFromMap, newDocumentIds: newDocumentIds);
     var actionFromMap;
     actionFromMap = map['action'];
     if (actionFromMap != null)
-      actionFromMap = ActionEntity.fromMap(actionFromMap);
+      actionFromMap = ActionEntity.fromMap(actionFromMap, newDocumentIds: newDocumentIds);
 
     return MenuItemEntity(
       text: map['text'], 
@@ -87,9 +88,9 @@ class MenuItemEntity implements EntityBase {
     return newEntity;
   }
 
-  static MenuItemEntity? fromJsonString(String json) {
+  static MenuItemEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

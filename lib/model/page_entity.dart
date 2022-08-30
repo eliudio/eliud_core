@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -50,7 +51,7 @@ class PageEntity implements EntityBase {
     return 'PageEntity{appId: $appId, description: $description, title: $title, appBarId: $appBarId, drawerId: $drawerId, endDrawerId: $endDrawerId, homeMenuId: $homeMenuId, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
-  static PageEntity? fromMap(Object? o) {
+  static PageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -60,16 +61,16 @@ class PageEntity implements EntityBase {
     if (bodyComponentsFromMap != null)
       bodyComponentsList = (map['bodyComponents'] as List<dynamic>)
         .map((dynamic item) =>
-        BodyComponentEntity.fromMap(item as Map)!)
+        BodyComponentEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
     var backgroundOverrideFromMap;
     backgroundOverrideFromMap = map['backgroundOverride'];
     if (backgroundOverrideFromMap != null)
-      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return PageEntity(
       appId: map['appId'], 
@@ -132,9 +133,9 @@ class PageEntity implements EntityBase {
     return newEntity;
   }
 
-  static PageEntity? fromJsonString(String json) {
+  static PageEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

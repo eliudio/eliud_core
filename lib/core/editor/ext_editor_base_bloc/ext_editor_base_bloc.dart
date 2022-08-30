@@ -11,7 +11,7 @@ abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
     extends Bloc<ExtEditorBaseEvent<T>, ExtEditorBaseState<T>> {
   final String appId;
   final RepositoryBase<T, V> repository;
-  final EditorFeedback feedback;
+  final EditorFeedback? feedback;
 
   T newInstance(StorageConditionsModel conditions);
   List<U> copyOf(List<U> ts);
@@ -102,7 +102,9 @@ abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
       } else {
         await repository.update(newModel);
       }
-      feedback(true);
+      if (feedback != null) {
+        feedback!(true);
+      }
     }
   }
 }

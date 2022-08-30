@@ -79,6 +79,22 @@ class DocumentIDMemberMediumContainerFormError extends MemberMediumContainerForm
 }
 
 
+class HtmlReferenceMemberMediumContainerFormError extends MemberMediumContainerFormError { 
+  const HtmlReferenceMemberMediumContainerFormError({ String? message, MemberMediumContainerModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''HtmlReferenceMemberMediumContainerFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class MemberMediumMemberMediumContainerFormError extends MemberMediumContainerFormError { 
   const MemberMediumMemberMediumContainerFormError({ String? message, MemberMediumContainerModel? value }): super(message: message, value: value);
 

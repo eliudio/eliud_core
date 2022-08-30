@@ -116,8 +116,8 @@ class AppBarCache implements AppBarRepository {
   }
 
   @override
-  AppBarEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  AppBarEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

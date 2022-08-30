@@ -116,8 +116,8 @@ class PageCache implements PageRepository {
   }
 
   @override
-  PageEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  PageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

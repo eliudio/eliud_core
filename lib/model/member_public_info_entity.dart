@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -41,7 +42,7 @@ class MemberPublicInfoEntity implements EntityBase {
     return 'MemberPublicInfoEntity{name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  static MemberPublicInfoEntity? fromMap(Object? o) {
+  static MemberPublicInfoEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -51,7 +52,7 @@ class MemberPublicInfoEntity implements EntityBase {
     if (subscriptionsFromMap != null)
       subscriptionsList = (map['subscriptions'] as List<dynamic>)
         .map((dynamic item) =>
-        MemberSubscriptionEntity.fromMap(item as Map)!)
+        MemberSubscriptionEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
 
     return MemberPublicInfoEntity(
@@ -82,9 +83,9 @@ class MemberPublicInfoEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberPublicInfoEntity? fromJsonString(String json) {
+  static MemberPublicInfoEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

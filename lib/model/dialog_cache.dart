@@ -116,8 +116,8 @@ class DialogCache implements DialogRepository {
   }
 
   @override
-  DialogEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  DialogEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

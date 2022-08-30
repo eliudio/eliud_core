@@ -116,8 +116,8 @@ class PlatformMediumCache implements PlatformMediumRepository {
   }
 
   @override
-  PlatformMediumEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  PlatformMediumEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

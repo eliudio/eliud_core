@@ -44,18 +44,19 @@ class MemberMediumContainerModel implements ModelBase {
   static const String id = 'memberMediumContainers';
 
   String documentID;
+  String? htmlReference;
   MemberMediumModel? memberMedium;
 
-  MemberMediumContainerModel({required this.documentID, this.memberMedium, })  {
+  MemberMediumContainerModel({required this.documentID, this.htmlReference, this.memberMedium, })  {
     assert(documentID != null);
   }
 
-  MemberMediumContainerModel copyWith({String? documentID, MemberMediumModel? memberMedium, }) {
-    return MemberMediumContainerModel(documentID: documentID ?? this.documentID, memberMedium: memberMedium ?? this.memberMedium, );
+  MemberMediumContainerModel copyWith({String? documentID, String? htmlReference, MemberMediumModel? memberMedium, }) {
+    return MemberMediumContainerModel(documentID: documentID ?? this.documentID, htmlReference: htmlReference ?? this.htmlReference, memberMedium: memberMedium ?? this.memberMedium, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ memberMedium.hashCode;
+  int get hashCode => documentID.hashCode ^ htmlReference.hashCode ^ memberMedium.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,11 +64,12 @@ class MemberMediumContainerModel implements ModelBase {
           other is MemberMediumContainerModel &&
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
+          htmlReference == other.htmlReference &&
           memberMedium == other.memberMedium;
 
   @override
   String toString() {
-    return 'MemberMediumContainerModel{documentID: $documentID, memberMedium: $memberMedium}';
+    return 'MemberMediumContainerModel{documentID: $documentID, htmlReference: $htmlReference, memberMedium: $memberMedium}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -81,6 +83,7 @@ class MemberMediumContainerModel implements ModelBase {
 
   MemberMediumContainerEntity toEntity({String? appId}) {
     return MemberMediumContainerEntity(
+          htmlReference: (htmlReference != null) ? htmlReference : null, 
           memberMediumId: (memberMedium != null) ? memberMedium!.documentID : null, 
     );
   }
@@ -90,6 +93,7 @@ class MemberMediumContainerModel implements ModelBase {
     var counter = 0;
     return MemberMediumContainerModel(
           documentID: documentID, 
+          htmlReference: entity.htmlReference, 
     );
   }
 
@@ -110,6 +114,7 @@ class MemberMediumContainerModel implements ModelBase {
     var counter = 0;
     return MemberMediumContainerModel(
           documentID: documentID, 
+          htmlReference: entity.htmlReference, 
           memberMedium: memberMediumHolder, 
     );
   }

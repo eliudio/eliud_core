@@ -116,8 +116,8 @@ class MemberSubscriptionCache implements MemberSubscriptionRepository {
   }
 
   @override
-  MemberSubscriptionEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MemberSubscriptionEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

@@ -122,6 +122,7 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
   late MemberMediumContainerFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
+  final TextEditingController _htmlReferenceController = TextEditingController();
   String? _memberMedium;
 
 
@@ -132,6 +133,7 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
     super.initState();
     _myFormBloc = BlocProvider.of<MemberMediumContainerFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
+    _htmlReferenceController.addListener(_onHtmlReferenceChanged);
   }
 
   @override
@@ -147,6 +149,10 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
           _documentIDController.text = state.value!.documentID.toString();
         else
           _documentIDController.text = "";
+        if (state.value!.htmlReference != null)
+          _htmlReferenceController.text = state.value!.htmlReference.toString();
+        else
+          _htmlReferenceController.text = "";
         if (state.value!.memberMedium != null)
           _memberMedium= state.value!.memberMedium!.documentID;
         else
@@ -191,12 +197,14 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
                         BlocProvider.of<MemberMediumContainerListBloc>(context).add(
                           UpdateMemberMediumContainerList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
+                              htmlReference: state.value!.htmlReference, 
                               memberMedium: state.value!.memberMedium, 
                         )));
                       } else {
                         BlocProvider.of<MemberMediumContainerListBloc>(context).add(
                           AddMemberMediumContainerList(value: MemberMediumContainerModel(
                               documentID: state.value!.documentID, 
+                              htmlReference: state.value!.htmlReference, 
                               memberMedium: state.value!.memberMedium, 
                           )));
                       }
@@ -229,6 +237,11 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
   }
 
 
+  void _onHtmlReferenceChanged() {
+    _myFormBloc.add(ChangedMemberMediumContainerHtmlReference(value: _htmlReferenceController.text));
+  }
+
+
   void _onMemberMediumSelected(String? val) {
     setState(() {
       _memberMedium = val;
@@ -241,6 +254,7 @@ class _MyMemberMediumContainerFormState extends State<MyMemberMediumContainerFor
   @override
   void dispose() {
     _documentIDController.dispose();
+    _htmlReferenceController.dispose();
     super.dispose();
   }
 

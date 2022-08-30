@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class AccessFirestore implements AccessRepository {
   @override
-  AccessEntity? fromMap(Object? o) {
-    return AccessEntity.fromMap(o);
+  AccessEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return AccessEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<AccessEntity> addEntity(String documentID, AccessEntity value) {

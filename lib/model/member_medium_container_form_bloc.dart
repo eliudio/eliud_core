@@ -49,6 +49,7 @@ class MemberMediumContainerFormBloc extends Bloc<MemberMediumContainerFormEvent,
       on <InitialiseNewMemberMediumContainerFormEvent> ((event, emit) {
         MemberMediumContainerFormLoaded loaded = MemberMediumContainerFormLoaded(value: MemberMediumContainerModel(
                                                documentID: "IDENTIFIER", 
+                                 htmlReference: "",
 
         ));
         emit(loaded);

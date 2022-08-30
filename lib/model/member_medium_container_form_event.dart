@@ -71,6 +71,18 @@ class ChangedMemberMediumContainerDocumentID extends MemberMediumContainerFormEv
   String toString() => 'ChangedMemberMediumContainerDocumentID{ value: $value }';
 }
 
+class ChangedMemberMediumContainerHtmlReference extends MemberMediumContainerFormEvent {
+  final String? value;
+
+  ChangedMemberMediumContainerHtmlReference({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedMemberMediumContainerHtmlReference{ value: $value }';
+}
+
 class ChangedMemberMediumContainerMemberMedium extends MemberMediumContainerFormEvent {
   final String? value;
 

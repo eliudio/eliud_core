@@ -116,8 +116,8 @@ class MenuDefCache implements MenuDefRepository {
   }
 
   @override
-  MenuDefEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MenuDefEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

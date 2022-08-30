@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -59,7 +60,7 @@ class MemberEntity implements EntityBase {
     return 'MemberEntity{name: $name, subscriptions: MemberSubscription[] { $subscriptionsCsv }, subscriptionsAsStrArr: String[] { $subscriptionsAsStrArrCsv }, photoId: $photoId, photoURL: $photoURL, shipStreet1: $shipStreet1, shipStreet2: $shipStreet2, shipCity: $shipCity, shipState: $shipState, postcode: $postcode, country: $country, invoiceSame: $invoiceSame, invoiceStreet1: $invoiceStreet1, invoiceStreet2: $invoiceStreet2, invoiceCity: $invoiceCity, invoiceState: $invoiceState, invoicePostcode: $invoicePostcode, invoiceCountry: $invoiceCountry, email: $email, isAnonymous: $isAnonymous}';
   }
 
-  static MemberEntity? fromMap(Object? o) {
+  static MemberEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -69,14 +70,20 @@ class MemberEntity implements EntityBase {
     if (subscriptionsFromMap != null)
       subscriptionsList = (map['subscriptions'] as List<dynamic>)
         .map((dynamic item) =>
-        MemberSubscriptionEntity.fromMap(item as Map)!)
+        MemberSubscriptionEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
+    var photoIdNewDocmentId = map['photoId'];
+    if ((newDocumentIds != null) && (photoIdNewDocmentId != null)) {
+      var photoIdOldDocmentId = photoIdNewDocmentId;
+      photoIdNewDocmentId = newRandomKey();
+      newDocumentIds[photoIdOldDocmentId] = photoIdNewDocmentId;
+    }
 
     return MemberEntity(
       name: map['name'], 
       subscriptions: subscriptionsList, 
       subscriptionsAsStrArr: map['subscriptionsAsStrArr'] == null ? null : List.from(map['subscriptionsAsStrArr']), 
-      photoId: map['photoId'], 
+      photoId: photoIdNewDocmentId, 
       photoURL: map['photoURL'], 
       shipStreet1: map['shipStreet1'], 
       shipStreet2: map['shipStreet2'], 
@@ -151,9 +158,9 @@ class MemberEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberEntity? fromJsonString(String json) {
+  static MemberEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

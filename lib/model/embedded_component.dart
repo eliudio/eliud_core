@@ -329,7 +329,7 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   }
 
   @override
-  AppEntryPagesEntity? fromMap(Object? o) {
+  AppEntryPagesEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -449,7 +449,7 @@ class AppPolicyItemInMemoryRepository implements AppPolicyItemRepository {
   }
 
   @override
-  AppPolicyItemEntity? fromMap(Object? o) {
+  AppPolicyItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -569,7 +569,7 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
   }
 
   @override
-  BodyComponentEntity? fromMap(Object? o) {
+  BodyComponentEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -689,7 +689,7 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
   }
 
   @override
-  DecorationColorEntity? fromMap(Object? o) {
+  DecorationColorEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -809,7 +809,7 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
   }
 
   @override
-  MemberMediumEntity? fromMap(Object? o) {
+  MemberMediumEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -929,7 +929,7 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
   }
 
   @override
-  MemberMediumContainerEntity? fromMap(Object? o) {
+  MemberMediumContainerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -1049,7 +1049,7 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
   }
 
   @override
-  MemberSubscriptionEntity? fromMap(Object? o) {
+  MemberSubscriptionEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 
@@ -1169,7 +1169,7 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
   }
 
   @override
-  MenuItemEntity? fromMap(Object? o) {
+  MenuItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     throw UnimplementedError();
   }
 

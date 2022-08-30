@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -42,22 +43,22 @@ class HomeMenuEntity implements EntityBase {
     return 'HomeMenuEntity{appId: $appId, name: $name, menuId: $menuId, iconColorOverride: $iconColorOverride, backgroundOverride: $backgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride}';
   }
 
-  static HomeMenuEntity? fromMap(Object? o) {
+  static HomeMenuEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var iconColorOverrideFromMap;
     iconColorOverrideFromMap = map['iconColorOverride'];
     if (iconColorOverrideFromMap != null)
-      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap);
+      iconColorOverrideFromMap = RgbEntity.fromMap(iconColorOverrideFromMap, newDocumentIds: newDocumentIds);
     var backgroundOverrideFromMap;
     backgroundOverrideFromMap = map['backgroundOverride'];
     if (backgroundOverrideFromMap != null)
-      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var popupMenuBackgroundColorOverrideFromMap;
     popupMenuBackgroundColorOverrideFromMap = map['popupMenuBackgroundColorOverride'];
     if (popupMenuBackgroundColorOverrideFromMap != null)
-      popupMenuBackgroundColorOverrideFromMap = RgbEntity.fromMap(popupMenuBackgroundColorOverrideFromMap);
+      popupMenuBackgroundColorOverrideFromMap = RgbEntity.fromMap(popupMenuBackgroundColorOverrideFromMap, newDocumentIds: newDocumentIds);
 
     return HomeMenuEntity(
       appId: map['appId'], 
@@ -102,9 +103,9 @@ class HomeMenuEntity implements EntityBase {
     return newEntity;
   }
 
-  static HomeMenuEntity? fromJsonString(String json) {
+  static HomeMenuEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

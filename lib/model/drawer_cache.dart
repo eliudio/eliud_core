@@ -116,8 +116,8 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  DrawerEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  DrawerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

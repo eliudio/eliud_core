@@ -116,8 +116,8 @@ class MemberPublicInfoCache implements MemberPublicInfoRepository {
   }
 
   @override
-  MemberPublicInfoEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MemberPublicInfoEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

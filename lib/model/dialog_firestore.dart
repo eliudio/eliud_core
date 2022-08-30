@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class DialogFirestore implements DialogRepository {
   @override
-  DialogEntity? fromMap(Object? o) {
-    return DialogEntity.fromMap(o);
+  DialogEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return DialogEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<DialogEntity> addEntity(String documentID, DialogEntity value) {

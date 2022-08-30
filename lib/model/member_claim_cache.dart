@@ -121,8 +121,8 @@ class MemberClaimCache implements MemberClaimRepository {
   }
 
   @override
-  MemberClaimEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MemberClaimEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

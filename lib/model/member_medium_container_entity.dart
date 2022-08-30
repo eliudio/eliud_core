@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -24,31 +25,41 @@ import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/tools/common_tools.dart';
 class MemberMediumContainerEntity implements EntityBase {
+  final String? htmlReference;
   final String? memberMediumId;
 
-  MemberMediumContainerEntity({this.memberMediumId, });
+  MemberMediumContainerEntity({this.htmlReference, this.memberMediumId, });
 
-  MemberMediumContainerEntity copyWith({String? documentID, String? memberMediumId, }) {
-    return MemberMediumContainerEntity(memberMediumId : memberMediumId ?? this.memberMediumId, );
+  MemberMediumContainerEntity copyWith({String? documentID, String? htmlReference, String? memberMediumId, }) {
+    return MemberMediumContainerEntity(htmlReference : htmlReference ?? this.htmlReference, memberMediumId : memberMediumId ?? this.memberMediumId, );
   }
-  List<Object?> get props => [memberMediumId, ];
+  List<Object?> get props => [htmlReference, memberMediumId, ];
 
   @override
   String toString() {
-    return 'MemberMediumContainerEntity{memberMediumId: $memberMediumId}';
+    return 'MemberMediumContainerEntity{htmlReference: $htmlReference, memberMediumId: $memberMediumId}';
   }
 
-  static MemberMediumContainerEntity? fromMap(Object? o) {
+  static MemberMediumContainerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var memberMediumIdNewDocmentId = map['memberMediumId'];
+    if ((newDocumentIds != null) && (memberMediumIdNewDocmentId != null)) {
+      var memberMediumIdOldDocmentId = memberMediumIdNewDocmentId;
+      memberMediumIdNewDocmentId = newRandomKey();
+      newDocumentIds[memberMediumIdOldDocmentId] = memberMediumIdNewDocmentId;
+    }
     return MemberMediumContainerEntity(
-      memberMediumId: map['memberMediumId'], 
+      htmlReference: map['htmlReference'], 
+      memberMediumId: memberMediumIdNewDocmentId, 
     );
   }
 
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
+    if (htmlReference != null) theDocument["htmlReference"] = htmlReference;
+      else theDocument["htmlReference"] = null;
     if (memberMediumId != null) theDocument["memberMediumId"] = memberMediumId;
       else theDocument["memberMediumId"] = null;
     return theDocument;
@@ -60,9 +71,9 @@ class MemberMediumContainerEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberMediumContainerEntity? fromJsonString(String json) {
+  static MemberMediumContainerEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

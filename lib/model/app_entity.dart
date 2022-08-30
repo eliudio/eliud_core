@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -50,14 +51,26 @@ class AppEntity implements EntityBase {
     return 'AppEntity{ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, policiesId: $policiesId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
-  static AppEntity? fromMap(Object? o) {
+  static AppEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var anonymousProfilePhotoIdNewDocmentId = map['anonymousProfilePhotoId'];
+    if ((newDocumentIds != null) && (anonymousProfilePhotoIdNewDocmentId != null)) {
+      var anonymousProfilePhotoIdOldDocmentId = anonymousProfilePhotoIdNewDocmentId;
+      anonymousProfilePhotoIdNewDocmentId = newRandomKey();
+      newDocumentIds[anonymousProfilePhotoIdOldDocmentId] = anonymousProfilePhotoIdNewDocmentId;
+    }
     var homePagesFromMap;
     homePagesFromMap = map['homePages'];
     if (homePagesFromMap != null)
-      homePagesFromMap = AppHomePageReferencesEntity.fromMap(homePagesFromMap);
+      homePagesFromMap = AppHomePageReferencesEntity.fromMap(homePagesFromMap, newDocumentIds: newDocumentIds);
+    var logoIdNewDocmentId = map['logoId'];
+    if ((newDocumentIds != null) && (logoIdNewDocmentId != null)) {
+      var logoIdOldDocmentId = logoIdNewDocmentId;
+      logoIdNewDocmentId = newRandomKey();
+      newDocumentIds[logoIdOldDocmentId] = logoIdNewDocmentId;
+    }
 
     return AppEntity(
       ownerID: map['ownerID'], 
@@ -66,9 +79,9 @@ class AppEntity implements EntityBase {
       email: map['email'], 
       description: map['description'], 
       appStatus: map['appStatus'], 
-      anonymousProfilePhotoId: map['anonymousProfilePhotoId'], 
+      anonymousProfilePhotoId: anonymousProfilePhotoIdNewDocmentId, 
       homePages: homePagesFromMap, 
-      logoId: map['logoId'], 
+      logoId: logoIdNewDocmentId, 
       policiesId: map['policiesId'], 
       styleFamily: map['styleFamily'], 
       styleName: map['styleName'], 
@@ -120,9 +133,9 @@ class AppEntity implements EntityBase {
     return newEntity;
   }
 
-  static AppEntity? fromJsonString(String json) {
+  static AppEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

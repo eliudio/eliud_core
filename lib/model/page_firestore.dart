@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PageFirestore implements PageRepository {
   @override
-  PageEntity? fromMap(Object? o) {
-    return PageEntity.fromMap(o);
+  PageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return PageEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<PageEntity> addEntity(String documentID, PageEntity value) {

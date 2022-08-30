@@ -116,8 +116,8 @@ class PublicMediumCache implements PublicMediumRepository {
   }
 
   @override
-  PublicMediumEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  PublicMediumEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

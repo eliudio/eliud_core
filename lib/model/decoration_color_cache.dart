@@ -116,8 +116,8 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  DecorationColorEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  DecorationColorEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

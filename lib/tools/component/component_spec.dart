@@ -29,7 +29,11 @@ abstract class ComponentEditorConstructor {
   // update the component with component id
   void updateComponentWithID(AppModel app, BuildContext context, String id, EditorFeedback feedback);
   void createNewComponent(AppModel app, BuildContext context, EditorFeedback feedback);
+
+  // revalidate model, initially introduced to allow to validate html and potentially update links to images (after creating the html model from a json dump)
+  revalidateModel(AppModel app, model) async {
+    return model;
+  }
 }
 
 typedef void EditorFeedback(bool status); // true is ok
-

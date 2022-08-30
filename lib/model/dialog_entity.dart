@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -47,7 +48,7 @@ class DialogEntity implements EntityBase {
     return 'DialogEntity{appId: $appId, title: $title, description: $description, bodyComponents: BodyComponent[] { $bodyComponentsCsv }, backgroundOverride: $backgroundOverride, layout: $layout, includeHeading: $includeHeading, gridViewId: $gridViewId, conditions: $conditions}';
   }
 
-  static DialogEntity? fromMap(Object? o) {
+  static DialogEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -57,16 +58,16 @@ class DialogEntity implements EntityBase {
     if (bodyComponentsFromMap != null)
       bodyComponentsList = (map['bodyComponents'] as List<dynamic>)
         .map((dynamic item) =>
-        BodyComponentEntity.fromMap(item as Map)!)
+        BodyComponentEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
     var backgroundOverrideFromMap;
     backgroundOverrideFromMap = map['backgroundOverride'];
     if (backgroundOverrideFromMap != null)
-      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var conditionsFromMap;
     conditionsFromMap = map['conditions'];
     if (conditionsFromMap != null)
-      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap);
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
 
     return DialogEntity(
       appId: map['appId'], 
@@ -120,9 +121,9 @@ class DialogEntity implements EntityBase {
     return newEntity;
   }
 
-  static DialogEntity? fromJsonString(String json) {
+  static DialogEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

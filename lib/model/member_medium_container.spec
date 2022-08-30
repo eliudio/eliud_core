@@ -29,6 +29,12 @@
       "hidden": true
     },
     {
+      "fieldName": "htmlReference",
+      "displayName": "HtmlReference",
+      "fieldType": "String",
+      "hidden": true
+    },
+    {
       "fieldName": "memberMedium",
       "displayName": "Image",
       "fieldType": "MemberMedium",

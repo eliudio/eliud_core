@@ -116,8 +116,8 @@ class AppPolicyCache implements AppPolicyRepository {
   }
 
   @override
-  AppPolicyEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  AppPolicyEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {

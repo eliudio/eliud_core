@@ -37,8 +37,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberClaimFirestore implements MemberClaimRepository {
   @override
-  MemberClaimEntity? fromMap(Object? o) {
-    return MemberClaimEntity.fromMap(o);
+  MemberClaimEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return MemberClaimEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<MemberClaimEntity> addEntity(String documentID, MemberClaimEntity value) {

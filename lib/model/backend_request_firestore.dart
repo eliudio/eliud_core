@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class BackendRequestFirestore implements BackendRequestRepository {
   @override
-  BackendRequestEntity? fromMap(Object? o) {
-    return BackendRequestEntity.fromMap(o);
+  BackendRequestEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return BackendRequestEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value) {

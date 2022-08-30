@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class AppPolicyFirestore implements AppPolicyRepository {
   @override
-  AppPolicyEntity? fromMap(Object? o) {
-    return AppPolicyEntity.fromMap(o);
+  AppPolicyEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return AppPolicyEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value) {

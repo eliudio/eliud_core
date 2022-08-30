@@ -225,8 +225,8 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  MemberEntity? fromMap(Object? o) {
-    return MemberEntity.fromMap(o);
+  MemberEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return MemberEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
 }

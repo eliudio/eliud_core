@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -38,14 +39,14 @@ class DecorationColorEntity implements EntityBase {
     return 'DecorationColorEntity{color: $color, stop: $stop}';
   }
 
-  static DecorationColorEntity? fromMap(Object? o) {
+  static DecorationColorEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var colorFromMap;
     colorFromMap = map['color'];
     if (colorFromMap != null)
-      colorFromMap = RgbEntity.fromMap(colorFromMap);
+      colorFromMap = RgbEntity.fromMap(colorFromMap, newDocumentIds: newDocumentIds);
 
     return DecorationColorEntity(
       color: colorFromMap, 
@@ -72,9 +73,9 @@ class DecorationColorEntity implements EntityBase {
     return newEntity;
   }
 
-  static DecorationColorEntity? fromJsonString(String json) {
+  static DecorationColorEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

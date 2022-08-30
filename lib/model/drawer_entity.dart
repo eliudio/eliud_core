@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -46,26 +47,26 @@ class DrawerEntity implements EntityBase {
     return 'DrawerEntity{appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menuId: $menuId}';
   }
 
-  static DrawerEntity? fromMap(Object? o) {
+  static DrawerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     var backgroundOverrideFromMap;
     backgroundOverrideFromMap = map['backgroundOverride'];
     if (backgroundOverrideFromMap != null)
-      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap);
+      backgroundOverrideFromMap = BackgroundEntity.fromMap(backgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var popupMenuBackgroundColorFromMap;
     popupMenuBackgroundColorFromMap = map['popupMenuBackgroundColor'];
     if (popupMenuBackgroundColorFromMap != null)
-      popupMenuBackgroundColorFromMap = RgbEntity.fromMap(popupMenuBackgroundColorFromMap);
+      popupMenuBackgroundColorFromMap = RgbEntity.fromMap(popupMenuBackgroundColorFromMap, newDocumentIds: newDocumentIds);
     var headerBackgroundOverrideFromMap;
     headerBackgroundOverrideFromMap = map['headerBackgroundOverride'];
     if (headerBackgroundOverrideFromMap != null)
-      headerBackgroundOverrideFromMap = BackgroundEntity.fromMap(headerBackgroundOverrideFromMap);
+      headerBackgroundOverrideFromMap = BackgroundEntity.fromMap(headerBackgroundOverrideFromMap, newDocumentIds: newDocumentIds);
     var popupMenuBackgroundColorOverrideFromMap;
     popupMenuBackgroundColorOverrideFromMap = map['popupMenuBackgroundColorOverride'];
     if (popupMenuBackgroundColorOverrideFromMap != null)
-      popupMenuBackgroundColorOverrideFromMap = RgbEntity.fromMap(popupMenuBackgroundColorOverrideFromMap);
+      popupMenuBackgroundColorOverrideFromMap = RgbEntity.fromMap(popupMenuBackgroundColorOverrideFromMap, newDocumentIds: newDocumentIds);
 
     return DrawerEntity(
       appId: map['appId'], 
@@ -125,9 +126,9 @@ class DrawerEntity implements EntityBase {
     return newEntity;
   }
 
-  static DrawerEntity? fromJsonString(String json) {
+  static DrawerEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

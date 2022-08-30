@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberMediumFirestore implements MemberMediumRepository {
   @override
-  MemberMediumEntity? fromMap(Object? o) {
-    return MemberMediumEntity.fromMap(o);
+  MemberMediumEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return MemberMediumEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value) {

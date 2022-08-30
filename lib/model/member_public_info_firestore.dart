@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
   @override
-  MemberPublicInfoEntity? fromMap(Object? o) {
-    return MemberPublicInfoEntity.fromMap(o);
+  MemberPublicInfoEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return MemberPublicInfoEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value) {

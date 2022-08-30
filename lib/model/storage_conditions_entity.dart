@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -37,7 +38,7 @@ class StorageConditionsEntity implements EntityBase {
     return 'StorageConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  static StorageConditionsEntity? fromMap(Object? o) {
+  static StorageConditionsEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -59,9 +60,9 @@ class StorageConditionsEntity implements EntityBase {
     return newEntity;
   }
 
-  static StorageConditionsEntity? fromJsonString(String json) {
+  static StorageConditionsEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

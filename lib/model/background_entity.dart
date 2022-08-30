@@ -15,6 +15,7 @@
 
 import 'dart:collection';
 import 'dart:convert';
+import 'package:eliud_core/tools/random.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
@@ -48,37 +49,43 @@ class BackgroundEntity implements EntityBase {
     return 'BackgroundEntity{backgroundImageId: $backgroundImageId, useProfilePhotoAsBackground: $useProfilePhotoAsBackground, beginGradientPosition: $beginGradientPosition, endGradientPosition: $endGradientPosition, shadow: $shadow, decorationColors: DecorationColor[] { $decorationColorsCsv }, borderRadius: $borderRadius, border: $border, padding: $padding, margin: $margin}';
   }
 
-  static BackgroundEntity? fromMap(Object? o) {
+  static BackgroundEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
+    var backgroundImageIdNewDocmentId = map['backgroundImageId'];
+    if ((newDocumentIds != null) && (backgroundImageIdNewDocmentId != null)) {
+      var backgroundImageIdOldDocmentId = backgroundImageIdNewDocmentId;
+      backgroundImageIdNewDocmentId = newRandomKey();
+      newDocumentIds[backgroundImageIdOldDocmentId] = backgroundImageIdNewDocmentId;
+    }
     var shadowFromMap;
     shadowFromMap = map['shadow'];
     if (shadowFromMap != null)
-      shadowFromMap = ShadowEntity.fromMap(shadowFromMap);
+      shadowFromMap = ShadowEntity.fromMap(shadowFromMap, newDocumentIds: newDocumentIds);
     var decorationColorsFromMap;
     decorationColorsFromMap = map['decorationColors'];
     var decorationColorsList;
     if (decorationColorsFromMap != null)
       decorationColorsList = (map['decorationColors'] as List<dynamic>)
         .map((dynamic item) =>
-        DecorationColorEntity.fromMap(item as Map)!)
+        DecorationColorEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
     var borderRadiusFromMap;
     borderRadiusFromMap = map['borderRadius'];
     if (borderRadiusFromMap != null)
-      borderRadiusFromMap = BorderRadiusEntity.fromMap(borderRadiusFromMap);
+      borderRadiusFromMap = BorderRadiusEntity.fromMap(borderRadiusFromMap, newDocumentIds: newDocumentIds);
     var paddingFromMap;
     paddingFromMap = map['padding'];
     if (paddingFromMap != null)
-      paddingFromMap = EdgeInsetsGeometryEntity.fromMap(paddingFromMap);
+      paddingFromMap = EdgeInsetsGeometryEntity.fromMap(paddingFromMap, newDocumentIds: newDocumentIds);
     var marginFromMap;
     marginFromMap = map['margin'];
     if (marginFromMap != null)
-      marginFromMap = EdgeInsetsGeometryEntity.fromMap(marginFromMap);
+      marginFromMap = EdgeInsetsGeometryEntity.fromMap(marginFromMap, newDocumentIds: newDocumentIds);
 
     return BackgroundEntity(
-      backgroundImageId: map['backgroundImageId'], 
+      backgroundImageId: backgroundImageIdNewDocmentId, 
       useProfilePhotoAsBackground: map['useProfilePhotoAsBackground'], 
       beginGradientPosition: map['beginGradientPosition'], 
       endGradientPosition: map['endGradientPosition'], 
@@ -138,9 +145,9 @@ class BackgroundEntity implements EntityBase {
     return newEntity;
   }
 
-  static BackgroundEntity? fromJsonString(String json) {
+  static BackgroundEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
-    return fromMap(generationSpecificationMap);
+    return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
 
   String toJsonString() {

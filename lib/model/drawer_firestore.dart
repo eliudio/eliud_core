@@ -33,8 +33,8 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class DrawerFirestore implements DrawerRepository {
   @override
-  DrawerEntity? fromMap(Object? o) {
-    return DrawerEntity.fromMap(o);
+  DrawerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return DrawerEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<DrawerEntity> addEntity(String documentID, DrawerEntity value) {

@@ -121,8 +121,8 @@ class MemberDashboardCache implements MemberDashboardRepository {
   }
 
   @override
-  MemberDashboardEntity? fromMap(Object? o) {
-    return reference.fromMap(o);
+  MemberDashboardEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+    return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
   Future<void> deleteAll() {
