@@ -442,8 +442,8 @@ abstract class MediumHelper<T> {
     }
 
     // Second, create the thumbnail
-    var enrichedVideo = await MediumData.enrichVideoUsngHerokuapp(
-        baseName, thumbnailBaseName, fileData, fileInfo.url);
+    var enrichedVideo = await MediumData.enrichVideoWithHardcodedThumbnail(
+        baseName, thumbnailBaseName, fileData, /*fileInfo.url*/);
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
     // Third, upload the thumbnail;

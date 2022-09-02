@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasDialog {
-  void openMessageDialog(AppModel app,
+  Future<void> openMessageDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -16,7 +16,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openErrorDialog(AppModel app,
+  Future<void> openErrorDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -26,7 +26,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openAckNackDialog(AppModel app,
+  Future<void> openAckNackDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -38,7 +38,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openEntryDialog(AppModel app,
+  Future<void> openEntryDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -51,7 +51,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openSelectionDialog(AppModel app,
+  Future<void> openSelectionDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -62,7 +62,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openComplexDialog(AppModel app,
+  Future<void> openComplexDialog(AppModel app,
       BuildContext context,
     String name, {
     required String title,
@@ -73,7 +73,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openFlexibleDialog(AppModel app,
+  Future<void> openFlexibleDialog(AppModel app,
       BuildContext context,
     String name, {
     String? title,
@@ -83,7 +83,7 @@ abstract class HasDialog {
     bool? includeHeading = true,
   });
 
-  void openWidgetDialog(AppModel app,
+  Future<void> openWidgetDialog(AppModel app,
       BuildContext context,
     String name, {
     required Widget child,
@@ -200,7 +200,7 @@ void openSelectionDialog(AppModel app,
           includeHeading: includeHeading,
         );
 
-void openComplexDialog(AppModel app,
+Future<void> openComplexDialog(AppModel app,
   BuildContext context,
   String name, {
   required String title,
@@ -209,8 +209,8 @@ void openComplexDialog(AppModel app,
   String? buttonLabel,
   double? widthFraction, // percentage of screen width
   bool? includeHeading = true,
-}) =>
-    StyleRegistry.registry()
+}) async =>
+    await StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .dialogStyle()
@@ -222,7 +222,7 @@ void openComplexDialog(AppModel app,
           includeHeading: includeHeading,
         );
 
-void openFlexibleDialog(AppModel app,
+Future<void> openFlexibleDialog(AppModel app,
   BuildContext context,
   String name, {
   String? title,
@@ -230,8 +230,8 @@ void openFlexibleDialog(AppModel app,
   List<Widget>? buttons,
   double? widthFraction, // percentage of screen width
   bool? includeHeading = true,
-}) =>
-    StyleRegistry.registry()
+}) async =>
+    await StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .dialogStyle()
@@ -243,12 +243,12 @@ void openFlexibleDialog(AppModel app,
           includeHeading: includeHeading,
         );
 
-void openWidgetDialog(AppModel app,
+Future<void> openWidgetDialog(AppModel app,
   BuildContext context,
   String name, {
   required Widget child,
-}) =>
-    StyleRegistry.registry()
+}) async =>
+    await StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .dialogStyle()

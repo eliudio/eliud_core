@@ -60,7 +60,7 @@ class GridViewDashboard {
       child: BlocProvider<GridViewDashboardBloc>(
           create: (context) => GridViewDashboardBloc(
                 app.documentID,
-                (_) {},
+                (_, __) {},
               )..add(EditorBaseInitialise<GridViewModel>(model)),
           child: GridViewDashboardWidget(
             app: app,

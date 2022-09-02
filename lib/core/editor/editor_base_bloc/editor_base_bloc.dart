@@ -51,7 +51,7 @@ abstract class EditorBaseBloc<T extends ModelBase, U>
       } else {
         await repository.update(newModel);
       }
-      feedback(true);
+      feedback(true, newModel);
     }
   }
 }

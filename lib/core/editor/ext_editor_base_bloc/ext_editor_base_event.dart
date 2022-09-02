@@ -9,8 +9,10 @@ abstract class ExtEditorBaseEvent<T> extends Equatable {
 
 class ExtEditorBaseInitialise<T extends ModelBase> extends ExtEditorBaseEvent<T> {
   final T model;
+  // re-retrieve the model from store, to retrieve the referring links?
+  final bool reretrieveModel;
 
-  ExtEditorBaseInitialise(this.model);
+  ExtEditorBaseInitialise(this.model, { this.reretrieveModel = true });
 
   @override
   List<Object?> get props => [model];

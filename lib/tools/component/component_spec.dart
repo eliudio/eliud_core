@@ -36,4 +36,4 @@ abstract class ComponentEditorConstructor {
   }
 }
 
-typedef void EditorFeedback(bool status); // true is ok
+typedef void EditorFeedback<T>(bool status, T value); // status true is ok

@@ -158,6 +158,12 @@ abstract class MediumData {
   }
 
   /*
+   *
+   *  Can we use Uint8List getThumbnail(Image img) to generate thumbnail for a video (for web)?
+   *  For this we would need to get the first frame of a video
+   */
+
+  /*
    * Enrich a video with a hardcoded thumbnail fom assets.
    *
    * VideoThumbnail does not support flutterweb. So as a consequence we use getThumbnailUsingHerokuapp to generate a thumbnail

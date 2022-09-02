@@ -24,23 +24,29 @@ abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
       : super(ExtEditorBaseUninitialised()) {
     on<ExtEditorBaseInitialise<T>>((event, emit) async {
       // retrieve the model, as it was retrieved without links
-      var modelWithLinks = await repository.get(event.model.documentID);
-      if (modelWithLinks == null) {
-        modelWithLinks = newInstance(
-          StorageConditionsModel(
-              privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
-        );
-      } else {
-        modelWithLinks = setDefaultValues(
-            modelWithLinks,
+      if (event.reretrieveModel) {
+        var modelWithLinks = await repository.get(event.model.documentID);
+        if (modelWithLinks == null) {
+          modelWithLinks = newInstance(
             StorageConditionsModel(
                 privilegeLevelRequired:
-                    PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+          );
+        } else {
+          modelWithLinks = setDefaultValues(
+              modelWithLinks,
+              StorageConditionsModel(
+                  privilegeLevelRequired:
+                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+        }
+        emit(ExtEditorBaseInitialised(
+          model: modelWithLinks,
+        ));
+      } else {
+        emit(ExtEditorBaseInitialised(
+          model: event.model,
+        ));
       }
-      emit(ExtEditorBaseInitialised(
-        model: modelWithLinks,
-      ));
     });
     on<SelectForEditEvent<T, U>>((event, emit) {
       var theState = state as ExtEditorBaseInitialised;
@@ -103,7 +109,7 @@ abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
         await repository.update(newModel);
       }
       if (feedback != null) {
-        feedback!(true);
+        feedback!(true, newModel);
       }
     }
   }

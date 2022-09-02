@@ -15,15 +15,15 @@ class DialogStatefulWidgetHelper {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
-  static void openIt(BuildContext context, String name, Widget dialog,
-      {double? heightValue, double? widthValue}) {
+  static Future<void> openIt(BuildContext context, String name, Widget dialog,
+      {double? heightValue, double? widthValue}) async {
     var _width =
         widthValue == null ? width(context) : min(width(context), widthValue);
     var _height = heightValue == null
         ? height(context)
         : min(height(context), heightValue);
 
-    showGeneralDialog(
+    await showGeneralDialog(
         routeSettings: RouteSettings(name: name),
         context: context,
         barrierDismissible: false,
