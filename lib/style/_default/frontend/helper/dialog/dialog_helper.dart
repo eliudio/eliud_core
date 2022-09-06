@@ -5,6 +5,7 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 enum DialogButtonPosition { BottomRight, TopRight }
 
@@ -38,12 +39,13 @@ class DialogStatefulWidgetHelper {
           );
         },
         pageBuilder: (context, animation, secondaryAnimation) {
-          return SafeArea(
+          // using a PointerInterceptor in case we open a dialog over a web iframe, to make sure the focus is on the dialog
+          return PointerInterceptor(child: SafeArea(
               child: Container(
                   child: Align(
                       alignment: Alignment.center,
                       child: SizedBox(
-                          width: _width, height: _height, child: dialog))));
+                          width: _width, height: _height, child: dialog)))));
         });
   }
 }
