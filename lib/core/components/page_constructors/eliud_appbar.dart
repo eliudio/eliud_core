@@ -101,11 +101,12 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
 
     var header = value.header!;
     var title = value.title;
-    if ((title != null) &&
-        (widget.pageTitle != null) &&
-        (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
-      title = title.replaceAll(
-          EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+    if ((title != null) &&  (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+      if (widget.pageTitle != null) {
+        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+      } else {
+        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, 'No title');
+      }
     }
     var icon = value.icon;
     var memberMediumModel = value.image;
