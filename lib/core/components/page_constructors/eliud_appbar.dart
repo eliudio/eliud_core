@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../model/icon_model.dart';
 import 'blocs/appbar/extended_app_bar_component_bloc.dart';
 import 'blocs/appbar/extended_app_bar_component_state.dart';
 
@@ -188,16 +189,26 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
     var items = await MenuItemMapper.mapMenu(context, menu, member, currentPage);
     var playStoreApp = widget.playstoreApp;
     if ((playStoreApp != null) &&
-        (playStoreApp.logo != null) &&
-        (playStoreApp.logo!.url != null) &&
         (widget.app.documentID != playStoreApp.documentID)) {
-      items.add(MenuItemAttributes(
-          isActive: false,
-          onTap: () => eliudrouter.Router.navigateTo(
-              context,
-              SwitchApp(widget.app,
-                  toAppID: playStoreApp.documentID)),
-          imageURL: playStoreApp.logo!.url));
+      if ((playStoreApp.logo != null) && (playStoreApp.logo!.url != null)) {
+        items.add(MenuItemAttributes(
+            isActive: false,
+            onTap: () =>
+                eliudrouter.Router.navigateTo(
+                    context,
+                    SwitchApp(widget.app,
+                        toAppID: playStoreApp.documentID)),
+            imageURL: playStoreApp.logo!.url));
+      } else {
+        items.add(MenuItemAttributes(
+            isActive: false,
+            onTap: () =>
+                eliudrouter.Router.navigateTo(
+                    context,
+                    SwitchApp(widget.app,
+                        toAppID: playStoreApp.documentID)),
+            icon: IconModel(codePoint: Icons.home.codePoint, fontFamily: "MaterialIcons"),));
+      }
     }
     return items;
   }
