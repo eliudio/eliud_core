@@ -114,6 +114,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
         } catch (exception) {
           print('Exception during signInWithGoogle: $exception');
+          emit(theState.asNotProcessing());
         }
         if (usr != null) {
           var member = await firebaseToMemberModel(usr);
