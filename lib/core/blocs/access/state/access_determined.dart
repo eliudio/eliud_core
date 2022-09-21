@@ -37,6 +37,7 @@ abstract class AccessDetermined extends AccessState {
   final List<DeterminedApp> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
   bool? isProcessing;
+  String? tempMessage;
 
   // flag to allow to force a new version of accessDetermined
   int forceRefresh = 0;
@@ -49,7 +50,7 @@ abstract class AccessDetermined extends AccessState {
 
   AccessDetermined newVersion();
 
-  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing});
+  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing, this.tempMessage});
 
   AppModel? getApp(String appId) {
     for (var app in apps) {
@@ -155,6 +156,8 @@ abstract class AccessDetermined extends AccessState {
   AccessDetermined asNotProcessing();
   AccessDetermined asProcessing();
   AccessDetermined updateMember(MemberModel member);
+  AccessDetermined withTempMessage(String message);
+  AccessDetermined clearTempMessage();
 
   Future<AccessDetermined> withNewAccess(AccessBloc accessBloc, AccessModel access) async {
     if (access.appId == null) {

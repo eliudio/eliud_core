@@ -46,6 +46,8 @@ class UserRepository {
       await _firebaseAuth.signInWithCredential(credential);
       if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
       throw Exception("_firebaseAuth.currentUser is null");
+    } else {
+      throw Exception("User decided not to login");
     }
   }
 

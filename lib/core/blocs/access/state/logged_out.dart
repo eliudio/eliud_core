@@ -49,8 +49,9 @@ class LoggedOut extends AccessDetermined {
     Map<String, PagesAndDialogAccesss> accesses, {
     AppModel? playstoreApp,
     bool? isProcessing,
+        String? tempMessage,
   }) : super(apps, accesses,
-            playstoreApp: playstoreApp, isProcessing: isProcessing);
+            playstoreApp: playstoreApp, isProcessing: isProcessing, tempMessage: tempMessage);
 
   @override
   bool hasAccessToOtherApps() => false;
@@ -89,6 +90,7 @@ class LoggedOut extends AccessDetermined {
           ListEquality().equals(apps, other.apps) &&
           playstoreApp == other.playstoreApp &&
           newVersion == other.newVersion &&
+          tempMessage == other.tempMessage &&
           isProcessing == other.isProcessing;
 
   @override
@@ -192,6 +194,28 @@ class LoggedOut extends AccessDetermined {
       accesses,
       playstoreApp: playstoreApp,
       isProcessing: false,
+    );
+  }
+
+  @override
+  AccessDetermined withTempMessage(String tempMessage) {
+    return LoggedOut._(
+      apps,
+      accesses,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+      tempMessage: tempMessage,
+    );
+  }
+
+  @override
+  AccessDetermined clearTempMessage() {
+    return LoggedOut._(
+      apps,
+      accesses,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+      tempMessage: null,
     );
   }
 

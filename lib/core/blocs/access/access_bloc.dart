@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/member_claim_model.dart';
+import '../../registry.dart';
 import 'access_event.dart';
 import 'state/logged_in.dart';
 
@@ -95,6 +96,16 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       }
     });
 
+    on<DismissTempMessage>((event, emit) async {
+      var theState = state as AccessDetermined;
+      emit(theState.clearTempMessage());
+    });
+
+    on<ShowTempMessage>((event, emit) async {
+      var theState = state as AccessDetermined;
+      emit(theState.withTempMessage(event.tempMessage));
+    });
+
     on<LoginEvent>((event, emit) async {
       var theState = state as AccessDetermined;
       if (event.isProcessing()) {
@@ -113,8 +124,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               break;
           }
         } catch (exception) {
-          print('Exception during signInWithGoogle: $exception');
-          emit(theState.asNotProcessing());
+          print('Exception during signIn: $exception');
+          emit(theState.asNotProcessing().withTempMessage('Error during signin'));
         }
         if (usr != null) {
           var member = await firebaseToMemberModel(usr);

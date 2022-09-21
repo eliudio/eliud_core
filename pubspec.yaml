@@ -40,6 +40,7 @@ dependencies:
   video_player: ^2.2.4
   video_thumbnail: 0.5.2
   pointer_interceptor: 0.9.3+3
+  another_flushbar: 1.12.29
 
   flutter:
     sdk: flutter

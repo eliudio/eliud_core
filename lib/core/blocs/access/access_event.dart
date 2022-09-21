@@ -87,6 +87,16 @@ abstract class PostLoginAction {
 
 enum  LoginType{ GoogleLogin, AppleLogin }
 
+class ShowTempMessage extends AccessEvent {
+  final String tempMessage;
+
+  ShowTempMessage(this.tempMessage);
+}
+
+class DismissTempMessage extends AccessEvent {
+
+}
+
 class LoginEvent extends AccessEvent {
   final AppModel app;
   final LoginType loginType;

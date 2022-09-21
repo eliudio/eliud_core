@@ -35,9 +35,10 @@ class LoggedIn extends AccessDetermined {
       this.subscribedToApps,
       {AppModel? playstoreApp,
       bool? isProcessing,
+        String? tempMessage,
       })
       : super(apps, accesses,
-            playstoreApp: playstoreApp, isProcessing: isProcessing);
+            playstoreApp: playstoreApp, isProcessing: isProcessing, tempMessage: tempMessage);
 
   static Future<LoggedIn> getLoggedIn(
     AccessBloc accessBloc,
@@ -237,6 +238,36 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
+  AccessDetermined withTempMessage(String tempMessage) {
+    return LoggedIn._(
+      usr,
+      member,
+      postLoginAction,
+      apps,
+      accesses,
+      subscribedToApps,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+        tempMessage: tempMessage
+    );
+  }
+
+  @override
+  AccessDetermined clearTempMessage() {
+    return LoggedIn._(
+        usr,
+        member,
+        postLoginAction,
+        apps,
+        accesses,
+        subscribedToApps,
+        playstoreApp: playstoreApp,
+        isProcessing: isProcessing,
+        tempMessage: null
+    );
+  }
+
+  @override
   AccessDetermined asProcessing() {
     return LoggedIn._(
       usr,
@@ -351,6 +382,7 @@ class LoggedIn extends AccessDetermined {
           ListEquality().equals(subscribedToApps, other.subscribedToApps) &&
           playstoreApp == other.playstoreApp &&
           newVersion == other.newVersion &&
+          tempMessage == other.tempMessage &&
           isProcessing == other.isProcessing;
 
   @override

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
@@ -25,6 +28,9 @@ import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/access/access_event.dart';
+import '../blocs/access/state/access_state.dart';
 
 class PageComponent extends StatefulWidget {
   final GlobalKey pageKey = GlobalKey();
@@ -95,24 +101,42 @@ class _PageComponentState extends State<PageComponent> {
                 state.app,
                 context,
                 widget.pageKey,
-                () => BlocBuilder(
+                () => BlocListener<AccessBloc, AccessState>(
                     bloc: BlocProvider.of<AccessBloc>(context),
-                    builder: (BuildContext context, accessState) {
-                      if (accessState is AccessDetermined) {
-                        return PageContentsWidget(
-                          key: widget.pageKey,
-                          state: accessState,
-                          app: state.app,
-                          pageModel: page,
-                          parameters: widget.parameters,
-                          scaffoldKey: widget.scaffoldKey,
-                          scaffoldMessengerKey: widget.scaffoldMessengerKey,
-                          componentInfo: componentInfo,
-                        );
-                      } else {
-                        return progressIndicator();
+                    listener: (context, state) {
+                      print("aa");
+                      if ((state is AccessDetermined) && (state.tempMessage != null)) {
+                        Flushbar(
+                          title: 'Message',
+                          message: state.tempMessage,
+                          duration:  Duration(seconds: 3),
+                          onStatusChanged: (status) {
+                            if (status == FlushbarStatus.DISMISSED) {
+                              BlocProvider.of<AccessBloc>(context).add(
+                                  DismissTempMessage());
+                            }
+                          },
+                        )..show(context);
                       }
-                    }),
+                    },
+                    child: BlocBuilder(
+                        bloc: BlocProvider.of<AccessBloc>(context),
+                        builder: (BuildContext context, accessState) {
+                          if (accessState is AccessDetermined) {
+                            return PageContentsWidget(
+                              key: widget.pageKey,
+                              state: accessState,
+                              app: state.app,
+                              pageModel: page,
+                              parameters: widget.parameters,
+                              scaffoldKey: widget.scaffoldKey,
+                              scaffoldMessengerKey: widget.scaffoldMessengerKey,
+                              componentInfo: componentInfo,
+                            );
+                          } else {
+                            return progressIndicator();
+                          }
+                        })),
                 page)();
           } else {
             return progressIndicator();
@@ -123,8 +147,7 @@ class _PageComponentState extends State<PageComponent> {
   Widget progressIndicator() {
     return Container(
         decoration: BoxDecoration(color: Colors.white),
-        child: Center(child: CircularProgressIndicator ())
-    );
+        child: Center(child: CircularProgressIndicator()));
   }
 }
 
