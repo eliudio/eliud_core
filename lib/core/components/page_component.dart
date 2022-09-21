@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/blocs/access/state/logged_in.dart';
@@ -36,8 +35,6 @@ class PageComponent extends StatefulWidget {
   final GlobalKey pageKey = GlobalKey();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
 
   final String appId;
   final String pageId;
@@ -105,15 +102,16 @@ class _PageComponentState extends State<PageComponent> {
                     bloc: BlocProvider.of<AccessBloc>(context),
                     listener: (context, state) {
                       print("aa");
-                      if ((state is AccessDetermined) && (state.tempMessage != null)) {
+                      if ((state is AccessDetermined) &&
+                          (state.tempMessage != null)) {
                         Flushbar(
                           title: 'Message',
                           message: state.tempMessage,
-                          duration:  Duration(seconds: 3),
+                          duration: Duration(seconds: 3),
                           onStatusChanged: (status) {
                             if (status == FlushbarStatus.DISMISSED) {
-                              BlocProvider.of<AccessBloc>(context).add(
-                                  DismissTempMessage());
+                              BlocProvider.of<AccessBloc>(context)
+                                  .add(DismissTempMessage());
                             }
                           },
                         )..show(context);
@@ -130,7 +128,6 @@ class _PageComponentState extends State<PageComponent> {
                               pageModel: page,
                               parameters: widget.parameters,
                               scaffoldKey: widget.scaffoldKey,
-                              scaffoldMessengerKey: widget.scaffoldMessengerKey,
                               componentInfo: componentInfo,
                             );
                           } else {
@@ -153,7 +150,6 @@ class _PageComponentState extends State<PageComponent> {
 
 class PageContentsWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
   final AccessDetermined state;
   final AppModel app;
   final PageModel pageModel;
@@ -167,7 +163,6 @@ class PageContentsWidget extends StatefulWidget {
     required this.pageModel,
     required this.parameters,
     required this.scaffoldKey,
-    required this.scaffoldMessengerKey,
     required this.componentInfo,
   }) : super(key: key) {}
 
@@ -181,49 +176,46 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
   HasFab? hasFab;
 
   Widget _scaffold(Widget body) {
-    return ScaffoldMessenger(
-        key: widget.scaffoldMessengerKey,
-        child: Scaffold(
-          key: widget.scaffoldKey,
-          endDrawer: widget.pageModel.endDrawer == null
-              ? null
-              : EliudDrawer(
-                  accessState: widget.state,
-                  app: widget.app,
-                  drawerType: DrawerType.Right,
-                  drawer: widget.pageModel.endDrawer!,
-                  currentPage: widget.pageModel.documentID),
-          appBar: widget.pageModel.appBar == null
-              ? null
-              : PreferredSize(
-                  preferredSize: const Size(double.infinity, kToolbarHeight),
-                  child: EliudAppBar(
-                      app: widget.app,
-                      member: widget.state.getMember(),
-                      playstoreApp: widget.state.playstoreApp,
-                      pageTitle: widget.pageModel.title,
-                      currentPage: widget.pageModel.documentID,
-                      scaffoldKey: widget.scaffoldKey,
-                      theTitle: widget.pageModel.title ?? '',
-                      value: widget.pageModel.appBar!)),
-          body: body,
-          drawer: widget.pageModel.drawer == null
-              ? null
-              : EliudDrawer(
-                  accessState: widget.state,
-                  app: widget.app,
-                  drawerType: DrawerType.Left,
-                  drawer: widget.pageModel.drawer!,
-                  currentPage: widget.pageModel.documentID),
-          floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          bottomNavigationBar: EliudBottomNavigationBar(
+    return Scaffold(
+      key: widget.scaffoldKey,
+      endDrawer: widget.pageModel.endDrawer == null
+          ? null
+          : EliudDrawer(
               accessState: widget.state,
               app: widget.app,
-              homeMenu: widget.pageModel.homeMenu!,
+              drawerType: DrawerType.Right,
+              drawer: widget.pageModel.endDrawer!,
               currentPage: widget.pageModel.documentID),
-        ));
+      appBar: widget.pageModel.appBar == null
+          ? null
+          : PreferredSize(
+              preferredSize: const Size(double.infinity, kToolbarHeight),
+              child: EliudAppBar(
+                  app: widget.app,
+                  member: widget.state.getMember(),
+                  playstoreApp: widget.state.playstoreApp,
+                  pageTitle: widget.pageModel.title,
+                  currentPage: widget.pageModel.documentID,
+                  scaffoldKey: widget.scaffoldKey,
+                  theTitle: widget.pageModel.title ?? '',
+                  value: widget.pageModel.appBar!)),
+      body: body,
+      drawer: widget.pageModel.drawer == null
+          ? null
+          : EliudDrawer(
+              accessState: widget.state,
+              app: widget.app,
+              drawerType: DrawerType.Left,
+              drawer: widget.pageModel.drawer!,
+              currentPage: widget.pageModel.documentID),
+      floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomNavigationBar: EliudBottomNavigationBar(
+          accessState: widget.state,
+          app: widget.app,
+          homeMenu: widget.pageModel.homeMenu!,
+          currentPage: widget.pageModel.documentID),
+    );
   }
 
   @override
