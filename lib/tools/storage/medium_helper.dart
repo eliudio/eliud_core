@@ -488,6 +488,80 @@ abstract class MediumHelper<T> {
   }
 
   /*
+   * Upload a pdf from bytes given app with appId
+   * fileData contents of the pdf
+   * ownerId is the memberId
+   * readAccess is the list of member IDs, or 'PUBLIC'
+   */
+  Future<T> createThumbnailUploadPdfData(
+      String memberMediumDocumentID, Uint8List fileData, String baseName, String documentID,
+      {PdfAvailable? feedbackFunction,
+        FeedbackProgress? feedbackProgress}) async {
+    print('createThumbnailUploadPdfData');
+    // First, upload the file
+    final document = await PdfDocument.openData(fileData);
+    final pageCount = await document.pagesCount;
+    var taskCounter = 1;
+    var totalTasks = 1 + (pageCount * 4);
+
+    // Now create extra MemberImageModels for each page
+    dynamic previousMediumId;
+    var newDocumentID;
+    var returnMe;
+    for (var i = pageCount; i >= 1; i--) {
+      newDocumentID = documentID + '-' + i.toString();
+      var newBaseName = baseName + '-' + i.toString();
+
+      // First, create the image and thumbnail
+      var pageData = await MediumData.createPhotoWithThumbnailFromPdfData(
+          fileData, newBaseName, i);
+      taskCounter++;
+      _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
+          feedbackProgress: feedbackProgress);
+
+      // Second, upload the thumbnail;
+      taskCounter++;
+      var pageThumbnail = await UploadInfo.uploadData(
+          pageData.thumbNailData.baseName,
+          pageData.thumbNailData.data,
+          app.documentID,
+          ownerId,
+          packageName,
+          readAccessCustomMetaData(),
+          feedbackProgress: (progress) => _feedBackAggregatedProgress(
+              taskCounter, totalTasks, progress,
+              feedbackProgress: feedbackProgress));
+
+      // Third, upload the image
+      taskCounter++;
+      var pageImage = await UploadInfo.uploadData(
+          pageData.photoData.baseName,
+          pageData.photoData.data,
+          app.documentID,
+          ownerId,
+          packageName,
+          readAccessCustomMetaData(),
+          feedbackProgress: (progress) => _feedBackAggregatedProgress(
+              taskCounter, totalTasks, progress,
+              feedbackProgress: feedbackProgress));
+
+      // Create the MediumModel representation
+      var newMediumModel = await constructMediumModel(newDocumentID, newBaseName, pageImage,
+          pageThumbnail, pageData, AbstractMediumType.Photo, previousMediumId);
+      returnMe = newMediumModel;
+
+      previousMediumId = newDocumentID;
+      taskCounter++;
+      _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
+          feedbackProgress: feedbackProgress);
+    }
+    if (feedbackFunction != null) {
+      feedbackFunction(returnMe);
+    }
+    return returnMe;
+  }
+
+  /*
    * Upload a pdf in  from a file for a given app with appId
    * filePath is the path to the file
    * ownerId is the memberId
@@ -503,40 +577,7 @@ abstract class MediumHelper<T> {
     final pageCount = await document.pagesCount;
     var taskCounter = 1;
     var totalTasks = 1 + (pageCount * 4);
-
-/*
-    var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
-        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
-        feedbackProgress: (progress) => _feedBackAggregatedProgress(
-            taskCounter, totalTasks, progress,
-            feedbackProgress: feedbackProgress));
-*/
-
     var baseName = context.basenameWithoutExtension(filePath);
-
-    // Second, create the thumbnail
-/*
-    var photoData = await MediumData.createPhotoWithThumbnailFromPdfPage(
-        filePath, documentID, 1);
-    taskCounter++;
-    _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
-        feedbackProgress: feedbackProgress);
-
-    // Third, upload the thumbnail;
-    var thumbNailName =
-        context.basenameWithoutExtension(filePath) + '.thumbnail.png';
-    taskCounter++;
-    var fileInfoThumbnail = await UploadInfo.uploadData(
-        thumbNailName,
-        photoData.thumbNailData.data,
-        app.documentID,
-        ownerId,
-        packageName,
-        readAccessCustomMetaData(),
-        feedbackProgress: (progress) => _feedBackAggregatedProgress(
-            taskCounter, totalTasks, progress,
-            feedbackProgress: feedbackProgress));
-*/
 
     // Now create extra MemberImageModels for each page
     dynamic previousMediumId;
@@ -589,18 +630,6 @@ abstract class MediumHelper<T> {
       _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
           feedbackProgress: feedbackProgress);
     }
-
-    // Create the ImageModel
-/*
-    var returnMe = await constructMediumModel(documentID, baseName, fileInfo.item1,
-        fileInfoThumbnail, photoData, AbstractMediumType.Pdf, previousMediumId);
-
-*/
-/*
-    taskCounter++;
-    _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
-        feedbackProgress: feedbackProgress);
-*/
     if (feedbackFunction != null) {
       feedbackFunction(returnMe);
     }

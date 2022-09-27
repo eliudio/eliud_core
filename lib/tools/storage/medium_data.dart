@@ -233,6 +233,49 @@ abstract class MediumData {
   }
 
   /*
+   * Create an image with thumbnail from a specific page of a pdf doc
+   * Before: _createImageFromPdfPage(with thumbnail TRUE)
+   */
+  static Future<PhotoWithThumbnail> createPhotoWithThumbnailFromPdfData(
+      Uint8List fileData, String name, int pageNumber) async {
+    final document = await PdfDocument.openData(fileData);
+    final page = await document.getPage(pageNumber);
+    final pageImage = await page.render(width: page.width, height: page.height, format: PdfPageImageFormat.png);
+    await page.close();
+    if (pageImage == null) {
+      throw Exception("Can't find render image $name");
+    }
+    var img = imgpackage.decodeImage(pageImage.bytes);
+    if (img == null) {
+      throw Exception('Could not decode image');
+    }
+    var thumbnailWidth;
+    var thumbnailHeight;
+    if (img.width > img.height) {
+      thumbnailWidth = thumbnailSize;
+    } else {
+      thumbnailHeight = thumbnailSize;
+    }
+    var thumbnail = imgpackage.copyResize(img,
+        width: thumbnailWidth, height: thumbnailHeight);
+    var thumbNailData = Uint8List.fromList(imgpackage.encodePng(thumbnail));
+
+    var baseName = name + '.png';
+    var thumbnailBaseName = name + '.thumbnail.png';
+    return PhotoWithThumbnail(
+        photoData: ImageData(
+            baseName: baseName,
+            data: pageImage.bytes,
+            width: img.width,
+            height: img.height),
+        thumbNailData: ImageData(
+            baseName: thumbnailBaseName,
+            width: thumbnailSize,
+            height: thumbnailSize,
+            data: thumbNailData));
+  }
+
+  /*
    * Create an image from a specific page of a pdf doc
    * Before: _createImageFromPdfPage(with thumbnail FALSE)
    */
