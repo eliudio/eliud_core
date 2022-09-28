@@ -128,7 +128,6 @@ class _MyAppFormState extends State<MyAppForm> {
   int? _appStatusSelectedRadioTile;
   String? _anonymousProfilePhoto;
   String? _logo;
-  String? _policies;
   final TextEditingController _styleFamilyController = TextEditingController();
   final TextEditingController _styleNameController = TextEditingController();
   bool? _autoPrivileged1Selection;
@@ -199,10 +198,6 @@ class _MyAppFormState extends State<MyAppForm> {
           _logo= state.value!.logo!.documentID;
         else
           _logo= "";
-        if (state.value!.policies != null)
-          _policies= state.value!.policies!.documentID;
-        else
-          _policies= "";
         if (state.value!.styleFamily != null)
           _styleFamilyController.text = state.value!.styleFamily.toString();
         else
@@ -310,11 +305,6 @@ class _MyAppFormState extends State<MyAppForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Policy')
                 ));
-
-        children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "appPolicys", value: _policies, trigger: (value, privilegeLevel) => _onPoliciesSelected(value), optional: true),
-          );
 
 
         children.add(Container(height: 20.0));
@@ -425,7 +415,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               anonymousProfilePhoto: state.value!.anonymousProfilePhoto, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
@@ -444,7 +433,6 @@ class _MyAppFormState extends State<MyAppForm> {
                               anonymousProfilePhoto: state.value!.anonymousProfilePhoto, 
                               homePages: state.value!.homePages, 
                               logo: state.value!.logo, 
-                              policies: state.value!.policies, 
                               styleFamily: state.value!.styleFamily, 
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
@@ -526,14 +514,6 @@ class _MyAppFormState extends State<MyAppForm> {
       _logo = val;
     });
     _myFormBloc.add(ChangedAppLogo(value: val));
-  }
-
-
-  void _onPoliciesSelected(String? val) {
-    setState(() {
-      _policies = val;
-    });
-    _myFormBloc.add(ChangedAppPolicies(value: val));
   }
 
 

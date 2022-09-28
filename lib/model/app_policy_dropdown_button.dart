@@ -77,7 +77,7 @@ List<Widget> widgets(AppPolicyModel value) {
 var app = widget.app;
 var widgets = <Widget>[];
 widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container());
-widgets.add(value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container());
+widgets.add(value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container());
 return widgets;
 }
 

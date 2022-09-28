@@ -147,15 +147,6 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
 
       }
       });
-      on <ChangedAppPolicies> ((event, emit) async {
-      if (state is AppFormInitialized) {
-        final currentState = state as AppFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(policies: await appPolicyRepository(appId: appId)!.get(event.value));
-        emit(SubmittableAppForm(value: newValue));
-
-      }
-      });
       on <ChangedAppStyleFamily> ((event, emit) async {
       if (state is AppFormInitialized) {
         final currentState = state as AppFormInitialized;

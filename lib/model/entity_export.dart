@@ -19,7 +19,6 @@ export '../model/app_bar_entity.dart';
 export '../model/app_entry_pages_entity.dart';
 export '../model/app_home_page_references_entity.dart';
 export '../model/app_policy_entity.dart';
-export '../model/app_policy_item_entity.dart';
 export '../model/backend_request_entity.dart';
 export '../model/background_entity.dart';
 export '../model/body_component_entity.dart';

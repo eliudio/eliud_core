@@ -17,7 +17,6 @@ export '../model/app_cache.dart';
 export '../model/app_bar_cache.dart';
 export '../model/app_entry_pages_cache.dart';
 export '../model/app_policy_cache.dart';
-export '../model/app_policy_item_cache.dart';
 export '../model/backend_request_cache.dart';
 export '../model/body_component_cache.dart';
 export '../model/decoration_color_cache.dart';

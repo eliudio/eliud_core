@@ -22,6 +22,7 @@ import 'package:eliud_core/model/app_policy_component_state.dart';
 import 'package:eliud_core/model/app_policy_repository.dart';
 import 'package:flutter/services.dart';
 
+
 class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComponentState> {
   final AppPolicyRepository? appPolicyRepository;
   StreamSubscription? _appPolicySubscription;

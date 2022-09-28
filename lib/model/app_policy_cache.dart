@@ -146,15 +146,17 @@ class AppPolicyCache implements AppPolicyRepository {
 
   static Future<AppPolicyModel> refreshRelations(AppPolicyModel model) async {
 
-    List<AppPolicyItemModel>? policiesHolder;
-    if (model.policies != null) {
-      policiesHolder = List<AppPolicyItemModel>.from(await Future.wait(await model.policies!.map((element) async {
-        return await AppPolicyItemCache.refreshRelations(element);
-      }))).toList();
+    PublicMediumModel? policyHolder;
+    if (model.policy != null) {
+      try {
+        await publicMediumRepository(appId: model.appId)!.get(model.policy!.documentID).then((val) {
+          policyHolder = val;
+        }).catchError((error) {});
+      } catch (_) {}
     }
 
     return model.copyWith(
-        policies: policiesHolder,
+        policy: policyHolder,
 
 
     );

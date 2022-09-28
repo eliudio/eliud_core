@@ -121,7 +121,8 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
 
   final TextEditingController _documentIDController = TextEditingController();
   final TextEditingController _appIdController = TextEditingController();
-  final TextEditingController _commentsController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  String? _policy;
 
 
   _MyAppPolicyFormState(this.formAction);
@@ -132,7 +133,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
     _myFormBloc = BlocProvider.of<AppPolicyFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
     _appIdController.addListener(_onAppIdChanged);
-    _commentsController.addListener(_onCommentsChanged);
+    _nameController.addListener(_onNameChanged);
   }
 
   @override
@@ -152,13 +153,33 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
           _appIdController.text = state.value!.appId.toString();
         else
           _appIdController.text = "";
-        if (state.value!.comments != null)
-          _commentsController.text = state.value!.comments.toString();
+        if (state.value!.name != null)
+          _nameController.text = state.value!.name.toString();
         else
-          _commentsController.text = "";
+          _nameController.text = "";
+        if (state.value!.policy != null)
+          _policy= state.value!.policy!.documentID;
+        else
+          _policy= "";
       }
       if (state is AppPolicyFormInitialized) {
         List<Widget> children = [];
+         children.add(Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
+                ));
+
+        children.add(
+
+                DropdownButtonComponentFactory().createNew(app: widget.app, id: "publicMediums", value: _policy, trigger: (value, privilegeLevel) => _onPolicySelected(value), optional: false),
+          );
+
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
+
+
          children.add(Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -172,7 +193,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
 
         children.add(
 
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Comments', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _commentsController, keyboardType: TextInputType.text, validator: (_) => state is CommentsAppPolicyFormError ? state.message : null, hintText: null)
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameAppPolicyFormError ? state.message : null, hintText: null)
           );
 
 
@@ -185,14 +206,6 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Policies')
                 ));
-
-        children.add(
-
-                new Container(
-                    height: (fullScreenHeight(context) / 2.5), 
-                    child: appPolicyItemsList(widget.app, context, state.value!.policies, _onPoliciesChanged)
-                )
-          );
 
 
         children.add(Container(height: 20.0));
@@ -210,16 +223,16 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                           UpdateAppPolicyList(value: state.value!.copyWith(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              comments: state.value!.comments, 
-                              policies: state.value!.policies, 
+                              name: state.value!.name, 
+                              policy: state.value!.policy, 
                         )));
                       } else {
                         BlocProvider.of<AppPolicyListBloc>(context).add(
                           AddAppPolicyList(value: AppPolicyModel(
                               documentID: state.value!.documentID, 
                               appId: state.value!.appId, 
-                              comments: state.value!.comments, 
-                              policies: state.value!.policies, 
+                              name: state.value!.name, 
+                              policy: state.value!.policy, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -256,14 +269,16 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
   }
 
 
-  void _onCommentsChanged() {
-    _myFormBloc.add(ChangedAppPolicyComments(value: _commentsController.text));
+  void _onNameChanged() {
+    _myFormBloc.add(ChangedAppPolicyName(value: _nameController.text));
   }
 
 
-  void _onPoliciesChanged(value) {
-    _myFormBloc.add(ChangedAppPolicyPolicies(value: value));
-    setState(() {});
+  void _onPolicySelected(String? val) {
+    setState(() {
+      _policy = val;
+    });
+    _myFormBloc.add(ChangedAppPolicyPolicy(value: val));
   }
 
 
@@ -272,7 +287,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
   void dispose() {
     _documentIDController.dispose();
     _appIdController.dispose();
-    _commentsController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 

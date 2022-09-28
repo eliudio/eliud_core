@@ -95,15 +95,15 @@ class AppIdAppPolicyFormError extends AppPolicyFormError {
 }
 
 
-class CommentsAppPolicyFormError extends AppPolicyFormError { 
-  const CommentsAppPolicyFormError({ String? message, AppPolicyModel? value }): super(message: message, value: value);
+class NameAppPolicyFormError extends AppPolicyFormError { 
+  const NameAppPolicyFormError({ String? message, AppPolicyModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''CommentsAppPolicyFormError {
+    return '''NameAppPolicyFormError {
       value: $value,
       message: $message,
     }''';
@@ -111,15 +111,15 @@ class CommentsAppPolicyFormError extends AppPolicyFormError {
 }
 
 
-class PoliciesAppPolicyFormError extends AppPolicyFormError { 
-  const PoliciesAppPolicyFormError({ String? message, AppPolicyModel? value }): super(message: message, value: value);
+class PolicyAppPolicyFormError extends AppPolicyFormError { 
+  const PolicyAppPolicyFormError({ String? message, AppPolicyModel? value }): super(message: message, value: value);
 
   @override
   List<Object?> get props => [ message, value ];
 
   @override
   String toString() {
-    return '''PoliciesAppPolicyFormError {
+    return '''PolicyAppPolicyFormError {
       value: $value,
       message: $message,
     }''';

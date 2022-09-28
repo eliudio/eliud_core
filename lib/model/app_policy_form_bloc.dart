@@ -47,8 +47,7 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
         AppPolicyFormLoaded loaded = AppPolicyFormLoaded(value: AppPolicyModel(
                                                documentID: "",
                                  appId: "",
-                                 comments: "",
-                                 policies: [],
+                                 name: "",
 
         ));
         emit(loaded);
@@ -77,18 +76,19 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
 
       }
       });
-      on <ChangedAppPolicyComments> ((event, emit) async {
+      on <ChangedAppPolicyName> ((event, emit) async {
       if (state is AppPolicyFormInitialized) {
         final currentState = state as AppPolicyFormInitialized;
-        newValue = currentState.value!.copyWith(comments: event.value);
+        newValue = currentState.value!.copyWith(name: event.value);
         emit(SubmittableAppPolicyForm(value: newValue));
 
       }
       });
-      on <ChangedAppPolicyPolicies> ((event, emit) async {
+      on <ChangedAppPolicyPolicy> ((event, emit) async {
       if (state is AppPolicyFormInitialized) {
         final currentState = state as AppPolicyFormInitialized;
-        newValue = currentState.value!.copyWith(policies: event.value);
+        if (event.value != null)
+          newValue = currentState.value!.copyWith(policy: await publicMediumRepository(appId: appId)!.get(event.value));
         emit(SubmittableAppPolicyForm(value: newValue));
 
       }

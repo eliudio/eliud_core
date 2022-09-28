@@ -25,55 +25,46 @@ import 'package:eliud_core/model/entity_export.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 class AppPolicyEntity implements EntityBase {
   final String? appId;
-  final String? comments;
-  final List<AppPolicyItemEntity>? policies;
+  final String? name;
+  final String? policyId;
 
-  AppPolicyEntity({required this.appId, this.comments, this.policies, });
+  AppPolicyEntity({required this.appId, this.name, this.policyId, });
 
-  AppPolicyEntity copyWith({String? documentID, String? appId, String? comments, List<AppPolicyItemEntity>? policies, }) {
-    return AppPolicyEntity(appId : appId ?? this.appId, comments : comments ?? this.comments, policies : policies ?? this.policies, );
+  AppPolicyEntity copyWith({String? documentID, String? appId, String? name, String? policyId, }) {
+    return AppPolicyEntity(appId : appId ?? this.appId, name : name ?? this.name, policyId : policyId ?? this.policyId, );
   }
-  List<Object?> get props => [appId, comments, policies, ];
+  List<Object?> get props => [appId, name, policyId, ];
 
   @override
   String toString() {
-    String policiesCsv = (policies == null) ? '' : policies!.join(', ');
-
-    return 'AppPolicyEntity{appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
+    return 'AppPolicyEntity{appId: $appId, name: $name, policyId: $policyId}';
   }
 
   static AppPolicyEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var policiesFromMap;
-    policiesFromMap = map['policies'];
-    var policiesList;
-    if (policiesFromMap != null)
-      policiesList = (map['policies'] as List<dynamic>)
-        .map((dynamic item) =>
-        AppPolicyItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
-        .toList();
-
+    var policyIdNewDocmentId = map['policyId'];
+    if ((newDocumentIds != null) && (policyIdNewDocmentId != null)) {
+      var policyIdOldDocmentId = policyIdNewDocmentId;
+      policyIdNewDocmentId = newRandomKey();
+      newDocumentIds[policyIdOldDocmentId] = policyIdNewDocmentId;
+    }
     return AppPolicyEntity(
       appId: map['appId'], 
-      comments: map['comments'], 
-      policies: policiesList, 
+      name: map['name'], 
+      policyId: policyIdNewDocmentId, 
     );
   }
 
   Map<String, Object?> toDocument() {
-    final List<Map<String?, dynamic>>? policiesListMap = policies != null 
-        ? policies!.map((item) => item.toDocument()).toList()
-        : null;
-
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
-    if (comments != null) theDocument["comments"] = comments;
-      else theDocument["comments"] = null;
-    if (policies != null) theDocument["policies"] = policiesListMap;
-      else theDocument["policies"] = null;
+    if (name != null) theDocument["name"] = name;
+      else theDocument["name"] = null;
+    if (policyId != null) theDocument["policyId"] = policyId;
+      else theDocument["policyId"] = null;
     return theDocument;
   }
 

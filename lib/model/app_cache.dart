@@ -164,21 +164,10 @@ class AppCache implements AppRepository {
       } catch (_) {}
     }
 
-    AppPolicyModel? policiesHolder;
-    if (model.policies != null) {
-      try {
-        await appPolicyRepository()!.get(model.policies!.documentID).then((val) {
-          policiesHolder = val;
-        }).catchError((error) {});
-      } catch (_) {}
-    }
-
     return model.copyWith(
         anonymousProfilePhoto: anonymousProfilePhotoHolder,
 
         logo: logoHolder,
-
-        policies: policiesHolder,
 
 
     );

@@ -18,7 +18,6 @@ export '../model/app_repository.dart';
 export '../model/app_bar_repository.dart';
 export '../model/app_entry_pages_repository.dart';
 export '../model/app_policy_repository.dart';
-export '../model/app_policy_item_repository.dart';
 export '../model/backend_request_repository.dart';
 export '../model/body_component_repository.dart';
 export '../model/decoration_color_repository.dart';

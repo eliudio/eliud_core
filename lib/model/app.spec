@@ -93,14 +93,6 @@
       "group": "logo"
     },
     {
-      "fieldName": "policies",
-      "displayName": "Policy",
-      "fieldType": "AppPolicy",
-      "association": true,
-      "optional": true,
-      "group": "policy"
-    },
-    {
       "fieldName": "styleFamily",
       "displayName": "Style Family",
       "fieldType": "String"

@@ -13,7 +13,6 @@
 
 */
 
-import 'package:collection/collection.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
@@ -42,19 +41,19 @@ class AppPolicyModel implements ModelBase, WithAppId {
 
   String documentID;
   String appId;
-  String? comments;
-  List<AppPolicyItemModel>? policies;
+  String? name;
+  PublicMediumModel? policy;
 
-  AppPolicyModel({required this.documentID, required this.appId, this.comments, this.policies, })  {
+  AppPolicyModel({required this.documentID, required this.appId, this.name, this.policy, })  {
     assert(documentID != null);
   }
 
-  AppPolicyModel copyWith({String? documentID, String? appId, String? comments, List<AppPolicyItemModel>? policies, }) {
-    return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, comments: comments ?? this.comments, policies: policies ?? this.policies, );
+  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PublicMediumModel? policy, }) {
+    return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, policy: policy ?? this.policy, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ comments.hashCode ^ policies.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ policy.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,33 +62,28 @@ class AppPolicyModel implements ModelBase, WithAppId {
           runtimeType == other.runtimeType && 
           documentID == other.documentID &&
           appId == other.appId &&
-          comments == other.comments &&
-          ListEquality().equals(policies, other.policies);
+          name == other.name &&
+          policy == other.policy;
 
   @override
   String toString() {
-    String policiesCsv = (policies == null) ? '' : policies!.join(', ');
-
-    return 'AppPolicyModel{documentID: $documentID, appId: $appId, comments: $comments, policies: AppPolicyItem[] { $policiesCsv }}';
+    return 'AppPolicyModel{documentID: $documentID, appId: $appId, name: $name, policy: $policy}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
-    if (policies != null) {
-      for (var item in policies!) {
-        referencesCollector.addAll(await item.collectReferences(appId: appId));
-      }
+    if (policy != null) {
+      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, policy!));
     }
+    if (policy != null) referencesCollector.addAll(await policy!.collectReferences(appId: appId));
     return referencesCollector;
   }
 
   AppPolicyEntity toEntity({String? appId}) {
     return AppPolicyEntity(
           appId: (appId != null) ? appId : null, 
-          comments: (comments != null) ? comments : null, 
-          policies: (policies != null) ? policies
-            !.map((item) => item.toEntity(appId: appId))
-            .toList() : null, 
+          name: (name != null) ? name : null, 
+          policyId: (policy != null) ? policy!.documentID : null, 
     );
   }
 
@@ -99,31 +93,30 @@ class AppPolicyModel implements ModelBase, WithAppId {
     return AppPolicyModel(
           documentID: documentID, 
           appId: entity.appId ?? '', 
-          comments: entity.comments, 
-          policies: 
-            entity.policies == null ? null : List<AppPolicyItemModel>.from(await Future.wait(entity. policies
-            !.map((item) {
-            counter++;
-              return AppPolicyItemModel.fromEntity(counter.toString(), item);
-            })
-            .toList())), 
+          name: entity.name, 
     );
   }
 
   static Future<AppPolicyModel?> fromEntityPlus(String documentID, AppPolicyEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
+    PublicMediumModel? policyHolder;
+    if (entity.policyId != null) {
+      try {
+          policyHolder = await publicMediumRepository(appId: appId)!.get(entity.policyId);
+      } on Exception catch(e) {
+        print('Error whilst trying to initialise policy');
+        print('Error whilst retrieving publicMedium with id ${entity.policyId}');
+        print('Exception: $e');
+      }
+    }
+
     var counter = 0;
     return AppPolicyModel(
           documentID: documentID, 
           appId: entity.appId ?? '', 
-          comments: entity.comments, 
-          policies: 
-            entity. policies == null ? null : List<AppPolicyItemModel>.from(await Future.wait(entity. policies
-            !.map((item) {
-            counter++;
-            return AppPolicyItemModel.fromEntityPlus(counter.toString(), item, appId: appId);})
-            .toList())), 
+          name: entity.name, 
+          policy: policyHolder, 
     );
   }
 

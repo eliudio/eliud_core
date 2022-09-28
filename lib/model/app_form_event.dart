@@ -175,18 +175,6 @@ class ChangedAppLogo extends AppFormEvent {
   String toString() => 'ChangedAppLogo{ value: $value }';
 }
 
-class ChangedAppPolicies extends AppFormEvent {
-  final String? value;
-
-  ChangedAppPolicies({this.value});
-
-  @override
-  List<Object?> get props => [ value ];
-
-  @override
-  String toString() => 'ChangedAppPolicies{ value: $value }';
-}
-
 class ChangedAppStyleFamily extends AppFormEvent {
   final String? value;
 

@@ -38,17 +38,17 @@
       "group": "general"
     },
     {
-      "fieldName": "comments",
-      "displayName": "Comments",
+      "fieldName": "name",
+      "displayName": "Name",
       "fieldType": "String",
       "iconName": "text_format",
       "group": "general"
     },
     {
-      "fieldName": "policies",
-      "fieldType": "AppPolicyItem",
-      "group": "items",
-      "arrayType": "Array"
+      "fieldName": "policy",
+      "association": true,
+      "fieldType": "PublicMedium",
+      "group": "policy"
     }
   ],
   "groups": [
@@ -63,6 +63,6 @@
   ],
   "listFields": {
     "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
-    "subTitle": "value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container()"
+    "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   }
 }

@@ -64,7 +64,6 @@ class AppModel implements ModelBase {
   PublicMediumModel? anonymousProfilePhoto;
   AppHomePageReferencesModel? homePages;
   PublicMediumModel? logo;
-  AppPolicyModel? policies;
   String? styleFamily;
   String? styleName;
 
@@ -74,16 +73,16 @@ class AppModel implements ModelBase {
   // Is Featured
   bool? isFeatured;
 
-  AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.policies, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
+  AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, AppPolicyModel? policies, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, homeURL: homeURL ?? this.homeURL, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, policies: policies ?? this.policies, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, homeURL: homeURL ?? this.homeURL, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ homeURL.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ policies.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ homeURL.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -100,7 +99,6 @@ class AppModel implements ModelBase {
           anonymousProfilePhoto == other.anonymousProfilePhoto &&
           homePages == other.homePages &&
           logo == other.logo &&
-          policies == other.policies &&
           styleFamily == other.styleFamily &&
           styleName == other.styleName &&
           autoPrivileged1 == other.autoPrivileged1 &&
@@ -108,7 +106,7 @@ class AppModel implements ModelBase {
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, policies: $policies, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -119,13 +117,9 @@ class AppModel implements ModelBase {
     if (logo != null) {
       referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, logo!));
     }
-    if (policies != null) {
-      referencesCollector.add(ModelReference(AppPolicyModel.packageName, AppPolicyModel.id, policies!));
-    }
     if (anonymousProfilePhoto != null) referencesCollector.addAll(await anonymousProfilePhoto!.collectReferences(appId: appId));
     if (homePages != null) referencesCollector.addAll(await homePages!.collectReferences(appId: appId));
     if (logo != null) referencesCollector.addAll(await logo!.collectReferences(appId: appId));
-    if (policies != null) referencesCollector.addAll(await policies!.collectReferences(appId: appId));
     return referencesCollector;
   }
 
@@ -140,7 +134,6 @@ class AppModel implements ModelBase {
           anonymousProfilePhotoId: (anonymousProfilePhoto != null) ? anonymousProfilePhoto!.documentID : null, 
           homePages: (homePages != null) ? homePages!.toEntity(appId: appId) : null, 
           logoId: (logo != null) ? logo!.documentID : null, 
-          policiesId: (policies != null) ? policies!.documentID : null, 
           styleFamily: (styleFamily != null) ? styleFamily : null, 
           styleName: (styleName != null) ? styleName : null, 
           autoPrivileged1: (autoPrivileged1 != null) ? autoPrivileged1 : null, 
@@ -193,17 +186,6 @@ class AppModel implements ModelBase {
       }
     }
 
-    AppPolicyModel? policiesHolder;
-    if (entity.policiesId != null) {
-      try {
-          policiesHolder = await appPolicyRepository(appId: appId)!.get(entity.policiesId);
-      } on Exception catch(e) {
-        print('Error whilst trying to initialise policies');
-        print('Error whilst retrieving appPolicy with id ${entity.policiesId}');
-        print('Exception: $e');
-      }
-    }
-
     var counter = 0;
     return AppModel(
           documentID: documentID, 
@@ -217,7 +199,6 @@ class AppModel implements ModelBase {
           homePages: 
             await AppHomePageReferencesModel.fromEntityPlus(entity.homePages, appId: appId), 
           logo: logoHolder, 
-          policies: policiesHolder, 
           styleFamily: entity.styleFamily, 
           styleName: entity.styleName, 
           autoPrivileged1: entity.autoPrivileged1, 

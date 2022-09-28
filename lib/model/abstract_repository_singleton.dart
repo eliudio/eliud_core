@@ -18,7 +18,6 @@ import '../model/app_repository.dart';
 import '../model/app_bar_repository.dart';
 import '../model/app_entry_pages_repository.dart';
 import '../model/app_policy_repository.dart';
-import '../model/app_policy_item_repository.dart';
 import '../model/backend_request_repository.dart';
 import '../model/body_component_repository.dart';
 import '../model/decoration_color_repository.dart';
