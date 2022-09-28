@@ -103,3 +103,15 @@ class ChangedAppPolicyPolicy extends AppPolicyFormEvent {
   String toString() => 'ChangedAppPolicyPolicy{ value: $value }';
 }
 
+class ChangedAppPolicyConditions extends AppPolicyFormEvent {
+  final StorageConditionsModel? value;
+
+  ChangedAppPolicyConditions({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppPolicyConditions{ value: $value }';
+}
+

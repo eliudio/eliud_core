@@ -43,17 +43,18 @@ class AppPolicyModel implements ModelBase, WithAppId {
   String appId;
   String? name;
   PublicMediumModel? policy;
+  StorageConditionsModel? conditions;
 
-  AppPolicyModel({required this.documentID, required this.appId, this.name, this.policy, })  {
+  AppPolicyModel({required this.documentID, required this.appId, this.name, this.policy, this.conditions, })  {
     assert(documentID != null);
   }
 
-  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PublicMediumModel? policy, }) {
-    return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, policy: policy ?? this.policy, );
+  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PublicMediumModel? policy, StorageConditionsModel? conditions, }) {
+    return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, policy: policy ?? this.policy, conditions: conditions ?? this.conditions, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ policy.hashCode;
+  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ policy.hashCode ^ conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,11 +64,12 @@ class AppPolicyModel implements ModelBase, WithAppId {
           documentID == other.documentID &&
           appId == other.appId &&
           name == other.name &&
-          policy == other.policy;
+          policy == other.policy &&
+          conditions == other.conditions;
 
   @override
   String toString() {
-    return 'AppPolicyModel{documentID: $documentID, appId: $appId, name: $name, policy: $policy}';
+    return 'AppPolicyModel{documentID: $documentID, appId: $appId, name: $name, policy: $policy, conditions: $conditions}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -76,6 +78,7 @@ class AppPolicyModel implements ModelBase, WithAppId {
       referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, policy!));
     }
     if (policy != null) referencesCollector.addAll(await policy!.collectReferences(appId: appId));
+    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
     return referencesCollector;
   }
 
@@ -84,6 +87,7 @@ class AppPolicyModel implements ModelBase, WithAppId {
           appId: (appId != null) ? appId : null, 
           name: (name != null) ? name : null, 
           policyId: (policy != null) ? policy!.documentID : null, 
+          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
     );
   }
 
@@ -94,6 +98,8 @@ class AppPolicyModel implements ModelBase, WithAppId {
           documentID: documentID, 
           appId: entity.appId ?? '', 
           name: entity.name, 
+          conditions: 
+            await StorageConditionsModel.fromEntity(entity.conditions), 
     );
   }
 
@@ -117,6 +123,8 @@ class AppPolicyModel implements ModelBase, WithAppId {
           appId: entity.appId ?? '', 
           name: entity.name, 
           policy: policyHolder, 
+          conditions: 
+            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
     );
   }
 

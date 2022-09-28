@@ -93,7 +93,7 @@ return widgets;
         if ((widget.value != null) && (privilegeChosen == null)) {
           if (state.values != null) {
             var selectedValue = state.values!.firstWhere((v) => (v!.documentID == widget.value), orElse: () => null);
-            privilegeChosen = 0;
+            privilegeChosen = selectedValue != null && selectedValue.conditions != null && selectedValue.conditions!.privilegeLevelRequired != null ? selectedValue.conditions!.privilegeLevelRequired!.index : 0;
           }
         }
           

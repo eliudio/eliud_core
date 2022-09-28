@@ -93,6 +93,14 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
 
       }
       });
+      on <ChangedAppPolicyConditions> ((event, emit) async {
+      if (state is AppPolicyFormInitialized) {
+        final currentState = state as AppPolicyFormInitialized;
+        newValue = currentState.value!.copyWith(conditions: event.value);
+        emit(SubmittableAppPolicyForm(value: newValue));
+
+      }
+      });
   }
 
 

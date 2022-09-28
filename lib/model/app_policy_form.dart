@@ -176,6 +176,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
           );
 
 
+
         children.add(Container(height: 20.0));
         children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
 
@@ -225,6 +226,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                               appId: state.value!.appId, 
                               name: state.value!.name, 
                               policy: state.value!.policy, 
+                              conditions: state.value!.conditions, 
                         )));
                       } else {
                         BlocProvider.of<AppPolicyListBloc>(context).add(
@@ -233,6 +235,7 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
                               appId: state.value!.appId, 
                               name: state.value!.name, 
                               policy: state.value!.policy, 
+                              conditions: state.value!.conditions, 
                           )));
                       }
                       if (widget.submitAction != null) {

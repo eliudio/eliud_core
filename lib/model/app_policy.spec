@@ -49,6 +49,12 @@
       "association": true,
       "fieldType": "PublicMedium",
       "group": "policy"
+    },
+    {
+      "fieldName": "conditions",
+      "displayName": "Conditions",
+      "fieldType": "StorageConditions",
+      "group": "conditional"
     }
   ],
   "groups": [

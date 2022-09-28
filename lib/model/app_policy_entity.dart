@@ -27,17 +27,18 @@ class AppPolicyEntity implements EntityBase {
   final String? appId;
   final String? name;
   final String? policyId;
+  final StorageConditionsEntity? conditions;
 
-  AppPolicyEntity({required this.appId, this.name, this.policyId, });
+  AppPolicyEntity({required this.appId, this.name, this.policyId, this.conditions, });
 
-  AppPolicyEntity copyWith({String? documentID, String? appId, String? name, String? policyId, }) {
-    return AppPolicyEntity(appId : appId ?? this.appId, name : name ?? this.name, policyId : policyId ?? this.policyId, );
+  AppPolicyEntity copyWith({String? documentID, String? appId, String? name, String? policyId, StorageConditionsEntity? conditions, }) {
+    return AppPolicyEntity(appId : appId ?? this.appId, name : name ?? this.name, policyId : policyId ?? this.policyId, conditions : conditions ?? this.conditions, );
   }
-  List<Object?> get props => [appId, name, policyId, ];
+  List<Object?> get props => [appId, name, policyId, conditions, ];
 
   @override
   String toString() {
-    return 'AppPolicyEntity{appId: $appId, name: $name, policyId: $policyId}';
+    return 'AppPolicyEntity{appId: $appId, name: $name, policyId: $policyId, conditions: $conditions}';
   }
 
   static AppPolicyEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
@@ -50,14 +51,24 @@ class AppPolicyEntity implements EntityBase {
       policyIdNewDocmentId = newRandomKey();
       newDocumentIds[policyIdOldDocmentId] = policyIdNewDocmentId;
     }
+    var conditionsFromMap;
+    conditionsFromMap = map['conditions'];
+    if (conditionsFromMap != null)
+      conditionsFromMap = StorageConditionsEntity.fromMap(conditionsFromMap, newDocumentIds: newDocumentIds);
+
     return AppPolicyEntity(
       appId: map['appId'], 
       name: map['name'], 
       policyId: policyIdNewDocmentId, 
+      conditions: conditionsFromMap, 
     );
   }
 
   Map<String, Object?> toDocument() {
+    final Map<String, dynamic>? conditionsMap = conditions != null 
+        ? conditions!.toDocument()
+        : null;
+
     Map<String, Object?> theDocument = HashMap();
     if (appId != null) theDocument["appId"] = appId;
       else theDocument["appId"] = null;
@@ -65,6 +76,8 @@ class AppPolicyEntity implements EntityBase {
       else theDocument["name"] = null;
     if (policyId != null) theDocument["policyId"] = policyId;
       else theDocument["policyId"] = null;
+    if (conditions != null) theDocument["conditions"] = conditionsMap;
+      else theDocument["conditions"] = null;
     return theDocument;
   }
 

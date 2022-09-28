@@ -127,6 +127,22 @@ class PolicyAppPolicyFormError extends AppPolicyFormError {
 }
 
 
+class ConditionsAppPolicyFormError extends AppPolicyFormError { 
+  const ConditionsAppPolicyFormError({ String? message, AppPolicyModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''ConditionsAppPolicyFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppPolicyFormLoaded extends AppPolicyFormInitialized { 
   const AppPolicyFormLoaded({ AppPolicyModel? value }): super(value: value);
 
