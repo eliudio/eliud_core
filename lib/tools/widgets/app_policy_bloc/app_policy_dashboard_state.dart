@@ -3,6 +3,8 @@ import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../model/platform_medium_model.dart';
+
 abstract class AppPolicyDashboardBaseState extends Equatable {
   const AppPolicyDashboardBaseState();
 
@@ -21,7 +23,7 @@ class AppPolicyDashboardUninitialised extends AppPolicyDashboardBaseState {
 
 class AppPolicyDashboardInitialised extends AppPolicyDashboardBaseState {
   final AppPolicyModel appPolicy;
-  final List<PublicMediumModel>? values;
+  final List<PlatformMediumModel>? values;
 
   const AppPolicyDashboardInitialised(
       {required this.appPolicy, this.values});
@@ -37,8 +39,15 @@ class AppPolicyDashboardInitialised extends AppPolicyDashboardBaseState {
 class AppPolicyDashboardLoaded extends AppPolicyDashboardInitialised {
   AppPolicyDashboardLoaded(
       { required AppPolicyModel appPolicy,
-        List<PublicMediumModel>? values})
+        List<PlatformMediumModel>? values})
       : super(appPolicy: appPolicy, values: values);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is AppPolicyDashboardLoaded &&
+              appPolicy == other.appPolicy &&
+              ListEquality().equals(values, other.values);
 }
 
 class AppPolicyDashboardError extends AppPolicyDashboardInitialised {
@@ -47,6 +56,14 @@ class AppPolicyDashboardError extends AppPolicyDashboardInitialised {
   AppPolicyDashboardError(
       {required this.error,
       required AppPolicyModel appPolicy,
-      required List<PublicMediumModel> values})
+      required List<PlatformMediumModel> values})
       : super(appPolicy: appPolicy, values: values);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is AppPolicyDashboardError &&
+              appPolicy == other.appPolicy &&
+              error == other.error &&
+              ListEquality().equals(values, other.values);
 }

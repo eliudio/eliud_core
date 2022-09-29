@@ -17,6 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/registry.dart';
+import '../../model/platform_medium_model.dart';
+import '../../package/access_rights.dart';
 import 'app_policy_bloc/app_policy_dashboard_bloc.dart';
 import 'app_policy_bloc/app_policy_dashboard_event.dart';
 import 'app_policy_bloc/app_policy_dashboard_state.dart';
@@ -47,8 +50,8 @@ class AppPolicyDashboard {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/shop',
-      title: create ? 'Create AppPolicy' : 'Update AppPolicy',
+      app.documentID + '/app_policy',
+      title: create ? 'Create Policy' : 'Update Policy',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<AppPolicyDashboardBloc>(
@@ -76,25 +79,27 @@ class AppPolicyDashboardWidget extends StatefulWidget {
 }
 
 class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
+  double? _progress;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
         return BlocBuilder<AppPolicyDashboardBloc, AppPolicyDashboardBaseState>(
-            builder: (ppContext, shopState) {
-          if (shopState is AppPolicyDashboardInitialised) {
+            builder: (ppContext, appPolicyState) {
+          if (appPolicyState is AppPolicyDashboardInitialised) {
             return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 children: [
                   HeaderWidget(
                     app: widget.app,
-                    title: 'AppPolicy',
+                    title: 'Policy',
                     okAction: () async {
                       await BlocProvider.of<AppPolicyDashboardBloc>(context)
                           .save(AppPolicyDashboardApplyChanges(
-                              model: shopState.appPolicy));
+                              model: appPolicyState.appPolicy));
                       return true;
                     },
                     cancelAction: () async {
@@ -109,15 +114,15 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
                         getListTile(context, widget.app,
                             leading: Icon(Icons.vpn_key),
                             title: text(widget.app, context,
-                                shopState.appPolicy.documentID)),
+                                appPolicyState.appPolicy.documentID)),
                         getListTile(context, widget.app,
                             leading: Icon(Icons.description),
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue: shopState.appPolicy.name,
+                              initialValue: appPolicyState.appPolicy.name,
                               valueChanged: (value) {
-                                shopState.appPolicy.name = value;
+                                appPolicyState.appPolicy.name = value;
                               },
                               maxLines: 1,
                               decoration: const InputDecoration(
@@ -131,7 +136,7 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
                       collapsible: true,
                       collapsed: true,
                       children: [
-                        _pages(shopState),
+                        _pages(appPolicyState),
                       ]),
                   topicContainer(widget.app, context,
                       title: 'Condition',
@@ -142,8 +147,9 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
                             leading: Icon(Icons.security),
                             title: ConditionsSimpleWidget(
                               app: widget.app,
-                              readOnly: (shopState.appPolicy.policy != null),
-                              value: shopState.appPolicy.conditions!,
+                              readOnly: appPolicyState.values != null &&
+                                  appPolicyState.values!.isNotEmpty,
+                              value: appPolicyState.appPolicy.conditions!,
                             )),
                       ]),
                 ]);
@@ -158,60 +164,101 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
   }
 
   Widget _pages(AppPolicyDashboardInitialised state) {
-    var items = state.values != null ? state.values! : [];
-    return Container(
-      height: 150,
-      child: ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
-        Container(
-            height: 100,
-            child: ListView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                //separatorBuilder: (context, index) => divider(widget.app, context),
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  final value = items[index];
-                  return getListTile(
-                    context,
-                    widget.app,
-                    title: text(widget.app, context, (value.title ?? '?')),
-                    trailing: popupMenuButton<int>(widget.app, context,
-                        child: Icon(Icons.more_vert),
-                        itemBuilder: (context) => [
-                              popupMenuItem(
-                                widget.app,
-                                context,
-                                value: 2,
-                                label: 'Delete',
-                              ),
-                            ],
-                        onSelected: (selectedValue) {
-                          if (selectedValue == 2) {
-                            // DELETE FROM THE LIST TODO
-                          }
-                        }),
-                  );
-                })),
-        divider(
-          widget.app,
-          context,
-        ),
-        Row(children: [
-          Spacer(),
-          button(
-            widget.app,
-            context,
-            icon: Icon(
-              Icons.add,
-            ),
-            label: 'Add',
-            onPressed: () {
-              // ALLOW TO ADD A PAGE, UPLOAD
+    var widgets = <Widget>[];
+    if (state.values != null) {
+      var items = state.values!;
+      for (var medium in items) {
+        widgets.add(GestureDetector(
+            onTap: () {
+              openAckNackDialog(widget.app, context,
+                  widget.app.documentID + '/policy_delete_image',
+                  title: 'Confirm',
+                  message: 'Delete page?', onSelection: (value) async {
+                if (value == 0) {
+                  BlocProvider.of<AppPolicyDashboardBloc>(context)
+                      .add(AppPolicyDashboardDeleteItem(item: medium));
+                }
+              });
             },
-          ),
-          Spacer(),
-        ])
-      ]),
-    );
+            child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.network(
+                  medium.url!,
+                  //            height: height,
+                ))));
+      }
+    }
+    widgets.add(_addButton(state));
+
+    return GridView.extent(
+        maxCrossAxisExtent: 200,
+        padding: const EdgeInsets.all(0),
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        physics: const ScrollPhysics(), // to disable GridView's scrolling
+        shrinkWrap: true,
+        children: widgets);
+  }
+
+  Widget _addButton(AppPolicyDashboardInitialised state) {
+    if (_progress != null) {
+      return progressIndicatorWithValue(widget.app, context, value: _progress!);
+    } else {
+      return popupMenuButton<int>(widget.app, context,
+          child: Icon(Icons.add),
+          itemBuilder: (context) => [
+                if (Registry.registry()!.getMediumApi().hasCamera())
+                  popupMenuItem(
+                    widget.app,
+                    context,
+                    value: 0,
+                    label: 'Take photo',
+                  ),
+                popupMenuItem(
+                  widget.app,
+                  context,
+                  value: 1,
+                  label: 'Upload image',
+                ),
+              ],
+          onSelected: (value) async {
+            if (value == 0) {
+              Registry.registry()!.getMediumApi().takePhoto(
+                  context,
+                  widget.app,
+                  () => PlatformMediumAccessRights(
+                      state.appPolicy.conditions!.privilegeLevelRequired!),
+                  (photo) => _photoFeedbackFunction(photo),
+                  _photoUploading,
+                  allowCrop: false);
+            } else if (value == 1) {
+              Registry.registry()!.getMediumApi().uploadPhoto(
+                  context,
+                  widget.app,
+                  () => PlatformMediumAccessRights(
+                      state.appPolicy.conditions!.privilegeLevelRequired!),
+                  (photo) => _photoFeedbackFunction(photo),
+                  _photoUploading,
+                  allowCrop: false);
+            }
+          });
+    }
+  }
+
+  void _photoFeedbackFunction(PlatformMediumModel? platformMediumModel) {
+    setState(() {
+      _progress = null;
+      if (platformMediumModel != null) {
+        BlocProvider.of<AppPolicyDashboardBloc>(context)
+            .add(AppPolicyDashboardAddItem(item: platformMediumModel));
+      }
+    });
+  }
+
+  void _photoUploading(dynamic progress) {
+    if (progress != null) {}
+    setState(() {
+      _progress = progress;
+    });
   }
 }

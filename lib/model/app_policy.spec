@@ -47,7 +47,7 @@
     {
       "fieldName": "policy",
       "association": true,
-      "fieldType": "PublicMedium",
+      "fieldType": "PlatformMedium",
       "group": "policy"
     },
     {

@@ -88,7 +88,7 @@ class AppPolicyFormBloc extends Bloc<AppPolicyFormEvent, AppPolicyFormState> {
       if (state is AppPolicyFormInitialized) {
         final currentState = state as AppPolicyFormInitialized;
         if (event.value != null)
-          newValue = currentState.value!.copyWith(policy: await publicMediumRepository(appId: appId)!.get(event.value));
+          newValue = currentState.value!.copyWith(policy: await platformMediumRepository(appId: appId)!.get(event.value));
         emit(SubmittableAppPolicyForm(value: newValue));
 
       }

@@ -42,14 +42,14 @@ class AppPolicyModel implements ModelBase, WithAppId {
   String documentID;
   String appId;
   String? name;
-  PublicMediumModel? policy;
+  PlatformMediumModel? policy;
   StorageConditionsModel? conditions;
 
   AppPolicyModel({required this.documentID, required this.appId, this.name, this.policy, this.conditions, })  {
     assert(documentID != null);
   }
 
-  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PublicMediumModel? policy, StorageConditionsModel? conditions, }) {
+  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PlatformMediumModel? policy, StorageConditionsModel? conditions, }) {
     return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, policy: policy ?? this.policy, conditions: conditions ?? this.conditions, );
   }
 
@@ -75,7 +75,7 @@ class AppPolicyModel implements ModelBase, WithAppId {
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     if (policy != null) {
-      referencesCollector.add(ModelReference(PublicMediumModel.packageName, PublicMediumModel.id, policy!));
+      referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, policy!));
     }
     if (policy != null) referencesCollector.addAll(await policy!.collectReferences(appId: appId));
     if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
@@ -106,13 +106,13 @@ class AppPolicyModel implements ModelBase, WithAppId {
   static Future<AppPolicyModel?> fromEntityPlus(String documentID, AppPolicyEntity? entity, { String? appId}) async {
     if (entity == null) return null;
 
-    PublicMediumModel? policyHolder;
+    PlatformMediumModel? policyHolder;
     if (entity.policyId != null) {
       try {
-          policyHolder = await publicMediumRepository(appId: appId)!.get(entity.policyId);
+          policyHolder = await platformMediumRepository(appId: appId)!.get(entity.policyId);
       } on Exception catch(e) {
         print('Error whilst trying to initialise policy');
-        print('Error whilst retrieving publicMedium with id ${entity.policyId}');
+        print('Error whilst retrieving platformMedium with id ${entity.policyId}');
         print('Exception: $e');
       }
     }

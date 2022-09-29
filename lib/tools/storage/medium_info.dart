@@ -53,9 +53,9 @@ class ChainOfMediumModels {
     }
   }
 
-  static Future<List<String?>> getMemberMediumChainOfUrls(
+  static Future<List<String>> getMemberMediumChainOfUrls(
       String appId, MemberMediumModel memberMediumModel) async {
-    var urls = <String?>[];
+    var urls = <String>[];
     var currentPolicy = memberMediumModel;
     _addMemberMediumUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
@@ -71,9 +71,9 @@ class ChainOfMediumModels {
     return urls;
   }
 
-  static Future<List<String?>> getPlatformMediumChainOfUrls(
+  static Future<List<String>> getPlatformMediumChainOfUrls(
       String appId, PlatformMediumModel platformMediumModel) async {
-    var urls = <String?>[];
+    var urls = <String>[];
     var currentPolicy = platformMediumModel;
     _addPlatformMediumUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
@@ -89,9 +89,9 @@ class ChainOfMediumModels {
     return urls;
   }
 
-  static Future<List<String?>> getPublicMediumChainOfUrls(
+  static Future<List<String>> getPublicMediumChainOfUrls(
       String appId, PublicMediumModel publicMediumModel) async {
-    var urls = <String?>[];
+    var urls = <String>[];
     var currentPolicy = publicMediumModel;
     _addPublicMediumUrl(urls, currentPolicy);
     while (currentPolicy.relatedMediumId != null) {
@@ -156,6 +156,61 @@ class ChainOfMediumModels {
       } else {
         currentPolicy = newPolicy;
         _addPublicMediumInfo(infos, currentPolicy);
+      }
+    }
+    return infos;
+  }
+
+
+  static Future<List<MemberMediumModel>> getMemberMediumModelChainOfMedium(
+      String? appId, MemberMediumModel memberMediumModel) async {
+    var infos = <MemberMediumModel>[];
+    var currentPolicy = memberMediumModel;
+    infos.add(currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      var newPolicy = await memberMediumRepository(appId: appId)!
+          .get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        infos.add(currentPolicy);
+      }
+    }
+    return infos;
+  }
+
+  static Future<List<PlatformMediumModel>> getPlatformMediumModelChainOfMedium(
+      String? appId, PlatformMediumModel platformMediumModel) async {
+    var infos = <PlatformMediumModel>[];
+    var currentPolicy = platformMediumModel;
+    infos.add(currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      var newPolicy = await platformMediumRepository(appId: appId)!
+          .get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        infos.add(currentPolicy);
+      }
+    }
+    return infos;
+  }
+
+  static Future<List<PublicMediumModel>> getPublicMediumModelChainOfMedium(
+      String? appId, PublicMediumModel publicMediumModel) async {
+    var infos = <PublicMediumModel>[];
+    var currentPolicy = publicMediumModel;
+    infos.add(currentPolicy);
+    while (currentPolicy.relatedMediumId != null) {
+      var newPolicy = await publicMediumRepository(appId: appId)!
+          .get(currentPolicy.relatedMediumId);
+      if (newPolicy == null) {
+        print("Can't get policy");
+      } else {
+        currentPolicy = newPolicy;
+        infos.add(currentPolicy);
       }
     }
     return infos;

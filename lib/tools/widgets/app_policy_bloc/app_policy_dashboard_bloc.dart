@@ -9,6 +9,7 @@ import 'package:eliud_core/tools/random.dart';
 
 //import 'appPolicy_dashboard_event.dart';
 import '../../../model/storage_conditions_model.dart';
+import '../../storage/medium_info.dart';
 import 'app_policy_dashboard_event.dart';
 import 'app_policy_dashboard_state.dart';
 
@@ -16,11 +17,6 @@ class AppPolicyDashboardBloc
     extends Bloc<AppPolicyDashboardBaseEvent, AppPolicyDashboardBaseState> {
   final String appId;
   final EditorFeedback feedback;
-
-  AppPolicyModel addItem(AppPolicyModel model, PublicMediumModel newItem) {
-    // TODO: add to a list
-    return model;
-  }
 
   AppPolicyModel deleteItem(
       AppPolicyModel model, PublicMediumModel deleteItem) {
@@ -51,34 +47,70 @@ class AppPolicyDashboardBloc
           ),
         );
       }
+
+      var values = modelWithLinks.policy != null
+          ? await ChainOfMediumModels.getPlatformMediumModelChainOfMedium(
+              appId, modelWithLinks.policy!)
+          : null;
       emit(AppPolicyDashboardLoaded(
-        appPolicy: modelWithLinks,
-      ));
+          appPolicy: modelWithLinks, values: values, ));
     });
 
-    on<PublicMediumListUpdated>((event, emit) {
+    on<AppPolicyDashboardAddItem> ((event, emit) async {
       if (state is AppPolicyDashboardInitialised) {
         var theState = state as AppPolicyDashboardInitialised;
+        var values = theState.values ?? [];
+        var newValues = values.map((v) => v).toList();
+        newValues.add(event.item);
         emit(AppPolicyDashboardLoaded(
-            appPolicy: theState.appPolicy, values: event.values));
+          appPolicy: theState.appPolicy, values: newValues,));
       }
     });
 
-    on<SelectForEditEvent>((event, emit) {
+    on<AppPolicyDashboardDeleteItem> ((event, emit) async {
+      if (state is AppPolicyDashboardInitialised) {
+        var theState = state as AppPolicyDashboardInitialised;
+        var values = theState.values ?? [];
+        var newValues = values.map((v) => v).toList();
+        newValues.removeWhere((value) => value.documentID == event.item.documentID);
+        emit(AppPolicyDashboardLoaded(
+          appPolicy: theState.appPolicy, values: newValues,));
+      }
+    });
+
+/*
+    on<PlatformMediumListUpdated>((event, emit) {
       if (state is AppPolicyDashboardInitialised) {
         var theState = state as AppPolicyDashboardInitialised;
         emit(AppPolicyDashboardLoaded(
-          appPolicy: theState.appPolicy,
-          values: theState.values,
-        ));
+            appPolicy: theState.appPolicy,
+            values: event.values,
+            ));
       }
     });
+*/
+
   }
 
   Future<void> save(AppPolicyDashboardApplyChanges event) async {
     if (state is AppPolicyDashboardInitialised) {
       var theState = state as AppPolicyDashboardInitialised;
+      var theList = theState.values;
       var newModel = theState.appPolicy;
+      if (theList != null) {
+        var previousId;
+        var firstOne;
+        for (var value in theList.reversed.toList()) {
+          if (value.relatedMediumId != previousId) {
+            value.relatedMediumId = previousId;
+            await platformMediumRepository(appId: appId)!.update(value);
+          }
+          previousId = value.documentID;
+          firstOne = value;
+        }
+
+        newModel.policy = firstOne;
+      }
       if (await appPolicyRepository(appId: appId)!.get(newModel.documentID) ==
           null) {
         await appPolicyRepository(appId: appId)!.add(newModel);

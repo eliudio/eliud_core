@@ -21,20 +21,29 @@ class AppPolicyDashboardInitialise extends AppPolicyDashboardBaseEvent {
   AppPolicyDashboardInitialise(this.model);
 }
 
-class PublicMediumListUpdated extends AppPolicyDashboardBaseEvent {
-  final List<PublicMediumModel> values;
+/*
+class PlatformMediumListUpdated extends AppPolicyDashboardBaseEvent {
+  final List<PlatformMediumModel> values;
 
-  PublicMediumListUpdated(this.values);
+  PlatformMediumListUpdated(this.values);
 }
 
-class SelectForEditEvent extends AppPolicyDashboardBaseEvent {
-  final PublicMediumModel item;
-
-  SelectForEditEvent({required this.item});
-}
-
+*/
 class AppPolicyDashboardApplyChanges extends AppPolicyDashboardBaseEvent {
   final AppPolicyModel model;
 
   AppPolicyDashboardApplyChanges({required this.model});
 }
+
+class AppPolicyDashboardAddItem extends AppPolicyDashboardBaseEvent {
+  final PlatformMediumModel item;
+
+  AppPolicyDashboardAddItem({required this.item});
+}
+
+class AppPolicyDashboardDeleteItem extends AppPolicyDashboardBaseEvent {
+  final PlatformMediumModel item;
+
+  AppPolicyDashboardDeleteItem({required this.item});
+}
+
