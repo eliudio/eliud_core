@@ -18,6 +18,7 @@ import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/registry.dart';
+import '../../model/abstract_repository_singleton.dart';
 import '../../model/platform_medium_model.dart';
 import '../../package/access_rights.dart';
 import 'app_policy_bloc/app_policy_dashboard_bloc.dart';
@@ -30,7 +31,7 @@ class AppPolicyDashboard {
   }
 
   static void deleteAppPolicy(AppModel app, BuildContext context, model) {
-    // ask for confirmation. Very dangerous
+    appPolicyRepository(appId: app.documentID)!.delete(model);
   }
 
   static void addAppPolicy(AppModel app, BuildContext context) {
