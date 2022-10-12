@@ -212,6 +212,16 @@ class AccessHelper {
       isBlocked = accessModel.blocked ?? false;
     } else {
       privilegeLevel = PrivilegeLevel.NoPrivilege;
+      if (member != null) {
+        // normally this would have happened when accepting the app's terms, but anyway
+        // create an access entry. creation with privilege level 0 is allowed
+        await accessRepository(appId: appId)!.add(AccessModel(
+          documentID: member!.documentID,
+          appId: appId,
+          privilegeLevel: PrivilegeLevel.NoPrivilege,
+          points: 0,
+        ));
+      }
     }
     return Tuple2(privilegeLevel, isBlocked);
   }
