@@ -51,7 +51,7 @@ abstract class ActionModel {
   DisplayConditionsModel? conditions;
   final String? actionType;
 
-  ActionModel(this.app, {this.conditions, this.actionType} );
+  ActionModel(this.app, {this.conditions, this.actionType});
 
   ActionEntity toEntity({String? appId});
 
@@ -75,7 +75,8 @@ abstract class ActionModel {
     return null;
   }
 
-  static Future<ActionModel?> fromEntityPlus(ActionEntity? entity, {String? appId}) async {
+  static Future<ActionModel?> fromEntityPlus(ActionEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
     var mapper = ActionModelRegistry.registry()!.getMapper(entity.actionType);
@@ -86,7 +87,8 @@ abstract class ActionModel {
         return mapper.fromEntityPlus(app, entity);
       } else {
         var appId = entity.appID;
-        throw Exception("ActionModel.fromEntityPlus App with id $appId not found");
+        throw Exception(
+            "ActionModel.fromEntityPlus App with id $appId not found");
       }
     }
 
@@ -105,6 +107,8 @@ abstract class ActionModel {
 
   // used for the action to describe itself. A bit like toString but as a Widget
   String describe();
+
+  ActionModel copyWith(AppModel newApp);
 }
 
 abstract class ActionModelMapper {
@@ -113,15 +117,15 @@ abstract class ActionModelMapper {
   ActionEntity? fromMap(Map snap);
 }
 
-
 // ********************************** FunctionToRun **********************************
 // This action can only be instantiated programmatically and not stored in a repository.
 
 class FunctionToRun extends ActionModel {
   final Function() actionToRun;
 
-  FunctionToRun(AppModel app, {DisplayConditionsModel? conditions, required this.actionToRun}) :
-        super(app, conditions: conditions, actionType: 'FunctionToRun');
+  FunctionToRun(AppModel app,
+      {DisplayConditionsModel? conditions, required this.actionToRun})
+      : super(app, conditions: conditions, actionType: 'FunctionToRun');
 
   @override
   String message() => 'Running Function';
@@ -132,12 +136,18 @@ class FunctionToRun extends ActionModel {
   }
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId, }) {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) {
     throw Exception('Not implemented, not expected');
   }
 
   @override
   String describe() => 'Run a function';
+
+  @override
+  ActionModel copyWith(AppModel newApp) =>
+      FunctionToRun(newApp, conditions: conditions, actionToRun: actionToRun);
 }
 
 // ********************************** GotoPage **********************************
@@ -145,30 +155,31 @@ class FunctionToRun extends ActionModel {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(AppModel app, {DisplayConditionsModel? conditions, required String pageID}) : this.pageID = pageID.toLowerCase(),
+  GotoPage(AppModel app,
+      {DisplayConditionsModel? conditions, required String pageID})
+      : this.pageID = pageID.toLowerCase(),
         super(app, conditions: conditions, actionType: GotoPageEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
-    return GotoPageEntity(
-        app.documentID,
-        conditions: (conditions != null) ? conditions!.toEntity(): null,
-        pageID: pageID
-    );
+    return GotoPageEntity(app.documentID,
+        conditions: (conditions != null) ? conditions!.toEntity() : null,
+        pageID: pageID);
   }
 
-  static Future<ActionModel> fromEntity(AppModel app, GotoPageEntity entity) async {
+  static Future<ActionModel> fromEntity(
+      AppModel app, GotoPageEntity entity) async {
     if (entity.appID == null) throw Exception('entity GotoPage.appID is null');
-    if (entity.pageID == null) throw Exception('entity GotoPage.pageID is null');
+    if (entity.pageID == null)
+      throw Exception('entity GotoPage.pageID is null');
 
-    return GotoPage(
-        app,
+    return GotoPage(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
-        pageID: entity.pageID!
-    );
+        pageID: entity.pageID!);
   }
 
-  static Future<ActionModel> fromEntityPlus(AppModel app, GotoPageEntity entity) async {
+  static Future<ActionModel> fromEntityPlus(
+      AppModel app, GotoPageEntity entity) async {
     return fromEntity(app, entity);
   }
 
@@ -184,21 +195,28 @@ class GotoPage extends ActionModel {
   String toString() => describe();
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId,}) async {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) async {
     return [];
   }
+
+  @override
+  ActionModel copyWith(AppModel newApp) =>
+      GotoPage(newApp, conditions: conditions, pageID: pageID);
 }
 
 class GotoPageModelMapper implements ActionModelMapper {
   @override
-  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => GotoPage.fromEntity(app, entity as GotoPageEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) =>
+      GotoPage.fromEntity(app, entity as GotoPageEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => GotoPage.fromEntityPlus(app, entity as GotoPageEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) =>
+      GotoPage.fromEntityPlus(app, entity as GotoPageEntity);
 
   @override
   ActionEntity fromMap(Map map) => GotoPageEntity.fromMap(map);
-
 }
 
 // ********************************** OpenDialog **********************************
@@ -206,32 +224,38 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(AppModel app, { DisplayConditionsModel? conditions, required String dialogID}) : this.dialogID = dialogID.toLowerCase(), super(app, conditions: conditions, actionType: OpenDialogEntity.label);
+  OpenDialog(AppModel app,
+      {DisplayConditionsModel? conditions, required String dialogID})
+      : this.dialogID = dialogID.toLowerCase(),
+        super(app, conditions: conditions, actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
-    return OpenDialogEntity(
-        appId,
-        conditions: (conditions != null) ? conditions!.toEntity(): null,
-        dialogID: dialogID
-    );
+    return OpenDialogEntity(appId,
+        conditions: (conditions != null) ? conditions!.toEntity() : null,
+        dialogID: dialogID);
   }
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId, }) async {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) async {
     return [];
   }
 
-  static Future<ActionModel> fromEntity(AppModel app, OpenDialogEntity entity) async {
-    if (entity.appID == null) throw Exception('entity OpenDialog.appID is null');
-    if (entity.dialogID == null) throw Exception('entity OpenDialog.dialogID is null');
-    return OpenDialog(
-        app,
+  static Future<ActionModel> fromEntity(
+      AppModel app, OpenDialogEntity entity) async {
+    if (entity.appID == null)
+      throw Exception('entity OpenDialog.appID is null');
+    if (entity.dialogID == null)
+      throw Exception('entity OpenDialog.dialogID is null');
+    return OpenDialog(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         dialogID: entity.dialogID!);
   }
 
-  static Future<ActionModel> fromEntityPlus(AppModel app, OpenDialogEntity entity) async {
+  static Future<ActionModel> fromEntityPlus(
+      AppModel app, OpenDialogEntity entity) async {
     return fromEntity(app, entity);
   }
 
@@ -245,14 +269,20 @@ class OpenDialog extends ActionModel {
 
   @override
   String toString() => describe();
+
+  @override
+  ActionModel copyWith(AppModel newApp) =>
+      OpenDialog(newApp, conditions: conditions, dialogID: dialogID);
 }
 
 class OpenDialogModelMapper implements ActionModelMapper {
   @override
-  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => OpenDialog.fromEntity(app, entity as OpenDialogEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) =>
+      OpenDialog.fromEntity(app, entity as OpenDialogEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => OpenDialog.fromEntityPlus(app, entity as OpenDialogEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) =>
+      OpenDialog.fromEntityPlus(app, entity as OpenDialogEntity);
 
   @override
   ActionEntity fromMap(Map map) => OpenDialogEntity.fromMap(map);
@@ -263,32 +293,36 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(AppModel app, { DisplayConditionsModel? conditions, required this.toAppID}) : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
+  SwitchApp(AppModel app,
+      {DisplayConditionsModel? conditions, required this.toAppID})
+      : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
-    return SwitchAppEntity(
-        appId,
-        conditions: (conditions != null) ? conditions!.toEntity(): null,
-        toAppID: toAppID
-    );
+    return SwitchAppEntity(appId,
+        conditions: (conditions != null) ? conditions!.toEntity() : null,
+        toAppID: toAppID);
   }
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId, }) async {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) async {
     return [];
   }
 
-  static Future<ActionModel> fromEntity(AppModel app, SwitchAppEntity entity) async {
+  static Future<ActionModel> fromEntity(
+      AppModel app, SwitchAppEntity entity) async {
     if (entity.appID == null) throw Exception('entity SwitchApp.appID is null');
-    if (entity.toAppID == null) throw Exception('entity SwitchApp.toAppID is null');
-    return SwitchApp(
-        app,
+    if (entity.toAppID == null)
+      throw Exception('entity SwitchApp.toAppID is null');
+    return SwitchApp(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         toAppID: entity.toAppID!);
   }
 
-  static Future<ActionModel> fromEntityPlus(AppModel app, SwitchAppEntity entity) async {
+  static Future<ActionModel> fromEntityPlus(
+      AppModel app, SwitchAppEntity entity) async {
     return fromEntity(app, entity);
   }
 
@@ -301,14 +335,20 @@ class SwitchApp extends ActionModel {
 
   @override
   String describe() => 'Switch to app ' + toAppID;
+
+  @override
+  ActionModel copyWith(AppModel newApp) =>
+      SwitchApp(newApp, conditions: conditions, toAppID: toAppID);
 }
 
 class SwitchAppModelMapper implements ActionModelMapper {
   @override
-  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => SwitchApp.fromEntity(app, entity as SwitchAppEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) =>
+      SwitchApp.fromEntity(app, entity as SwitchAppEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => SwitchApp.fromEntityPlus(app, entity as SwitchAppEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) =>
+      SwitchApp.fromEntityPlus(app, entity as SwitchAppEntity);
 
   @override
   ActionEntity fromMap(Map map) => SwitchAppEntity.fromMap(map);
@@ -319,29 +359,35 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel? menuDef;
 
-  PopupMenu(AppModel app, { DisplayConditionsModel? conditions, this.menuDef }) : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
+  PopupMenu(AppModel app, {DisplayConditionsModel? conditions, this.menuDef})
+      : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
-    return PopupMenuEntity(
-        appId,
-        conditions: (conditions != null) ? conditions!.toEntity(): null,
-        menuDefID: menuDef!.documentID
-    );
+    return PopupMenuEntity(appId,
+        conditions: (conditions != null) ? conditions!.toEntity() : null,
+        menuDefID: menuDef!.documentID);
   }
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId, }) async {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) async {
     var referencesCollector = <ModelReference>[];
-    if (menuDef != null) referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menuDef!));
+    if (menuDef != null)
+      referencesCollector.add(
+          ModelReference(MenuDefModel.packageName, MenuDefModel.id, menuDef!));
     return referencesCollector;
   }
 
-  static Future<ActionModel> fromEntity(AppModel app, PopupMenuEntity entity) async {
+  static Future<ActionModel> fromEntity(
+      AppModel app, PopupMenuEntity entity) async {
     MenuDefModel? menuDefModel;
     if (entity.menuDefID != null) {
       try {
-        await menuDefRepository(appId: entity.appID)!.get(entity.menuDefID).then((val) {
+        await menuDefRepository(appId: entity.appID)!
+            .get(entity.menuDefID)
+            .then((val) {
           menuDefModel = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -351,11 +397,11 @@ class PopupMenu extends ActionModel {
 
     return PopupMenu(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
-        menuDef: menuDefModel
-    );
+        menuDef: menuDefModel);
   }
 
-  static Future<ActionModel?> fromEntityPlus(AppModel app, PopupMenuEntity entity) async {
+  static Future<ActionModel?> fromEntityPlus(
+      AppModel app, PopupMenuEntity entity) async {
     return fromEntity(app, entity);
   }
 
@@ -366,14 +412,20 @@ class PopupMenu extends ActionModel {
 
   @override
   String describe() => 'Open popup menu';
+
+  @override
+  ActionModel copyWith(AppModel newApp) =>
+      PopupMenu(newApp, conditions: conditions, menuDef: menuDef);
 }
 
 class PopupMenuModelMapper implements ActionModelMapper {
   @override
-  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => PopupMenu.fromEntity(app, entity as PopupMenuEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) =>
+      PopupMenu.fromEntity(app, entity as PopupMenuEntity);
 
   @override
-  Future<ActionModel?> fromEntityPlus(AppModel app, ActionEntity entity) => PopupMenu.fromEntityPlus(app, entity as PopupMenuEntity);
+  Future<ActionModel?> fromEntityPlus(AppModel app, ActionEntity entity) =>
+      PopupMenu.fromEntityPlus(app, entity as PopupMenuEntity);
 
   @override
   ActionEntity fromMap(Map map) => PopupMenuEntity.fromMap(map);
@@ -385,44 +437,51 @@ class PopupMenuModelMapper implements ActionModelMapper {
  * LoginLogout = Login when logged out, Logout when logged in.
  * OtherApps = Allows to specify that n internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
  */
-enum InternalActionEnum {
-  Login, Logout, GoHome, OtherApps, Unknown
-}
+enum InternalActionEnum { Login, Logout, GoHome, OtherApps, Unknown }
 
 class InternalAction extends ActionModel {
-  final InternalActionEnum? internalActionEnum ;
+  final InternalActionEnum? internalActionEnum;
 
-  InternalAction(AppModel app, { DisplayConditionsModel? conditions, this.internalActionEnum }): super(app, conditions: conditions, actionType: InternalActionEntity.label);
+  InternalAction(AppModel app,
+      {DisplayConditionsModel? conditions, this.internalActionEnum})
+      : super(app,
+            conditions: conditions, actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
-    return InternalActionEntity(
-          appId,
-          conditions: (conditions != null) ? conditions!.toEntity(): null,
-          action: internalActionEnum.toString()
-      );
+    return InternalActionEntity(appId,
+        conditions: (conditions != null) ? conditions!.toEntity() : null,
+        action: internalActionEnum.toString());
   }
 
   @override
-  Future<List<ModelReference>> collectReferences({String? appId, }) async {
+  Future<List<ModelReference>> collectReferences({
+    String? appId,
+  }) async {
     return [];
   }
 
-  static Future<ActionModel> fromEntity(AppModel app, InternalActionEntity entity) async {
+  static Future<ActionModel> fromEntity(
+      AppModel app, InternalActionEntity entity) async {
     var internalAction = entity.action;
-    if (entity.appID == null) throw Exception('entity InternalAction.appID is null');
-    if (internalAction == InternalActionEnum.Login.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Login);
-    if (internalAction == InternalActionEnum.Logout.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.GoHome.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.GoHome);
-    if (internalAction == InternalActionEnum.OtherApps.toString()) return InternalAction(app, internalActionEnum: InternalActionEnum.OtherApps);
-    return
-      InternalAction(app,
-          conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
-          internalActionEnum: InternalActionEnum.Unknown
-      );
+    if (entity.appID == null)
+      throw Exception('entity InternalAction.appID is null');
+    if (internalAction == InternalActionEnum.Login.toString())
+      return InternalAction(app, internalActionEnum: InternalActionEnum.Login);
+    if (internalAction == InternalActionEnum.Logout.toString())
+      return InternalAction(app, internalActionEnum: InternalActionEnum.Logout);
+    if (internalAction == InternalActionEnum.GoHome.toString())
+      return InternalAction(app, internalActionEnum: InternalActionEnum.GoHome);
+    if (internalAction == InternalActionEnum.OtherApps.toString())
+      return InternalAction(app,
+          internalActionEnum: InternalActionEnum.OtherApps);
+    return InternalAction(app,
+        conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
+        internalActionEnum: InternalActionEnum.Unknown);
   }
 
-  static Future<ActionModel> fromEntityPlus(AppModel app, InternalActionEntity entity) async {
+  static Future<ActionModel> fromEntityPlus(
+      AppModel app, InternalActionEntity entity) async {
     return fromEntity(app, entity);
   }
 
@@ -431,11 +490,16 @@ class InternalAction extends ActionModel {
   @override
   String message() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login: return 'Logging in';
-      case InternalActionEnum.Logout: return 'Logging out';
-      case InternalActionEnum.GoHome: return 'Go Home';
-      case InternalActionEnum.OtherApps: return 'Other apps';
-      case InternalActionEnum.Unknown: return unknownMsg;
+      case InternalActionEnum.Login:
+        return 'Logging in';
+      case InternalActionEnum.Logout:
+        return 'Logging out';
+      case InternalActionEnum.GoHome:
+        return 'Go Home';
+      case InternalActionEnum.OtherApps:
+        return 'Other apps';
+      case InternalActionEnum.Unknown:
+        return unknownMsg;
     }
     return unknownMsg;
   }
@@ -443,23 +507,32 @@ class InternalAction extends ActionModel {
   @override
   String describe() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login: return 'Login';
-      case InternalActionEnum.Logout: return 'Logout';
-      case InternalActionEnum.GoHome: return 'Go Home';
-      case InternalActionEnum.OtherApps: return 'Other apps';
+      case InternalActionEnum.Login:
+        return 'Login';
+      case InternalActionEnum.Logout:
+        return 'Logout';
+      case InternalActionEnum.GoHome:
+        return 'Go Home';
+      case InternalActionEnum.OtherApps:
+        return 'Other apps';
     }
     return '?';
   }
+
+  @override
+  ActionModel copyWith(AppModel newApp) => InternalAction(newApp,
+      conditions: conditions, internalActionEnum: internalActionEnum);
 }
 
 class InternalActionModelMapper implements ActionModelMapper {
   @override
-  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) => InternalAction.fromEntity(app, entity as InternalActionEntity);
+  Future<ActionModel> fromEntity(AppModel app, ActionEntity entity) =>
+      InternalAction.fromEntity(app, entity as InternalActionEntity);
 
   @override
-  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) => InternalAction.fromEntityPlus(app, entity as InternalActionEntity);
+  Future<ActionModel> fromEntityPlus(AppModel app, ActionEntity entity) =>
+      InternalAction.fromEntityPlus(app, entity as InternalActionEntity);
 
   @override
   ActionEntity fromMap(Map map) => InternalActionEntity.fromMap(map);
 }
-

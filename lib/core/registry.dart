@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../package/medium_api.dart';
 import '../style/frontend/has_text.dart';
+import '../tools/action/action_model.dart';
 import 'base/repository_base.dart';
 import 'blocs/access/access_bloc.dart';
 import 'blocs/access/access_event.dart';
@@ -32,6 +33,8 @@ import 'components/error_component.dart';
 /*
  * Global registry with components
  */
+
+typedef void ActionSelected(ActionModel? action);
 
 class Registry {
   final GlobalKey _appKey = GlobalKey();
@@ -314,7 +317,37 @@ class Registry {
   ComponentDropDown? getSupportingDropDown(String componentId) {
     return componentDropDownSupporters[componentId];
   }
+
+  Widget openSelectActionWidget({required AppModel app,
+    required ActionModel? action,
+    required ActionSelected actionSelected,
+    required int containerPrivilege,
+    required String label}) {
+    if (_openSelectActionWidgetFnct != null) {
+      return _openSelectActionWidgetFnct!(app: app,
+          action: action,
+          actionSelected: actionSelected,
+          containerPrivilege: containerPrivilege,
+          label: label
+      );
+    } else {
+      throw("No OpenSelectActionWidgetFnct registered");
+    }
+  }
+
+  void registerOpenSelectActionWidgetFnct(OpenSelectActionWidgetFnct openSelectActionWidgetFnct){
+    _openSelectActionWidgetFnct = openSelectActionWidgetFnct;
+  }
+
+  OpenSelectActionWidgetFnct? _openSelectActionWidgetFnct;
+
 }
+
+typedef OpenSelectActionWidgetFnct = Widget Function({required AppModel app,
+  required ActionModel? action,
+  required ActionSelected actionSelected,
+  required int containerPrivilege,
+  required String label});
 
 class DefaultMediumApi extends MediumApi {
   @override
@@ -457,4 +490,6 @@ class DefaultMediumApi extends MediumApi {
   void showPhotosUrls(BuildContext context, AppModel app, List<String> urls, int initialPage) {
     print('No medium api available. Install a medium api to upload photo');
   }
+
+
 }
