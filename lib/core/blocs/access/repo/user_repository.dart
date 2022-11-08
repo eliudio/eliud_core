@@ -36,18 +36,23 @@ class UserRepository {
   }
 
   Future<User?> signInWithGoogle() async {
-    final googleUser = await _googleSignIn.signIn();
-    if (googleUser != null) {
-      final googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await _firebaseAuth.signInWithCredential(credential);
-      if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
-      throw Exception("_firebaseAuth.currentUser is null");
-    } else {
-      throw Exception("User decided not to login");
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final googleAuth = await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        await _firebaseAuth.signInWithCredential(credential);
+        if (_firebaseAuth.currentUser != null)
+          return _firebaseAuth.currentUser!;
+        throw Exception("_firebaseAuth.currentUser is null");
+      } else {
+        throw Exception("User decided not to login");
+      }
+    } catch (t) {
+      throw Exception("Exception during google sign in " + t.toString());
     }
   }
 
