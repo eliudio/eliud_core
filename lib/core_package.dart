@@ -18,6 +18,10 @@ import 'core/wizards/registry/registry.dart';
 import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 
+import 'core_package_stub.dart'
+if (dart.library.io) 'core_mobile_package.dart'
+if (dart.library.html) 'core_web_package.dart';
+
 class PrivilegeInfo {
   final PrivilegeLevel privilege;
   final bool blocked;
@@ -126,4 +130,6 @@ abstract class CorePackage extends Package {
 
   @override
   List<MemberCollectionInfo> getMemberCollectionInfo() => AbstractRepositorySingleton.collections;
+
+  static CorePackage instance() => getCorePackage();
 }

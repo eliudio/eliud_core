@@ -1,5 +1,7 @@
 import 'core_package.dart';
 
+CorePackage getCorePackage() => CoreWebPackage();
+
 class CoreWebPackage extends CorePackage {
   @override
   void init() {

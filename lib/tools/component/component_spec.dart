@@ -14,6 +14,8 @@ class ComponentSpec {
   final RetrieveRepository retrieveRepository;
 
   ComponentSpec(this.name, this.constructor, this.selector, this.editor, this.retrieveRepository);
+
+  String toString()  => 'ComponentSpec { name: $name, constructor: $constructor, selector: $selector, editor: $editor, retrieveRepository: $retrieveRepository }';
 }
 
 typedef SelectComponent(String componentId);
