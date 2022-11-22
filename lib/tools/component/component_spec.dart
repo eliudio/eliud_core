@@ -32,9 +32,9 @@ abstract class ComponentEditorConstructor {
   void updateComponentWithID(AppModel app, BuildContext context, String id, EditorFeedback feedback);
   void createNewComponent(AppModel app, BuildContext context, EditorFeedback feedback);
 
-  // revalidate model, initially introduced to allow to validate html and potentially update links to images (after creating the html model from a json dump)
-  revalidateModel(AppModel app, model) async {
-    return model;
+  // revalidate entity, initially introduced to allow to validate html and potentially update links to images (after creating the html model from a json dump)
+  revalidateEntity(AppModel app, entity) async {
+    return entity;
   }
 }
 
