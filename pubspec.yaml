@@ -7,40 +7,40 @@ environment:
   sdk: '>=2.18.0-271.7.beta <3.0.0'
 
 dependencies:
-  bloc: ^8.0.3
-  cloud_firestore: 3.4.5
-  firebase_core: ^1.21.1
-  firebase_auth: ^3.7.0
-  cloud_functions: 3.3.6
+  another_flushbar: 1.12.29
+  bloc: ^8.1.0
+  cloud_firestore: 4.2.0
+  cloud_functions: 4.0.6
   datetime_picker_formfield: ^2.0.0
   delayed_display: ^2.0.0
-  equatable: ^2.0.3
+  equatable: ^2.0.5
   expandable: ^5.0.1
   fast_image_resizer: 0.0.2
-  firebase_storage: 10.3.0
-  flutter_bloc: ^8.0.1
+  firebase_auth: 4.2.1
+  firebase_core: ^2.4.0
+  firebase_storage: 11.0.8
+  flutter_bloc: 8.1.1
   flutter_circular_text: 0.3.1
   flutter_colorful_tab: 0.1.0
   flutter_colorpicker: 1.0.3
-  flutter_markdown: ^0.6.6
+  flutter_markdown: ^0.6.13
   flutter_signin_button: 2.0.0
   google_fonts: ^3.0.1
-  google_sign_in_web: ^0.10.0+3
-  google_sign_in: ^5.1.0
-  http: ^0.13.0
-  image_picker: 0.8.5+3
-  image: ^3.0.4
-  path: ^1.8.0
-  pdfx: 2.2.0
+  google_sign_in_web: ^0.10.2
+  google_sign_in: ^5.4.2
+  http: ^0.13.5
+  image_picker: 0.8.6
+  image: 3.2.2
+  path: ^1.8.2
+  pdfx: 2.3.0
   photo_view: ^0.14.0
-  sign_in_with_apple: 4.1.0
-  transparent_image: ^2.0.0
-  tuple: ^2.0.0
-  uuid: ^3.0.4
-  video_player: ^2.2.4
-  video_thumbnail: 0.5.2
   pointer_interceptor: 0.9.3+3
-  another_flushbar: 1.12.29
+  sign_in_with_apple: 4.2.0
+  transparent_image: ^2.0.0
+  tuple: 2.0.1
+  uuid: 3.0.7
+  video_player: 2.4.10
+  video_thumbnail: 0.5.3
 
   flutter:
     sdk: flutter
