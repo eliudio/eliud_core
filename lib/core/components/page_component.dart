@@ -30,6 +30,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/access/access_event.dart';
 import '../blocs/access/state/access_state.dart';
+import 'dialog_component.dart';
 
 class PageComponent extends StatefulWidget {
   final GlobalKey pageKey = GlobalKey();
@@ -101,7 +102,6 @@ class _PageComponentState extends State<PageComponent> {
                 () => BlocListener<AccessBloc, AccessState>(
                     bloc: BlocProvider.of<AccessBloc>(context),
                     listener: (context, state) {
-                      print("aa");
                       if ((state is AccessDetermined) &&
                           (state.tempMessage != null)) {
                         Flushbar(
@@ -218,6 +218,23 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     );
   }
 
+  Widget considerDialog(Widget original) {
+    var parameters = widget.parameters;
+    if (parameters != null) {
+      var openDialogParam = parameters['open-dialog'];
+      if (openDialogParam != null) {
+        var dialogComponent = DialogComponent(app: widget.app,
+            dialogId: openDialogParam,
+            parameters: widget.parameters, includeHeading: false,);
+        return Stack(children: [
+          original,
+          dialogComponent
+        ]);
+      }
+    }
+    return original;
+  }
+
   @override
   Widget build(BuildContext context) {
     var theState = widget.state;
@@ -227,7 +244,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           AcceptMembershipWidget(widget.app, theState.member, theState.usr));
     } else {
       if (theState.isProcessingStatus()) {
-        return _scaffold(Stack(children: [
+        return _scaffold(considerDialog(Stack(children: [
           pageBody2(widget.app, context,
               backgroundOverride: widget.componentInfo.backgroundOverride,
               components: widget.componentInfo.widgets,
@@ -243,10 +260,10 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
             ),
           ),
           progressIndicator(widget.app, context),
-        ]));
+        ])));
       }
       if (theState.isCurrentAppBlocked(widget.app.documentID)) {
-        return _scaffold(Stack(children: [
+        return _scaffold(considerDialog(Stack(children: [
           pageBody(widget.app, context,
               backgroundOverride: widget.componentInfo.backgroundOverride,
               components: widget.componentInfo.widgets,
@@ -269,13 +286,13 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
                       package: 'eliud_core')),
             ),
           )
-        ]));
+        ])));
       } else {
-        return _scaffold(pageBody(widget.app, context,
+        return _scaffold(considerDialog(pageBody(widget.app, context,
             backgroundOverride: widget.componentInfo.backgroundOverride,
             components: widget.componentInfo.widgets,
             layout: widget.componentInfo.layout,
-            gridView: widget.componentInfo.gridView));
+            gridView: widget.componentInfo.gridView)));
       }
     }
   }

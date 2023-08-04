@@ -182,6 +182,8 @@ class Registry {
     var initialRoute =
         initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
 
+//    initialRoute = "MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard";
+
     var accessBloc = AccessBloc(navigatorKey)
       ..add(AccessInitEvent(app, asPlaystore ? app : null));
 

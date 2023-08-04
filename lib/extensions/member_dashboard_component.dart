@@ -32,15 +32,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
+import '../core/widgets/login_widget.dart';
 import '../tools/screen_size.dart';
 import 'bloc/member_bloc.dart';
+import 'open_dialog_post_login.dart';
 
 class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
   @override
   Widget createNew(
       {Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
-    return MemberDashboard(key: key, app: app, id: id);
+    return MemberDashboard(key: key, app: app, id: id, parameters: parameters,);
   }
 
   @override
@@ -49,7 +51,9 @@ class MemberDashboardComponentConstructorDefault
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  MemberDashboard({Key? key, required AppModel app, required String id})
+  Map<String, dynamic>? parameters;
+
+  MemberDashboard({Key? key, required AppModel app, required String id, this.parameters})
       : super(key: key, app:app, memberDashboardId: id);
 
   @override
@@ -144,7 +148,20 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             ],
           );
         } else {
-          return Text('You need to login to access your account');
+          var action;
+          if (parameters != null) {
+            var openDialogParam = parameters!['open-dialog'];
+            if (openDialogParam != null) {
+              action = OpenDialogPostLogin(dialogID: openDialogParam, app: app);
+            }
+          }
+          return ListView(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+              Text('This member dashboard allows to manage your account, update your detail, retrieve your data or even destroy it with a few clicks. To access it, please login to your account'),
+              LoginWidget(app: app, excludeHeader: true, actions: action)
+              ]);
         }
       } else {
         return progressIndicator(app, context);

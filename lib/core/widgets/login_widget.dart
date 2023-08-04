@@ -33,10 +33,12 @@ class LoginWidget extends StatefulWidget {
 
   final AppModel app;
   final PostLoginAction? actions;
+  final bool? excludeHeader;
 
   const LoginWidget({
     required this.app,
     this.actions,
+    this.excludeHeader,
     Key? key,
   }) : super(key: key);
 
@@ -48,16 +50,16 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[
-      HeaderWidget(app: widget.app,
-        cancelAction: () async {
-          return true;
-        },
-        title: 'Login',
-      ),
-      divider(widget.app,context),
-    ];
-
+    var widgets = (widget.excludeHeader ?? false) ?<Widget>[] :
+       <Widget>[
+        HeaderWidget(app: widget.app,
+          cancelAction: () async {
+            return true;
+          },
+          title: 'Login',
+        ),
+        divider(widget.app, context),
+      ];
 
     widgets.add(SignInButton(
       Buttons.Google,

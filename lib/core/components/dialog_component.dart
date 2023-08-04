@@ -22,9 +22,10 @@ class DialogComponent extends StatefulWidget {
   final AppModel app;
   final String dialogId;
   final Map<String, dynamic>? parameters;
+  bool? includeHeading = true;
 
   DialogComponent(
-      {Key? key, required this.app, required this.dialogId, this.parameters})
+      {Key? key, required this.app, required this.dialogId, this.parameters, this.includeHeading})
       : super(key: key);
 
   @override
@@ -74,7 +75,7 @@ class _DialogComponentState extends State<DialogComponent> {
                           return progressIndicator(widget.app,context);
                         }
                       }),
-                  includeHeading: dialog.includeHeading ?? true,
+                  includeHeading: widget.includeHeading ?? dialog.includeHeading ?? true,
                   buttons: [
                     dialogButton(widget.app,context,
                         label: 'Close', onPressed: () => pressed(true)),
