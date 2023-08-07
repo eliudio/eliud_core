@@ -1,55 +1,62 @@
 name: eliud_core
 description: Eliud core
+homepage: https://eliud.io
+repository: https://github.com/eliudio/eliud
 
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
-  sdk: '>=2.18.0-271.7.beta <3.0.0'
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
-  another_flushbar: 1.12.29
+  another_flushbar: ^1.12.29
   bloc: ^8.1.0
-  cloud_firestore: 4.6.0
-  cloud_functions: 4.2.0
+  cloud_firestore: ^4.6.0
+  cloud_functions: ^4.2.0
+  collection: ^1.17.0
+  crypto: ^3.0.3
   datetime_picker_formfield: ^2.0.0
   delayed_display: ^2.0.0
   equatable: ^2.0.5
   expandable: ^5.0.1
-  fast_image_resizer: 0.0.2
-  firebase_auth: 4.5.0
+  fast_image_resizer: ^0.0.2
+  firebase_auth: ^4.7.2
   firebase_core: ^2.4.0
-  firebase_storage: 11.1.2
-  flutter_bloc: 8.1.2
-  flutter_circular_text: 0.3.1
-  flutter_colorful_tab: 0.1.0
-  flutter_colorpicker: 1.0.3
+  firebase_storage: ^11.1.2
+  flutter_bloc: ^8.1.2
+  flutter_colorful_tab: ^0.1.0
+  flutter_colorpicker: ^1.0.3
   flutter_markdown: ^0.6.13
-  flutter_signin_button: 2.0.0
-  google_fonts: ^4.0.4
-  google_sign_in: 6.1.0
-  google_sign_in_web: 0.12.0
+  flutter_signin_button: ^2.0.0
+  google_sign_in: ^6.1.0
+  google_sign_in_web: ^0.12.0
   http: ^0.13.5
-  image_picker: 0.8.6
-  image: 4.0.17
+  image: ^4.0.17
+  intl: ^0.18.1
+  meta: ^1.8.0
   path: ^1.8.2
-  pdfx: 2.3.0
-  photo_view: ^0.14.0
-  pointer_interceptor: 0.9.3+3
-  sign_in_with_apple: 4.3.0
+  path_provider: ^2.0.15
+  pdfx: ^2.3.0
+  pointer_interceptor: ^0.9.3+3
+  sign_in_with_apple: ^4.3.0
   transparent_image: ^2.0.0
-  tuple: 2.0.1
-  uuid: 3.0.7
-  video_player: 2.6.1
-  video_thumbnail: 0.5.3
+  tuple: ^2.0.1
+  uuid: ^3.0.7
+  video_thumbnail: ^0.5.3
+  #  flutter_circular_text: ^0.3.1
+  #  google_fonts: ^4.0.4
+  #  image_picker: ^0.8.6
+  #  photo_view: ^0.14.0
+  #  video_player: ^2.6.1
 
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  build_runner: "1.11.5"
+  build_runner: ^2.1.0
 
-  eliud_generator:
-    path: ../eliud_generator
+  eliud_generator: ^1.0.0
 
 flutter:
   uses-material-design: true
@@ -58,3 +65,9 @@ flutter:
     - packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png
     - assets/images/avatar.png
     - assets/images/denied.png
+
+platforms:
+  android:
+  ios:
+  web:
+

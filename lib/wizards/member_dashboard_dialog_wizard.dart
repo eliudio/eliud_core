@@ -29,7 +29,7 @@ class MemberDashboardDialogWizard extends NewAppWizardInfoWithActionSpecificatio
   );
 
   @override
-  String getPackageName() => "eliud_core";
+  String getPackageName() => 'eliud_core';
 
   @override
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) =>[
@@ -76,6 +76,7 @@ class MemberDashboardDialogWizard extends NewAppWizardInfoWithActionSpecificatio
     } else {
       throw Exception('Unexpected class for parameters: ' + parameters.toString());
     }
+    return null;
   }
 
   @override

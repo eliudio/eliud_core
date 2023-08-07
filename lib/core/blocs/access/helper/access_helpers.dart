@@ -144,6 +144,8 @@ class AccessHelper {
         case ConditionOverride.ExclusiveForBlockedMember:
           if ((isBlocked != null) && (isBlocked)) return true;
           break;
+        case ConditionOverride.Unknown:
+          break;
       }
     }
 
