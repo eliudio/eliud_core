@@ -29,7 +29,9 @@ class UserRepository {
 
   UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignin ?? GoogleSignIn();
+        _googleSignIn = googleSignin ?? GoogleSignIn(
+            scopes: <String> ['email', 'profile']
+        ); // https://stackoverflow.com/questions/64079246/how-to-get-additional-scopes-from-googlesignin-in-flutter
 
   User? currentSignedinUser() {
     return _firebaseAuth.currentUser;
@@ -45,14 +47,15 @@ class UserRepository {
           idToken: googleAuth.idToken,
         );
         await _firebaseAuth.signInWithCredential(credential);
-        if (_firebaseAuth.currentUser != null)
+        if (_firebaseAuth.currentUser != null) {
           return _firebaseAuth.currentUser!;
-        throw Exception("_firebaseAuth.currentUser is null");
+        }
+        throw Exception('_firebaseAuth.currentUser is null');
       } else {
-        throw Exception("User decided not to login");
+        throw Exception('User decided not to login');
       }
     } catch (t) {
-      throw Exception("Exception during google sign in " + t.toString());
+      throw Exception('Exception during google sign in ' + t.toString());
     }
   }
 
@@ -76,24 +79,24 @@ class UserRepository {
       nonce: nonce,
     );
 
-    final oauthCredential = OAuthProvider("apple.com").credential(
+    final oauthCredential = OAuthProvider('apple.com').credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
 
     await FirebaseAuth.instance.signInWithCredential(oauthCredential);
     if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
-    throw Exception("_firebaseAuth.currentUser is null");
+    throw Exception('_firebaseAuth.currentUser is null');
   }
 
   Future<User> signInWithAppleOnWeb() async  {
-    final provider = OAuthProvider("apple.com")
+    final provider = OAuthProvider('apple.com')
       ..addScope('email')
       ..addScope('name');
 
     await FirebaseAuth.instance.signInWithPopup(provider);
     if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
-    throw Exception("_firebaseAuth.currentUser is null");
+    throw Exception('_firebaseAuth.currentUser is null');
   }
 
   Future<List<void>> signOut() async {
