@@ -72,3 +72,8 @@ In this cookbook we will create a new app from scratch. We assume you're buildin
 #### 3. ios app
 
 ## overview packages / dependencies
+
+A typical app, here Minkey, uses the following dependencies:
+
+![Dependency diagram](minkey-depends.jpg)
+
