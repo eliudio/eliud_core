@@ -5,7 +5,7 @@ Eliud core package
 ## Dependencies
 
 | Diagram                          | Links |
-![Dependency diagram](depends.jpg) | ../eliud_generator |
+![Dependency diagram](depends.jpg) | [a ../eliud_generator](eliud_generator) |
 
 ## eliud.io
 
