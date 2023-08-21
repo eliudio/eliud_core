@@ -22,7 +22,7 @@
 |Thoma5  |Profile of Thomas. Uner construction|In development                                                              | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
 
 ## eliud cookbook
-In this cookbook we assume you're building an app for web, android and ios. Skip what doesn't apply to you.
+In this cookbook we will create a new app from scratch. We assume you're building an app for web, android and ios. Skip what doesn't apply to you.
 
 ### preparations
 #### 1. decide on the following
