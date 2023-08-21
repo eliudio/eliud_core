@@ -75,5 +75,5 @@ In this cookbook we will create a new app from scratch. We assume you're buildin
 
 A typical app, here Minkey, uses the following dependencies:
 
-![Dependency diagram](minkey-depends.jpg)
+![Dependency diagram](https://github.com/eliudio/eliud_core/blob/main/minkey-depends.jpg)
 
