@@ -2,9 +2,10 @@
 
 Eliud core package
 
-## Dependency diagram
+## Dependencies
 
-![Dependency diagram](depends.jpg)
+| Diagram                          | Links |
+![Dependency diagram](depends.jpg) | ../eliud_generator |
 
 ## eliud.io
 
