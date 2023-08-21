@@ -4,10 +4,10 @@ Eliud core package
 
 ## Dependencies
 
-[eliud_generator](https://pub.dev/packages/eliud_generator)
 
-| Diagram                          | Links |
-![Dependency diagram](depends.jpg) |  |
+| Diagram                          | Links                                                       |
+| ---------------------------------|-------------------------------------------------------------|
+![Dependency diagram](depends.jpg) | [eliud_generator](https://pub.dev/packages/eliud_generator) |
 
 ## eliud.io
 
