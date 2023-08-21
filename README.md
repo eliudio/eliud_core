@@ -77,3 +77,9 @@ A typical app, here Minkey, uses the following dependencies:
 
 ![Dependency diagram](minkey-depends.jpg)
 
+|Package                                                        |Description                     |
+|---------------------------------------------------------------|--------------------------------|
+|eliud_core                                                     | This package, the core package |
+|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)| Eliud wizards package          |
+
+
