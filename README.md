@@ -15,6 +15,8 @@
 
 ## Example Eliud apps
 
+These are some example apps which demonstrate what eliud can give you. Everything used is open source, part of eliud project.
+
 |App name|Description                         |Ios                                                                         |Android                                                                                     | Web                                                   |
 |--------|------------------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------|
 |Juuwle  |An online store for jewels          |[Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929)|[Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)    | [https://juuwle.net](https://juuwle.net)              |
