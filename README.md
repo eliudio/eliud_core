@@ -10,7 +10,9 @@
     - Wordpress and many other similar technologies allow people without knowledge of html to build webpages and websites.
   - Flutter allows to build websites and apps, or even Windows, Linux, macOS and Google Fuchsia apps. However, Flutter requires programming skills and technical knowledge.
     - Eliud allows people without programming skills and technical knowledge to build cross platform apps and websites.
-- Eliud is pluggable technology, allowing developers to extend / add functionalities by means of plugins / packages.
+- Eliud is pluggable technology, allowing developers 
+  - to extend / add functionalities by means of plugins / packages.
+  - to change look and feel through using styles.
 - A website / app built with Eliud consist of its core Eliud package + one or more Eliud plugins. The app is constructed by configuring it. Configuration, images and videos are stored in Firebase database and Firebase storage.
 
 ## Example Eliud apps
@@ -73,13 +75,30 @@ In this cookbook we will create a new app from scratch. We assume you're buildin
 
 ## overview packages / dependencies
 
+### typical
 A typical app, here Minkey, uses the following dependencies:
 
-![Dependency diagram](https://github.com/eliudio/eliud_core/blob/main/minkey-depends.jpg)
+![Dependency diagram](https://github.com/eliudio/eliud_core/raw/main/minkey-depends.jpg)
 
-|Package                                                        |Description                     |
-|---------------------------------------------------------------|--------------------------------|
-|eliud_core                                                     | This package, the core package |
-|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)| Eliud wizards package          |
-
-
+### links
+|Package                                                                    |Description                                            |
+|---------------------------------------------------------------------------|-------------------------------------------------------|
+|[eliud_core](https://pub.dev/packages/eliud_core)                          | This package, the core package                        |
+|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
+|[eliud_pkg_chat](https://pub.dev/packages/eliud_pkg_chat)                  | Eliud chat package                                    |
+|[eliud_pkg_create](https://pub.dev/packages/eliud_pkg_create)              | Eliud create package                                  |
+|[eliud_pkg_etc](https://pub.dev/packages/eliud_pkg_etc)                    | Eliud etc package                                     |
+|[eliud_pkg_feed](https://pub.dev/packages/eliud_pkg_feed)                  | Eliud feed package                                    |
+|[eliud_pkg_follow](https://pub.dev/packages/eliud_pkg_follow)              | Eliud follow package                                  |
+|[eliud_pkg_fundamentals](https://pub.dev/packages/eliud_pkg_fundamental)   | Eliud fundamentals package                            |
+|[eliud_pkg_medium](https://pub.dev/packages/eliud_pkg_medium)              | Eliud medium package                                  |
+|[eliud_pkg_membership](https://pub.dev/packages/eliud_pkg_membership)      | Eliud membership package                              |
+|[eliud_pkg_notifications](https://pub.dev/packages/eliud_pkg_notifications)| Eliud notifications package                           |
+|[eliud_pkg_pay](https://pub.dev/packages/eliud_pkg_pay)                    | Eliud pay package                                     |
+|[eliud_pkg_shop](https://pub.dev/packages/eliud_pkg_shop)                  | Eliud shop package                                    |
+|[eliud_pkg_text](https://pub.dev/packages/eliud_pkg_text)                  | Eliud text package                                    |
+|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
+|[eliud_pkg_workflow](https://pub.dev/packages/eliud_pkg_workflow)          | Eliud workflow package                                |
+|[eliud_stl_mona](https://pub.dev/packages/eliud_stl_mona)                  | Eliud mona style                                      |
+|[eliud_generator](https://pub.dev/packages/eliud_generator)                | Eliud generator                                       |
+|[eliud_pkg_apps](https://pub.dev/packages/eliud_pkg_apps)                  | Eliud package for creating apps through code, not gui |
