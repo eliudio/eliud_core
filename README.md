@@ -18,7 +18,7 @@
 ## Example Eliud apps
 
 These are some example apps which demonstrate what eliud can give you. Everything used is open source, part of eliud project.
-![Dependency diagram](https://github.com/eliudio/eliud_core/raw/main/minkey-depends.jpg)
+
 |                                                                                | App name |Description                          |Ios                                                                         |Android                                                                                     | Web                                                   |
 |--------------------------------------------------------------------------------|----------|-------------------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------|
 |![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg)|Juuwle    |An online store for jewels           |[Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929)|[Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)    | [https://juuwle.net](https://juuwle.net)              |
