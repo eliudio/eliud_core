@@ -1,7 +1,5 @@
 # eliud
 
-## What is eliud?
-
 - Eliud technology is open source technology. 
 - The technology allows to build apps and/or websites. Today, app content can include photo galleries, pages with videos and images (html), social media, chat with or between members, your shop / shopping cart, photo sliders, documents, and more. A complete list below.
 - Eliud is a layer on top of Flutter. Flutter is an open-source UI software development kit created by Google. Flutter allows to develop cross platform applications for iOS, Android and web. Flutter supports Linux, macOS, Windows and Google Fuchsia. This hasn't been tested with eliud packages yet.
@@ -24,7 +22,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 |![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png)|Minkey - Community making apps online         |This type of app is not allowed on apple store                              | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
 |![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png)|Thoma5 - Profile of Thomas. Under construction|In development                                                              | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
 
-## eliud quick start
+## Quick start
 
 This guide are all steps to create an android app with Eliud.
 
@@ -48,7 +46,14 @@ This guide are all steps to create an android app with Eliud.
 
 > &#128221; <a name="firebase_project">firebase project</a>: thoma5
 
-### Step 3: Setup Firebase database
+### Step 3: Configure your project
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select Project Overview > Project settings
+4. Select support email
+
+### Step 4: Setup Firebase database
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -57,25 +62,32 @@ This guide are all steps to create an android app with Eliud.
 5. And follow on screen instructions 
 (recommended to use default settings, start in production mode)
 6. With Cloud Firestore open, click on Rules and copy/paste the 
-contents of the file 
+contents of 
 [firestore.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/firestore.rules)
 
-### Step 4: Setup Firebase storage
+### Step 5: Setup Firebase storage
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select Build > Storage
-4. With Storage page, click on Rules and copy/paste the 
-contents of the file 
-[storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules)
+4. Select "Get started"
+5. And follow on screen instructions 
+(recommended to use default settings, start in production mode)
+6. With Storage open, click on Rules and copy/paste the 
+contents of 
+[storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules) and publish
 
+### Step 6: Setup Google Authentication
+in progress
+
+### Step 7: Create Android Studio project
 
 -----
 
 Take me to [google account](#google_account)
 
 
-## eliud cookbook
+## Cookbook
 In this cookbook we will create a new app from scratch. 
 We continue from the quick start.
 We assume you're building an app for web, android and ios. 
