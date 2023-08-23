@@ -1,19 +1,12 @@
 
-Step 1: Create new google account
+> &#128221; Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage.
+  
+
+### Step 1: Create new google account
 
 Goto https://www.google.com/account/about/
 Select "Create an account"
 And follow on screen instructions (recommended to use default settings)
 
-> **![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)** google account: thoma5.com@gmail.com
+> &#128221; google account: thoma5.com@gmail.com
 
-> **Google account:** thoma5.com@gmail.com
-
----
-**NOTE**
-
-![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)
-
-Google account:** thoma5.com@gmail.com
-
----
