@@ -1,5 +1,7 @@
 # eliud
 
+Documentation for eliud is under construction. Please be patient.
+
 - Eliud technology is open source technology. 
 - The technology allows to build apps and/or websites. Today, app content can include photo galleries, pages with videos and images (html), social media, chat with or between members, your shop / shopping cart, photo sliders, documents, and more. A complete list below.
 - Eliud is a layer on top of Flutter. Flutter is an open-source UI software development kit created by Google. Flutter allows to develop cross platform applications for iOS, Android and web. Flutter supports Linux, macOS, Windows and Google Fuchsia. This hasn't been tested with eliud packages yet.
@@ -24,7 +26,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 ## Quick start
 
-This guide are all steps to create an android app with Eliud.
+This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 > &#128221; Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage.
 
