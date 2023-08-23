@@ -34,7 +34,8 @@ This guide are all steps to create an android app with Eliud.
 
 1. Goto https://www.google.com/account/about/
 2. Select "Create an account"
-3. Follow on screen instructions (recommended to use default settings)
+3. Follow on screen instructions 
+(recommended to use default settings)
 
 > &#128221; <a name="google_account">google account</a>: thoma5.com.info@gmail.com, password ...
 
@@ -42,7 +43,8 @@ This guide are all steps to create an android app with Eliud.
 
 1. Goto https://console.firebase.google.com
 2. Select "Create a project"
-3. And follow on screen instructions (recommended to use default settings)
+3. And follow on screen instructions 
+(recommended to use default settings)
 
 > &#128221; <a name="firebase_project">firebase project</a>: thoma5
 
@@ -52,16 +54,20 @@ This guide are all steps to create an android app with Eliud.
 2. Select your project
 3. Select Build > Firebase database
 4. Select "Create database"
-5. And follow on screen instructions (recommended to use default settings, start in production mode)
-6. With Cloud Firestore open, click on Rules and copy paste the contents of the file https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/firestore.rules
+5. And follow on screen instructions 
+(recommended to use default settings, start in production mode)
+6. With Cloud Firestore open, click on Rules and copy/paste the 
+contents of the file 
+[firestore.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/firestore.rules)
 
 ### Step 4: Setup Firebase storage
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select Build > Storage
-4. With Storage page, click on Rules and copy paste the 
-contents of the file https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules
+4. With Storage page, click on Rules and copy/paste the 
+contents of the file 
+[storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules)
 
 
 -----
