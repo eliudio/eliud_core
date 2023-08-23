@@ -7,5 +7,13 @@ And follow on screen instructions (recommended to use default settings)
 
 > **![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)** google account: thoma5.com@gmail.com
 
-> **Google account:** google account: thoma5.com@gmail.com
+> **Google account:** thoma5.com@gmail.com
 
+---
+**NOTE**
+
+![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)
+
+Google account:** thoma5.com@gmail.com
+
+---
