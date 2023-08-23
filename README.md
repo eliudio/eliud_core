@@ -57,10 +57,11 @@ This guide are all steps to create an android app with Eliud.
 
 ### Step 4: Setup Firebase storage
 
-Goto https://console.firebase.google.com
-Select your project
-Select "Storage" (from Build)
-With Storage page, click on Rules and copy paste the contents of the file firebase/storage.rules
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select Build > Storage
+4. With Storage page, click on Rules and copy paste the 
+contents of the file https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules
 
 
 -----
