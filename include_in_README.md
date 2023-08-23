@@ -5,5 +5,6 @@ Goto https://www.google.com/account/about/
 Select "Create an account"
 And follow on screen instructions (recommended to use default settings)
 
-> **_NOTE:_**  ![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)    google account: thoma5.com@gmail.com|
+![Note 1](https://github.com/eliudio/open-resources/raw/main/img/icons/iconmonstr-pencil-text-filled-48.png)
+> **Google account:_** google account: thoma5.com@gmail.com
 
