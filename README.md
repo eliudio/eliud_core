@@ -4,7 +4,7 @@
 
 - Eliud technology is open source technology. 
 - The technology allows to build apps and/or websites. Today, app content can include photo galleries, pages with videos and images (html), social media, chat with or between members, your shop / shopping cart, photo sliders, documents, and more. A complete list below.
-- Eliud is a layer on top of Flutter. Flutter is an open-source UI software development kit created by Google. Flutter allows to develop cross platform applications for iOS, Android and web as well as Linux, macOS, Windows and Google Fuchsia.
+- Eliud is a layer on top of Flutter. Flutter is an open-source UI software development kit created by Google. Flutter allows to develop cross platform applications for iOS, Android and web. Flutter supports Linux, macOS, Windows and Google Fuchsia. This hasn't been tested with eliud packages yet.
 - For those who know Worpress: Eliud is to Flutter as Wordpress is to html:
   - Html allows you to construct webpages. However, html requires some level of technical knowledge about building webpages.
     - Wordpress and many other similar technologies allow people without knowledge of html to build webpages and websites.
@@ -83,14 +83,15 @@ A typical app, here Minkey, uses the following dependencies:
 ### links
 |Package                                                                    |Description                                            |
 |---------------------------------------------------------------------------|-------------------------------------------------------|
-|[eliud_core](https://pub.dev/packages/eliud_core)                          | This package, the core package                        |
-|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
+|[eliud_core](https://pub.dev/packages/eliud_core)                          | This package                                          |
+|[eliud_generator](https://pub.dev/packages/eliud_generator)                | Eliud generator                                       |
+|[eliud_pkg_apps](https://pub.dev/packages/eliud_pkg_apps)                  | Eliud package for creating apps through code, not gui |
 |[eliud_pkg_chat](https://pub.dev/packages/eliud_pkg_chat)                  | Eliud chat package                                    |
 |[eliud_pkg_create](https://pub.dev/packages/eliud_pkg_create)              | Eliud create package                                  |
 |[eliud_pkg_etc](https://pub.dev/packages/eliud_pkg_etc)                    | Eliud etc package                                     |
 |[eliud_pkg_feed](https://pub.dev/packages/eliud_pkg_feed)                  | Eliud feed package                                    |
 |[eliud_pkg_follow](https://pub.dev/packages/eliud_pkg_follow)              | Eliud follow package                                  |
-|[eliud_pkg_fundamentals](https://pub.dev/packages/eliud_pkg_fundamental)   | Eliud fundamentals package                            |
+|[eliud_pkg_fundamentals](https://pub.dev/packages/eliud_pkg_fundamentals)  | Eliud fundamentals package                            |
 |[eliud_pkg_medium](https://pub.dev/packages/eliud_pkg_medium)              | Eliud medium package                                  |
 |[eliud_pkg_membership](https://pub.dev/packages/eliud_pkg_membership)      | Eliud membership package                              |
 |[eliud_pkg_notifications](https://pub.dev/packages/eliud_pkg_notifications)| Eliud notifications package                           |
@@ -100,5 +101,3 @@ A typical app, here Minkey, uses the following dependencies:
 |[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
 |[eliud_pkg_workflow](https://pub.dev/packages/eliud_pkg_workflow)          | Eliud workflow package                                |
 |[eliud_stl_mona](https://pub.dev/packages/eliud_stl_mona)                  | Eliud mona style                                      |
-|[eliud_generator](https://pub.dev/packages/eliud_generator)                | Eliud generator                                       |
-|[eliud_pkg_apps](https://pub.dev/packages/eliud_pkg_apps)                  | Eliud package for creating apps through code, not gui |
