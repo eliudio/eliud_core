@@ -53,7 +53,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select Project Overview > Project settings
-4. Select support email
+4. Select support email, which should be specified in step 1<a href="#google_account">Google account</a>
 
 ### Step 4: Setup Firebase database
 
@@ -80,6 +80,7 @@ contents of
 [storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules) and publish
 
 ### Step 6: Setup Google Authentication
+
 in progress
 
 ### Step 7: Create Android Studio project
@@ -98,7 +99,9 @@ Skip what doesn't apply to you.
 ### preparations
 #### 1. decide on the following
 
-#### 2. buy google domain
+#### 2. buy domain
+
+example: squarespace.com
 
 #### 3. create google account
 
