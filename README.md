@@ -93,8 +93,8 @@ contents of
 keytool -genkey -v -keystore %USERPROFILE%\\.android\\your.keystore -storepass your_keystore_storepass 
 -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
 
-> &#128221; <a name="your_keystore_storepass">Your keystore storepass</a>: your_keystore_storepass
-> &#128221; <a name="your_keystore_keypass">Your keystore keypass</a>: your_keystore_keypass
+> &#128221; <ul><li><a name="your_keystore_storepass">Your keystore storepass</a>: your_keystore_storepass</li>
+<li><a name="your_keystore_keypass">Your keystore keypass</a>: your_keystore_keypass</li></ul>
 
 ### Step 7: Create Android Studio project
 
