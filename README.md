@@ -28,7 +28,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
-> &#128221; Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage.
+> <p align="right">Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage.</p>
 
 ### Step 1: Create a new google account
 
@@ -37,7 +37,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. Follow on screen instructions 
 (recommended to use default settings)
 
-> &#128221; <a name="google_account">google account</a>: thoma5.com.info@gmail.com, password ...
+> <p align="right"><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com, password ...</p>
 
 ### Step 2: Create a new firebase project
 
@@ -46,7 +46,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. And follow on screen instructions 
 (recommended to use default settings)
 
-> &#128221; <a name="firebase_project">firebase project</a>: thoma5
+> <p align="right"><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</p>
 
 ### Step 3: Configure your project
 
@@ -92,12 +92,10 @@ contents of
 
         keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
 
-
-> &#128221;
-> <p><a name="your_keystore_filename">Your keystore filename</a>: your_keystore_filename</p>
-> <p><a name="your_keystore_storepass">Your keystore storepass</a>: your_keystore_storepass</p>
-> <p><a name="your_keystore_keypass">Your keystore keypass</a>: your_keystore_keypass</p>
-> <p><a name="your_keystore_alias">Your keystore alias</a>: your_keystore_alias</p>
+> <p align="right"><a name="your_keystore_filename"><ins>Your keystore filename</ins></a>: your_keystore_filename</p>
+> <p align="right"><a name="your_keystore_storepass"><ins>Your keystore storepass</ins></a>: your_keystore_storepass</p>
+> <p align="right"><a name="your_keystore_keypass"><ins>Your keystore keypass</ins></a>: your_keystore_keypass</p>
+> <p align="right"><a name="your_keystore_alias"><ins>Your keystore alias</ins></a>: your_keystore_alias</p>
 
 ### Step 7: Create Android Studio project
 
