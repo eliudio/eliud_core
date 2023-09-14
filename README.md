@@ -90,11 +90,14 @@ contents of
 
 ### Step 8: Generate key
 
-keytool -genkey -v -keystore %USERPROFILE%\\.android\\your.keystore -storepass your_keystore_storepass 
--alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
+        keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
 
-> &#128221; <ul><li><a name="your_keystore_storepass">Your keystore storepass</a>: your_keystore_storepass</li>
-<li><a name="your_keystore_keypass">Your keystore keypass</a>: your_keystore_keypass</li></ul>
+
+> &#128221;
+> <p><a name="your_keystore_filename">Your keystore filename</a>: your_keystore_filename</p>
+> <p><a name="your_keystore_storepass">Your keystore storepass</a>: your_keystore_storepass</p>
+> <p><a name="your_keystore_keypass">Your keystore keypass</a>: your_keystore_keypass</p>
+> <p><a name="your_keystore_alias">Your keystore alias</a>: your_keystore_alias</p>
 
 ### Step 7: Create Android Studio project
 
