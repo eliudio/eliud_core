@@ -117,8 +117,8 @@ For example:
 > <li><a name="your_keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li></ul>
 
 > :question: **MORE INFO** :question:
-> <ul><li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
-> <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li></ul>
+> <ul><li><a href="https://developers.google.com/android/guides/client-auth" target="_blank">https://developers.google.com/android/guides/client-auth</a></li>
+> <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores" target="_blank">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li></ul>
 
 ### Step 8: Create Android Studio project
 
