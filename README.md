@@ -18,17 +18,19 @@ Documentation for eliud is under construction. Please be patient.
 ## Example Eliud apps
 
 These are some example apps which demonstrate what eliud can give you. Everything used is open source, part of eliud project.
-|                                                                                        | App                                          |Ios                                                                         |Android                                                                                     | Web                                                   |
-|----------------------------------------------------------------------------------------|----------------------------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------|
-|![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg)|Juuwle - An online store for jewels           |[Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929)|[Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)    | [https://juuwle.net](https://juuwle.net)              |
-|![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png)|Minkey - Community making apps online         |This type of app is not allowed on apple store                              | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
-|![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png)|Thoma5 - Profile of Thomas. Under construction|In development                                                              | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
+
+|                                                                                         | App                                            | Ios                                                                          |Android                                                                                      | Web                                                    |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------- |-------------------------------------------------------------------------------------------- |------------------------------------------------------- |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg) | Juuwle - An online store for jewels            | [Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929) |[Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)    | [https://juuwle.net](https://juuwle.net)              |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app is not allowed on apple store                               | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
 
 ## Quick start
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
-> <p align="right">Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage.</p>
+> :bulb: **NOTE** :bulb:
+> <ul><li>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5</li></ul>
 
 ### Step 1: Create a new google account
 
@@ -37,7 +39,9 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. Follow on screen instructions 
 (recommended to use default settings)
 
-> <p align="right"><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com, password ...</p>
+> :bulb: **NOTE** :bulb:
+> <ul><li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
+> <li><ins>google account password</ins></li></ul>
 
 ### Step 2: Create a new firebase project
 
@@ -46,7 +50,8 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. And follow on screen instructions 
 (recommended to use default settings)
 
-> <p align="right"><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</p>
+> :bulb: **NOTE** :bulb:
+> <ul><li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li></ul>
 
 ### Step 3: Configure your project
 
@@ -90,12 +95,28 @@ contents of
 
 ### Step 8: Generate key
 
-        keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
+Run the following command at command prompt:
 
-> <p align="right"><a name="your_keystore_filename"><ins>Your keystore filename</ins></a>: your_keystore_filename</p>
-> <p align="right"><a name="your_keystore_storepass"><ins>Your keystore storepass</ins></a>: your_keystore_storepass</p>
-> <p align="right"><a name="your_keystore_keypass"><ins>Your keystore keypass</ins></a>: your_keystore_keypass</p>
-> <p align="right"><a name="your_keystore_alias"><ins>Your keystore alias</ins></a>: your_keystore_alias</p>
+    keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
+
+Then follow onscreen instructions. Then store the key-file in a safe place. You will have to use it multiple times in the future.
+
+Now run:
+
+    keytool -list -v -alias your_keystore_alias -keystore your_keystore_filename -storepass your_keystore_storepass -keypass your_keystore_keypass
+
+For example:
+
+    keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass abc -alias thoma5key -keypass cde -keyalg RSA -keysize 2048 -validity 36524
+    keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
+
+> :bulb: **NOTE** :bulb:
+> <ul><li><a name="your_keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
+> <li><a name="your_keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
+> <li><a name="your_keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
+> <li><a name="your_keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li></ul>
+
+
 
 ### Step 7: Create Android Studio project
 
