@@ -284,10 +284,10 @@ dependencies {
 
 1. Create key.properties file in your android directory, e.g thoma5/android/key.properties
 2. Populate it with the below keys and values as below. Find your values from step 7, i.e. 
-   1. storeFile=<a href="keystore_filename">Your keystore filename</a>
-   2. storePassword=<a href="keystore_storepass">Your keystore storepass</a>
-   3. keyPassword=<a href="keystore_keypass">Your keystore keypass</a>
-   4. keyAlias=<a href="keystore_alias">Your keystore alias</a>
+   1. storeFile=<a href="#keystore_filename">Your keystore filename</a>
+   2. storePassword=<a href="#keystore_storepass">Your keystore storepass</a>
+   3. keyPassword=<a href="#keystore_keypass">Your keystore keypass</a>
+   4. keyAlias=<a href="#keystore_alias">Your keystore alias</a>
    
    e.g. 
    
