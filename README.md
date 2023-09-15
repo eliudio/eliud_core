@@ -29,12 +29,12 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
----
-
-<p align="right">:bulb: **NOTE** :bulb:</p>
-<p>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info</p>
-
----
+<table>
+    <tr>
+      <td>:writing_hand:</td>
+      <td>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info. </td>
+    </tr>
+</table>
 
 ### Step 1: Create a new google account
 
@@ -43,13 +43,17 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. Follow on screen instructions 
 (recommended to use default settings)
 
----
-
-<p align="right">:bulb: **NOTE** :bulb:</p>
-<ul><li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
-<li><ins>google account password</ins></li></ul>
-
----
+<table>
+    <tr>
+      <td>:writing_hand:</td>
+      <td>
+        <ul>
+          <li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
+          <li><ins>google account password</ins></li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
 ### Step 2: Create a new firebase project
 
@@ -58,12 +62,16 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. And follow on screen instructions 
 (recommended to use default settings)
 
----
-
-<p align="right">:bulb: **NOTE** :bulb:</p>
-<ul><li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li></ul>
-
----
+<table>
+    <tr>
+      <td>:writing_hand:</td>
+      <td>
+        <ul>
+          <li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
 ### Step 3: Configure your project
 
@@ -128,22 +136,22 @@ keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass
 keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
 ~~~
 
----
+<table>
+    <tr>
+      <td>:writing_hand:</td>
+      <td>
+        <ul>
+          <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
+          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
+          <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
+          <li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
-<p align="right">:bulb: **NOTE** :bulb:</p>
-<ul>
-<li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
-<li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
-<li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
-<li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
-<li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
-</ul>
-
-:question: **MORE INFO** :question:
-<ul>
-<li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
-<li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li>
-</ul>
+| :question: | <ul><li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li><li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li></ul> |
+|-|-|
 
 ---
 
@@ -158,16 +166,18 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 7. Press "Register app"
 8. Then download the file google-services.json
 
----
-
-:bulb: **NOTE** :bulb:
-<ul>
-<li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
-<li><a name="android_app_nickname"><ins>Your Android app nickname</ins></a>: Thoma5</li>
-<li><a name="google_services_json_filename"><ins>Your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
-</ul>
-
----
+<table>
+    <tr>
+      <td>:writing_hand:</td>
+      <td>
+        <ul>
+          <li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
+          <li><a name="android_app_nickname"><ins>Your Android app nickname</ins></a>: Thoma5</li>
+          <li><a name="google_services_json_filename"><ins>Your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
 ### Step 9: Create Android Studio project
 
