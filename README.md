@@ -139,6 +139,8 @@ For example:
 <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li>
 </ul>
 
+---
+
 ### Step 8: Add Firebase Android App
 
 1. Goto https://console.firebase.google.com
@@ -185,7 +187,12 @@ For example:
 
 :exclamation: **IMPORTANT** :exclamation:
 <ul>
-<li>Organisation + Project name should equal Android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a></li>
+<li>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a>, e.g. com.thoma5.thoma5_app should be equal to
+<ul>
+<li>Organisation, e.g. com.thoma5</li>
+<li>.</li>
+<li>Project name, e.g. thoma5_app</li>
+</ul>
 </ul>
 
 ---
