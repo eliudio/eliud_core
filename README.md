@@ -158,9 +158,10 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td>
         <ul>
           <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
-          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
-          <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
+          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore storepass</ins></a>: abc</li>
+          <li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
           <li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
+          <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
         </ul>
       </td>
     </tr>
@@ -258,7 +259,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 | :one: thoma5_app/android/build.gradle | buildscripts > dependencies | classpath 'com.google.gms:google-services:4.3.15' | 
 | :two: thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' version '4.3.15' apply false | 
 
-<p>:three: Then add the below at the bottom of thoma5_app/android/app/build.gradle 
+<p>:three: Finally the below at the bottom of thoma5_app/android/app/build.gradle had to be added
 
 ~~~
 
@@ -276,6 +277,39 @@ dependencies {
 }
 
 ~~~
+
+---
+
+### Step 12: Add key stuff
+
+1. Create key.properties file in your android directory, e.g thoma5/android/key.properties
+2. Populate it with the below keys and values as below. Find your values from step 7, i.e. 
+   1. storeFile=<a href="keystore_filename">Your keystore filename</a>
+   2. storePassword=<a href="keystore_storepass">Your keystore storepass</a>
+   3. keyPassword=<a href="keystore_keypass">Your keystore keypass</a>
+   4. keyAlias=<a href="keystore_alias">Your keystore alias</a>
+   
+   e.g. 
+   
+   ~~~
+   storePassword=abc
+   keyPassword=cde
+   keyAlias=thoma5key
+   storeFile=c:/Users/thomas\.android/thoma5.keystore
+   ~~~
+
+---
+
+### Step 13: Update pubspec.yaml
+
+---
+
+### Step 14: Update main.dart
+
+---
+
+### Step 15: Run
+
 
 ---
 
