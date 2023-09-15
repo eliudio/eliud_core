@@ -191,7 +191,23 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 1. Start Android studio
 2. Select File > New > New Flutter Project
 3. Specify the location of your flutter SDK path and press Next
-4. Specify project name, location, etc..
+4. Specify 
+   a. Project name: e.g. thoma5_app
+   b. Project location: e.g. C:\src\apps\thoma5_app
+   c. Description: e.g. Thoma5 app
+   d. Project type: Should be "Application"
+   e. Organization: e.g. com.thoma5
+   f. Android language: Should be Java
+   g. iOS language: Should be Swift
+   h. Platforms: Should be Android, iOS and Web
+   
+---
+
+:exclamation: **IMPORTANT** :exclamation:
+<p>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a> - e.g. com.thoma5.thoma5_app - should be equal to the concatenation of organisation - e.g. com.thoma5 - a dot and the project_name - e.g. thoma5_app</p>
+
+---
+
 5. Press finish
 
 <table>
@@ -200,24 +216,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td>
         <ul>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
-          <li><a name="project_location"><ins>Project location</ins></a>: C:\src\apps\thoma5_app</li>
           <li><a name="project_description"><ins>Description</ins></a>: Thoma5 app</li>
           <li><a name="project_type"><ins>Project type</ins></a>: Application</li>
           <li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
-          <li><a name="android_language"><ins>Android language</ins></a>: Java</li>
-          <li><a name="ios_language"><ins>iOS language</ins></a>: Swift</li>
-          <li><a name="platforms"><ins>Platforms</ins></a>: Android, iOS and Web</li>
         </ul>
       </td>
     </tr>
 </table>
 
----
-
-:exclamation: **IMPORTANT** :exclamation:
-<p>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a> - e.g. com.thoma5.thoma5_app - should be equal to the concatenation of organisation - e.g. com.thoma5 - a dot and the project_name - e.g. thoma5_app</p>
-
----
 
 ### Step 10: Copy google_services.json
 
