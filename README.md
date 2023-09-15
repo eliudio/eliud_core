@@ -158,8 +158,8 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td>
         <ul>
           <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
-          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore storepass</ins></a>: abc</li>
-          <li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: abc</li><li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
+          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
+          <li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
           <li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
           <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
         </ul>
@@ -167,7 +167,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
     </tr>
 </table>
 
-:question: **MORE INFO** :question:
+**MORE INFO**
 
 <ul>
   <li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
