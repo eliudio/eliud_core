@@ -32,7 +32,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 <table>
     <tr>
-      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/day22-owl.png"/></td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info. </td>
     </tr>
 </table>
