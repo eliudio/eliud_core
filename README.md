@@ -31,8 +31,8 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-:bulb: **NOTE** :bulb:
-<ul><li>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info</li></ul>
+<p align="right">:bulb: **NOTE** :bulb:</p>
+<p>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info</p>
 
 ---
 
@@ -45,7 +45,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-:bulb: **NOTE** :bulb:
+<p align="right">:bulb: **NOTE** :bulb:</p>
 <ul><li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
 <li><ins>google account password</ins></li></ul>
 
@@ -60,7 +60,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-:bulb: **NOTE** :bulb:
+<p align="right">:bulb: **NOTE** :bulb:</p>
 <ul><li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li></ul>
 
 ---
@@ -109,22 +109,28 @@ contents of
 
 1. Run the following command at command prompt:
 
-    keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
+~~~
+keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_storepass -alias your_keystore_alias -keypass your_keystore_keypass -keyalg RSA -keysize 2048 -validity 36524
+~~~
 
 2. Then follow onscreen instructions. Then store the key-file in a safe place. You will have to use it multiple times in the future.
 
 3. Now run:
 
-    keytool -list -v -alias your_keystore_alias -keystore your_keystore_filename -storepass your_keystore_storepass -keypass your_keystore_keypass
+~~~
+keytool -list -v -alias your_keystore_alias -keystore your_keystore_filename -storepass your_keystore_storepass -keypass your_keystore_keypass
+~~~
 
 For example:
 
-    keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass abc -alias thoma5key -keypass cde -keyalg RSA -keysize 2048 -validity 36524
-    keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
+~~~
+keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass abc -alias thoma5key -keypass cde -keyalg RSA -keysize 2048 -validity 36524
+keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
+~~~
 
 ---
 
-:bulb: **NOTE** :bulb:
+<p align="right">:bulb: **NOTE** :bulb:</p>
 <ul>
 <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
 <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
