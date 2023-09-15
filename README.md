@@ -186,14 +186,7 @@ For example:
 </ul>
 
 :exclamation: **IMPORTANT** :exclamation:
-<ul>
-<li>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a>, e.g. com.thoma5.thoma5_app should be equal to
-<ul>
-<li>Organisation, e.g. com.thoma5</li>
-<li>.</li>
-<li>Project name, e.g. thoma5_app</li>
-</ul>
-</ul>
+<p>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a> - e.g. com.thoma5.thoma5_app - should be equal to the concatenation of organisation - e.g. com.thoma5 - a dot and the project_name - e.g. thoma5_app</p>
 
 ---
 
@@ -222,19 +215,22 @@ For example:
 
 <p>:three: Then add the below at the bottom of thoma5_app/android/app/build.gradle 
 
-    dependencies {
-        // Import the Firebase BoM
-        implementation platform('com.google.firebase:firebase-bom:32.2.2')
+~~~
+
+dependencies {
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
 
 
-        // TODO: Add the dependencies for Firebase products you want to use
-        // When using the BoM, don't specify versions in Firebase dependencies
-        implementation 'com.google.firebase:firebase-analytics'
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
 
-        // Add the dependencies for any other desired Firebase products
-        // https://firebase.google.com/docs/android/setup#available-libraries
-    }
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+}
 
+~~~
 ---
 
 ## Cookbook
