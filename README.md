@@ -65,7 +65,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 <table>
     <tr>
-      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png" width="100"/></td>
       <td>
         <ul>
           <li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li>
@@ -139,7 +139,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png" width="100"/></td>
       <td>
         <ul>
           <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
@@ -175,7 +175,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png" width="100"/></td>
       <td>
         <ul>
           <li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
@@ -196,7 +196,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png" width="100"/></td>
       <td>
         <ul>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
