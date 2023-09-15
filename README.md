@@ -29,8 +29,12 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
-> :bulb: **NOTE** :bulb:
-> <ul><li>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info</li></ul>
+---
+
+:bulb: **NOTE** :bulb:
+<ul><li>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info</li></ul>
+
+---
 
 ### Step 1: Create a new google account
 
@@ -39,9 +43,13 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. Follow on screen instructions 
 (recommended to use default settings)
 
-> :bulb: **NOTE** :bulb:
-> <ul><li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
-> <li><ins>google account password</ins></li></ul>
+---
+
+:bulb: **NOTE** :bulb:
+<ul><li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
+<li><ins>google account password</ins></li></ul>
+
+---
 
 ### Step 2: Create a new firebase project
 
@@ -50,8 +58,12 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 3. And follow on screen instructions 
 (recommended to use default settings)
 
-> :bulb: **NOTE** :bulb:
-> <ul><li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li></ul>
+---
+
+:bulb: **NOTE** :bulb:
+<ul><li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li></ul>
+
+---
 
 ### Step 3: Configure your project
 
@@ -110,16 +122,22 @@ For example:
     keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass abc -alias thoma5key -keypass cde -keyalg RSA -keysize 2048 -validity 36524
     keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
 
-> :bulb: **NOTE** :bulb:
-> <ul><li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
-> <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
-> <li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
-> <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
-> <li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li></ul>
+---
 
-> :question: **MORE INFO** :question:
-> <ul><li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
-> <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li></ul>
+:bulb: **NOTE** :bulb:
+<ul>
+<li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
+<li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
+<li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
+<li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
+<li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
+</ul>
+
+:question: **MORE INFO** :question:
+<ul>
+<li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
+<li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li>
+</ul>
 
 ### Step 8: Add Firebase Android App
 
@@ -132,10 +150,16 @@ For example:
 7. Press "Register app"
 8. Then download the file google-services.json
 
-> :bulb: **NOTE** :bulb:
-> <ul><li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
-> <li><a name="android_app_nickname"><ins>Your Android app nickname</ins></a>: Thoma5</li>
-> <li><a name="google_services_json_filename"><ins>Your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li></ul>
+---
+
+:bulb: **NOTE** :bulb:
+<ul>
+<li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
+<li><a name="android_app_nickname"><ins>Your Android app nickname</ins></a>: Thoma5</li>
+<li><a name="google_services_json_filename"><ins>Your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
+</ul>
+
+---
 
 ### Step 9: Create Android Studio project
 
@@ -145,18 +169,66 @@ For example:
 4. Specify project name, location, etc..
 5. Press finish
 
-> :bulb: **NOTE** :bulb:
-> <ul><li><a name="project_name"><ins>Project name</ins></a>: Thoma5</li>
-> <li><a name="project_location"><ins>Project location</ins></a>: C:\src\apps\thoma5</li>
-> <li><a name="project_description"><ins>Description</ins></a>: Thoma5 project</li>
-> <li><a name="project_type"><ins>Project type</ins></a>: Application</li>
-> <li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
-> <li><a name="android_language"><ins>Android language</ins></a>: Java</li>
-> <li><a name="ios_language"><ins>iOS language</ins></a>: Swift</li>
-> <li><a name="platforms"><ins>Platforms</ins></a>: Android, iOS and Web</li></ul>
+---
 
-> :exclamation: **IMPORTANT** :exclamation:
-> <ul><li>Organisation + project name should equal Android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a></li></ul>
+:bulb: **NOTE** :bulb:
+<ul>
+<li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
+<li><a name="project_location"><ins>Project location</ins></a>: C:\src\apps\thoma5_app</li>
+<li><a name="project_description"><ins>Description</ins></a>: Thoma5 app</li>
+<li><a name="project_type"><ins>Project type</ins></a>: Application</li>
+<li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
+<li><a name="android_language"><ins>Android language</ins></a>: Java</li>
+<li><a name="ios_language"><ins>iOS language</ins></a>: Swift</li>
+<li><a name="platforms"><ins>Platforms</ins></a>: Android, iOS and Web</li>
+</ul>
+
+:exclamation: **IMPORTANT** :exclamation:
+<ul>
+<li>Organisation + Project name should equal Android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a></li>
+</ul>
+
+---
+
+### Step 10: Copy google_services.json
+
+1. Switch to the Project view in Android Studio to see your project root directory.
+2. Move <a href="#google_services_json_filename">your downloaded google-services.json file</a> from step 8 into into your module (app-level) root directory, e.g. thoma5_app/android/app
+
+### Step 11: Apply firebase SDK instructions
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Find your app from "your apps" section, then press "See SDK instructions"
+4. You get to chance to re-download the google_services.json file, skip this by pressing next.
+5. Now apply the suggestions provided. Make sure to select Groovy (build.gradle) and Java.
+
+---
+
+:thinking: **SUGGESTION** :thinking:
+<p>At the time of writing this document, the changes to make were:
+
+| file | location | add |
+| ---- | ---- | ---- |
+| :one: thoma5_app/android/build.gradle | buildscripts > dependencies | classpath 'com.google.gms:google-services:4.3.15' | 
+| :two: thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' version '4.3.15' apply false | 
+
+<p>:three: Then add the below at the bottom of thoma5_app/android/app/build.gradle 
+
+    dependencies {
+        // Import the Firebase BoM
+        implementation platform('com.google.firebase:firebase-bom:32.2.2')
+
+
+        // TODO: Add the dependencies for Firebase products you want to use
+        // When using the BoM, don't specify versions in Firebase dependencies
+        implementation 'com.google.firebase:firebase-analytics'
+
+        // Add the dependencies for any other desired Firebase products
+        // https://firebase.google.com/docs/android/setup#available-libraries
+    }
+
+---
 
 ## Cookbook
 In this cookbook we will create a new app from scratch. 
