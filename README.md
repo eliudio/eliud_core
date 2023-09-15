@@ -192,14 +192,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 2. Select File > New > New Flutter Project
 3. Specify the location of your flutter SDK path and press Next
 4. Specify 
-   a. Project name: e.g. thoma5_app
-   b. Project location: e.g. C:\src\apps\thoma5_app
-   c. Description: e.g. Thoma5 app
-   d. Project type: Should be "Application"
-   e. Organization: e.g. com.thoma5
-   f. Android language: Should be Java
-   g. iOS language: Should be Swift
-   h. Platforms: Should be Android, iOS and Web
+   1. Project name: e.g. thoma5_app
+   2. Project location: e.g. C:\src\apps\thoma5_app
+   3. Description: e.g. Thoma5 app
+   4. Project type: Should be "Application"
+   5. Organization: e.g. com.thoma5
+   6. Android language: Should be Java
+   7. iOS language: Should be Swift
+   8. Platforms: Should be Android, iOS and Web
    
 ---
 
@@ -216,8 +216,6 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td>
         <ul>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
-          <li><a name="project_description"><ins>Description</ins></a>: Thoma5 app</li>
-          <li><a name="project_type"><ins>Project type</ins></a>: Application</li>
           <li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
         </ul>
       </td>
