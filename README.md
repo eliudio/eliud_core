@@ -206,7 +206,8 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 1. Start Android studio
 2. Select File > New > New Flutter Project
-3. Specify the location of your flutter SDK path and press Next
+3. Specify 
+   1. Flutter SDK path and press Next
 4. Specify 
    1. Project name: e.g. thoma5_app 
    2. Project location: e.g. C:\src\apps\thoma5_app
@@ -227,6 +228,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
+          <li><a name="flutter_sdk_path"><ins>Flutter SDK path</ins></a>: c:\dev\flutter</li>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
           <li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
         </ul>
@@ -251,13 +253,13 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 4. You get to chance to re-download the google_services.json file, skip this by pressing next.
 5. Now apply the suggestions provided. Make sure to select Groovy (build.gradle) and Java.
 
-:thinking: **SUGGESTION** :thinking:
+:thinking:
 <p>At the time of writing this document, the changes to make were:
 
 | file | location | add |
 | ---- | ---- | ---- |
 | :one: thoma5_app/android/build.gradle | buildscripts > dependencies | classpath 'com.google.gms:google-services:4.3.15' | 
-| :two: thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' version '4.3.15' apply false | 
+| :two: thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' | 
 
 <p>:three: Finally the below at the bottom of thoma5_app/android/app/build.gradle had to be added
 
@@ -272,6 +274,7 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
 
+
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 }
@@ -280,7 +283,7 @@ dependencies {
 
 ---
 
-### Step 12: Add key stuff
+### Step 12: Add key store file to your project
 
 1. Create key.properties file in your android directory, e.g thoma5/android/key.properties
 2. Populate it with the below keys and values as below. Find your values from step 7, i.e. 
@@ -295,21 +298,100 @@ dependencies {
    storePassword=abc
    keyPassword=cde
    keyAlias=thoma5key
-   storeFile=c:/Users/thomas\.android/thoma5.keystore
+   storeFile=c:/Users/thomas/.android/thoma5.keystore
+   ~~~
+
+3. Add the following lines to your android apps build.gradle file, e.g. thoma5/android/app/build.gradle
+
+   1. Load the properties
+   
+   ~~~
+   plugins {
+      ...
+   }
+   
+   // add this after plugins
+   def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
+
+   // the rest of the file   
+   ...
+   ~~~
+
+   2. Use the keystore for signinConfigs
+
+   ~~~
+   android {
+       defaultConfig {
+          ...
+       }
+
+       // add this after defaultConfig and before buildTypes
+       signingConfigs {
+           release {
+               keyAlias keystoreProperties['keyAlias']
+               keyPassword keystoreProperties['keyPassword']
+               storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+               storePassword keystoreProperties['storePassword']
+           }
+       }
+
+       buildTypes {
+          ...
+       }
+   }
    ~~~
 
 ---
 
 ### Step 13: Update pubspec.yaml
 
+-> see file pubspec.yaml in thoma5 project
+
+and press Pub get
+
 ---
 
 ### Step 14: Update main.dart
+
+-> see file main.dart in thoma5 project
+
+---
+
+### Step 15: Clean up
+
+1. Delete test directory, which contains widget_test.dart
+
+---
+
+### Step 16: minSdkVersion
+
+1. Goto your <a href="#flutter_sdk_path">Flutter SDK path</a>, specified in step 9, subdirectory packages\flutter_tools\gradle\src\main\groovy and edit the file flutter.groovy and open it
+2. Update the value for minSdkVersion to be 21
+
+   ~~~
+   class FlutterExtension {
+       ...
+
+       /** Sets the minSdkVersion used by default in Flutter app projects. */
+       static int minSdkVersion = 21
+
+       ...
+   }
+   ~~~
+
+   :exclamation: **REMARK** :exclamation:
+   <p>We only need to make this change to the minSdkVersion for the SDK 1 time, i.e. do not repeat this step for future projects / apps.</p>
 
 ---
 
 ### Step 15: Run
 
+TODO: change the behavior... If the app doesn't exist, login, and create the simplest default app. 
+How? See await MinkeyApp().wipeAndReinstall();
 
 ---
 
