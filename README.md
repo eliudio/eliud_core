@@ -25,13 +25,14 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app is not allowed on apple store                               | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
 
+
 ## Quick start
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/day22-owl.png"/></td>
       <td>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info. </td>
     </tr>
 </table>
@@ -45,7 +46,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td>:eyes:</td>
       <td>
         <ul>
           <li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
@@ -64,7 +65,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td>:eyes:</td>
       <td>
         <ul>
           <li><a name="firebase_project"><ins>firebase project</ins></a>: thoma5</li>
@@ -138,7 +139,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td>:eyes:</td>
       <td>
         <ul>
           <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
@@ -174,7 +175,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td>:eyes:</td>
       <td>
         <ul>
           <li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
@@ -195,7 +196,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 <table>
     <tr>
-      <td>:writing_hand:</td>
+      <td>:eyes:</td>
       <td>
         <ul>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
