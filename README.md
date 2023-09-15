@@ -25,6 +25,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app is not allowed on apple store                               | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
 
+---
 
 ## Quick start
 
@@ -33,9 +34,11 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 <table>
     <tr>
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-      <td>Whenever this note pops up in the below text, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info. </td>
+      <td>Whenever this pops up, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info.</td>
     </tr>
 </table>
+
+---
 
 ### Step 1: Create a new google account
 
@@ -56,6 +59,8 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
     </tr>
 </table>
 
+---
+
 ### Step 2: Create a new firebase project
 
 1. Goto https://console.firebase.google.com
@@ -74,12 +79,16 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
     </tr>
 </table>
 
+---
+
 ### Step 3: Configure your project
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select Project Overview > Project settings
 4. Select support email, which should be specified in step 1: <a href="#google_account">Google account</a>
+
+---
 
 ### Step 4: Setup Firebase database
 
@@ -93,6 +102,8 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 contents of 
 [firestore.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/firestore.rules)
 
+---
+
 ### Step 5: Setup Firebase storage
 
 1. Goto https://console.firebase.google.com
@@ -105,6 +116,8 @@ contents of
 contents of 
 [storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules) and publish
 
+---
+
 ### Step 6: Setup Google Authentication
 
 1. Goto https://console.firebase.google.com
@@ -113,6 +126,8 @@ contents of
 4. Select Sign-in method
 5. Select Google from Sign-in providers
 6. Enable the Google sign-in
+
+---
 
 ### Step 7: Generate key
 
@@ -151,8 +166,6 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
     </tr>
 </table>
 
----
-
 :question: **MORE INFO** :question:
 
 <ul>
@@ -186,6 +199,8 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
     </tr>
 </table>
 
+---
+
 ### Step 9: Create Android Studio project
 
 1. Start Android studio
@@ -218,11 +233,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
     </tr>
 </table>
 
+---
 
 ### Step 10: Copy google_services.json
 
 1. Switch to the Project view in Android Studio to see your project root directory.
 2. Move <a href="#google_services_json_filename">your downloaded google-services.json file</a> from step 8 into into your module (app-level) root directory, e.g. thoma5_app/android/app
+
+---
 
 ### Step 11: Apply firebase SDK instructions
 
@@ -231,8 +249,6 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 3. Find your app from "your apps" section, then press "See SDK instructions"
 4. You get to chance to re-download the google_services.json file, skip this by pressing next.
 5. Now apply the suggestions provided. Make sure to select Groovy (build.gradle) and Java.
-
----
 
 :thinking: **SUGGESTION** :thinking:
 <p>At the time of writing this document, the changes to make were:
@@ -260,6 +276,7 @@ dependencies {
 }
 
 ~~~
+
 ---
 
 ## Cookbook
