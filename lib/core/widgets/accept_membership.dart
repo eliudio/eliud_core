@@ -61,7 +61,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
   List<AppPolicyModel>? policies;
 
   bool _allEnabled(AppModel app) {
-    if (policies == null) return false;
+    if (policies == null) return true;
     if (checked == null) return false;
     for (var i = 0; i < checked!.length; i++) {
       if (!checked![i].value!) return false;

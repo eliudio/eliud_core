@@ -43,12 +43,17 @@ class Eliud {
     }
   }
 
+  Future<bool> doesAppExist(String appId) async {
+    var app = await appRepository()!.get(appId);
+    return (app != null);
+  }
+
   // Run the application without playstore
   // appId is the application you want to start and therefore not be null.
   // asPlayStore flag allows to run the playstore app where people can use it to switch to other apps, create apps, ....
   // Ones in the other app, then can switch back to thePlayStoreApp
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
-  // An icon will be available in the appBar to go to theMinkeyApp
+  // An icon will be available in the appBar to go to thePlayStoreApp
   void run(String appId, bool asPlaystore) async {
     var app = await appRepository()!.get(appId);
     if (app == null) {

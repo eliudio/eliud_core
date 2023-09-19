@@ -95,11 +95,7 @@ class _PageComponentState extends State<PageComponent> {
                 fromPageLayout(page.layout),
                 page.backgroundOverride,
                 page.gridView);
-            return Decorations.instance().createDecoratedPage(
-                state.app,
-                context,
-                widget.pageKey,
-                () => BlocListener<AccessBloc, AccessState>(
+            return BlocListener<AccessBloc, AccessState>(
                     bloc: BlocProvider.of<AccessBloc>(context),
                     listener: (context, state) {
                       if ((state is AccessDetermined) &&
@@ -121,7 +117,11 @@ class _PageComponentState extends State<PageComponent> {
                         bloc: BlocProvider.of<AccessBloc>(context),
                         builder: (BuildContext context, accessState) {
                           if (accessState is AccessDetermined) {
-                            return PageContentsWidget(
+                            return Decorations.instance().createDecoratedPage(
+                              state.app,
+                              context,
+                              widget.pageKey,
+                                  () => PageContentsWidget(
                               key: widget.pageKey,
                               state: accessState,
                               app: state.app,
@@ -129,12 +129,12 @@ class _PageComponentState extends State<PageComponent> {
                               parameters: widget.parameters,
                               scaffoldKey: widget.scaffoldKey,
                               componentInfo: componentInfo,
-                            );
+                            ),
+                                page)();
                           } else {
                             return progressIndicator();
                           }
-                        })),
-                page)();
+                        }));
           } else {
             return progressIndicator();
           }

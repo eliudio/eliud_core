@@ -344,6 +344,18 @@ dependencies {
        }
    }
    ~~~
+   
+   3. Make sure your buildTypes is pointing to the releasing signingConfigs
+   
+   ~~~
+   buildTypes {
+       release {
+           // TODO: Add your own signing config for the release build.
+           // Signing with the debug keys for now, so `flutter run --release` works.
+           signingConfig signingConfigs.release
+       }
+   }   
+   ~~~
 
 ---
 
@@ -393,6 +405,10 @@ and press Pub get
 TODO: change the behavior... If the app doesn't exist, login, and create the simplest default app. 
 How? See await MinkeyApp().wipeAndReinstall();
 
+Then show how the user can add a page and then refer to minkey for further steps.
+Or we could use the minkey-how-to.html and minkey-tech.html files, cleanup, make it more specific for 
+eliud and reference from here.
+
 ---
 
 ## Cookbook
@@ -407,8 +423,6 @@ Skip what doesn't apply to you.
 #### 2. buy domain
 
 example: squarespace.com
-
-#### 3. create google account
 
 #### 4. setup email forwarding
 
