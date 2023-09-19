@@ -51,6 +51,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         var newState = await LoggedIn.getLoggedIn2(
             this, usr, member, event.app, LoggedIn.getSubscriptions(member),
             playstoreApp: event.playstoreApp);
+
+        // auto subscribe when no policies in place
+        newState = await acceptPoliciesIfNone(newState, event.app, member);
+
         _listenToMemberClaims(member.documentID, newState);
         emit(newState);
       }
@@ -129,6 +133,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         }
         if (usr != null) {
           var member = await firebaseToMemberModel(usr);
+
           var toEmit = await LoggedIn.getLoggedIn(
               this,
               usr,
@@ -137,7 +142,12 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               null,
               LoggedIn.getSubscriptions(member),
               playstoreApp: theState.playstoreApp);
-          _resetAccessListeners(
+
+
+          // auto subscribe when no policies in place
+          toEmit = await acceptPoliciesIfNone(toEmit, event.app, member);
+
+        _resetAccessListeners(
               theState.apps.map((e) => e.app.documentID).toList(),
               member.documentID);
 
@@ -267,6 +277,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   void _currentStyleChanged(AppModel app) {
     add(RefreshAppEvent(app));
+  }
+
+  Future<LoggedIn> acceptPoliciesIfNone(LoggedIn toEmit, AppModel app, MemberModel member) async {
+    var appPolicies = await appPolicyRepository(appId: app.documentID)!.valuesListWithDetails();
+    if ((appPolicies == null) || (appPolicies.length == 0)) {
+      await LoggedIn.acceptMembership(member, app);
+      toEmit = await toEmit.withSubscriptions(LoggedIn.getSubscriptions(member));
+    }
+    return toEmit;
   }
 
   void gotoPage(bool clearHistory, String? appId, String? pageId,

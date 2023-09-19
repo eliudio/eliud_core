@@ -20,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/registry.dart';
 import '../../model/abstract_repository_singleton.dart';
 import '../../model/platform_medium_model.dart';
+import '../../model/storage_conditions_model.dart';
 import '../../package/access_rights.dart';
 import 'app_policy_bloc/app_policy_dashboard_bloc.dart';
 import 'app_policy_bloc/app_policy_dashboard_event.dart';
@@ -150,7 +151,9 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
                               app: widget.app,
                               readOnly: appPolicyState.values != null &&
                                   appPolicyState.values!.isNotEmpty,
-                              value: appPolicyState.appPolicy.conditions!,
+                              value: appPolicyState.appPolicy.conditions ?? StorageConditionsModel(
+                                  privilegeLevelRequired:
+                                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
                             )),
                       ]),
                 ]);

@@ -345,15 +345,17 @@ dependencies {
    }
    ~~~
    
-   3. Make sure your buildTypes is pointing to the releasing signingConfigs
+   3. Make sure your buildTypes is pointing to the releasing signingConfigs for both debug and release builds
    
    ~~~
    buildTypes {
-       release {
-           // TODO: Add your own signing config for the release build.
-           // Signing with the debug keys for now, so `flutter run --release` works.
-           signingConfig signingConfigs.release
-       }
+        release {
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
+        }
    }   
    ~~~
 
