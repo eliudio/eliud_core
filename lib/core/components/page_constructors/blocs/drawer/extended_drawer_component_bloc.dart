@@ -39,6 +39,7 @@ class ExtendedDrawerComponentBloc extends Bloc<ExtendedDrawerComponentEvent, Ext
   @override
   Future<void> close() {
     _drawerSubscription?.cancel();
+    _menuDefSubscription?.cancel();
     return super.close();
   }
 

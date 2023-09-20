@@ -363,7 +363,29 @@ dependencies {
 
 ### Step 13: Update pubspec.yaml
 
--> see file pubspec.yaml in thoma5 project
+1. Update you pubspec.yaml file to reflect the below
+
+~~~
+---
+name: thoma5_app
+description: Thoma5
+homepage: https://thoma5.com
+repository: https://github.com/eliudio/thoma5_app
+version: 1.0.0
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+  flutter: '>=3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  eliud_core: ^1.0.6+1
+  eliud_pkg_create: ^1.0.7+1
+  eliud_stl_mona: ^1.0.1+6
+dev_dependencies:
+  flutter_lints: ^2.0.0
+flutter:
+  uses-material-design: true
+~~~
 
 and press Pub get
 
@@ -371,13 +393,61 @@ and press Pub get
 
 ### Step 14: Update main.dart
 
--> see file main.dart in thoma5 project
+1. Replace your main.dart with these contents.
+
+~~~
+import 'package:eliud_core/eliud.dart';
+import 'package:eliud_core/style/_default/default_style_family.dart';
+import 'package:eliud_core/core_package.dart';
+import 'package:eliud_pkg_create/creator_package.dart';
+import 'package:eliud_pkg_create/tools/basic_app.dart';
+import 'package:eliud_pkg_text/text_package.dart';
+import 'package:eliud_stl_mona/mona_stl_package.dart';
+import 'package:eliud_pkg_create/creator_decoration.dart';
+import 'package:eliud_stl_mona/mona_style_family.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+Future<void> main() async {
+  String APP_ID = "THOMA5_APP";
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  var eliud = Eliud();
+
+  try {
+    eliud.registerPackage(CorePackage.instance());
+    eliud.registerPackage(TextPackage.instance());
+    eliud.registerPackage(MonaStlPackage.instance());
+    eliud.registerPackage(CreatorPackage.instance());
+
+    // register decorations, these are only required if you want to be able to change your app through the interface
+    eliud.registerDecoration(CreatorDecoration());
+
+    // register style families
+    eliud.registerStyleFamily(MonaStyleFamily.instance());
+    eliud.registerStyleFamily(DefaultStyleFamily.instance());
+
+    // finish init
+    eliud.finalizeInitialisation();
+  } catch (exception) {
+    throw Exception("Exception whilst initialising the app");
+  }
+
+  // create the app if it doesn't exist
+  await BasicApp.checkApp(APP_ID);
+
+  // let's go !
+  eliud.run(APP_ID, false);
+}
+
+~~~
 
 ---
 
 ### Step 15: Clean up
 
-1. Delete test directory, which contains widget_test.dart
+1. Delete the directory test, which contains widget_test.dart
 
 ---
 
@@ -402,14 +472,26 @@ and press Pub get
 
 ---
 
-### Step 15: Run
+### Step 17: Run your app
 
-TODO: change the behavior... If the app doesn't exist, login, and create the simplest default app. 
-How? See await MinkeyApp().wipeAndReinstall();
+1. Run the app. Because this is the first time your start the app, it will install a basic app. 
+2. When the app asks to choose an account to login, select the <a href="#google_account">Google account</a> you created in step 1
+3. Ones the basic app is created, it will open
 
-Then show how the user can add a page and then refer to minkey for further steps.
-Or we could use the minkey-how-to.html and minkey-tech.html files, cleanup, make it more specific for 
-eliud and reference from here.
+### Step 18: Add some basic functionality to your app
+
+1. After you've started your app in step 17, a "Hello world" screen should appear.
+2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/pen.png) to toggle editing mode on
+3. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/star.png) to open the wizard dialog box
+4. We have only activated a few packages in step 14, so hence not many wizards are initially available. 
+   1. Select signinbutton and press Go!
+   2. Then select signoutbutton and press Go!
+
+---
+
+### Step 16: Add some basic functionality to your app
+
+TODO: Congratulations + next steps
 
 ---
 
@@ -418,6 +500,41 @@ In this cookbook we will create a new app from scratch.
 We continue from the quick start.
 We assume you're building an app for web, android and ios. 
 Skip what doesn't apply to you.
+
+### Stuff delayed from quick start
+
+TODO describe and to put somewhere better
+
+#### Logo
+
+1. add the below to pubspec.yaml
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: launcher_icon
+  ios: false
+  image_path: assets/logo/thoma5-logo.png
+
+and run the logo generation thing
+
+#### main.dart
+
+1. Include the below for web
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyCl6sRbHLs4iZmgAm9c9haOta9Hm6Ur2l0",
+            authDomain: "minkey-2c028.firebaseapp.com",
+            projectId: "minkey-2c028",
+            storageBucket: "minkey-2c028.appspot.com",
+            messagingSenderId: "1024431136717",
+            appId: "1:1024431136717:web:6dccc1c905ef84d31cee84",
+            measurementId: "G-0J2M6CNHLV"));
+  } else {
+    await Firebase.initializeApp();
+  }
 
 ### preparations
 #### 1. decide on the following

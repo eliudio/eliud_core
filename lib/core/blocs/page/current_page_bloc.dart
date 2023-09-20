@@ -18,6 +18,7 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
       if (value != null) add(CurrentPageUpdated(page: value));
     });
 
+    _appSubscription?.cancel();
     _appSubscription = appRepository()!.listenTo(appId, (value) {
       if (value != null) add(CurrentAppUpdated(app: value));
     });
@@ -42,6 +43,7 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
   @override
   Future<void> close() {
     _pageSubscription?.cancel();
+    _appSubscription?.cancel();
     return super.close();
   }
 }

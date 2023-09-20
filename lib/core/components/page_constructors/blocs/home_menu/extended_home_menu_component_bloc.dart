@@ -39,6 +39,7 @@ class ExtendedHomeMenuComponentBloc extends Bloc<ExtendedHomeMenuComponentEvent,
   @override
   Future<void> close() {
     _homeMenuSubscription?.cancel();
+    _menuDefSubscription?.cancel();
     return super.close();
   }
 

@@ -329,6 +329,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     });
 
     if (member != null) {
+//    _accessSubscription[appId]?.cancel();
       _accessSubscription[appId] =
           accessRepository(appId: appId)!.listenTo(member.documentID, (value) {
         if (value != null) add(AccessUpdatedEvent(value));

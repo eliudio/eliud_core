@@ -36,6 +36,7 @@ class ExtendedAppBarComponentBloc extends Bloc<ExtendedAppBarComponentEvent, Ext
   @override
   Future<void> close() {
     _appBarSubscription?.cancel();
+    _menuDefSubscription?.cancel();
     return super.close();
   }
 
