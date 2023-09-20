@@ -481,8 +481,8 @@ Future<void> main() async {
 ### Step 18: Add some basic functionality to your app
 
 1. After you've started your app in step 17, a "Hello world" screen should appear.
-2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/pen.png) to toggle editing mode on
-3. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/star.png) to open the wizard dialog box
+2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on
+3. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box
 4. We have only activated a few packages in step 14, so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
