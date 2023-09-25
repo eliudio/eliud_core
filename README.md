@@ -27,7 +27,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 ---
 
-## Quick start
+# I. Quick start
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
@@ -40,7 +40,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-### Step 1: Create a new google account
+## Step 1: Create a new google account
 
 1. Goto https://www.google.com/account/about/
 2. Select "Create an account"
@@ -61,7 +61,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-### Step 2: Create a new firebase project
+## Step 2: Create a new firebase project
 
 1. Goto https://console.firebase.google.com
 2. Select "Create a project"
@@ -81,16 +81,16 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-### Step 3: Configure your project
+## Step 3: Configure your project
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select Project Overview > Project settings
-4. Select support email, which should be specified in step 1: <a href="#google_account">Google account</a>
+4. Select support email. Use your <a href="#google_account">google account</a>
 
 ---
 
-### Step 4: Setup Firebase database
+## Step 4: Setup Firebase database
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -100,11 +100,15 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 (recommended to use default settings, start in production mode)
 6. With Cloud Firestore open, click on Rules and copy/paste the 
 contents of 
-[firestore.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/firestore.rules)
+[firestore.rules](https://raw.githubusercontent.com/eliudio/firebase/main/firestore.rules)
+
+<i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
+However, later we will upload the same rules more efficiently using firestore commands from command line
+</>
 
 ---
 
-### Step 5: Setup Firebase storage
+## Step 5: Setup Firebase storage
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -114,11 +118,29 @@ contents of
 (recommended to use default settings, start in production mode)
 6. With Storage open, click on Rules and copy/paste the 
 contents of 
-[storage.rules](https://raw.githubusercontent.com/eliudio/open-resources/main/firebase/storage.rules) and publish
+[storage.rules](https://raw.githubusercontent.com/eliudio/firebase/main/storage.rules) and publish
+
+<i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
+However, later we will upload the same rules more efficiently using firestore commands from command line
+</>
+
+7. With storage page open, retrieve your "bucket" from the url. You bucket is the bit in front of ".appspot" in the url. In our case the url is https://console.firebase.google.com/project/thoma5/storage/thoma5.appspot.com/files, hence the bucket is thoma5
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="storage_bucket"><ins>storage bucket</ins></a>: thoma5.com.info@gmail.com</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+   
 
 ---
 
-### Step 6: Setup Google Authentication
+## Step 6: Setup Google Authentication
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -129,7 +151,7 @@ contents of
 
 ---
 
-### Step 7: Generate key
+## Step 7: Generate key
 
 1. Run the following command at command prompt:
 
@@ -157,11 +179,11 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="keystore_filename"><ins>Your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
-          <li><a name="keystore_storepass"><ins>Your keystore storepass</ins></a>: abc</li>
-          <li><a name="keystore_keypass"><ins>Your keystore keypass</ins></a>: cde</li>
-          <li><a name="keystore_alias"><ins>Your keystore alias</ins></a>: thoma5key</li>
-          <li><a name="keystore_SHA1"><ins>Your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
+          <li><a name="keystore_filename"><ins>your keystore filename</ins></a>: %USERPROFILE%\\.android\\thoma5.keystore</li>
+          <li><a name="keystore_storepass"><ins>your keystore storepass</ins></a>: abc</li>
+          <li><a name="keystore_keypass"><ins>your keystore keypass</ins></a>: cde</li>
+          <li><a name="keystore_alias"><ins>your keystore alias</ins></a>: thoma5key</li>
+          <li><a name="keystore_SHA1"><ins>your keystore SHA1</ins></a>: A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:A0:B1:C2:D3:E4:F5:AA:BB</li>
         </ul>
       </td>
     </tr>
@@ -176,14 +198,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-### Step 8: Add Firebase Android App
+## Step 8: Add Firebase Android App
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Click 'Add app' and select platform 'Android'"
 4. Specify your android package name
 5. Specify your android app nickname
-6. Paste the SHA-1 key from step 7: <a href="#keystore_SHA1">Your keystore SHA1</a>
+6. Paste the SHA-1 key <a href="#keystore_SHA1">Your keystore SHA1</a>
 7. Press "Register app"
 8. Then download the file google-services.json
 
@@ -192,9 +214,9 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="android_package_name"><ins>Your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
-          <li><a name="android_app_nickname"><ins>Your Android app nickname</ins></a>: Thoma5</li>
-          <li><a name="google_services_json_filename"><ins>Your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
+          <li><a name="android_package_name"><ins>your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
+          <li><a name="android_app_nickname"><ins>your Android app nickname</ins></a>: Thoma5</li>
+          <li><a name="google_services_json_filename"><ins>your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
         </ul>
       </td>
     </tr>
@@ -202,7 +224,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-### Step 9: Create Android Studio project
+## Step 9: Create Android Studio project
 
 1. Start Android studio
 2. Select File > New > New Flutter Project
@@ -219,7 +241,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
    8. Platforms: Should be Android, iOS and Web
    
    :exclamation: **IMPORTANT** :exclamation:
-   <p>The android package name specified in step 8 <a href="#android_package_name">Your Android app package name</a> - e.g. com.thoma5.thoma5_app - should be equal to the concatenation of organisation - e.g. com.thoma5 - a dot and the project_name - e.g. thoma5_app</p>
+   <p>The android package name specified as <a href="#android_package_name">Your Android app package name</a> - e.g. com.thoma5.thoma5_app - should be equal to the concatenation of organisation - e.g. com.thoma5 - a dot and the project_name - e.g. thoma5_app</p>
 
 5. Press finish
 
@@ -238,14 +260,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-### Step 10: Copy google_services.json
+## Step 10: Copy google_services.json
 
 1. Switch to the Project view in Android Studio to see your project root directory.
-2. Move <a href="#google_services_json_filename">your downloaded google-services.json file</a> from step 8 into into your module (app-level) root directory, e.g. thoma5_app/android/app
+2. Move <a href="#google_services_json_filename">your downloaded google-services.json file</a> into your module (app-level) root directory, e.g. thoma5_app/android/app
 
 ---
 
-### Step 11: Apply firebase SDK instructions
+## Step 11: Apply firebase SDK instructions
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -283,10 +305,10 @@ dependencies {
 
 ---
 
-### Step 12: Add key store file to your project
+## Step 12: Add key store file to your project
 
 1. Create key.properties file in your android directory, e.g thoma5/android/key.properties
-2. Populate it with the below keys and values as below. Find your values from step 7, i.e. 
+2. Populate it with the below keys and values as below. Find your values specified before (follow the links)
    1. storeFile=<a href="#keystore_filename">Your keystore filename</a>
    2. storePassword=<a href="#keystore_storepass">Your keystore storepass</a>
    3. keyPassword=<a href="#keystore_keypass">Your keystore keypass</a>
@@ -361,7 +383,7 @@ dependencies {
 
 ---
 
-### Step 13: Update pubspec.yaml
+## Step 13: Update pubspec.yaml
 
 1. Update you pubspec.yaml file to reflect the below
 
@@ -391,7 +413,7 @@ and press Pub get
 
 ---
 
-### Step 14: Update main.dart
+## Step 14: Update main.dart
 
 1. Replace your main.dart with these contents.
 
@@ -445,15 +467,15 @@ Future<void> main() async {
 
 ---
 
-### Step 15: Clean up
+## Step 15: Clean up
 
 1. Delete the directory test, which contains widget_test.dart
 
 ---
 
-### Step 16: minSdkVersion
+## Step 16: minSdkVersion
 
-1. Goto your <a href="#flutter_sdk_path">Flutter SDK path</a>, specified in step 9, subdirectory packages\flutter_tools\gradle\src\main\groovy and edit the file flutter.groovy and open it
+1. Goto your <a href="#flutter_sdk_path">Flutter SDK path</a>, subdirectory packages\flutter_tools\gradle\src\main\groovy and edit the file flutter.groovy and open it
 2. Update the value for minSdkVersion to be 21
 
    ~~~
@@ -472,38 +494,114 @@ Future<void> main() async {
 
 ---
 
-### Step 17: Run your app
+## Step 17: Run your app
 
 1. Run the app. Because this is the first time your start the app, it will install a basic app. 
-2. When the app asks to choose an account to login, select the <a href="#google_account">Google account</a> you created in step 1
+2. When the app asks to choose an account to login, select your <a href="#google_account">google account</a>
 3. Ones the basic app is created, it will open
 
-### Step 18: Add some basic functionality to your app
+---
 
-1. After you've started your app in step 17, a "Hello world" screen should appear.
+## Step 18: Add some basic functionality to your app
+
+1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on
 3. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box
-4. We have only activated a few packages in step 14, so hence not many wizards are initially available. 
+4. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
 
 ---
 
-### Step 16: Add some basic functionality to your app
+# Next steps
 
-TODO: Congratulations + next steps
+In the previous steps we've done the foundation to build an app. The next steps introduces 
+- platforms: web deployment, apple app
+- authentication
+- a brief overview of the current base packages
+- functions to support packages
+- deployment: deploying to google play store and apple app store,
 
 ---
 
-## Cookbook
-In this cookbook we will create a new app from scratch. 
-We continue from the quick start.
-We assume you're building an app for web, android and ios. 
-Skip what doesn't apply to you.
+TODO: explain we cover functions, rules for ALL packages that currently exist. But the files have indications to which package the rule / function belongs.
 
-### Stuff delayed from quick start
+## Step 21: Update firebase
+
+In this step we wil be updating / uploading:
+
+- storage rules
+- firestore indexes and rules 
+- functions
+
+We have uploaded rules in previous steps during the quick start. 
+That was to get up and running quickly. The proper way to update
+rules is by using the firebase command line tools, which we will do in
+this step.
+
+### Step 21.1: Install firebase command line tools
+1. Open cmd
+2. Run npm install -g firebase-tools
+
+### Step 21.2: Enable functions API
+1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
+2. Click "Enable the APIs"
+3. Follow on screen instructions
+
+### Step 21.3: Enable firebase functions
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select functions
+4. Press "Get started" and select next
+
+### Step 21.4 Create functions directory
+1. Run the below (change project to yours)
+
+~~~
+mkdir c:\src\apps\thoma5_app_functions
+cd c:\src\apps\thoma5_app_functions
+git clone https://github.com/eliudio/firebase.git
+
+firebase logout
+firebase login
+firebase functions:config:set sendgrid.apikey=NOKEY sendgrid.email="NONE" app.appname="Thoma5" app.collectionname="order" app.bucket="thoma5" stripe.secret=lalalala --project "thoma5"
+firebase deploy --project thoma5
+
+~~~
+
+<i>Where...</i>
+
+<table>
+    <tr>
+      <td>sendgrid.apikey</td><td>NOKEY</td>
+    </tr>
+    <tr>
+      <td>sendgrid.email</td><td>NONE</td>
+    </tr>
+    <tr>
+      <td>app.collectionname</td><td>order</td>
+    </tr>
+    <tr>
+      <td>app.bucket</td><td><a href="#storage_bucket">storage bucket</a></td>
+    </tr>
+    <tr>
+      <td>project</td><td><a href="#firebase_project">firebase project</a></td>
+    </tr>
+</table>
+
+<i>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"
+
+<i>
+
+## Stuff delayed from quick start
 
 TODO describe and to put somewhere better
+
+#### Buy domain
+
+#### Setup email forwarding
+
+forward info@your-domain or have another way to make sure you can read your emails from your domain
 
 #### Logo
 
@@ -543,7 +641,6 @@ and run the logo generation thing
 
 example: squarespace.com
 
-#### 4. setup email forwarding
 
 #### 5. register for free gcp
 
@@ -557,10 +654,6 @@ example: squarespace.com
 
 #### 1. create project
 
-#### 2. firebase database
-
-#### 3. firebase storage
-
 #### 4. authentication
 
 #### 5. functions
@@ -573,7 +666,7 @@ example: squarespace.com
 
 #### 3. ios app
 
-### run and deploy to app store
+### deploy to app store
 
 #### 1. android app
 
