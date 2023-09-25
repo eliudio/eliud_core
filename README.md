@@ -100,9 +100,11 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 (recommended to use default settings, start in production mode)
 6. With Cloud Firestore open, click on Rules and copy/paste the 
 contents of 
-[firestore.rules](https://raw.githubusercontent.com/eliudio/firebase/main/firestore.rules) <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
-However, later we will upload the same rules more efficiently using firestore commands from command line
-</i>
+[firestore.rules](https://raw.githubusercontent.com/eliudio/firebase/main/firestore.rules) and publish.
+
+   <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
+   However, later we will upload the same rules more efficiently using firestore commands from command line
+   </i>
 
 ---
 
@@ -112,11 +114,10 @@ However, later we will upload the same rules more efficiently using firestore co
 2. Select your project
 3. Select Build > Storage
 4. Select "Get started"
-5. And follow on screen instructions 
-(recommended to use default settings, start in production mode)
-6. With Storage open, click on Rules and copy/paste the 
-contents of 
-[storage.rules](https://raw.githubusercontent.com/eliudio/firebase/main/storage.rules) and publish 
+5. And follow on screen instructions (recommended to use default settings, start in production mode)
+6. With Storage open, click on Rules and copy/paste the contents of 
+   [storage.rules](https://raw.githubusercontent.com/eliudio/firebase/main/storage.rules) 
+   and publish.
 
    <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
    However, later we will upload the same rules more efficiently using firestore commands from command line
