@@ -116,9 +116,10 @@ However, later we will upload the same rules more efficiently using firestore co
 (recommended to use default settings, start in production mode)
 6. With Storage open, click on Rules and copy/paste the 
 contents of 
-[storage.rules](https://raw.githubusercontent.com/eliudio/firebase/main/storage.rules) and publish <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
-However, later we will upload the same rules more efficiently using firestore commands from command line
-</i>
+[storage.rules](https://raw.githubusercontent.com/eliudio/firebase/main/storage.rules) and publish 
+   <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
+   However, later we will upload the same rules more efficiently using firestore commands from command line
+   </i>
 
 7. With storage page open, retrieve your "bucket" from the url. You bucket is the bit in front of ".appspot" in the url. In our case the url is https://console.firebase.google.com/project/thoma5/storage/thoma5.appspot.com/files, hence the bucket is thoma5
 
