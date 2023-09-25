@@ -104,7 +104,7 @@ contents of
 
 <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
 However, later we will upload the same rules more efficiently using firestore commands from command line
-</>
+</i>
 
 ---
 
@@ -122,7 +122,7 @@ contents of
 
 <i>For convenience, and to familiarise yourself with firebase, at this point we copy/paste these rules. 
 However, later we will upload the same rules more efficiently using firestore commands from command line
-</>
+</i>
 
 7. With storage page open, retrieve your "bucket" from the url. You bucket is the bit in front of ".appspot" in the url. In our case the url is https://console.firebase.google.com/project/thoma5/storage/thoma5.appspot.com/files, hence the bucket is thoma5
 
@@ -589,9 +589,7 @@ firebase deploy --project thoma5
     </tr>
 </table>
 
-<i>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"
-
-<i>
+<i>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</i>
 
 ## Stuff delayed from quick start
 
