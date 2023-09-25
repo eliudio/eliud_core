@@ -522,7 +522,22 @@ In the previous steps we've done the foundation to build an app. The next steps 
 
 ---
 
-## Step 19: Update firebase
+## Step 19: Subscribe to email service
+
+TODO: explain how to subscribe to sendgrid and mailtrap
+Also TODO: update the below functions and documentation to support sendgrid and mailtrap
+
+### Step 19.1: Option 1: sendgrid
+
+Not recommended, difficult to subscribe
+
+### Step 19.2: Option 2: mailtrap
+
+In progress
+
+---
+
+## Step 20: Update firebase
 
 In this step we wil be updating / uploading:
 
@@ -535,22 +550,22 @@ That was to get up and running quickly. The proper way to update
 rules is by using the firebase command line tools, which we will do in
 this step.
 
-### Step 19.1: Install firebase command line tools
+### Step 20.1: Install firebase command line tools
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 19.2: Enable functions API
+### Step 20.2: Enable functions API
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
 
-### Step 19.3: Enable firebase functions
+### Step 20.3: Enable firebase functions
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select functions
 4. Press "Get started" and select next
 
-### Step 19.4 Update firebase
+### Step 20.4 Update firebase
 1. Run the below (change project to yours)
 
 ~~~
@@ -595,6 +610,8 @@ firebase deploy --project thoma5
   way to get going.
      
 - When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
+
+---
 
 ## Stuff delayed from quick start
 
