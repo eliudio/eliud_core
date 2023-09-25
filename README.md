@@ -522,9 +522,7 @@ In the previous steps we've done the foundation to build an app. The next steps 
 
 ---
 
-TODO: explain we cover functions, rules for ALL packages that currently exist. But the files have indications to which package the rule / function belongs.
-
-## Step 21: Update firebase
+## Step 19: Update firebase
 
 In this step we wil be updating / uploading:
 
@@ -537,27 +535,27 @@ That was to get up and running quickly. The proper way to update
 rules is by using the firebase command line tools, which we will do in
 this step.
 
-### Step 21.1: Install firebase command line tools
+### Step 19.1: Install firebase command line tools
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 21.2: Enable functions API
+### Step 19.2: Enable functions API
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
 
-### Step 21.3: Enable firebase functions
+### Step 19.3: Enable firebase functions
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select functions
 4. Press "Get started" and select next
 
-### Step 21.4 Create functions directory
+### Step 19.4 Update firebase
 1. Run the below (change project to yours)
 
 ~~~
-mkdir c:\src\apps\thoma5_app_functions
-cd c:\src\apps\thoma5_app_functions
+mkdir c:\src\apps\thoma5_app_firebase
+cd c:\src\apps\thoma5_app_firebase
 git clone https://github.com/eliudio/firebase.git
 
 firebase logout
@@ -587,7 +585,17 @@ firebase deploy --project thoma5
     </tr>
 </table>
 
-<i>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</i>
+   :exclamation: **NOTES** :exclamation:
+   <p>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</p>
+
+  <p>In the rules, indexes and functions we cover ALL packages that currently exist. 
+     If you only use some packages, then these obsolete rules, indexes and functions could
+     be considered obsolete. However, they're harmless being there and it's the easiest 
+     way to get going.</p>
+     
+  <p>When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
+  </p>
+
 
 ## Stuff delayed from quick start
 
