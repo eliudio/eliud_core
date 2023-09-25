@@ -585,17 +585,16 @@ firebase deploy --project thoma5
     </tr>
 </table>
 
-   :exclamation: **NOTES** :exclamation:
-   <p>You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</p>
+:exclamation: **NOTES** :exclamation:
 
-  <p>In the rules, indexes and functions we cover ALL packages that currently exist. 
-     If you only use some packages, then these obsolete rules, indexes and functions could
-     be considered obsolete. However, they're harmless being there and it's the easiest 
-     way to get going.</p>
+* You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</p>
+
+* In the rules, indexes and functions we cover ALL packages that currently exist. 
+  If you only use some packages, then these obsolete rules, indexes and functions could
+  be considered obsolete. However, they're harmless being there and it's the easiest 
+  way to get going.
      
-  <p>When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
-  </p>
-
+* When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
 
 ## Stuff delayed from quick start
 
