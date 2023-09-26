@@ -525,7 +525,8 @@ In the previous steps we've done the foundation to build an app. The next steps 
 ## Step 19: Subscribe to email service
 
 TODO: explain how to subscribe to sendgrid and mailtrap
-Also TODO: update the below functions and documentation to support sendgrid and mailtrap
+Also TODO: update the below functions and documentation 
+to support sendgrid and mailtrap
 
 ### Step 19.1: Option 1: sendgrid
 
@@ -533,7 +534,7 @@ Not recommended, difficult to subscribe
 
 ### Step 19.2: Option 2: mailtrap
 
-In progress
+In progress.
 
 ---
 
@@ -566,7 +567,7 @@ this step.
 4. Press "Get started" and select next
 
 ### Step 20.4 Update firebase
-1. Run the below (change project to yours)
+1. Run the below (change firebase project and storage bucket to yours)
 
 ~~~
 mkdir c:\src\apps\thoma5_app_firebase
@@ -613,95 +614,163 @@ firebase deploy --project thoma5
 
 ---
 
-## Stuff delayed from quick start
+## Step 21: Logo
 
-TODO describe and to put somewhere better
+1. create a logo and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
 
-#### Buy domain
+2. add the below to pubspec.yaml
 
-#### Setup email forwarding
-
-forward info@your-domain or have another way to make sure you can read your emails from your domain
-
-#### Logo
-
-1. add the below to pubspec.yaml
+~~~
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
-flutter_icons:
+flutter_icons: 
   android: launcher_icon
   ios: false
-  image_path: assets/logo/thoma5-logo.png
+  image_path: assets/logo/thoma5-logo-1.png
 
-and run the logo generation thing
+~~~
 
-#### main.dart
+3. Run the below from your 
 
-1. Include the below for web
-  WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyCl6sRbHLs4iZmgAm9c9haOta9Hm6Ur2l0",
-            authDomain: "minkey-2c028.firebaseapp.com",
-            projectId: "minkey-2c028",
-            storageBucket: "minkey-2c028.appspot.com",
-            messagingSenderId: "1024431136717",
-            appId: "1:1024431136717:web:6dccc1c905ef84d31cee84",
-            measurementId: "G-0J2M6CNHLV"));
-  } else {
-    await Firebase.initializeApp();
-  }
+~~~
+flutter pub run flutter_launcher_icons:main
 
-### preparations
-#### 1. decide on the following
+~~~
 
-#### 2. buy domain
+---
 
-example: squarespace.com
+## Step 22: Create policies and membership page
+
+1. Add the below dependency to pubspec.yaml
+
+~~~
+  eliud_pkg_wizards: ^1.0.3+6
+~~~
+
+2. Run pub get
+3. Add the following import to main.dart
+~~~
+import 'package:eliud_pkg_wizards/wizards_package.dart';
+
+~~~
+4. Add the following line to register the wizards package
+~~~
+    eliud.registerPackage(WizardsPackage.instance());
+
+~~~
+5. Restart your app
+6. Run policy wizard -->> FAILS!!
+Also see policies.txt, i.e. copy this here (or reference!)
+
+-> construct the url
+
+ANCHOR : privacy_policy_url
+ANCHOR : terms_of_service_url
+ANCHOR : disclaimer_url
+
+7. Create memberdashboard page
+
+- How to create a membership page to allow to open the membership dialog
+- example: https://minkey.io/#MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard)
+- create an empty page
+  - Description "Blank"
+  - Title "Welcome"
+  - copy the ID, here: b038a344-5762-4880-9767-d89f164811d7
+- open member dashboard and copy the url, here: https://juuwle.net/#JUUWLE/member_dashboard
+- now construct the URL:
+  https://juuwle.net/#JUUWLE/b038a344-5762-4880-9767-d89f164811d7?open-dialog=member_dashboard
+
+ANCHOR : member_dashboard_url
+
+---
+
+## Step 23: Setup oauth
+
+TODO
+
+3.1. Goto https://console.developers.google.com/apis/credentials
+As this is the first time you open this page, select your country and agree 
+with the terms of services and agree
+
+3.2. Select your project 
+3.3. Click "OAuth consent screen" 
+select user type "External"
+select "create"
+fill in the details requested:
+- provide a logo
+- privacy policy will be available from https://[your domain name[/#[app name in code]/privacy_policy-1. In our example: 
+ https://juuwle.net/#JUUWLE_APP/privacy_policy-1
+- We will make the terms of service available from https://[your domain name[/#[app name in code]/terms_of_service-1. In our example:
+ https://juuwle.net/#JUUWLE_APP/terms_of_service-1
+- Add your domain as Authorised domains, here juuwle.net
+- Specify developers email address
+- Add scopes:
+ - .../auth/userinfo.email
+ - .../auth/userinfo.profil
+Then press the "In production" button and go through the on screen instructions
+
+NOTES:
+Your app will be available to any user with a Google Account.
+
+You've configured your app in a way that requires verification . To complete verification, you will need to provide:
+
+An official link to your app's Privacy Policy, use #privacy_policy_url
+A YouTube video showing how you plan to use the Google user data you get from scopes
+A written explanation telling Google why you need access to sensitive and/or restricted user data
+All your domains verified in Google Search Console
 
 
-#### 5. register for free gcp
+3.4. Find the Web client (auto created by Google Service) from OAuth 2.0 client IDs and press edit. 
+Add the URL http://localhost:7357
+Add the URL of your domain, here https://juuwle.net
+Add the URL of your domain, here https://www.juuwle.net
+Add these for both 
 
-#### 6. Setup OAuth Client 
+3.5. Press the "RESET SECRET" button and then copy the client ID and client secret.
+Client ID: 232099549503-pfldkuf87oer8ba3tgcg1q4u8g8bpso0.apps.googleusercontent.com
+Client secret: TODO: DELETE: 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
 
-#### 7. Apple setup
+3.6 You will receive an email "OAuth Verification Request for Project"
+Follow instructions in the email
 
-#### 8. Sendgrid setup
+---
 
-### firebase
+## Step 24: Add Firebase Web App
 
-#### 1. create project
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Click 'Add app' and select platform 'Web'"
+4. Provide an App nickname, e.g. Thoma5
+5. Select Firebase Hosting. 
+6. Select your project from the drop down box. 
+7. Click on Register app. 
 
-#### 4. authentication
+---
 
-#### 5. functions
+## Step 25: Configure Android Studio project for web
 
-### android studio
+TODO...
+1. Change index.html
+2. Change main.dart
+See currently changed uncommitted stuff (visual code)
 
-#### 1. android app
+---
 
-#### 2. web app
+## Step n: see create-new-app-removed-whats-put-in-README.txt
 
-#### 3. ios app
+---
 
-### deploy to app store
+# overview packages / dependencies
 
-#### 1. android app
-
-#### 2. web app
-
-#### 3. ios app
-
-## overview packages / dependencies
-
-### typical
+## typical
 A typical app, here Minkey, uses the following dependencies:
 
 ![Dependency diagram](https://github.com/eliudio/eliud_core/raw/main/minkey-depends.jpg)
 
-### links
+---
+
+## links
 |Package                                                                    |Description                                            |
 |---------------------------------------------------------------------------|-------------------------------------------------------|
 |[eliud_core](https://pub.dev/packages/eliud_core)                          | This package                                          |
@@ -722,3 +791,5 @@ A typical app, here Minkey, uses the following dependencies:
 |[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
 |[eliud_pkg_workflow](https://pub.dev/packages/eliud_pkg_workflow)          | Eliud workflow package                                |
 |[eliud_stl_mona](https://pub.dev/packages/eliud_stl_mona)                  | Eliud mona style                                      |
+
+---
