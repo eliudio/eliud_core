@@ -653,12 +653,15 @@ flutter pub run flutter_launcher_icons:main
 8. From the Hosting dashboard, find the "Add custom domain" button and add
    - thoma5.com
    - www.thoma5.com, and configure to redirect to thoma5.com
-<A HREF="#DNS_records">DNS records</A>
+
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td>
       <table>
+        <tr>
+          <A HREF="DNS_records">DNS records</A>
+        </tr>
         <tr>
           <td width="60">Domain: www.thoma5.com</td>
         </tr>
