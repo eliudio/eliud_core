@@ -135,7 +135,6 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
     </tr>
 </table>
    
-
 ---
 
 ## Step 6: Setup Google Authentication
@@ -291,8 +290,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.2.2')
 
 
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
 
 
@@ -523,99 +520,7 @@ In the previous steps we've done the foundation to build an app. The next steps 
 
 ---
 
-## Step 19: Subscribe to email service
-
-TODO: explain how to subscribe to sendgrid and mailtrap
-Also TODO: update the below functions and documentation 
-to support sendgrid and mailtrap
-
-### Step 19.1: Option 1: sendgrid
-
-Not recommended, difficult to subscribe
-
-### Step 19.2: Option 2: mailtrap
-
-In progress.
-
----
-
-## Step 20: Update firebase
-
-In this step we wil be updating / uploading:
-
-- storage rules
-- firestore indexes and rules 
-- functions
-
-We have uploaded rules in previous steps during the quick start. 
-That was to get up and running quickly. The proper way to update
-rules is by using the firebase command line tools, which we will do in
-this step.
-
-### Step 20.1: Install firebase command line tools
-1. Open cmd
-2. Run npm install -g firebase-tools
-
-### Step 20.2: Enable APIs
-1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
-2. Click "Enable the APIs"
-3. Follow on screen instructions
-
-### Step 20.3: Enable firebase functions
-1. Goto https://console.firebase.google.com
-2. Select your project
-3. Select functions
-4. Press "Get started" and select next
-
-### Step 20.4 Update firebase
-1. Run the below (change firebase project and storage bucket to yours)
-
-~~~
-mkdir c:\src\apps\thoma5_app_firebase
-cd c:\src\apps\thoma5_app_firebase
-git clone https://github.com/eliudio/firebase.git
-
-firebase logout
-firebase login
-firebase functions:config:set sendgrid.apikey=NOKEY sendgrid.email="NONE" app.appname="Thoma5" app.collectionname="order" app.bucket="thoma5" stripe.secret=lalalala --project "thoma5"
-firebase deploy --project thoma5
-
-~~~
-
-<i>Where...</i>
-
-<table>
-    <tr>
-      <td>sendgrid.apikey</td><td>NOKEY</td>
-    </tr>
-    <tr>
-      <td>sendgrid.email</td><td>NONE</td>
-    </tr>
-    <tr>
-      <td>app.collectionname</td><td>order</td>
-    </tr>
-    <tr>
-      <td>app.bucket</td><td><a href="#storage_bucket">storage bucket</a></td>
-    </tr>
-    <tr>
-      <td>project</td><td><a href="#firebase_project">firebase project</a></td>
-    </tr>
-</table>
-
-:exclamation: **NOTES** :exclamation:
-
-- You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</p>
-
-- In the rules, indexes and functions we cover ALL packages that currently exist. 
-  If you only use some packages, then these obsolete rules, indexes and functions could
-  be considered obsolete. However, they're harmless being there and it's the easiest 
-  way to get going.
-     
-- When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
-
----
-
-## Step 21: Logo
+## Step 19: Logo
 
 1. create a logo and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
 
@@ -641,7 +546,7 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 22: Add Firebase Web App
+## Step 20: Add Firebase Web App
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -717,50 +622,217 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 23: Buy domain
+## Step 21: Buy domain
 
-Buy a domain name, e.g. on squarespace.com. Follow the guidelines of your domain registrar to configure your DNS in line with the 
+1. Buy a domain name, e.g. on squarespace.com. 
+2. Setup email forwarding
+
+   - from info@thoma5.com
+   - to: your <a href="#google_account">google account</a>
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="official_email"><ins>official email</ins></a>: info@thoma5.com</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+3. Follow the guidelines of your domain registrar to configure your DNS in line with the 
 <A HREF="#DNS_records">DNS records</A> specified in the firebase hosting dashboard.
+
+### Example 1: domains.google.com
+
+1. Login into your account on https://domains.google.com
+2. Select "DNS"
+3. Select "Manage custom records"
+4. Create new records with the below information
+
+<table>
+    <tr>
+      <td>Host name/td>
+      <td>Type</td>
+      <td>TTL</td>
+      <td>Data</td>
+    </tr>
+    <tr>
+      <td>_acme-challenge</td>
+      <td>TXT</td>
+      <td>N/A</td>
+      <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>A</td>
+      <td>N/A</td>
+      <td>123.123.123.123</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>TXT</td>
+      <td>N/A</td>
+      <td>hosting-site=thoma5</td>
+    </tr>
+    <tr>
+      <td>www</td>
+      <td>CNAME</td>
+      <td>N/A</td>
+      <td>thoma5.web.app</td>
+    </tr>
+</table>
+
+### Example 2: squarespace.com
+
 For squarespace, for thoma5.com, this would the be done following these steps:
 
 1. Login into your account on https://www.squarespace.com/
 2. Select your domain from your domains and select "Manage domain settings"
 3. Edit DNS
 4. Add the below records
-        <table>
-            <tr>
-              <td>Record type</td>
-              <td>Host</td>
-              <td>Value</td>
-            </tr>
-            <tr>
-              <td>A</a></td>
-              <td>thoma5.com</td>
-              <td>123.123.123.123</td>
-            </tr>
-            <tr>
-              <td><a name="record_2_type">TXT</a></td>
-              <td><a name="record_2_host">thoma5.com</td>
-              <td><a name="record_2_value">hosting-site=thoma5</td>
-            </tr>
-            <tr>
-              <td><a name="record_2_type">TXT</a></td>
-              <td><a name="record_2_host">_acme-challenge.thoma5.com</td>
-              <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
-            </tr>
-            <tr>
-              <td><a name="record_1_type">CNAME</a></td>
-              <td><a name="record_1_host">www.thoma5.com</td>
-              <td><a name="record_1_value">thoma5.web.app</td>
-            </tr>
-        </table>
-
+<table>
+    <tr>
+      <td>Host</td>
+      <td>Type</td>
+      <td>Priority</td>
+      <td>Data</td>
+    </tr>
+    <tr>
+      <td>_acme-challenge</td>
+      <td>TXT</td>
+      <td>N/A</td>
+      <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+    </tr>
+    <tr>
+      <td>@</td>
+      <td>A</td>
+      <td>N/A</td>
+      <td>123.123.123.123</td>
+    </tr>
+    <tr>
+      <td>@</td>
+      <td>TXT</td>
+      <td>N/A</td>
+      <td>hosting-site=thoma5</td>
+    </tr>
+    <tr>
+      <td>www</td>
+      <td>CNAME</td>
+      <td>N/A</td>
+      <td>thoma5.web.app</td>
+    </tr>
+</table>
 
 **MORE INFO**
 
 <ul>
   <li><a href="https://firebase.google.com/docs/hosting/custom-domain</a></li>
 </ul>
+
+---
+
+## Step 22: Subscribe to mailtrap
+
+1. Subscribe
+2. Update dns
+3. Get token
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="mailtrap_token"><ins>mailtrap token</ins></a>: a1bc234d5e6f7890123ghij45678k901</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Step 23: Update firebase
+
+In this step we wil be updating / uploading:
+
+- storage rules
+- firestore indexes and rules 
+- functions
+
+We have uploaded rules in previous steps during the quick start. 
+That was to get up and running quickly. The proper way to update
+rules is by using the firebase command line tools, which we will do in
+this step.
+
+### Step 23.1: Install firebase command line tools
+
+1. Open cmd
+2. Run npm install -g firebase-tools
+
+### Step 23.2: Enable APIs
+
+1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
+2. Click "Enable the APIs"
+3. Follow on screen instructions
+
+### Step 23.3: Enable firebase functions
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select functions
+4. Press "Get started" and select next
+
+### Step 23.4 Update firebase
+
+1. Run the below (change firebase project and storage bucket to yours)
+
+~~~
+mkdir c:\src\apps\thoma5_app_firebase
+cd c:\src\apps\thoma5_app_firebase
+git clone https://github.com/eliudio/firebase.git
+cd c:\src\apps\thoma5_app_firebase\firebase
+
+firebase logout
+firebase login
+firebase functions:config:set mailtrap.token=a1bc234d5e6f7890123ghij45678k901 mailtrap.sender.email=info@thoma5.com mailtrap.sender.name=Thoma5 app.appname="Thoma5" app.collectionname="order" app.bucket="thoma5" stripe.secret=lalalala --project "thoma5"
+firebase deploy --project thoma5
+
+~~~
+
+<i>Where...</i>
+
+<table>
+    <tr>
+      <td>mailtrap.token</td><td><a href="#mailtrap_token">mailtrap token</td>
+    </tr>
+    <tr>
+      <td>mailtrap.sender.email</td><td>info@thoma5.com</td>
+    </tr>
+    <tr>
+      <td>mailtrap.sender.name</td><td>Thoma5</td>
+    </tr>
+    <tr>
+      <td>app.collectionname</td><td>order</td>
+    </tr>
+    <tr>
+      <td>app.bucket</td><td><a href="#storage_bucket">storage bucket</a></td>
+    </tr>
+    <tr>
+      <td>project</td><td><a href="#firebase_project">firebase project</a></td>
+    </tr>
+</table>
+
+:exclamation: **NOTES** :exclamation:
+
+- You can use quotes to specify parameters. E.g. You could use sendgrid.apikey="NO KEY"</p>
+
+- In the rules, indexes and functions we cover ALL packages that currently exist. 
+  If you only use some packages, then these obsolete rules, indexes and functions could
+  be considered obsolete. However, they're harmless being there and it's the easiest 
+  way to get going.
+     
+- When you require your own functions, we recommend to organise multiple functions as described here: https://firebase.google.com/docs/functions/organize-functions?gen=2nd
 
 ---
 
@@ -795,7 +867,8 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 ---
 
 ## Step 26: Configure Android Studio project for web
-See currently changed uncommitted stuff (visual code)
+
+TODO: See currently changed uncommitted stuff (visual code)
 1. Change index.html, include the client ID in metadata!
    <a href="#web_client_ID">web client ID</a>
 2. Change main.dart
@@ -828,7 +901,6 @@ call firebase login
 call firebase deploy --project thoma5
 
 ~~~
-
 
 ---
 
@@ -883,8 +955,6 @@ ANCHOR : disclaimer_url
   https://juuwle.net/#JUUWLE/b038a344-5762-4880-9767-d89f164811d7?open-dialog=member_dashboard
 
 ANCHOR : member_dashboard_url
-
-TODO: allow to ID a page when creating one, so that we can have a decent URL, not one with the funny random number
 
 ---
 
