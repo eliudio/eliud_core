@@ -251,6 +251,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
           <li><a name="flutter_sdk_path"><ins>Flutter SDK path</ins></a>: c:\dev\flutter</li>
           <li><a name="project_name"><ins>Project name</ins></a>: thoma5_app</li>
           <li><a name="organization"><ins>Organization</ins></a>: com.thoma5</li>
+          <li><a name="app_root_directory"><ins>Root dir</ins></a>: C:\src\apps\thoma5_app</li>
         </ul>
       </td>
     </tr>
@@ -555,7 +556,7 @@ this step.
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 20.2: Enable functions API
+### Step 20.2: Enable APIs
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
@@ -640,7 +641,197 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 22: Create policies and membership page
+## Step 22: Add Firebase Web App
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Click 'Add app' and select platform 'Web'"
+4. Provide an App nickname, e.g. Thoma5
+5. Select Firebase Hosting. 
+6. Select your project from the drop down box. 
+7. Click on Register app. 
+8. From the Hosting dashboard, find the "Add custom domain" button and add
+   - thoma5.com
+   - www.thoma5.com, and configure to redirect to thoma5.com
+<A HREF="#DNS_records">DNS records</A>
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <table>
+        <tr>
+          <td width="60">Domain: www.thoma5.com</td>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td>Record type</td>
+                <td>Host</td>
+                <td>Value</td>
+              </tr>
+              <tr>
+                <td>A</td>
+                <td>thoma5.com</td>
+                <td>123.123.123.123</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>thoma5.com</td>
+                <td>hosting-site=thoma5</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>_acme-challenge.thoma5.com</td>
+                <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+          <td width="60">Domain: www.thoma5.com</td>
+        </tr>
+        <tr>
+          <td>
+            <table>
+                <tr>
+                  <td>Record type</td>
+                  <td>Host</td>
+                  <td>Value</td>
+                </tr>
+                <tr>
+                  <td>CNAME</td>
+                  <td>www.thoma5.com</td>
+                  <td>thoma5.web.app</td>
+                </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Step 23: Buy domain
+
+Buy a domain name, e.g. on squarespace.com. Follow the guidelines of your domain registrar to configure your DNS in line with the 
+<A HREF="#DNS_records">DNS records</A> specified in the firebase hosting dashboard.
+For squarespace, for thoma5.com, this would the be done following these steps:
+
+1. Login into your account on https://www.squarespace.com/
+2. Select your domain from your domains and select "Manage domain settings"
+3. Edit DNS
+4. Add the below records
+        <table>
+            <tr>
+              <td>Record type</td>
+              <td>Host</td>
+              <td>Value</td>
+            </tr>
+            <tr>
+              <td>A</a></td>
+              <td>thoma5.com</td>
+              <td>123.123.123.123</td>
+            </tr>
+            <tr>
+              <td><a name="record_2_type">TXT</a></td>
+              <td><a name="record_2_host">thoma5.com</td>
+              <td><a name="record_2_value">hosting-site=thoma5</td>
+            </tr>
+            <tr>
+              <td><a name="record_2_type">TXT</a></td>
+              <td><a name="record_2_host">_acme-challenge.thoma5.com</td>
+              <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+            </tr>
+            <tr>
+              <td><a name="record_1_type">CNAME</a></td>
+              <td><a name="record_1_host">www.thoma5.com</td>
+              <td><a name="record_1_value">thoma5.web.app</td>
+            </tr>
+        </table>
+
+
+**MORE INFO**
+
+<ul>
+  <li><a href="https://firebase.google.com/docs/hosting/custom-domain</a></li>
+</ul>
+
+---
+
+## Step 24: Enable APIs
+
+1. Enable People API: https://console.developers.google.com/apis/api/people.googleapis.com
+
+---
+
+## Step 25: Configure oauth web client
+
+1. Goto https://console.cloud.google.com/apis/credentials
+2. Find the OAuth 2.0 Client IDs with name "Web client". If you find more than one, select any, e.g. the first.
+3. Find the "ADD URI" and add these domains:
+   - https://thoma5.com
+   - https://www.thoma5.com
+   - https://thoma5.web.app
+4. Find "web client" and copy the client ID
+5. Press SAVE
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="web_client_ID"><ins>Web client ID</ins></a>: 123456789012-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Step 26: Configure Android Studio project for web
+See currently changed uncommitted stuff (visual code)
+1. Change index.html, include the client ID in metadata!
+   <a href="#web_client_ID">web client ID</a>
+2. Change main.dart
+3. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
+
+~~~
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+
+~~~
+4. Build web:
+
+~~~
+flutter build web --web-renderer html --release --no-tree-shake-icons
+call firebase login
+call firebase deploy --project thoma5
+
+~~~
+
+
+---
+
+## Step 27: Create policies and membership page
 
 1. Add the below dependency to pubspec.yaml
 
@@ -652,16 +843,25 @@ flutter pub run flutter_launcher_icons:main
 3. Add the following import to main.dart
 ~~~
 import 'package:eliud_pkg_wizards/wizards_package.dart';
+import 'package:eliud_pkg_etc/etc_package.dart';
+import 'package:eliud_pkg_medium/medium_package.dart';
 
 ~~~
 4. Add the following line to register the wizards package
 ~~~
     eliud.registerPackage(WizardsPackage.instance());
 
+    // needed for WizardsPackage:
+    eliud.registerPackage(EtcPackage.instance());
+    eliud.registerPackage(MediumPackage.instance());
+
 ~~~
 5. Restart your app
-6. Run policy wizard -->> FAILS!!
+6. Run policy wizard
 Also see policies.txt, i.e. copy this here (or reference!)
+
+-> update the pages, use the examples C:\src\apps\thoma5_app\assets\legal
+   -> I've uploaded these to drive, so can be accessed from tablet
 
 -> construct the url
 
@@ -683,18 +883,16 @@ ANCHOR : disclaimer_url
 
 ANCHOR : member_dashboard_url
 
+TODO: allow to ID a page when creating one, so that we can have a decent URL, not one with the funny random number
+
 ---
 
-## Step 23: Setup oauth
+## Step 28: Setup oauth consent
 
 TODO
 
-3.1. Goto https://console.developers.google.com/apis/credentials
-As this is the first time you open this page, select your country and agree 
-with the terms of services and agree
+https://console.cloud.google.com/apis/credentials/consent
 
-3.2. Select your project 
-3.3. Click "OAuth consent screen" 
 select user type "External"
 select "create"
 fill in the details requested:
@@ -733,27 +931,6 @@ Client secret: TODO: DELETE: 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
 
 3.6 You will receive an email "OAuth Verification Request for Project"
 Follow instructions in the email
-
----
-
-## Step 24: Add Firebase Web App
-
-1. Goto https://console.firebase.google.com
-2. Select your project
-3. Click 'Add app' and select platform 'Web'"
-4. Provide an App nickname, e.g. Thoma5
-5. Select Firebase Hosting. 
-6. Select your project from the drop down box. 
-7. Click on Register app. 
-
----
-
-## Step 25: Configure Android Studio project for web
-
-TODO...
-1. Change index.html
-2. Change main.dart
-See currently changed uncommitted stuff (visual code)
 
 ---
 

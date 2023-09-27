@@ -12,6 +12,9 @@ import 'basename_helper.dart';
 import 'medium_base.dart';
 import 'medium_data.dart';
 import 'upload_info.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 typedef void PdfAvailable(dynamic? mediumModel);
 //typedef void MediumAvailable(dynamic? mediumModel);
@@ -561,6 +564,23 @@ abstract class MediumHelper<T> {
     return returnMe;
   }
 
+
+  /*
+   * Upload a pdf provided as a URL for a given app with appId
+   * url is the URL to the pdf
+   */
+  Future<T> createThumbnailUploadPdfFromUrl(
+      String memberMediumDocumentID, String url, String baseName, String documentID,
+      {PdfAvailable? feedbackFunction,
+        FeedbackProgress? feedbackProgress}) async {
+    var theUri = Uri.parse(url);
+    final data = await http.get(theUri);
+    var fileData = data.bodyBytes;
+    return createThumbnailUploadPdfData(
+        memberMediumDocumentID, fileData, baseName, documentID,
+        feedbackFunction: feedbackFunction,
+           feedbackProgress: feedbackProgress);
+  }
   /*
    * Upload a pdf in  from a file for a given app with appId
    * filePath is the path to the file
