@@ -692,8 +692,6 @@ flutter pub run flutter_launcher_icons:main
           </td>
         </tr>
         <tr>
-        </tr>
-        <tr>
           <td width="60">Domain: www.thoma5.com</td>
         </tr>
         <tr>
