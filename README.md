@@ -660,7 +660,7 @@ flutter pub run flutter_launcher_icons:main
     <td>
       <table>
         <tr>
-          <A HREF="DNS_records">DNS records</A>
+          <A name="DNS_records">DNS records</A>
         </tr>
         <tr>
           <td width="60">Domain: www.thoma5.com</td>
