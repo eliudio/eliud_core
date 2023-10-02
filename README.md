@@ -1103,12 +1103,259 @@ firebase deploy --project thoma5
 
 ## Step 31: Configure Android Studio project for web
 
-TODO: See currently changed uncommitted stuff (visual code)
-1. Change index.html, include the client ID in metadata!
-   <a href="#web_client_ID">web client ID</a>
-2. Update favicon.png
-3. Change main.dart
-4. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
+1. Add the below dependency to pubspec.yaml
+
+~~~
+  eliud_pkg_wizards: ^1.0.4
+~~~
+
+This will result in your pubspec.yaml file to look like:
+
+~~~
+---
+name: thoma5_app
+description: Thoma5
+homepage: https://thoma5.com
+repository: https://github.com/eliudio/thoma5_app
+version: 1.0.0
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+  flutter: '>=3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  eliud_core: ^1.0.7
+  eliud_pkg_create: ^1.0.7+1
+  eliud_pkg_wizards: ^1.0.4
+  eliud_stl_mona: ^1.0.1+6
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+flutter:
+  uses-material-design: true
+flutter_icons:
+  android: launcher_icon
+  ios: false
+  image_path: assets/logo/thoma5-logo-1.png
+
+~~~
+
+2. Run pub get
+3. Update index.html
+3.1 Add the <a href="#web_client_ID">x-y.apps.googleusercontent.com</a> in metadata, <a href="#web_client_ID">x-y.apps.googleusercontent.com</a>
+
+~~~
+  <!== Google sign-in -->
+  <meta name="google-signin-client_id" content="x-y.apps.googleusercontent.com">
+
+~~~
+
+3.2 Initialise pdfjs
+
+~~~
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
+    pdfRenderOptions = {
+      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
+      cMapPacked: true,
+    }
+  </script>
+
+~~~
+
+3.3 Review meta data description and name
+
+3.4 Which results in the below index.html for thoma5
+
+~~~
+
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Thoma5">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Thoma5">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  
+  <!== Google sign-in -->
+  <meta name="google-signin-client_id" content="263405528229-lltfl5jmfrcrbl9cmh92qjlm60u2pkjb.apps.googleusercontent.com">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icons/favicon.png"/>
+
+  <title>Thoma5</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
+    pdfRenderOptions = {
+      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
+      cMapPacked: true,
+    }
+  </script>
+  <div id="loading"></div>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+~~~ 
+
+4. Update favicon.png
+5. Update main.dart
+5.1 Add the following imports to main.dart 
+~~~
+import 'package:flutter/foundation.dart';
+import 'package:eliud_pkg_wizards/wizards_package.dart';
+import 'package:eliud_pkg_etc/etc_package.dart';
+import 'package:eliud_pkg_medium/medium_package.dart';
+import 'package:eliud_pkg_workflow/workflow_package.dart';
+
+~~~
+
+5.2 Replace the Firebase.initializeApp() line in your main.dart with the below:
+   Make sure the values for apiKey -> measurementId correspond with your values available from <a href="#firebaseConfig">firebaseConfig</a>
+
+~~~
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "ABcdEfG_H1Ij2KLmNo3PQ_RstUvwXY4Zabcdefg",
+          authDomain: "thoma5.firebaseapp.com",
+          projectId: "thoma5",
+          storageBucket: "thoma5.appspot.com",
+          messagingSenderId: "263405528229",
+          appId: "1:123456789012:web:1a2345b6c7890d12ef345h",
+          measurementId: "G-WL1A23456C"
+        ));
+  } else {
+    await Firebase.initializeApp();
+  }
+
+~~~
+
+5.3 Add the following extra eliud-dependencies:
+
+~~~
+    eliud.registerPackage(WizardsPackage.instance());
+
+    // needed for WizardsPackage:
+    eliud.registerPackage(EtcPackage.instance());
+    eliud.registerPackage(MediumPackage.instance());
+    eliud.registerPackage(WorkflowPackage.instance());
+
+~~~
+
+5.4 So basically your main.dart will look like
+
+~~~
+import 'package:eliud_core/eliud.dart';
+import 'package:eliud_core/style/_default/default_style_family.dart';
+import 'package:eliud_core/core_package.dart';
+import 'package:eliud_pkg_create/creator_package.dart';
+import 'package:eliud_pkg_create/tools/basic_app.dart';
+import 'package:eliud_pkg_text/text_package.dart';
+import 'package:eliud_stl_mona/mona_stl_package.dart';
+import 'package:eliud_pkg_create/creator_decoration.dart';
+import 'package:eliud_stl_mona/mona_style_family.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:eliud_pkg_wizards/wizards_package.dart';
+import 'package:eliud_pkg_etc/etc_package.dart';
+import 'package:eliud_pkg_medium/medium_package.dart';
+import 'package:eliud_pkg_workflow/workflow_package.dart';
+
+Future<void> main() async {
+  String APP_ID = "THOMA5_APP";
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "ABcdEfG_H1Ij2KLmNo3PQ_RstUvwXY4Zabcdefg",
+          authDomain: "thoma5.firebaseapp.com",
+          projectId: "thoma5",
+          storageBucket: "thoma5.appspot.com",
+          messagingSenderId: "263405528229",
+          appId: "1:123456789012:web:1a2345b6c7890d12ef345h",
+          measurementId: "G-WL1A23456C"
+        ));
+  } else {
+    await Firebase.initializeApp();
+  }
+  var eliud = Eliud();
+
+  try {
+    eliud.registerPackage(CorePackage.instance());
+    eliud.registerPackage(TextPackage.instance());
+    eliud.registerPackage(MonaStlPackage.instance());
+    eliud.registerPackage(CreatorPackage.instance());
+    eliud.registerPackage(WizardsPackage.instance());
+
+    // needed for WizardsPackage:
+    eliud.registerPackage(EtcPackage.instance());
+    eliud.registerPackage(MediumPackage.instance());
+    eliud.registerPackage(WorkflowPackage.instance());
+
+    // register decorations, these are only required if you want to be able to change your app through the interface
+    eliud.registerDecoration(CreatorDecoration());
+
+    // register style families
+    eliud.registerStyleFamily(MonaStyleFamily.instance());
+    eliud.registerStyleFamily(DefaultStyleFamily.instance());
+
+    // finish init
+    eliud.finalizeInitialisation();
+  } catch (exception) {
+    throw Exception("Exception whilst initialising the app");
+  }
+
+  // create the app if it doesn't exist
+  await BasicApp.checkApp(APP_ID);
+
+  // let's go !
+  eliud.run(APP_ID, false);
+}
+
+~~~
+
+---
+
+## Step 32: Deploy your website
+
+1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
 ~~~
 {
@@ -1129,7 +1376,7 @@ TODO: See currently changed uncommitted stuff (visual code)
 }
 
 ~~~
-4. Build web:
+2. Build your website
 
 ~~~
 flutter build web --web-renderer html --release --no-tree-shake-icons
@@ -1140,58 +1387,12 @@ call firebase deploy --project thoma5
 
 ---
 
-## Step 32: Create policies and membership page
+## Step 33: Create policies and membership page
 
-1. Add the below dependency to pubspec.yaml
+Now you can choose to use your website or your android app to do the below. We're using the website as we find the interface easier for the below actions.
 
-~~~
-  eliud_pkg_wizards: ^1.0.4
-~~~
-
-2. Run pub get
-3. Add the following import to main.dart
-~~~
-import 'package:flutter/foundation.dart';
-import 'package:eliud_pkg_wizards/wizards_package.dart';
-import 'package:eliud_pkg_etc/etc_package.dart';
-import 'package:eliud_pkg_medium/medium_package.dart';
-import 'package:eliud_pkg_workflow/workflow_package.dart';
-
-~~~
-
-4. Replace the Firebase.initializeApp() line in your main.dart with the below:
-~~~
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyA_L1Ja6HDgOp3EU_SasMokRY0Qnhefebs",
-            authDomain: "thoma5.firebaseapp.com",
-            projectId: "thoma5",
-            storageBucket: "thoma5.appspot.com",
-            messagingSenderId: "263405528229",
-            appId: "1:263405528229:web:861c3015bc7312cccc994c",
-            measurementId: "G-497Y7GZWNB"
-        ));
-  } else {
-    await Firebase.initializeApp();
-  }
-
-~~~
-
-5. Add the following extra eliud-dependencies:
-
-~~~
-    eliud.registerPackage(WizardsPackage.instance());
-
-    // needed for WizardsPackage:
-    eliud.registerPackage(EtcPackage.instance());
-    eliud.registerPackage(MediumPackage.instance());
-    eliud.registerPackage(WorkflowPackage.instance());
-
-~~~
-
-6. Restart your app
-7. Run policy wizard
+1. Open your website, here www.thoma5.com
+2. Run policy wizard
 Also see policies.txt, i.e. copy this here (or reference!)
 
 -> update the pages, use the examples C:\src\apps\thoma5_app\assets\legal
@@ -1203,7 +1404,7 @@ ANCHOR : privacy_policy_url
 ANCHOR : terms_of_service_url
 ANCHOR : disclaimer_url
 
-8. Create memberdashboard page
+3. Create memberdashboard page
 
 - How to create a membership page to allow to open the membership dialog
 - example: https://minkey.io/#MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard)
@@ -1219,7 +1420,7 @@ ANCHOR : member_dashboard_url
 
 ---
 
-## Step 33: Setup oauth consent
+## Step 34: Setup oauth consent
 
 TODO
 
