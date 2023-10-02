@@ -568,7 +568,9 @@ flutter pub run flutter_launcher_icons:main
   </tr>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td>
+  </tr>
+</table>
+
 ~~~
 const firebaseConfig = {
   apiKey: "AIzaSyA_L1Ja6HDgOp3EU_SasMokRY0Qnhefebs",
@@ -581,9 +583,6 @@ const firebaseConfig = {
 };
 
 ~~~
-    </td>
-  </tr>
-</table>
 
 
 
