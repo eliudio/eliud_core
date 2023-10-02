@@ -1349,7 +1349,7 @@ Download ![Loading](https://github.com/eliudio/open-resources/raw/main/web/style
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
   
   <!== Google sign-in -->
-  <meta name="google-signin-client_id" content="123456789012-abcde1fghijklm2nop34qrst56u7tvwx.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="x-y.apps.googleusercontent.com">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="icons/favicon.png"/>
