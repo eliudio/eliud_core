@@ -588,7 +588,7 @@ flutter pub run flutter_launcher_icons:main
         <tr>
           <td>TXT</td>
           <td>_acme-challenge.thoma5.com</td>
-          <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+          <td><p>aBcdE1FghIj23k4lmnoPqr</p><p>stUvw5xyZabcdeF6GHiJk</p></td>
         </tr>
       </table>
       <p>Domain: www.thoma5.com</p>
