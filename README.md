@@ -670,7 +670,7 @@ flutter pub run flutter_launcher_icons:main
           <td>SPF</td>
           <td>TXT</td>
           <td>-</td>
-          <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
+          <td><p>v=spf1</p><p> include:_spf.smtp.mailtrap.live</p><p> ~all</p></td>
         </tr>
         <tr>
           <td>Missing</td>
@@ -691,7 +691,7 @@ flutter pub run flutter_launcher_icons:main
           <td>DMARC</td>
           <td>TXT</td>
           <td>_dmarc</td>
-          <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
+          <td><p>v=DMARC1;</p><p> p=none;</p><p> rua=mailto:dmarc@smtp.mailtrap.live;</p><p> ruf=mailto:dmarc@smtp.mailtrap.live;</p><p> rf=afrf;</p><p> pct=100</p></td>
         </tr>
         <tr>
           <td>Missing</td>
