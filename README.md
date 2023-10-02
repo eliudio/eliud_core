@@ -566,55 +566,47 @@ flutter pub run flutter_launcher_icons:main
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+  </tr>
+  <tr>
     <td>
-      <table>
-        <thead>
-          <tr>
-            <th>
-            <A name="hosting_DNS_records">DNS records</A>
-            </th>
-          </tr>
-          <tr>
-            <th>
-            <td width="60">Domain: www.thoma5.com</td>
-            </th>
-          </tr>
-        </thead>
-        <tr>
-         <td>Record type</td>
-         <td>Host</td>
-         <td>Value</td>
-        </tr>
-        <tr>
-          <td>A</td>
-          <td>thoma5.com</td>
-          <td>123.123.123.123</td>
-        </tr>
-        <tr>
-          <td>TXT</td>
-          <td>thoma5.com</td>
-          <td>hosting-site=thoma5</td>
-        </tr>
-        <tr>
-          <td>TXT</td>
-          <td>_acme-challenge.thoma5.com</td>
-          <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
-        </tr>
-        <tr>
-          <td width="60">Domain: www.thoma5.com</td>
-        </tr>
-        <tr>
-          <td>Record type</td>
-          <td>Host</td>
-          <td>Value</td>
-        </tr>
-        <tr>
-          <td>CNAME</td>
-          <td>www.thoma5.com</td>
-          <td>thoma5.web.app</td>
-        </tr>
-      </table>
+    <A name="hosting_DNS_records">DNS records</A>
     </td>
+  </tr>
+  <tr>
+    <td width="60">Domain: www.thoma5.com</td>
+  </tr>
+  <tr>
+    <td>Record type</td>
+    <td>Host</td>
+    <td>Value</td>
+  </tr>
+  <tr>
+    <td>A</td>
+    <td>thoma5.com</td>
+    <td>123.123.123.123</td>
+  </tr>
+  <tr>
+    <td>TXT</td>
+    <td>thoma5.com</td>
+    <td>hosting-site=thoma5</td>
+  </tr>
+  <tr>
+    <td>TXT</td>
+    <td>_acme-challenge.thoma5.com</td>
+    <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+  </tr>
+  <tr>
+    <td width="60">Domain: www.thoma5.com</td>
+  </tr>
+  <tr>
+    <td>Record type</td>
+    <td>Host</td>
+    <td>Value</td>
+  </tr>
+  <tr>
+    <td>CNAME</td>
+    <td>www.thoma5.com</td>
+    <td>thoma5.web.app</td>
   </tr>
 </table>
 
