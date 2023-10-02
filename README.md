@@ -659,7 +659,7 @@ flutter pub run flutter_launcher_icons:main
         </tr>
         <tr>
           <td>Missing</td>
-          <td>Domain Verification</td>
+          <td><p>Domain<p></p> Verification</p></td>
           <td>CNAME</td>
           <td>1abcdef2g34hijkl</td>
           <td>smpt.mailtrap.live</td>
@@ -694,7 +694,7 @@ flutter pub run flutter_launcher_icons:main
         </tr>
         <tr>
           <td>Missing</td>
-          <td>Custom domain tracking</td>
+          <td><p>Custom<p></p> domain<p></p> tracking</p></td>
           <td>CNAME</td>
           <td>mt-link</td>
           <td>t.mailtrap.live</td>
