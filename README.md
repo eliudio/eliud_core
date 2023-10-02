@@ -646,13 +646,9 @@ flutter pub run flutter_launcher_icons:main
 
 <table>
   <tr>
-    <td colspan="2">
-          <A name="mailtrap_DNS_records">DNS records</A>
-    </td>
-  </tr>
-  <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td width="40">
+      <A name="mailtrap_DNS_records">DNS records</A>
       <table>
         <tr>
           <td>Status</td>
