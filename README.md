@@ -569,13 +569,13 @@ flutter pub run flutter_launcher_icons:main
 
 ~~~
 const firebaseConfig = {
-  apiKey: "AIzaSyA_L1Ja6HDgOp3EU_SasMokRY0Qnhefebs",
+  apiKey: "ABcdEfG_H1Ij2KLmNo3PQ_RstUvwXY4Zabcdefg",
   authDomain: "thoma5.firebaseapp.com",
   projectId: "thoma5",
   storageBucket: "thoma5.appspot.com",
   messagingSenderId: "263405528229",
-  appId: "1:263405528229:web:7d4787c4b7414e94cc994c",
-  measurementId: "G-WL2T33225C"
+  appId: "1:123456789012:web:1a2345b6c7890d12ef345h",
+  measurementId: "G-WL1A23456C"
 };
 
 ~~~
