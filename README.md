@@ -558,10 +558,44 @@ flutter pub run flutter_launcher_icons:main
 5. Select Firebase Hosting. 
 6. Select your project from the drop down box. 
 7. Click on Register app. 
-8. From the Hosting dashboard, find the "Add custom domain" button and add
+8. From the "Add Firebase to your web app" page, copy the firebaseConfig details
+
+<table>
+  <tr>
+    <td colspan="2">
+      <A name="firebaseConfig">firebaseConfig</A>
+    </td>
+  </tr>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+~~~
+const firebaseConfig = {
+  apiKey: "AIzaSyA_L1Ja6HDgOp3EU_SasMokRY0Qnhefebs",
+  authDomain: "thoma5.firebaseapp.com",
+  projectId: "thoma5",
+  storageBucket: "thoma5.appspot.com",
+  messagingSenderId: "263405528229",
+  appId: "1:263405528229:web:7d4787c4b7414e94cc994c",
+  measurementId: "G-WL2T33225C"
+};
+
+~~~
+    </td>
+  </tr>
+</table>
+
+
+
+---
+
+## Step 21: Retrieve hosting details
+
+1. Goto https://console.firebase.google.com
+2. Find the "Add custom domain" button and add
    - <a href="thoma5.com">thoma5.com</a>
    - <a href="www.thoma5.com">www.thoma5.com</a>, and configure to redirect to thoma5.com
-9. Make note of the DNS records. We'll need this in a later step.
+3. Make note of the DNS records. We'll need this in a later step.
 
 <table>
   <tr>
@@ -571,7 +605,7 @@ flutter pub run flutter_launcher_icons:main
   </tr>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td width="40">
+    <td>
       <p>Domain: <a href="thoma5.com">thoma5.com</a></p>
       <table>
         <tr>
@@ -614,13 +648,13 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 21: Buy domain
+## Step 22: Buy domain
 
 1. Buy a domain name, e.g. on squarespace.com. 
 
 ---
 
-## Step 22: Setup email forwarding
+## Step 23: Setup email forwarding
 
 1. Setup email forwarding
 
@@ -640,7 +674,7 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 23: Subscribe to mailtrap
+## Step 24: Subscribe to mailtrap
 
 1. https://mailtrap.io/
 2. Select sign up
@@ -656,7 +690,7 @@ flutter pub run flutter_launcher_icons:main
   </tr>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td width="40">
+    <td>
       <table>
         <tr>
           <td>Status</td>
@@ -728,7 +762,7 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 24: Setup DNS records for firebase hosting
+## Step 25: Setup DNS records for firebase hosting
 
 Follow the guidelines of your domain registrar to configure your DNS in line with the 
 <A HREF="#hosting_DNS_records">DNS records</A> specified in the firebase hosting dashboard.
@@ -824,7 +858,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 
 ---
 
-## Step 25: Setup DNS records for mailtrap
+## Step 26: Setup DNS records for mailtrap
 
 Follow the guidelines of your domain registrar to configure your DNS in line with the 
 <A HREF="#mailtrap_DNS_records">DNS records</A> specified in the mailtrap dashboard.
@@ -891,7 +925,48 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 4. Add the below records, obviously adjusted in line with your <A HREF="#mailtrap_DNS_records">DNS records</A>
 
 <table>
-TODO: construct from looking at example 1 above and example 1 and 2 in DNS record setup for hosting
+    <tr>
+      <td>Host</td>
+      <td>Type</td>
+      <td>Priority</td>
+      <td>Data</td>
+    </tr>
+  <tr>
+    <td>1abcdef2g34hijkl</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td>@</td>
+    <td>TXT</td>
+    <td>3600</td>
+    <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
+  </tr>
+  <tr>
+    <td>rwmt1._domainkey</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>rwmt1.dkim.smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td>rwmt2._domainkey</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>rwmt2.dkim.smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td>_dmarc</td>
+    <td>TXT</td>
+    <td>3600</td>
+    <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
+  </tr>
+  <tr>
+    <td>mt-link</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>t.mailtrap.live</td>
+  </tr>
 </table>
 
 **MORE INFO**
@@ -902,7 +977,7 @@ TODO: construct from looking at example 1 above and example 1 and 2 in DNS recor
 
 ---
 
-## Step 26: Verify mailtrap setup
+## Step 27: Verify mailtrap setup
 
 1. Goto mailtrap.io and sign in with your <a href="#google_account">google account</a>
 2. From your dashboard, select Email Sending, then Sending Domains
@@ -912,12 +987,12 @@ TODO: construct from looking at example 1 above and example 1 and 2 in DNS recor
    2) Website
    3) Linked in profile
    4) What type of emails do you plan to send?
-   5) How do youy get the list of recipients?
+   5) How do you get the list of recipients?
    6) Amount of emails planning to send / month
 
 ---
 
-## Step 27: Update firebase
+## Step 28: Update firebase
 
 In this step we wil be updating / uploading:
 
@@ -930,25 +1005,25 @@ That was to get up and running quickly. The proper way to update
 rules is by using the firebase command line tools, which we will do in
 this step.
 
-### Step 27.1: Install firebase command line tools
+### Step 28.1: Install firebase command line tools
 
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 27.2: Enable APIs
+### Step 28.2: Enable APIs
 
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
 
-### Step 27.3: Enable firebase functions
+### Step 28.3: Enable firebase functions
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select functions
 4. Press "Get started" and select next
 
-### Step 27.4 Update firebase
+### Step 28.4 Update firebase
 
 1. Run the below (change firebase project and storage bucket to yours)
 
@@ -1001,13 +1076,13 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 28: Enable APIs
+## Step 29: Enable APIs
 
 1. Enable People API: https://console.developers.google.com/apis/api/people.googleapis.com
 
 ---
 
-## Step 29: Configure oauth web client
+## Step 30: Configure oauth web client
 
 1. Goto https://console.cloud.google.com/apis/credentials
 2. Find the OAuth 2.0 Client IDs with name "Web client". If you find more than one, select any, e.g. the first.
@@ -1031,7 +1106,7 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 30: Configure Android Studio project for web
+## Step 31: Configure Android Studio project for web
 
 TODO: See currently changed uncommitted stuff (visual code)
 1. Change index.html, include the client ID in metadata!
@@ -1070,33 +1145,58 @@ call firebase deploy --project thoma5
 
 ---
 
-## Step 31: Create policies and membership page
+## Step 32: Create policies and membership page
 
 1. Add the below dependency to pubspec.yaml
 
 ~~~
-  eliud_pkg_wizards: ^1.0.3+6
+  eliud_pkg_wizards: ^1.0.4
 ~~~
 
 2. Run pub get
 3. Add the following import to main.dart
 ~~~
+import 'package:flutter/foundation.dart';
 import 'package:eliud_pkg_wizards/wizards_package.dart';
 import 'package:eliud_pkg_etc/etc_package.dart';
 import 'package:eliud_pkg_medium/medium_package.dart';
+import 'package:eliud_pkg_workflow/workflow_package.dart';
 
 ~~~
-4. Add the following line to register the wizards package
+
+4. Replace the Firebase.initializeApp() line in your main.dart with the below:
+~~~
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyA_L1Ja6HDgOp3EU_SasMokRY0Qnhefebs",
+            authDomain: "thoma5.firebaseapp.com",
+            projectId: "thoma5",
+            storageBucket: "thoma5.appspot.com",
+            messagingSenderId: "263405528229",
+            appId: "1:263405528229:web:861c3015bc7312cccc994c",
+            measurementId: "G-497Y7GZWNB"
+        ));
+  } else {
+    await Firebase.initializeApp();
+  }
+
+~~~
+
+5. Add the following extra eliud-dependencies:
+
 ~~~
     eliud.registerPackage(WizardsPackage.instance());
 
     // needed for WizardsPackage:
     eliud.registerPackage(EtcPackage.instance());
     eliud.registerPackage(MediumPackage.instance());
+    eliud.registerPackage(WorkflowPackage.instance());
 
 ~~~
-5. Restart your app
-6. Run policy wizard
+
+6. Restart your app
+7. Run policy wizard
 Also see policies.txt, i.e. copy this here (or reference!)
 
 -> update the pages, use the examples C:\src\apps\thoma5_app\assets\legal
@@ -1108,7 +1208,7 @@ ANCHOR : privacy_policy_url
 ANCHOR : terms_of_service_url
 ANCHOR : disclaimer_url
 
-7. Create memberdashboard page
+8. Create memberdashboard page
 
 - How to create a membership page to allow to open the membership dialog
 - example: https://minkey.io/#MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard)
@@ -1124,7 +1224,7 @@ ANCHOR : member_dashboard_url
 
 ---
 
-## Step 32: Setup oauth consent
+## Step 33: Setup oauth consent
 
 TODO
 
