@@ -651,7 +651,6 @@ flutter pub run flutter_launcher_icons:main
       <A name="mailtrap_DNS_records">DNS records</A>
       <table>
         <tr>
-          <td>Record type</td>
           <td>Status</td>
           <td>Category</td>
           <td>Type</td>
