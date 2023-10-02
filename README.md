@@ -15,6 +15,8 @@ Documentation for eliud is under construction. Please be patient.
   - to change look and feel through using styles.
 - A website / app built with Eliud consist of its core Eliud package + one or more Eliud plugins. The app is constructed by configuring it. Configuration, images and videos are stored in Firebase database and Firebase storage.
 
+The below steps document the creation of your own android + apple + web app and includes all instructions, all the way to pushing your app into the apple app store, android store and web. 
+
 ## Example Eliud apps
 
 These are some example apps which demonstrate what eliud can give you. Everything used is open source, part of eliud project.
@@ -129,7 +131,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="storage_bucket"><ins>storage bucket</ins></a>: thoma5.com.info@gmail.com</li>
+          <li><a name="storage_bucket"><ins>storage bucket</ins></a>: thoma5</li>
         </ul>
       </td>
     </tr>
@@ -189,8 +191,8 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 **MORE INFO**
 
 <ul>
-  <li><a href="https://developers.google.com/android/guides/client-auth">https://developers.google.com/android/guides/client-auth</a></li>
-  <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores</a></li>
+  <li><a href="https://developers.google.com/android/guides/client-auth">Authenticating Your Client</a></li>
+  <li><a href="https://coderwall.com/p/r09hoq/android-generate-release-debug-keystores">Android: Generate Release/Debug Keystores (Example)</a></li>
 </ul>
 
 ---
@@ -501,9 +503,10 @@ Future<void> main() async {
 ## Step 18: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
-2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on
-3. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box
-4. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
+2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
+3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button and in the general section change the title of your application
+4. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box.
+5. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
 
@@ -558,14 +561,14 @@ flutter pub run flutter_launcher_icons:main
 8. From the Hosting dashboard, find the "Add custom domain" button and add
    - thoma5.com
    - www.thoma5.com, and configure to redirect to thoma5.com
-
+9. Make note of the DNS records. We'll need this in a later step.
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td>
       <table>
         <tr>
-          <A name="DNS_records">DNS records</A>
+          <A name="hosting_DNS_records">DNS records</A>
         </tr>
         <tr>
           <td width="60">Domain: www.thoma5.com</td>
@@ -625,7 +628,12 @@ flutter pub run flutter_launcher_icons:main
 ## Step 21: Buy domain
 
 1. Buy a domain name, e.g. on squarespace.com. 
-2. Setup email forwarding
+
+---
+
+## Step 22: Setup email forwarding
+
+1. Setup email forwarding
 
    - from info@thoma5.com
    - to: your <a href="#google_account">google account</a>
@@ -641,8 +649,102 @@ flutter pub run flutter_launcher_icons:main
     </tr>
 </table>
 
-3. Follow the guidelines of your domain registrar to configure your DNS in line with the 
-<A HREF="#DNS_records">DNS records</A> specified in the firebase hosting dashboard.
+## Step 23: Subscribe to mailtrap
+
+1. https://mailtrap.io/
+2. Select sign up
+3. Select "Use google account" and select your <a href="#google_account">google account</a>
+4. Select "Email Sending", enter your domain and press "Add Your DomaiN"
+5. Make note of the DNS records. We'll need this in a later step.
+
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <table>
+        <tr>
+          <A name="mailtrap_DNS_records">DNS records</A>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td>Status</td>
+                <td>Category</td>
+                <td>Type</td>
+                <td>Name</td>
+                <td>Value</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>Domain Verification</td>
+                <td>CNAME</td>
+                <td>1abcdef2g34hijkl</td>
+                <td>smpt.mailtrap.live</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>SPF</td>
+                <td>TXT</td>
+                <td>-</td>
+                <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>DKIM</td>
+                <td>CNAME</td>
+                <td>rwmt1._domainkey</td>
+                <td>rwmt1.dkim.smtp.mailtrap.live</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>DKIM</td>
+                <td>CNAME</td>
+                <td>rwmt2._domainkey</td>
+                <td>rwmt2.dkim.smtp.mailtrap.live</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>DMARC</td>
+                <td>TXT</td>
+                <td>_dmarc</td>
+                <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
+              </tr>
+              <tr>
+                <td>Missing</td>
+                <td>Custom domain tracking</td>
+                <td>CNAME</td>
+                <td>mt-link</td>
+                <td>t.mailtrap.live</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+6. Click next and in the SMTP/API Settings click API
+7. Press the "Copy" next to Api Token and keep it somewhere safe. We'll need it soon.
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="mailtrap_token"><ins>mailtrap token</ins></a>: a1bc234d5e6f7890123ghij45678k901</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Step 24: Setup DNS records for firebase hosting
+
+Follow the guidelines of your domain registrar to configure your DNS in line with the 
+<A HREF="#hosting_DNS_records">DNS records</A> specified in the firebase hosting dashboard.
 
 ### Example 1: domains.google.com
 
@@ -662,7 +764,7 @@ flutter pub run flutter_launcher_icons:main
       <td>_acme-challenge</td>
       <td>TXT</td>
       <td>N/A</td>
-      <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+      <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
     </tr>
     <tr>
       <td></td>
@@ -692,6 +794,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 2. Select your domain from your domains and select "Manage domain settings"
 3. Edit DNS
 4. Add the below records
+
 <table>
     <tr>
       <td>Host</td>
@@ -703,7 +806,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
       <td>_acme-challenge</td>
       <td>TXT</td>
       <td>N/A</td>
-      <td><a name="record_2_value">aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
+      <td>aBcdE1FghIj23k4lmnoPqrstUvw5xyZabcdeF6GHiJk</td>
     </tr>
     <tr>
       <td>@</td>
@@ -728,31 +831,105 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 **MORE INFO**
 
 <ul>
-  <li><a href="https://firebase.google.com/docs/hosting/custom-domain</a></li>
+  <li><a href="https://firebase.google.com/docs/hosting/custom-domain">Connect a custom domain</a></li>
+</ul>
+
+
+---
+
+## Step 25: Setup DNS records for mailtrap
+
+Follow the guidelines of your domain registrar to configure your DNS in line with the 
+<A HREF="#mailtrap_DNS_records">DNS records</A> specified in the mailtrap dashboard.
+
+### Example 1: domains.google.com
+
+1. Login into your account on https://domains.google.com
+2. Select "DNS"
+3. Select "Manage custom records"
+4. Create new records with the below information
+
+<table>
+  <tr>
+    <td>Host name/td>
+    <td>Type</td>
+    <td>TTL</td>
+    <td>Data</td>
+  </tr>
+  <tr>
+    <td>1abcdef2g34hijkl</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>TXT</td>
+    <td>3600</td>
+    <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
+  </tr>
+  <tr>
+    <td>rwmt1._domainkey</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>rwmt1.dkim.smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td>rwmt2._domainkey</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>rwmt2.dkim.smtp.mailtrap.live</td>
+  </tr>
+  <tr>
+    <td>_dmarc</td>
+    <td>TXT</td>
+    <td>3600</td>
+    <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
+  </tr>
+  <tr>
+    <td>mt-link</td>
+    <td>CNAME</td>
+    <td>3600</td>
+    <td>t.mailtrap.live</td>
+  </tr>
+</table>
+
+### Example 2: squarespace.com
+
+For squarespace, for thoma5.com, this would the be done following these steps:
+
+1. Login into your account on https://www.squarespace.com/
+2. Select your domain from your domains and select "Manage domain settings"
+3. Edit DNS
+4. Add the below records
+<table>
+TODO: construct from looking at example 1 above and example 1 and 2 in DNS record setup for hosting
+</table>
+
+**MORE INFO**
+
+<ul>
+  <li><a href="https://help.mailtrap.io/article/69-sending-domain-setup">Sending Domain Setup - Mailtrap Knowledge Base</a></li>
 </ul>
 
 ---
 
-## Step 22: Subscribe to mailtrap
+## Step 26: Verify mailtrap setup
 
-1. Subscribe
-2. Update dns
-3. Get token
-
-<table>
-    <tr>
-      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-      <td>
-        <ul>
-          <li><a name="mailtrap_token"><ins>mailtrap token</ins></a>: a1bc234d5e6f7890123ghij45678k901</li>
-        </ul>
-      </td>
-    </tr>
-</table>
+1. Goto mailtrap.io and sign in with your <a href="#google_account">google account</a>
+2. From your dashboard, select Email Sending, then Sending Domains
+3. In the domain verification, select Verify all to verify if you've setup your DNS records correctly
+4. Follow the steps in Verify Setup, i.e. you'll have to answer some security questions to prove you're building a legit app. In our experience this has been a straightforward process. Questions:
+   1) Describe business / project
+   2) Website
+   3) Linked in profile
+   4) What type of emails do you plan to send?
+   5) How do youy get the list of recipients?
+   6) Amount of emails planning to send / month
 
 ---
 
-## Step 23: Update firebase
+## Step 27: Update firebase
 
 In this step we wil be updating / uploading:
 
@@ -765,25 +942,25 @@ That was to get up and running quickly. The proper way to update
 rules is by using the firebase command line tools, which we will do in
 this step.
 
-### Step 23.1: Install firebase command line tools
+### Step 27.1: Install firebase command line tools
 
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 23.2: Enable APIs
+### Step 27.2: Enable APIs
 
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
 
-### Step 23.3: Enable firebase functions
+### Step 27.3: Enable firebase functions
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select functions
 4. Press "Get started" and select next
 
-### Step 23.4 Update firebase
+### Step 27.4 Update firebase
 
 1. Run the below (change firebase project and storage bucket to yours)
 
@@ -836,13 +1013,13 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 24: Enable APIs
+## Step 28: Enable APIs
 
 1. Enable People API: https://console.developers.google.com/apis/api/people.googleapis.com
 
 ---
 
-## Step 25: Configure oauth web client
+## Step 29: Configure oauth web client
 
 1. Goto https://console.cloud.google.com/apis/credentials
 2. Find the OAuth 2.0 Client IDs with name "Web client". If you find more than one, select any, e.g. the first.
@@ -858,7 +1035,7 @@ firebase deploy --project thoma5
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="web_client_ID"><ins>Web client ID</ins></a>: 123456789012-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com</li>
+          <li><a name="web_client_ID"><ins>Web client ID</ins></a>: x-y.apps.googleusercontent.com</li>
         </ul>
       </td>
     </tr>
@@ -866,13 +1043,14 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 26: Configure Android Studio project for web
+## Step 30: Configure Android Studio project for web
 
 TODO: See currently changed uncommitted stuff (visual code)
 1. Change index.html, include the client ID in metadata!
    <a href="#web_client_ID">web client ID</a>
-2. Change main.dart
-3. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
+2. Update favicon.png
+3. Change main.dart
+4. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
 ~~~
 {
@@ -904,7 +1082,7 @@ call firebase deploy --project thoma5
 
 ---
 
-## Step 27: Create policies and membership page
+## Step 31: Create policies and membership page
 
 1. Add the below dependency to pubspec.yaml
 
@@ -958,7 +1136,7 @@ ANCHOR : member_dashboard_url
 
 ---
 
-## Step 28: Setup oauth consent
+## Step 32: Setup oauth consent
 
 TODO
 
@@ -989,16 +1167,6 @@ A YouTube video showing how you plan to use the Google user data you get from sc
 A written explanation telling Google why you need access to sensitive and/or restricted user data
 All your domains verified in Google Search Console
 
-
-3.4. Find the Web client (auto created by Google Service) from OAuth 2.0 client IDs and press edit. 
-Add the URL http://localhost:7357
-Add the URL of your domain, here https://juuwle.net
-Add the URL of your domain, here https://www.juuwle.net
-Add these for both 
-
-3.5. Press the "RESET SECRET" button and then copy the client ID and client secret.
-Client ID: 232099549503-pfldkuf87oer8ba3tgcg1q4u8g8bpso0.apps.googleusercontent.com
-Client secret: TODO: DELETE: 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
 
 3.6 You will receive an email "OAuth Verification Request for Project"
 Follow instructions in the email
