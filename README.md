@@ -568,7 +568,7 @@ flutter pub run flutter_launcher_icons:main
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td width="40">
       <A name="hosting_DNS_records">DNS records</A>
-      <p>Domain: thoma5.com</p>
+      <p>Domain: <a href="thoma5.com">thoma5.com</a></p>
       <table>
         <tr>
           <td>Record type</td>
@@ -591,7 +591,7 @@ flutter pub run flutter_launcher_icons:main
           <td><p>aBcdE1FghIj23k4lmnoPqr</p><p>stUvw5xyZabcdeF6GHiJk</p></td>
         </tr>
       </table>
-      <p>Domain: www.thoma5.com</p>
+      <p>Domain: <a href="www.thoma5.com">www.thoma5.com</a></p>
       <table>
         <tr>
           <td>Record type</td>
