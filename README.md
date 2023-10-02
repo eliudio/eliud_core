@@ -569,14 +569,14 @@ flutter pub run flutter_launcher_icons:main
     <td>
       <table>
         <tr>
-          <td>
+          <th>
           <A name="hosting_DNS_records">DNS records</A>
-          </td>
+          </th>
         </tr>
         <tr>
-          <td>
+          <th>
           <td width="60">Domain: www.thoma5.com</td>
-          </td>
+          </th>
         </tr>
         <tr>
          <td>Record type</td>
