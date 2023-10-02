@@ -525,7 +525,7 @@ In the previous steps we've done the foundation to build an app. The next steps 
 
 ## Step 19: Logo
 
-1. create a logo and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
+1. create a <a name="logo">logo</a> and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
 
 2. add the below to pubspec.yaml
 
@@ -1103,6 +1103,8 @@ firebase deploy --project thoma5
 
 ## Step 31: Configure Android Studio project for web
 
+### Step 31.1: Update pubspec.yaml
+
 1. Add the below dependency to pubspec.yaml
 
 ~~~
@@ -1141,99 +1143,11 @@ flutter_icons:
 ~~~
 
 2. Run pub get
-3. Update index.html
-3.1 Add the <a href="#web_client_ID">x-y.apps.googleusercontent.com</a> in metadata, <a href="#web_client_ID">x-y.apps.googleusercontent.com</a>
 
-~~~
-  <!== Google sign-in -->
-  <meta name="google-signin-client_id" content="x-y.apps.googleusercontent.com">
+### Step 31.2: Update main.dart
 
-~~~
+1. Add the following imports to main.dart 
 
-3.2 Initialise pdfjs
-
-~~~
-  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
-    pdfRenderOptions = {
-      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
-      cMapPacked: true,
-    }
-  </script>
-
-~~~
-
-3.3 Review meta data description and name
-
-3.4 Which results in the below index.html for thoma5
-
-~~~
-
-<!DOCTYPE html>
-<html>
-<head>
-  <base href="$FLUTTER_BASE_HREF">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Thoma5">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Thoma5">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-  
-  <!== Google sign-in -->
-  <meta name="google-signin-client_id" content="263405528229-lltfl5jmfrcrbl9cmh92qjlm60u2pkjb.apps.googleusercontent.com">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="icons/favicon.png"/>
-
-  <title>Thoma5</title>
-  <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-</head>
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
-    pdfRenderOptions = {
-      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
-      cMapPacked: true,
-    }
-  </script>
-  <div id="loading"></div>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
-</body>
-</html>
-
-~~~ 
-
-4. Update favicon.png
-5. Update main.dart
-5.1 Add the following imports to main.dart 
 ~~~
 import 'package:flutter/foundation.dart';
 import 'package:eliud_pkg_wizards/wizards_package.dart';
@@ -1243,7 +1157,7 @@ import 'package:eliud_pkg_workflow/workflow_package.dart';
 
 ~~~
 
-5.2 Replace the Firebase.initializeApp() line in your main.dart with the below:
+2. Replace the Firebase.initializeApp() line in your main.dart with the below:
    Make sure the values for apiKey -> measurementId correspond with your values available from <a href="#firebaseConfig">firebaseConfig</a>
 
 ~~~
@@ -1264,7 +1178,7 @@ import 'package:eliud_pkg_workflow/workflow_package.dart';
 
 ~~~
 
-5.3 Add the following extra eliud-dependencies:
+3. Add the following extra eliud-dependencies:
 
 ~~~
     eliud.registerPackage(WizardsPackage.instance());
@@ -1276,7 +1190,7 @@ import 'package:eliud_pkg_workflow/workflow_package.dart';
 
 ~~~
 
-5.4 So basically your main.dart will look like
+4. So basically your main.dart will look like
 
 ~~~
 import 'package:eliud_core/eliud.dart';
@@ -1351,9 +1265,149 @@ Future<void> main() async {
 
 ~~~
 
+### Step 32.3: Create images and stylesheet
+
+1. Create favicon.png and overwrite the current existing one in the icons directory of your web folder
+
+Create a png 16 x 16 pixels based on your <a href="#logo">logo</a>.
+
+2. Download loading.gif 
+
+Download ![Loading](https://github.com/eliudio/open-resources/raw/main/img/icons/loading.gif) and copy into the icons directory of your web folder
+
+3. Download styles.css 
+
+Download ![Loading](https://github.com/eliudio/open-resources/raw/main/web/styles.css) and copy into the root directory of your web folder
+
+### Step 32.3: Update index.html
+
+1. Add the stylesheet
+
+~~~
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+~~~
+
+2. Add the <a href="#web_client_ID">Web client ID</a> in metadata
+
+~~~
+  <!== Google sign-in -->
+  <meta name="google-signin-client_id" content="x-y.apps.googleusercontent.com">
+
+~~~
+
+3. Add the loading gif
+
+~~~
+  <div id="progress">
+  </div>
+
+  <script>
+    var img = document.createElement("img");
+    img.className = "center";
+    img.src = "icons/loading.gif";
+    var src = document.getElementById("progress");
+    src.appendChild(img);
+  </script>
+
+~~~
+
+4. Initialise pdfjs
+
+~~~
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
+    pdfRenderOptions = {
+      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
+      cMapPacked: true,
+    }
+  </script>
+
+~~~
+
+4. Review meta data description and name
+
+5. Which results in the below index.html for thoma5
+
+~~~
+
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Thoma5">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Thoma5">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  
+  <!== Google sign-in -->
+  <meta name="google-signin-client_id" content="263405528229-lltfl5jmfrcrbl9cmh92qjlm60u2pkjb.apps.googleusercontent.com">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icons/favicon.png"/>
+
+  <title>Thoma5</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <div id="progress">
+  </div>
+
+  <script>
+    var img = document.createElement("img");
+    img.className = "center";
+    img.src = "icons/loading.gif";
+    var src = document.getElementById("progress");
+    src.appendChild(img);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.worker.min.js";
+    pdfRenderOptions = {
+      cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
+      cMapPacked: true,
+    }
+  </script>
+  <div id="loading"></div>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+~~~
+
 ---
 
-## Step 32: Deploy your website
+## Step 33: Deploy your website
 
 1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
@@ -1387,12 +1441,14 @@ call firebase deploy --project thoma5
 
 ---
 
-## Step 33: Create policies and membership page
+## Step 33: Create policies pages
 
 Now you can choose to use your website or your android app to do the below. We're using the website as we find the interface easier for the below actions.
 
-1. Open your website, here www.thoma5.com
-2. Run policy wizard
+1. Create pdf's then export for each page a jpg and store into assets/legal/...
+
+2. Open your website, here www.thoma5.com
+3. Run policy wizard
 Also see policies.txt, i.e. copy this here (or reference!)
 
 -> update the pages, use the examples C:\src\apps\thoma5_app\assets\legal
@@ -1403,6 +1459,10 @@ Also see policies.txt, i.e. copy this here (or reference!)
 ANCHOR : privacy_policy_url
 ANCHOR : terms_of_service_url
 ANCHOR : disclaimer_url
+
+---
+
+## Step 34: Create membership page
 
 3. Create memberdashboard page
 
@@ -1420,7 +1480,7 @@ ANCHOR : member_dashboard_url
 
 ---
 
-## Step 34: Setup oauth consent
+## Step 35: Setup oauth consent
 
 TODO
 
