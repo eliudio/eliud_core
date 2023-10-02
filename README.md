@@ -559,8 +559,8 @@ flutter pub run flutter_launcher_icons:main
 6. Select your project from the drop down box. 
 7. Click on Register app. 
 8. From the Hosting dashboard, find the "Add custom domain" button and add
-   - thoma5.com
-   - www.thoma5.com, and configure to redirect to thoma5.com
+   - <a href="thoma5.com">thoma5.com</a>
+   - <a href="www.thoma5.com">www.thoma5.com</a>, and configure to redirect to thoma5.com
 9. Make note of the DNS records. We'll need this in a later step.
 
 <table>
@@ -645,65 +645,58 @@ flutter pub run flutter_launcher_icons:main
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td>
+    <td width="40">
+      <A name="mailtrap_DNS_records">DNS records</A>
       <table>
         <tr>
-          <A name="mailtrap_DNS_records">DNS records</A>
+          <td>Record type</td>
+          <td>Status</td>
+          <td>Category</td>
+          <td>Type</td>
+          <td>Name</td>
+          <td>Value</td>
         </tr>
         <tr>
-          <td>
-            <table>
-              <tr>
-                <td>Status</td>
-                <td>Category</td>
-                <td>Type</td>
-                <td>Name</td>
-                <td>Value</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>Domain Verification</td>
-                <td>CNAME</td>
-                <td>1abcdef2g34hijkl</td>
-                <td>smpt.mailtrap.live</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>SPF</td>
-                <td>TXT</td>
-                <td>-</td>
-                <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>DKIM</td>
-                <td>CNAME</td>
-                <td>rwmt1._domainkey</td>
-                <td>rwmt1.dkim.smtp.mailtrap.live</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>DKIM</td>
-                <td>CNAME</td>
-                <td>rwmt2._domainkey</td>
-                <td>rwmt2.dkim.smtp.mailtrap.live</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>DMARC</td>
-                <td>TXT</td>
-                <td>_dmarc</td>
-                <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
-              </tr>
-              <tr>
-                <td>Missing</td>
-                <td>Custom domain tracking</td>
-                <td>CNAME</td>
-                <td>mt-link</td>
-                <td>t.mailtrap.live</td>
-              </tr>
-            </table>
-          </td>
+          <td>Missing</td>
+          <td>Domain Verification</td>
+          <td>CNAME</td>
+          <td>1abcdef2g34hijkl</td>
+          <td>smpt.mailtrap.live</td>
+        </tr>
+        <tr>
+          <td>Missing</td>
+          <td>SPF</td>
+          <td>TXT</td>
+          <td>-</td>
+          <td>v=spf1 include:_spf.smtp.mailtrap.live ~all</td>
+        </tr>
+        <tr>
+          <td>Missing</td>
+          <td>DKIM</td>
+          <td>CNAME</td>
+          <td>rwmt1._domainkey</td>
+          <td>rwmt1.dkim.smtp.mailtrap.live</td>
+        </tr>
+        <tr>
+          <td>Missing</td>
+          <td>DKIM</td>
+          <td>CNAME</td>
+          <td>rwmt2._domainkey</td>
+          <td>rwmt2.dkim.smtp.mailtrap.live</td>
+        </tr>
+        <tr>
+          <td>Missing</td>
+          <td>DMARC</td>
+          <td>TXT</td>
+          <td>_dmarc</td>
+          <td>v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100</td>
+        </tr>
+        <tr>
+          <td>Missing</td>
+          <td>Custom domain tracking</td>
+          <td>CNAME</td>
+          <td>mt-link</td>
+          <td>t.mailtrap.live</td>
         </tr>
       </table>
     </td>
