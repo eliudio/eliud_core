@@ -738,11 +738,11 @@ Follow the guidelines of your domain registrar to configure your DNS in line wit
 1. Login into your account on https://domains.google.com
 2. Select "DNS"
 3. Select "Manage custom records"
-4. Create new records with the below information
+4. Create new records with the below information, obviously adjusted in line with your <A HREF="#hosting_DNS_records">DNS records</A>
 
 <table>
     <tr>
-      <td>Host name/td>
+      <td>Host name</td>
       <td>Type</td>
       <td>TTL</td>
       <td>Data</td>
@@ -780,7 +780,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 1. Login into your account on https://www.squarespace.com/
 2. Select your domain from your domains and select "Manage domain settings"
 3. Edit DNS
-4. Add the below records
+4. Add the below records, obviously adjusted in line with your <A HREF="#hosting_DNS_records">DNS records</A>
 
 <table>
     <tr>
@@ -834,7 +834,7 @@ Follow the guidelines of your domain registrar to configure your DNS in line wit
 1. Login into your account on https://domains.google.com
 2. Select "DNS"
 3. Select "Manage custom records"
-4. Create new records with the below information
+4. Create new records with the below information, obviously adjusted with your <A HREF="#mailtrap_DNS_records">DNS records</A>
 
 <table>
   <tr>
@@ -888,7 +888,8 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 1. Login into your account on https://www.squarespace.com/
 2. Select your domain from your domains and select "Manage domain settings"
 3. Edit DNS
-4. Add the below records
+4. Add the below records, obviously adjusted in line with your <A HREF="#mailtrap_DNS_records">DNS records</A>
+
 <table>
 TODO: construct from looking at example 1 above and example 1 and 2 in DNS record setup for hosting
 </table>
