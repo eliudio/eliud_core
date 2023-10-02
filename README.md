@@ -634,6 +634,8 @@ flutter pub run flutter_launcher_icons:main
     </tr>
 </table>
 
+---
+
 ## Step 23: Subscribe to mailtrap
 
 1. https://mailtrap.io/
