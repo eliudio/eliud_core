@@ -568,6 +568,7 @@ flutter pub run flutter_launcher_icons:main
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td>
       <table>
+        <thead>
         <tr>
           <th>
           <A name="hosting_DNS_records">DNS records</A>
@@ -578,6 +579,7 @@ flutter pub run flutter_launcher_icons:main
           <td width="60">Domain: www.thoma5.com</td>
           </th>
         </tr>
+        </thead>
         <tr>
          <td>Record type</td>
          <td>Host</td>
