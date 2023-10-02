@@ -566,7 +566,7 @@ flutter pub run flutter_launcher_icons:main
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td width="100">
+    <td width="40">
       <ul>
         <li><A name="hosting_DNS_records">DNS records</A></li>
         <li>Domain: thoma5.com</li>
