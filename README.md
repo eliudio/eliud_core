@@ -275,15 +275,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 4. You get to chance to re-download the google_services.json file, skip this by pressing next.
 5. Now apply the suggestions provided. Make sure to select Groovy (build.gradle) and Java.
 
-:thinking:
 <p>At the time of writing this document, the changes to make were:
 
 | file | location | add |
 | ---- | ---- | ---- |
-| :one: thoma5_app/android/build.gradle | buildscripts > dependencies | classpath 'com.google.gms:google-services:4.3.15' | 
-| :two: thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' | 
+| (1) thoma5_app/android/build.gradle | buildscripts > dependencies | classpath 'com.google.gms:google-services:4.3.15' | 
+| (2) thoma5_app/android/app/build.gradle | plugins | id 'com.google.gms.google-services' | 
 
-<p>:three: Finally the below at the bottom of thoma5_app/android/app/build.gradle had to be added
+<p>(3) Finally the below at the bottom of thoma5_app/android/app/build.gradle had to be added
 
 ~~~
 
@@ -407,7 +406,7 @@ flutter:
   uses-material-design: true
 ~~~
 
-and press Pub get
+2. run pub get
 
 ---
 
@@ -1265,7 +1264,7 @@ Future<void> main() async {
 
 ~~~
 
-### Step 32.3: Create images and stylesheet
+### Step 31.3: Create images and stylesheet
 
 1. Create favicon.png and overwrite the current existing one in the icons directory of your web folder
 
@@ -1273,13 +1272,13 @@ Create a png 16 x 16 pixels based on your <a href="#logo">logo</a>.
 
 2. Download loading.gif 
 
-Download ![Loading](https://github.com/eliudio/open-resources/raw/main/img/icons/loading.gif) and copy into the icons directory of your web folder
+Download <a href="https://github.com/eliudio/open-resources/raw/main/img/icons/loading.gif">loading.gif</a> and copy into the icons directory of your web folder
 
 3. Download styles.css 
 
-Download ![Loading](https://github.com/eliudio/open-resources/raw/main/web/styles.css) and copy into the root directory of your web folder
+Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.css">styles.css</a> and copy into the root directory of your web folder
 
-### Step 32.3: Update index.html
+### Step 31.4: Update index.html
 
 1. Add the stylesheet
 
@@ -1407,7 +1406,7 @@ Download ![Loading](https://github.com/eliudio/open-resources/raw/main/web/style
 
 ---
 
-## Step 33: Deploy your website
+## Step 32: Deploy your website
 
 1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
@@ -1441,30 +1440,47 @@ call firebase deploy --project thoma5
 
 ---
 
-## Step 33: Create policies pages
+## Step 33: Create policies / policy pages
 
-Now you can choose to use your website or your android app to do the below. We're using the website as we find the interface easier for the below actions.
+When publishing apps to the Google Play or Apple App Store, you will need to 
+provide links to privacy policy and/or disclaimer. We recommend providing a privacy policy, 
+terms of service and a disclaimer.
 
-1. Create pdf's then export for each page a jpg and store into assets/legal/...
+For more information, see <a href="https://github.com/eliudio/eliud_pkg_wizards/raw/main/lib/assets/new_app/legal/policies.pdf">policies.pdf</a>
 
-2. Open your website, here www.thoma5.com
-3. Run policy wizard
-Also see policies.txt, i.e. copy this here (or reference!)
+To create policies, you can choose to use your website or your android app. 
+We're using the website as we find the interface easier for the below actions.
 
--> update the pages, use the examples C:\src\apps\thoma5_app\assets\legal
-   -> I've uploaded these to drive, so can be accessed from tablet
+For each policy, follow these steps:
 
--> construct the url
+1. Create a pdf of your policy, then export a jpg for each page and store these files into assets/legal/...
 
-ANCHOR : privacy_policy_url
-ANCHOR : terms_of_service_url
-ANCHOR : disclaimer_url
+2. Open your app. We open <a href="thoma5.com">thoma5.com</a>
+
+3. Login with your <a href="#google_account">google account</a>
+
+4. Run the policy wizard to create a new policy
+
+5. Construct the url
+
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="privacy_policy_url"><ins>Privacy policy URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+        <li><a name="terms_of_service_url"><ins>Terms of Service URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+        <li><a name="disclaimer_url"><ins>Disclaimer URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ---
 
 ## Step 34: Create membership page
 
-3. Create memberdashboard page
+1. Create memberdashboard page
 
 - How to create a membership page to allow to open the membership dialog
 - example: https://minkey.io/#MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard)
@@ -1476,7 +1492,16 @@ ANCHOR : disclaimer_url
 - now construct the URL:
   https://juuwle.net/#JUUWLE/b038a344-5762-4880-9767-d89f164811d7?open-dialog=member_dashboard
 
-ANCHOR : member_dashboard_url
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="member_dashboard_url"><ins>Member dashboard URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ---
 

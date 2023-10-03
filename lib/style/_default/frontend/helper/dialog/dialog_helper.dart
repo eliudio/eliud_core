@@ -2,10 +2,13 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+
+import '../../../../../tools/etc.dart';
 
 enum DialogButtonPosition { BottomRight, TopRight }
 
@@ -64,6 +67,8 @@ class DialogStateHelper {
     required DialogButtonPosition dialogButtonPosition,
     Widget? separator,
     bool? includeHeading,
+    RgbModel? dialogBackgroundColor,
+    RgbModel? dialogSeperatorColor,
   }) {
     return Dialog(
         key: key,
@@ -72,7 +77,7 @@ class DialogStateHelper {
           borderRadius: BorderRadius.circular(20),
         ),
         elevation: 0,
-        backgroundColor: Colors.grey[200],
+        backgroundColor: dialogBackgroundColor != null ? RgbHelper.color(rgbo: dialogBackgroundColor) : Colors.grey[200],
         child: Form(
             //key: _formKey,
             child: _titleAndFieldsAndContent(app, context,
@@ -82,7 +87,9 @@ class DialogStateHelper {
                 width: width,
                 dialogButtonPosition: dialogButtonPosition,
                 separator: separator,
-                includeHeading: includeHeading)));
+                includeHeading: includeHeading,
+                seperatorColor: dialogSeperatorColor
+            )));
   }
 
   Widget _getRowWithButtons(List<Widget>? buttons, {Widget? title}) {
@@ -98,13 +105,14 @@ class DialogStateHelper {
         crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
-  Widget seperatorWidget(Widget? separator) {
+  Widget seperatorWidget(Widget? separator, RgbModel? seperatorColor) {
     var seperatorWidget;
     if (separator == null) {
       seperatorWidget = Divider(
         height: 15,
         thickness: 5,
-        color: Colors.red,
+        color: seperatorColor != null ? RgbHelper.color(
+              rgbo: seperatorColor) : Colors.red,
       );
     } else {
       seperatorWidget = separator;
@@ -119,7 +127,9 @@ class DialogStateHelper {
       double? width,
       DialogButtonPosition? dialogButtonPosition,
       Widget? separator,
-      bool? includeHeading}) {
+      bool? includeHeading,
+      RgbModel? seperatorColor,
+      }) {
     var items = <Widget>[];
 
     var titleContainer;
@@ -142,7 +152,7 @@ class DialogStateHelper {
           child: ListView(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        children: [titleWidget, seperatorWidget(separator)],
+        children: [titleWidget, seperatorWidget(separator, seperatorColor)],
       ));
     }
 
@@ -162,7 +172,7 @@ class DialogStateHelper {
             child: ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          children: [seperatorWidget(separator), _getRowWithButtons(buttons)],
+          children: [seperatorWidget(separator, seperatorColor), _getRowWithButtons(buttons)],
         ));
         items = [titleContainer, middle, footerContainer];
       } else {
