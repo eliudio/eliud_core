@@ -27,10 +27,26 @@ abstract class HasButton {
       String? tooltip,
       required Widget icon});
 
-  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, {required String label, bool enabled = true, T? value});
+  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context,
+      {required String label, bool enabled = true, T? value});
   PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context);
-  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? icon, Widget? child, required PopupMenuItemBuilder<T> itemBuilder,
-    PopupMenuItemSelected<T>? onSelected});
+  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context,
+      {String? tooltip,
+      Widget? icon,
+      Widget? child,
+      required PopupMenuItemBuilder<T> itemBuilder,
+      PopupMenuItemSelected<T>? onSelected});
+
+  DropdownButton<T> dropdownButton<T>(
+    AppModel app,
+    BuildContext context, {
+    T? value,
+    List<DropdownMenuItem<T>>? items,
+    Widget? hint,
+    ValueChanged<T?>? onChanged,
+    bool isDense = false,
+    bool isExpanded = false,
+  });
 }
 
 Widget button(AppModel app, BuildContext context,
@@ -79,12 +95,14 @@ Widget iconButton(AppModel app, BuildContext context,
         .iconButton(app, context,
             onPressed: onPressed, color: color, tooltip: tooltip, icon: icon);
 
-PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, { required String label, bool enabled = true, T? value}) =>
+PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context,
+        {required String label, bool enabled = true, T? value}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .buttonStyle()
-        .popupMenuItem(app, context, label: label, enabled: enabled, value: value);
+        .popupMenuItem(app, context,
+            label: label, enabled: enabled, value: value);
 
 PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) =>
     StyleRegistry.registry()
@@ -93,10 +111,33 @@ PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) =>
         .buttonStyle()
         .popupMenuDivider(app, context);
 
-PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? icon, Widget? child, required PopupMenuItemBuilder<T> itemBuilder,
-    PopupMenuItemSelected<T>? onSelected}) =>
+PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context,
+        {String? tooltip,
+        Widget? icon,
+        Widget? child,
+        required PopupMenuItemBuilder<T> itemBuilder,
+        PopupMenuItemSelected<T>? onSelected}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .buttonStyle()
-        .popupMenuButton(app, context, tooltip: tooltip, icon: icon, child: child, itemBuilder: itemBuilder, onSelected: onSelected);
+        .popupMenuButton(app, context,
+            tooltip: tooltip,
+            icon: icon,
+            child: child,
+            itemBuilder: itemBuilder,
+            onSelected: onSelected);
+
+DropdownButton<T> dropdownButton<T>(AppModel app, BuildContext context,
+        {T? value,
+        List<DropdownMenuItem<T>>? items,
+        Widget? hint,
+        ValueChanged<T?>? onChanged,
+          bool isDense = false,
+          bool isExpanded = false,}) =>
+    StyleRegistry.registry()
+        .styleWithApp(app)
+        .frontEndStyle()
+        .buttonStyle()
+        .dropdownButton(app, context,
+            value: value, items: items, hint: hint, onChanged: onChanged, isDense: isDense, isExpanded: isExpanded);

@@ -15,6 +15,7 @@ import 'package:eliud_core/wizards/member_dashboard_dialog_wizard.dart';
 import 'core/blocs/access/access_bloc.dart';
 import 'core/blocs/access/access_event.dart';
 import 'core/wizards/registry/registry.dart';
+import 'eliud.dart';
 import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 
@@ -46,6 +47,11 @@ abstract class CorePackage extends Package {
   Map<String, StreamSubscription<AccessModel?>> subscription = {};
 
   Map<String, PrivilegeInfo?> statePRIVILEGE = {};
+
+  /*
+   * Register depending packages
+   */
+  void registerDependencies(Eliud eliud) {}
 
   @override
   void init() {

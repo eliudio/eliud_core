@@ -12,6 +12,8 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/model/internal_component.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../style/frontend/has_button.dart';
+
 typedef SetActionValue = Function(ActionModel value);
 
 class ActionField extends StatefulWidget {
@@ -151,7 +153,8 @@ class ActionFieldState extends State<ActionField> {
             items.add(DropdownMenuItem(value: ia, child: Text(ia)));
           }
           widgets.add(Center(
-              child: DropdownButton(
+              child: dropdownButton<String>(
+                widget.app, context,
                 value: _internalAction,
                 items: items,
                 hint: Text('Select internal action'),

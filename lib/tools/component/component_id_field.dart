@@ -4,6 +4,8 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../style/frontend/has_button.dart';
+
 typedef ComponentIdFieldChanged = Function(String? value, int? privilegeLevel);
 
 class ComponentIdField extends StatefulWidget {
@@ -49,7 +51,8 @@ class ComponentIdFieldState extends State<ComponentIdField> {
             choice = widget.value;
           }
 
-          return DropdownButton(
+          return dropdownButton<String>(
+              widget.app, context,
               value: choice,
               items: dropDownItems,
               hint: text(widget.app, context, 'Select internal widget'),

@@ -12,7 +12,13 @@ class Packages {
 
   static List<Package> registeredPackages = [];
 
-  void registerPackage(package) {
+  void registerPackage(Package package) {
+    // don't add duplicates
+    for (int i = 0; i < registeredPackages.length; i++) {
+      if (registeredPackages[i].packageName == package.packageName) return;
+    }
+
+    // register
     registeredPackages.add(package);
   }
 }

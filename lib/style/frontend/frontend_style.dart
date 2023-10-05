@@ -20,6 +20,7 @@ import 'has_style.dart';
 import 'has_table.dart';
 import 'has_tabs.dart';
 import 'has_text.dart';
+import 'has_text_bubble.dart';
 import 'has_text_form_field.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -47,4 +48,5 @@ abstract class FrontEndStyle {
     HasDialogWidget dialogWidgetStyle();
     HasTabs tabsStyle();
     HasPageRouteBuilder pageRoutBuilder();
+    HasTextBubble textBubbleStyle();
 }

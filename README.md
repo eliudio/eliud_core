@@ -503,7 +503,9 @@ Future<void> main() async {
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
-3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button and in the general section change the title of your application
+3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button and in the general section
+   1. change the title of your application
+   2. change the home url to your home page url, e.g. https://www.thoma5.com
 4. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box.
 5. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
@@ -1182,11 +1184,6 @@ import 'package:eliud_pkg_workflow/workflow_package.dart';
 ~~~
     eliud.registerPackage(WizardsPackage.instance());
 
-    // needed for WizardsPackage:
-    eliud.registerPackage(EtcPackage.instance());
-    eliud.registerPackage(MediumPackage.instance());
-    eliud.registerPackage(WorkflowPackage.instance());
-
 ~~~
 
 4. So basically your main.dart will look like
@@ -1236,11 +1233,6 @@ Future<void> main() async {
     eliud.registerPackage(MonaStlPackage.instance());
     eliud.registerPackage(CreatorPackage.instance());
     eliud.registerPackage(WizardsPackage.instance());
-
-    // needed for WizardsPackage:
-    eliud.registerPackage(EtcPackage.instance());
-    eliud.registerPackage(MediumPackage.instance());
-    eliud.registerPackage(WorkflowPackage.instance());
 
     // register decorations, these are only required if you want to be able to change your app through the interface
     eliud.registerDecoration(CreatorDecoration());
@@ -1543,6 +1535,14 @@ Follow instructions in the email
 ---
 
 ## Step n: see create-new-app-removed-whats-put-in-README.txt
+
+---
+
+## Step n+1: Extend app
+
+Include extra packages and run wizards. For thoma5 we added:
+    eliud.registerPackage(ChatPackage.instance());
+    eliud.registerPackage(FeedPackage.instance());
 
 ---
 

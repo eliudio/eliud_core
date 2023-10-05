@@ -5,6 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/model/member_model.dart';
 
+import '../eliud.dart';
+
 class MemberCollectionInfo {
   // name of the collection, e.g. "Post"
   final String name;
@@ -32,6 +34,11 @@ abstract class Package extends Equatable {
    * Initialise your repositories and any other platform specifics
    */
   void init();
+
+  /*
+   * Register depending packages
+   */
+  void registerDependencies(Eliud eliud);
 
   Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
 

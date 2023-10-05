@@ -4,6 +4,8 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import '../../style/frontend/has_button.dart';
+
 typedef void ConditionsSimpleChanged(int value);
 
 class ConditionsSimpleWidget extends StatefulWidget {
@@ -33,7 +35,8 @@ class _ConditionPrivilegeState extends State<ConditionsSimpleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<int>(
+    return dropdownButton<int>(
+      widget.app, context,
       isDense: false,
       isExpanded: false,
       items: [

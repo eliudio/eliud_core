@@ -23,6 +23,7 @@ import 'package:eliud_core/style/frontend/has_tabs.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 
+import '../../frontend/has_text_bubble.dart';
 import 'impl/default_button_impl.dart';
 import 'impl/default_list_tile_impl.dart';
 import 'impl/default_page_route_builder_impl.dart';
@@ -44,6 +45,7 @@ import 'impl/default_profile_photo_impl.dart';
 import 'impl/default_progress_indicator_impl.dart';
 import 'impl/default_table_impl.dart';
 import 'impl/default_style_impl.dart';
+import 'impl/default_text_bubble_impl.dart';
 import 'impl/default_text_form_field_impl.dart';
 import 'impl/default_text_impl.dart';
 
@@ -71,6 +73,7 @@ class DefaultFrontEndStyle implements FrontEndStyle {
   late HasTabs defaultTabsImpl;
   late HasSplit defaultSplitImpl;
   late HasPageRouteBuilder defaultPageRouteBuilderImpl;
+  late HasTextBubble defaultTextBubbleImpl;
 
   DefaultFrontEndStyle() {
     defaultPageBodyImpl = DefaultPageBodyImpl(this);
@@ -97,6 +100,7 @@ class DefaultFrontEndStyle implements FrontEndStyle {
     defaultTabsImpl = DefaultTabsImpl(this);
     defaultSplitImpl = DefaultSplitImpl(this);
     defaultPageRouteBuilderImpl = DefaultPageRouteBuilderImpl();
+    defaultTextBubbleImpl = DefaultTextBubbleImpl();
   }
 
   @override
@@ -167,5 +171,8 @@ class DefaultFrontEndStyle implements FrontEndStyle {
 
   @override
   HasSplit splitStyle() => defaultSplitImpl;
+
+  @override
+  HasTextBubble textBubbleStyle() => defaultTextBubbleImpl;
 }
 

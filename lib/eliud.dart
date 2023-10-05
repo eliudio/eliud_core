@@ -34,6 +34,11 @@ class Eliud {
       var plugins = Packages.registeredPackages;
       for (var i = 0; i < plugins.length; i++) {
         var plugin = plugins[i];
+        plugin.registerDependencies(this);
+      }
+
+      for (var i = 0; i < plugins.length; i++) {
+        var plugin = plugins[i];
         plugin.init();
       }
 

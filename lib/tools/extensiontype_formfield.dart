@@ -5,6 +5,8 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../style/frontend/has_button.dart';
+
 typedef ExtensionTypeFieldTrigger = Function(String? value);
 
 class ExtensionTypeField extends StatefulWidget {
@@ -42,7 +44,8 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
       value = null;
     }
 
-    return DropdownButton(
+    return dropdownButton<String>(
+      widget.app, context,
         value: value,
         items: dropDownItems,
         hint: text(widget.app, context, 'Select component type'),
