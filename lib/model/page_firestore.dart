@@ -123,15 +123,21 @@ class PageFirestore implements PageRepository {
   }
 
   @override
-  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed) {
+  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed, {PageErrorHandler? errorHandler}) {
     var stream = PageCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<PageModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

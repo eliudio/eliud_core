@@ -135,13 +135,13 @@ class GridViewCache implements GridViewRepository {
   }
 
   @override
-  StreamSubscription<GridViewModel?> listenTo(String documentId, GridViewChanged changed) {
+  StreamSubscription<GridViewModel?> listenTo(String documentId, GridViewChanged changed, {GridViewErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<GridViewModel> refreshRelations(GridViewModel model) async {

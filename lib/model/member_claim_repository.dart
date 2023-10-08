@@ -36,6 +36,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef MemberClaimModelTrigger(List<MemberClaimModel?> list);
 typedef MemberClaimChanged(MemberClaimModel? value);
+typedef MemberClaimErrorHandler(o, e);
 
 abstract class MemberClaimRepository extends RepositoryBase<MemberClaimModel, MemberClaimEntity> {
   Future<MemberClaimEntity> addEntity(String documentID, MemberClaimEntity value);
@@ -52,7 +53,7 @@ abstract class MemberClaimRepository extends RepositoryBase<MemberClaimModel, Me
 
   StreamSubscription<List<MemberClaimModel?>> listen(MemberClaimModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<MemberClaimModel?>> listenWithDetails(MemberClaimModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed);
+  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed, {MemberClaimErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef MemberPublicInfoModelTrigger(List<MemberPublicInfoModel?> list);
 typedef MemberPublicInfoChanged(MemberPublicInfoModel? value);
+typedef MemberPublicInfoErrorHandler(o, e);
 
 abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel, MemberPublicInfoEntity> {
   Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value);
@@ -48,7 +49,7 @@ abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInf
 
   StreamSubscription<List<MemberPublicInfoModel?>> listen(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<MemberPublicInfoModel?>> listenWithDetails(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberPublicInfoModel?> listenTo(String documentId, MemberPublicInfoChanged changed);
+  StreamSubscription<MemberPublicInfoModel?> listenTo(String documentId, MemberPublicInfoChanged changed, {MemberPublicInfoErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

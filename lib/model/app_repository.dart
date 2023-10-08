@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef AppModelTrigger(List<AppModel?> list);
 typedef AppChanged(AppModel? value);
+typedef AppErrorHandler(o, e);
 
 abstract class AppRepository extends RepositoryBase<AppModel, AppEntity> {
   Future<AppEntity> addEntity(String documentID, AppEntity value);
@@ -48,7 +49,7 @@ abstract class AppRepository extends RepositoryBase<AppModel, AppEntity> {
 
   StreamSubscription<List<AppModel?>> listen(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<AppModel?>> listenWithDetails(AppModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed);
+  StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed, {AppErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

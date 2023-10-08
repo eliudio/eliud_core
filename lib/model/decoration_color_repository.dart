@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef DecorationColorModelTrigger(List<DecorationColorModel?> list);
 typedef DecorationColorChanged(DecorationColorModel? value);
+typedef DecorationColorErrorHandler(o, e);
 
 abstract class DecorationColorRepository extends RepositoryBase<DecorationColorModel, DecorationColorEntity> {
   Future<DecorationColorEntity> addEntity(String documentID, DecorationColorEntity value);
@@ -48,7 +49,7 @@ abstract class DecorationColorRepository extends RepositoryBase<DecorationColorM
 
   StreamSubscription<List<DecorationColorModel?>> listen(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<DecorationColorModel?>> listenWithDetails(DecorationColorModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed);
+  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed, {DecorationColorErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

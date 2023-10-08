@@ -123,15 +123,21 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
   }
 
   @override
-  StreamSubscription<PlatformMediumModel?> listenTo(String documentId, PlatformMediumChanged changed) {
+  StreamSubscription<PlatformMediumModel?> listenTo(String documentId, PlatformMediumChanged changed, {PlatformMediumErrorHandler? errorHandler}) {
     var stream = PlatformMediumCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<PlatformMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

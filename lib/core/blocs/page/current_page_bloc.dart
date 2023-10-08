@@ -16,6 +16,8 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
     _pageSubscription?.cancel();
     _pageSubscription = pageRepository(appId: appId)!.listenTo(pageId, (value) {
       if (value != null) add(CurrentPageUpdated(page: value));
+    }, errorHandler: (x, y) {
+      add(ErrorLoadingPage(appId: appId, pageId: pageId));
     });
 
     _appSubscription?.cancel();
@@ -36,6 +38,16 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
       var theState = state;
       if (theState is CurrentPageLoaded) {
         emit(CurrentPageLoaded(page: theState.page, app: event.app));
+      }
+    });
+
+    on<ErrorLoadingPage>((event, emit) async {
+      var theState = state;
+      var app = await appRepository()!.get(event.appId);
+      if (app != null) {
+        emit(CurrentPageLoadError(app: app!, pageId: event.pageId));
+      } else {
+        print("App " + event.appId + " not available whilst trying to load the page " + event.pageId);
       }
     });
   }

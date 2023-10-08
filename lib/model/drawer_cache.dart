@@ -135,13 +135,13 @@ class DrawerCache implements DrawerRepository {
   }
 
   @override
-  StreamSubscription<DrawerModel?> listenTo(String documentId, DrawerChanged changed) {
+  StreamSubscription<DrawerModel?> listenTo(String documentId, DrawerChanged changed, {DrawerErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<DrawerModel> refreshRelations(DrawerModel model) async {

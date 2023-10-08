@@ -96,45 +96,62 @@ class _PageComponentState extends State<PageComponent> {
                 page.backgroundOverride,
                 page.gridView);
             return BlocListener<AccessBloc, AccessState>(
+                bloc: BlocProvider.of<AccessBloc>(context),
+                listener: (context, state) {
+                  if ((state is AccessDetermined) &&
+                      (state.tempMessage != null)) {
+                    Flushbar(
+                      title: 'Message',
+                      message: state.tempMessage,
+                      duration: Duration(seconds: 3),
+                      onStatusChanged: (status) {
+                        if (status == FlushbarStatus.DISMISSED) {
+                          BlocProvider.of<AccessBloc>(context)
+                              .add(DismissTempMessage());
+                        }
+                      },
+                    )
+                      ..show(context);
+                  }
+                },
+                child: BlocBuilder(
                     bloc: BlocProvider.of<AccessBloc>(context),
-                    listener: (context, state) {
-                      if ((state is AccessDetermined) &&
-                          (state.tempMessage != null)) {
-                        Flushbar(
-                          title: 'Message',
-                          message: state.tempMessage,
-                          duration: Duration(seconds: 3),
-                          onStatusChanged: (status) {
-                            if (status == FlushbarStatus.DISMISSED) {
-                              BlocProvider.of<AccessBloc>(context)
-                                  .add(DismissTempMessage());
-                            }
-                          },
-                        )..show(context);
+                    builder: (BuildContext context, accessState) {
+                      if (accessState is AccessDetermined) {
+                        return Decorations.instance().createDecoratedPage(
+                            state.app,
+                            context,
+                            widget.pageKey,
+                                () =>
+                                PageContentsWidget(
+                                  key: widget.pageKey,
+                                  state: accessState,
+                                  app: state.app,
+                                  pageModel: page,
+                                  parameters: widget.parameters,
+                                  scaffoldKey: widget.scaffoldKey,
+                                  componentInfo: componentInfo,
+                                ),
+                            page)();
+                      } else {
+                        return progressIndicator();
                       }
-                    },
-                    child: BlocBuilder(
-                        bloc: BlocProvider.of<AccessBloc>(context),
-                        builder: (BuildContext context, accessState) {
-                          if (accessState is AccessDetermined) {
-                            return Decorations.instance().createDecoratedPage(
-                              state.app,
-                              context,
-                              widget.pageKey,
-                                  () => PageContentsWidget(
-                              key: widget.pageKey,
-                              state: accessState,
-                              app: state.app,
-                              pageModel: page,
-                              parameters: widget.parameters,
-                              scaffoldKey: widget.scaffoldKey,
-                              componentInfo: componentInfo,
-                            ),
-                                page)();
-                          } else {
-                            return progressIndicator();
-                          }
-                        }));
+                    }));
+          } else if (state is CurrentPageLoadError) {
+            return BlocBuilder(
+                bloc: BlocProvider.of<AccessBloc>(context),
+                builder: (BuildContext context, accessState) {
+                  if (accessState is AccessDetermined) {
+                    return Decorations.instance().createDecoratedErrorPage(
+                        state.app,
+                        context,
+                        widget.pageKey,
+                            () => Text("ERROR PAGE"),
+                        )();
+                  } else {
+                    return progressIndicator();
+                  }
+                });
           } else {
             return progressIndicator();
           }

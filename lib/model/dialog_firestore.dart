@@ -123,15 +123,21 @@ class DialogFirestore implements DialogRepository {
   }
 
   @override
-  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed) {
+  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed, {DialogErrorHandler? errorHandler}) {
     var stream = DialogCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<DialogModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

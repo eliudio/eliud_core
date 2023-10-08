@@ -135,13 +135,13 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
   }
 
   @override
-  StreamSubscription<AppEntryPagesModel?> listenTo(String documentId, AppEntryPagesChanged changed) {
+  StreamSubscription<AppEntryPagesModel?> listenTo(String documentId, AppEntryPagesChanged changed, {AppEntryPagesErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<AppEntryPagesModel> refreshRelations(AppEntryPagesModel model) async {

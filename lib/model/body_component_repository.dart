@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef BodyComponentModelTrigger(List<BodyComponentModel?> list);
 typedef BodyComponentChanged(BodyComponentModel? value);
+typedef BodyComponentErrorHandler(o, e);
 
 abstract class BodyComponentRepository extends RepositoryBase<BodyComponentModel, BodyComponentEntity> {
   Future<BodyComponentEntity> addEntity(String documentID, BodyComponentEntity value);
@@ -48,7 +49,7 @@ abstract class BodyComponentRepository extends RepositoryBase<BodyComponentModel
 
   StreamSubscription<List<BodyComponentModel?>> listen(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<BodyComponentModel?>> listenWithDetails(BodyComponentModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<BodyComponentModel?> listenTo(String documentId, BodyComponentChanged changed);
+  StreamSubscription<BodyComponentModel?> listenTo(String documentId, BodyComponentChanged changed, {BodyComponentErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

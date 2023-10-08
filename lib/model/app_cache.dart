@@ -135,13 +135,13 @@ class AppCache implements AppRepository {
   }
 
   @override
-  StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed) {
+  StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed, {AppErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<AppModel> refreshRelations(AppModel model) async {

@@ -135,13 +135,13 @@ class BackendRequestCache implements BackendRequestRepository {
   }
 
   @override
-  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed) {
+  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed, {BackendRequestErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<BackendRequestModel> refreshRelations(BackendRequestModel model) async {

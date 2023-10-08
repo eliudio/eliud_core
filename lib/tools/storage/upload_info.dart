@@ -90,6 +90,8 @@ class UploadInfo {
    *
    * Usage: When you need to upload a file to firebase storage
    *
+   * domain is required for uploading files from a webapp
+   *
    * returns tuple of
    * UploadInfo and
    * Uint8List: the bytes representation of the file
@@ -101,7 +103,7 @@ class UploadInfo {
       String ownerId,
       String packageName,
       Map<String, String> customMetaData,
-      {FeedbackProgress? feedbackProgress}) async {
+      {String? homeURL, FeedbackProgress? feedbackProgress}) async {
     var file = File(filePath);
     try {
       var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
@@ -112,7 +114,7 @@ class UploadInfo {
       var bytes;
       if (kIsWeb) {
         // todo: make parameter
-        var myUri = Uri.parse('https://minkey.io/assets/' + filePath);
+        var myUri = Uri.parse((homeURL ?? 'https://minkey.io') + '/assets/' + filePath);
         final response = await http.get(myUri);
         print('uploadTask = ');
         bytes = response.bodyBytes;

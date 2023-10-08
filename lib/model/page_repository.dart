@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef PageModelTrigger(List<PageModel?> list);
 typedef PageChanged(PageModel? value);
+typedef PageErrorHandler(o, e);
 
 abstract class PageRepository extends RepositoryBase<PageModel, PageEntity> {
   Future<PageEntity> addEntity(String documentID, PageEntity value);
@@ -48,7 +49,7 @@ abstract class PageRepository extends RepositoryBase<PageModel, PageEntity> {
 
   StreamSubscription<List<PageModel?>> listen(PageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<PageModel?>> listenWithDetails(PageModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed);
+  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed, {PageErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

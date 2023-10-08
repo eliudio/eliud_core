@@ -127,15 +127,21 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
   }
 
   @override
-  StreamSubscription<MemberDashboardModel?> listenTo(String documentId, MemberDashboardChanged changed) {
+  StreamSubscription<MemberDashboardModel?> listenTo(String documentId, MemberDashboardChanged changed, {MemberDashboardErrorHandler? errorHandler}) {
     var stream = MemberDashboardCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<MemberDashboardModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

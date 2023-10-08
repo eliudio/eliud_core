@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef DialogModelTrigger(List<DialogModel?> list);
 typedef DialogChanged(DialogModel? value);
+typedef DialogErrorHandler(o, e);
 
 abstract class DialogRepository extends RepositoryBase<DialogModel, DialogEntity> {
   Future<DialogEntity> addEntity(String documentID, DialogEntity value);
@@ -48,7 +49,7 @@ abstract class DialogRepository extends RepositoryBase<DialogModel, DialogEntity
 
   StreamSubscription<List<DialogModel?>> listen(DialogModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<DialogModel?>> listenWithDetails(DialogModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed);
+  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed, {DialogErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

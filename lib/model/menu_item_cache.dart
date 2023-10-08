@@ -135,13 +135,13 @@ class MenuItemCache implements MenuItemRepository {
   }
 
   @override
-  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed) {
+  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed, {MenuItemErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<MenuItemModel> refreshRelations(MenuItemModel model) async {

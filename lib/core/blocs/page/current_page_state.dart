@@ -20,6 +20,12 @@ class CurrentPagePermissionDenied extends CurrentPageState {
   CurrentPagePermissionDenied();
 }
 
+class CurrentPageLoadError extends CurrentPageState {
+  final AppModel app;
+  String pageId;
+  CurrentPageLoadError({required this.app, required this.pageId});
+}
+
 class CurrentPageLoaded extends CurrentPageState {
   final PageModel page;
   final AppModel app;

@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef GridViewModelTrigger(List<GridViewModel?> list);
 typedef GridViewChanged(GridViewModel? value);
+typedef GridViewErrorHandler(o, e);
 
 abstract class GridViewRepository extends RepositoryBase<GridViewModel, GridViewEntity> {
   Future<GridViewEntity> addEntity(String documentID, GridViewEntity value);
@@ -48,7 +49,7 @@ abstract class GridViewRepository extends RepositoryBase<GridViewModel, GridView
 
   StreamSubscription<List<GridViewModel?>> listen(GridViewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<GridViewModel?>> listenWithDetails(GridViewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<GridViewModel?> listenTo(String documentId, GridViewChanged changed);
+  StreamSubscription<GridViewModel?> listenTo(String documentId, GridViewChanged changed, {GridViewErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

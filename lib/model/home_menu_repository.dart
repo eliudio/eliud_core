@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef HomeMenuModelTrigger(List<HomeMenuModel?> list);
 typedef HomeMenuChanged(HomeMenuModel? value);
+typedef HomeMenuErrorHandler(o, e);
 
 abstract class HomeMenuRepository extends RepositoryBase<HomeMenuModel, HomeMenuEntity> {
   Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value);
@@ -48,7 +49,7 @@ abstract class HomeMenuRepository extends RepositoryBase<HomeMenuModel, HomeMenu
 
   StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<HomeMenuModel?>> listenWithDetails(HomeMenuModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<HomeMenuModel?> listenTo(String documentId, HomeMenuChanged changed);
+  StreamSubscription<HomeMenuModel?> listenTo(String documentId, HomeMenuChanged changed, {HomeMenuErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

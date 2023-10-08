@@ -135,13 +135,13 @@ class DecorationColorCache implements DecorationColorRepository {
   }
 
   @override
-  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed) {
+  StreamSubscription<DecorationColorModel?> listenTo(String documentId, DecorationColorChanged changed, {DecorationColorErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<DecorationColorModel> refreshRelations(DecorationColorModel model) async {

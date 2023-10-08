@@ -135,13 +135,13 @@ class AppBarCache implements AppBarRepository {
   }
 
   @override
-  StreamSubscription<AppBarModel?> listenTo(String documentId, AppBarChanged changed) {
+  StreamSubscription<AppBarModel?> listenTo(String documentId, AppBarChanged changed, {AppBarErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<AppBarModel> refreshRelations(AppBarModel model) async {

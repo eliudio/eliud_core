@@ -135,13 +135,13 @@ class MemberPublicInfoCache implements MemberPublicInfoRepository {
   }
 
   @override
-  StreamSubscription<MemberPublicInfoModel?> listenTo(String documentId, MemberPublicInfoChanged changed) {
+  StreamSubscription<MemberPublicInfoModel?> listenTo(String documentId, MemberPublicInfoChanged changed, {MemberPublicInfoErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<MemberPublicInfoModel> refreshRelations(MemberPublicInfoModel model) async {

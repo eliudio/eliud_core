@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef AppEntryPagesModelTrigger(List<AppEntryPagesModel?> list);
 typedef AppEntryPagesChanged(AppEntryPagesModel? value);
+typedef AppEntryPagesErrorHandler(o, e);
 
 abstract class AppEntryPagesRepository extends RepositoryBase<AppEntryPagesModel, AppEntryPagesEntity> {
   Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value);
@@ -48,7 +49,7 @@ abstract class AppEntryPagesRepository extends RepositoryBase<AppEntryPagesModel
 
   StreamSubscription<List<AppEntryPagesModel?>> listen(AppEntryPagesModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<AppEntryPagesModel?>> listenWithDetails(AppEntryPagesModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<AppEntryPagesModel?> listenTo(String documentId, AppEntryPagesChanged changed);
+  StreamSubscription<AppEntryPagesModel?> listenTo(String documentId, AppEntryPagesChanged changed, {AppEntryPagesErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

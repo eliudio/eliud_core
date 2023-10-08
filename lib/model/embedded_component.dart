@@ -291,7 +291,7 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   }
   
   @override
-  StreamSubscription<AppEntryPagesModel> listenTo(String documentId, AppEntryPagesChanged changed) {
+  StreamSubscription<AppEntryPagesModel> listenTo(String documentId, AppEntryPagesChanged changed, {AppEntryPagesErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -411,7 +411,7 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
   }
   
   @override
-  StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed) {
+  StreamSubscription<BodyComponentModel> listenTo(String documentId, BodyComponentChanged changed, {BodyComponentErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -531,7 +531,7 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
   }
   
   @override
-  StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed) {
+  StreamSubscription<DecorationColorModel> listenTo(String documentId, DecorationColorChanged changed, {DecorationColorErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -651,7 +651,7 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
   }
   
   @override
-  StreamSubscription<MemberMediumModel> listenTo(String documentId, MemberMediumChanged changed) {
+  StreamSubscription<MemberMediumModel> listenTo(String documentId, MemberMediumChanged changed, {MemberMediumErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -771,7 +771,7 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
   }
   
   @override
-  StreamSubscription<MemberMediumContainerModel> listenTo(String documentId, MemberMediumContainerChanged changed) {
+  StreamSubscription<MemberMediumContainerModel> listenTo(String documentId, MemberMediumContainerChanged changed, {MemberMediumContainerErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -891,7 +891,7 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
   }
   
   @override
-  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed) {
+  StreamSubscription<MemberSubscriptionModel> listenTo(String documentId, MemberSubscriptionChanged changed, {MemberSubscriptionErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 
@@ -1011,7 +1011,7 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
   }
   
   @override
-  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed) {
+  StreamSubscription<MenuItemModel> listenTo(String documentId, MenuItemChanged changed, {MenuItemErrorHandler? errorHandler}) {
     throw UnimplementedError();
   }
 

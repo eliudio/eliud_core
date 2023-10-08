@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef AccessModelTrigger(List<AccessModel?> list);
 typedef AccessChanged(AccessModel? value);
+typedef AccessErrorHandler(o, e);
 
 abstract class AccessRepository extends RepositoryBase<AccessModel, AccessEntity> {
   Future<AccessEntity> addEntity(String documentID, AccessEntity value);
@@ -48,7 +49,7 @@ abstract class AccessRepository extends RepositoryBase<AccessModel, AccessEntity
 
   StreamSubscription<List<AccessModel?>> listen(AccessModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<AccessModel?>> listenWithDetails(AccessModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<AccessModel?> listenTo(String documentId, AccessChanged changed);
+  StreamSubscription<AccessModel?> listenTo(String documentId, AccessChanged changed, {AccessErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

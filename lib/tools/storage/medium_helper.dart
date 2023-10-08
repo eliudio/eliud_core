@@ -159,6 +159,7 @@ abstract class MediumHelper<T> {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID, ownerId, packageName, readAccessCustomMetaData(),
+        homeURL: app.homeURL,
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -323,6 +324,7 @@ abstract class MediumHelper<T> {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID, ownerId, packageName, readAccessCustomMetaData(),
+        homeURL: app.homeURL,
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -387,6 +389,7 @@ abstract class MediumHelper<T> {
     // First, upload the file
     var fileInfo = await UploadInfo.uploadFile(memberMediumDocumentID, filePath,
         app.documentID, ownerId, packageName, readAccessCustomMetaData(),
+        homeURL: app.homeURL,
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));

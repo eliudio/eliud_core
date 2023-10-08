@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef AppPolicyModelTrigger(List<AppPolicyModel?> list);
 typedef AppPolicyChanged(AppPolicyModel? value);
+typedef AppPolicyErrorHandler(o, e);
 
 abstract class AppPolicyRepository extends RepositoryBase<AppPolicyModel, AppPolicyEntity> {
   Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value);
@@ -48,7 +49,7 @@ abstract class AppPolicyRepository extends RepositoryBase<AppPolicyModel, AppPol
 
   StreamSubscription<List<AppPolicyModel?>> listen(AppPolicyModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<AppPolicyModel?>> listenWithDetails(AppPolicyModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<AppPolicyModel?> listenTo(String documentId, AppPolicyChanged changed);
+  StreamSubscription<AppPolicyModel?> listenTo(String documentId, AppPolicyChanged changed, {AppPolicyErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

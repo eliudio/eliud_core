@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef BackendRequestModelTrigger(List<BackendRequestModel?> list);
 typedef BackendRequestChanged(BackendRequestModel? value);
+typedef BackendRequestErrorHandler(o, e);
 
 abstract class BackendRequestRepository extends RepositoryBase<BackendRequestModel, BackendRequestEntity> {
   Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value);
@@ -48,7 +49,7 @@ abstract class BackendRequestRepository extends RepositoryBase<BackendRequestMod
 
   StreamSubscription<List<BackendRequestModel?>> listen(BackendRequestModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<BackendRequestModel?>> listenWithDetails(BackendRequestModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed);
+  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed, {BackendRequestErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

@@ -462,6 +462,17 @@ Future<void> main() async {
 
 ~~~
 
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="APP_ID"><ins>APP_ID</ins></a>: THOMA5_APP</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## Step 15: Clean up
@@ -499,17 +510,47 @@ Future<void> main() async {
 
 ---
 
-## Step 18: Add some basic functionality to your app
+## Step 18: Buy domain
+
+1. Buy a domain name, e.g. on squarespace.com. 
+
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="domain_name"><ins>domain name</ins></a>: thoma5.com</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Step 19: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
 3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button and in the general section
    1. change the title of your application
-   2. change the home url to your home page url, e.g. https://www.thoma5.com
+   2. change the home url to your domain url. This is constructed with https:// followed by your <a href="#domain_name">domain name</a>
+
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="domain_url"><ins>domain url</ins></a>: https://thoma5.com</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 4. When in edit mode, press the wizard icon ![Wizard](https://github.com/eliudio/open-resources/raw/main/img/icons/wizard.png) to open the wizard dialog box.
 5. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
+
 
 ---
 
@@ -524,7 +565,7 @@ In the previous steps we've done the foundation to build an app. The next steps 
 
 ---
 
-## Step 19: Logo
+## Step 20: Logo
 
 1. create a <a name="logo">logo</a> and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
 
@@ -550,7 +591,7 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 20: Add Firebase Web App
+## Step 21: Add Firebase Web App
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -564,7 +605,7 @@ flutter pub run flutter_launcher_icons:main
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td><A name="firebaseConfig">firebaseConfig</A></td>
+    <td><a name="firebaseConfig">firebaseConfig</a></td>
   </tr>
 </table>
 
@@ -581,11 +622,9 @@ const firebaseConfig = {
 
 ~~~
 
-
-
 ---
 
-## Step 21: Retrieve hosting details
+## Step 22: Retrieve hosting details
 
 1. Goto https://console.firebase.google.com
 2. Find the "Add custom domain" button and add
@@ -641,12 +680,6 @@ const firebaseConfig = {
     </td>
   </tr>
 </table>
-
----
-
-## Step 22: Buy domain
-
-1. Buy a domain name, e.g. on squarespace.com. 
 
 ---
 
@@ -1398,7 +1431,47 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.
 
 ---
 
-## Step 32: Deploy your website
+## Step 33: Cors`
+
+To allow images to be accessed / copied, we need to configure cors access.
+
+1. goto your <a href="#app_root_directory">app root dir</a>
+2. create the following file cors.json, make sure to use your <a href="#domain_url">domain url</a> instead of https://thoma5.com
+
+~~~
+[
+  {
+    "origin": ["https://thoma5.com"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]
+~~~
+
+3. run this command and login with your 
+~~~
+gcloud auth login
+
+~~~
+
+4. run this gsutil command, make sure to replace "thoma5.appspot.com" with your 
+storageBucket which you can find from your <a href="#firebaseConfig">firebaseConfig</a>
+
+~~~
+gsutil cors set cors.json gs://thoma5.appspot.com
+
+~~~
+
+
+**MORE INFO**
+
+<ul>
+  <li><a href="https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin/37765371">Stackoverflow</a></li>
+</ul>
+ 
+---
+
+## Step 34: Deploy your website
 
 1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
@@ -1421,48 +1494,84 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.
 }
 
 ~~~
-2. Build your website
+2. From your <a href="#app_root_directory">app root dir</a>, build and deploy your website
 
 ~~~
-flutter build web --web-renderer html --release --no-tree-shake-icons
+flutter build web --release --no-tree-shake-icons
+rem flutter build web --web-renderer html --release --no-tree-shake-icons
 call firebase login
 call firebase deploy --project thoma5
 
 ~~~
 
+**COMMENT**
+
+When you make code changes, e.g. add package dependencies then 
+you will need to repeat 2. to make your changes available on the web.
+In other words: no other steps - e.g. CORS - need to be repeated.
+
 ---
 
-## Step 33: Create policies / policy pages
+## Step 35: Create policies / policy pages
 
 When publishing apps to the Google Play or Apple App Store, you will need to 
-provide links to privacy policy and/or disclaimer. We recommend providing a privacy policy, 
-terms of service and a disclaimer.
+provide links to privacy policy, terms of service and/or disclaimer. 
+We recommend providing all 3.
 
 For more information, see <a href="https://github.com/eliudio/eliud_pkg_wizards/raw/main/lib/assets/new_app/legal/policies.pdf">policies.pdf</a>
 
-To create policies, you can choose to use your website or your android app. 
-We're using the website as we find the interface easier for the below actions.
+To create policies, at this stage, you can choose to use your website or your android app. 
+We're using the web app as we find the interface easier for the below actions. 
+Also, when using the web app we can actually get the URL of the policies easier than with the app.
 
 For each policy, follow these steps:
 
-1. Create a pdf of your policy, then export a jpg for each page and store these files into assets/legal/...
+1. Create a pdf of your policy, then export a jpg for each page and store these files into assets/legal/policy-x-page-b.jpg, ...
 
 2. Open your app. We open <a href="thoma5.com">thoma5.com</a>
 
 3. Login with your <a href="#google_account">google account</a>
 
-4. Run the policy wizard to create a new policy
+4. Run the policy wizard to create a new policy and accept all default values.
 
-5. Construct the url
+5. Open your left drawer and select "drawer1" button
+
+6. In "Current menu items" find the page you've created in 4 and open details
+
+7. In "General" change the Text and Description, e.g. "Privacy Policy" and confirm the change
+
+8. From the left drawer, open the policy
+
+9. Press the button "page" which you can find at the left center of your page and select "Update page"
+
+10. In general change the Description and Title of the page, e.g. "Privacy Policy"
+
+11. Press the button "policyPresentation" which you can find at the left top of your page
+
+12. Click the AppPolicy and then select the Update button
+
+13. Press the Pages button
+
+14. Delete the existing page and add all the you've saved as jpg files in 1.
+
+15. Construct the url: 
+    - From your web app: open left drawer, select your policy and copy the URL from your browser address bar
+    - From android app: update the policy page, copy the key from the general section. Now construct the URL:
+      - Start with https://
+      - Add your <a name="domain_name">domain name</a> and a slash: thoma5.com/
+      - Add your <a href="#APP_ID">APP_ID</a> and a slash: #THOMA5_APP/
+      - Add the policy page key: 8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy
+
+16. Now repeat for all 3 policies and record the url's
 
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td>
       <ul>
-        <li><a name="privacy_policy_url"><ins>Privacy policy URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
-        <li><a name="terms_of_service_url"><ins>Terms of Service URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
-        <li><a name="disclaimer_url"><ins>Disclaimer URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+        <li><a name="privacy_policy_url"><ins>Privacy policy URL</ins></a>: <a href="https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy">https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy</a></li>
+        <li><a name="terms_of_service_url"><ins>Terms of Service URL</ins></a>: <a href="https://thoma5.com/#THOMA5_APP/9af69563-a90b-47e1-98e1-bbae6d35a041-policy">https://thoma5.com/#THOMA5_APP/9af69563-a90b-47e1-98e1-bbae6d35a041-policy</a></li>
+        <li><a name="disclaimer_url"><ins>Disclaimer URL</ins></a>: <a href="https://thoma5.com/#THOMA5_APP/c1470606-b42a-491d-9aa0-c1189189ee78-policy">https://thoma5.com/#THOMA5_APP/c1470606-b42a-491d-9aa0-c1189189ee78-policy</a></li>
       </ul>
     </td>
   </tr>
@@ -1470,34 +1579,51 @@ For each policy, follow these steps:
 
 ---
 
-## Step 34: Create membership page
+## Step 36: Create membership dashboard page
 
-1. Create memberdashboard page
+A membership dashboard page allows members to request the data that your website / app stores of that person and allows to deactivate the account and destroy all data that we keep of this person.
 
-- How to create a membership page to allow to open the membership dialog
-- example: https://minkey.io/#MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard)
-- create an empty page
-  - Description "Blank"
-  - Title "Welcome"
-  - copy the ID, here: b038a344-5762-4880-9767-d89f164811d7
-- open member dashboard and copy the url, here: https://juuwle.net/#JUUWLE/member_dashboard
-- now construct the URL:
-  https://juuwle.net/#JUUWLE/b038a344-5762-4880-9767-d89f164811d7?open-dialog=member_dashboard
+There are many reasons to have a membership dashboard page. 
+
+- One is because we want to provide our users the best experience possible. And if they like to leave our site, without leaving a trace, then that's what we offer.
+- Second is to be in line with regulations.
+- Third is because when uploading the app to android play store, we must provide a link to a page to allow actions 
+
+1. Run the memberdashboard wizard (from the usual wizard dialog)
+2. Open the memberdashboard. A dialog (!) for the memberdashboard opens. This means that we don't have a page, but have a dialog.
+3. Find your dialog ID.
+    - From your web app: copy the URL from your browser address bar and find the dialog ID after the last occurance of /
+    - From android app: 
+      - Press the dialog button
+      - Find the key from General section
+   Here ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard
+4. Run the welcome wizard and create a (blank) page. This page should not be accessible from any menu, i.e. deselect AppBar, Home menu and left and right drawer, but select "Available". The page should open after having been created. However, if for some reason you need to find and open it yourself: open "App" from editor mode, select Pages and find the "Welcome" page. Click the menu next to the page and select "Show page".
+5. Update the page so that it's title is "Membership dashboard" and have empty html contents. 
+6. Copy the key of the page, here 2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page
+7. Now construct the membership URL:
+      - Start with https://
+      - Add your <a name="domain_name">domain name</a> and a slash: thoma5.com/
+      - Add your <a href="#APP_ID">APP_ID</a> and a slash: #THOMA5_APP/
+      - Add the membership dashboard page retrieved in step 6, i.e. here 2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page
+      - Add a /
+      - Add the membership dialog ID, retrieved in step 3, i.e. here ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard
 
 <table>
   <tr>
     <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
     <td>
       <ul>
-        <li><a name="member_dashboard_url"><ins>Member dashboard URL</ins></a>: <a href="https://www.thoma5.com/...">...TODO...</a></li>
+        <li><a name="member_dashboard_url"><ins>Member dashboard URL</ins></a>: <a href="https://thoma5.com/#THOMA5_APP/2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page?open-dialog=ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard">https://thoma5.com/#THOMA5_APP/2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page?open-dialog=ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard</a></li>
       </ul>
     </td>
   </tr>
 </table>
 
+8. You should test this URL. Try testing it from a new browser, after having logged out from your site. A dialog will appear to allow to login, after which that membership dashboard will open.
+
 ---
 
-## Step 35: Setup oauth consent
+## Step 37: Setup oauth consent
 
 TODO
 
@@ -1534,11 +1660,157 @@ Follow instructions in the email
 
 ---
 
-## Step n: see create-new-app-removed-whats-put-in-README.txt
+## Step 38: Start your free google GCP trial 300 USD
+
+TODO: https://cloud.google.com/free
 
 ---
 
-## Step n+1: Extend app
+## Step 39: Register as apple developer
+
+TODO: https://developer.apple.com/programs/enroll/
+
+## Step 40: Create or Update an Apple App ID
+
+TODO: 
+https://developer.apple.com/account/resources/identifiers/list
+Press '+' 
+Select "App IDs", then select APP
+Description: Your app name, here Juuwle
+Explicit bundle ID: Your bundle ID, net.juuwle.juuwleios
+Enable "Sign in with Apple"
+Save and register
+
+## Step 41: Create an Apple Service ID
+TODO:
+https://developer.apple.com/account/resources/identifiers/list
+Press '+' 
+Select "Services IDs"
+Description: Juuwle
+Identifier: net.juuwle.juuwleservice
+And click register
+After registering, we'll need to enable sign-in. We'll do this in 5.4.2
+
+## Step 42: Register a Private Key for you apple developer account
+TODO:
+https://developer.apple.com/account/resources/authkeys/list
+Press '+'
+Enable Sign in with Apple
+Configure
+Select App ID, created in 4.2
+Save 
+Configure
+Register
+
+Copy the Key ID and press download and save the private key... you'll need these two in 5.4.2
+
+## Step 43: Enable Apple sign-in on Firestore
+TODO:
+Optional, if you want the app to be available on ios
+Select "Apple" and enable it with the switch "Enable"
+Specify, from 4. Apple setup
+  Services ID, here net.juuwle.juuwleservice
+  Apple team ID, find "Team ID" from https://developer.apple.com/account/
+  Key ID, get from 4.2
+  Private key, get from 4.2
+Finally copy the authorisation callback URL to be used in the next step
+Press save
+
+ALSO: Configure apple authorization callback
+
+https://developer.apple.com/account/resources/identifiers/list/serviceId
+Find the service you created in 4.3
+Enable Sign in with Apple 
+Click Configure
+Primary App ID: the app ID you created in 4.2
+Return URL: The authorisation callback URL you copied from firebase console, mine https://juuwle-b719f.firebaseapp.com/__/auth/handler
+
+## Step 44: Register your apple device
+TODO:
+Register your device https://developer.apple.com/account/resources/devices/list
+
+## Step 43: Create Apple firebase app
+TODO:
+App bundle id: net.juuwle.juuwleios
+App nickname: Juuwle
+App Store ID (optional): 
+
+Download GoogleService-Info.plist (if you can't find it you can find it from the project settings)
+
+## Step 44: Configure the Android Studio project for apple
+TODO:
+(clone your code on your apple machine)
+Configure the Android Studio project (created in 5.6.3.1)
+
+Step 1. Run the project. It’ll fail with the error "Your session has expired. Please log in". 
+   By running the project, you'll have generated the ios xcode project which we'll open in the next step
+
+Step 2. Signing and Capabilities
+   Open .../juuwle/ios/Runner.xcworkspace
+
+   Click Runner top left in explorer, then select TARGETS “Runner”, then select “Signing and Capabilities”.
+   You might have signing certificate errors. In that case, from xcode, press Cmd + , Then goto accounts and sign in
+   Then back in the Signing and Capabilities, select the team
+
+Step 3. Back to Android studio, run the app again. It'll fail with processor incompatibility issues. Goto the ios directory and run:
+   sudo arch -x86_64 gem install ffi
+   arch -x86_64 pod install
+
+Step 4. Update file ios/Podfile and replace  
+# platform :ios, '11.0'
+With
+platform :ios, ’11.0'
+
+Step 5. GoogleService-Info.plist
+
+You’ll get the error "Firebase has not been correctly initialized. Have you added the "GoogleService-Info.plist" file to the project?”
+
+Open Xcode (important!) and add the GoogleService-Info.plist from 5.8.1 to Runner folder (select Runner/Runner) in xcode, 
+ie drag from downloads folder into xcode Runner (make sure to select “copy items if needed")
+
+Step 6. Add a URL sccheme to your project
+  https://developers.google.com/identity/sign-in/ios/start-integrating
+  
+  basically: grab the REVERSED_CLIENT_ID from your GoogleService-info.plist and add it to ios/Runner/Info.plist like this:
+
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>[com.googleusercontent.apps.YOUR REVERSED_CLIENT_ID]</string>
+			</array>
+		</dict>
+	</array>
+
+Step 7. Add capability "Sign in with apple"
+ 
+From Xcode, Runner > Targets > Runner select tab "Signing & Capabilities"
+Add Capability (+Capability)
+
+Don't forget to select Team
+
+Step 8.  Trust
+
+Run the app. If it doesn’t work, run from Xcode
+
+If you get this error "The operation couldn’t be completed. Unable to launch com.example.x.y.z-icloud.com because it 
+has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
+Then on your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
+
+## Step 44: Deploy to android store
+
+See deploy-to-android-store.txt
+
+## Step 45: Deploy to apple store
+
+See deploy-to-apple-store.txt
+
+---
+
+## Step 46: Extend app
 
 Include extra packages and run wizards. For thoma5 we added:
     eliud.registerPackage(ChatPackage.instance());

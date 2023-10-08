@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef DrawerModelTrigger(List<DrawerModel?> list);
 typedef DrawerChanged(DrawerModel? value);
+typedef DrawerErrorHandler(o, e);
 
 abstract class DrawerRepository extends RepositoryBase<DrawerModel, DrawerEntity> {
   Future<DrawerEntity> addEntity(String documentID, DrawerEntity value);
@@ -48,7 +49,7 @@ abstract class DrawerRepository extends RepositoryBase<DrawerModel, DrawerEntity
 
   StreamSubscription<List<DrawerModel?>> listen(DrawerModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<DrawerModel?>> listenWithDetails(DrawerModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<DrawerModel?> listenTo(String documentId, DrawerChanged changed);
+  StreamSubscription<DrawerModel?> listenTo(String documentId, DrawerChanged changed, {DrawerErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

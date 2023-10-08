@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef MemberMediumModelTrigger(List<MemberMediumModel?> list);
 typedef MemberMediumChanged(MemberMediumModel? value);
+typedef MemberMediumErrorHandler(o, e);
 
 abstract class MemberMediumRepository extends RepositoryBase<MemberMediumModel, MemberMediumEntity> {
   Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value);
@@ -48,7 +49,7 @@ abstract class MemberMediumRepository extends RepositoryBase<MemberMediumModel, 
 
   StreamSubscription<List<MemberMediumModel?>> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<MemberMediumModel?>> listenWithDetails(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberMediumModel?> listenTo(String documentId, MemberMediumChanged changed);
+  StreamSubscription<MemberMediumModel?> listenTo(String documentId, MemberMediumChanged changed, {MemberMediumErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

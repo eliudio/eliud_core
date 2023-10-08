@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef MenuDefModelTrigger(List<MenuDefModel?> list);
 typedef MenuDefChanged(MenuDefModel? value);
+typedef MenuDefErrorHandler(o, e);
 
 abstract class MenuDefRepository extends RepositoryBase<MenuDefModel, MenuDefEntity> {
   Future<MenuDefEntity> addEntity(String documentID, MenuDefEntity value);
@@ -48,7 +49,7 @@ abstract class MenuDefRepository extends RepositoryBase<MenuDefModel, MenuDefEnt
 
   StreamSubscription<List<MenuDefModel?>> listen(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<MenuDefModel?>> listenWithDetails(MenuDefModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MenuDefModel?> listenTo(String documentId, MenuDefChanged changed);
+  StreamSubscription<MenuDefModel?> listenTo(String documentId, MenuDefChanged changed, {MenuDefErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

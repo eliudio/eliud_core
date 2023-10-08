@@ -135,13 +135,13 @@ class MemberCache implements MemberRepository {
   }
 
   @override
-  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed) {
+  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed, {MemberErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<MemberModel> refreshRelations(MemberModel model) async {

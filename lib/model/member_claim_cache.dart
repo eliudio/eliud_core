@@ -140,13 +140,13 @@ class MemberClaimCache implements MemberClaimRepository {
   }
 
   @override
-  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed) {
+  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed, {MemberClaimErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<MemberClaimModel> refreshRelations(MemberClaimModel model) async {

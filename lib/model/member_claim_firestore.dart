@@ -127,15 +127,21 @@ class MemberClaimFirestore implements MemberClaimRepository {
   }
 
   @override
-  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed) {
+  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed, {MemberClaimErrorHandler? errorHandler}) {
     var stream = MemberClaimCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<MemberClaimModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {

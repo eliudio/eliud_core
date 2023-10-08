@@ -20,6 +20,13 @@ class CurrentPageUpdated extends CurrentPageEvent {
   CurrentPageUpdated({ required this.page });
 }
 
+class ErrorLoadingPage extends CurrentPageEvent {
+  final String pageId;
+  final String appId;
+
+  ErrorLoadingPage({ required this.appId, required this.pageId });
+}
+
 class CurrentAppUpdated extends CurrentPageEvent {
   final AppModel app;
 

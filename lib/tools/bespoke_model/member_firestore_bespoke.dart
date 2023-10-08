@@ -191,15 +191,21 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed) {
+  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed, {MemberErrorHandler? errorHandler}) {
     var stream = MemberCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((member) {
+    var returnMe = stream.listen((member) {
       changed(member);
     });
+    returnMe.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return returnMe;
   }
 
   @override

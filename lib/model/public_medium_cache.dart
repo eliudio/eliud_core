@@ -135,13 +135,13 @@ class PublicMediumCache implements PublicMediumRepository {
   }
 
   @override
-  StreamSubscription<PublicMediumModel?> listenTo(String documentId, PublicMediumChanged changed) {
+  StreamSubscription<PublicMediumModel?> listenTo(String documentId, PublicMediumChanged changed, {PublicMediumErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<PublicMediumModel> refreshRelations(PublicMediumModel model) async {

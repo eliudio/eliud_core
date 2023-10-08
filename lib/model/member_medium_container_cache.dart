@@ -140,13 +140,13 @@ class MemberMediumContainerCache implements MemberMediumContainerRepository {
   }
 
   @override
-  StreamSubscription<MemberMediumContainerModel?> listenTo(String documentId, MemberMediumContainerChanged changed) {
+  StreamSubscription<MemberMediumContainerModel?> listenTo(String documentId, MemberMediumContainerChanged changed, {MemberMediumContainerErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<MemberMediumContainerModel> refreshRelations(MemberMediumContainerModel model) async {

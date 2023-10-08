@@ -32,6 +32,7 @@ import 'package:eliud_core/core/base/repository_base.dart';
 
 typedef MenuItemModelTrigger(List<MenuItemModel?> list);
 typedef MenuItemChanged(MenuItemModel? value);
+typedef MenuItemErrorHandler(o, e);
 
 abstract class MenuItemRepository extends RepositoryBase<MenuItemModel, MenuItemEntity> {
   Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value);
@@ -48,7 +49,7 @@ abstract class MenuItemRepository extends RepositoryBase<MenuItemModel, MenuItem
 
   StreamSubscription<List<MenuItemModel?>> listen(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
   StreamSubscription<List<MenuItemModel?>> listenWithDetails(MenuItemModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed);
+  StreamSubscription<MenuItemModel?> listenTo(String documentId, MenuItemChanged changed, {MenuItemErrorHandler? errorHandler});
   void flush();
   
   String? timeStampToString(dynamic timeStamp);

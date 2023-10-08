@@ -135,13 +135,13 @@ class DialogCache implements DialogRepository {
   }
 
   @override
-  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed) {
+  StreamSubscription<DialogModel?> listenTo(String documentId, DialogChanged changed, {DialogErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
       }
       changed(value);
-    }));
+    }), errorHandler: errorHandler);
   }
 
   static Future<DialogModel> refreshRelations(DialogModel model) async {

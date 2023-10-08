@@ -123,15 +123,21 @@ class BackendRequestFirestore implements BackendRequestRepository {
   }
 
   @override
-  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed) {
+  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed, {BackendRequestErrorHandler? errorHandler}) {
     var stream = BackendRequestCollection.doc(documentId)
         .snapshots()
         .asyncMap((data) {
       return _populateDocPlus(data);
     });
-    return stream.listen((value) {
+    var theStream = stream.listen((value) {
       changed(value);
     });
+    theStream.onError((theException, theStacktrace) {
+      if (errorHandler != null) {
+        errorHandler(theException, theStacktrace);
+      }
+    });
+    return theStream;
   }
 
   Stream<List<BackendRequestModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
