@@ -659,6 +659,16 @@ flutter_icons:
   ios: false
   image_path: assets/logo/thoma5-logo-1.png
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logo/thoma5-logo.png
+  image_path_ios: assets/logo/thoma5-logo.png
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: assets/logo/thoma5-logo.png
+
 ~~~
 
 3. Run the below from your 
@@ -1980,16 +1990,26 @@ TODO: reference nickname
 3. Select the file <a name="googleservice_info_plist">GoogleService-info.plist</a> you've copied to your macbook
 4. Makes sure “copy items if needed" is checked
 5. Press "Add"
+6. After adding file, find the entry "REVERSED_CLIENT_ID" and copy it's value
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="REVERSED_CLIENT_ID"><ins>REVERSED_CLIENT_ID</ins></a>: com.googleusercontent.apps.YOUR REVERSED_CLIENT_ID</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
 ---
 
 ## Step 12. Add a URL scheme to your project
 
-TODO: Continue here
-  https://developers.google.com/identity/sign-in/ios/start-integrating
-  
-  basically: grab the REVERSED_CLIENT_ID from your GoogleService-info.plist and add it to ios/Runner/Info.plist like this:
+1. Open ios/Runner/Info.plist with a text editor
+2. Add the below entry, make sure to use your <a name="REVERSED_CLIENT_ID"><ins>REVERSED_CLIENT_ID</ins></a>
 
+~~~
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -2002,31 +2022,29 @@ TODO: Continue here
 		</dict>
 	</array>
 
----
+~~~
 
-## Step 13. Update file ios/Podfile and replace  
+**MORE INFO**
 
-platform :ios, '11.0'
-With
-platform :ios, ’11.0'
-
----
-
-## Step 14. Back to Android studio, run the app again. 
-
-It'll fail with processor incompatibility issues. Goto the ios directory and run:
-   sudo arch -x86_64 gem install ffi
-   arch -x86_64 pod install
+<ul>
+  <li><a href="https://developers.google.com/identity/sign-in/ios/start-integrating">Get Started With Google Sign-in for iOS and macOD</a></li>
+</ul>
 
 ---
 
-## Step 15.  Trust
+## Troubleshouting steps
 
-Run the app. If it doesn’t work, run from Xcode
+1. Issue: Failure of running the app due to processor incompatibility issues.
+   Solution: Goto the ios directory and run:
 
-If you get this error "The operation couldn’t be completed. Unable to launch com.example.x.y.z-icloud.com because it 
-has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
-Then on your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
+~~~
+sudo arch -x86_64 gem install ffi
+arch -x86_64 pod install
+
+~~~
+
+2. Error "The operation couldn’t be completed. Unable to launch com.example.x.y.z-icloud.com because it has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
+   Solution: On your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
 
 ---
 
