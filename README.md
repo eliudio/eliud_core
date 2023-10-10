@@ -11,7 +11,7 @@
   * [Step 4: Setup Firebase database](#step-4-setup-firebase-database)
   * [Step 5: Setup Firebase storage](#step-5-setup-firebase-storage)
   * [Step 6: Setup Google Authentication](#step-6-setup-google-authentication)
-  * [Step 7: Generate key](#step-7-generate-key)
+  * [Step 7: Generate a Private Key](#step-7-generate-a-private-key)
   * [Step 8: Add Firebase Android App](#step-8-add-firebase-android-app)
   * [Step 9: Create Android Studio project](#step-9-create-android-studio-project)
   * [Step 10: Copy google_services.json](#step-10-copy-google_servicesjson)
@@ -64,13 +64,22 @@
   * [Step 6: Enable Apple sign-in on Firestore](#step-6-enable-apple-sign-in-on-firestore)
   * [Step 7: Provide Web Authentication Configuration for your Service ID](#step-7-provide-web-authentication-configuration-for-your-service-id)
   * [Step 8: Create Apple firebase app](#step-8-create-apple-firebase-app)
-  * [Step 8: Configure the Android Studio project for apple](#step-8-configure-the-android-studio-project-for-apple)
-  * [Step 9. Update file ios/Podfile and replace](#step-9-update-file-iospodfile-and-replace)
-  * [Step 10. GoogleService-Info.plist](#step-10-googleservice-infoplist)
-  * [Step 11. Add a URL sccheme to your project](#step-11-add-a-url-sccheme-to-your-project)
-  * [Step 12. Add capability "Sign in with apple"](#step-12-add-capability-sign-in-with-apple)
-  * [Step 13. Trust](#step-13--trust)
+  * [Step 9: Setup ios project](#step-9-setup-ios-project)
+  * [Step 10: Configure the Android Studio project for apple](#step-10-configure-the-android-studio-project-for-apple)
+  * [Step 11. GoogleService-Info.plist](#step-11-googleservice-infoplist)
+  * [Step 12. Add a URL scheme to your project](#step-12-add-a-url-scheme-to-your-project)
+  * [Troubleshouting steps](#troubleshouting-steps)
 - [Chapter IV. Deploy to android store](#chapter-iv-deploy-to-android-store)
+  * [Step 1. Build](#step-1-build)
+  * [Optional: Step 2. Test the bundle](#optional-step-2-test-the-bundle)
+  * [Step 3. Enroll to Android app store](#step-3-enroll-to-android-app-store)
+  * [Step 4. Create App on Google Play](#step-4-create-app-on-google-play)
+  * [Step 5. Provide App policy details](#step-5-provide-app-policy-details)
+  * [Step 6. Main store listing](#step-6-main-store-listing)
+  * [Step 7. Upload for testing](#step-7-upload-for-testing)
+  * [Step 8. Upload for production](#step-8-upload-for-production)
+  * [Optional: Step 9: Add signing key certificate](#optional-step-9-add-signing-key-certificate)
+  * [Step 10: Wait](#step-10-wait)
 - [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
 - [Chapter VI. Extend the app with other packages](#chapter-vi-extend-the-app-with-other-packages)
 - [Chapter VII. Write and integrate your own code / packages](#chapter-vii-write-and-integrate-your-own-code--packages)
@@ -232,7 +241,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-## Step 7: Generate key
+## Step 7: Generate a Private Key
 
 1. Run the following command at command prompt:
 
@@ -246,6 +255,7 @@ keytool -genkey -v -keystore your_keystore_filename -storepass your_keystore_sto
 
 ~~~
 keytool -list -v -alias your_keystore_alias -keystore your_keystore_filename -storepass your_keystore_storepass -keypass your_keystore_keypass
+
 ~~~
 
 For example:
@@ -253,6 +263,7 @@ For example:
 ~~~
 keytool -genkey -v -keystore %USERPROFILE%\\.android\\thoma5.keystore -storepass abc -alias thoma5key -keypass cde -keyalg RSA -keysize 2048 -validity 36524
 keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.keystore -storepass abc -keypass cde
+
 ~~~
 
 <table>
@@ -2046,7 +2057,139 @@ arch -x86_64 pod install
 
 # Chapter IV. Deploy to android store
 
-TODO: See deploy-to-android-store.txt
+Below the minimum required (unless indicated) steps to make your app available on android store. As you will see, the app google provides to upload, maintain, test apps is much broader than what we discuss. We do the bare minimum.
+
+## Step 1. Build
+
+1. From your app root directory, run:
+
+~~~
+flutter clean
+flutter build appbundle --release --no-tree-shake-icons -t lib/main.dart
+
+~~~
+
+2. Record the output file
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="ANDROID_BUNDLE"><ins>Android bundle</ins></a>: build\app\outputs\bundle\release\app-release.aab</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Optional: Step 2. Test the bundle
+
+1. Download bundletool from https://github.com/google/bundletool/releases/ and save in c:\dev\bundletool
+2. From your app root directory, generate a set of APKs from your app bundle using the bundletool. Make sure to provide the following:
+   - --bundle: <a href="#ANDROID_BUNDLE">Android bundle</a>
+   - --output: 
+   - --ks: <a href="#keystore_filename"><ins>your keystore filename</ins></a>
+   - --ks-key-alias: <a href="#keystore_alias"><ins>your keystore alias</ins></a>
+
+~~~
+java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar build-apks ^
+--bundle=build/app/outputs/bundle/release/app-release.aab ^
+--output=build/app/outputs/bundle/release/thoma5.apks ^
+--ks=%USERPROFILE%\\.android\\thoma5.keystore ^
+--ks-key-alias=thoma5key 
+
+~~~
+
+3. When asked provide your <a href="#keystore_storepass"><ins>your keystore storepass</ins></a>
+4. If you've previously installed your app during development on your android device, then remove it.
+5. Install the app
+
+~~~
+set ANDROID_HOME=C:\Users\johan\AppData\Local\Android\Sdk
+java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/app/outputs/bundle/release/thoma5.apks
+
+~~~
+
+---
+
+## Step 3. Enroll to Android app store 
+
+1. https://play.google.com/console/signup and follow on-screen instructions
+
+---
+
+## Step 4. Create App on Google Play 
+
+1. https://play.google.com/console
+2. Push "Create App" button
+3. Provide app details and press Create app
+
+---
+
+## Step 5. Provide App policy details
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Policy and programmes" > "App content" and then provide details for all declarations that need attention. You will need:
+   - <a href="#privacy_policy_url">Privacy policy URL</a>, here <a href="https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy">https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy</a> and press "Save"
+   - <a href="#member_dashboard_url">Member dashboard URL</a>: her e<a href="https://thoma5.com/#THOMA5_APP/2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page?open-dialog=ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard">https://thoma5.com/#THOMA5_APP/2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page?open-dialog=ecd648b7-68a6-4ebb-94b1-d2211c2f7b8f-member_dashboard</a>
+
+---
+
+## Step 6. Main store listing
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Grow" > "Main store listing"
+5. Provide all the information required for your store listing
+
+TODO: do this for thoma5
+TODO: add some tips if needed
+
+---
+
+## Step 7. Upload for testing
+
+TODO: find out if this is optional. I believe so
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Release" > "Testing" > "Open testing"
+4. Press "Create new release"
+5. Follow on-screen instructions
+
+---
+
+## Step 8. Upload for production
+
+TODO
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Release" > "Production"
+4. Press "Create new release"
+5. Follow on-screen instructions
+
+---
+
+## Optional: Step 9: Add signing key certificate
+
+TODO
+
+Goto https://play.google.com/console/about/keymanagement/ then goto play console, 
+select your account and your app. 
+Find the App signing key certificate. Copy the SHA-1 certificate fingerprint
+
+Now goto https://console.firebase.google.com/ then select your android app and click config. 
+Then add the SHA-1 fingerprint to the SHA certificate fingerprints
+
+---
+
+## Step 10: Wait
+
+1. Wait and find your app on play store soon
 
 ---
 
