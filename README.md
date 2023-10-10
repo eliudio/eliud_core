@@ -654,24 +654,19 @@ In the previous steps we've done the foundation to build an app. The next big st
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
-flutter_icons: 
-  android: launcher_icon
-  ios: false
-  image_path: assets/logo/thoma5-logo-1.png
-
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/logo/thoma5-logo.png
-  image_path_ios: assets/logo/thoma5-logo.png
+  image_path: assets/logo/thoma5-logo-1.png
+  image_path_ios: assets/logo/thoma5-logo-1.png
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: assets/logo/thoma5-logo.png
+    image_path: assets/logo/thoma5-logo-1.png
 
 ~~~
 
-3. Run the below from your 
+3. Run the below from your app directory
 
 ~~~
 flutter pub run flutter_launcher_icons:main
@@ -1380,9 +1375,7 @@ Future<void> main() async {
 
 ### Step 14.3: Create images and stylesheet
 
-1. Create favicon.png and overwrite the current existing one in the icons directory of your web folder
-
-Create a png 16 x 16 pixels based on your <a href="#logo">logo</a>.
+1. Optional: Verify the favicon.png that has been generated before, and optionally create your own (in the web folder). Size is 16 x 16. Use <a href="#logo">logo</a> as input.
 
 2. Download loading.gif 
 
@@ -2046,21 +2039,26 @@ arch -x86_64 pod install
 2. Error "The operation couldn’t be completed. Unable to launch com.example.x.y.z-icloud.com because it has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
    Solution: On your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
 
+3. iOS crash with a stack trace and a message "the default Firebase app has not yet been configured. Add `[FIRApp configure];` (`FirebaseApp.configure()` in Swift) to your application"
+   Solution: https://medium.com/vector-com-mm/how-to-fix-ios-crash-during-the-start-firebase-configure-f3477df3154
+
 ---
 
 # Chapter IV. Deploy to android store
 
-See deploy-to-android-store.txt
+TODO: See deploy-to-android-store.txt
 
 ---
 
 # Chapter V. Deploy to apple store
 
-See deploy-to-apple-store.txt
+TODO: See deploy-to-apple-store.txt
 
 ---
 
 # Chapter VI. Extend the app with other packages
+
+TODO
 
 Include extra packages and run wizards. For example, for thoma5 we added:
     eliud.registerPackage(ChatPackage.instance());
@@ -2071,6 +2069,8 @@ See <a href="#overview_packages">overview</a> of and <a href="#links_packages">l
 ---
 
 # Chapter VII. Write and integrate your own code / packages
+
+TODO
 
 ---
 
