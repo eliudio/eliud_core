@@ -1,5 +1,87 @@
 # eliud
 
+<!-- toc -->
+
+- [Introduction](#introduction)
+  * [Example Eliud apps](#example-eliud-apps)
+- [Chapter I. Create a simple "hello world" Android app](#chapter-i-create-a-simple-hello-world-android-app)
+  * [Step 1: Create a new google account](#step-1-create-a-new-google-account)
+  * [Step 2: Create a new firebase project](#step-2-create-a-new-firebase-project)
+  * [Step 3: Configure your project](#step-3-configure-your-project)
+  * [Step 4: Setup Firebase database](#step-4-setup-firebase-database)
+  * [Step 5: Setup Firebase storage](#step-5-setup-firebase-storage)
+  * [Step 6: Setup Google Authentication](#step-6-setup-google-authentication)
+  * [Step 7: Generate key](#step-7-generate-key)
+  * [Step 8: Add Firebase Android App](#step-8-add-firebase-android-app)
+  * [Step 9: Create Android Studio project](#step-9-create-android-studio-project)
+  * [Step 10: Copy google_services.json](#step-10-copy-google_servicesjson)
+  * [Step 11: Apply firebase SDK instructions](#step-11-apply-firebase-sdk-instructions)
+  * [Step 12: Add key store file to your project](#step-12-add-key-store-file-to-your-project)
+  * [Step 13: Update pubspec.yaml](#step-13-update-pubspecyaml)
+  * [Step 14: Update main.dart](#step-14-update-maindart)
+  * [Step 15: Clean up](#step-15-clean-up)
+  * [Step 16: minSdkVersion](#step-16-minsdkversion)
+  * [Step 17: Run your app](#step-17-run-your-app)
+- [Chapter II. Create the webapp and configure firebase](#chapter-ii-create-the-webapp-and-configure-firebase)
+  * [Step 1: Buy domain](#step-1-buy-domain)
+  * [Step 2: Add some basic functionality to your app](#step-2-add-some-basic-functionality-to-your-app)
+  * [Step 3: Logo](#step-3-logo)
+  * [Step 4: Add Firebase Web App](#step-4-add-firebase-web-app)
+  * [Step 5: Retrieve hosting details](#step-5-retrieve-hosting-details)
+  * [Step 6: Setup email forwarding](#step-6-setup-email-forwarding)
+  * [Step 7: Subscribe to mailtrap](#step-7-subscribe-to-mailtrap)
+  * [Step 8: Setup DNS records for firebase hosting](#step-8-setup-dns-records-for-firebase-hosting)
+    + [Example 1: domains.google.com](#example-1-domainsgooglecom)
+    + [Example 2: squarespace.com](#example-2-squarespacecom)
+  * [Step 9: Setup DNS records for mailtrap](#step-9-setup-dns-records-for-mailtrap)
+    + [Example 1: domains.google.com](#example-1-domainsgooglecom-1)
+    + [Example 2: squarespace.com](#example-2-squarespacecom-1)
+  * [Step 10: Verify mailtrap setup](#step-10-verify-mailtrap-setup)
+  * [Step 11: Update firebase](#step-11-update-firebase)
+    + [Step 11.1: Install firebase command line tools](#step-111-install-firebase-command-line-tools)
+    + [Step 11.2: Enable APIs](#step-112-enable-apis)
+    + [Step 11.3: Enable firebase functions](#step-113-enable-firebase-functions)
+    + [Step 11.4 Update firebase](#step-114-update-firebase)
+  * [Step 12: Enable APIs](#step-12-enable-apis)
+  * [Step 13: Configure oauth web client](#step-13-configure-oauth-web-client)
+  * [Step 14: Configure Android Studio project for web](#step-14-configure-android-studio-project-for-web)
+    + [Step 14.1: Update pubspec.yaml](#step-141-update-pubspecyaml)
+    + [Step 14.2: Update main.dart](#step-142-update-maindart)
+    + [Step 14.3: Create images and stylesheet](#step-143-create-images-and-stylesheet)
+    + [Step 14.4: Update index.html](#step-144-update-indexhtml)
+  * [Step 15: Cors`](#step-15-cors)
+  * [Step 16: Deploy your website](#step-16-deploy-your-website)
+  * [Step 17: Create policies / policy pages](#step-17-create-policies--policy-pages)
+  * [Step 18: Create membership dashboard page](#step-18-create-membership-dashboard-page)
+  * [Step 19: Setup oauth consent](#step-19-setup-oauth-consent)
+  * [Step 20: Start your free google GCP trial 300 USD](#step-20-start-your-free-google-gcp-trial-300-usd)
+- [Chapter III. Create the ios app](#chapter-iii-create-the-ios-app)
+  * [Step 1: Register as apple developer](#step-1-register-as-apple-developer)
+  * [Step 2: Create or Update an Apple App ID](#step-2-create-or-update-an-apple-app-id)
+  * [Step 3: Register your apple device](#step-3-register-your-apple-device)
+  * [Step 4: Create an Apple Service ID](#step-4-create-an-apple-service-id)
+  * [Step 5: Register a Private Key for you apple developer account](#step-5-register-a-private-key-for-you-apple-developer-account)
+  * [Step 6: Enable Apple sign-in on Firestore](#step-6-enable-apple-sign-in-on-firestore)
+  * [Step 7: Provide Web Authentication Configuration for your Service ID](#step-7-provide-web-authentication-configuration-for-your-service-id)
+  * [Step 8: Create Apple firebase app](#step-8-create-apple-firebase-app)
+  * [Step 8: Configure the Android Studio project for apple](#step-8-configure-the-android-studio-project-for-apple)
+  * [Step 9. Update file ios/Podfile and replace](#step-9-update-file-iospodfile-and-replace)
+  * [Step 10. GoogleService-Info.plist](#step-10-googleservice-infoplist)
+  * [Step 11. Add a URL sccheme to your project](#step-11-add-a-url-sccheme-to-your-project)
+  * [Step 12. Add capability "Sign in with apple"](#step-12-add-capability-sign-in-with-apple)
+  * [Step 13. Trust](#step-13--trust)
+- [Chapter IV. Deploy to android store](#chapter-iv-deploy-to-android-store)
+- [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
+- [Chapter VI. Extend the app with other packages](#chapter-vi-extend-the-app-with-other-packages)
+- [Chapter VII. Write and integrate your own code / packages](#chapter-vii-write-and-integrate-your-own-code--packages)
+- [Appendix A. Overview packages](#appendix-a-overview-packages)
+  * [The dependencies of a typical app](#the-dependencies-of-a-typical-app-)
+  * [Links](#links-)
+
+<!-- tocstop -->
+
+# Introduction
+
 Documentation for eliud is under construction. Please be patient.
 
 - Eliud technology is open source technology. 
@@ -29,7 +111,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 
 ---
 
-# I. Quick start
+# Chapter I. Create a simple "hello world" Android app
 
 This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
@@ -510,7 +592,16 @@ Future<void> main() async {
 
 ---
 
-## Step 18: Buy domain
+# Chapter II. Create the webapp and configure firebase
+
+In the previous steps we've done the foundation to build an app. The next big step is to introduce
+- web deployment
+- authentication
+- functions to support packages
+
+---
+
+## Step 1: Buy domain
 
 1. Buy a domain name, e.g. on squarespace.com. 
 
@@ -527,7 +618,7 @@ Future<void> main() async {
 
 ---
 
-## Step 19: Add some basic functionality to your app
+## Step 2: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
@@ -551,21 +642,9 @@ Future<void> main() async {
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
 
-
 ---
 
-# Next steps
-
-In the previous steps we've done the foundation to build an app. The next steps introduces 
-- platforms: web deployment, apple app
-- authentication
-- a brief overview of the current base packages
-- functions to support packages
-- deployment: deploying to google play store and apple app store,
-
----
-
-## Step 20: Logo
+## Step 3: Logo
 
 1. create a <a name="logo">logo</a> and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
 
@@ -591,7 +670,7 @@ flutter pub run flutter_launcher_icons:main
 
 ---
 
-## Step 21: Add Firebase Web App
+## Step 4: Add Firebase Web App
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -624,7 +703,7 @@ const firebaseConfig = {
 
 ---
 
-## Step 22: Retrieve hosting details
+## Step 5: Retrieve hosting details
 
 1. Goto https://console.firebase.google.com
 2. Find the "Add custom domain" button and add
@@ -683,7 +762,7 @@ const firebaseConfig = {
 
 ---
 
-## Step 23: Setup email forwarding
+## Step 6: Setup email forwarding
 
 1. Setup email forwarding
 
@@ -703,7 +782,7 @@ const firebaseConfig = {
 
 ---
 
-## Step 24: Subscribe to mailtrap
+## Step 7: Subscribe to mailtrap
 
 1. https://mailtrap.io/
 2. Select sign up
@@ -791,7 +870,7 @@ const firebaseConfig = {
 
 ---
 
-## Step 25: Setup DNS records for firebase hosting
+## Step 8: Setup DNS records for firebase hosting
 
 Follow the guidelines of your domain registrar to configure your DNS in line with the 
 <A HREF="#hosting_DNS_records">DNS records</A> specified in the firebase hosting dashboard.
@@ -887,7 +966,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 
 ---
 
-## Step 26: Setup DNS records for mailtrap
+## Step 9: Setup DNS records for mailtrap
 
 Follow the guidelines of your domain registrar to configure your DNS in line with the 
 <A HREF="#mailtrap_DNS_records">DNS records</A> specified in the mailtrap dashboard.
@@ -1006,7 +1085,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 
 ---
 
-## Step 27: Verify mailtrap setup
+## Step 10: Verify mailtrap setup
 
 1. Goto mailtrap.io and sign in with your <a href="#google_account">google account</a>
 2. From your dashboard, select Email Sending, then Sending Domains
@@ -1021,7 +1100,7 @@ For squarespace, for thoma5.com, this would the be done following these steps:
 
 ---
 
-## Step 28: Update firebase
+## Step 11: Update firebase
 
 In this step we wil be updating / uploading:
 
@@ -1034,25 +1113,25 @@ That was to get up and running quickly. The proper way to update
 rules is by using the firebase command line tools, which we will do in
 this step.
 
-### Step 28.1: Install firebase command line tools
+### Step 11.1: Install firebase command line tools
 
 1. Open cmd
 2. Run npm install -g firebase-tools
 
-### Step 28.2: Enable APIs
+### Step 11.2: Enable APIs
 
 1. Goto https://cloud.google.com/build/docs/deploying-builds/deploy-firebase
 2. Click "Enable the APIs"
 3. Follow on screen instructions
 
-### Step 28.3: Enable firebase functions
+### Step 11.3: Enable firebase functions
 
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Select functions
 4. Press "Get started" and select next
 
-### Step 28.4 Update firebase
+### Step 11.4 Update firebase
 
 1. Run the below (change firebase project and storage bucket to yours)
 
@@ -1105,13 +1184,13 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 29: Enable APIs
+## Step 12: Enable APIs
 
 1. Enable People API: https://console.developers.google.com/apis/api/people.googleapis.com
 
 ---
 
-## Step 30: Configure oauth web client
+## Step 13: Configure oauth web client
 
 1. Goto https://console.cloud.google.com/apis/credentials
 2. Find the OAuth 2.0 Client IDs with name "Web client". If you find more than one, select any, e.g. the first.
@@ -1135,9 +1214,9 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 31: Configure Android Studio project for web
+## Step 14: Configure Android Studio project for web
 
-### Step 31.1: Update pubspec.yaml
+### Step 14.1: Update pubspec.yaml
 
 1. Add the below dependency to pubspec.yaml
 
@@ -1178,7 +1257,7 @@ flutter_icons:
 
 2. Run pub get
 
-### Step 31.2: Update main.dart
+### Step 14.2: Update main.dart
 
 1. Add the following imports to main.dart 
 
@@ -1289,7 +1368,7 @@ Future<void> main() async {
 
 ~~~
 
-### Step 31.3: Create images and stylesheet
+### Step 14.3: Create images and stylesheet
 
 1. Create favicon.png and overwrite the current existing one in the icons directory of your web folder
 
@@ -1303,7 +1382,7 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/img/icons/l
 
 Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.css">styles.css</a> and copy into the root directory of your web folder
 
-### Step 31.4: Update index.html
+### Step 14.4: Update index.html
 
 1. Add the stylesheet
 
@@ -1431,7 +1510,7 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.
 
 ---
 
-## Step 33: Cors`
+## Step 15: Cors`
 
 To allow images to be accessed / copied, we need to configure cors access.
 
@@ -1471,7 +1550,7 @@ gsutil cors set cors.json gs://thoma5.appspot.com
  
 ---
 
-## Step 34: Deploy your website
+## Step 16: Deploy your website
 
 1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
@@ -1512,7 +1591,7 @@ In other words: no other steps - e.g. CORS - need to be repeated.
 
 ---
 
-## Step 35: Create policies / policy pages
+## Step 17: Create policies / policy pages
 
 When publishing apps to the Google Play or Apple App Store, you will need to 
 provide links to privacy policy, terms of service and/or disclaimer. 
@@ -1579,7 +1658,7 @@ For each policy, follow these steps:
 
 ---
 
-## Step 36: Create membership dashboard page
+## Step 18: Create membership dashboard page
 
 A membership dashboard page allows members to request the data that your website / app stores of that person and allows to deactivate the account and destroy all data that we keep of this person.
 
@@ -1623,7 +1702,7 @@ There are many reasons to have a membership dashboard page.
 
 ---
 
-## Step 37: Setup oauth consent
+## Step 19: Setup oauth consent
 
 TODO
 
@@ -1660,115 +1739,253 @@ Follow instructions in the email
 
 ---
 
-## Step 38: Start your free google GCP trial 300 USD
+## Step 20: Start your free google GCP trial 300 USD
 
 TODO: https://cloud.google.com/free
 
 ---
 
-## Step 39: Register as apple developer
+# Chapter III. Create the ios app
 
-TODO: https://developer.apple.com/programs/enroll/
+- a brief overview of the current base packages
 
-## Step 40: Create or Update an Apple App ID
+---
 
-TODO: 
-https://developer.apple.com/account/resources/identifiers/list
-Press '+' 
-Select "App IDs", then select APP
-Description: Your app name, here Juuwle
-Explicit bundle ID: Your bundle ID, net.juuwle.juuwleios
-Enable "Sign in with Apple"
-Save and register
+## Step 1: Register as apple developer
 
-## Step 41: Create an Apple Service ID
-TODO:
-https://developer.apple.com/account/resources/identifiers/list
-Press '+' 
-Select "Services IDs"
-Description: Juuwle
-Identifier: net.juuwle.juuwleservice
-And click register
-After registering, we'll need to enable sign-in. We'll do this in 5.4.2
+1. Goto https://developer.apple.com/programs/enroll/
+2. Follow the on-screen instructions
 
-## Step 42: Register a Private Key for you apple developer account
-TODO:
-https://developer.apple.com/account/resources/authkeys/list
-Press '+'
-Enable Sign in with Apple
-Configure
-Select App ID, created in 4.2
-Save 
-Configure
-Register
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="apple_team_id"><ins>Team ID</ins></a>: 123AB4CDEF</li>
+          <li><a name="apple_developer_account_email"><ins>Developer account email</ins></a>: x.y@icloud.com</li>
+          <li><a name="apple_developer_account_pw"><ins>Developer account password</ins></a>: password</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
-Copy the Key ID and press download and save the private key... you'll need these two in 5.4.2
+---
 
-## Step 43: Enable Apple sign-in on Firestore
-TODO:
-Optional, if you want the app to be available on ios
-Select "Apple" and enable it with the switch "Enable"
-Specify, from 4. Apple setup
-  Services ID, here net.juuwle.juuwleservice
-  Apple team ID, find "Team ID" from https://developer.apple.com/account/
-  Key ID, get from 4.2
-  Private key, get from 4.2
-Finally copy the authorisation callback URL to be used in the next step
-Press save
+## Step 2: Create or Update an Apple App ID
 
-ALSO: Configure apple authorization callback
+1. https://developer.apple.com/account/resources/identifiers/list
+2. Press '+' next to "Identifiers"
+3. Select "App IDs" and press continue
+4. Select APP and continue
+5. Description: Your app name, Thoma5
+6. Explicit bundle ID: Explicit
+7. Provide the bundle ID, which is: com.thoma5.toma5ios
+   TODO: explain how to construct the bundle ID
+   
+8. Enable "Sign in with Apple". No need to press "Edit"
+9. Press save
+10. Press register
 
-https://developer.apple.com/account/resources/identifiers/list/serviceId
-Find the service you created in 4.3
-Enable Sign in with Apple 
-Click Configure
-Primary App ID: the app ID you created in 4.2
-Return URL: The authorisation callback URL you copied from firebase console, mine https://juuwle-b719f.firebaseapp.com/__/auth/handler
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="app_description"><ins>App Description</ins></a>: Thoma5</li>
+          <li><a name="app_bundle_id"><ins>App Bunble ID</ins></a>: com.thoma5.thoma5ios</li>
+          <li><a name="app_id_prefix"><ins>App ID Prefix</ins></a>: 123AB4CDEF</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
-## Step 44: Register your apple device
-TODO:
-Register your device https://developer.apple.com/account/resources/devices/list
+---
 
-## Step 43: Create Apple firebase app
-TODO:
-App bundle id: net.juuwle.juuwleios
-App nickname: Juuwle
-App Store ID (optional): 
+## Step 3: Register your apple device
 
-Download GoogleService-Info.plist (if you can't find it you can find it from the project settings)
+To be able to develop on your ipad / iphone, you need to register your device. Run these steps:
 
-## Step 44: Configure the Android Studio project for apple
-TODO:
-(clone your code on your apple machine)
-Configure the Android Studio project (created in 5.6.3.1)
+1. https://developer.apple.com/account/resources/devices/list
+2. Press '+' next to "Devices"
+3. Select your device name, e.g. iOS, iPadOS, ...
+4. Provide a device name, e.g. "My dev ipad"
+5. Specifiy the UDID of your device
 
-Step 1. Run the project. It’ll fail with the error "Your session has expired. Please log in". 
-   By running the project, you'll have generated the ios xcode project which we'll open in the next step
+**MORE INFO**
 
-Step 2. Signing and Capabilities
-   Open .../juuwle/ios/Runner.xcworkspace
+To find the UDID of our devices, this can help...
 
-   Click Runner top left in explorer, then select TARGETS “Runner”, then select “Signing and Capabilities”.
-   You might have signing certificate errors. In that case, from xcode, press Cmd + , Then goto accounts and sign in
-   Then back in the Signing and Capabilities, select the team
+<ul>
+  <li>To find the UDID on macbook: Click apple icon > About This Mac > More Info.. > System Report > Hardware > Hardware Overview and find the UDID next to "Provisioning UDID".</li>
+  <li>For other devices we've found <a href="https://deciphertools.com/blog/2014_11_19_how_to_find_your_iphone_udid/">How to Find Your iPhone or iPad's UDID</a> useful.</li>
+</ul>
 
-Step 3. Back to Android studio, run the app again. It'll fail with processor incompatibility issues. Goto the ios directory and run:
-   sudo arch -x86_64 gem install ffi
-   arch -x86_64 pod install
+---
 
-Step 4. Update file ios/Podfile and replace  
-# platform :ios, '11.0'
-With
-platform :ios, ’11.0'
+## Step 4: Create an Apple Service ID
 
-Step 5. GoogleService-Info.plist
+1. https://developer.apple.com/account/resources/identifiers/list/serviceId
+2. Press '+' next to "Identifiers"
+3. Select "Services IDs" and press continue
+4. Description: Thoma5 Service ID
+5. Identifier: com.thoma5.thoma5service
+   TODO: explain how to construct the identifiers/list
 
-You’ll get the error "Firebase has not been correctly initialized. Have you added the "GoogleService-Info.plist" file to the project?”
+6. Press save
+7. Press register
 
-Open Xcode (important!) and add the GoogleService-Info.plist from 5.8.1 to Runner folder (select Runner/Runner) in xcode, 
-ie drag from downloads folder into xcode Runner (make sure to select “copy items if needed")
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="service_description"><ins>Service Description</ins></a>: Thoma5</li>
+          <li><a name="service_id"><ins>Service identifier</ins></a>: com.thoma5.thoma5service</li>
+        </ul>
+      </td>
+    </tr>
+</table>
 
-Step 6. Add a URL sccheme to your project
+---
+
+## Step 5: Register a Private Key for you apple developer account
+
+1. https://developer.apple.com/account/resources/authkeys/list
+2. Press '+' next to "Keys"
+3. Provide key name, here Thoma5
+3. Enable "Sign in with Apple"
+4. Press "Configure" next to "Sign in with Apple"
+5. Select your App ID from the list which corresponds to the <a href="#app_bundle_id"/>App Bunble ID</a> and <a href="#app_id_prefix">App ID Prefix</a>
+6. Press "Save"
+7. Press "Continue"
+8. Press Register
+9. Save key ID and download the key
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="key_id"><ins>Key ID</ins></a>: 12ZYXWVUTS</li>
+          <li><a name="private_key"><ins>Private key</ins></a>C:\Users\thomas\Downloads\AuthKey_12ZYXWVUTS.p8</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+10. Press "Done"
+
+---
+
+## Step 6: Enable Apple sign-in on Firestore
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select "Authentication"
+4. Select "Sign-in method"
+5. Press "Add new provider"
+6. Select "Apple"
+7. Enable it with the switch "Enable"
+8. Services ID, specify value of <a href="#service_id">Service ID</a>, here com.thoma5.thoma5_service
+9.  Apple team ID, find "Team ID" from https://developer.apple.com/account/
+10. Expand OAuth code flow configuration
+11. Apple team ID, specify value of <a href="#apple_team_id">Team ID</a>, here 123AB4CDEF
+12. Key ID, specify value of <a href="#key_id">Key ID</a>, here 12ZYXWVUTS
+13. Private key, specify contents of <a name="private_key">Private key</a>
+14. Finally copy the authorisation callback URL to be used in the next step
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="authorisation_callback_url">Authorisation callback URL</a>: https://thoma5.firebaseapp.com/__/auth/handler</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Step 7: Provide Web Authentication Configuration for your Service ID
+
+1. https://developer.apple.com/account/resources/identifiers/list/serviceId
+2. Find the service with IDENTIFER = <a href="#service_id">Service identifier</a>
+3. Enable "Sign in with Apple"
+4. Click Configure next to "Sign in with Apple"
+5. Primary App ID: select the app with app that corresponds with the <a href="#app_bundle_id"/>App Bunble ID</a> and <a href="#app_id_prefix">App ID Prefix</a>
+6. Domains and Subdomains: specify <a name="#domain_name">domain name</a>, here thoma5.com
+7. Return URLs: specify the <a href="#authorisation_callback_url">Authorisation callback URL</a>, here https://thoma5.firebaseapp.com/__/auth/handler
+8. Press "Next"
+9. Press "Done"
+10. Press "Continue"
+11. And finally press "Save"
+
+---
+
+## Step 8: Create Apple firebase app
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Press "Add app"
+4. Select "iOS"
+5. Apple bundle ID: <a href="#app_bundle_id">App Bunble ID</a>, here com.thoma5.thoma5ios
+6. App nickname: Thoma5
+TODO: reference nickname
+
+7. App Store ID (optional): leave blank
+8. Press "Register app"
+9. Press "Download GoogleService-info.plist"
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="key_id"><ins>Key ID</ins></a>: 12ZYXWVUTS</li>
+          <li><a name="googleservice_info_plist"><ins>GoogleService-info.plist</ins></a>C:\Users\thomas\Downloads\GoogleService-info.plist</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+10. Press "Next", 3 times
+11. Press "Continue to the console"
+
+---
+
+## Step 9: Setup ios project
+
+1. Clone your code on your apple machine
+2. Open the Android Studio project
+
+---
+
+## Step 10: Configure the Android Studio project for apple
+
+1. From Android Studio, right click your project root directory/ios/Runner.xcworkspace and select Flutter > Open iOS module in Xcode
+2. In Xcode, select Runner folder, then from the list of TARGETS, select Runner
+3. Then click the "Signing & Capabilities" tab
+4. From the team field, select your team
+5. For bundle identifier, specify <a name="app_bundle_id">App Bunble ID</a>: com.thoma5.thoma5ios
+6. Press "+ Capability"  then double click  "Sign in with Apple"
+7. Don't forget to select Team
+
+---
+
+## Step 11. GoogleService-Info.plist
+
+1. Copy <a name="googleservice_info_plist">GoogleService-info.plist</a> from your windows machine to your macbooks, in our case c:\Users\thomas\Downloads\GoogleService-info.plist
+2. From Xcode, from project Runner, right click folder Runner and select 'Add Files to "Runner"'
+3. Select the file <a name="googleservice_info_plist">GoogleService-info.plist</a> you've copied to your macbook
+4. Makes sure “copy items if needed" is checked
+5. Press "Add"
+
+---
+
+## Step 12. Add a URL scheme to your project
+
+TODO: Continue here
   https://developers.google.com/identity/sign-in/ios/start-integrating
   
   basically: grab the REVERSED_CLIENT_ID from your GoogleService-info.plist and add it to ios/Runner/Info.plist like this:
@@ -1785,14 +2002,25 @@ Step 6. Add a URL sccheme to your project
 		</dict>
 	</array>
 
-Step 7. Add capability "Sign in with apple"
- 
-From Xcode, Runner > Targets > Runner select tab "Signing & Capabilities"
-Add Capability (+Capability)
+---
 
-Don't forget to select Team
+## Step 13. Update file ios/Podfile and replace  
 
-Step 8.  Trust
+platform :ios, '11.0'
+With
+platform :ios, ’11.0'
+
+---
+
+## Step 14. Back to Android studio, run the app again. 
+
+It'll fail with processor incompatibility issues. Goto the ios directory and run:
+   sudo arch -x86_64 gem install ffi
+   arch -x86_64 pod install
+
+---
+
+## Step 15.  Trust
 
 Run the app. If it doesn’t work, run from Xcode
 
@@ -1800,34 +2028,46 @@ If you get this error "The operation couldn’t be completed. Unable to launch c
 has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
 Then on your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
 
-## Step 44: Deploy to android store
+---
+
+# Chapter IV. Deploy to android store
 
 See deploy-to-android-store.txt
 
-## Step 45: Deploy to apple store
+---
+
+# Chapter V. Deploy to apple store
 
 See deploy-to-apple-store.txt
 
 ---
 
-## Step 46: Extend app
+# Chapter VI. Extend the app with other packages
 
-Include extra packages and run wizards. For thoma5 we added:
+Include extra packages and run wizards. For example, for thoma5 we added:
     eliud.registerPackage(ChatPackage.instance());
     eliud.registerPackage(FeedPackage.instance());
+    
+See <a href="#overview_packages">overview</a> of and <a href="#links_packages">links</a> to all currently known packages below. 
 
 ---
 
-# overview packages / dependencies
+# Chapter VII. Write and integrate your own code / packages
 
-## typical
+---
+
+# Appendix A. Overview packages
+
+## The dependencies of a typical app <a name="overview_packages"></a>
+
 A typical app, here Minkey, uses the following dependencies:
 
 ![Dependency diagram](https://github.com/eliudio/eliud_core/raw/main/minkey-depends.jpg)
 
 ---
 
-## links
+## Links <a name="links_packages"></a>
+
 |Package                                                                    |Description                                            |
 |---------------------------------------------------------------------------|-------------------------------------------------------|
 |[eliud_core](https://pub.dev/packages/eliud_core)                          | This package                                          |
