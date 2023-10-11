@@ -2140,19 +2140,74 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
 
 ## Step 6. Main store listing
 
+TODO: find out if this is optional. 
+
+### Step 6.1 Take screenshots
+
+### Step 6.1.1 Create virtual machines
+
+1. Start Android Studio
+2. Select "Tools" > Device Manager
+3. Select "Create device"
+4. Press "New Hardware Profile" and create the first hardware profile as listed in the table below
+5. Press "Next" and select an system image with API level 29
+6. Allow all default settings and press "Finish"
+
+| Name                       | Device type  | Screen size | Resolution  | RAM     | Has Hardware Buttons | Has Harware Keyboard | Navigation Style |
+|----------------------------|--------------|-------------|-------------|---------|----------------------|----------------------|------------------|
+| Phone 16:9                 | Phone/Tablet | 5.96"       | 1440 x 2560 | 2048 MB | /                    | /                    | /                |
+| Tablet 7" inch 16:9        | Phone/Tablet | 7"          | 1024 x 576  | 2048 MB | /                    | /                    | /                |
+| Tablet 10" inch 16:9       | Phone/Tablet | 10"         | 3200 x 1800 | 2048 MB | /                    | /                    | /                |
+
+### Step 6.1.2 Run the app and take screenshots
+
+1. From Android Studio, run your app on the abvove virtual machines
+2. Take take 2-8 screenshots from the phone and 1-8 screenshots from each of the 2 tablets
+3. 
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="android_screenshots"><ins>Android screenshots</ins></a>: c:\temp\screenshots</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+### Step 6.1.3 Create icon 512 x 512 pixels
+
+TODO: describe and reference logo
+
+### Step 6.2 Submit main store listing details
+
 1. https://play.google.com/console
 2. Select your app
 3. Select "Grow" > "Main store listing"
 5. Provide all the information required for your store listing
+
+referenbce the screenshots and icon
 
 TODO: do this for thoma5
 TODO: add some tips if needed
 
 ---
 
+## Step 7. Store presence
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Grow" > "Store settings"
+4. Provide the information required.
+
+TODO: do this for thoma5
+
+---
+
 ## Step 7. Upload for testing
 
-TODO: find out if this is optional. I believe so
+TODO: find out if this is optional. I believe so. Anyway, try step 8 first. If that works, then add Step 7 is optional
 
 1. https://play.google.com/console
 2. Select your app
