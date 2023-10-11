@@ -2217,19 +2217,7 @@ TODO: find out if this is optional. I believe so. Anyway, try step 8 first. If t
 
 ---
 
-## Step 8. Upload for production
-
-TODO
-
-1. https://play.google.com/console
-2. Select your app
-3. Select "Release" > "Production"
-4. Press "Create new release"
-5. Follow on-screen instructions
-
----
-
-## Optional: Step 9: Add signing key certificate
+## Step 8: Add signing key certificate
 
 TODO
 
@@ -2239,6 +2227,18 @@ Find the App signing key certificate. Copy the SHA-1 certificate fingerprint
 
 Now goto https://console.firebase.google.com/ then select your android app and click config. 
 Then add the SHA-1 fingerprint to the SHA certificate fingerprints
+
+---
+
+## Step 9. Upload for production
+
+TODO
+
+1. https://play.google.com/console
+2. Select your app
+3. Select "Release" > "Production"
+4. Press "Create new release"
+5. Follow on-screen instructions
 
 ---
 
