@@ -127,11 +127,28 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 <table>
     <tr>
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-      <td>Whenever this pops up, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5. Obviously for sensitive information, like passwords, we've provided fake info.</td>
+      <td>Whenever this pops up, make note of this for what this is in your case, as you'll need it at some later stage. In the below text we provided this information whilst creating thoma5, as an example. Obviously for sensitive information, like passwords, we've provided fake info.</td>
     </tr>
 </table>
 
 ---
+
+## Step 0: Decide
+
+Decide your app name and web domain.
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="domain_name"><ins>your domain</ins></a>: thoma5.com</li>
+          <li><a name="app_nickname"><ins>your app nickname</ins></a>: Thoma5</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
 
 ## Step 1: Create a new google account
 
@@ -143,7 +160,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 <table>
     <tr>
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-      <td>
+   f   <td>
         <ul>
           <li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
           <li><ins>google account password</ins></li>
@@ -295,11 +312,12 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Click 'Add app' and select platform 'Android'"
-4. Specify your android package name
-5. Specify your android app nickname
+4. Specify your android package name. This must be the inverse of <a href="#domain"><ins>your domain</ins></a>
+5. Specify your android app nickname. This is <a href="#app_nickname">your app nickname</a>
 6. Paste the SHA-1 key <a href="#keystore_SHA1">Your keystore SHA1</a>
 7. Press "Register app"
 8. Then download the file google-services.json
+
 
 <table>
     <tr>
@@ -307,7 +325,6 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
       <td>
         <ul>
           <li><a name="android_package_name"><ins>your Android app package name</ins></a>: com.thoma5.thoma5_app</li>
-          <li><a name="android_app_nickname"><ins>your Android app nickname</ins></a>: Thoma5</li>
           <li><a name="google_services_json_filename"><ins>your downloaded google-services.json file</ins></a>: C:\Users\johan\Downloads\google-services.json</li>
         </ul>
       </td>
@@ -603,39 +620,13 @@ Future<void> main() async {
 
 ---
 
-# Chapter II. Create the webapp and configure firebase
-
-In the previous steps we've done the foundation to build an app. The next big step is to introduce
-- web deployment
-- authentication
-- functions to support packages
-
----
-
-## Step 1: Buy domain
-
-1. Buy a domain name, e.g. on squarespace.com. 
-
-<table>
-  <tr>
-    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-    <td>
-      <ul>
-        <li><a name="domain_name"><ins>domain name</ins></a>: thoma5.com</li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
----
-
-## Step 2: Add some basic functionality to your app
+## Step 18: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
 3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button and in the general section
    1. change the title of your application
-   2. change the home url to your domain url. This is constructed with https:// followed by your <a href="#domain_name">domain name</a>
+   2. change the home url to your domain url. This is constructed with https:// followed by <a href="#domain_name">your domain name</a>
 
 <table>
   <tr>
@@ -655,9 +646,36 @@ In the previous steps we've done the foundation to build an app. The next big st
 
 ---
 
+# Chapter II. Create the webapp and configure firebase
+
+In the previous steps we've done the foundation to build an app. The next big step is to introduce
+- web deployment
+- authentication
+- functions to support packages
+
+---
+
+## Step 1: Buy domain
+
+1. Buy <a href="#domain_name">your domain name</a>, e.g. on squarespace.com. 
+
+---
+
 ## Step 3: Logo
 
-1. create a <a name="logo">logo</a> and store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
+1. create a logoand store into a file in your project directory, e.g. assets/logo/thoma5-logo-1.png
+
+<table>
+  <tr>
+    <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+    <td>
+      <ul>
+        <li><a name="logo"><ins>logo</a></ins>: assets/logo/thoma5-logo-1.png</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 
 2. add the below to pubspec.yaml
 
@@ -691,7 +709,7 @@ flutter pub run flutter_launcher_icons:main
 1. Goto https://console.firebase.google.com
 2. Select your project
 3. Click 'Add app' and select platform 'Web'"
-4. Provide an App nickname, e.g. Thoma5
+4. Provide your app nickname <a href="#app_nickname"><ins>your app nickname</ins></a>
 5. Select Firebase Hosting. 
 6. Select your project from the drop down box. 
 7. Click on Register app. 
@@ -1651,7 +1669,7 @@ For each policy, follow these steps:
     - From your web app: open left drawer, select your policy and copy the URL from your browser address bar
     - From android app: update the policy page, copy the key from the general section. Now construct the URL:
       - Start with https://
-      - Add your <a name="domain_name">domain name</a> and a slash: thoma5.com/
+      - Add your <a href="#f">domain name</a> and a slash: thoma5.com/
       - Add your <a href="#APP_ID">APP_ID</a> and a slash: #THOMA5_APP/
       - Add the policy page key: 8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy
 
@@ -1695,7 +1713,7 @@ There are many reasons to have a membership dashboard page.
 6. Copy the key of the page, here 2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page
 7. Now construct the membership URL:
       - Start with https://
-      - Add your <a name="domain_name">domain name</a> and a slash: thoma5.com/
+      - Add <a href="#domain_name">domain name</a> and a slash: thoma5.com/
       - Add your <a href="#APP_ID">APP_ID</a> and a slash: #THOMA5_APP/
       - Add the membership dashboard page retrieved in step 6, i.e. here 2ffb7c1e-0a84-4f73-bac9-31c57ffb12c4-page
       - Add a /
@@ -1791,11 +1809,9 @@ TODO: https://cloud.google.com/free
 2. Press '+' next to "Identifiers"
 3. Select "App IDs" and press continue
 4. Select APP and continue
-5. Description: Your app name, Thoma5
+5. Description: <a href="#app_nickname"><ins>your app nickname</ins></a>
 6. Explicit bundle ID: Explicit
-7. Provide the bundle ID, which is: com.thoma5.toma5ios
-   TODO: explain how to construct the bundle ID
-   
+7. Provide the bundle ID. This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'ios', here com.thoma5.toma5ios. Do not use '_'
 8. Enable "Sign in with Apple". No need to press "Edit"
 9. Press save
 10. Press register
@@ -1805,7 +1821,6 @@ TODO: https://cloud.google.com/free
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="app_description"><ins>App Description</ins></a>: Thoma5</li>
           <li><a name="app_bundle_id"><ins>App Bunble ID</ins></a>: com.thoma5.thoma5ios</li>
           <li><a name="app_id_prefix"><ins>App ID Prefix</ins></a>: 123AB4CDEF</li>
         </ul>
@@ -1841,10 +1856,8 @@ To find the UDID of our devices, this can help...
 1. https://developer.apple.com/account/resources/identifiers/list/serviceId
 2. Press '+' next to "Identifiers"
 3. Select "Services IDs" and press continue
-4. Description: Thoma5 Service ID
-5. Identifier: com.thoma5.thoma5service
-   TODO: explain how to construct the identifiers/list
-
+4. Description: <a href="#app_nickname">your app nickname</a>, here Thoma5
+5. Identifier: This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'service', here com.thoma5.toma5service
 6. Press save
 7. Press register
 
@@ -1943,10 +1956,8 @@ To find the UDID of our devices, this can help...
 2. Select your project
 3. Press "Add app"
 4. Select "iOS"
-5. Apple bundle ID: <a href="#app_bundle_id">App Bunble ID</a>, here com.thoma5.thoma5ios
-6. App nickname: Thoma5
-TODO: reference nickname
-
+5. Apple bundle ID: <a href="#app_bundle_id">App Bunble ID</a>
+6. App nickname: <a href="#app_nickname"><ins>your app nickname</ins></a>, here Thoma5
 7. App Store ID (optional): leave blank
 8. Press "Register app"
 9. Press "Download GoogleService-info.plist"
@@ -1981,7 +1992,7 @@ TODO: reference nickname
 2. In Xcode, select Runner folder, then from the list of TARGETS, select Runner
 3. Then click the "Signing & Capabilities" tab
 4. From the team field, select your team
-5. For bundle identifier, specify <a name="app_bundle_id">App Bunble ID</a>: com.thoma5.thoma5ios
+5. For bundle identifier, specify your <a href="#app_bundle_id">App Bunble ID</a>, here com.thoma5.thoma5ios
 6. Press "+ Capability"  then double click  "Sign in with Apple"
 7. Don't forget to select Team
 
@@ -2140,8 +2151,6 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
 
 ## Step 6. Main store listing
 
-TODO: find out if this is optional. 
-
 ### Step 6.1 Take screenshots
 
 ### Step 6.1.1 Create virtual machines
@@ -2178,7 +2187,7 @@ TODO: find out if this is optional.
 
 ### Step 6.1.3 Create icon 512 x 512 pixels
 
-TODO: describe and reference logo
+Provide a <a href="logo>logo</a> file with resolution 512 x 512
 
 ### Step 6.2 Submit main store listing details
 
@@ -2250,7 +2259,85 @@ Then add the SHA-1 fingerprint to the SHA certificate fingerprints
 
 # Chapter V. Deploy to apple store
 
-TODO: See deploy-to-apple-store.txt
+TODO!!!
+
+1. Register as developer on appstoreconnect.
+
+2. Register a Bundle ID on    https://appstoreconnect.apple.com/apps
+
+3. Create an application record on App Store Connec
+   Add new app    https://appstoreconnect.apple.com/apps
+
+   New app details:
+     - Name: Minkey
+     - Primary language: English
+     - Bundle ID: Minkey - io.minkey.minkeyios
+     - SKU: io.minkey.minkeyios
+     - User Access: Full Access
+   Upload screenshots
+     - For the ipad pro 2nd generation, open terminal and run: 
+         sudo xcrun simctl create "iPad Pro (12.9-inch) (2nd generation)" "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--12-9-inch---2nd-generation-"
+     - XCode > Open Developer Tool > Simulator
+     - File > Open Simulator or, if required, New Simulator (to create one of the below)
+       - iPhone 6.7", iPhone 14 Pro Max - Ok
+       - iPhone 6.5" --> Use 6.7" Display - Ok
+       - iPhone 5.5", iPhone 8 plus - Ok
+       - iPad pro 6th gen 12.9" - Ok
+       - iPad pro 2nd gen 12.9" 
+   Provide Promotional Text
+   Provide Description
+   Provide Contact Information
+   Provide Sign-in, if required juuwle.net@gmail.com Juuiop857!
+   Save
+   
+   Provide App Privacy details
+   
+4. Updating the app’s deployment version
+
+   Update version. 
+
+5. Create a build archive and upload to App Store Connect
+
+6.1 Update the app’s build and version numbers
+Update pubspec.yaml, increase version number
+
+6.2 Create an app bundle
+cd apps/minkey_mac/ios
+To build run:
+ 
+flutter build ipa --no-tree-shake-icons
+
+(Tree-shaking is to automatically subset and include only the icons you're using. 
+We don't know this up front as it's configured, not hardcoded.)
+
+6.3 Upload the app bundle to App Store Connect
+
+6.3.1 Use upload tool
+
+6.3.1.1 Create and download a key
+https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api
+
+copy the key into ~/private_keys
+
+(stored in repository keys/AuthKey_TV4KGWA74M.p8)
+
+6.3.1.2 Upload
+find the issuer ID and key ID and on the keys page
+
+then run
+xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id
+
+6.3.2 Transport app
+
+install/open Transport app on the macbook
+drag and drop the build/ios/ipa/*.ipa app bundle onto the Apple Transport app
+
+7. Release your app to the App Store
+
+TODO
+
+MIGHT NEED TO CHECK WHAT ELSE IN deploy-to-apple-store.txt
+
 
 ---
 
