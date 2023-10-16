@@ -133,7 +133,7 @@ This guide are all steps to create a minimum android, iOS or web app with Eliud.
 
 ---
 
-## Step 0: Decide
+## Step 1: Decide on domain name and app nickname
 
 Decide your app name and web domain.
 
@@ -149,8 +149,9 @@ Decide your app name and web domain.
     </tr>
 </table>
 
+---
 
-## Step 1: Create a new google account
+## Step 2: Create a new google account
 
 1. Goto https://www.google.com/account/about/
 2. Select "Create an account"
@@ -171,7 +172,7 @@ Decide your app name and web domain.
 
 ---
 
-## Step 2: Create a new firebase project
+## Step 3: Create a new firebase project
 
 1. Goto https://console.firebase.google.com
 2. Select "Create a project"
@@ -191,7 +192,7 @@ Decide your app name and web domain.
 
 ---
 
-## Step 3: Configure your project
+## Step 4: Configure your project
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -200,7 +201,7 @@ Decide your app name and web domain.
 
 ---
 
-## Step 4: Setup Firebase database
+## Step 5: Setup Firebase database
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -217,7 +218,7 @@ Decide your app name and web domain.
 
 ---
 
-## Step 5: Setup Firebase storage
+## Step 6: Setup Firebase storage
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -247,7 +248,7 @@ Decide your app name and web domain.
    
 ---
 
-## Step 6: Setup Google Authentication
+## Step 7: Setup Google Authentication
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -258,7 +259,7 @@ Decide your app name and web domain.
 
 ---
 
-## Step 7: Generate a Private Key
+## Step 8: Generate a Private Key
 
 1. Run the following command at command prompt:
 
@@ -307,7 +308,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-## Step 8: Add Firebase Android App
+## Step 9: Add Firebase Android App
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -333,7 +334,7 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-## Step 9: Create Android Studio project
+## Step 10: Create Android Studio project
 
 1. Start Android studio
 2. Select File > New > New Flutter Project
@@ -370,14 +371,14 @@ keytool -list -v -alias thoma5key -keystore %USERPROFILE%\\.android\\thoma5b.key
 
 ---
 
-## Step 10: Copy google_services.json
+## Step 11: Copy google_services.json
 
 1. Switch to the Project view in Android Studio to see your project root directory.
 2. Move <a href="#google_services_json_filename">your downloaded google-services.json file</a> into your module (app-level) root directory, e.g. thoma5_app/android/app
 
 ---
 
-## Step 11: Apply firebase SDK instructions
+## Step 12: Apply firebase SDK instructions
 
 1. Goto https://console.firebase.google.com
 2. Select your project
@@ -412,7 +413,7 @@ dependencies {
 
 ---
 
-## Step 12: Add key store file to your project
+## Step 13: Add key store file to your project
 
 1. Create key.properties file in your android directory, e.g thoma5/android/key.properties
 2. Populate it with the below keys and values as below. Find your values specified before (follow the links)
@@ -490,7 +491,7 @@ dependencies {
 
 ---
 
-## Step 13: Update pubspec.yaml
+## Step 14: Update pubspec.yaml
 
 1. Update you pubspec.yaml file to reflect the below
 
@@ -520,7 +521,7 @@ flutter:
 
 ---
 
-## Step 14: Update main.dart
+## Step 15: Update main.dart
 
 1. Replace your main.dart with these contents.
 
@@ -585,13 +586,13 @@ Future<void> main() async {
 
 ---
 
-## Step 15: Clean up
+## Step 16: Clean up
 
 1. Delete the directory test, which contains widget_test.dart
 
 ---
 
-## Step 16: minSdkVersion
+## Step 17: minSdkVersion
 
 1. Goto your <a href="#flutter_sdk_path">Flutter SDK path</a>, subdirectory packages\flutter_tools\gradle\src\main\groovy and edit the file flutter.groovy and open it
 2. Update the value for minSdkVersion to be 21
@@ -612,7 +613,7 @@ Future<void> main() async {
 
 ---
 
-## Step 17: Run your app
+## Step 18: Run your app
 
 1. Run the app. Because this is the first time your start the app, it will install a basic app. 
 2. When the app asks to choose an account to login, select your <a href="#google_account">google account</a>
@@ -620,7 +621,7 @@ Future<void> main() async {
 
 ---
 
-## Step 18: Add some basic functionality to your app
+## Step 19: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
@@ -1617,9 +1618,9 @@ call firebase deploy --project thoma5
 
 **COMMENT**
 
-When you make code changes, e.g. add package dependencies then 
-you will need to repeat 2. to make your changes available on the web.
-In other words: no other steps - e.g. CORS - need to be repeated.
+When you make code changes, e.g. add package dependencies then you will need to repeat 2. to make your changes available on the web. In other words: no other steps - e.g. CORS - need to be repeated.
+
+We use no-tree-shake-icons during our builds. The icons we use in our app are configured / configurable and hence we can not use tree-shake-icons. More details here.
 
 ---
 
@@ -2259,21 +2260,43 @@ Then add the SHA-1 fingerprint to the SHA certificate fingerprints
 
 # Chapter V. Deploy to apple store
 
-TODO!!!
+## Step 1: Enroll for the Apple Developer Program.
 
-1. Register as developer on appstoreconnect.
+1. Goto https://developer.apple.com/programs/enroll/ and follow onscreen instructions to enroll for the Apple Developer Program.
 
-2. Register a Bundle ID on    https://appstoreconnect.apple.com/apps
+---
 
-3. Create an application record on App Store Connec
-   Add new app    https://appstoreconnect.apple.com/apps
+## Step 2: Create an app on App Store Connect
 
-   New app details:
-     - Name: Minkey
+TODO:
+
+1. https://appstoreconnect.apple.com/apps
+2. Select '+' and select 'New app'
+3. Specity Name: Minkey
      - Primary language: English
-     - Bundle ID: Minkey - io.minkey.minkeyios
+     - Bundle ID: select your <a href="#app_bundle_id"/>App Bunble ID</a> 
      - SKU: io.minkey.minkeyios
      - User Access: Full Access
+     
+---
+
+## Step 3: Create simulators 
+
+       - iPhone 6.7", iPhone 14 Pro Max - Ok
+       - iPhone 6.5" --> Use 6.7" Display - Ok
+       - iPhone 5.5", iPhone 8 plus - Ok
+       - iPad pro 6th gen 12.9" - Ok
+       - iPad pro 2nd gen 12.9" 
+
+     
+---
+
+## Step 4: Create screenshots
+
+---
+
+## Step 5: Provide app detailks
+
    Upload screenshots
      - For the ipad pro 2nd generation, open terminal and run: 
          sudo xcrun simctl create "iPad Pro (12.9-inch) (2nd generation)" "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--12-9-inch---2nd-generation-"
@@ -2290,54 +2313,50 @@ TODO!!!
    Provide Sign-in, if required juuwle.net@gmail.com Juuiop857!
    Save
    
-   Provide App Privacy details
-   
-4. Updating the app’s deployment version
+---
 
-   Update version. 
+## Step 6: Provide App Privacy details
 
-5. Create a build archive and upload to App Store Connect
+---
 
-6.1 Update the app’s build and version numbers
-Update pubspec.yaml, increase version number
+## Step 7: Create a build archive 
 
-6.2 Create an app bundle
 cd apps/minkey_mac/ios
-To build run:
- 
 flutter build ipa --no-tree-shake-icons
 
-(Tree-shaking is to automatically subset and include only the icons you're using. 
-We don't know this up front as it's configured, not hardcoded.)
+---
 
-6.3 Upload the app bundle to App Store Connect
+## Step 8: Upload to App Store Connect
 
-6.3.1 Use upload tool
+Option 1: Use upload tool
 
-6.3.1.1 Create and download a key
+- Create and download a key
 https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api
 
 copy the key into ~/private_keys
 
 (stored in repository keys/AuthKey_TV4KGWA74M.p8)
 
-6.3.1.2 Upload
+- Upload
 find the issuer ID and key ID and on the keys page
 
 then run
 xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id
 
-6.3.2 Transport app
+Option 2: Transport app
 
 install/open Transport app on the macbook
 drag and drop the build/ios/ipa/*.ipa app bundle onto the Apple Transport app
 
-7. Release your app to the App Store
+---
+
+## Step 10: Release your app to the App Store
 
 TODO
 
-MIGHT NEED TO CHECK WHAT ELSE IN deploy-to-apple-store.txt
+---
 
+TODO: MIGHT NEED TO CHECK WHAT ELSE IN deploy-to-apple-store.txt
 
 ---
 
