@@ -161,7 +161,7 @@ Decide your app name and web domain.
 <table>
     <tr>
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
-   f   <td>
+      <td>
         <ul>
           <li><a name="google_account"><ins>google account</ins></a>: thoma5.com.info@gmail.com</li>
           <li><ins>google account password</ins></li>
@@ -611,9 +611,67 @@ Future<void> main() async {
    :exclamation: **REMARK** :exclamation:
    <p>We only need to make this change to the minSdkVersion for the SDK 1 time, i.e. do not repeat this step for future projects / apps.</p>
 
+
 ---
 
-## Step 18: Run your app
+## Step 18: AD_ID
+
+To be able to upload our app to the google play store, we must specify that our app doesn't have adds. Obviously if you choose to change this then this is possible, but not scope of this guide. To keep things simple...
+
+1. Open your AndroidManifest.xml file from your android directory//app/src/main/AndroidManifest.xml, e.g. C:/src/apps/thoma5_app/android/app/src/main/AndroidManifest.xml
+2. Add xmlns:tools="http://schemas.android.com/tools" at the top, in the manifest node
+3. Add the following to the bottom of the document
+
+~~~
+
+<uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+
+~~~
+
+4. That results in our case in the following contents:
+
+~~~
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:label="thoma5_app"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+</manifest>
+
+~~~
+
+---
+
+## Step 19: Run your app
 
 1. Run the app. Because this is the first time your start the app, it will install a basic app. 
 2. When the app asks to choose an account to login, select your <a href="#google_account">google account</a>
@@ -621,7 +679,7 @@ Future<void> main() async {
 
 ---
 
-## Step 19: Add some basic functionality to your app
+## Step 20: Add some basic functionality to your app
 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
@@ -2152,9 +2210,24 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
 
 ## Step 6. Main store listing
 
-### Step 6.1 Take screenshots
+### Step 6.1 Create a feature graphic
 
-### Step 6.1.1 Create virtual machines
+1. Create a feature graphic PNG or JPG format 1014 x 500
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="android_feature_graph"><ins>Feature graphic</ins></a>: C:\src\apps\thoma5_app\assets\other\thoma5-feature-graph.png</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+### Step 6.2 Take screenshots
+
+### Step 6.2.1 Create virtual machines
 
 1. Start Android Studio
 2. Select "Tools" > Device Manager
@@ -2169,7 +2242,7 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
 | Tablet 7" inch 16:9        | Phone/Tablet | 7"          | 1024 x 576  | 2048 MB | /                    | /                    | /                |
 | Tablet 10" inch 16:9       | Phone/Tablet | 10"         | 3200 x 1800 | 2048 MB | /                    | /                    | /                |
 
-### Step 6.1.2 Run the app and take screenshots
+### Step 6.2.2 Run the app and take screenshots
 
 1. From Android Studio, run your app on the abvove virtual machines
 2. Take take 2-8 screenshots from the phone and 1-8 screenshots from each of the 2 tablets
@@ -2180,81 +2253,94 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="android_screenshots"><ins>Android screenshots</ins></a>: c:\temp\screenshots</li>
+          <li><a name="android_screenshots"><ins>Android screenshots</ins></a>: C:\src\apps\thoma5_app\assets\screenshots\*.jpg</li>
         </ul>
       </td>
     </tr>
 </table>
 
-### Step 6.1.3 Create icon 512 x 512 pixels
+### Step 6.2.3 Create icon 512 x 512 pixels
 
-Provide a <a href="logo>logo</a> file with resolution 512 x 512
+Provide a <a href="logo>logo</a> png file with resolution 512 x 512
 
-### Step 6.2 Submit main store listing details
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="android_logo"><ins>Logo</ins></a>: C:\src\apps\thoma5_app\assets\logo\thoma5-512.png</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+### Step 6.3 Submit main store listing details
 
 1. https://play.google.com/console
 2. Select your app
 3. Select "Grow" > "Main store listing"
-5. Provide all the information required for your store listing
-
-referenbce the screenshots and icon
-
-TODO: do this for thoma5
-TODO: add some tips if needed
+4. Provide your app name, i.e. <a href="#app_nickname">your app nickname</a>
+5. Provide a short and full description
+6. Provide your app icon, i.e. <a href="#android_logo">Logo</a>
+7. Provide your feature graphic, i.e. <a name="#android_feature_graph">Feature graphic</a>
+8. Provide screenshots for phone, 7-inch and 10-inch tablet, i.e. <a href="#android_screenshots">Android screenshots</a>
 
 ---
 
-## Step 7. Store presence
+## Step 7. Store settings
 
 1. https://play.google.com/console
 2. Select your app
 3. Select "Grow" > "Store settings"
-4. Provide the information required.
-
-TODO: do this for thoma5
+4. Press "Edit" in "App category", provide App and select a category, here "Education"
+5. Press "Save", then close
+6. Press "Edit" in "Store listing contact details" and provide your 
+   a. Email address: <a href="#google_account">google account</a>, here thoma5.com.info@gmail.com
+   b. Optionally your phone number
+   c. Optionally your website, e.g. <a href="#domain_name">your domain</a> prefixed with https://, here https://thoma5.com
+7. Press "Save", then close
 
 ---
 
-## Step 7. Upload for testing
-
-TODO: find out if this is optional. I believe so. Anyway, try step 8 first. If that works, then add Step 7 is optional
+## Step 8. Countries/regions
 
 1. https://play.google.com/console
 2. Select your app
-3. Select "Release" > "Testing" > "Open testing"
-4. Press "Create new release"
-5. Follow on-screen instructions
-
----
-
-## Step 8: Add signing key certificate
-
-TODO
-
-Goto https://play.google.com/console/about/keymanagement/ then goto play console, 
-select your account and your app. 
-Find the App signing key certificate. Copy the SHA-1 certificate fingerprint
-
-Now goto https://console.firebase.google.com/ then select your android app and click config. 
-Then add the SHA-1 fingerprint to the SHA certificate fingerprints
+3. Select "Release" > "Production"
+4. Select "Countries/regions"
+5. Select "Add countries/regions"
+6. Check All countries
+7. Press "Save"
 
 ---
 
 ## Step 9. Upload for production
 
-TODO
-
 1. https://play.google.com/console
 2. Select your app
 3. Select "Release" > "Production"
 4. Press "Create new release"
-5. Follow on-screen instructions
+5. Press "Choose signing key", then select "Use Google-generated key"
+6. Press "Upload" from "App bundles" then select your <a href="#ANDROID_BUNDLE">Android bundle</a>, here build\app\outputs\bundle\release\app-release.aab
+7. Provide a release name, e.g. "1 (1.0.0)"
+8. Provide release notes, e.g.
+
+~~~
+<en-GB>
+First release
+</en-GB>
+
+~~~
+
+9. Press "Next"
+10. Press "Save"
 
 ---
 
-## Step 10: Wait
+## Step 10: Publishing overview
 
-1. Wait and find your app on play store soon
+1. Press the "Send n changes for review"
+2. Congratulations. Now you just have to wait for the app to be approved.
 
 ---
 
