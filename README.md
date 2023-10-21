@@ -5,26 +5,28 @@
 - [Introduction](#introduction)
   * [Example Eliud apps](#example-eliud-apps)
 - [Chapter I. Create a simple "hello world" Android app](#chapter-i-create-a-simple-hello-world-android-app)
-  * [Step 1: Create a new google account](#step-1-create-a-new-google-account)
-  * [Step 2: Create a new firebase project](#step-2-create-a-new-firebase-project)
-  * [Step 3: Configure your project](#step-3-configure-your-project)
-  * [Step 4: Setup Firebase database](#step-4-setup-firebase-database)
-  * [Step 5: Setup Firebase storage](#step-5-setup-firebase-storage)
-  * [Step 6: Setup Google Authentication](#step-6-setup-google-authentication)
-  * [Step 7: Generate a Private Key](#step-7-generate-a-private-key)
-  * [Step 8: Add Firebase Android App](#step-8-add-firebase-android-app)
-  * [Step 9: Create Android Studio project](#step-9-create-android-studio-project)
-  * [Step 10: Copy google_services.json](#step-10-copy-google_servicesjson)
-  * [Step 11: Apply firebase SDK instructions](#step-11-apply-firebase-sdk-instructions)
-  * [Step 12: Add key store file to your project](#step-12-add-key-store-file-to-your-project)
-  * [Step 13: Update pubspec.yaml](#step-13-update-pubspecyaml)
-  * [Step 14: Update main.dart](#step-14-update-maindart)
-  * [Step 15: Clean up](#step-15-clean-up)
-  * [Step 16: minSdkVersion](#step-16-minsdkversion)
-  * [Step 17: Run your app](#step-17-run-your-app)
+  * [Step 1: Decide on domain name and app nickname](#step-1-decide-on-domain-name-and-app-nickname)
+  * [Step 2: Create a new google account](#step-2-create-a-new-google-account)
+  * [Step 3: Create a new firebase project](#step-3-create-a-new-firebase-project)
+  * [Step 4: Configure your project](#step-4-configure-your-project)
+  * [Step 5: Setup Firebase database](#step-5-setup-firebase-database)
+  * [Step 6: Setup Firebase storage](#step-6-setup-firebase-storage)
+  * [Step 7: Setup Google Authentication](#step-7-setup-google-authentication)
+  * [Step 8: Generate a Private Key](#step-8-generate-a-private-key)
+  * [Step 9: Add Firebase Android App](#step-9-add-firebase-android-app)
+  * [Step 10: Create Android Studio project](#step-10-create-android-studio-project)
+  * [Step 11: Copy google_services.json](#step-11-copy-google_servicesjson)
+  * [Step 12: Apply firebase SDK instructions](#step-12-apply-firebase-sdk-instructions)
+  * [Step 13: Add key store file to your project](#step-13-add-key-store-file-to-your-project)
+  * [Step 14: Update pubspec.yaml](#step-14-update-pubspecyaml)
+  * [Step 15: Update main.dart](#step-15-update-maindart)
+  * [Step 16: Clean up](#step-16-clean-up)
+  * [Step 17: minSdkVersion](#step-17-minsdkversion)
+  * [Step 18: AD_ID](#step-18-ad_id)
+  * [Step 19: Run your app](#step-19-run-your-app)
+  * [Step 20: Add some basic functionality to your app](#step-20-add-some-basic-functionality-to-your-app)
 - [Chapter II. Create the webapp and configure firebase](#chapter-ii-create-the-webapp-and-configure-firebase)
   * [Step 1: Buy domain](#step-1-buy-domain)
-  * [Step 2: Add some basic functionality to your app](#step-2-add-some-basic-functionality-to-your-app)
   * [Step 3: Logo](#step-3-logo)
   * [Step 4: Add Firebase Web App](#step-4-add-firebase-web-app)
   * [Step 5: Retrieve hosting details](#step-5-retrieve-hosting-details)
@@ -76,11 +78,26 @@
   * [Step 4. Create App on Google Play](#step-4-create-app-on-google-play)
   * [Step 5. Provide App policy details](#step-5-provide-app-policy-details)
   * [Step 6. Main store listing](#step-6-main-store-listing)
-  * [Step 7. Upload for testing](#step-7-upload-for-testing)
-  * [Step 8. Upload for production](#step-8-upload-for-production)
-  * [Optional: Step 9: Add signing key certificate](#optional-step-9-add-signing-key-certificate)
-  * [Step 10: Wait](#step-10-wait)
+    + [Step 6.1 Create a feature graphic](#step-61-create-a-feature-graphic)
+    + [Step 6.2 Take screenshots](#step-62-take-screenshots)
+    + [Step 6.2.1 Create virtual machines](#step-621-create-virtual-machines)
+    + [Step 6.2.2 Run the app and take screenshots](#step-622-run-the-app-and-take-screenshots)
+    + [Step 6.2.3 Create icon 512 x 512 pixels](#step-623-create-icon-512-x-512-pixels)
+    + [Step 6.3 Submit main store listing details](#step-63-submit-main-store-listing-details)
+  * [Step 7. Store settings](#step-7-store-settings)
+  * [Step 8. Countries/regions](#step-8-countriesregions)
+  * [Step 9. Upload for production](#step-9-upload-for-production)
+  * [Step 10: Publishing overview](#step-10-publishing-overview)
 - [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
+  * [Step 1: Enroll for the Apple Developer Program.](#step-1-enroll-for-the-apple-developer-program)
+  * [Step 2: Create an app on App Store Connect](#step-2-create-an-app-on-app-store-connect)
+  * [Step 3: Create simulators](#step-3-create-simulators)
+  * [Step 4: Create screenshots](#step-4-create-screenshots)
+  * [Step 5: Provide app detailks](#step-5-provide-app-detailks)
+  * [Step 6: Provide App Privacy details](#step-6-provide-app-privacy-details)
+  * [Step 7: Create a build archive](#step-7-create-a-build-archive)
+  * [Step 8: Upload to App Store Connect](#step-8-upload-to-app-store-connect)
+  * [Step 10: Release your app to the App Store](#step-10-release-your-app-to-the-app-store)
 - [Chapter VI. Extend the app with other packages](#chapter-vi-extend-the-app-with-other-packages)
 - [Chapter VII. Write and integrate your own code / packages](#chapter-vii-write-and-integrate-your-own-code--packages)
 - [Appendix A. Overview packages](#appendix-a-overview-packages)
@@ -2337,10 +2354,27 @@ First release
 
 ---
 
-## Step 10: Publishing overview
+## Step 10: Sign in
+
+In the previous step we've used the Google-generated key as signing key.
+This changes the SHA-1 certifcate fingerprint to their own.
+So, we need to copy that SHA1 key into our firebase configuration.
+
+1. Goto https://play.google.com/console
+2. Select your app
+3. Goto Release > Setup > App signing
+4. Find the SHA-1 certificate fingerprint in the "App signing key certificate" section and copy it.
+5. Goto https://console.firebase.google.com
+6. Select your project
+7. Press "Project Overview" > "Settings (gear box)" and select "Project settings"
+8. From the "General" tab > "Your apps" press "Add fingerprint" and paste the SHA-1 from step 4.
+
+---
+
+## Step 11: Publishing overview
 
 1. Press the "Send n changes for review"
-2. Congratulations. Now you just have to wait for the app to be approved.
+2. Congratulations. Now you just have to wait for approval. You'll receive an email. In our case this took 6h.
 
 ---
 
